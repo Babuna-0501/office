@@ -1,0 +1,39 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px 6px 13px;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+}
+
+.title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button {
+  border: none;
+  background-color: #2ab674;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  line-height: 18px;
+  padding: 8px 12px;
+}

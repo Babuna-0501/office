@@ -1,0 +1,33 @@
+/*Upoint css*/
+.containerMain{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  z-index: 151;
+
+}
+.deliveryInfo table {
+    width: 100%;
+  }
+  .deliveryInfo table .href {
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0 10px;
+    border-radius: 12px;
+    text-align: center;
+    color: red;
+  }
+  .deliveryInfo table .href:hover {
+    cursor: pointer;
+  }
+  .isDisabled {
+    color: gray;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+  }
+  .barcodeContainer span:first-child{
+    margin-right: 1rem;
+  }

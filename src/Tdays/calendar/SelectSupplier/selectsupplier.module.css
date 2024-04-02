@@ -1,0 +1,90 @@
+.container {
+  height: 32px;
+
+  width: 100%;
+}
+.container select {
+  width: 200px;
+  padding: 6px 10px;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+}
+.container select::selection {
+  border: 1px solid #ffa400;
+}
+
+.selectContainer {
+  padding: 6px 12px;
+  width: 200px;
+  border: 1px solid #ffa400;
+  border-radius: 4px;
+}
+.selectContainer::after {
+  border: 1px solid #ffa400;
+}
+.selectContainer > option {
+  max-width: 150px;
+}
+.selectContainer:focus {
+  border: 1px solid #ffa400;
+}
+option {
+  width: 50px !important;
+  font-size: 12px;
+}
+option:hover {
+  background-color: #ffa400;
+  cursor: pointer;
+}
+.onewrapper {
+  width: 200px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.onewrapper span {
+  padding: 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  width: 100%;
+  /* background-color: red; */
+}
+.listwrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.listContainer {
+  width: 200px;
+  background-color: #fff;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  height: 200px;
+  overflow: auto;
+  border: 1px solid #eceff1;
+
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 6px;
+}
+.listContainer p {
+  font-size: 12px;
+  cursor: pointer;
+}
+.listContainer p:hover {
+  font-size: 12px;
+  cursor: pointer;
+  color: #ffa400;
+}
+.onewrapper p {
+  width: 100%;
+}
+.supplier {
+  color: #263238;
+  font-weight: 400;
+  font-size: 16px;
+}

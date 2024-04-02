@@ -1,0 +1,199 @@
+.inventoriesContainer {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ----------------------------- */
+
+.topSide {
+  padding: 12px 0 23px 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+.inventoriesWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ----------------------------- */
+
+.singleInventoryWrapper {
+  background-color: #fff;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border: 1px solid #e6e6e6;
+  padding: 16px;
+  border-radius: 6px;
+  width: calc((100% - 48px) / 4);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1450px) {
+  .singleInventoryWrapper {
+    width: calc((100% - 32px) / 3);
+  }
+}
+
+.singleInventoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.imageWrapper {
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.imageWrapper > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.singleInventoryName > h2 {
+  color: #1a1a1a;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+}
+
+.singleInventoryName > span {
+  display: block !important;
+  color: #808080;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.singleInventoryDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.singleInventoryDetails > div:first-of-type {
+  text-align: start;
+}
+
+.singleInventoryDetails > div:last-of-type {
+  text-align: end;
+}
+
+.detailsTitle {
+  color: #808080;
+  display: block !important;
+  font-size: 10px !important;
+  line-height: 12px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+}
+
+.detailsText {
+  color: #1a1a1a;
+  display: block !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+}
+
+/* ----------------------------- */
+
+.bottomSide {
+  padding-top: 24px;
+}
+
+.carsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ----------------------------- */
+
+.singleCarWrapper {
+  background-color: #fff;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border: 1px solid #e6e6e6;
+  padding: 16px;
+  border-radius: 6px;
+  width: calc((100% - 48px) / 4);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1450px) {
+  .singleCarWrapper {
+    width: calc((100% - 32px) / 3);
+  }
+}
+
+.singleCarInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.imageWrapper {
+  min-width: 32px;
+  min-height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.imageWrapper > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.singleCarName > h2 {
+  color: #1a1a1a;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+}
+
+.singleCarName > span {
+  display: block !important;
+  color: #808080;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.singleCarDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.singleCarDetails > div:first-of-type {
+  text-align: start;
+}
+
+.singleCarDetails > div:last-of-type {
+  text-align: end;
+}

@@ -1,0 +1,61 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: "10px";
+  background-color: #f2f2f2;
+  padding: 8px 6px 8px 6px;
+}
+.container {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  border: 1px solid #00000060;
+  overflow-x: hidden;
+}
+.body {
+  overflow: hidden;
+  /* overflow-y: scroll; */
+  /* height: 60vh; */
+  /* overflow-x: hidden; */
+}
+.bodywrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+  border-bottom: 1px solid #00000060;
+  overflow: hidden;
+}
+.bodywrapper > div {
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a1a1a;
+}
+
+.totalPrice{
+  display: flex;
+  align-items: center; 
+  /* border-top: 2px solid #00000014; */
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #00000010;
+}
+.totalText{
+  /* background-color: bisque; */
+  display: flex;
+  align-items: center;
+  width: 83.8%;
+  font-size: 12px;
+  font-weight: 700;
+  color: #000;
+  padding: 6px 8px;
+}
+.totalAmount{
+  padding: 6px 4px;
+  width: 150px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #000;
+}
+

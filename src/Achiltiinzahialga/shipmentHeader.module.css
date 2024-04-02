@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.wrapper {
+  font-weight: 700;
+  font-size: 18px;
+  color: #37474f;
+  cursor: pointer;
+}
+.wrapperspan {
+  font-weight: 500;
+  font-size: 14px;
+  color: #37474f;
+  /* cursor: pointer; */
+  height: 100%;
+}
+.sub {
+  display: flex;
+  align-items: center;
+}
+.sub img {
+  width: 18px;
+  height: 18px;
+  margin: 0px 6px;
+}

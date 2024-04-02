@@ -1,0 +1,25 @@
+.container{
+  /* background-color: bisque; */
+  width: 100%;
+  height: 88vh;
+}
+
+.modalContainer{
+  position: relative;
+  width: 100%;
+  height: 90%;
+  /* background-color: bisque; */
+}
+
+.closeBtn{
+  background: none;
+  border: none;
+  color: red;
+  position: absolute;
+  right: 0;
+  margin: 10px;  
+  cursor: pointer;
+}
+.reqContainer{
+  padding: 45px 0;
+}

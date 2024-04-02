@@ -1,0 +1,38 @@
+.container{
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  background-color: #fff;
+}
+
+.infoContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.infoTxt{
+  font-size: 18px;
+  line-height: 22px;
+}
+.infoPrice{
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.buttons{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.buttons Button{
+  width: 50%;
+}
+

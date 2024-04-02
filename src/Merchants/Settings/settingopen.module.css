@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 150;
+  background: #00000080;
+}
+.wrapper1 {
+  width: calc(100% - 570px);
+  height: 100%;
+}
+.wrapper2 {
+  width: 570px;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.header span {
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+.header img {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+.btncontainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btncontainer button {
+  background-color: #2ab674;
+  color: #fff;
+  width: 450px;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.switchcontainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+.switchcontainer div {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.supwrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: calc(100vh - 200px);
+}

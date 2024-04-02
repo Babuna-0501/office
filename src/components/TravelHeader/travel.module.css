@@ -1,0 +1,15 @@
+.container button {
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ffa600;
+  margin-right: 1rem;
+  cursor: pointer;
+  width: 150px;
+}
+
+.container button a {
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+}

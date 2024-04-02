@@ -1,0 +1,73 @@
+.container {
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+}
+.headercontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: max-content;
+}
+
+.divider {
+  border-bottom: 0.8px solid #f6f7f8;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.moneycontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.moneycontainer .firstchild {
+  font-weight: 400;
+  font-size: 12px;
+  color: #546e7a;
+  padding-top: 0px;
+  margin: 0;
+}
+.moneycontainer .secondchild {
+  font-weight: 700;
+  font-size: 16px;
+  color: #37474f;
+  /* margin-top: -10px; */
+  margin: 0;
+}
+.shopcontainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.shoplogo img {
+  width: 42px;
+  height: 42px;
+}
+.shopinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin-top: 5px;
+}
+.shopname {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: -0px;
+  color: #37474f;
+}
+.shopaddress {
+  font-weight: 400;
+  font-size: 12px;
+  width: 300px;
+  line-height: 0.9;
+  color: #546e7a;
+  margin-top: -0px;
+}
+.middlewrapper {
+  border-top: 0.8px solid #f6f7f8;
+  width: 100%;
+}
+.footerwrapper {
+  width: 100%;
+}

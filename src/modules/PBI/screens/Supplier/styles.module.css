@@ -1,0 +1,255 @@
+.container {
+  height: 100%;
+  min-width: 100%;
+  padding: 20px;
+  animation: fadeIn .3s
+}
+
+.row {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.singleRowItem {
+  height: 100%;
+  width: 220px;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  text-align: center;
+}
+
+.rowItemTitle {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.rowItemStat {
+  color: #1a1a1a;
+  font-size: 30px;
+  line-height: 30px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.rowItemGoal {
+  color: #1a1a1a;
+  font-size: 14px;
+  list-style: 14px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  height: 14px;
+}
+
+.tableDataContainer {
+  height: 635px;
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.suppliersTable {
+  width: 1030px;
+  height: 100%;
+  overflow-x: auto;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  position: relative;
+}
+
+.suppliersTableHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 50px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  display: flex;
+  align-items: center;
+  padding: 7px 6px;
+}
+
+.suppliersTableHeaderItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.headerText {
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  color: #8dc543;
+  font-weight: 600;
+}
+
+.suppliersTableContent {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  min-width: 100%;
+  bottom: 35px;
+  overflow-y: auto;
+}
+
+.suppliersTableContentRow {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 7px 6px;
+}
+
+.suppliersTableContentItem {
+  height: 100%;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.contentText {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  color: #1a1a1a;
+  font-weight: 400;
+}
+
+.suppliersTableFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  min-width: 100%;
+  height: 35px;
+  border-top: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.suppliersTableFooterItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.footerText {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.rightSide {
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.merchantTable,
+.typeChart {
+  height: calc(615px / 2);
+  overflow-x: auto;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  position: relative;
+}
+
+.merchantTableHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 50px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  display: flex;
+  align-items: center;
+  padding: 7px 6px;
+}
+
+.merchantTableHeaderItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.merchantTableContent {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  min-width: 100%;
+  bottom: 35px;
+  overflow-y: auto;
+}
+
+.merchantTableContentRow {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 7px 6px;
+}
+
+.merchantTableContentItem {
+  height: 100%;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.merchantTableFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  min-width: 100%;
+  height: 35px;
+  border-top: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.merchantTableFooterItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

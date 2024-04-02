@@ -1,0 +1,14 @@
+.container {
+  align-items: center;
+  padding: 7px 12px;
+
+  width: 179px;
+  height: 34px;
+
+  background: #ffa600;
+  margin-right: 16px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #ffffff;
+}

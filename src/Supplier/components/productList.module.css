@@ -1,0 +1,84 @@
+.bold {
+  font-weight: 700;
+}
+.headerFont {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+.input {
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: 90px;
+  padding: 2px 5px;
+}
+.header {
+ display: flex;
+ justify-content: space-between;
+  border-bottom: 1px solid #cfd8dc;
+  padding: 10px;
+  padding-right: 50px;
+  width: 100%;
+  height: 50px;
+}
+.headerRight{
+  display: flex;
+  gap:20px
+}
+.container{
+  display: flex;
+  background-color: white;
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  border: 1px solid #cfd8dc;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid #cfd8dc;
+
+}
+.merchantList{
+  display: flex;
+  flex-direction: column;
+}
+.merchant{
+  display:flex;
+  flex-direction: column;
+  justify-content:center ;
+  padding-left: 10px;
+  min-height: 40px ;
+  border-bottom: 1px solid #cfd8dc;
+}
+.merchant:hover{
+  background-color: #cfd8dc9a;
+}
+.right{
+   width: 70%;
+  height: 100%;
+}
+.ProductList{
+  height: calc(100% - 49px );
+  overflow-y: scroll;
+}
+.product{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  width:100%;
+  height: 40px;
+  border-bottom: 1px solid #cfd8dc;
+  overflow: hidden;
+}
+.productLeft{
+  width: 60%;
+ padding-left: 10px;
+}
+.productRight{
+  display:flex;
+  gap:10px;  
+  justify-content: center;
+  width: 40%;
+}

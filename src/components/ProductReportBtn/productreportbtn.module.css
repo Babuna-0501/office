@@ -1,0 +1,97 @@
+.firstBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	min-width: 150px;
+	width: 50%;
+	padding: 7px 12px 7px 12px;
+	height: 34px;
+	cursor: pointer;
+	box-sizing: border-box;
+	margin-right: 12px;
+	background-color: #ffa600;
+	border: none;
+	line-height: 15px;
+}
+
+.firstBtn img {
+	height: 20px;
+	width: 20px;
+	object-fit: cover;
+	margin-right: 8px;
+}
+.pricesettingImg {
+	width: 29px !important;
+}
+.firstBtn span {
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	letter-spacing: -1px;
+	padding-top: 0.2rem;
+}
+.second {
+	padding: 0;
+}
+.firstBtn .thirdimg {
+	margin-right: 8px;
+}
+.firstBtn .thirdspan {
+	font-size: 14px;
+	box-sizing: border-box;
+	letter-spacing: -0.1px;
+	/* width: 138px; */
+	max-width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.thirdBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #cfd8dc;
+	border-radius: 8px;
+	padding: 5px;
+	width: 34px;
+	height: 34px;
+	cursor: pointer;
+	box-sizing: border-box;
+	margin-right: 14.71px;
+}
+.thirdBtn img {
+	width: 23.9px;
+	height: 23.9px;
+	object-fit: cover;
+}
+.setting {
+	background-color: #eceff1;
+	display: flex;
+	align-items: center;
+	padding: 8px 12px;
+	border-radius: 8px;
+	margin-right: 10px;
+	cursor: pointer;
+	line-height: 13px;
+	max-width: 140px;
+	height: 36px;
+	text-align: center;
+}
+.setting img {
+	width: 20px;
+	height: 20px;
+	object-fit: cover;
+	margin-right: 5px;
+}
+.setting span {
+	font-size: 14px;
+	font-weight: 700;
+	color: #37474f;
+}
+.forthspan {
+	width: 138px;
+}

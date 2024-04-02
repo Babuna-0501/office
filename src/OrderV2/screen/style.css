@@ -1,0 +1,184 @@
+.order_index {
+align-items: center;
+justify-content: center;
+}
+
+.order_index > div {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+.order_id {
+width: 80px;
+}
+
+.order input {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.order h5 {
+	font-size: 10px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+.order input[type=text] {
+	border: 1px solid #ccc;
+	font-size: 0.75rem;
+	color: #1a1a1a;
+	margin: 0;
+	border-radius: 2px;
+	height: 26px;
+	box-sizing: border-box;
+	padding: 0 0.25rem;
+}
+
+.order_supplier {
+	width: 125px;
+}
+
+.list_header {
+	background: #f4f4f4;
+}
+
+.order {
+	height: 52px;
+	border-bottom: 1px solid #ccc;
+}
+
+.order > div {
+	height: 52px;
+	display: inline-block;
+	float: left;
+}
+
+.order span {
+	font-size: 0.75rem;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+
+.order > div:not(:first-child) {
+padding: 0 1rem 0 0;
+}
+
+.order input[type=checkbox] {
+	margin: 0;
+}
+
+.fullcontainer {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+}
+
+.order:hover {
+background-color: #eee;
+cursor: pointer;
+}
+
+.order input:hover {
+border-color: #aaa;
+}
+
+.order_commonfield {
+width: 120px;
+}
+
+.spinner-container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin-left: auto;
+margin-right: auto;
+}
+
+.spinner {
+width: 50px;
+height: 50px;
+border: 5px solid #333;
+border-top: 5px solid #fff;
+border-radius: 50%;
+animation: spin 1s linear infinite;
+margin-left: auto;
+margin-right: auto;
+}
+
+@keyframes spin {
+0% {
+	transform: rotate(0deg);
+}
+100% {
+	transform: rotate(360deg);
+}
+}
+
+
+.order select {
+width: 100%;
+}
+
+.col_wrapper {
+display: flex;
+gap: 6px;
+padding-left: 20px;
+}
+
+.fullcontainer .statusbar {
+width: 75px;
+height: 15px;
+text-align: center;
+background-color: #F2F2F2;
+font-size: 9px;
+white-space: nowrap;
+}
+.delivery_date {
+	margin-left: 30px;
+}
+
+.payment_mode {
+	margin-left: 35px;
+}
+
+.price_wrapper {
+	flex-direction: column;
+}
+
+.price_wrapper span:last-of-type {
+	color: #8DC543;
+}
+.cancel_reason {
+	width: 150px;
+	margin-left: 30px;
+	text-align: center;
+}
+
+.phone {
+	width: 75px;
+	text-align: justify;
+}
+.business_type {
+	width: 140px;
+}
+.tradeshop_city, .tradeshop_district, .tradeshop_district {
+	width: 120px;
+}
+
+.full_address {
+	width: 160px;
+}
+
+.merchant span {
+	width: 135px;
+}
+	

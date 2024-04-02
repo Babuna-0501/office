@@ -1,0 +1,16 @@
+.navigation {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logoWrapper {
+  align-self: center;
+  padding: 2px 0;
+}
+
+.logoWrapper > img {
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}

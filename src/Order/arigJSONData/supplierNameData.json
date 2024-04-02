@@ -1,0 +1,322 @@
+[
+  {
+    "supplierCode": "30000001",
+    "supplierName": "Айриш бэйкэри ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000002",
+    "supplierName": "Амтат Цамхаг ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000003",
+    "supplierName": "Апу дейри ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000004",
+    "supplierName": "Арвижих согооч ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000005",
+    "supplierName": "Арвижих фүүдс ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000006",
+    "supplierName": "Ариг өртөө транс ХХК",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000007",
+    "supplierName": "Атар газар ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000008",
+    "supplierName": "Босоо дөрвөн шагай ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000009",
+    "supplierName": "Бүүминг трейд ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000010",
+    "supplierName": "Ви Интернейшнл  ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000011",
+    "supplierName": "Гурмэ ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000012",
+    "supplierName": "Гэр Болз",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000013",
+    "supplierName": "Грийн Дистрибьюшин",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000014",
+    "supplierName": "Доктор тун ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000015",
+    "supplierName": "Dolce Vita LLC",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000016",
+    "supplierName": "Жем Интернэшнл ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000017",
+    "supplierName": "заан фүүдс",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000018",
+    "supplierName": "Зебра Интернешнл ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000019",
+    "supplierName": "И базаар Pick pack",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000020",
+    "supplierName": "Их цагаан богд ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000021",
+    "supplierName": "Лхагвасүрэн",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000022",
+    "supplierName": "М-Си-Эс Кока-Кола ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000023",
+    "supplierName": "Маги стэппэ партнерс ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000024",
+    "supplierName": "МДН ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000025",
+    "supplierName": "Монгол кореа сторе ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000026",
+    "supplierName": "Мөнхгэрэл Меркури",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000027",
+    "supplierName": "Мөнхдалай Дамдинбазар",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000028",
+    "supplierName": "Мөнхцэцэг",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000029",
+    "supplierName": "Об пластик ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000030",
+    "supplierName": "Обакс трейд ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000031",
+    "supplierName": "Органик желато ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000032",
+    "supplierName": "Органик Шөл",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000033",
+    "supplierName": "Оюун",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000034",
+    "supplierName": "Оюунбилэг",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000035",
+    "supplierName": "Гахайн мах /Оюунгэрэл/",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000036",
+    "supplierName": "Өвөргүн ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000037",
+    "supplierName": "Өнө мөнх тас хайрхан ХХК",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000038",
+    "supplierName": "OT Solution",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000039",
+    "supplierName": "Порлианс ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000040",
+    "supplierName": "Сирм ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000041",
+    "supplierName": "Тинц ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000042",
+    "supplierName": "Тулга төхөөрөмж ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000043",
+    "supplierName": "Түмэн шувуут ХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000044",
+    "supplierName": "Таванбогд Фүүд Сэрвис Солюшнс ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000045",
+    "supplierName": "Ханбогд Ирээдүй ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000046",
+    "supplierName": "Хангай миллс ххк",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000047",
+    "supplierName": "Хатансүйх Экспорт",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000048",
+    "supplierName": "Цагаан гурвалжин ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000049",
+    "supplierName": "Цайны ертөнц ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000050",
+    "supplierName": "Цэнгэлхуяг Шагдарсүрэн",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000051",
+    "supplierName": "Цэндбазар Өлзийсүрэн",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000052",
+    "supplierName": "Чиглэл ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000053",
+    "supplierName": "Чин Асах Жигүүр",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000054",
+    "supplierName": "Эбо холдинг ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000055",
+    "supplierName": "Эй Юу Трейд ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000056",
+    "supplierName": "Энтэйр Хайнд",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000057",
+    "supplierName": "Энхбаяр Бүдүүн Ногоо",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000058",
+    "supplierName": "Энхсүрэн",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000059",
+    "supplierName": "Бадамсүрэн",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000060",
+    "supplierName": "ТҮДҮ дистрибюшн",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000061",
+    "supplierName": "Отгонбаяр",
+    "Noat": false
+  },
+  {
+    "supplierCode": "30000063",
+    "supplierName": "Таванбогд Групп ХХК",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000074",
+    "supplierName": "Шимтхэн Food store",
+    "Noat": true
+  },
+  {
+    "supplierCode": "30000019",
+    "supplierName": "Шуурхай түгээлт",
+    "Noat": true
+  }
+]

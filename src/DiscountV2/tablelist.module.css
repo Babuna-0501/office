@@ -1,0 +1,55 @@
+.container {
+    width: 840px;
+
+}
+.wrapper{
+    width: 100%;
+    border-bottom: 1px solid #CFD8DC;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+}
+.image{
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+ 
+}
+.idContainer  span  {
+    text-decoration: underline;
+    color:#706AC5
+    ;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 6px;
+    
+}
+.nameContainer {
+    margin-left: 4px;
+}
+.nameContainer span {
+    color: #37474F;
+    font-size: 12px;
+    font-weight: 400;
+  
+}
+.brandContainer span{
+    color: #37474F;
+    font-size: 12px;
+    font-weight: 400;
+}
+.priceContainer span {
+    color: #37474F;
+    font-size: 12px;
+    font-weight: 600;
+}
+.bar_codeContainer span {
+    color: #37474F;
+    font-size: 12px;
+    font-weight: 400;
+}
+.stockContainer span {
+    color: #37474F;
+    font-size: 12px;
+    font-weight: 400;
+}

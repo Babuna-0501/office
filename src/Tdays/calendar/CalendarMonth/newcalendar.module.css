@@ -1,0 +1,112 @@
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 800px;
+  padding: 5px;
+  background-color: bisque;
+}
+.hourcontainer {
+  width: 100px !important;
+}
+.calendarContainer {
+  width: 100%;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.daysContainer {
+  display: flex;
+  width: 350px;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.dayContainer {
+  border: 1px solid #cfd8dc;
+  border-radius: 5px;
+  padding: 4px 5px;
+  width: 80px;
+}
+.headerContainer {
+  color: #37474f;
+  font-size: 46px;
+  font-weight: 700;
+}
+.calendarsContainer p {
+  color: #37474f;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.channelChoseContainer {
+  border: 1px solid #cfd8dc;
+  padding: 16px 20px;
+  width: 200px;
+  height: 36px;
+  background-color: #fff;
+
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.channelChoseContainer span {
+  color: #263238;
+  font-weight: 400;
+  font-size: 16px;
+}
+.calContainer {
+  background-color: #fff;
+  overflow-y: auto;
+  height: 500px;
+}
+input.inputchecked {
+  width: 20px !important;
+  height: 20px !important;
+
+  box-sizing: border-box;
+}
+input.inputchecked::selection {
+  background-color: red;
+}
+.selectOption {
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid #cfd8dc;
+  cursor: pointer;
+  font-size: 14px;
+  height: 36px;
+}
+.selectOption option {
+  font-size: 14px;
+}
+.selectOption:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+}
+.selectoptioncontainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.SOcontainer{
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.selections{
+  background-color: rgb(238, 161, 67);
+  width: 69%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}

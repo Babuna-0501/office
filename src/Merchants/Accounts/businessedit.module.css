@@ -1,0 +1,31 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.saveBtn {
+  background-color: #FFA400;
+  border: none;
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+  padding: 16px 0;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.label {
+  color : #546e7a;
+  font-size: 0.75rem;
+  text-align: start !important;
+}
+
+.information {
+  padding: 0.5rem;
+  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+}

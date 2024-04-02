@@ -1,0 +1,5 @@
+[
+    {"id":1, "english_name":"ZONE_MGL", "mongol_name":"Монгол"},
+    {"id":2, "english_name":"ZONE_UB", "mongol_name":"Улаанбаатар"},
+    {"id":3,"english_name":"ZONE_NLK", "mongol_name":"Налайх"}
+]

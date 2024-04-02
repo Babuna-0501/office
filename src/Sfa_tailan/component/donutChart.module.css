@@ -1,0 +1,135 @@
+.container {
+  display: flex;
+  flex-flow: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  min-width: 200px;
+  height: 200px;
+  width: 400px;
+  padding: 0rem;
+  margin: 0rem;
+  position: relative;
+  max-width: none;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Titillium Web", Verdana, Tahoma, sans-serif;
+}
+
+.options {
+  width: 40%;
+  font-family: "Titillium Web", Verdana, Tahoma, sans-serif;
+  position: relative;
+  margin: 0rem;
+  padding: 0rem;
+  /* margin-left: 0.25rem;
+  margin-right: 0.25rem; */
+  display: flex;
+  flex-wrap: wrap;
+  color: #494949;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.vertical {
+  display: flex;
+  flex-flow: column;
+}
+
+.legend_title {
+  width: 100px;
+  margin: 0rem;
+  padding: 0rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "Titillium Web", Verdana, Tahoma, sans-serif;
+  color: black;
+}
+
+.legend {
+  --legend-item-overflow: hidden;
+  width: 80%;
+  margin-bottom: 0.5rem;
+}
+
+.container_overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
+.overlay_center {
+  position: absolute;
+  top: 45%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: "Titillium Web", Verdana, Tahoma, sans-serif;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.options_label {
+  font-size: 0.87rem;
+  padding: 0rem;
+  margin-bottom: 0.25rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.sample {
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.fill > * {
+    height: 100%;
+    width: 100%;
+}
+
+.containerA :first-child {
+height: 100%;
+}
+
+.containerB {
+  height: 100%;
+}
+
+.hello {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  min-width: 200px;
+  height: 200px;
+  width: 400px;
+  padding: 0rem;
+  margin: 0rem;
+  position: relative;
+  max-width: none;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Titillium Web", Verdana, Tahoma, sans-serif;
+}

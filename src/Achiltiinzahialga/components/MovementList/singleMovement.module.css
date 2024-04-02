@@ -1,0 +1,28 @@
+.container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 1300px;
+  height: 60px;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  /* border-radius: 5px; */
+  background-color: #fff;
+  cursor: pointer;
+}
+.container span{
+  font-size: 12px;
+}
+
+.container div{
+  display:flex ;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 60px;
+}
+.container div button{
+ padding: 5px 10px !important;
+ /* width: 90px !important; */
+ font-size: 12px !important;
+}

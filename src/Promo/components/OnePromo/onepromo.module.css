@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid red;
+    cursor: pointer;
+}

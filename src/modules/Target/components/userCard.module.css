@@ -1,0 +1,253 @@
+.container {
+  width: calc((100% - 48px) / 4);
+  height: 116px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  padding: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  animation: popUp 0.5s;
+}
+
+@media screen and (max-width: 2300px) {
+  .container {
+    width: calc((100% - 32px) / 3);
+  }
+}
+
+@media screen and (max-width: 1730px) {
+  .container {
+    width: calc((100% - 16px) / 2);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 100%;
+  }
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profileImageWrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid #e6e6e6;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profileImageWrapper > img {
+  object-fit: contain;
+  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
+}
+
+.lastName {
+  display: block;
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  margin: 0;
+}
+
+.firstName {
+  display: block;
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.text {
+  display: block;
+  color: #808080;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.userCode {
+  display: block;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.targetInfoWrapper {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.createBtn {
+  cursor: pointer;
+  background-color: #f4fbf8;
+  border: 1px solid #2ab674;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #2ab674;
+  outline: none;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  transition: all 0.1s ease-in-out;
+}
+
+.createBtn:hover {
+  border: 1px solid transparent;
+  background-color: #2ab674;
+  color: #f4fbf8;
+}
+
+.targetGraph {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondGraph {
+  position: absolute;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondGraph::before {
+  content: "";
+  position: absolute;
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+  background-color: #f9fcf5;
+}
+
+.targetDetails {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.targetDetailTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.amount {
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.dates {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.singleDate {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: end;
+}
+
+.dateTitle {
+  color: #808080;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.dateValue {
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.graphValues {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graphValues > span {
+  display: block;
+}
+
+.completed {
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.pending {
+  color: #808080;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+@keyframes popUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,6 @@
+.container {
+  position: relative;
+  height: calc(100vh - 54px);
+  background-color: #fff;
+  overflow-y: scroll;
+}

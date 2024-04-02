@@ -1,0 +1,143 @@
+.container {
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn .3s;
+}
+
+.chartsContainer {
+    height: 85%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.barChartsContainer {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.barChartContainer {
+    width: 100%;
+    height: calc((100% - 40px) / 3);
+     background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  position: relative;
+  padding: 20px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.barChartTitle {
+    color: #1a1a1a;
+  margin: 0 !important;
+  font-size: 24px !important;
+  line-height: 28px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.barChartContent {
+    width: 98%;
+    flex: 1;
+    margin: 0 10px 30px 50px;
+    position: relative;
+}
+
+.barChartContent > .yAxis {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.barChartContent > .yAxis > li {
+    flex: 1;
+    border-bottom: 1px dashed #e6e6e6;
+    position: relative;
+}
+
+.barChartContent > .yAxis > li > span {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    transform: translateX(-120%) translateY(50%);
+}
+
+.lineChartsContainer {
+    border: 1px solid black;
+    height: 100%;
+    width: calc(60% - 20px);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rows {
+    height: calc(15% - 20px);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.singleRowItem {
+  height: 100%;
+  width: calc((100% - 120px) / 7);
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.rowItemTitle {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.rowItemStat {
+  color: #1a1a1a;
+  font-size: 30px;
+  line-height: 30px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.rowItemGoal {
+  color: #1a1a1a;
+  font-size: 14px;
+  list-style: 14px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  height: 14px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,29 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.textContainer {
+width: 100%;
+height: 9%;
+}
+
+.titleGood {
+background-color: #32ce9a;
+color: #fff;
+font-weight: 700;
+}
+
+.titleBad {
+  background-color: #f76433;
+ color: #fff; 
+ font-weight: 700;
+}
+
+.text {
+padding-left: 5px;
+font-size: 14px;
+}

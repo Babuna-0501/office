@@ -1,0 +1,14 @@
+.okbtn {
+  padding: 8px 12px;
+  height: 34px;
+  background: #ffa600;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+}
+.container {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

@@ -1,0 +1,77 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: calc(100vh - 53px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.searchwrapper {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 327px;
+  background-color: #fff;
+  z-index: 156;
+  height: 371px;
+  overflow-y: auto;
+  border: 1px solid #eceff1;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 4px;
+}
+.searchwrapper ul li {
+  list-style: none;
+  padding: 12px 8px;
+  cursor: pointer;
+  color: #78909c;
+  font-size: 14px;
+  font-weight: 400;
+}
+.searchwrapper ul li:hover {
+  color: #37474f;
+}
+
+.headerTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #37474f;
+}
+.foobarcontainer {
+  width: 2700px !important;
+  overflow-y: hidden;
+  height: calc(100vh - 190px) !important;
+}
+.selectwrapper {
+  display: flex;
+  flex-direction: column;
+}
+.selectwrapper span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #37474f;
+}
+
+@media screen and (max-width: 1700px) {
+  .headerTitle {
+    font-size: 10px;
+  }
+}
+@media screen and (max-width: 1500px) {
+  .headerTitle {
+    font-size: 9px;
+  }
+}
+.scrollcontainer {
+  height: calc(100vh - 190px);
+  overflow: auto;
+}
+.scrollcontainer {
+  height: calc(100vh - 180px);
+  overflow: auto;
+}
+.scrollcontainer:last-child {
+  margin-bottom: 48px;
+}

@@ -1,0 +1,14 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.scrollcontainer {
+  height: calc(100vh - 180px);
+  width:max-content !important;
+  overflow: scroll;
+}
+.scrollcontainer:last-child {
+  margin-bottom: 48px;
+}

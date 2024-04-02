@@ -1,0 +1,17 @@
+.otherWrapper .ant-select-item-option-content{
+    font-size: 12px;
+}
+
+.ant-select-item-option-content {
+    font-size: 11px;
+}
+
+.otherWrapper .ant-select-selector {
+    padding: 0;
+    height:24px !important;
+} 
+
+.otherWrapper .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 8px;
+    padding-bottom: 18px;
+}

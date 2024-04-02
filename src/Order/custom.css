@@ -1,0 +1,18 @@
+.arigWrapper .ant-select-item-option-content{
+    font-size: 12px;
+}
+
+.ant-select-item-option-content {
+    font-size: 11px;
+}
+
+.arigWrapper .ant-select-selector {
+    padding: 0;
+    height: 24px !important;
+} 
+
+.arigWrapper .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 8px;
+    padding-bottom: 18px;
+}
+

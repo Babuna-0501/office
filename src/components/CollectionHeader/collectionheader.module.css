@@ -1,0 +1,17 @@
+.secondBtn {
+  background-color: #ffa600;
+  width: 131px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.secondBtn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}

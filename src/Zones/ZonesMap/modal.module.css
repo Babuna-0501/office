@@ -1,0 +1,120 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 156;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper {
+  /* max-width: 1128px; */
+  width: 70%;
+  /* max-height: 894px; */
+  height: 80%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 19px;
+  border-radius: 12px;
+}
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.headerContainer input {
+  padding: 11px 16px;
+  border-radius: 8px;
+  width: 647px;
+  height: 42px;
+  box-sizing: border-box;
+  border: 1px solid #90a4ae;
+}
+.headerContainer input::placeholder {
+  color: #90a4ae;
+  font-size: 16px;
+  font-weight: 400;
+}
+.headerContainer input:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.headerContainer img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.mapContainer {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.btnsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  margin-top: 16px;
+}
+.btnsContainer .cancel {
+  padding: 12px 50px;
+  background-color: #eceff1;
+  color: #78909c;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btnsContainer .approve {
+  background-color: #ffa600;
+  color: #fff;
+  font-size: 16px;
+  font: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 88px;
+  cursor: pointer;
+}
+.inputpriority {
+  margin-left: 20px;
+}
+.headerwrapper {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+.supContainer {
+  width: 300px;
+  margin-left: 20px;
+  box-sizing: border-box;
+}
+/* .supContainer select {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+} */
+/* .supContainer option {
+  height: 300px;
+  overflow: auto;
+}
+.supContainer select:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+} */

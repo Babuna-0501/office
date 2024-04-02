@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: scroll;
+  /* height: calc(100vh - 118px); */
+  height: calc(100vh - 53px);
+}
+.w700 {
+  font-weight: 700;
+  font-size: 12px;
+  color: #1a1a1a;
+}
+.scrollcontainer {
+  overflow-x: auto;
+  overflow-y: scroll;
+  height: calc(100vh - 150px);
+}

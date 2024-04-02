@@ -1,0 +1,17 @@
+.container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 1050px;
+  min-height: 50px;
+  background-color: white;
+}
+.container span{
+  font-size: 12px;
+}
+.container div{
+  display:flex ;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}

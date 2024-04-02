@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: #1a1a1a !important;
+  margin: 0 !important;
+  font-size: 16px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.closeBtn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.content {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 20px;
+  overflow: scroll;
+}
+
+.singleField {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.singleField > label {
+  color: #1a1a1a;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.right{
+  display: flex;
+  gap: 10px;
+}

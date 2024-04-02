@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 330px;
+  height: 70px;
+
+  box-sizing: border-box;
+  padding: 12px 14px;
+}
+.imagecontainer {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #cccccc;
+  margin-right: 10px;
+}
+.imagecontainer img {
+  width: 48px;
+
+  height: 48px;
+}
+.detailwrapper p {
+  margin-bottom: 0;
+}
+.detailname {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.detailrole {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4d4d4d;
+}
+.detailjob {
+  font-size: 8px;
+  font-weight: 700;
+  color: #808080;
+}

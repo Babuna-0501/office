@@ -1,0 +1,132 @@
+.container {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+	box-shadow: 0px 2px 12px 0px #0000001a;
+	overflow-x: auto;
+	position: relative;
+}
+
+.headerContainer {
+	width: 100%;
+	height: 64px;
+	background-color: #fafafa;
+	box-shadow: 0px 1px 0px 0px #00000014;
+	padding: 7px 6px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+}
+
+.headerFilter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 64px;
+}
+
+.headerItem {
+	width: 100%;
+	height: 100%;
+	padding: 0 6px;
+	display: block;
+	box-sizing: border-box;
+	overflow-x: hidden;
+}
+
+.headerItem span {
+	font-size: 12px;
+	line-height: 15px;
+	letter-spacing: -0.005em;
+	font-weight: 700;
+}
+
+.headerItem input {
+	width: 100%;
+	height: 24px;
+	font-size: 12px;
+	padding: 0 4px;
+	border: 1px solid #cfd8dc;
+	border-radius: 6px;
+	outline: none;
+}
+
+.pageSetup {
+	margin-right: 5px;
+	display: flex;
+	align-items: center;
+}
+.page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 5px;
+}
+
+.page span {
+	font-size: 12px;
+	font-weight: 700;
+	color: #000000;
+}
+
+.width100px {
+	width: 100px;
+	box-sizing: border-box;
+}
+.width150px {
+	width: 150px;
+	box-sizing: border-box;
+}
+.width400px {
+	width: 400px;
+	box-sizing: border-box;
+}
+
+.list {
+	width: 100%;
+	height: 80vh;
+	overflow-y: auto;
+}
+
+.row {
+	width: 100%;
+	height: 52px;
+	padding: 7px 6px;
+	display: flex;
+	align-items: center;
+	border-top: 0.8px solid #cfd8dc;
+	border-left: 0.8px solid #cfd8dc;
+	border-right: 0.8px solid #cfd8dc;
+	cursor: pointer;
+}
+.row:hover {
+	background-color: #dfdfdf;
+}
+.row div {
+	font-size: 12px;
+	font-weight: normal;
+	color: #4d4d4d;
+	padding-left: 6px;
+	box-sizing: border-box;
+}
+.textarea {
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	background: none;
+	border: none;
+	resize: none;
+}
+.textarea::-webkit-scrollbar {
+	display: none;
+}
+
+.scrollLoader {
+	font-size: 14px;
+	font-weight: 700;
+	color: #000000;
+}

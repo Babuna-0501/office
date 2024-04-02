@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4px 0;
+  cursor: pointer;
+}
+.container p {
+  margin-bottom: 0;
+  font-size: 10px;
+  font-weight: 400;
+  color: #37474f;
+}

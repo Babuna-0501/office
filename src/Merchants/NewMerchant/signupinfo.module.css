@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  gap: 16px;
+  width: 100%;
+}
+.thiree {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  gap: 8px;
+
+  width: 100%;
+  height: 48px;
+  border-radius: 4px;
+  background: #f2f2f2;
+
+  border: 1px solid #cccccc;
+
+  cursor: pointer;
+}
+.thiree span {
+  font-weight: 700;
+  font-size: 16px;
+  color: #1a1a1a;
+}
+.thiree img {
+  width: 20px;
+  height: 20px;
+}
+.backgroundColor {
+  background: #8dc543;
+}
+.backgroundColor span {
+  color: #fff;
+}
+.garchig {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+.inputwrapper input {
+  padding: 12px 16px;
+  width: 100%;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.inputwrapper input:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+}

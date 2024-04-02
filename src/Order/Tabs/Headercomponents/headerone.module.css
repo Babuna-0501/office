@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.bond p {
+  font-size: 12px;
+  margin-bottom: 0px;
+}

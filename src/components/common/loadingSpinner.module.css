@@ -1,0 +1,105 @@
+.container {
+  width: 75px;
+  height: 75px;
+  background-color: transparent;
+  position: relative;
+  animation: spin 1.5s infinite;
+}
+
+.shapeOne {
+  position: absolute;
+  top: calc(26.01px / 2);
+  left: calc(34.75px / 2);
+  width: calc(29.84px / 2);
+  height: calc(29.84px / 2);
+  background-color: #d6df2a;
+  border-top-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  animation: move1 1.5s infinite;
+}
+
+.shapeTwo {
+  position: absolute;
+  top: calc(26.01px / 2);
+  left: calc(71.17px / 2);
+  background-color: #faa51a;
+  width: calc(44.99px / 2);
+  height: calc(44.99px / 2);
+  border-radius: 50%;
+  animation: move2 1.5s infinite;
+}
+
+.shapeThree {
+  position: absolute;
+  top: calc(61.06px / 2);
+  left: calc(34.75px / 2);
+  width: calc(29.84px / 2);
+  height: calc(62.74px / 2);
+  background-color: #2ab674;
+  border-top-right-radius: 11px;
+  border-bottom-left-radius: 11px;
+  animation: move3 1.5s infinite;
+}
+
+.shapeFour {
+  position: absolute;
+  top: calc(77.74px / 2);
+  left: calc(72.09px / 2);
+  width: calc(45.91px / 2);
+  height: calc(45.91px / 2);
+  background-color: #8dc543;
+  border-top-right-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  animation: move4 1.5s infinite;
+}
+
+@keyframes spin {
+  50% {
+    transform: rotate(180deg);
+  }
+
+  53% {
+    transform: rotate(177deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes move1 {
+  50% {
+    transform: translate(-35px, -26px);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}
+
+@keyframes move2 {
+  50% {
+    transform: translate(48px, -26px);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}
+
+@keyframes move3 {
+  50% {
+    transform: translate(-35px, 58px);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}
+
+@keyframes move4 {
+  50% {
+    transform: translate(47px, 41px);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}

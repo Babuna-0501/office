@@ -1,0 +1,13 @@
+.pricewrapper span {
+  font-weight: 400;
+  font-size: 10px;
+
+  color: #1a1a1a;
+  cursor: pointer;
+}
+.wrapper {
+  background-color: #d6df2a;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

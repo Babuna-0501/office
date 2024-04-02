@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Хувь",
+    "type": "percent",
+    "total": "Хувь",
+    "parentID": 1
+  },
+  {
+    "id": 2,
+    "name": "Нийт үнийн дүн",
+    "type": "amount",
+    "total": "Нийт үнийн дүн",
+    "parentID": 1
+  },
+  {
+    "id": 3,
+    "name": "X + X",
+    "type": "bbgifts",
+    "total": "gifts",
+    "parentID": 2
+  },
+  {
+    "id": 4,
+    "name": "X + Y",
+    "type": "gifts+gifts",
+    "total": "amount",
+    "parentID": 2
+  },
+  {
+    "id": 5,
+    "name": "X + X",
+    "type": "bbgifts",
+    "total": "gifts",
+    "parentID": 3
+  },
+  {
+    "id": 6,
+    "name": "X + Y",
+    "type": "gifts+gifts",
+    "total": "amount",
+    "parentID": 3
+  }
+]

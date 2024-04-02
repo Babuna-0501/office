@@ -1,0 +1,116 @@
+.container {
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between; */
+  position: fixed;
+  top: 53px;
+  left: 72px;
+  width: 100%;
+  height: 100%;
+  z-index: 261;
+  box-sizing: border-box;
+  background-color: #00000099;
+}
+.wrapperOne {
+  /* width: 100%;
+  height: 100%;
+  box-sizing: border-box; */
+}
+.wrapperTwo {
+  max-width: 572px;
+  height: 100%;
+  width: 100%;
+  background-color: #f6f7f8;
+  box-sizing: border-box;
+
+  position: fixed;
+  right: 0;
+  top: 53px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 53px;
+}
+.firstWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 68px;
+}
+.firstWrapper span {
+  font-size: 20px;
+  color: #37474f;
+  font-weight: 700;
+}
+.firstWrapper img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.contentFirstContainer {
+  overflow: auto;
+  padding: 17px 22px;
+}
+.btnContainer {
+  width: 100%;
+  max-height: 82px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.btnContainer span {
+  background-color: #ffa600;
+  max-width: 357px;
+  height: 44px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.busTypeContainer {
+  width: 506px;
+  height: 100%;
+}
+.busTypeWrapper {
+  width: 100%;
+  height: 34px;
+  background-color: #fbfbfc;
+  padding: 6px 10px;
+  border-top-right-radius: 6px;
+  border-top-right-radius: 6px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.busTypeImage {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.busTypeWrapper span {
+  color: #78909c;
+  font-size: 10px;
+  font-weight: 700;
+}
+.subWrapper {
+  color: #37474f;
+  font-size: 14px;
+  font-weight: 400;
+  height: 32px;
+  margin-left: 40px;
+  margin-top: 9px;
+  width: 100%;
+}

@@ -1,0 +1,142 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+  height: 100%;
+}
+
+.title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 6px 0;
+}
+
+.statusFilterWrapper {
+  width: 168px;
+  height: 100%;
+  white-space: nowrap;
+}
+
+.statusFilterBtn {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 5px 7px 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.statusFilterBtn > span {
+  color: #1a1a1a;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.statusFilterBtn > img {
+  width: 22px;
+  height: 22px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.statusFilterBtn:focus {
+  outline: 2px solid #2ab674;
+  border: 1px solid transparent;
+}
+
+.statusFilterDropdownWrapper {
+  position: absolute;
+  width: 168px;
+  height: max-content;
+  top: 100%;
+  left: 385px;
+  z-index: 499;
+}
+
+.statusFilterDropdownWrapper > .triangle {
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  margin-left: 40px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 500;
+  position: relative;
+}
+
+.statusFilterDropdownWrapper > .statusFilterDropdown {
+  width: 100%;
+  background-color: #fff;
+  padding: 4px 0;
+  border-radius: 2px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 510;
+  position: relative;
+  margin-top: -8.5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.singleStatusBtn {
+  padding: 7px 10px 7px 14px;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.singleStatusBtn > div {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.singleStatusBtn > span {
+  color: #1a1a1a;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.singleStatusBtn:hover,
+.singleStatusBtn.active {
+  background-color: #fafafa;
+}

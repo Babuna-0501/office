@@ -1,0 +1,21 @@
+.container {
+  background-color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 100%;
+  height: 10vh;
+  overflow: auto;
+  cursor: pointer;
+}
+
+.container ul li {
+  list-style: none;
+  cursor: pointer;
+}
+.container ul {
+  padding: 9px 16px;
+}
+.container ul li:hover {
+  color: #ffa400;
+}

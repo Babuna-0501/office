@@ -1,0 +1,15 @@
+.licontainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.licontainer span {
+  width: 150px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.licontainer input {
+  width: 100px !important;
+  padding: 4px !important;
+  margin: 0 !important;
+}

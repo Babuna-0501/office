@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  align-items: center;
+  /* padding-left: 10px; */
+  border-bottom: 1px solid #cfd8dc;
+  border-left: 1px solid #cfd8dc;
+  border-right: 1px solid #cfd8dc;
+  width: 2030px;
+  background-color: #fff;
+  /* padding: 9.5px 12px; */
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.container:first-child {
+  border-top: 1px solid #cfd8dc;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+.iconContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.iconContainer img {
+  height: 18px;
+  width: 18px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.iconContainer img:first-child {
+  margin-right: 16px;
+}
+.switchcontainer {
+  width: 40px;
+  /* background-color: red; */
+  /* height: 50px; */
+}
+.switchcontainer img {
+  width: 100px;
+}

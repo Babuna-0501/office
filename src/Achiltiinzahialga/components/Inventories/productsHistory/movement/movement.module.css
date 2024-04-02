@@ -1,0 +1,19 @@
+.container{
+  display: flex;
+  align-items: center;
+  width: 1200px;
+  min-height: 50px;
+  /* border: 1px solid rgb(177, 177, 177); */
+  background-color: #fff;
+}
+.container span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px ;
+  color: #424242;
+  font-size: 14px ;
+  line-height: 12px ;
+  letter-spacing: -0.005em ;
+  flex: 0;
+}

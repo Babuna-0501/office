@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.btncontainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
+}
+.body {
+  height: 40vh;
+  overflow-y: scroll;
+}
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.wrapper span {
+  font-size: 12px;
+  font-weight: 700;
+}
+.wrapper input {
+  font-size: 12px;
+  padding: 5px;
+  font-weight: 400;
+  width: 100px;
+  border: 1px solid #cfd8dc;
+}
+.wrapper input:focus {
+  outline: none;
+  border: 1px solid #2ab674;
+}
+.wrapper .checkbox {
+  width: 20px;
+  height: 20px;
+}
+.wrapper select {
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  width: 100px;
+  border: 1px solid #cfd8dc;
+}
+.wrapper select option {
+  font-size: 12px;
+  font-weight: 400;
+}
+.wrapper select:focus {
+  outline: none;
+  border: 1px solid #2ab674;
+}
+
+.oneitem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  border-bottom: 1px solid #00000014;
+  padding: 5px 0;
+}
+.oneitem div {
+  width: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  overflow: hidden;
+}
+.one {
+  display: flex;
+  align-items: center;
+  width: 100px;
+}
+.one img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+.one span {
+  font-size: 12px;
+  font-weight: 400;
+  width: 80px;
+  overflow: hidden;
+}

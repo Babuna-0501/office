@@ -1,0 +1,28 @@
+
+  
+  .secondbtn {
+    display: flex;
+    align-items: center;
+    padding: 8px 28px;
+    border-radius: 8px;
+    height: 34px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-right: 12px;
+    background-color: #FFA600;
+    border: none;
+
+  }
+  .secondbtn img {
+    height: 20px;
+    width: 20px;
+    object-fit: cover;
+    margin-right: 8px;
+  }
+  .secondbtn span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    height: 100%;
+    width: 100%;
+  }

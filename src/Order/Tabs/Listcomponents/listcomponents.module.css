@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.infowrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.imagecontainer {
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-right: 11px;
+}
+.imagecontainer img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}

@@ -1,0 +1,144 @@
+.container{
+    width: 100%;
+    height:100%;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #c8c8c8;
+    border-radius: 8px;
+}
+
+/* Header */
+
+.header{
+    width: 100%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: rgb(251, 188, 111); */
+}
+
+.headerText{
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.inputField{
+    height: 3%;
+    margin: 5px 0;
+}
+.inputField input{
+    height: 100%;
+    border: 1px solid #c8c8c8;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    padding: 5px;
+}
+
+/* Body */
+
+.body{
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 82%;
+    border: 1px solid #c8c8c8;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: auto;
+    position: relative;
+}
+
+.listContainer{
+  margin-top: 0px;
+  border-bottom: 0.8px solid #c8c8c8;
+  background: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+}
+.listContainer:hover{
+    background-color: #dedede;
+}
+.listGeneral {
+  width: 100%;
+  padding-left: 10px;
+  overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #37474f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.checkContainer{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.listText{
+    font-size: 12px;
+    font-weight: 700;
+}
+.listID{
+    font-size: 12px;
+    font-weight: 700;
+    width: 50px;
+    text-align: center;
+}
+.listSingle{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  
+}
+.listSingle img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.addIcon{
+    width: 22px   !important;
+    height: 22px  !important;
+    cursor: pointer !important;
+}
+
+.body::-webkit-scrollbar {
+	display: none;
+}
+/* Footer */
+
+.submit{
+    /* background-color: rgb(255, 188, 107); */
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.saveBtn{
+    width: 100px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 170, 0);
+    border-radius: 8px;
+    color: #fff;
+    font: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.container::-webkit-scrollbar {
+	display: none;
+}

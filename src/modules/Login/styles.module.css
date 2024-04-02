@@ -1,0 +1,98 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}
+
+.loginFormContainer {
+  position: absolute;
+  background-color: #fff;
+  width: 442px;
+  height: 652px;
+  top: 0;
+  right: 133px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 51px 0 9px 0;
+}
+
+/* ----------------------------- */
+
+.formHeader {
+  margin-bottom: 47px;
+}
+
+.formHeader > img {
+  width: 106px;
+  height: 106px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.formHeader > h1 {
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.formHeader > p {
+  color: #4d4d4d;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+/* ----------------------------- */
+
+.form {
+  flex: 1;
+  width: 344px;
+}
+
+/* ----------------------------- */
+
+.formElement {
+  width: 100%;
+  padding-left: 12px;
+  overflow: hidden;
+}
+
+.formElement > img {
+  width: 100%;
+  object-fit: contain;
+}
+
+/* ----------------------------- */
+
+.errorMsg {
+  color: #eb5e43;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: start;
+  margin: 0;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+
+/* ----------------------------- */
+
+.spinnerWrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

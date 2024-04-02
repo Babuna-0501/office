@@ -1,0 +1,185 @@
+.container p {
+  text-align: center;
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+.container h3 {
+  text-align: center;
+  font-weight: 700;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  background-color: #e6eaef;
+}
+
+.sidebar {
+  width: 12%;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.body {
+  width: 88%;
+  padding: 15px 10px 10px 10px;
+}
+
+.chartParentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.chartParentRow {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.bodyHeader {
+  width: 100%;
+  height: 25%;
+}
+
+.Indicators {
+  width: 33%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.indicatorPart {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 5px;
+}
+
+.indicatorChild {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Districts {
+  width: 67%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+.districtTextStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.districtBetter {
+  width: 30%;
+  background-color: #60d394;
+}
+
+.districtText {
+  color: #fff;
+  font-size: 14px;
+}
+
+.districtOther {
+  flex: 1;
+}
+
+.districtLess {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.districtLessChild1 {
+  width: 100%;
+  height: 60%;
+  background-color: #9381ff;
+}
+
+.districtLessChild2 {
+  width: 100%;
+  height: 40%;
+  background-color: #118dff;
+}
+
+.bodyCharts {
+  width: 100%;
+  height: 75%;
+}
+
+.chartPart {
+  width: 100%;
+  height: 50%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 5px;
+  overflow: scroll;
+}
+
+.chartLeft {
+  width: 33%;
+}
+
+.chartMerchant {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chartMerchantOne {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.chartBrand {
+}
+
+.chartMiddleRight {
+  width: 67%;
+  height: 100%;
+}
+
+.chartMiddle {
+  width: 50%;
+  height: 100%;
+}
+
+.chartPaymentType {
+  height: 100%;
+  width: 100%;
+}
+
+.chartSupplier {
+}
+
+.chartRight {
+ width: 50%;
+  height: 100%;
+}
+
+.chartTradeshop {
+}
+
+.chartLocation {
+}

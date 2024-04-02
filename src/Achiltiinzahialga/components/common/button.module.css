@@ -1,0 +1,107 @@
+.button {
+  border-radius: 0 6px;
+  transition: all 0.1s ease-in;
+  white-space: nowrap;
+  outline: none !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+
+/* ---------------------- */
+
+.button.primary {
+  color: #fff;
+  background-color: #2ab674;
+}
+
+.button.primary:hover {
+  background-color: #8dc543;
+}
+
+/* .button.primary:active {
+  background-color: #2ab674;
+} */
+
+.button.primary:disabled {
+  background-color: #d4f0e3;
+  pointer-events: none;
+}
+
+/* ---------------------- */
+
+.button.secondary {
+  background-color: #f2f2f2;
+  color: #1a1a1a;
+}
+
+.button.secondary:hover {
+  color: #4d4d4d;
+  background-color: #cccccc;
+}
+
+/* .button.secondary:active {
+  background-color: #f2f2f2;
+  color: #1a1a1a;
+} */
+
+.button.secondary:disabled {
+  color: #cccccc;
+  pointer-events: none;
+}
+
+/* ---------------------- */
+
+.button.large {
+  padding: 12px;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.button.large.icon {
+  padding: 10px 12px;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button.large.icon > img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+/* ---------------------- */
+
+.button.medium {
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.button.medium.icon {
+  padding: 7px 12px;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button.medium.icon > img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}

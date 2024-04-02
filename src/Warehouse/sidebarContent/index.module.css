@@ -1,0 +1,80 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+div{
+  overflow: hidden;
+}
+.productContainer{
+  display: flex;
+  gap:20px;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+}
+
+.container p{
+  font-size: 14px;
+  font-weight: 400;
+  color: #37474F;
+  line-height: 14px;
+  align-items: center;
+}
+.imgContainer{
+  width: 15%;
+  height: 60%;
+}
+.imgContainer img{
+  object-fit: contain;
+  width: 90%;
+  height: 100%;
+  border: 1px solid #37474f54;
+  border-radius: 15px;
+}
+.movementHeader{
+  display: flex;
+  width: 100%;
+}
+.movementHeader button{
+  flex: 1;
+  padding: 5px;
+  border: none;
+}
+.movementHeader button:hover{
+  background-color: rgb(152, 152, 152);
+  color: white;
+}
+.movementBody {
+ 
+  gap:20px;
+  width: 100%;
+  padding-top: 30px;
+  overflow-y: scroll;
+  height: calc(100% - 100px - 150px);
+}
+.oneMovement{
+  display: flex;
+  gap:5px;
+  width: 100%;
+  min-height: 60px;
+}
+.oneMovement p{
+  margin: 0px;
+}
+.oneMovementLeft{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  width:80%;
+}
+.oneMovementRight{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap:5px;
+  width:20%;
+}

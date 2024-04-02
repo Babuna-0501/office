@@ -1,0 +1,90 @@
+.order_index {
+	align-items: center;
+	justify-content: center;
+}
+
+.order_index > div {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+.order_id {
+	//width: 80px;
+}
+
+.order input {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.order h5 {
+	font-size: 0.625rem;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+.order input[type=text] {
+	border: 1px solid #ccc;
+	font-size: 0.75rem;
+	color: #1a1a1a;
+	margin: 0;
+	border-radius: 2px;
+	height: 26px;
+	box-sizing: border-box;
+	padding: 0 0.25rem;
+}
+
+.list_header {
+	background: #f4f4f4;
+}
+
+.order {
+	height: 52px;
+	border-bottom: 1px solid #ccc;
+}
+
+.order > div {
+	height: 52px;
+	display: inline-block;
+	float: left;
+}
+
+.order span {
+	font-size: 0.75rem;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+
+.order > div:not(:first-child) {
+	padding: 0 1rem 0 0;
+}
+
+.order input[type=checkbox] {
+	margin: 0;
+}
+
+.fullcontainer {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.order:hover {
+	background-color: #eee;
+	cursor: pointer;
+}
+
+.order input:hover {
+	border-color: #aaa;
+}
+
+.order_commonfield {
+	width: 120px;
+}

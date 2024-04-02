@@ -1,0 +1,188 @@
+.headerWrapper {
+  height: 53px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 72px;
+  z-index: 100;
+}
+
+.headerContainer {
+  height: 100%;
+  background-color: #fff;
+  //box-shadow: 0px 3px 6px 0px #00000026;
+  padding: 4px 16px 6px 13px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.mainContent {
+  flex: 1;
+  height: 100%;
+}
+
+.separator {
+  height: 100%;
+  min-width: 1px;
+  max-width: 1px;
+  background-color: #b3b3b3;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerContent > button {
+  background: none;
+  border: none;
+  outline: none;
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.headerContent > button > svg {
+  width: 20px;
+  height: 20px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.headerContent .refreshBtn,
+.headerContent .profileBtn {
+  background-color: #f2f2f2;
+  transition: all .3s;
+}
+
+.headerContent .refreshBtn:hover,
+.headerContent .profileBtn:hover {
+  background-color: rgba(204, 204, 204, 1);
+}
+
+.headerContent .chatBtn {
+  background: linear-gradient(46.7deg, #7646fe 17.55%, #bba4ff 87.75%) !important;
+}
+
+.profileDropDownWrapper {
+  position: absolute;
+  right: 12px;
+  top: 100%;
+  margin-top: 6px;
+  z-index: 10;
+}
+
+.profileDropDownWrapper.show {
+  animation: fadeIn .2s;
+}
+
+.profileDropDownWrapper.hide {
+  animation: fadeOut .2s;
+}
+
+.profileDropDownWrapper > .triangle {
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  transform: rotate(45deg);
+  position: absolute;
+  right: 12px;
+  z-index: 101;
+  box-shadow: 0 -6px 6px -6px #0000004d, -6px 0 6px -6px #0000004d;
+}
+
+.dropDown {
+  margin-top: 4px;
+  width: 234px;
+  background-color: white;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  position: relative;
+  z-index: inherit;
+  border-radius: 4px;
+  padding: 6px 0 4px 0;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+
+.profile > button {
+  border: none;
+  outline: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px 6px 14px;
+  cursor: pointer;
+}
+
+.profile > button:hover {
+   background-color: #fafafa;
+}
+
+.profile > button > span {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.profile > button > svg {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.profile > button:not(:last-of-type) {
+  box-shadow: 0px 1px 0px 0px #00000014;
+}
+
+.profile > button:first-of-type {
+  z-index: 3;
+}
+
+.profile > button:nth-of-type(2) {
+  z-index: 2;
+}
+.profile > button:nth-of-type(2) > span {
+  color: #1a1a1a;
+}
+
+.profile > button:last-of-type > span {
+  color: #da1414;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

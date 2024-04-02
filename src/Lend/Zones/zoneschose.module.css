@@ -1,0 +1,92 @@
+.wrapper {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 14px 14px;
+
+  width: 50%;
+  height: 60%;
+
+  background: #ffffff;
+
+  border: 1px solid #eceff1;
+
+  box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1), 0px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+.bntcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.containerbtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.cancelwrapper {
+  padding: 8px 12px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eceff1;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #78909c;
+  margin-right: 12px;
+}
+.approvewrapper {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+
+  width: 156px;
+
+  background: #ffa600;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #ffffff;
+  margin-right: 12px;
+}
+.headerwrapper {
+  overflow: hidden;
+  height: 100%;
+}
+
+.bodyWrapper {
+  height: 90%;
+  width: 100%;
+  /* overflow-y: scroll; */
+  overflow: auto;
+}
+.subbutton {
+  font-weight: 700;
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+
+  color: #00add0;
+  cursor: pointer;
+}
+.subbutton:hover {
+  transform: scale(1.05);
+}
+.checkbox {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  width: 32px;
+  height: 32px;
+}

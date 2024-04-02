@@ -1,0 +1,41 @@
+.container {
+  height: 100%;
+  overflow: auto;
+  padding: 13px;
+  display: flex;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.spinner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound > svg {
+  width: 250px;
+  height: 250px;
+  aspect-ratio: 1/1;
+}
+
+.notFound > span {
+  color: #999999;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}

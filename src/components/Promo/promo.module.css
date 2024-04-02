@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.secondBtn {
+  background-color: #ffa600;
+  width: 131px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.secondBtn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.deleteBtn {
+  background-color: #e31b00;
+  width: 131px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  cursor: pointer;
+}
+.deleteBtn img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.deleteBtn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.buttonsContainer {
+  display: flex;
+  height: 34px;
+}
+.buttonsContainer .confirm {
+  background-color: #ffa600;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  width: 132px;
+  margin-right: 8px;
+}
+.buttonsContainer .cancel {
+  background-color: #cfd8dc;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  margin-right: 8px;
+  width: 66px;
+}
+.btnscontainer {
+  display: flex;
+  align-items: center;
+}

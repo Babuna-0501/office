@@ -1,0 +1,27 @@
+.input {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1.38px solid #cccccc !important;
+  border-radius: 3.66667px;
+  cursor: pointer;
+  margin: 0 !important;
+  background-color: #fff;
+}
+
+.input:checked {
+  background-color: #1a1a1a;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  border: 1.5px solid #1a1a1a !important;
+  background-color: none;
+}
+
+.input.primary:checked {
+  background-color: #80b969;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  border: 1.5px solid #80b969 !important;
+  background-color: none;
+}

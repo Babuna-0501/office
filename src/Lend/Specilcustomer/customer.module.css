@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #cfd8dc;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.columnheader {
+  overflow: hidden;
+}
+.columnheader input {
+  width: 18.5px;
+  height: 18.5px;
+}
+.columnheader span {
+  font-weight: 400;
+  font-size: 12px;
+  color: #37474f;
+}

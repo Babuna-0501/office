@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 54px;
+  left: 73px;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 151;
+}
+.hooson {
+  width: calc(100% - 644px);
+  height: 100%;
+}
+.newbody {
+  width: 570px;
+  height: 100%;
+  background-color: #fff;
+  padding: 16px;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.wrapper span {
+  color: #37474f;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.wrapper .name {
+  font-size: 14px;
+  color: #37474f;
+  font-weight: 300;
+}
+.wrapper .nameheader {
+  font-size: 14px;
+  color: #37474f;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.firstwrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 80vh;
+}
+.secondwrapper {
+  margin-bottom: 16px;
+  border-bottom: 1px solid #cfd8dc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #cfd8dc;
+}
+.header span {
+  font-size: 20px;
+  font-weight: 700;
+  color: #37474f;
+}
+.header img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.imagewrapper img {
+  width: 45px;
+  height: 45px;
+}

@@ -1,0 +1,51 @@
+.negdiv {
+	display: flex;
+	height: fit-content;
+	width:300px;
+	flex-direction: column;
+	gap:5px;
+	justify-content: space-between;
+}
+@media only screen and (min-width: 1450px) {
+.negdiv{
+		width:500px;
+}
+}
+
+.negdiv div {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 16px;
+}
+.negdiv input {
+	margin: 0 !important;
+}
+.negdiv select {
+	margin: 0 !important;
+}
+.negdiv textarea {
+	margin: 0 !important;
+}
+
+.container {
+	width: 100vw !important;
+	background-color: bisque !important;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	gap: 20px 12px;
+}
+.container2{
+	width: 100%;
+	display: flex !important;
+	flex-wrap: wrap;
+	gap:15px 40px;
+}
+.maincontainer{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+}
+.productRight span{
+	font-size: 14px;
+}

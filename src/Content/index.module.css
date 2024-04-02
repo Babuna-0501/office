@@ -1,0 +1,10 @@
+.container {
+    position: relative;
+    padding: 22px 19px;
+
+}
+.contentwrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}

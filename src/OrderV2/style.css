@@ -1,0 +1,60 @@
+.Container {
+    display: flex;
+    flex-direction: row;
+    background-color: F5F5F5;
+    position: relative;
+    top: 0;
+}
+
+.sidebarWrapper {
+    display: inherit;
+    flex-direction: column;
+    width: 224px;
+}
+
+
+.order-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header,
+  .order-row {
+    display: flex;
+  }
+  
+  .header > div,
+  .order-row > div {
+    flex: 1;
+    padding: 8px;
+    background-color: #FAFAFA;
+  }
+  
+  .order-row > div img {
+    max-width: 100px;
+    height: auto;
+  }
+  
+
+  .header div {
+    color: #1A1A1A;
+    font-weight: bold;
+    font-size: 10px;
+  }
+
+  .header {
+    height: 54px;
+  }
+  .header input {
+    border: 1px solid #CCCCCC;
+    height: 25px;
+    padding: 4px;
+  }
+
+  .header input:nth-child(1) {
+    width: 55px;
+  }
+
+  .payment_mode {
+    width: 66px;
+  }

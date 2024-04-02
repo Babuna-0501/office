@@ -1,0 +1,52 @@
+[
+  {
+    "name": "percent",
+    "value": 100,
+    "data": [
+      {
+        "name": "percent",
+        "value": 110
+      },
+      {
+        "name": "amount",
+        "value": 120
+      }
+    ]
+  },
+  {
+    "name": "X + X",
+    "value": 200,
+    "data": [
+      {
+        "name": "X + X",
+        "type": "X + X baraanii hymdral",
+        "value": 210
+      },
+      {
+        "name": "X + X",
+        "type": "Bosgotoi baraanii hymdral",
+        "value": 211
+      },
+      {
+        "name": "X + X",
+        "type": "Neg hymdraliig olon baraand oruulah",
+        "value": 212
+      },
+      {
+        "name": "X + Y",
+        "type": "X + Y baraanii hymdral",
+        "value": 220
+      },
+      {
+        "name": "X + Y",
+        "type": "Bosgotoi baraanii hymdral",
+        "value": 221
+      },
+      {
+        "name": "X + Y",
+        "type": "Neg hymdraliig olon baraand oruulah",
+        "value": 222
+      }
+    ]
+  }
+]

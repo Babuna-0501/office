@@ -1,0 +1,47 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 54px;
+  left: 73px;
+  z-index: 155;
+  background-color: #eceff1;
+  box-sizing: border-box;
+  padding: 23px;
+  overflow: auto;
+}
+.second {
+  display: flex;
+  align-items: center;
+
+  height: 34px;
+}
+.second p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #37474f;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding-top: 15px;
+}
+.collapseWrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  row-gap: 12px;
+  box-sizing: border-box;
+}
+.collapseContainer {
+  width: 625px;
+  /* height: 64px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.collapseItem {
+  background-color: red;
+}

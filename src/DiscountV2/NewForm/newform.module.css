@@ -1,0 +1,28 @@
+.container {
+  position: fixed;
+  top: 53px;
+  left: 73px;
+  background-color: #fff;
+  width: calc(100% - 74px);
+  height: calc(100% - 54px);
+  z-index: 100;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+.wrapper {
+  width: 700px;
+}
+.header {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.inputwrapper {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+.supwrapper span {
+  font-size: 16px;
+  color: #37474f;
+  font-weight: 700;
+}

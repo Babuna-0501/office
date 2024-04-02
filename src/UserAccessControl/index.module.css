@@ -1,0 +1,144 @@
+* {
+  font-size: 12px;
+}
+.container2 {
+  margin-left: 0;
+  margin-top: 0;
+  display: flex;
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
+  padding-bottom: 1rem;
+}
+.container {
+  width: 250px;
+  margin-right: 18px;
+}
+
+.inputcontainer input[type="checkbox"] {
+  border: 1px solid red;
+}
+.inputcontainer {
+  width: 18.5px;
+  height: 18.5px;
+}
+.inputWrapper {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+.permissionContainer {
+  height: 100%;
+  width: 700px;
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 10px;
+  flex-direction: column;
+  text-transform: capitalize;
+  margin-top: 18px;
+}
+.permissionContainer2 {
+  max-height: 600px;
+  overflow: auto;
+}
+.crud {
+  margin-right: 10px;
+}
+.crudContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.permission {
+  border: 0.8px solid #cfd8dc;
+  margin-bottom: 15px;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.inputform {
+  outline: none;
+  padding: 0px 10px;
+  width: 321px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  height: 24px;
+}
+
+.zonewrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.zoneselect {
+  width: 321px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  cursor: pointer;
+  position: relative;
+}
+.zoneselect:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.songogdson {
+  display: flex;
+  align-items: center;
+}
+.songogdson img {
+  width: 24px;
+  height: 24px;
+  margin-right: 1rem;
+}
+.rolecontainer {
+  display: flex;
+  flex-direction: column;
+  width: 321px;
+}
+.rolecontainer select {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  cursor: pointer;
+}
+.rolecontainer select:focus {
+  border: 1px solid #ffa600;
+  outline: none;
+}
+.buschlelcontainer {
+  height: 10vh;
+  overflow-y: scroll;
+  padding-bottom: 10px;
+  width: 321px;
+}
+.userbtn {
+  background-color: #ffa600;
+  padding: 4px 6px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.maininfo {
+  width: 100%;
+  height: 270px;
+}
+.zone {
+  width: 100%;
+}
+
+.input22 {
+  border-radius: 6px !important;
+  border: 1px solid #cfd8dc !important;
+  line-height: 24px !important;
+}

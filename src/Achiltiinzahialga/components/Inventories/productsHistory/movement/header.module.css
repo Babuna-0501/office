@@ -1,0 +1,18 @@
+.container{
+  width: 1200px;
+  display: flex;
+  min-height: 40px;
+  background-color: #ccc;
+}
+.container span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px ;
+  color: #424242;
+  font-size: 14px ;
+  line-height: 12px ;
+  letter-spacing: -0.005em ;
+  flex: 0;
+  font-weight: 700;
+}

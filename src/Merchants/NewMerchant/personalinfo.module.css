@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
+  gap: 16px;
+}
+.wrappercontent {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.wrappercontent span {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+.inputwrapper {
+  width: 100%;
+}
+.inputwrapper input {
+  padding: 6px 12px;
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 4px;
+  color: #b3b3b3;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+.inputwrapper input:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1a1a1a;
+}
+
+.inputwrapper select {
+  padding: 6px 12px;
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 4px;
+  color: #b3b3b3;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+.inputwrapper select:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1a1a1a;
+}
+.selecterwrapper {
+}

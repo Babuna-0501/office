@@ -1,0 +1,76 @@
+.container {
+  width: 100%;
+  height: 50vh;
+  padding: 22px;
+}
+
+.headerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.headerContainer h1 {
+  font-size: 16px !important;
+  color: #1a1a1a;
+  font-weight: 700;
+  margin: 0 !important;
+}
+
+.bodyContainer {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.inputContainer {
+  width: 571px;
+  position: fixed;
+  right: 0;
+  bottom: 85px;
+  padding: 0 44px;
+}
+
+.inputContainer input {
+  width: 100%;
+  padding: 0.5rem;
+  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  margin: 0.5rem 0;
+  color: #546e7a;
+}
+
+.inputContainer input:focus {
+  border: 1px solid #ffa600;
+}
+
+.btnContainer {
+  padding: 0 44px;
+  width: 571px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  height: 82px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btnContainer button {
+  background: #ffa600;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  width: 100%;
+  padding: 12px 16px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}

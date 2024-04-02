@@ -1,0 +1,8 @@
+.dropdown select option {
+    font-size: 10px;
+}
+
+.dropdownWrapper {
+    font-size: 12px;
+    height: 26px;
+}

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.wrapperone {
+  display: flex;
+  align-items: center;
+  width: 100;
+  justify-content: flex-start;
+}
+.title {
+  font-weight: 700;
+  font-size: 12px;
+  color: #37474f;
+  margin-right: 1rem;
+}
+.content {
+  font-weight: 400;
+  font-size: 12px;
+  color: #546e7a;
+}

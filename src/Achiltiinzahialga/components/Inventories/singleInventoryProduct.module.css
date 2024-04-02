@@ -1,0 +1,31 @@
+.container{
+  flex: 0;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  min-height: 55px;
+}
+.container:hover{
+  background-color: #d9d9d9b8;
+}
+.container span {
+  color: #1a1a1a;
+  font-size: 12px;
+  letter-spacing: -0.005em;
+  line-height: 12px;
+  display: block;
+}
+.imgContainer {
+  height: 100%;
+}
+
+.fieldStyle img {
+  height: 90%;
+  object-fit: contain;
+}
+.fieldStyle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}

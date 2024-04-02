@@ -1,0 +1,46 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.firstBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  max-width: 150px;
+  width: 100%;
+  padding: 7px 12px 7px 12px;
+  height: 34px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-right: 12px;
+  background-color: #ffa600;
+  border: none;
+
+  position: fixed;
+  top: 9.5px;
+  right: 10rem;
+}
+
+.firstBtn img {
+  height: 20px;
+  width: 20px;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.firstBtn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  letter-spacing: -1px;
+  padding-top: 0.2rem;
+}
+.scrollcontainer {
+  height: calc(100vh - 118px);
+  overflow: auto;
+}

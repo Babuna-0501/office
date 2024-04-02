@@ -1,0 +1,9 @@
+{
+	"editor.tabSize": 2,
+	"editor.insertSpaces": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "modificationsIfAvailable",
+	"prettier.arrowParens": "always"
+}

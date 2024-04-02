@@ -1,0 +1,40 @@
+.productcontainer {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #cfd8dc;
+  cursor: pointer;
+  gap: 16px;
+  padding: 5px;
+  width: 100%;
+}
+.productname span {
+  font-weight: 400;
+  font-size: 12px;
+  color: #37474f;
+  margin-left: 5px;
+}
+.imagewrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagewrapper img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.productname input {
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #37474f;
+  width: 150px;
+}
+.productname input:focus {
+  border: 1px solid #ffa400;
+  outline: none;
+}

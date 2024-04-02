@@ -1,0 +1,45 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 54px;
+  left: 73px;
+  z-index: 155;
+  background-color: #eceff1;
+  box-sizing: border-box;
+  padding: 23px;
+  overflow: auto;
+}
+.wrapper {
+  height: 100%;
+  width: 1018px;
+}
+.wrapperOne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.second {
+  display: flex;
+  align-items: center;
+
+  height: 34px;
+}
+.second p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #37474f;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding-top: 15px;
+}
+.brandsContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  padding-bottom: 74px;
+}

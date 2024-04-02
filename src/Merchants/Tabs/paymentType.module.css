@@ -1,0 +1,22 @@
+.container * {
+  font-size: 12px;
+}
+
+.container {
+  width: 50%;
+}
+
+.suppliers {
+  height: 700px;
+  margin-top: 30px;
+}
+
+.supplier {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:15px;
+   padding: 5px 0 5px 10px;
+   background-color: #fff;
+    border: 0.8px solid #cfd8dc;
+}

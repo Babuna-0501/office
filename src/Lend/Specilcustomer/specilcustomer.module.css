@@ -1,0 +1,113 @@
+.container {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 14px 12px;
+
+  width: 70%;
+  height: 80%;
+
+  background: #ffffff;
+
+  /* border: 1px solid #eceff1; */
+
+  box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1), 0px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+.firstContainer {
+  height: calc(100% - 70px);
+}
+.containerbtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.cancelwrapper {
+  padding: 8px 12px;
+
+  width: 90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eceff1;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #78909c;
+  margin-right: 12px;
+}
+.approvewrapper {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+
+  width: 156px;
+
+  background: #ffa600;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #ffffff;
+  margin-right: 12px;
+}
+
+.bodyWrapper {
+  height: 95%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #cfd8dc;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f6f7f8;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 64px;
+}
+.columnheader {
+  display: flex;
+  flex-direction: column;
+}
+.columnheader span {
+  font-weight: 700;
+  font-size: 12px;
+  color: #37474f;
+}
+.columnheader input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2px 6px;
+  background: #ffffff;
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 6px;
+  height: 28px;
+  font-size: 12px;
+}
+.columnheader input:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.customercontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(80vh - 200px);
+  overflow-y: auto !important;
+}

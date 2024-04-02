@@ -1,0 +1,71 @@
+.container{
+  width: max-content;
+  height: 85%;
+  margin-top: 10px;
+  background-color: #fff;
+  border: 1px solid #c8c8c8;
+}
+.headerContainer{
+  
+  height: 4%;
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  border-bottom: 1px solid #c8c8c8;
+}
+
+
+.number{
+  width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #c8c8c8;
+}
+.name{
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   border-right: 1px solid #c8c8c8;
+}
+.slug{
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   border-right: 1px solid #c8c8c8;
+}
+.active{
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   border-right: 1px solid #c8c8c8;
+}
+
+.listContainer{
+  
+  height: 96%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: center
+}
+.list{
+  height: 26px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.listContainer::-webkit-scrollbar {
+	display: none;
+}
+
+.saveBtn{
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}

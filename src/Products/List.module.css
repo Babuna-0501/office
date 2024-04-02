@@ -1,0 +1,13 @@
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vh;
+}
+.tabHeader {
+	font-weight: 600;
+	font-size: 14px;
+	color: #37474f;
+	width: 100%;
+}

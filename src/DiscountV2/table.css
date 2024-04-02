@@ -1,0 +1,29 @@
+.ag-theme-alpine {
+  --ag-background-color: #ffffff;
+  --ag-header-foreground-color: #ffffff;
+  --ag-header-background-color: #f6f7f8;
+  --ag-font-size: 12px;
+  --ag-border-color: #cfd8dc;
+  --ag-selected-row-background-color: #f1f1fa;
+  --ag-alpine-active-color: #6d63ff;
+  --ag-row-hover-color: #f1f1fa;
+}
+.ag-header-cell-text {
+  font-size: 12px;
+  color: #37474f;
+  font-weight: 700;
+}
+
+
+
+
+#ag-1205-input{
+    font-size: 12px;
+    color: #37474f;
+    font-weight: 700;
+}
+#ag-1209-input{
+    font-size: 12px;
+    color: #37474f;
+    font-weight: 700;
+}

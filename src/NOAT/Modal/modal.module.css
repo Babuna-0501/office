@@ -1,0 +1,72 @@
+.background {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.modal {
+  background-color: #fff;
+  width: 487px;
+  padding: 10px;
+  border-radius: 14px;
+}
+.sarbody {
+  width: 200px;
+}
+.sarbody select {
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  color: #37474f;
+  border: 1px solid #cfd8dc;
+  cursor: pointer;
+  padding: 10px;
+}
+.sarbody option {
+  font-size: 12px;
+  font-weight: 400;
+  color: #37474f;
+}
+
+.sarbody select:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.btncontainer{
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  
+
+}
+.cancelbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #37474f;
+}
+.confirmbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #ffa600;
+}

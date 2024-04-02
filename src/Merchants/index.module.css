@@ -1,0 +1,11 @@
+.container {
+  width: 2700px !important;
+  /* overflow-x: auto;
+  overflow-y: hidden; */
+  height: calc(100vh - 65px);
+
+}
+.wrapper {
+  width: 100%;
+  height: calc(100vh - 65px);
+}

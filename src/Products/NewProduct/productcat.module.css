@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  background: #fff;
+  position: absolute;
+
+  left: 0;
+  height: 450px;
+
+  overflow: auto;
+  z-index: 200;
+  border: 1px solid #cfd8dc;
+  border-radius: 12px;
+
+
+}
+
+.Header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+}

@@ -1,0 +1,27 @@
+.company {
+  font-size: 14px;
+  font-weight: 700;
+  color: #37474f;
+}
+.selectcontainer {
+  width: 100px;
+}
+.selectcontainer select {
+  font-size: 12px;
+  font-weight: 400;
+  color: #37474f;
+  border: 1px solid #cfd8dc;
+  padding: 0 4px;
+  width: 200px;
+  border-radius: 6px;
+  height: 24px;
+}
+.selectcontainer select:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.selectcontainer option {
+  font-size: 12px;
+  font-weight: 400;
+  color: #37474f;
+}

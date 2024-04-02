@@ -1,0 +1,226 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s;
+}
+
+.container {
+  padding: 13px;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 37px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profilePicture {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profilePicture > img {
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.firstName {
+  color: #1a1a1a;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin-bottom: 3px !important;
+  margin-top: 0 !important;
+}
+
+.userRole {
+  display: block;
+  margin: 0;
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.dates {
+  display: flex;
+  align-items: center;
+}
+
+.arrowRight {
+  width: 26px;
+  height: 26px;
+}
+
+.arrowRight > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.targetStats {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin-left: 55px;
+  margin-bottom: 27px;
+}
+
+.targetGraph {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondGraph {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondGraph::before {
+  content: "";
+  position: absolute;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.graphValues {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graphValues > span {
+  display: block;
+}
+
+.completed {
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.pending {
+  color: #808080;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.targetGraphDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.graphDetailsTitle {
+  display: block;
+  color: #4d4d4d;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  margin-bottom: 1px;
+}
+
+.graphDetailAmount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.graphDetailAmount > .circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.graphDetailAmount > .circle.completed {
+  background-color: #2ab674;
+}
+
+.graphDetailAmount > .circle.pending {
+  background-color: #d6df2a;
+}
+
+.graphDetailAmount > span {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.otherTargets {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.footer {
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0px -3px 6px 0px #00000026;
+  z-index: 100;
+  background-color: #fff;
+}
+
+.spinner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

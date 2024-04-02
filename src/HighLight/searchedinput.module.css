@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper span {
+  font-weight: 700;
+  font-size: 16px;
+
+  color: #263238;
+}
+.wrapper input {
+  border: 1px solid #cfd8dc;
+  /* 01 */
+
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.wrapper input:focus {
+  border: 1px solid #ffa400;
+  outline: none;
+}

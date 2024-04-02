@@ -1,0 +1,287 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.3s;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: calc((100% - 20px) / 2);
+}
+
+.chartContainer {
+  width: calc((100% - 20px) / 2);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+@media screen and (max-width: 1920px) {
+  .chartContainer {
+    width: 808px;
+    height: 442px;
+  }
+
+  .row {
+    height: 442px;
+  }
+}
+
+.chartTitle {
+  color: #1a1a1a;
+  margin: 0 !important;
+  font-size: 24px !important;
+  line-height: 28px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.chartContent {
+  width: 100%;
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  border-radius: 8px;
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chartIndicators {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.singleIndicator {
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.singleIndicator::before {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.singleIndicator.past::before {
+  background: #faa51a;
+}
+
+.singleIndicator.present::before {
+  background: #00add0;
+}
+
+.singleIndicator.future::before {
+  background-color: #8dc543;
+}
+
+.chartBody {
+  width: 100%;
+  flex: 1;
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0;
+  margin-bottom: 50px;
+  /* border: 1px solid black; */
+}
+
+.yAxis {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100%;
+}
+
+.yAxis > li {
+  width: 100%;
+  flex: 1;
+  border-bottom: 1px dashed #e6e6e6;
+  position: relative;
+}
+
+.yAxis > li > span {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(50%) translateX(-30px);
+}
+
+.xAxis {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(200%);
+  right: 0;
+  left: 0px;
+  gap: 10px;
+}
+
+.xAxis > li {
+  width: calc((100% - 110px) / 12);
+  transform: rotateZ(-45deg);
+  text-align: end;
+  font-size: 14px;
+}
+
+.charts {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.singleChartWrapper {
+  height: 100%;
+  width: calc((100% - 110px) / 12);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.singleChart {
+  width: calc((100%) / 3);
+  height: 30%;
+  background-color: #faa51a;
+  animation: chartAnimation 0.3s;
+  border: 1px solid #fff;
+  position: relative;
+}
+
+.singleChart > span {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 600;
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  transform: translateX(-30%);
+}
+
+.singleChart.past {
+  background: #faa51a;
+}
+
+.singleChart.present {
+  background: #00add0;
+}
+
+.singleChart.future {
+  background-color: #8dc543;
+}
+
+.singleChartPopover {
+  position: absolute;
+  left: 100%;
+  display: none;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.singleChartPopover > .triangle {
+  position: absolute;
+  left: 0px;
+  top: 18px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+  border-right: 8px solid rgba(26, 26, 26, 0.9);
+}
+
+.singleChartPopover > .popOverContent {
+  min-width: 200px;
+  height: 60px;
+  border-radius: 6px;
+  background-color: rgba(26, 26, 26, 0.9);
+  margin-left: 8px;
+  padding: 6px, 12px, 6px, 12px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.popOverContent > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.popOverContent > div.titles {
+  text-align: end;
+}
+
+.popOverContent > div.infos {
+  text-align: start;
+}
+
+.popOverContent span {
+  color: rgba(153, 153, 153, 1);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.popOverContent p {
+  margin: 0 !important;
+  color: rgba(230, 230, 230, 1) !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.singleChart:hover .singleChartPopover {
+  display: block;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes chartAnimation {
+  0% {
+    transform: scaleY(0);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}

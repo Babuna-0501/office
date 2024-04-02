@@ -1,0 +1,29 @@
+.movementListContainer {
+  height: 100%;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  position: relative;
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+.contentContainer {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  overflow-y: auto;
+}
+
+.loadingSpinner {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

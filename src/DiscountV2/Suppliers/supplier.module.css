@@ -1,0 +1,15 @@
+.container {
+  width: 100%;
+}
+
+.titlecontainer {
+  width: 100%;
+}
+.titlecontainer h3 {
+  font-weight: 700;
+  font-size: 20px;
+  color: #37474f;
+}
+.suppContainer {
+  width: 100%;
+}

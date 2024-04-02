@@ -1,0 +1,24 @@
+
+.container {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.singleField {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.singleField > label {
+  color: #1a1a1a;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}

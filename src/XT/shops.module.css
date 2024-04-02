@@ -1,0 +1,295 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 102;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  background-color: #fff;
+  width: 90vw;
+  height: 90vh;
+  padding: 1rem;
+  border-radius: 6px;
+  position: relative;
+}
+
+.closewrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closewrapper img {
+  width: 20px;
+  height: 20px;
+}
+
+.shopswrapper {
+  width: 100%;
+  height: 90%;
+  padding-bottom: 10px;
+}
+
+.shopsheader {
+  display: flex;
+  align-items: center;
+  background-color: #f6f7f8;
+  width: 100%;
+  gap: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.shopone {
+  /* display: flex; */
+  height: calc(100% - 68px);
+  /* height: 60vh; */
+  /* background-color: red; */
+  overflow-y: auto;
+  width: 100%;
+  flex-direction: column;
+}
+
+.attribute {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  border-bottom: 1px solid #cfd8dc;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.attribute span {
+  color: #eceff1;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.bntcontainer {
+  display: flex;
+  align-items: center;
+  width: 99%;
+  justify-content: flex-end;
+  gap: 10px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background-color: #fff;
+}
+
+.confirm {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+
+  background: #ffa600;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+
+  background: #eceff1;
+  border-radius: 8px;
+  color: #78909c;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.headerwrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerwrapper input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.headerwrapper input {
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  font-size: 12px;
+}
+
+.headerwrapper input:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+
+.headerwrapper span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #37474f;
+}
+
+.headercontainer {
+  color: #263238;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.shoponewrapper {
+  display: flex;
+  align-items: center;
+}
+
+.shoponewrapper input {
+  width: 20px;
+  height: 20px !important;
+}
+
+.shoponewrapper span {
+  font-size: 12px;
+  color: #37474f;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+.shoponewrapper select {
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #37474f;
+}
+
+.shoponewrapper select option {
+  font-size: 12px;
+  color: #37474f;
+  cursor: pointer;
+}
+
+.shoponewrapper select:focus {
+  border: 1px solid #ffa600;
+  outline: none;
+}
+.headerwrapper select {
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  padding: 4px;
+  font-size: 12px;
+}
+
+.headerwrapper select:focus {
+  border: 1px solid #ffa600;
+  outline: none;
+}
+
+.headerwrapper option {
+  font-size: 12px;
+}
+
+.newattirbute {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  border-bottom: 1px solid #cfd8dc;
+  width: 100%;
+  padding: 20px 0;
+  background-color: #f1f1fa;
+}
+
+.scheduleSelectWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.scheduleSelectWrapper button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #37474f;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0 4px;
+}
+
+.scheduleSelectWrapper button:focus-within {
+  border: 1px solid #ffa600;
+  outline: none;
+}
+
+.scheduleSelectWrapper img {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.scheduleSelectWrapper .scheduleDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 100px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3), 0px -1px 6px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  display: none;
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.scheduleDropdown.show {
+  display: block;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+.dropdownItem label {
+  white-space: nowrap;
+  width: 100%;
+  margin-left: -4px;
+  line-height: 1;
+}
+
+.dropdownItem input {
+  /* -webkit-appearance: none;
+  appearance: none; */
+  min-width: 13px;
+  min-height: 13px;
+  max-width: 13px;
+  max-height: 13px;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+}

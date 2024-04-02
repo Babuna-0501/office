@@ -1,0 +1,95 @@
+.container{
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.listContainer{
+  width: 100%;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+}
+.left{
+  display: flex;
+  align-items: center;
+}
+.imgContainer{
+  width: 50px;
+  height: 50px;
+  border: 0.8px solid #CCCCCC;
+  border-radius: 8px;
+  margin: 15px;
+}
+.imgContainer img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.textContainer{
+  display: flex;
+  flex-direction: column;
+}
+.prdctName{
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+}
+.prdctSKU{
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+}
+.prdctPrice{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.prdctPrice span{
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.right{
+  margin: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btnContainer{
+  width: 99px;
+  height: 33px;
+  border-radius: 8px;
+  border: 0.8px solid #80B969;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.countBtn{
+  width: 33px;
+  height: 100%;
+  background: none;
+  background-color: #ffffff;
+  border: none;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.countTxt{
+  width: 33px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #80B969;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+}

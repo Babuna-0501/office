@@ -1,0 +1,14 @@
+.container {
+  box-sizing: border-box;
+  padding: 6px 10px;
+  background: #f6f7f8;
+  border: 0.8px solid #cfd8dc;
+  border-radius: 6px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #37474f;
+  display: inline-block;
+  gap: 10px;
+}

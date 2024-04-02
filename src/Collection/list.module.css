@@ -1,0 +1,39 @@
+.container {
+  height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  border: 0.8px solid #cfd8dc;
+  border-top: none;
+  padding-bottom: 10px;
+}
+.wrapper span {
+  padding-left: 10px;
+}
+.wrapper ul {
+  margin-left: 10px;
+}
+.wrapper ul li {
+  list-style: none;
+  margin-bottom: 5px;
+}
+.wrapper ul {
+  margin-bottom: 0px;
+}
+.wrapper ul li:last-child {
+  margin-bottom: 0px;
+}
+.iconContainer {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.iconContainer img {
+  cursor: pointer;
+}

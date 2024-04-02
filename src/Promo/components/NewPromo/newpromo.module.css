@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 54px;
+  left: 75px;
+  width: calc(100% - 75px);
+  height: calc(100% - 54px);
+  z-index: 50;
+  background-color: goldenrod;
+  padding: 1rem;
+}
+.onewrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.supwrapper {
+  min-width: 450px;
+}
+.supwrapper select {
+  width: 100%;
+}

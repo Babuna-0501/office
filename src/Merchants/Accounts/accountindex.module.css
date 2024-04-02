@@ -1,0 +1,38 @@
+.container {
+background-color: #fff;
+}
+.w700 {
+  font-weight: 700;
+  font-size: 12px;
+  color: #1a1a1a;
+}
+/* .w701 {
+  font-weight: 700;
+  font-size: 10px;
+  color: #1a1a1a;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+} */
+.scrollcontainer {
+  height: calc(100vh - 150px);
+   overflow: auto;
+}
+
+.accounts {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  overflowX: scroll;
+  overflowY: hidden;
+  width: 2030px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+

@@ -1,0 +1,30 @@
+.product_info {
+	box-sizing: border-box;
+}
+
+.product_infos {
+	display: flex;
+}
+
+.info_block {
+	width: 300px;
+}
+
+.product_title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+.product_list {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: auto;
+}
+
+.product_infos h4 {
+	font-size: .875rem;
+}

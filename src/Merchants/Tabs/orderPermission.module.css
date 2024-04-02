@@ -1,0 +1,18 @@
+.container {
+  width: 50%;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  height: 55px;
+}
+
+.addBtn {
+  width: 70px !important;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

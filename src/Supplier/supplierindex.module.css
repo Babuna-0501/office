@@ -1,0 +1,131 @@
+* {
+  font-size: 12px;
+}
+.container2 {
+  margin-left: 0px;
+  margin-top: 0px;
+  display: flex;
+}
+.container {
+  width: 250px;
+  margin-right: 18px;
+}
+
+.inputWrapper {
+  width: 100%;
+  height: 28px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  align-items: center;
+  width: 100%;
+}
+.permissionContainer {
+  width: 800px;
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 18px;
+  padding-right: 18px;
+}
+.inputform {
+  outline: none;
+  padding: 16px 20px;
+  width: 245px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  height: 42px;
+}
+.inputformSelect {
+  outline: none;
+  padding: 5px 20px;
+  width: 245px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  height: 42px;
+}
+.inputformLong {
+  outline: none;
+  padding: 16px 20px;
+  width: 100%;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  height: 42px;
+  margin-bottom: 7px;
+}
+.supplierName img {
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+  border: 0.5px solid #eceff1;
+  object-fit: contain;
+  margin-right: 10px;
+}
+.supplierName {
+  font-weight: 700;
+  font-size: 16px;
+  color: #37474f;
+}
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modalContent {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 350px;
+  height: 420px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.modalContent img {
+  height: 52px;
+}
+.title {
+  font-weight: 700;
+  font-size: 24px;
+}
+.bold {
+  font-weight: 700;
+}
+.btnwrapper button {
+  width: 245px;
+  background-color: #ffa600;
+  color: 12px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px;
+  border: 6px;
+  border: none;
+  border-radius: 6px;
+}
+
+.dateConfig{
+  
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+}

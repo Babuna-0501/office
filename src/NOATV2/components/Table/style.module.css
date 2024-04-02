@@ -1,0 +1,102 @@
+.container {
+	overflow-y: scroll;
+}
+.container th,
+table,
+td {
+	width: max-content;
+	border-collapse: collapse;
+	padding: 10px 20px;
+	font-size: 	0.75rem;
+}
+.container th {
+	background-color: #f6f7f8;
+	text-align: start;
+}
+
+.container td {
+	border-bottom: 1px solid #cfd8dc;
+}
+.statusButton {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	color: white;
+	width: 120px;
+	height: 22px;
+	border-radius: 18px;
+	border: 0;
+	font-weight: 600;
+	font-size: 12px;
+
+	color: #ffffff;
+}
+.statusButton text {
+	box-sizing: border-box;
+}
+.trueButton {
+	background-color: #7ac046;
+}
+.falseButton {
+	background-color: #eb5e43;
+}
+.testButton {
+	background-color: #eceff1;
+	color: #90a4ae;
+}
+.uussenButton {
+	background-color: #2596be;
+}
+.uuseeguiButton {
+	background-color: #ffa400;
+}
+.pagination {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+	margin-top: 20px;
+	bottom: 3%;
+	position: absolute;
+	right: 60%;
+}
+
+.pagination li {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.pagination li a {
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #333;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.pagination li a:hover {
+	background-color: #ccc;
+}
+
+.pagination .active a {
+	background-color: #333;
+	color: #fff;
+}
+.Addbutton {
+	position: absolute;
+	top: 20px;
+	right: 100px !important;
+	background: #ffa600;
+	border-radius: 8px;
+	width: 156px;
+	height: 34px;
+	right: 20%;
+	color: #ffffff;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 18px;
+	border: 0px;
+}

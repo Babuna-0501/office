@@ -1,0 +1,58 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: sticky;
+	top: 0px;
+	z-index: 999;
+	background-color: rgba(0, 0, 0, 0.208);
+	width: 100%;
+	height: 100vh;
+}
+.ModalX {
+	display: flex;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	border: 0;
+	background-color: white;
+}
+.ModalInput {
+	width: 315px;
+	height: 16px;
+
+	/* Caption/Regular 12 */
+
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 16px;
+	/* identical to box height, or 133% */
+
+	/* Blue grey/blue grey 90% */
+
+	color: #37474f;
+}
+.inputContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	width: 100%;
+    
+}
+.modalContainer {
+	width: auto;
+	height: 50%;
+	background-color: white;
+	position: relative;
+	border-radius: 10px;
+	padding: 20px 30px;
+	border: 1px solid #eceff1;
+	box-shadow: rgba(0, 0, 0, 0.06);
+}
+.Donebutton{
+    display: flex;
+    position: absolute;
+    bottom: 3%;
+    right: 2%;
+
+}

@@ -1,0 +1,163 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* --------------------------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header > .title {
+  margin: 0 !important;
+  color: #1a1a1a !important;
+  font-size: 20px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.header > .closeBtn {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.header > .closeBtn > svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------- */
+
+.users {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  column-gap: 21px;
+  row-gap: 4px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow-y: auto;
+}
+
+/* --------------------------- */
+
+.singleUserCard {
+  width: calc((100% - 21px) / 2);
+  height: 72px;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.singleUserCard.checked {
+  background-color: #f4faed;
+}
+
+.userInfo {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.userProfile {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userProfile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.userDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.userDetails > h3 {
+  margin: 0 !important;
+  color: #1a1a1a !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.userDetails > span {
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+/* --------------------------- */
+
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* --------------------------- */
+
+.successWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 30px;
+}
+
+.successWrapper > img {
+  width: 78px;
+  height: 78px;
+  aspect-ratio: 1/1;
+}
+
+.successWrapper > span {
+  color: #1a1a1a;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  text-align: center;
+}
+
+.spinner {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

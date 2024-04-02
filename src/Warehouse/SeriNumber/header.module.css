@@ -1,0 +1,27 @@
+.document {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding-top: 1rem;
+}
+.documentwrapper {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+.documentwrapper label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.documentwrapper input {
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a1a1a;
+}
+.documentwrapper input:focus {
+  outline: none;
+  border: 1px solid #2ab674;
+}

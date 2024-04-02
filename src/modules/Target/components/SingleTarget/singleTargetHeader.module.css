@@ -1,0 +1,71 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+  height: 100%;
+}
+
+.breadCrumbs {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.title:hover {
+  color: #1a1a1a;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrowWrapper {
+  width: 18px;
+  height: 18px;
+}
+
+.arrowWrapper > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.subTitle {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  /* border-bottom: 1px solid #cfd8dc; */
+  padding: 5px 0;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.wrapper {
+  padding-left: 10px;
+}
+.headerTitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: #1a1a1a;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.hover:hover {
+  background-color: #f1f1fa;
+  cursor: pointer;
+}
+
+.general {
+  font-size: 12px;
+  font-weight: 400;
+  overflow: hidden;
+  color: #37474f;
+}
+
+.address {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

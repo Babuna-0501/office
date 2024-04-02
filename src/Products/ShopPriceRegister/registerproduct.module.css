@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.selectwrapper select{
+  
+  
+}
+.btncontainer{
+  display: flex;
+  align-items: center
+  ;
+  justify-content: flex-end;
+  gap: 10px;
+
+}
+.btncontainer button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: none;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 6px;
+
+}
+.btncontainer .cancel{
+  background-color: gray;
+  color: #fff;
+}
+.btncontainer .confirm{
+  background-color: #ffa600;
+   color: #fff;
+}

@@ -1,0 +1,154 @@
+.background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 54px;
+  left: 74px;
+  width: calc(100% - 74px);
+  height: calc(100% - 54px);
+  z-index: 100;
+}
+.wrapper {
+  width: 1233px;
+  height: 90%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 19px 24px 24px 32px;
+  position: relative;
+}
+.closewrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.closewrapper span {
+  font-size: 30px;
+  color: #37474f;
+  font-weight: 600;
+}
+.closewrapper img {
+  width: 30px;
+  height: 30px;
+}
+.btncontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px 20px;
+  background-color: #fff;
+}
+.cancel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+
+  width: 105px;
+
+  background: #f2f2f2;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+
+  color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+}
+.confirm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+
+  width: 199px;
+  height: 44px;
+
+  background: #2ab674;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+.body {
+  width: 100%;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.header {
+  background-color: #f6f7f8;
+  padding: 6px 6px 8px 6px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.idcontainer {
+  width: 60px;
+}
+.idcontainer span {
+  font-weight: 700;
+  font-size: 12px;
+  color: #37474f;
+}
+.idcontainer input {
+  width: 100%;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.idcontainer input:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+
+.checkedcontainer img {
+  width: 24px;
+  height: 24px;
+}
+.product {
+  overflow-y: scroll;
+  width: 100%;
+  height: calc(100vh - 40vh);
+  cursor: pointer;
+}
+.oneproduct {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px;
+  border-bottom: 0.8px solid #cfd8dc;
+}
+
+.onechecked img {
+  width: 24px;
+  height: 24px;
+}
+.oneid span {
+  font-size: 12px;
+  color: #706ac5;
+  font-weight: 400;
+}
+.onesup span {
+  font-weight: 400;
+  font-size: 12px;
+  color: #37474f;
+}
+.onesup img {
+  width: 40px;
+  height: 40px;
+}

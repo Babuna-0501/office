@@ -1,0 +1,51 @@
+.container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.container label {
+  /* margin-top: 10px; */
+  color: #37474f;
+  font-size: 12px;
+  font-weight: 700;
+}
+.wrapper {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  background-color: #fff;
+
+  z-index: 156;
+
+  height: 300px;
+  padding: 6px;
+  overflow: auto;
+  border-radius: 6px;
+  border: 1px solid #eceff1;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+}
+.wrapper p {
+  font-size: 12px;
+  color: #37474f;
+  font-weight: 400;
+}
+.wrapper p:hover {
+  color: #ffa400;
+}
+.supName {
+  font-size: 12px;
+  color: #37474f;
+  font-weight: 400;
+  height: 26px;
+  background-color: #fff;
+  padding: 6px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}

@@ -1,0 +1,1 @@
+export * from "./FeaturedProductsHeader/FeaturedProductsHeader";

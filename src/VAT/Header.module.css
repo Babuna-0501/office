@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  height: 80vh;
+  width: 100%;
+  justify-content: space-between;
+  background-color: #fff;
+}
+.buschlel {
+  width: 100%;
+  background-color: greenyellow;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  position: relative;
+}
+.wrapper {
+  display: flex;
+  width: 150px;
+  text-align: center;
+  border-radius: 6px;
+  border: none;
+  padding: 4px 6px;
+  font-size: 12px;
+  color: #37474f;
+  cursor: pointer;
+  background-color: #fff;
+}
+.buschlelwrapper {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 200px;
+  background-color: #fff;
+  height: 70vh;
+  overflow-y: scroll;
+}
+.buschlelbutsah {
+  width: 200px;
+  background-color: greenyellow;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  position: relative;
+}
+.subagwrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hisubag {
+  display: flex;
+  width: 400px;
+  background-color: aquamarine;
+  height: 80vh;
+}
+
+.buschlelbtn {
+  background-color: #eceff1;
+  padding: 4px 10px;
+  color: #78909c;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.allcontainer {
+  display: flex;
+  width: 1200px;
+  height: 100%;
+}
+.wrapperbtn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.btnmaincontainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.allwrapper {
+  width: 900px;
+  background-color: gainsboro;
+}
+.btncontainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.btncontainer button {
+  padding: 6px 12px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #ffa600;
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 200px;
+}
+.containermain {
+  width: 100%;
+  background-color: #fff;
+  height: 100%;
+}
+.newwrapper {
+  width: 250px;
+  height: 100%;
+  background-color: #78909c;
+  padding: 10px;
+  overflow-y: scroll;
+}
+.mainwrapper {
+  display: flex;
+  width: 200px;
+  height: 100%;
+  background-color: greenyellow;
+}

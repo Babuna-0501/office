@@ -1,0 +1,16 @@
+<svg width="33" height="21" viewBox="0 0 33 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M27.1875 18.375H25.2C24.5373 18.375 24 17.8377 24 17.175V3.825C24 3.16226 24.5373 2.625 25.2 2.625H27.1875M27.1875 10.5C23.5996 10.5 23 10.5 20 10.5" stroke="#FFA600" stroke-width="1.5"/>
+<rect x="0.75" y="0.75" width="19.5" height="19.5" rx="4.25" fill="#FFA600" stroke="#FFA600" stroke-width="1.5"/>
+<mask id="path-3-inside-1_2374_126755" fill="white">
+<rect x="27.1875" width="5.25" height="5.25" rx="1.2"/>
+</mask>
+<rect x="27.1875" width="5.25" height="5.25" rx="1.2" stroke="#FFA600" stroke-width="3" mask="url(#path-3-inside-1_2374_126755)"/>
+<mask id="path-4-inside-2_2374_126755" fill="white">
+<rect x="27.1875" y="7.875" width="5.25" height="5.25" rx="1.2"/>
+</mask>
+<rect x="27.1875" y="7.875" width="5.25" height="5.25" rx="1.2" fill="#FFA600" stroke="#FFA600" stroke-width="3" mask="url(#path-4-inside-2_2374_126755)"/>
+<mask id="path-5-inside-3_2374_126755" fill="white">
+<rect x="27.1875" y="15.7502" width="5.25" height="5.25" rx="1.2"/>
+</mask>
+<rect x="27.1875" y="15.7502" width="5.25" height="5.25" rx="1.2" stroke="#FFA600" stroke-width="3" mask="url(#path-5-inside-3_2374_126755)"/>
+</svg>

@@ -1,0 +1,158 @@
+.container{
+  display: flex;
+  width: 1350px;
+  height: 100%;
+  gap: 10px;
+  padding: 5px 10px;
+}
+.container2{
+  display: flex;
+  flex-direction: column;
+  width: 650px;
+  height: 100%;
+}
+.header{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  background-color:#edecec ;
+  padding: 10px 0px;
+}
+.oneFieldHeader{
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+}
+.oneFieldHeader span{
+  font-size: 14px;
+  font-weight: 700;
+}
+.oneFieldHeader input {
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 5px 10px;
+  height: 25px;
+  width: 95%;
+}
+.productList{
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+  overflow-y: scroll;
+}
+.product{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  border-bottom: 1px solid #c8c8c8;
+  border-right: 1px solid #c8c8c8;
+  border-left: 1px solid #c8c8c8;
+  cursor: pointer;
+}
+.oneFieldBody{
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 10px;
+  width: 200px;
+}
+.oneFieldBody span{
+  font-size: 13px;
+}
+.oneFieldBody img {
+  height: 45px;
+  width: 45px;
+  object-fit: contain;
+}
+.footer{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.container3{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 90%;
+  width: 700px;
+  margin-top: 40px;
+}
+.container3 button{
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+}
+.productHistory{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 200px;
+  width: 100%;
+}
+.container3 .header{
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  height: 40px;
+}
+.container3 .header span{
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  height: 40px;
+  width: 100px;
+  padding: 0px 5px;
+}
+.oProducts{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 150px;
+  overflow: scroll;
+  border: 1px solid grey;
+}
+.oProduct{
+  display: flex;
+  justify-content: space-between;
+}
+
+.oProduct span {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  width: 100px;
+  height: 40px;
+  font-size: 12px;
+  padding: 10px 5px;
+  line-height: 14px;
+}
+.productBalance{
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: 100px;
+}
+.productBalance .left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 20%;
+}
+
+.productBalance .right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 80%;
+}
+.productBalance .right span{
+  font-weight: 700;
+  font-size: 15px;
+}

@@ -1,0 +1,13 @@
+.wrapper{
+  display: flex;
+}
+.transparentBg{
+  width: calc(100vw - 571px);
+  height: 100vh;
+}
+.container{
+  width: 571px;
+  height: 100%;
+  background-color: #f6f7f8;
+  position: relative;
+}

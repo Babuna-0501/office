@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.wrapper span {
+  font-weight: 700;
+  font-size: 18px;
+
+  color: #37474f;
+}

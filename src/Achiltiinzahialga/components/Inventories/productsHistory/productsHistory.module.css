@@ -1,0 +1,23 @@
+.container{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+.movementList{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+  overflow: scroll;
+  margin-top: -10px;
+}
+.buttons{
+  display: flex;
+  gap: 20px;
+}
+.buttons button{
+  width: 100px !important;
+  padding: 8px !important;
+}

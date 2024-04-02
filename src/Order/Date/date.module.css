@@ -1,0 +1,136 @@
+.container {
+  position: relative;
+}
+
+.wrapper {
+  border: 1px solid #cccccc;
+  border-radius: 2.5px;
+  background-color: #f2f2f2;
+  width: 202px;
+  height: 33px;
+  padding: 5px 7.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.wrapper span {
+  font-weight: 400;
+  font-size: 12px;
+  color: #1a1a1a;
+  margin-left: 8px;
+}
+.calendar {
+  width: 22px;
+  height: 22px;
+}
+.arrow {
+  width: 22px;
+  height: 22px;
+}
+.arrowdown {
+  width: 22px;
+  height: 22px;
+  transform: rotate(180deg);
+}
+.modal {
+  background-color: #fff;
+  box-sizing: border-box;
+  padding-top: 10px;
+  padding-bottom: 13px;
+  height: 350px;
+  width: 330px;
+  z-index: 200;
+  position: fixed;
+  top: 50px;
+  left: 170px;
+  /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  animation: moveUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  border-radius: 2px;
+
+  cursor: pointer;
+}
+.modal ul {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+@keyframes moveUp {
+  0% {
+    transform: translateY(-150px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.calendarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+}
+/* .calendarwrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 144px;
+  height: 33px;
+  padding: 4.88889px 9.77778px 4.88889px 12.2222px;
+  background: #ffffff;
+  border: 0.977778px solid #cccccc;
+  border-radius: 2.44444px;
+}
+.calendarwrapper span {
+  font-weight: 400;
+  font-size: 12px;
+  color: #999999;
+}
+.calendarwrapper img {
+  width: 22px;
+  height: 22px;
+} */
+.inputcalendar {
+  width: 144px;
+  height: 33px;
+  padding: 4.88889px 9.77778px 4.88889px 12.2222px;
+  background: #ffffff;
+  border: 0.977778px solid #cccccc;
+  border-radius: 2.44444px;
+}
+.inputcalendar:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+}
+.btncontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 14px;
+  position: absolute;
+  bottom: 13px;
+  width: 100%;
+}
+.cancelbtn {
+  width: 140px;
+  height: 34px;
+
+  background: #f2f2f2;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 14px;
+
+  color: #4d4d4d;
+  cursor: pointer;
+}
+.approvebtn {
+  width: 140px;
+  height: 34px;
+
+  /* brand color 3 */
+
+  background: #2ab674;
+  border-radius: 2px;
+  font-size: 14px;
+
+  color: #fff;
+}

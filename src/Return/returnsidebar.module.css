@@ -1,0 +1,355 @@
+.tailbar {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 250;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  width: 571px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background-color: #fff;
+}
+.containerMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+.closebtn {
+  cursor: pointer;
+}
+.closebtn:hover {
+  cursor: pointer;
+}
+.closebtn img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.shopDetails {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.first {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.firstshopdetails {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.homeiconContainer img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  margin-right: 12px;
+}
+.delguurname {
+  color: #37474f;
+  font-size: 16px;
+  font-weight: 700;
+}
+.hayag {
+  color: #546e7a;
+  font-weight: 400;
+  font-size: 12px;
+  max-width: 305px;
+  width: 100%;
+  letter-spacing: -0.5%;
+}
+.divider {
+  border-bottom: 0.8px solid #f6f7f8;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.deliveryInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.deliveryInfoContainer {
+  display: flex;
+  align-items: center;
+}
+.deliveryInfoFirst {
+  margin-right: 1rem;
+}
+
+.deliveryInfoHeader {
+  font-size: 12px;
+  color: #78909c;
+  font-weight: 700;
+}
+.deliveryInfo_info {
+  color: #546e7a;
+  font-weight: 700;
+  font-size: 12px;
+  max-width: 130px;
+  width: 100%;
+  overflow: hidden;
+}
+.deliveryInfoinfoBold {
+  color: #37474f;
+  font-weight: 700;
+  font-size: 12px;
+}
+.linesContainer {
+  padding-top: 30px;
+  padding-bottom: 80px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100%;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px dashed #cfd8dc;
+  cursor: pointer;
+}
+.firstwrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 7.8px;
+  padding-bottom: 6.49px;
+  width: 100%;
+}
+.imageContainer {
+  width: 44.23px;
+  height: 45.64px;
+  background-color: #fff;
+  margin-right: 10.88px;
+}
+.imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detailWrapper .hd3 {
+  font-size: 14px;
+  max-width: 345px;
+  width: 100%;
+  line-height: 18px;
+  overflow: hidden;
+  color: #37474f;
+  font-weight: 300;
+}
+
+.lineEditing {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  border-radius: 12px;
+
+  border: 1px solid #cfd8dc;
+  max-width: 90px;
+  width: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.lineEditing .spanMinus {
+  background-color: #ffffff;
+  width: 30px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lineEditing .spanMinus img {
+  width: 11.96px;
+  height: 11.96px;
+  object-fit: cover;
+}
+.lineEditing .spanInput {
+  background-color: #f6f7f8;
+  width: 30px;
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+  color: #37474f;
+  font-weight: 700;
+  text-align: center;
+  border: 0px solid #f6f7f8;
+}
+.lineEditing .spanInput:focus {
+  border: 0px solid #f6f7f8;
+}
+.lineEditing .spanPlus {
+  background-color: #ffffff;
+  width: 30px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lineEditing .spanPlus img {
+  width: 11.96px;
+  height: 11.96px;
+  object-fit: cover;
+}
+.deleteContainer img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  margin-left: 7px;
+}
+
+/* new css */
+.firstContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 29px;
+}
+.secondContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 409px;
+}
+.thirdContainer {
+  width: 100%;
+  max-width: 86px;
+}
+.header {
+  color: #37474f;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.input {
+  border-radius: 10px;
+  border: 1px solid #cfd8dc;
+  background-color: #fff;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #37474f;
+  height: 52px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.fourthcontainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+.fifthcontainer {
+  height: 123px;
+  margin-bottom: 16px;
+}
+.fifthcontainer .imageContainer {
+  width: 123px;
+  height: 100%;
+  margin-right: 12px;
+  border: 1px solid #eceff1;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8.5px;
+}
+.imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.imageContainer img:last-child {
+  margin-right: 0px;
+}
+.sixthcontainer {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 100px;
+}
+.sixthcontainer .sxContainer {
+  height: 526px;
+  padding: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #eceff1;
+  border-radius: 10px;
+}
+.sxContainer img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.btn {
+  display: flex;
+  align-items: center;
+}
+.zoomContainer {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 16px;
+ 
+  justify-content: center;
+  width: 100%;
+}
+.zmContainer{
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.zmContainer span {
+  width: 48.5px;
+  height: 48.5px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zmContainer span img {
+  width: 34.25px;
+  height: 34.25px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.zmContainer span img:hover{
+  transform: scale(1.05);
+}
+.arrrowContainer {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+.arrrowContainer img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.arrrowContainer img:hover {
+  transform: scale(1.05);
+}

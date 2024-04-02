@@ -1,0 +1,38 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+  height: 100%;
+}
+
+.title {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 6px 0;
+}

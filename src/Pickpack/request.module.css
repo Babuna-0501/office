@@ -1,0 +1,90 @@
+.container {
+  padding: 24px;
+  background-color: #f6f7f8;
+  box-sizing: border-box;
+  height: 100%;
+}
+.wrapper {
+  width: 1000px;
+}
+.wrapper input {
+  width: 100%;
+}
+.wrapper button {
+  width: 100%;
+  cursor: pointer;
+  padding: 4px 15px;
+  background-color: #fff;
+  border: 1px solid #ffa400;
+  font-size: 14px;
+  color: #37474f;
+  font-weight: 700;
+}
+.secondwrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+}
+.btncontainer {
+  width: 1000px;
+}
+.btncontainer button {
+  color: #fff;
+  background-color: #ffa400;
+  padding: 4px 16px;
+  font-size: 16px;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.thirdwrapper {
+  padding: 10px 0px;
+}
+.fourthwrapper {
+  padding: 10px 0px;
+}
+.btnAddContainer {
+  margin-top: 10px;
+}
+.inputname:focus {
+  border: 1px solid #ffa400;
+  box-shadow: none;
+  outline: none;
+  background-color: #fff;
+}
+.input:focus {
+  border: 1px solid #ffa400;
+  box-shadow: none;
+  outline: none;
+  background-color: #fff;
+}
+.long {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+}
+.short {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  width: 100px;
+}
+.medium {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  width: 200px;
+}
+.inputwrapper:focus {
+  border: 1px solid #ffa600;
+  outline: none;
+}

@@ -1,0 +1,453 @@
+.container {
+  position: fixed;
+  left: 72px;
+  top: 53px;
+  right: 0;
+  bottom: 0;
+  padding: 17px 14px;
+  background-color: #fafafa;
+  border-top: 0.8px solid #cfd8dc;
+  border-left: 0.8px solid #cfd8dc;
+  z-index: 80;
+}
+
+.wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.header {
+  height: 33px;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabHeaders {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.singleTabHeader {
+  width: 242px;
+  padding: 4px 0 6px;
+  color: #808080;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  border-bottom: 3px solid transparent !important;
+}
+
+.singleTabHeader.active {
+  color: #1a1a1a;
+  border-bottom: 3px solid #2ab674 !important;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dateFilterWrapper {
+  width: 202px;
+  height: 33px;
+  position: relative;
+}
+
+.dateFilterBtn {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 5px 7px 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.dateFilterBtn > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dateFilterBtn > div > img {
+  width: 22px;
+  height: 22px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.dateFilterBtn > div > span {
+  color: #1a1a1a;
+  font-size: 12px !important;
+  line-height: 12px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.dateFilterBtn > img {
+  width: 22px;
+  height: 22px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.dateFilterBtn:focus {
+  outline: 2px solid #2ab674;
+  border: 1px solid transparent;
+}
+
+.dateFilterDropdownWrapper {
+  position: absolute;
+  width: 300px;
+  height: max-content;
+  top: 117%;
+  left: 0;
+  /* right: 0; */
+  z-index: 499;
+}
+
+.dateFilterDropdownWrapper > .triangle {
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  margin-left: 40px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 500;
+  position: relative;
+}
+
+.dateFilterDropdownWrapper > .dateFilterDropdown {
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 0;
+  border-radius: 2px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 510;
+  position: relative;
+  margin-top: -8.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radioButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.radioBtnWrapper {
+  width: 100%;
+  position: relative;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 6px 10px 8px 14px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radioBtnWrapper > input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid #e6e6e6 !important;
+  border-radius: 50%;
+}
+
+.radioBtnWrapper > input:checked {
+  box-shadow: 0 0 0 1.5px #8dc543;
+  background-color: #8dc543;
+  border: 2px solid #fff !important;
+}
+
+.radioBtnWrapper:has(input:checked) {
+  background-color: #fafafa;
+}
+
+.radioBtnWrapper > label {
+  color: #4d4d4d;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.subDateFilters {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.subDateFilters > img {
+  width: 24px;
+  height: 24px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.subDateFilters > input {
+  width: calc((100% - 24px) / 2);
+  height: 33px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  color: #999999;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+  padding: 5px 10px 5px 12px;
+}
+
+.subDateFilters > input:focus {
+  border: 1px solid transparent;
+  outline: 2px solid #8dc543;
+}
+
+.dateFilterBtns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 10px;
+}
+
+.statusFilterWrapper {
+  width: 168px;
+  height: 33px;
+  position: relative;
+}
+
+.statusFilterBtn {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 5px 7px 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.statusFilterBtn > span {
+  color: #1a1a1a;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.statusFilterBtn > img {
+  width: 22px;
+  height: 22px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.statusFilterBtn:focus {
+  outline: 2px solid #2ab674;
+  border: 1px solid transparent;
+}
+
+.statusFilterDropdownWrapper {
+  position: absolute;
+  width: 100%;
+  height: max-content;
+  top: 117%;
+  left: 0;
+  right: 0;
+  z-index: 499;
+}
+
+.statusFilterDropdownWrapper > .triangle {
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  transform: rotate(45deg);
+  margin-left: 40px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 500;
+  position: relative;
+}
+
+.statusFilterDropdownWrapper > .statusFilterDropdown {
+  width: 100%;
+  background-color: #fff;
+  padding: 4px 0;
+  border-radius: 2px;
+  box-shadow: 0px -1px 6px 0px #0000004d, 0px 3px 8px 0px #0000004d;
+  z-index: 510;
+  position: relative;
+  margin-top: -8.5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.singleStatusBtn {
+  padding: 7px 10px 7px 14px;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.singleStatusBtn > div {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.singleStatusBtn > span {
+  color: #1a1a1a;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.singleStatusBtn:hover,
+.singleStatusBtn.active {
+  background-color: #fafafa;
+}
+
+.inventoryFiltersWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inventorySearch {
+  width: 328px;
+  height: 42px;
+  overflow: hidden;
+  box-shadow: 0px 6px 12px 0px #00000005;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inventorySearch > label {
+  width: 24px;
+  height: 24px;
+}
+
+.inventorySearch > label > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.inventorySearch > input {
+  height: 100%;
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+  margin-top: 1px;
+}
+
+.inventorySearch > input::placeholder {
+  color: #b3b3b3;
+}
+
+.inventorySearch:focus-within {
+  outline: 2px solid #8dc543;
+  border: 1px solid transparent;
+}
+
+.inventoryTypeFilter {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 168px;
+  height: 42px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 9px 20px;
+  color: #1a1a1a;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+  background-repeat: no-repeat !important;
+  background-position-x: calc(100% - 20px) !important;
+  background-position-y: 10px !important;
+}
+
+.inventoryTypeFilter > option {
+  color: #1a1a1a;
+  font-size: 13px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.reportBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contentWrapper {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  min-width: 100%;
+}
+
+.loaderWrapper {
+  position: fixed;
+  left: 72px;
+  top: 53px;
+  right: 0;
+  bottom: 0;
+  background-color: #fafafa;
+  border-top: 0.8px solid #cfd8dc;
+  border-left: 0.8px solid #cfd8dc;
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

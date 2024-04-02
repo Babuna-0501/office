@@ -1,0 +1,44 @@
+.headerContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 54px;
+  min-width: 100%;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  background-color: #fafafa;
+  padding: 7px 0;
+}
+
+.headerWrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+.singleFieldWrapper {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+}
+
+.singleFieldWrapper > span {
+  color: #1a1a1a;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.text {
+  color: #1a1a1a;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+  display: block;
+}

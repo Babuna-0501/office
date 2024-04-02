@@ -1,0 +1,168 @@
+.wrapper {
+  display: flex;
+}
+.firstcontainer {
+  width: calc(100vw - 571px);
+}
+.secondcontainer {
+  width: 571px;
+  height: 100%;
+  background-color: #f6f7f8;
+  position: relative;
+}
+.headerwrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-left: 22px;
+  padding-right: 21px;
+
+  width: 100%;
+}
+.closecontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 22px 0px;
+}
+.headercontainer {
+  display: flex;
+  align-items: center;
+}
+.headercontainer span {
+  font-weight: 700;
+  font-size: 20px;
+  color: #37474f;
+}
+
+.closecontainer img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.activebutton {
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #37474f;
+  cursor: pointer;
+  border-bottom: 2px solid #ffa400;
+  width: 30%;
+  padding-bottom: 10px;
+}
+.unactive {
+  font-weight: 700;
+  font-size: 16px;
+  width: 30%;
+  cursor: pointer;
+  color: #90a4ae;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.secondwrapper {
+  padding: 22px 22px 0px;
+}
+
+.buttoncontainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.15);
+}
+.confirmcancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 152;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.modalTwo {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+
+  width: 321px;
+
+  background: #ffffff;
+  border: 1px solid #eceff1;
+  box-shadow: 0px 8px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+}
+.closewrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+.closewrapper img {
+  width: 40px;
+  height: 40px;
+}
+.contentwrapper {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+.contentwrapper span {
+  font-weight: 400;
+  font-size: 16px;
+  color: #546e7a;
+}
+.btnwrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  gap: 10px;
+}
+.cancelbtn {
+  background-color: #eceff1;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #78909c;
+  width: 100%;
+  border-radius: 12px;
+  height: 44px;
+  padding: 12px;
+  cursor: pointer;
+}
+.approvebtn {
+  padding: 12px;
+
+  height: 44px;
+
+  background: #ffa400;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+}

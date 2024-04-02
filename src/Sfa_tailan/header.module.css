@@ -1,0 +1,37 @@
+.container span {
+  font-size: 12px;
+}
+
+.container input {
+  height: 30px;
+  border: 1px solid #cfd8dc;
+  font-size: 12px;
+}
+
+.container select {
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+   font-size: 12px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: 100%;
+  padding: 5px 10px;
+gap: 50px;
+  height: 50px;
+  align-items: center;
+}
+
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

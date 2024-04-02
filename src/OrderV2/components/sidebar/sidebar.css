@@ -1,0 +1,42 @@
+
+.sidebar {
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 10px;
+    
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    height: 30px;
+  }
+  
+  .scroll-container {
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 12px;
+  }
+
+  .scroll-container .item{
+    font-size: 12px;
+  }
+  
+  .item {
+    padding: 8px;
+    justify-content: space-around;
+  }
+  
+  .item:last-child {
+    border-bottom: none; 
+  }
+  
+  .item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }

@@ -1,0 +1,128 @@
+.container {
+  width: calc((100% - 60px) / 4);
+  height: 116px;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  padding: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  animation: popUp .3s;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profilePicture {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profilePicture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.names > span {
+  display: block;
+  margin: 0;
+}
+
+.lastName {
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.firstName {
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.settingsBtn {
+  cursor: pointer;
+  background-color: #f4fbf8;
+  border: 1px solid #2ab674;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #2ab674;
+  outline: none;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  transition: all 0.1s ease-in-out;
+}
+
+.settingsBtn:hover {
+  border: 1px solid transparent;
+  background-color: #2ab674;
+  color: #f4fbf8;
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bottomCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bottomTitle {
+  color: #808080;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.bottomText {
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+@keyframes popUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

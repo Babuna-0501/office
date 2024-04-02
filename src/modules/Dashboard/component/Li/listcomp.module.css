@@ -1,0 +1,56 @@
+li {
+  margin-bottom: 14px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.liwrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 450px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.name {
+  font-weight: 400;
+  font-size: 14px;
+  color: #37474f;
+  cursor: pointer;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.grap {
+  display: flex;
+  align-items: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+.grapik {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+}
+.grapik span {
+  width: 100%;
+  -webkit-animation: HI 1.2s 0.4s forwards;
+  -moz-animation: HI 1.2s 0.4s forwards;
+  animation: HI 1.2s 0.4s forwards;
+}
+
+.spanwrapper {
+  position: absolute;
+  right: -20px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #37474f;
+}
+@keyframes HI {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 69.6%;
+  }
+}

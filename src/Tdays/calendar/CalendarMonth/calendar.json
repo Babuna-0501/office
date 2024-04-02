@@ -1,0 +1,387 @@
+[
+  {
+    "year": 2022,
+    "months": [
+      {
+        "name": "November",
+        "days": [
+          {
+            "day": -11,
+            "weekdayStart": 0,
+            "value": "t"
+          },
+          {
+            "day": -11,
+            "weekdayStart": 1,
+            "value": "hi"
+          },
+          {
+            "day": 1,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 3,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 4,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 5,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 6,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 7,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 8,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 9,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 10,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 11,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 12,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 13,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 14,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 15,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 16,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 17,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 18,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 19,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 20,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 21,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 22,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 23,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 24,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 25,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 26,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 27,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 28,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 29,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 30,
+            "weekdayStart": 3,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "December",
+        "days": [
+          {
+            "day": -11,
+            "weekdayStart": 0,
+            "value": "t"
+          },
+          {
+            "day": -11,
+            "weekdayStart": 1,
+            "value": "hi"
+          },
+          {
+            "day": -11,
+            "weekdayStart": 2,
+            "value": "t"
+          },
+          {
+            "day": -11,
+            "weekdayStart": 3,
+            "value": "hi"
+          },
+          {
+            "day": 1,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 3,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 4,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 5,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 6,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 7,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 8,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 9,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 10,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 11,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 12,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 13,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 14,
+            "weekdayStart": 3,
+            "value": false
+          },
+          {
+            "day": 15,
+            "weekdayStart": 4,
+            "value": false
+          },
+          {
+            "day": 16,
+            "weekdayStart": 5,
+            "value": false
+          },
+          {
+            "day": 17,
+            "weekdayStart": 6,
+            "value": false
+          },
+          {
+            "day": 18,
+            "weekdayStart": 0,
+            "value": false
+          },
+          {
+            "day": 19,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 20,
+            "weekdayStart": 2,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "March",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 2,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "Aprel",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2023,
+    "months": [
+      {
+        "name": "january",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 2,
+            "value": false
+          },
+          {
+            "day": 3,
+            "weekdayStart": 3,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "Febrays",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 2,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "March",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          },
+          {
+            "day": 2,
+            "weekdayStart": 2,
+            "value": false
+          }
+        ]
+      },
+      {
+        "name": "Aprel",
+        "days": [
+          {
+            "day": 1,
+            "weekdayStart": 1,
+            "value": false
+          }
+        ]
+      }
+    ]
+  }
+]

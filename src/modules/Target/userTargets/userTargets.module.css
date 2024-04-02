@@ -1,0 +1,157 @@
+.container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  padding-left: 10px;
+}
+.header{
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  height: 80px;
+}
+.userInfo{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: max-content;
+}
+.userProfile{
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.userNameRole{
+  display: flex;
+  flex-direction: column;
+}
+.userNameRole span{
+  font-size: 14px;
+}
+.dateFilter{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dateFilter input {
+  padding: 0px 5px;
+  border: 1px solid #ccc;
+}
+.dateFilter button{
+  padding: 5px 10px !important;
+  font-size: 14px !important;
+}
+.amountTarget{
+  display: flex;
+  gap: 40px;
+  height: 200px;
+}
+
+.targetGraph {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondGraph {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondGraph::before {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: #f9fcf5;
+}
+/* neg target iin graphict zoriulav */
+.secondGraph2 {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondGraph2::before {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f9fcf5;
+}
+.graphValues {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graphValues > span {
+  display: block;
+}
+
+.completed {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.pending {
+  color: #d6df2a;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+.targetsList{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.oneTargetHeader{
+  display: flex;
+}
+.oneTargetHeader span{
+  font-size: 14px;
+  font-weight: 700;
+  width: 150px ;
+  background-color: #ccc;
+  padding: 5px 0px;
+  text-align: center;
+}
+.oneTarget{
+  display: flex;
+  align-items: center;
+  padding: 10px 0px;
+  border-bottom: 1px solid #A9A9A9;
+  width: 1050px;
+}
+.oneTarget span{
+  font-size: 13px;
+  width: 150px ;
+  padding: 5px 0px;
+  text-align: center;
+}

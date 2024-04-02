@@ -1,0 +1,74 @@
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header > h1 {
+  color: #1a1a1a;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.header > button {
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  font-weight: 500;
+  color: #eb5e43;
+  margin: 0;
+}
+
+.content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dateContainer > label {
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  color: #4d4d4d;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.loadingSpinner {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

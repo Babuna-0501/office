@@ -1,0 +1,13 @@
+.product {
+	display: flex;
+	background-color: #fff;
+    border: 1px solid #eceff1;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.06);
+	padding: 0 10px;
+	overflow: hidden;
+}
+.productContainer{
+	margin: 18px;
+
+}

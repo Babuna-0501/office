@@ -1,0 +1,251 @@
+.container {
+  margin-bottom: 46px;
+}
+
+.header {
+  width: 100%;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header > .title {
+  color: #1a1a1a;
+  margin: 0 !important;
+  font-size: 20px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.amounts {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.singleAmount {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-end;
+}
+
+.singleAmount > .amountTitle {
+  display: block;
+  color: #4d4d4d;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.singleAmountInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.singleAmountInfo > .amount {
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.circle.pending {
+  background-color: #d6df2a;
+}
+
+.circle.completed {
+  background-color: #2ab674;
+}
+
+.table {
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  width: 100%;
+  height: 405px;
+  box-shadow: 0px 2px 12px 0px #0000001a;
+  background-color: #fff;
+  overflow-x: auto;
+  position: relative;
+}
+
+.tableHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 54px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 7px 6px;
+  display: flex;
+  align-items: center;
+}
+
+.singleHeaderItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.headerText {
+  color: #1a1a1a;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.tableContent {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  min-width: 100%;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.tableRow {
+  height: 54px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 7px 6px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.singleTableItem {
+  height: 100%;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.productImage {
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.productImage > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.tableText {
+  height: 100%;
+  width: 100%;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.targetText {
+  height: 100%;
+  width: 100%;
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.targetProgress {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.progressText {
+  color: #1a1a1a;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.progressBar {
+  width: 100%;
+  height: 10px;
+  border-radius: 2px;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  position: relative;
+}
+
+.completedProgress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #2ab674;
+}
+
+.pendingProgress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #d6df2a;
+}
+
+.noProducts {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.noProducts > svg {
+  width: 150px;
+  height: 150px;
+  aspect-ratio: 1/1;
+}
+
+.noProducts > span {
+  color: #999999;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}

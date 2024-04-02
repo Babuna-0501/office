@@ -1,0 +1,143 @@
+.background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper {
+  width: 40%;
+  height: 70%;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.btncontainer {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cancelbtn {
+  background-color: #eceff1;
+  width: 159px;
+  height: 44px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #78909c;
+}
+.approvebtn {
+  width: 251px;
+  height: 44px;
+
+  background: #ffa600;
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+}
+.inputwrapper {
+  margin-bottom: 16px;
+  width: 100%;
+}
+.labelname label {
+  font-weight: 700;
+  font-size: 16px;
+  color: #37474f;
+}
+.inputwrapper input {
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 8px;
+  padding: 5px 16px;
+  font-size: 16px;
+  color: #90a4ae;
+  font-weight: 400;
+  width: 250px;
+}
+.inputwrapper input:focus {
+  border: 1px solid #ffa600;
+  outline: none;
+}
+.selectwrapper {
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 8px;
+  padding: 5px 16px;
+  font-size: 16px;
+  color: #90a4ae;
+  font-weight: 400;
+  width: 250px;
+}
+
+.selectwrapper:focus {
+  outline: none;
+  border: 1px solid #ffa600;
+}
+.header {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #37474f;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header1 {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 16px;
+  color: #37474f;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.modal {
+  width: 321px;
+
+  background: #ffffff;
+  /* Blue grey/blue grey 10% */
+
+  border: 1px solid #eceff1;
+  box-shadow: 0px 8px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+.modalbtb {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.modalcancel {
+  background-color: #eceff1;
+  width: 100%;
+  height: 44px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #78909c;
+}
+.modalapprove {
+  width: 100%;
+  height: 44px;
+  background: #ffa600;
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+}
+.imagecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.headerwrapper {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

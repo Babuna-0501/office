@@ -1,0 +1,11 @@
+.ag-popup-editor .my-editor {
+  width: 50px;
+  height: 100px;
+  border: 10px solid grey;
+}
+.ag-root-wrapper {
+  border: none;
+}
+.ag-theme-alpine .ag-theme-alpine-dark {
+  background: red;
+}

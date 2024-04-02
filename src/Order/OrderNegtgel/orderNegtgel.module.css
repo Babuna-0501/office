@@ -1,0 +1,64 @@
+.printRecieptContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.receiptContainer {
+  min-width: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3), 0px -1px 6px rgba(0, 0, 0, 0.3);
+  padding: 30px 20px;
+  position: relative;
+}
+
+.receiptWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.productTables {
+  width: max-content !important;
+  /* margin-bottom: 30px !important; */
+  flex: 1 !important;
+}
+
+.productTables thead th {
+  font-weight: 700 !important;
+  background-color: antiquewhite !important;
+  font-size: 14px !important;
+  border-left: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important;
+  white-space: nowrap;
+}
+
+.productTables tbody td {
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.printBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.scrollcontainer {
+  /* height: calc(100vh - 180px); */
+  margin: 180px 0;
+  overflow: scroll;
+}

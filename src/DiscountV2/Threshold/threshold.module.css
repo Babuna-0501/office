@@ -1,0 +1,124 @@
+.container {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.btncontainer {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  width: 150px;
+  background-color: #ffa400;
+  border-radius: 8px;
+  border: 1px solid #ffa400;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.button img {
+  width: 30px;
+  height: 30px;
+}
+.button span {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inputcontainer {
+  display: flex;
+  align-items: center;
+}
+.inputcontainer .first {
+  padding: 6px 12px;
+  gap: 10px;
+  width: 150px;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #37474f;
+  font-weight: 400;
+}
+
+.inputcontainer .first:focus {
+  border: 1px solid #ffa400;
+  box-shadow: none;
+  outline: none;
+}
+.inputcontainer .second {
+  padding: 6px 12px;
+  gap: 10px;
+  width: 100px;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid #cfd8dc;
+  box-shadow: 0px 20px 45px rgba(144, 164, 174, 0.05);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #37474f;
+  font-weight: 400;
+}
+.inputcontainer .second:focus {
+  border: 1px solid #ffa400;
+  box-shadow: none;
+  outline: none;
+}
+.btnwrapper {
+  width: 50px;
+}
+.btnwrapper button {
+  background-color: #cfd8dc;
+  padding: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-left: 10px;
+}
+.optioncontainer select {
+  /* height: 52px; */
+  width: 410px;
+  font-size: 16px;
+  color: #37474f;
+  font-weight: 400;
+  cursor: pointer;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding: 6px 0px;
+}
+.optioncontainer option {
+  border-radius: none;
+  font-size: 16px;
+  color: #37474f;
+  font-weight: 400;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+.optioncontainer select:focus {
+  outline: none;
+  border: 1px solid #ffa400;
+}

@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  margin-left: 0px;
+  margin-top: 0px;
+  height: 100%;
+
+  overflow: auto;
+}
+.wrapper {
+  width: 2030px;
+  position: sticky;
+  top: 0;
+}
+
+.inputcontainer input[type="checkbox"] {
+  border: 1px solid red;
+}
+.inputcontainer {
+  width: 18.5px;
+  height: 18.5px;
+}
+.inputWrapper {
+  width: 300px;
+  width: 100%;
+  height: 28px;
+  border: 1px solid #cfd8dc;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+/* width: 100%;
+overflow-x: auto;
+overflow-y: hidden;
+height: calc(100vh - 53px);
+display: flex;
+flex-direction: column;
+justify-content: space-between; */
+.listwrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

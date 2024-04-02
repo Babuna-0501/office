@@ -1,0 +1,11 @@
+.container {
+  width: 1200px;
+  height: calc(100% - 56px);
+  background-color: #f6f7f8;
+  position: fixed;
+  padding: 16px;
+  overflow-y: scroll;
+  top: 56px;
+  left: 74px;
+  z-index: 100;
+}

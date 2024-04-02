@@ -1,0 +1,103 @@
+.mainContainer{
+  width: max-content;
+  background-color: #fff;
+  /* border-bottom: 0.8px solid #c8c8cc; */
+}
+.listContainer{
+  width: 100%;
+  height: 44px;
+  border-bottom: 0.8px solid #cfd8dc;
+  border-left: 0.8px solid #cfd8dc;
+  border-right: 0.8px solid #cfd8dc;
+  display: flex;
+  flex-direction: row;
+  align-items: center;  
+}
+
+.img{
+  width: 36px;
+  height: 36px;
+  border: 1px solid #c8c8cc;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.title {
+  display: block;
+  font-size: 12px;
+}
+.idContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;
+}
+.suppContainer{
+  padding: 4px 8px;
+  width: 180px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.orderContainer{
+  padding: 4px 8px;
+  width: 140px;
+  min-width: 140px;
+}
+.deliveryContainer{
+  padding: 4px 8px;
+  width: 80px;
+  min-width: 80px;
+}
+.amountContainer{  
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;
+}
+.priceContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;
+}
+.dateContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;
+}
+.phoneContainer{
+  padding: 4px 8px;
+  width: 80px;  
+  min-width: 80px;  
+}
+.clientContainer{
+  padding: 4px 8px;
+  width: 150px;
+  min-width: 150px;
+}
+.channelContainer{
+  padding: 4px 8px;
+  width: 120px;
+  min-width: 120px;
+}
+.cityContainer{
+  padding: 4px 8px;
+  width: 140px;
+  min-width: 140px;
+}
+.districtContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;  
+}
+.khorooContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;  
+}
+.addressContainer{
+  padding: 4px 8px;
+  width: 100px;
+  min-width: 100px;  
+}
+

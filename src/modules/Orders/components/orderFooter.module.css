@@ -1,0 +1,214 @@
+.footerContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background-color: #fff;
+  box-shadow: 0px -3px 6px 0px #00000026;
+  padding: 7px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerStatsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
+
+.normalCard {
+  height: 100%;
+  width: 120px;
+  overflow: hidden;
+  padding: 4px 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 0 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.normalCard > * {
+  margin: 0;
+  padding: 0;
+}
+
+.normalCard > span {
+  color: #1a1a1a;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.normalCard > p {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.countCard {
+  height: 100%;
+  width: 170px;
+  overflow: hidden;
+  padding: 4px 10px;
+  border-radius: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countCard > .countWrapper {
+  padding: 4px 5px;
+  border-radius: 3px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countCard > .countWrapper > span {
+  color: inherit;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.countCard > .separator {
+  width: 1px;
+  height: 100%;
+}
+
+.countCard > .stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.countCard > .stat > span {
+  color: inherit;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.countCard > .stat > p {
+  color: inherit;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.countCard.total {
+  border: 1px solid #8dc543;
+}
+
+.countCard.total > .countWrapper {
+  background-color: #8dc543;
+  color: #fff;
+}
+
+.countCard.total > .separator {
+  background-color: #8dc543;
+}
+
+.countCard.total > .stat {
+  color: #1a1a1a;
+}
+
+.countCard.pending {
+  background-color: #f2f2f2;
+}
+
+.countCard.pending > .countWrapper {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.countCard.pending > .separator {
+  background-color: #fff;
+}
+
+.countCard.pending > .stat {
+  color: #1a1a1a;
+}
+
+.countCard.confirmed {
+  background-color: #00add0;
+}
+
+.countCard.confirmed > .countWrapper {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.countCard.confirmed > .separator {
+  background-color: #fff;
+}
+
+.countCard.confirmed > .stat {
+  color: #fff;
+}
+
+.countCard.delivered {
+  background-color: #76cc33;
+}
+
+.countCard.delivered > .countWrapper {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.countCard.delivered > .separator {
+  background-color: #fff;
+}
+
+.countCard.delivered > .stat {
+  color: #fff;
+}
+
+.countCard.cancelled {
+  background-color: #eb5e43;
+}
+
+.countCard.cancelled > .countWrapper {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.countCard.cancelled > .separator {
+  background-color: #fff;
+}
+
+.countCard.cancelled > .stat {
+  color: #fff;
+}
+
+.page {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.page > span {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}

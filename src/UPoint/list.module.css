@@ -1,0 +1,9 @@
+.buttonsContainer {
+  width: 100%;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.container span {
+  width: 250px;
+  font-size: 16px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.container input {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1a1a1a;
+  border: 1px solid #4d4d4d;
+  padding: 4px;
+}
+.container input:focus {
+  border: 1px solid #2ab674;
+  outline: none;
+}

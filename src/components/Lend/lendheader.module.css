@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+.wrapper span {
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #37474f;
+  cursor: pointer;
+}
+.settingwrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+.settingwrapper img {
+  width: 18px;
+  height: 18px;
+
+  margin-right: 6px;
+  margin-left: 6px;
+}
+.lendsetting {
+  font-weight: 500;
+  font-size: 14px !important;
+  color: #37474f;
+}

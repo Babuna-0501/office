@@ -1,0 +1,32 @@
+.buttonsContainer {
+  display: flex;
+  width: 840px;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+}
+.buttonsContainer .confirm {
+  background-color: #ffa600;
+  padding: 10px 73px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+.buttonsContainer .cancel {
+  background-color: #cfd8dc;
+  padding: 10px 73px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}

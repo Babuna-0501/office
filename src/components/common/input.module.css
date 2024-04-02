@@ -1,0 +1,104 @@
+.input {
+  border: 0.8px solid #cccccc !important;
+  cursor: auto;
+  outline: none !important;
+  letter-spacing: -0.005em;
+  color: #1a1a1a !important;
+  display: flex;
+  align-items: center;
+  background-color: #fff !important;
+}
+
+.input > input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  overflow: hidden;
+}
+
+.input > input[type="date"]::-webkit-inner-spin-button,
+.input > input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.input.error {
+  outline: 1px solid #eb5e43 !important;
+}
+
+.input.large {
+  padding: 16px 20px !important;
+  height: 54px !important;
+  border-radius: 4px !important;
+  font-size: 18px;
+  line-height: 22px;
+  gap: 10px;
+}
+
+.input > label {
+  margin: 0 !important;
+}
+
+.input.large svg,
+.input.medium svg {
+  width: 24px;
+  height: 24px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  display: block;
+}
+
+.input.medium {
+  padding: 12px 14px !important;
+  height: 42px !important;
+  border-radius: 3px !important;
+  font-size: 14px;
+  line-height: 18px;
+  gap: 5px;
+}
+
+.input.small {
+  padding: 5px 10px !important;
+  height: 25px;
+  border-radius: 2px !important;
+  font-size: 12px;
+  line-height: 15px;
+  gap: 6px;
+}
+
+.input.small svg {
+  width: 18px;
+  height: 18px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  display: block;
+}
+
+.input > input::placeholder {
+  color: #999999;
+}
+
+.input:focus-within {
+  outline: 1px solid #2ab674 !important;
+}
+
+.input:has(input:disabled) {
+  background-color: #fafafa !important;
+}
+
+.input > input[type="date"] {
+  color: #999999;
+}
+
+.errorMsg {
+  color: #eb5e43;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: start;
+  margin: 0;
+  margin-left: 10px;
+  margin-top: 4px;
+}

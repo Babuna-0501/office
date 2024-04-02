@@ -1,0 +1,86 @@
+.drawerContainer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.backDrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: inherit;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.drawerWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 570px;
+  background-color: #fafafa;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px 4px #00000026;
+  transition: all 0.2s ease;
+}
+
+.drawerWrapper.show {
+  animation: slideIn 0.3s;
+}
+
+.drawerWrapper.hide {
+  animation: slideOut 0.3s;
+}
+
+.drawerWrapper.show + .backDrop {
+  animation: fadeIn 0.3s;
+}
+
+.drawerWrapper.hide + .backDrop {
+  animation: fadeOut 0.3s;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

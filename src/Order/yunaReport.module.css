@@ -1,0 +1,127 @@
+button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #37474f !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+.closeBtn {
+  color: red;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.closeBtn:hover {
+  color: rgba(255, 0, 0, 0.8);
+}
+
+.btnWrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: white;
+  z-index: 10;
+}
+
+.refreshBtn {
+  background-color: transparent;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffa400;
+  border: 1px solid #ffa400;
+  transition: all 0.1s ease-in;
+}
+
+.refreshBtn:hover {
+  background-color: #ffa400;
+  color: white;
+  border: 1px solid transparent;
+}
+
+.submitBtn {
+  background-color: #ffa400;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  border: 1px solid transparent;
+  transition: all 0.1s ease-in;
+}
+
+.submitBtn:hover {
+  background-color: transparent;
+  border: 1px solid #ffa400;
+  color: #ffa400;
+}
+.submitBtn:disabled {
+  pointer-events: none;
+  background-color: #ffe5b3;
+}
+
+.contentWrapper {
+  width: 100%;
+}
+
+.datePickerContainer {
+  margin-bottom: 15px;
+}
+
+.datePickerContainer:last-child {
+  margin-bottom: 0;
+}
+
+.datePickerContainer > label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.spinnerWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textWrapper > h1 {
+  margin: 20px 0 0 0 !important;
+  display: block !important;
+  font-size: 18px !important;
+  color: #37474f !important;
+}

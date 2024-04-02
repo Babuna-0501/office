@@ -1,0 +1,93 @@
+.container {
+  width: calc(100% - 205px);
+  height: 100%;
+  animation: fadeIn 0.3s;
+  overflow-y: auto;
+  padding: 17px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filters {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.filterWrapper > label {
+  color: #1A1A1A;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+
+.filterWrapper.name {
+  width: 250px;
+}
+
+.filterWrapper.phone {
+  width: 180px;
+}
+
+.content {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 20px;
+}
+
+.spinner {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound > svg {
+  width: 250px;
+  height: 250px;
+  aspect-ratio: 1/1;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(5%) saturate(875%) hue-rotate(126deg) brightness(117%) contrast(90%);
+}
+
+.notFound > span {
+  color: #999999;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

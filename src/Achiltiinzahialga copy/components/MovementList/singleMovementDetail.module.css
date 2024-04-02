@@ -1,0 +1,484 @@
+.detailsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 108px;
+  padding: 23px 23px 0 23px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detailsContainer button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* ------------------------- */
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.headerWrapper .title {
+  color: #1a1a1a;
+  font-size: 28px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.headerWrapper .closeBtn {
+  width: 40px;
+  height: 40px;
+}
+
+.headerWrapper .closeBtn > img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+/* ------------------------- */
+
+.infoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.shipmentDate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.shipmentDate,
+.shipmentDate > span {
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.shipmentDate > span {
+  font-weight: 700;
+}
+
+.infoWrapper > button {
+  color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+  padding: 8px 12px;
+  background-color: #999;
+  border-radius: 0 4px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.infoWrapper > button:hover {
+  background-color: #fff;
+  color: #999;
+  border: 1px solid #999;
+}
+
+/* ------------------------- */
+
+.inventoryWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.arrowWrapper {
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  margin: 0 20px;
+}
+
+.arrowWrapper > img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  display: block;
+}
+
+.inventoryWrapper > select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 9px 20px;
+  color: #1a1a1a;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 400 !important;
+}
+
+.inventoryWrapper > select:focus {
+  outline: 2px solid #2ab674;
+  border: 1px solid transparent;
+}
+
+.inventoryWrapper > select > option {
+  font-size: 14px !important;
+  line-height: 15px !important;
+  letter-spacing: -0.005em !important;
+  color: #1a1a1a !important;
+}
+
+/* ------------------------- */
+
+.productsWrapper {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.productCardContainer {
+  width: 100%;
+  padding: 2px 18px 1px 18px;
+}
+
+.productTitle{
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.productCard {
+  border-bottom: 1px solid #e6e6e6;
+  padding: 4px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: transparent;
+}
+
+.productImageWrapper {
+  min-width: 46px;
+  min-height: 46px;
+  max-width: 46px;
+  max-height: 46px;
+  border: 0.8px solid #cccccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.productImageWrapper > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.productName {
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.productInfo {
+  color: #4d4d4d;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.productPrice {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.productPrice,
+.productPrice > span {
+  color: #4d4d4d;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.productPrice > span {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+/* ------------------------- */
+
+.footerWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0px -3px 6px 0px #00000026;
+  height: 108px;
+}
+
+.footerInfo {
+  box-shadow: 0px 1px 0px 0px #00000014;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shipmentDetail {
+  color: #4d4d4d;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+.shipmentAmount {
+  color: #1a1a1a;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+.footerBtns {
+  padding: 11px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.loadingSpinner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ------------------------- */
+
+.printRecieptContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+}
+
+.tabContainer{
+  margin-top: 20px;
+  min-width: 640px;
+  min-height: 80px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3), 0px -1px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.receiptContainer {
+  min-width: 600px;
+  /* min-height: 800px; */
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3), 0px -1px 6px rgba(0, 0, 0, 0.3);
+  padding: 30px 20px;
+  position: relative;
+}
+
+.receiptWrapper {
+  width: 100%;
+  
+}
+
+.receiptWrapper > .title {
+  text-align: center;
+  margin-top: 0 !important;
+  margin-bottom: 30px !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  display: block;
+}
+
+.shipmentDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.shipmentDetails > span {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+}
+
+.inventoryDetails {
+  margin-bottom: 50px;
+}
+
+.inventoryDetails > h3 {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.invenNames {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.invenNames > span {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.productTables {
+  width: max-content !important;
+  margin-bottom: 30px !important;
+  flex: 1 !important;
+}
+
+.productTables thead th {
+  font-weight: 700 !important;
+  background-color: antiquewhite !important;
+  font-size: 14px !important;
+  border-left: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important;
+  white-space: nowrap;
+}
+
+.productTables tbody td {
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+.productFooterWrapper {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productsDetail {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productsDetail > span {
+  font-size: 14px !important;
+  line-height: 24px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+}
+
+.productsDetail > div {
+  margin-top: 10px;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+}
+
+.infoFooter {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.infoFooter > .rightSide {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoFooter > .rightSide > span {
+  font-size: 14px !important;
+  line-height: 24px !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+}
+
+.infoFooter > .leftSide {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.printBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+ /* ----------------------- */
+ .quantityInput {
+  width: 50px;
+  border-radius: 3px;
+  background-color: #fafafa;
+  border: 0.8px solid #cccccc !important;
+  outline: none !important;
+  text-align: center;
+  height: 23px;
+  font-size: 14px;
+ }
+
+ .inputContainer {
+  display: flex;
+  flex-direction: row;
+ }
+
+ .inputSpan {
+  width: 100px;
+  font-size: 14px;
+ }
