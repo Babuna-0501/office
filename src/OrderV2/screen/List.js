@@ -1,41 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import Total from './Total';
-import myHeaders from '../../components/MyHeader/myHeader';
-import Order from './Order';
-import ListHeader from './ListHeader';
-import './style.css';
+import React, { useState, useEffect } from "react";
+import Total from "./Total";
+import myHeaders from "../../components/MyHeader/myHeader";
+import Order from "./Order";
+import ListHeader from "./ListHeader";
+import "./style.css";
 
 const List = () => {
   const [page, setPage] = useState(1);
-  const [interval, setIntervalDate] = useState(['', '']);
+  const [loading, setLoading] = useState(false);
+  const [interval, setIntervalDate] = useState(["", ""]);
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
+
   const sequence = [
-    'index',
-    'id',
-    'status',
-    'orderlist',
-    'orderdate',
-    'deliverydate',
-    'paidamount',
-    'note',
-    'customerphone',
-    'customer',
-    'merchants',
-    'customerchannel',
-    'city',
-    'district',
-    'khoroo',
-    'address',
-    'paymenttype',
-    'srcode',
-    'origin',
-    'vat',
-    'salesman',
-    'deliveryman',
-    'manager',
-    'butsaalt',
+    "index",
+    "id",
+    "status",
+    "orderlist",
+    "orderdate",
+    "deliverydate",
+    "paidamount",
+    "note",
+    "customerphone",
+    "customer",
+    "merchants",
+    "customerchannel",
+    "city",
+    "district",
+    "khoroo",
+    "address",
+    "paymenttype",
+    "srcode",
+    "origin",
+    "vat",
+    "salesman",
+    "deliveryman",
+    "manager",
+    "butsaalt",
   ];
+
+  const [filterState, setFilterState] = useState({
+    order_id: null,
+    status: null,
+    phone: null,
+    tradeshop_name: null,
+    order_date: null,
+    delivery_date: null,
+    business_type: null,
+    city: null,
+    district: null,
+    address: null,
+    srcode: null,
+    origin: null,
+    vat: null,
+    salesman: null,
+    deliveryman: null,
+    butsaalt: null,
+    manager: null,
+  });
   const sequenceSizes = {
     index: 52,
     id: 65,
@@ -64,36 +86,137 @@ const List = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [page, interval]); // Хуудас солигдох үед датаг fetch хийнэ.
+    // console.log("EFFECT", props.hariutsagchNer);
 
+    let start = Object.values(filterState)
+      .map((v) => v != null)
+      .includes(true);
+    console.log("start", start);
+    if (!start) {
+      fetchData();
+    } else {
+      getOrders();
+    }
+  }, [page, interval, filterState]); // Хуудас солигдох үед датаг fetch хийнэ.
+  const getOrders = () => {
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    let url;
+
+    let params = "";
+    if (filterState.supplier) {
+      params += `supplier_id=${parseInt(filterState.supplier)}&`;
+    }
+    if (filterState.order_date) {
+      params += `order_date=${filterState.order_date}&`;
+    }
+    if (filterState.delivery_date) {
+      params += `delivery_date=${filterState.delivery_date}&`;
+    }
+    if (filterState.order_id) {
+      params += `id=${parseInt(filterState.order_id)}&`;
+    }
+    if (filterState.phone) {
+      params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
+    }
+    if (filterState.deliveryman) {
+      if (filterState.deliveryman == "null") {
+        params += `deliveryManNull=true&`;
+      } else if (filterState.deliveryman === "notNull") {
+        params += `deliveryManNotNull=true&`;
+      } else {
+        params += `delivery_man=${filterState.deliveryman}&`;
+      }
+    }
+    if (filterState.status) {
+      params += `order_status=${parseInt(filterState.status)}&`;
+    }
+    if (filterState.tradeshop_name) {
+      params += `tradeshop_name=${filterState.tradeshop_name}&`;
+    }
+
+    if (filterState.business_type) {
+      params += `business_type=${parseInt(filterState.business_type)}&`;
+    }
+    if (filterState.city) {
+      params += `city=${parseInt(filterState.city)}&`;
+    }
+
+    if (filterState.district) {
+      params += `tradeshop_disctrict=${parseInt(filterState.district)}&`;
+    }
+    if (filterState.address) {
+      params += `address=${filterState.address}&`;
+    }
+
+    if (filterState.srcode) {
+      params += `back_user_id=${filterState.srcode}&`;
+    }
+    if (filterState.origin) {
+      params += `origin=${filterState.origin}&`;
+    }
+
+    url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
+
+    localStorage.setItem("url", url);
+    // console.log("url engiin order", url);
+    fetch(url, requestOptions)
+      .then((r) => r.json())
+      .then((result) => {
+        setLoading(false);
+        setData(result.data);
+        setFilteredData(result.data);
+      })
+      .catch((error) => console.log("error++++", error))
+      .finally(() => setLoading(false));
+  };
   const fetchData = () => {
     const requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: "follow",
     };
+    setLoading(true);
     const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&order_start=${interval[0]}&order_end=${interval[1]}&page=${page}`;
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData(result.data);
+
         setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
       })
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log("error", error))
+      .finally(() => setLoading(false));
   };
 
   //Филтэр хийсэн датаг энд update хийж байна
   const handleFilterChange = (field, value) => {
-    const filtered = data.filter((item) => item[field].toString().includes(value.toString()));
+    const filtered = data.filter((item) =>
+      item[field].toString().includes(value.toString())
+    );
     setFilteredData(filtered);
   };
 
   return (
     <div>
-      <ListHeader sequence={sequence} sequenceSizes={sequenceSizes} onFilterChange={handleFilterChange} />
-      {filteredData ? (
-        filteredData.map((order) => <Order data={order} sequence={sequence} sequenceSizes={sequenceSizes} />)
+      <ListHeader
+        sequence={sequence}
+        sequenceSizes={sequenceSizes}
+        onFilterChange={handleFilterChange}
+        filterState={filterState}
+        setFilterState={setFilterState}
+      />
+      {!loading && filteredData ? (
+        filteredData.map((order) => (
+          <Order
+            data={order}
+            sequence={sequence}
+            sequenceSizes={sequenceSizes}
+          />
+        ))
       ) : (
         <div className="spinner-container">
           <div className="spinner"></div>
