@@ -36,7 +36,7 @@ const Order = (props) => {
     <div className="order col_wrapper">
       <div className="order_index">
         <div>
-          <input type="checkbox" />
+          <input type="checkbox" checked={props.checked} />
         </div>
       </div>
 
@@ -48,7 +48,12 @@ const Order = (props) => {
 
       <div className="order_supplier">
         <div className="fullcontainer">
-          <span className='statusbar' style={{ backgroundColor: color, color: fontColor }}>{name}</span>
+          <span
+            className="statusbar"
+            style={{ backgroundColor: color, color: fontColor }}
+          >
+            {name}
+          </span>
         </div>
       </div>
 
@@ -79,7 +84,11 @@ const Order = (props) => {
       <div className="cancel_reason">
         <div className="fullcontainer">
           {/* <span>{data.order_cancel_reason}</span> */}
-          <span> Нийлүүлэгч цуцалсан <br/>/Үнийн мэдээлэл зөрүүт...</span>
+          <span>
+            {" "}
+            Нийлүүлэгч цуцалсан <br />
+            /Үнийн мэдээлэл зөрүүт...
+          </span>
         </div>
       </div>
       <div className="phone">

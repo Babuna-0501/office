@@ -1,26 +1,25 @@
-import { useState, useEffect } from 'react';
-import Dropdown from '../components/status/dropdown';
-import DatePick from '../components/datepick/datepick';
-import Channel from '../data/info';
-import CityData from '../data/city.json';
+import { useState, useEffect } from "react";
+import Dropdown from "../components/status/dropdown";
+import DatePick from "../components/datepick/datepick";
+import Channel from "../data/info";
+import CityData from "../data/city.json";
 
-import './style.css'; 
-
+import "./style.css";
 
 const options = [
-  { value: '1', label: 'Бүгд' },
-  { value: '2', label: 'Хүлээгдэж буй' },
-  { value: '3', label: 'Баталгаажсан' },
-  { value: '4', label: 'Хүргэгдсэн' },
-  { value: '5', label: 'Цуцлагдсан' },
+  { value: "1", label: "Бүгд" },
+  { value: "2", label: "Хүлээгдэж буй" },
+  { value: "3", label: "Баталгаажсан" },
+  { value: "4", label: "Хүргэгдсэн" },
+  { value: "5", label: "Цуцлагдсан" },
 ];
 
 const managers = [
-  { value: 'manager1', label: 'Жаак'},
-  { value: 'manager2', label: 'Бат'},
-  { value: 'manager3', label: 'Гапу'},
-  { value: 'manager4', label: 'Ганзо'},
-]
+  { value: "manager1", label: "Жаак" },
+  { value: "manager2", label: "Бат" },
+  { value: "manager3", label: "Гапу" },
+  { value: "manager4", label: "Ганзо" },
+];
 
 const paymentMethods = [
   { Id: 0, Name: "Дансаар" },
@@ -32,7 +31,6 @@ const paymentMethods = [
 ];
 
 const ListHeader = (props) => {
-
   // const [filters, setFilters] = useState({
   //   selectAll: null,
   //   orderId: null,
@@ -42,7 +40,7 @@ const ListHeader = (props) => {
   //   deliveryDate: null,
   //   paidAmount: null,
   //   paymentType: null,
-  //   note: null, 
+  //   note: null,
   //   customerPhone: null,
   //   merchantName: null,
   //   customerChannel: null,
@@ -58,16 +56,16 @@ const ListHeader = (props) => {
   //   manager: null,
   //   butsaalt: null
   // });
-  
-  const [orderIdFilter, setOrderIdFilter] = useState('');
+
+  const [orderIdFilter, setOrderIdFilter] = useState("");
   // const [customerIdFilter, setCustomerIdFilter] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [phoneFilter, setPhoneFilter] = useState('');
-  const [merchant, setMerchantFilter] = useState('');
-  const [city, SetCity] = useState('');
-  
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [phoneFilter, setPhoneFilter] = useState("");
+  const [merchant, setMerchantFilter] = useState("");
+  const [city, SetCity] = useState("");
+
   const onFilterChange = (filterValue) => {
-    console.log('Filter changed:', filterValue);
+    console.log("Filter changed:", filterValue);
   };
 
   const handleChange = (event, key) => {
@@ -135,7 +133,15 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["index"] + "px" }}
       >
         <div>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              props.setFilterState((prev) => ({
+                ...prev,
+                checked: e.target.checked,
+              }));
+            }}
+          />
         </div>
       </div>
     ),
@@ -424,7 +430,7 @@ const ListHeader = (props) => {
   });
 
   return (
-    <div className="list_header order" style={{ minWidth: width + 'px' }}>
+    <div className="list_header order" style={{ minWidth: width + "px" }}>
       {renderHTML}
     </div>
   );

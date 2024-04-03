@@ -1,32 +1,61 @@
-import React from 'react';
-import Tab from './components/tab/Tab';
-import List1 from './List/List1'; 
-import List2 from './List/List2';
-import List3 from './List/List3';
-import Date from './components/date/date'
-import Sidebar from './components/sidebar/sidebar';
+import React, { useState } from "react";
+import Tab from "./components/tab/Tab";
+import List1 from "./List/List1";
+import List2 from "./List/List2";
+import List3 from "./List/List3";
+import Date from "./components/date/date";
+import Sidebar from "./components/sidebar/sidebar";
 // import Header from './components/header/header';
-import './style.css'
-
-const tabs = [
-    { label: 'Захиалгын жагсаалт', content: () => <List1 /> },
-    { label: 'Захиалгын тохиргоо', content: () => <List2 /> },
-    { label: 'Захиалгын загвар илгээх', content: () => <List3 /> },
-];
+import "./style.css";
 
 const handleFilterChange = (selectedFilter) => {
-    console.log('Selected Filter:', selectedFilter);
+  console.log("Selected Filter:", selectedFilter);
 };
 
 const App = () => {
+  const [filterState, setFilterState] = useState({
+    order_id: null,
+    status: null,
+    phone: null,
+    tradeshop_name: null,
+    order_date: null,
+    delivery_date: null,
+    business_type: null,
+    city: null,
+    district: null,
+    address: null,
+    srcode: null,
+    origin: null,
+    vat: null,
+    salesman: null,
+    deliveryman: null,
+    butsaalt: null,
+    manager: null,
+    arigSupplier: null,
+    checked: null,
+  });
 
+  const tabs = [
+    {
+      label: "Захиалгын жагсаалт",
+      content: () => (
+        <List1 filterState={filterState} setFilterState={setFilterState} />
+      ),
+    },
+    { label: "Захиалгын тохиргоо", content: () => <List2 /> },
+    { label: "Захиалгын загвар илгээх", content: () => <List3 /> },
+  ];
   return (
     <div className="Container">
-      <div className='sidebarWrapper'> 
+      <div className="sidebarWrapper">
         <Date handleFilterChange={handleFilterChange} />
-        <Sidebar/>
+        <Sidebar
+          onClick={(e) => {
+            setFilterState((prev) => ({ ...prev, arigSupplier: e }));
+          }}
+        />
       </div>
-        <Tab tabs={tabs} />
+      <Tab tabs={tabs} />
     </div>
   );
 };
