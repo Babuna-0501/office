@@ -109,7 +109,7 @@ const Total = (props) => {
     <div className="container">
       <div className="wrapper">
         <div className="footerspan">Захиалгын тоо: </div>
-        <span className="footerspantww">{total}</span>
+        <span className="footerspantww">{props.data.length}</span>
       </div>
       <div className="wrapper">
         <div className="footerspan">Нийт мөнгөн дүн :</div>
@@ -173,7 +173,7 @@ const Total = (props) => {
       </div>
 
       <div className="wrapper">
-        <div>Нийт хуудас : {totalPage === 0 ? 1 : totalPage}</div>
+        <div>Нийт хуудас : {Math.ceil(props.data.length / 50)}</div>
       </div>
       <div className="wrapper">
         <div style={{ color: "#90A4AE" }} className="statuscontainer">

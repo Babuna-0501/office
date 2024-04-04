@@ -11,7 +11,7 @@ const List = ({ filterState, setFilterState }) => {
   const [interval, setIntervalDate] = useState(["", ""]);
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
-  const [totalData, SetTotalData ] = useState([]);
+  const [totalData, SetTotalData] = useState([]);
 
   const sequence = [
     "index",
@@ -156,15 +156,14 @@ const List = ({ filterState, setFilterState }) => {
     }&order_end=${
       filterState.endDate === null ? "" : filterState.endDate
     }&${params}page=${page}`;
-    console.log(url);
     localStorage.setItem("url", url);
     // console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((result) => {
         setLoading(false);
-        setData(result.data);
-        setFilteredData(result.data);
+        setData((prev) => [...prev, result.data]);
+        setFilteredData((prev) => [...prev, ...result.data]);
       })
       .catch((error) => console.log("error++++", error))
       .finally(() => setLoading(false));
@@ -181,13 +180,18 @@ const List = ({ filterState, setFilterState }) => {
     }&order_end=${
       filterState.endDate === null ? "" : filterState.endDate
     }&page=${page}`;
-    console.log(url);
+
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setData(result.data);
+        if (page != 1) {
+          setData((prev) => [...prev, ...result.data]);
+          setFilteredData((prev) => [...prev, ...result.data]);
+        } else {
+          setData(result.data);
 
-        setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
+          setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
+        }
       })
       .catch((error) => console.log("error", error))
       .finally(() => setLoading(false));
@@ -211,20 +215,32 @@ const List = ({ filterState, setFilterState }) => {
         setFilterState={setFilterState}
       />
       {!loading && filteredData ? (
-        filteredData.map((order) => (
-          <Order
-            data={order}
-            checked={filterState.checked}
-            sequence={sequence}
-            sequenceSizes={sequenceSizes}
-          />
-        ))
+        <div
+          className="order_wrapper"
+          onScroll={(e) => {
+            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+            const bottom =
+              Math.abs(scrollHeight - clientHeight - scrollTop) < 5;
+            if (bottom) {
+              setPage((prev) => prev + 1);
+            }
+          }}
+        >
+          {filteredData.map((order) => (
+            <Order
+              data={order}
+              checked={filterState.checked}
+              sequence={sequence}
+              sequenceSizes={sequenceSizes}
+            />
+          ))}
+        </div>
       ) : (
         <div className="spinner-container">
           <div className="spinner"></div>
         </div>
       )}
-      <Total data={totalData} value={SetTotalData}/>
+      <Total data={filteredData} />
     </div>
   );
 };
