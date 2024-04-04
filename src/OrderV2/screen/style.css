@@ -19,6 +19,8 @@ width: 80px;
 .order input {
 	width: 100%;
 	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #ccc;
 }
 
 .order h5 {
@@ -37,6 +39,7 @@ width: 80px;
 	height: 26px;
 	box-sizing: border-box;
 	padding: 0 0.25rem;
+	border-radius: 5px;
 }
 
 .order_supplier {
@@ -78,7 +81,6 @@ padding: 0 1rem 0 0;
 	align-items: center;
 	height: 100%;
 	width: 100%;
-	justify-content: center;
 }
 
 .order:hover {
@@ -125,14 +127,17 @@ margin-right: auto;
 
 
 .order select {
-width: 100%;
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 }
 
 .col_wrapper {
-display: flex;
-gap: 6px;
-padding-left: 20px;
+	display: flex;
+	gap: 6px;
+	padding-left: 20px;
 }
+
 
 .fullcontainer .statusbar {
 width: 75px;
@@ -175,10 +180,107 @@ white-space: nowrap;
 }
 
 .full_address {
-	width: 160px;
+	width: 280px;
+	line-height: 16px;
+	font-size: 9px !important;
 }
 
 .merchant span {
 	width: 135px;
 }
+
+.tradeshop_horoo {
+	width: 120px;
+}
 	
+
+.payment_type {
+	width: 100px;
+}
+
+.pick_pack {
+	width: 120px;
+}
+
+.origin {
+	width: 120px;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	width: 60%;
+	height: 100%;
+	padding: 12px 6px;
+	justify-content: space-between;
+	position: relative;
+	bottom: 0;
+  }
+  
+  .wrapper {
+	padding: 4px;
+	box-sizing: border-box;
+	border-radius: 4px;
+  }
+  .wrapper div {
+	font-weight: 700;
+	font-size: 10px;
+  }
+  .statuscontainer {
+	display: flex;
+	align-items: center;
+  }
+  .firswrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	width: 31px;
+	height: 30px;
+	background: #d9d9d9;
+	border-radius: 8px;
+  }
+  .firswrapper span {
+	font-weight: 700;
+	font-size: 10px;
+	color: #4d4d4d;
+  }
+  .secondwrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	margin-left: 8px;
+  }
+  .secondwrapper span:first-child {
+	font-weight: 400;
+	font-size: 10px;
+	color: #4d4d4d;
+  }
+  .secondwrapper span:last-child {
+	font-weight: 700;
+	font-size: 14px;
+	color: #1a1a1a;
+  }
+  .footerspan {
+	font-weight: 400;
+	font-size: 10px;
+	color: #4d4d4d;
+  }
+  .footerspantww {
+	color: #1a1a1a;
+	font-size: 14px;
+	font-weight: 700;
+  }
+  @media (max-width: 1500px) {
+	.wrapper div {
+	  font-size: 10px;
+	}
+  }
+  
+  .idWrapper {
+	justify-content: center;
+  }
+.OrderPageWrapper {
+	overflow-y: scroll;
+}

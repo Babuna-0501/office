@@ -5,7 +5,15 @@
     padding: 10px;
     
   }
-  
+
+  .search-bar {
+    position: relative;
+  }
+  .search-bar .search_icon {
+    position: absolute;
+    top: 10%;
+    right: 4%;
+  }
   .search-bar input {
     width: 100%;
     padding: 8px;
@@ -20,6 +28,7 @@
     max-height: 300px;
     overflow-y: auto;
     font-size: 12px;
+    cursor: pointer;
   }
 
   .scroll-container .item{
@@ -40,3 +49,13 @@
     height: 30px;
     margin-right: 5px;
   }
+.item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #fff;
+}
+
+.item:hover,
+.item.selected {
+  background-color: #f0f0f0;
+}

@@ -11,6 +11,7 @@ const List = ({ filterState, setFilterState }) => {
   const [interval, setIntervalDate] = useState(["", ""]);
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
+  const [totalData, SetTotalData ] = useState([]);
 
   const sequence = [
     "index",
@@ -56,7 +57,7 @@ const List = ({ filterState, setFilterState }) => {
     city: 140,
     district: 120,
     khoroo: 120,
-    address: 150,
+    address: 270,
     srcode: 120,
     origin: 120,
     vat: 120,
@@ -201,7 +202,7 @@ const List = ({ filterState, setFilterState }) => {
   };
 
   return (
-    <div>
+    <div className="OrderPageWrapper">
       <ListHeader
         sequence={sequence}
         sequenceSizes={sequenceSizes}
@@ -223,7 +224,7 @@ const List = ({ filterState, setFilterState }) => {
           <div className="spinner"></div>
         </div>
       )}
-      <Total data={filteredData || data} />
+      <Total data={totalData} value={SetTotalData}/>
     </div>
   );
 };
