@@ -150,8 +150,12 @@ const List = ({ filterState, setFilterState }) => {
       }&`;
     }
 
-    url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
-
+    url = `https://api2.ebazaar.mn/api/orders?order_type=1&order_start=${
+      filterState.startDate === null ? "" : filterState.startDate
+    }&order_end=${
+      filterState.endDate === null ? "" : filterState.endDate
+    }&${params}page=${page}`;
+    console.log(url);
     localStorage.setItem("url", url);
     // console.log("url engiin order", url);
     fetch(url, requestOptions)
@@ -171,7 +175,12 @@ const List = ({ filterState, setFilterState }) => {
       redirect: "follow",
     };
     setLoading(true);
-    const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&order_start=${interval[0]}&order_end=${interval[1]}&page=${page}`;
+    const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&order_start=${
+      filterState.startDate === null ? "" : filterState.startDate
+    }&order_end=${
+      filterState.endDate === null ? "" : filterState.endDate
+    }&page=${page}`;
+    console.log(url);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
