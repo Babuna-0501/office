@@ -1,26 +1,26 @@
-import { useState, useEffect } from 'react';
-import Dropdown from '../components/status/dropdown';
-import DatePick from '../components/datepick/datepick';
-import Channel from '../data/info';
-import CityData from '../data/city.json';
+// import { useState, useEffect } from "react";
+import Dropdown from "../components/status/dropdown";
+import DatePick from "../components/datepick/datepick";
+import Channel from "../data/info";
+import CityData from "../data/city.json";
+import DistrictData from "../data/district.json";
 
-import './style.css'; 
-
+import "./style.css";
 
 const options = [
-  { value: '1', label: 'Бүгд' },
-  { value: '2', label: 'Хүлээгдэж буй' },
-  { value: '3', label: 'Баталгаажсан' },
-  { value: '4', label: 'Хүргэгдсэн' },
-  { value: '5', label: 'Цуцлагдсан' },
+  { value: "1", label: "Бүгд" },
+  { value: "2", label: "Хүлээгдэж буй" },
+  { value: "3", label: "Баталгаажсан" },
+  { value: "4", label: "Хүргэгдсэн" },
+  { value: "5", label: "Цуцлагдсан" },
 ];
 
 const managers = [
-  { value: 'manager1', label: 'Жаак'},
-  { value: 'manager2', label: 'Бат'},
-  { value: 'manager3', label: 'Гапу'},
-  { value: 'manager4', label: 'Ганзо'},
-]
+  { value: "manager1", label: "Жаак" },
+  { value: "manager2", label: "Бат" },
+  { value: "manager3", label: "Гапу" },
+  { value: "manager4", label: "Ганзо" },
+];
 
 const paymentMethods = [
   { Id: 0, Name: "Дансаар" },
@@ -31,81 +31,11 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
+
 const ListHeader = (props) => {
-
-  // const [filters, setFilters] = useState({
-  //   selectAll: null,
-  //   orderId: null,
-  //   status: null,
-  //   orderList: null,
-  //   orderDate: null,
-  //   deliveryDate: null,
-  //   paidAmount: null,
-  //   paymentType: null,
-  //   note: null, 
-  //   customerPhone: null,
-  //   merchantName: null,
-  //   customerChannel: null,
-  //   tradeshopCity: null,
-  //   tradeshopDistrict: null,
-  //   tradeshopHoroo: null,
-  //   fullAddress: null,
-  //   srcode: null,
-  //   origin: null,
-  //   VAT: null,
-  //   salesmanId: null,
-  //   deliverymanId: null,
-  //   manager: null,
-  //   butsaalt: null
-  // });
-  
-  const [orderIdFilter, setOrderIdFilter] = useState('');
-  // const [customerIdFilter, setCustomerIdFilter] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [phoneFilter, setPhoneFilter] = useState('');
-  const [merchant, setMerchantFilter] = useState('');
-  const [city, SetCity] = useState('');
-  
-  const onFilterChange = (filterValue) => {
-    console.log('Filter changed:', filterValue);
-  };
-
   const handleChange = (event, key) => {
     props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   };
-
-  const handleStatusChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedStatus(selectedValue);
-    props.onFilterChange("status", selectedValue);
-  };
-
-  const handleOrderIdFilterChange = (event) => {
-    setOrderIdFilter(event.target.value);
-    props.onFilterChange("order_id", event.target.value);
-  };
-
-  const handlePhoneFilter = (event) => {
-    setPhoneFilter(event.target.value);
-    props.onFilterChange("phone", event.target.value);
-  };
-
-  const handleMerchantFilter = (event) => {
-    setMerchantFilter(event.target.value);
-    props.onFilterChange("tradeshop_name", event.target.value);
-  };
-
-  const handleCityFilter = (e) => {
-    const selectedCity = e.target.value;
-    SetCity(selectedCity);
-    props.onFilterChange("tradeshop_city", e.target.value);
-  };
-
-  // const handleCustomerIdFilterChange = (event) => {
-  //   setCustomerIdFilter(event.target.value);
-  //   props.onFilterChange('customer_id', event.target.value);
-  // };
-
   const sequence = props.sequence;
   const sequenceSizes = props.sequenceSizes;
   let width = 0;
@@ -113,20 +43,8 @@ const ListHeader = (props) => {
     width += sequenceSizes[size];
   }
 
-  // const handleDropdownChange = (event) => {
-  //   console.log('Selected option:', event.target.value);
-  // };
-
-  // const handleDropdownChange2 = (selectedValue) => {
-  //   console.log('Selected option:', selectedValue);
-  // };
-
-  // const handleManager = (event) => {
-  //     console.log('Менежэр сонголоо', event.target.value)
-  // }
-
   const CityArray = CityData.City || [];
-
+  const DistrictArray = DistrictData.District || [];
   const renderHTML = [];
   const list = {
     index: (
@@ -135,7 +53,15 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["index"] + "px" }}
       >
         <div>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              props.setFilterState((prev) => ({
+                ...prev,
+                checked: e.target.checked,
+              }));
+            }}
+          />
         </div>
       </div>
     ),
@@ -206,15 +132,6 @@ const ListHeader = (props) => {
         <h5>Төлсөн</h5>
       </div>
     ),
-    paymenttype: (
-      <div
-        className="order_commonfield"
-        style={{ width: sequenceSizes["paidamount"] + "px" }}
-      >
-        <h5>Төлбөрийн хэлбэр</h5>
-        <input type="text" placeholder="Хайх" />
-      </div>
-    ),
     note: (
       <div
         className="order_commonfield"
@@ -235,7 +152,7 @@ const ListHeader = (props) => {
           type="text"
           placeholder="Хайх"
           onChange={(e) => handleChange(e, "phone")}
-          value={phoneFilter}
+          value={props.filterState.phone}
         />
       </div>
     ),
@@ -250,7 +167,7 @@ const ListHeader = (props) => {
           type="text"
           placeholder="Хайх"
           onChange={(e) => handleChange(e, "tradeshop_name")}
-          value={merchant}
+          value={props.tradeshop_name}
         />
       </div>
     ),
@@ -266,8 +183,7 @@ const ListHeader = (props) => {
             value: item.business_type_id,
             label: item.business_type_name,
           }))}
-          // onChange={handleDropdownChange2}
-          onChange={(e) => handleChange(e, "business_type")}
+          onChange={(e) => handleChange(e, "business_type")} 
         />
       </div>
     ),
@@ -279,7 +195,7 @@ const ListHeader = (props) => {
       >
         <h5>--Хот/аймаг--</h5>
         <Dropdown
-          value={city}
+          value={props.tradeshop_city}
           onChange={(e) => handleChange(e, "city")}
           options={CityArray.map((item) => ({
             value: item.location_id,
@@ -295,7 +211,7 @@ const ListHeader = (props) => {
       >
         <h5>--Дүүрэг/сум--</h5>
         <Dropdown
-          options={CityArray.map((item) => ({
+          options={DistrictArray.map((item) => ({
             value: item.location_id,
             label: item.location_name,
           }))}
@@ -309,7 +225,14 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["khoroo"] + "px" }}
       >
         <h5>Хороо</h5>
-        {/* <Dropdown/> */}
+        <input
+          type="text"
+          value={props.filterState.tradeshop_horoo}
+          placeholder="хайх"
+          onChange={(e) => {
+            handleChange(e, "tradeshop_horoo");
+          }}
+        />
       </div>
     ),
     address: (
@@ -322,6 +245,17 @@ const ListHeader = (props) => {
           type="text"
           placeholder="Хайх"
           onChange={(e) => handleChange(e, "address")}
+        />
+      </div>
+    ),
+    paymenttype: (
+      <div
+        className="order_commonfield"
+        style={{ width: sequenceSizes["paidamount"] + "px" }}
+      >
+        <h5>Төлбөрийн хэлбэр</h5>
+        <Dropdown options={paymentMethods}
+          onChange={(e) => handleChange(e, "district")}
         />
       </div>
     ),
@@ -359,8 +293,9 @@ const ListHeader = (props) => {
         <h5>VAT</h5>
         <input
           type="text"
-          placeholder="Хайх"
+          placeholder=""
           onChange={(e) => handleChange(e, "vat")}
+          disabled
         />
       </div>
     ),
@@ -424,7 +359,7 @@ const ListHeader = (props) => {
   });
 
   return (
-    <div className="list_header order" style={{ minWidth: width + 'px' }}>
+    <div className="list_header order" style={{ minWidth: width + "px" }}>
       {renderHTML}
     </div>
   );

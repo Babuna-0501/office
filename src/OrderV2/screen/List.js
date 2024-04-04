@@ -5,12 +5,13 @@ import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
 
-const List = () => {
+const List = ({ filterState, setFilterState }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [interval, setIntervalDate] = useState(["", ""]);
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
+  const [totalData, SetTotalData ] = useState([]);
 
   const sequence = [
     "index",
@@ -39,25 +40,6 @@ const List = () => {
     "butsaalt",
   ];
 
-  const [filterState, setFilterState] = useState({
-    order_id: null,
-    status: null,
-    phone: null,
-    tradeshop_name: null,
-    order_date: null,
-    delivery_date: null,
-    business_type: null,
-    city: null,
-    district: null,
-    address: null,
-    srcode: null,
-    origin: null,
-    vat: null,
-    salesman: null,
-    deliveryman: null,
-    butsaalt: null,
-    manager: null,
-  });
   const sequenceSizes = {
     index: 52,
     id: 65,
@@ -75,7 +57,7 @@ const List = () => {
     city: 140,
     district: 120,
     khoroo: 120,
-    address: 150,
+    address: 270,
     srcode: 120,
     origin: 120,
     vat: 120,
@@ -88,6 +70,9 @@ const List = () => {
   useEffect(() => {
     // console.log("EFFECT", props.hariutsagchNer);
 
+    if (filterState.checked != null) {
+      return;
+    }
     let start = Object.values(filterState)
       .map((v) => v != null)
       .includes(true);
@@ -158,6 +143,13 @@ const List = () => {
     if (filterState.origin) {
       params += `origin=${filterState.origin}&`;
     }
+    if (filterState.arigSupplier) {
+      params += `supplier_id=${
+        filterState.arigSupplier == "Нийлүүлэгч"
+          ? 13954
+          : filterState.arigSupplier
+      }&`;
+    }
 
     url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
 
@@ -201,7 +193,7 @@ const List = () => {
   };
 
   return (
-    <div>
+    <div className="OrderPageWrapper">
       <ListHeader
         sequence={sequence}
         sequenceSizes={sequenceSizes}
@@ -213,6 +205,7 @@ const List = () => {
         filteredData.map((order) => (
           <Order
             data={order}
+            checked={filterState.checked}
             sequence={sequence}
             sequenceSizes={sequenceSizes}
           />
@@ -222,7 +215,7 @@ const List = () => {
           <div className="spinner"></div>
         </div>
       )}
-      <Total data={filteredData || data} />
+      <Total data={totalData} value={SetTotalData}/>
     </div>
   );
 };
