@@ -92,6 +92,10 @@ const List = ({ filterState, setFilterState }) => {
     let url;
 
     let params = "";
+    if (filterState.startDate && filterState.endDate) {
+      params += `order_start=${filterState.startDate}&`;
+      params += `order_end=${filterState.endDate}&`;
+    }
     if (filterState.supplier) {
       params += `supplier_id=${parseInt(filterState.supplier)}&`;
     }
@@ -151,19 +155,21 @@ const List = ({ filterState, setFilterState }) => {
       }&`;
     }
 
-    url = `https://api2.ebazaar.mn/api/orders?order_type=1&order_start=${
-      filterState.startDate === null ? "" : filterState.startDate
-    }&order_end=${
-      filterState.endDate === null ? "" : filterState.endDate
-    }&${params}page=${page}`;
+    url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
+
     localStorage.setItem("url", url);
     // console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((result) => {
         setLoading(false);
-        setData((prev) => [...prev, result.data]);
-        setFilteredData((prev) => [...prev, ...result.data]);
+        if (page != 1) {
+          setData((prev) => [...prev, result.data]);
+          setFilteredData((prev) => [...prev, ...result.data]);
+        } else {
+          setData(result.data);
+          setFilteredData(result.data);
+        }
       })
       .catch((error) => console.log("error++++", error))
       .finally(() => setLoading(false));
@@ -174,24 +180,16 @@ const List = ({ filterState, setFilterState }) => {
       headers: myHeaders,
       redirect: "follow",
     };
+
     setLoading(true);
-    const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&order_start=${
-      filterState.startDate === null ? "" : filterState.startDate
-    }&order_end=${
-      filterState.endDate === null ? "" : filterState.endDate
-    }&page=${page}`;
+    const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
 
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if (page != 1) {
-          setData((prev) => [...prev, ...result.data]);
-          setFilteredData((prev) => [...prev, ...result.data]);
-        } else {
-          setData(result.data);
+        setData(result.data);
 
-          setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
-        }
+        setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
       })
       .catch((error) => console.log("error", error))
       .finally(() => setLoading(false));
