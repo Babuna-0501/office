@@ -6,7 +6,7 @@ import ListHeader from "./ListHeader";
 import "./style.css";
 
 const List = ({ filterState, setFilterState }) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [interval, setIntervalDate] = useState(["", ""]);
   const [data, setData] = useState(null);
@@ -156,14 +156,14 @@ const List = ({ filterState, setFilterState }) => {
     }
 
     url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
-
+    console.log(url);
     localStorage.setItem("url", url);
     // console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((result) => {
         setLoading(false);
-        if (page != 1) {
+        if (page != 0) {
           setData((prev) => [...prev, result.data]);
           setFilteredData((prev) => [...prev, ...result.data]);
         } else {
