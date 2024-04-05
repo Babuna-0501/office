@@ -34,16 +34,16 @@ const App = () => {
     endDate: null,
   });
   const handleFilterChange = (selectedFilter) => {
-    console.log(selectedFilter);
+    
     const { startDate, endDate } = getDates(selectedFilter);
-    console.log(startDate, endDate);
+
     setFilterState((prev) => ({
       ...prev,
       startDate: startDate,
       endDate: endDate,
     }));
 
-    console.log(filterState);
+  
   };
 
   const tabs = [

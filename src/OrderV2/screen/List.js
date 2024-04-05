@@ -4,6 +4,7 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
+import { MouseButtonMessage } from "igniteui-react-charts";
 
 const List = ({ filterState, setFilterState }) => {
   const [page, setPage] = useState(0);
@@ -69,21 +70,40 @@ const List = ({ filterState, setFilterState }) => {
 
   useEffect(() => {
     // console.log("EFFECT", props.hariutsagchNer);
-
+    setPage(0);
     if (filterState.checked != null) {
       return;
     }
-    let start = Object.values(filterState)
-      .map((v) => v != null)
-      .includes(true);
-    console.log("start", start);
-    if (!start) {
-      fetchData();
+    let starts = Object.values(filterState)
+      .map((v) => {
+        return v != null;
+      })
+      .filter((s) => s == true);
+
+    if (starts.length == 0) {
+      fetchData(true);
     } else {
-      getOrders();
+      getOrders(true);
     }
-  }, [page, interval, filterState]); // Хуудас солигдох үед датаг fetch хийнэ.
-  const getOrders = () => {
+  }, [filterState]); // Хуудас солигдох үед датаг fetch хийнэ.
+  useEffect(() => {
+    if (filterState.checked != null) {
+      return;
+    }
+
+    let starts = Object.values(filterState)
+      .map((v) => {
+        return v != null;
+      })
+      .filter((s) => s == true);
+
+    if (starts.length == 0) {
+      fetchData(false);
+    } else {
+      getOrders(false);
+    }
+  }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
+  const getOrders = (filter) => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -156,14 +176,14 @@ const List = ({ filterState, setFilterState }) => {
     }
 
     url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
-    console.log(url);
+
     localStorage.setItem("url", url);
-    // console.log("url engiin order", url);
+    console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((result) => {
         setLoading(false);
-        if (page != 0) {
+        if (!filter) {
           setData((prev) => [...prev, result.data]);
           setFilteredData((prev) => [...prev, ...result.data]);
         } else {
@@ -174,7 +194,7 @@ const List = ({ filterState, setFilterState }) => {
       .catch((error) => console.log("error++++", error))
       .finally(() => setLoading(false));
   };
-  const fetchData = () => {
+  const fetchData = (filter) => {
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -187,9 +207,13 @@ const List = ({ filterState, setFilterState }) => {
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setData(result.data);
-
-        setFilteredData(result.data); //Fetch хийгдсэн датаг филтэрдэнэ
+        if (!filter) {
+          setData((prev) => [...prev, result.data]);
+          setFilteredData((prev) => [...prev, ...result.data]);
+        } else {
+          setData(result.data);
+          setFilteredData(result.data);
+        }
       })
       .catch((error) => console.log("error", error))
       .finally(() => setLoading(false));
@@ -218,8 +242,9 @@ const List = ({ filterState, setFilterState }) => {
           onScroll={(e) => {
             const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
             const bottom =
-              Math.abs(scrollHeight - clientHeight - scrollTop) < 5;
-            if (bottom) {
+              Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
+
+            if (bottom && filteredData.length % 50 == 0) {
               setPage((prev) => prev + 1);
             }
           }}
