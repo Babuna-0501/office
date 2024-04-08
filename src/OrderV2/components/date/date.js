@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import './date.css';
 
-const Date = ({ handleFilterChange }) => {
-  const [selectedFilter, setSelectedFilter] = useState('');
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setSelectedFilter(value);
-    handleFilterChange(value); 
-  };
-
+const Date = ({ handleFilterChange, selectedFilter }) => {
   return (
     <div className="date-filter">
-      <select value={selectedFilter} onChange={handleSelectChange}>
+      <select
+        value={selectedFilter}
+        onChange={(e) => handleFilterChange(e.target.value)}
+      >
         <option value="">Огноогоор шүүх</option>
         <option value="today">Өнөөдөр</option>
         <option value="yesterday">Өчигдөр</option>

@@ -8,10 +8,11 @@ import DistrictData from "../data/district.json";
 import "./style.css";
 
 const options = [
-  { value: "1", label: "Бүгд" },
-  { value: "2", label: "Хүлээгдэж буй" },
-  { value: "3", label: "Баталгаажсан" },
-  { value: "4", label: "Хүргэгдсэн" },
+  { value: "0", label: "Бүгд" },
+  { value: "1", label: "Хүлээгдэж буй" },
+  { value: "2", label: "Баталгаажсан" },
+  { value: "3", label: "Хүргэгдсэн" },
+  { value: "4", label: "Төлөгдсөн" },
   { value: "5", label: "Цуцлагдсан" },
 ];
 
@@ -42,6 +43,7 @@ const ListHeader = (props) => {
   for (const size in sequenceSizes) {
     width += sequenceSizes[size];
   }
+
 
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];

@@ -7,11 +7,7 @@ import Date from "./components/date/date";
 import Sidebar from "./components/sidebar/sidebar";
 // import Header from './components/header/header';
 import "./style.css";
-
-const handleFilterChange = (selectedFilter) => {
-  console.log("Selected Filter:", selectedFilter);
-};
-
+import { getDates } from "./data/info";
 const App = () => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -33,13 +29,30 @@ const App = () => {
     manager: null,
     arigSupplier: null,
     checked: null,
+    startDate: null,
+    selectedDate: null,
+    endDate: null,
   });
+  const handleFilterChange = (selectedFilter) => {
+    
+    const { startDate, endDate } = getDates(selectedFilter);
+
+    setFilterState((prev) => ({
+      ...prev,
+      startDate: startDate,
+      endDate: endDate,
+    }));
+
+  
+  };
 
   const tabs = [
     {
       label: "Захиалгын жагсаалт",
       content: () => (
-        <List1 filterState={filterState} setFilterState={setFilterState} />
+        <div> 
+          <List1 filterState={filterState} setFilterState={setFilterState} />
+        </div>
       ),
     },
     { label: "Захиалгын тохиргоо", content: () => <List2 /> },
@@ -48,7 +61,10 @@ const App = () => {
   return (
     <div className="Container">
       <div className="sidebarWrapper">
-        <Date handleFilterChange={handleFilterChange} />
+        <Date
+          handleFilterChange={(e) => handleFilterChange(e)}
+          selectedFilter={filterState.selectedDate}
+        />
         <Sidebar
           onClick={(e) => {
             setFilterState((prev) => ({ ...prev, arigSupplier: e }));

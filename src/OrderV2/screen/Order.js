@@ -9,6 +9,10 @@ const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
 
+  //Түгээгчийн попап
+  const [isChecked, setIsChecked] = useState(props.checked);
+  const [selectedDeliveryman, setSelectedDeliveryman] = useState(null);
+
   const { color, name, fontColor } = getColorForStatus(data.status);
 
   const getBusinessTypeName = (businessTypeId) => {
@@ -62,7 +66,7 @@ const Order = (props) => {
       <div className="order col_wrapper">
         <div className="order_index">
           <div>
-            <input type="checkbox" checked={props.checked} />
+            <input type="checkbox" checked={props.checked}  onChange={props.onCheckboxChange} />
           </div>
         </div>
 
@@ -180,7 +184,7 @@ const Order = (props) => {
             <span>{data.origin}</span>
           </div>
         </div>
-        <div className="full_address">
+        <div className="vat">
           <div className="fullcontainer">
             <span>VAT</span>
           </div>
@@ -192,7 +196,17 @@ const Order = (props) => {
         </div>
         <div className="deliveryman">
           <div className="fullcontainer">
-            <span>{data.deliver_man_employee_id}</span>
+            <span>{selectedDeliveryman ? selectedDeliveryman.first_name + ' ' + selectedDeliveryman.last_name : 'Түгээгч'}</span>
+          </div>
+        </div>
+        <div className="manager">
+          <div className="fullcontainer">
+            <span>manager</span>
+          </div>
+        </div>
+        <div className="butsaalt">
+          <div className="fullcontainer">
+            <span>butsaalt</span>
           </div>
         </div>
       </div>
