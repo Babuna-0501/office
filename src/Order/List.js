@@ -401,6 +401,7 @@ const List = (props) => {
         } else if (currentPath === "/return") {
           url = `https://api2.ebazaar.mn/api/orders?order_type=2&${params}page=${page}`;
         }
+        console.log(url);
 
         localStorage.setItem("url", url);
         // console.log("url engiin order", url);
