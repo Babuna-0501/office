@@ -18,14 +18,6 @@ const Total = (props) => {
   const [shipmentStatus, setShipmentStatus] = useState(0);
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (props.data && props.data.length > 0) {
-      let totalGrandTotal = props.data.reduce((acc, curr) => acc + curr.grand_total, 0);
-      setTotalPrice(totalGrandTotal);
-    }
-  }, [props.data]);
-
-=======
     // setTotal(props?.data?.length);
     // let aa = Math.ceil(props?.data?.length / 50);
     // let totalC = 0;
@@ -97,7 +89,6 @@ const Total = (props) => {
     // }
     // setTotalPrice(totalC);
   }, [props.data, totalPrice]);
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
   let aaa = totalPrice?.toLocaleString();
   let bbb = totalPayment?.toLocaleString();
   let ccc = totalCancelPayment?.toLocaleString();
@@ -107,13 +98,8 @@ const Total = (props) => {
   return (
     <div className="container">
       <div className="wrapper">
-<<<<<<< HEAD
-        <div className="footerspan">Нийт захиалгын тоо: </div>
-        <span className="footerspantww">{props.data?.length ?? 0}ш</span>
-=======
         <div className="footerspan">Захиалгын тоо: </div>
         <span className="footerspantww">{props.data?.length ?? 0}</span>
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
       </div>
       <div className="wrapper">
         <div className="footerspan">Нийт мөнгөн дүн :</div>
@@ -130,56 +116,19 @@ const Total = (props) => {
           </div>
         </div>
       </div>
-      <div className="wrapper" style={{background:"#F2F2F2"}}>
+      <div className="wrapper" style={{ background: "#F2F2F2" }}>
         <div style={{ color: "#90A4AE" }} className="statuscontainer">
           <div className="firswrapper" style={{ background: "#76CC33" }}>
-            <span style={{color:"#fff"}}>{totalWaitingAmount}ш</span>
+            <span style={{ color: "#fff" }}>{totalWaitingAmount}ш</span>
           </div>
           <div className="secondwrapper">
-            <span style={{color:"#000"}}>Хүлээгдэж буй:</span>
+            <span style={{ color: "#000" }}>Хүлээгдэж буй:</span>
             <span>{eee}₮</span>
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="wrapper" style={{ background: "#00ADD0" }}>
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{ background: "#fff" }}>
-            <span style={{ color: "#000" }}>{totalConfirmOrder}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span style={{color:"#fff"}}>Баталгаажсан:</span>
-            <span style={{color:"#fff"}}>{fff}₮</span>
-          </div>
-        </div>
-      </div>
-      <div className="wrapper" style={{ background: "#76CC33" }}>
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{ background: "#fff" }}>
-            <span style={{ color: "#000" }} >{totalDeliveryAmount}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span style={{color:"#fff"}}>Хүргэгдсэн:</span>
-            <span style={{color:"#fff"}}>{ddd}₮</span>
-          </div>
-        </div>
-      </div>
-      <div className="wrapper"  style={{ background: "#EB5E43" }}>
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{background:"#fff"}}>
-            <span style={{ color: "#000" }}>{totalCancelPaymentAmount}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span style={{color:"#fff"}}>Цуцлагдсан:</span>
-            <span style={{color:"#fff"}}>{ccc}₮</span>
-          </div>
-        </div>
-      </div>
-      <div>
-=======
       <div className="wrapper">
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
         <div>Нийт хуудас : {Math.ceil((props.data?.length ?? 0) / 50)}</div>
       </div>
       <div className="wrapper">

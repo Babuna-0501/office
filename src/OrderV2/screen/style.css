@@ -214,11 +214,7 @@
 .container {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
-  width: 100%;
-=======
   width: 60%;
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
   height: 100%;
   padding: 12px 6px;
   justify-content: space-between;
@@ -229,10 +225,7 @@
 .wrapper {
   padding: 4px;
   box-sizing: border-box;
-<<<<<<< HEAD
-=======
   border-radius: 4px;
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
 }
 .wrapper div {
   font-weight: 700;
@@ -248,17 +241,10 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
-<<<<<<< HEAD
-  width: 37px;
-  height: 20px;
-  background: #d9d9d9;
-  border-radius: 3px;
-=======
   width: 31px;
   height: 30px;
   background: #d9d9d9;
   border-radius: 8px;
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
 }
 .firswrapper span {
   font-weight: 700;
@@ -303,30 +289,3 @@
 .OrderPageWrapper {
   overflow-y: scroll;
 }
-<<<<<<< HEAD
-.container {
-  gap: 10px;
-}
-
-.container .wrapper {
-  width: 168px;
-  height: 48px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border: 1px solid #E6E6E6;
-  align-items: center;
-  padding-left: 20px;
-}
-
-.vat{
-  width: 120px;
-}
-.salesman ,.butsaalt {
-  width: 110px;
-}
-
-.manager {
-  width: 120px;
-}
-=======
->>>>>>> 137e95f504b4f18fc2ae988a7e722242d5b85c81
