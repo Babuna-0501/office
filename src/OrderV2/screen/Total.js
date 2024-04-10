@@ -17,7 +17,6 @@ const Total = (props) => {
   const [totalConfirmOrder, setTotalConfirmOrder] = useState(0);
   const [shipmentStatus, setShipmentStatus] = useState(0);
 
-  //   console.log("props.data", props.data);
   useEffect(() => {
     // setTotal(props?.data?.length);
     // let aa = Math.ceil(props?.data?.length / 50);
@@ -108,57 +107,23 @@ const Total = (props) => {
       </div>
       <div className="wrapper">
         <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper">
-            <span>{totalWaitingAmount}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span>Хүлээгдэж буй:</span>
-            <span>{eee}₮</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="wrapper">
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{ background: "#00ADD0" }}>
-            <span style={{ color: "#fff" }}>{totalConfirmOrder}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span>Баталгаажсан:</span>
-            <span>{fff}₮</span>
-          </div>
-        </div>
-      </div>
-      <div className="wrapper">
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{ background: "#76CC33" }}>
-            <span style={{ color: "#fff" }}>{totalDeliveryAmount}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span>Хүргэгдсэн:</span>
-            <span>{ddd}₮</span>
-          </div>
-        </div>
-      </div>
-      <div className="wrapper">
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
-          <div className="firswrapper" style={{ background: "#EB5E43" }}>
-            <span style={{ color: "#fff" }}>{totalCancelPaymentAmount}ш</span>
-          </div>
-          <div className="secondwrapper">
-            <span>Цуцлагдсан:</span>
-            <span>{ccc}₮</span>
-          </div>
-        </div>
-      </div>
-      <div className="wrapper">
-        <div style={{ color: "#90A4AE" }} className="statuscontainer">
           <div className="firswrapper" style={{ background: "#DFEDDA" }}>
             <span>{totalPaymentAmount}ш</span>
           </div>
           <div className="secondwrapper">
             <span>Нийт төлбөр төлөлт:</span>
             <span>{bbb}₮</span>
+          </div>
+        </div>
+      </div>
+      <div className="wrapper" style={{ background: "#F2F2F2" }}>
+        <div style={{ color: "#90A4AE" }} className="statuscontainer">
+          <div className="firswrapper" style={{ background: "#76CC33" }}>
+            <span style={{ color: "#fff" }}>{totalWaitingAmount}ш</span>
+          </div>
+          <div className="secondwrapper">
+            <span style={{ color: "#000" }}>Хүлээгдэж буй:</span>
+            <span>{eee}₮</span>
           </div>
         </div>
       </div>

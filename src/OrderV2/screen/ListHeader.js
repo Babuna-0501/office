@@ -44,6 +44,7 @@ const ListHeader = (props) => {
     width += sequenceSizes[size];
   }
 
+
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
   const renderHTML = [];
@@ -71,7 +72,7 @@ const ListHeader = (props) => {
         <h5>Дугаар</h5>
         <input
           type="text"
-          value={props.filterState.order_id}
+          value={props.filterState.order_id ?? ""}
           placeholder="хайх"
           onChange={(e) => {
             handleChange(e, "order_id");
@@ -184,7 +185,7 @@ const ListHeader = (props) => {
             value: item.business_type_id,
             label: item.business_type_name,
           }))}
-          onChange={(e) => handleChange(e, "business_type")} 
+          onChange={(e) => handleChange(e, "business_type")}
         />
       </div>
     ),
@@ -255,7 +256,8 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["paidamount"] + "px" }}
       >
         <h5>Төлбөрийн хэлбэр</h5>
-        <Dropdown options={paymentMethods}
+        <Dropdown
+          options={paymentMethods}
           onChange={(e) => handleChange(e, "district")}
         />
       </div>

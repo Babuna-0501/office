@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
 import './tab.css';
+import Tugeegch from '../tugeegch/tugeegch';
 
-const Tab = ({ tabs }) => {
+const Tab = ({ tabs, updateOrdersDeliver, view }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const [selectedDeliveryman, setSelectedDeliveryman] = useState(null);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -15,16 +17,21 @@ const Tab = ({ tabs }) => {
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`tab-item ${index === activeTab ? 'active' : ''}`}
+            className={`tab-item ${index === activeTab ? "active" : ""}`}
             onClick={() => handleTabClick(index)}
           >
             {tab.label}
           </div>
         ))}
       </div>
-      <div className="tab-content">
-        {tabs[activeTab].content()}
+      <div className="tugeegch">
+        <Tugeegch
+          view={view}
+          setSelectedDeliveryman={setSelectedDeliveryman}
+          updateOrdersDeliver={updateOrdersDeliver}
+        />
       </div>
+      <div className="tab-content">{tabs[activeTab].content()}</div>
     </div>
   );
 };

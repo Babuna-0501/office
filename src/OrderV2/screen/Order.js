@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import ProductAvatar from '../components/productImg/productImg';
-import Channel from '../data/info';
-import './style.css';
-import getColorForStatus from '../components/color';
-import LocationData from '../data/location.json'
+import React, { useState, useEffect } from "react";
+import ProductAvatar from "../components/productImg/productImg";
+import Channel from "../data/info";
+import "./style.css";
+import getColorForStatus from "../components/color";
+import LocationData from "../data/location.json";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
+
+  //Түгээгчийн попап
+  const [isChecked, setIsChecked] = useState(props.checked);
+  const [selectedDeliveryman, setSelectedDeliveryman] = useState(null);
 
   const { color, name, fontColor } = getColorForStatus(data.status);
 
   const getBusinessTypeName = (businessTypeId) => {
     const id = parseInt(businessTypeId);
     const channel = Channel.find((item) => item.business_type_id === id);
-    return channel ? channel.business_type_name : 'Unknown';
+    return channel ? channel.business_type_name : "Unknown";
   };
 
   const businessTypeId = parseInt(data.business_type_id);
@@ -22,16 +26,22 @@ const Order = (props) => {
   const tradeshopCityId = parseInt(data.tradeshop_city);
   const tradeshopDistrict = parseInt(data.tradeshop_district);
   const tradeshopHoroo = parseInt(data.tradeshop_horoo);
-  const location = LocationData.Location.find(item => item.location_id === tradeshopCityId);
-  const location2 = LocationData.Location.find(item => item.location_id === tradeshopDistrict);
-  const location3 = LocationData.Location.find(item => item.location_id === tradeshopHoroo);
+  const location = LocationData.Location.find(
+    (item) => item.location_id === tradeshopCityId
+  );
+  const location2 = LocationData.Location.find(
+    (item) => item.location_id === tradeshopDistrict
+  );
+  const location3 = LocationData.Location.find(
+    (item) => item.location_id === tradeshopHoroo
+  );
 
   const formatDate = (dateString) => {
     const dateObj = new Date(dateString);
-    const formattedDate = dateObj.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
+    const formattedDate = dateObj.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
     return formattedDate;
   };
@@ -58,11 +68,15 @@ const Order = (props) => {
   ];
 
   return (
-    <div className='WrapperOut'>
+    <div className="WrapperOut">
       <div className="order col_wrapper">
         <div className="order_index">
           <div>
-            <input type="checkbox" checked={props.checked} />
+            <input
+              type="checkbox"
+              checked={props.checked}
+              onChange={props.onCheckboxChange}
+            />
           </div>
         </div>
 
@@ -156,7 +170,9 @@ const Order = (props) => {
             {location3 ? (
               <span>{location3.location_name}</span>
             ) : (
-              <span>Байршил <br /> олдсонгүй</span>
+              <span>
+                Байршил <br /> олдсонгүй
+              </span>
             )}
           </div>
         </div>
@@ -180,7 +196,7 @@ const Order = (props) => {
             <span>{data.origin}</span>
           </div>
         </div>
-        <div className="full_address">
+        <div className="vat">
           <div className="fullcontainer">
             <span>VAT</span>
           </div>
@@ -192,12 +208,28 @@ const Order = (props) => {
         </div>
         <div className="deliveryman">
           <div className="fullcontainer">
-            <span>{data.deliver_man_employee_id}</span>
+            <span>{data.deliver_man}</span>
+            {/* <span>
+            {selectedDeliveryman
+              ? selectedDeliveryman.first_name +
+                " " +
+                selectedDeliveryman.last_name
+              : "Түгээгч"} */}
+            {/* </span> */}
+          </div>
+        </div>
+        <div className="manager">
+          <div className="fullcontainer">
+            <span>manager</span>
+          </div>
+        </div>
+        <div className="butsaalt">
+          <div className="fullcontainer">
+            <span>butsaalt</span>
           </div>
         </div>
       </div>
     </div>
-
   );
 };
 

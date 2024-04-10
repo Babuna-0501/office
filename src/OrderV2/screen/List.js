@@ -6,12 +6,20 @@ import ListHeader from "./ListHeader";
 import "./style.css";
 import { MouseButtonMessage } from "igniteui-react-charts";
 
-const List = ({ filterState, setFilterState }) => {
+const List = ({
+  filterState,
+  setFilterState,
+  setSelectedOrders,
+  selectedOrders,
+  data,
+  setData,
+  filteredData,
+  setFilteredData,
+}) => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [interval, setIntervalDate] = useState(["", ""]);
-  const [data, setData] = useState(null);
-  const [filteredData, setFilteredData] = useState(null); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
+
   const [totalData, SetTotalData] = useState([]);
 
   const sequence = [
@@ -226,6 +234,11 @@ const List = ({ filterState, setFilterState }) => {
     );
     setFilteredData(filtered);
   };
+  const chooseOrder = (id, value) => {
+    value
+      ? setSelectedOrders((prev) => [...prev, id])
+      : setSelectedOrders(selectedOrders.filter((s) => s != id));
+  };
 
   return (
     <div className="OrderPageWrapper">
@@ -236,7 +249,7 @@ const List = ({ filterState, setFilterState }) => {
         filterState={filterState}
         setFilterState={setFilterState}
       />
-      {!loading && filteredData ? (
+      {!loading && filteredData.length > 0 ? (
         <div
           className="order_wrapper"
           onScroll={(e) => {
@@ -252,8 +265,11 @@ const List = ({ filterState, setFilterState }) => {
           {filteredData.map((order) => (
             <Order
               data={order}
-              checked={filterState.checked}
+              checked={selectedOrders.includes(order.order_id)}
               sequence={sequence}
+              onCheckboxChange={(e) =>
+                chooseOrder(order.order_id, e.target.checked)
+              }
               sequenceSizes={sequenceSizes}
             />
           ))}

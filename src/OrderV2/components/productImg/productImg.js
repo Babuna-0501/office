@@ -6,7 +6,7 @@ const ProductAvatar = (props) => {
   const [total, setTotal] = useState(null);
 
   useEffect(() => {
-    console.log("Zurag irj bnuuu?", props.data);
+    // console.log("Zurag irj bnuuu?", props.data);
     if (props?.data) {
       setAvatar(props.data);
       let aa = props.data?.line?.length ?? 0;
