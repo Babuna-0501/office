@@ -39,7 +39,6 @@ const App = () => {
   const [filteredData, setFilteredData] = useState([]); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
 
   const [selectedOrders, setSelectedOrders] = useState([]);
-<<<<<<< HEAD
 
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter(item => {
@@ -52,10 +51,6 @@ const App = () => {
     const dataToFilter = [...selectedFilter]; 
 
     const filteredData = filterDataByDateRange(dataToFilter, startDate, endDate);
-=======
-  const handleFilterChange = (selectedFilter) => {
-    const { startDate, endDate } = getDates(selectedFilter);
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
 
     setFilterState((prev) => ({
       ...prev,

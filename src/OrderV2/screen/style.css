@@ -218,11 +218,7 @@
 .container {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
   width: 100%;
-=======
-  width: 60%;
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
   height: 100%;
   padding: 12px 6px;
   position: relative;
@@ -232,10 +228,6 @@
 .wrapper {
   padding: 4px;
   box-sizing: border-box;
-<<<<<<< HEAD
-=======
-  border-radius: 4px;
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
 }
 .wrapper div {
   font-weight: 700;
@@ -251,17 +243,10 @@
   justify-content: center;
   align-items: center;
   padding: 5px;
-<<<<<<< HEAD
   width: 37px;
   height: 20px;
   background: #d9d9d9;
   border-radius: 3px;
-=======
-  width: 31px;
-  height: 30px;
-  background: #d9d9d9;
-  border-radius: 8px;
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
 }
 .firswrapper span {
   font-weight: 700;
@@ -306,7 +291,6 @@
 .OrderPageWrapper {
   overflow-y: scroll;
 }
-<<<<<<< HEAD
 .container {
   gap: 10px;
 }
@@ -335,5 +319,3 @@
 .deliveryman {
   width: 110px;
 }
-=======
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e

@@ -15,7 +15,6 @@ const Tab = ({ tabs, updateOrdersDeliver, view }) => {
   return (
     <div className="tab-container">
       <div className="tab-header">
-<<<<<<< HEAD
         <div className='tab-header--first'> 
           {tabs.map((tab, index) => (
             <div
@@ -34,15 +33,6 @@ const Tab = ({ tabs, updateOrdersDeliver, view }) => {
               setSelectedDeliveryman={setSelectedDeliveryman}
               updateOrdersDeliver={updateOrdersDeliver}
             />
-=======
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            className={`tab-item ${index === activeTab ? "active" : ""}`}
-            onClick={() => handleTabClick(index)}
-          >
-            {tab.label}
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
           </div>
           <div className='stick'>
             <Stick trigger={<button>Open Stick</button>}>
@@ -51,18 +41,8 @@ const Tab = ({ tabs, updateOrdersDeliver, view }) => {
           </div>
         </div>
       </div>
-<<<<<<< HEAD
 
 
-=======
-      <div className="tugeegch">
-        <Tugeegch
-          view={view}
-          setSelectedDeliveryman={setSelectedDeliveryman}
-          updateOrdersDeliver={updateOrdersDeliver}
-        />
-      </div>
->>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
       <div className="tab-content">{tabs[activeTab].content()}</div>
     </div>
   );
