@@ -37,6 +37,7 @@
   background-color: #fff;
   border-bottom: 2px solid green;
 }
+<<<<<<< HEAD
 
 .tab-header--first {
   display: flex;
@@ -63,3 +64,5 @@
   top: -50px;
   z-index: 100;
 }
+=======
+>>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e

@@ -91,7 +91,11 @@ const Popup = (props) => {
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
+<<<<<<< HEAD
             <div className="tugeegch-wrapper">
+=======
+            <div>
+>>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
               <h2
                 style={{
                   fontSize: "18px",
@@ -109,7 +113,16 @@ const Popup = (props) => {
               />
               <div style={{marginTop:"20px"}}>
                 {users.map((user) => {
+<<<<<<< HEAD
                   if (user && user.role === 2 && user.first_name && user.first_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+=======
+                  if (
+                    user.role === 2 &&
+                    user.first_name
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                  ) {
+>>>>>>> d3cb662a8292c9912dcc3622329a8a94bdf2603e
                     return (
                       <div key={user.user_id}>
                         <label>
