@@ -1,4 +1,4 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Dropdown from "../components/status/dropdown";
 import DatePick from "../components/datepick/datepick";
 import Channel from "../data/info";
@@ -14,7 +14,10 @@ const options = [
   { value: "3", label: "Хүргэгдсэн" },
   { value: "4", label: "Төлөгдсөн" },
   { value: "5", label: "Цуцлагдсан" },
+  { value: "14", label: "Ачигдсан" },
+  { value: "15", label: "Хойшилсон" },
 ];
+
 
 const managers = [
   { value: "manager1", label: "Жаак" },
@@ -34,16 +37,28 @@ const paymentMethods = [
 
 
 const ListHeader = (props) => {
+
+   
+  // const handleChange = (event, key) => {
+  //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
+  // };
   const handleChange = (event, key) => {
-    props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
+    const { target } = event;
+    const { value } = target;
+  
+    if (key === "status" && value === "0") {
+      props.handleSpinner(true);
+    } else {
+      props.setFilterState(prev => ({ ...prev, [key]: value }));
+    }
   };
+  
   const sequence = props.sequence;
   const sequenceSizes = props.sequenceSizes;
   let width = 0;
   for (const size in sequenceSizes) {
     width += sequenceSizes[size];
   }
-
 
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
@@ -72,7 +87,7 @@ const ListHeader = (props) => {
         <h5>Дугаар</h5>
         <input
           type="text"
-          value={props.filterState.order_id}
+          value={props.filterState.order_id ?? ""}
           placeholder="хайх"
           onChange={(e) => {
             handleChange(e, "order_id");
@@ -93,7 +108,6 @@ const ListHeader = (props) => {
             handleChange(e, "status");
           }}
         />
-        {/* <Dropdown options={options} onChange={handleStatusChange} /> */}
       </div>
     ),
 
@@ -185,7 +199,7 @@ const ListHeader = (props) => {
             value: item.business_type_id,
             label: item.business_type_name,
           }))}
-          onChange={(e) => handleChange(e, "business_type")} 
+          onChange={(e) => handleChange(e, "business_type")}
         />
       </div>
     ),
@@ -256,7 +270,8 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["paidamount"] + "px" }}
       >
         <h5>Төлбөрийн хэлбэр</h5>
-        <Dropdown options={paymentMethods}
+        <Dropdown
+          options={paymentMethods}
           onChange={(e) => handleChange(e, "district")}
         />
       </div>

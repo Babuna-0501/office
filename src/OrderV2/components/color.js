@@ -29,10 +29,20 @@ const getColorForStatus = (statusId) => {
           name = 'Цуцлагдсан';
           fontColor = '#fff'
           break;
-      case 'all': // Display all cases
-          color = 'transparent'; // Set a transparent color
-          name = 'All Statuses'; // Change the name to indicate all statuses
-          fontColor = '#000'; // Change font color to black
+      case 6: // Shipment status
+          color = '#E3CE0E'; 
+          name = 'Ачигдсан';
+          fontColor = '#fff'
+          break;
+      case 6: // Shipment status
+          color = '#CCCCCC'; 
+          name = 'Хойшилсон';
+          fontColor = '#fff'
+          break;
+      case 'all': 
+          color = 'transparent'; 
+          name = 'All Statuses'; 
+          fontColor = '#000';
           break;
       default:
           color = 'white'; 
