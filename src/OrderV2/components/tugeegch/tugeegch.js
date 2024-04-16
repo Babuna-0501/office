@@ -91,7 +91,7 @@ const Popup = (props) => {
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
-            <div>
+            <div className="tugeegch-wrapper">
               <h2
                 style={{
                   fontSize: "18px",
@@ -107,14 +107,9 @@ const Popup = (props) => {
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
-              <div>
+              <div style={{marginTop:"20px"}}>
                 {users.map((user) => {
-                  if (
-                    user.role === 2 &&
-                    user.first_name
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
+                  if (user && user.role === 2 && user.first_name && user.first_name.toLowerCase().includes(searchTerm.toLowerCase())) {
                     return (
                       <div key={user.user_id}>
                         <label>

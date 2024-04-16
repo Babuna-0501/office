@@ -3,9 +3,8 @@ import Tab from "./components/tab/Tab";
 import List1 from "./List/List1";
 import List2 from "./List/List2";
 import List3 from "./List/List3";
-import Date from "./components/date/date";
+import DateFilter from "./components/date/date"; // Renamed Date component
 import Sidebar from "./components/sidebar/sidebar";
-// import Header from './components/header/header';
 import "./style.css";
 import { getDates } from "./data/info";
 import myHeaders from "./components/MyHeader/myHeader";
@@ -40,13 +39,24 @@ const App = () => {
   const [filteredData, setFilteredData] = useState([]); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
 
   const [selectedOrders, setSelectedOrders] = useState([]);
-  const handleFilterChange = (selectedFilter) => {
-    const { startDate, endDate } = getDates(selectedFilter);
+
+  const filterDataByDateRange = (data, startDate, endDate) => {
+    return data.filter(item => {
+      const itemDate = new Date(item.date); 
+      return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
+    });
+  };
+
+  const handleFilterChange = (selectedFilter, startDate, endDate) => {
+    const dataToFilter = [...selectedFilter]; 
+
+    const filteredData = filterDataByDateRange(dataToFilter, startDate, endDate);
 
     setFilterState((prev) => ({
       ...prev,
       startDate: startDate,
       endDate: endDate,
+      filteredData: filteredData,
     }));
   };
 
@@ -109,13 +119,14 @@ const App = () => {
       ),
     },
     { label: "Захиалгын тохиргоо", content: () => <List2 /> },
-    { label: "Захиалгын загвар илгээх", content: () => <List3 /> },
+    { label: "Захиалгын загвар", content: () => <List3 /> },
   ];
+
   return (
     <div className="Container">
       <div className="sidebarWrapper">
-        <Date
-          handleFilterChange={(e) => handleFilterChange(e)}
+        <DateFilter
+          handleFilterChange={handleFilterChange}
           selectedFilter={filterState.selectedDate}
         />
         <Sidebar

@@ -1,4 +1,4 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Dropdown from "../components/status/dropdown";
 import DatePick from "../components/datepick/datepick";
 import Channel from "../data/info";
@@ -14,7 +14,10 @@ const options = [
   { value: "3", label: "Хүргэгдсэн" },
   { value: "4", label: "Төлөгдсөн" },
   { value: "5", label: "Цуцлагдсан" },
+  { value: "14", label: "Ачигдсан" },
+  { value: "15", label: "Хойшилсон" },
 ];
+
 
 const managers = [
   { value: "manager1", label: "Жаак" },
@@ -34,16 +37,28 @@ const paymentMethods = [
 
 
 const ListHeader = (props) => {
+
+   
+  // const handleChange = (event, key) => {
+  //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
+  // };
   const handleChange = (event, key) => {
-    props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
+    const { target } = event;
+    const { value } = target;
+  
+    if (key === "status" && value === "0") {
+      props.handleSpinner(true);
+    } else {
+      props.setFilterState(prev => ({ ...prev, [key]: value }));
+    }
   };
+  
   const sequence = props.sequence;
   const sequenceSizes = props.sequenceSizes;
   let width = 0;
   for (const size in sequenceSizes) {
     width += sequenceSizes[size];
   }
-
 
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
@@ -93,7 +108,6 @@ const ListHeader = (props) => {
             handleChange(e, "status");
           }}
         />
-        {/* <Dropdown options={options} onChange={handleStatusChange} /> */}
       </div>
     ),
 

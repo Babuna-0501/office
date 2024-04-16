@@ -4,7 +4,6 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
-import { MouseButtonMessage } from "igniteui-react-charts";
 
 const List = ({
   filterState,
@@ -240,47 +239,54 @@ const List = ({
       : setSelectedOrders(selectedOrders.filter((s) => s != id));
   };
 
-  return (
-    <div className="OrderPageWrapper">
-      <ListHeader
-        sequence={sequence}
-        sequenceSizes={sequenceSizes}
-        onFilterChange={handleFilterChange}
-        filterState={filterState}
-        setFilterState={setFilterState}
-      />
-      {!loading && filteredData.length > 0 ? (
-        <div
-          className="order_wrapper"
-          onScroll={(e) => {
-            const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-            const bottom =
-              Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
+  const handleSpinner = (showSpinner) => {
+    setLoading(showSpinner);
+  };
 
-            if (bottom && filteredData.length % 50 == 0) {
-              setPage((prev) => prev + 1);
-            }
-          }}
-        >
-          {filteredData.map((order) => (
-            <Order
-              data={order}
-              checked={selectedOrders.includes(order.order_id)}
-              sequence={sequence}
-              onCheckboxChange={(e) =>
-                chooseOrder(order.order_id, e.target.checked)
+  return (
+    <>
+      <div className="OrderPageWrapper">
+        <ListHeader
+          sequence={sequence}
+          sequenceSizes={sequenceSizes}
+          onFilterChange={handleFilterChange}
+          filterState={filterState}
+          setFilterState={setFilterState}
+          handleSpinner={handleSpinner}
+        />
+        {!loading && filteredData && filteredData.length > 0 ? (
+          <div
+            className="order_wrapper"
+            onScroll={(e) => {
+              const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+              const bottom =
+                Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
+
+              if (bottom && filteredData.length % 50 == 0) {
+                setPage((prev) => prev + 1);
               }
-              sequenceSizes={sequenceSizes}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="spinner-container">
-          <div className="spinner"></div>
-        </div>
-      )}
+            }}
+          >
+            {filteredData.map((order) => (
+              <Order
+                data={order}
+                checked={selectedOrders.includes(order.order_id)}
+                sequence={sequence}
+                onCheckboxChange={(e) =>
+                  chooseOrder(order.order_id, e.target.checked)
+                }
+                sequenceSizes={sequenceSizes}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="spinner-container">
+            <div className="spinner"></div>
+          </div>
+        )}
+      </div>
       <Total data={filteredData} />
-    </div>
+    </>
   );
 };
 

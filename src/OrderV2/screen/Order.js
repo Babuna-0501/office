@@ -10,9 +10,6 @@ const Order = (props) => {
   const data = filteredData.length ? filteredData : props.data;
 
   //Түгээгчийн попап
-  const [isChecked, setIsChecked] = useState(props.checked);
-  const [selectedDeliveryman, setSelectedDeliveryman] = useState(null);
-
   const { color, name, fontColor } = getColorForStatus(data.status);
 
   const getBusinessTypeName = (businessTypeId) => {
