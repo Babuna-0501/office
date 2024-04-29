@@ -8,6 +8,8 @@ import Sidebar from "./components/sidebar/sidebar";
 import "./style.css";
 import { getDates } from "./data/info";
 import myHeaders from "./components/MyHeader/myHeader";
+import ReportBtn from "./components/reportBtn.js/reportBtn";
+
 const App = () => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -140,6 +142,7 @@ const App = () => {
         view={selectedOrders.length > 0 || filterState.checked}
         updateOrdersDeliver={updateOrdersDeliver}
       />
+      <ReportBtn/>
     </div>
   );
 };

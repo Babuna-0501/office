@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { CSVLink } from 'react-csv';
+
 import Total from "./Total";
 import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
@@ -74,6 +76,29 @@ const List = ({
     manager: 140,
     butsaalt: 120,
   };
+
+  const myCustomHeaders = [
+    { label: 'Order number', key: 'order_id' },
+    { label: 'Vendor', key: 'order_supplier' },
+    { label: 'Total', key: 'grand_total' },
+    { label: 'Completed at', key: 'product_name' },
+    { label: 'When to ship', key: 'delivery_date' },
+    { label: 'Shipped at', key: 'product_name' },
+    { label: 'Note', key: 'product_name' },
+    { label: 'Receiver phone', key: 'phone' },
+    { label: 'Receiver info', key: 'product_name' },
+    { label: 'Receiver name', key: 'product_name' },
+    { label: 'Branch', key: 'product_name' },
+    { label: 'Business type', key: 'product_name' },
+    { label: 'State name', key: 'tradeshop_city' },
+    { label: 'District', key: 'tradeshop_district' },
+    { label: 'Quarter', key: 'product_name' },
+    { label: 'Address', key: 'product_name' },
+    { label: 'Original total', key: 'product_name' },
+    { label: 'Status', key: 'order_supplier' },
+    { label: 'Register', key: 'product_name' },
+  ];
+  
 
   useEffect(() => {
     // console.log("EFFECT", props.hariutsagchNer);
@@ -286,6 +311,14 @@ const List = ({
         )}
       </div>
       <Total data={filteredData} />
+      <CSVLink
+        data={filteredData}
+        headers={myCustomHeaders} 
+        filename={'orders.csv'}
+        className="export-button"
+      >
+        Export to Excel
+      </CSVLink>
     </>
   );
 };
