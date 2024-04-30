@@ -5,12 +5,12 @@ import "./style.css";
 import getColorForStatus from "../components/color";
 import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
+import myHeaders from "../../components/MyHeader/myHeader";
 // import myHeaders from "../components/MyHeader/myHeader";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
-
 
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(data.status);
@@ -67,13 +67,17 @@ const Order = (props) => {
     { id: 10, name: "Amar" },
   ];
 
-
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
+
   const [payment, setPayment] = useState({
     // end props oor orj irj bga valuegaa oruulna
     balance: 22000,
     paid: 200000,
+    all: props.data.line
+      .map((e) => e.price * e.quantity)
+      .reduce((a, b) => a + b),
+
     edit: false,
   });
   const handleOpen = () => {
@@ -88,9 +92,52 @@ const Order = (props) => {
     setIsOpen(false);
   };
 
-  const editData = () => {
-    setEdit(undefined);
+  const editData = async () => {
+    try {
+      const requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        redirect: "follow",
+        // body
+        body: JSON.stringify({}),
+      };
+      const res = await fetch(
+        "https://api2.ebazaar.mn/api/orderdata/update",
+        requestOptions
+      ).then((d) => d.json());
+      setEdit(undefined);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const getPaidPrice = async () => {
+    try {
+      // end requestee oruulaad
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: JSON.stringify({ prePayment: "100" }),
+      };
+
+      const res = await fetch(
+        "https://api2.ebazaar.mn/api/orderdata/update",
+        requestOptions
+      ).then((d) => d.json());
+      // res gedgiin irj bga dun gej bodoj bga
+      setPayment((prev) => ({
+        ...prev,
+        balance: Math.floor(payment.all - res),
+        paid: res,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    // getPaidPrice();
+  }, []);
 
   const changePrice = (e) => {
     let value = isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value);
@@ -102,7 +149,6 @@ const Order = (props) => {
   const handleTabbClick = (tabIndex) => {
     setActiveTab(tabIndex);
   };
-
 
   return (
     <div className="WrapperOut">
@@ -364,7 +410,7 @@ const Order = (props) => {
                     />
                   ) : (
                     <span style={{ fontSize: "12px", color: "#2AB674" }}>
-                        {payment.paid}₮
+                      {payment.paid}₮
                     </span>
                   )}
                 </span>
@@ -374,7 +420,11 @@ const Order = (props) => {
                     {payment.edit ? (
                       <input
                         value={payment.balance}
-                        style={{ fontSize: "13px", width: "70px", height: "33px" }}
+                        style={{
+                          fontSize: "13px",
+                          width: "70px",
+                          height: "33px",
+                        }}
                         onChange={(e) => {
                           setPayment((prev) => ({
                             ...prev,
@@ -383,8 +433,23 @@ const Order = (props) => {
                         }}
                       />
                     ) : (
-                        <span style={{ fontSize: "12px", color: "#DA1414", marginTop: "-3px" }}>
-                          <div style={{ fontSize: "12px", color: "#DA1414", marginTop: "-3px" }}> {payment.balance}₮</div>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#DA1414",
+                          marginTop: "-3px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            color: "#DA1414",
+                            marginTop: "-3px",
+                          }}
+                        >
+                          {" "}
+                          {payment.balance}₮
+                        </div>
                       </span>
                     )}
                   </span>
@@ -393,19 +458,46 @@ const Order = (props) => {
                   <span style={{ fontSize: "12px" }}>Захиалгын нийт дүн </span>
                   <br />
                   <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                    {payment.paid + payment.balance}₮
+                    {payment.all}₮
                   </span>
                 </span>
-                <button className="btn_edit"
+                <button
+                  className="btn_edit"
                   onClick={() => {
                     setPayment((prev) => ({ ...prev, edit: !payment.edit }));
                   }}
                 >
                   {payment.edit ? "" : ""}
-                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M12.6367 4.05664L16.4417 7.86164" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                  <svg
+                    width="20"
+                    height="21"
+                    viewBox="0 0 20 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501"
+                      stroke="#808080"
+                      stroke-width="1.25"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z"
+                      stroke="#808080"
+                      stroke-width="1.25"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M12.6367 4.05664L16.4417 7.86164"
+                      stroke="#808080"
+                      stroke-width="1.25"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </button>
               </div>
@@ -424,88 +516,119 @@ const Order = (props) => {
             </div>
           </div>
 
-
           <div className="tabs-container">
             <div className="tabs-header">
               <div
-                className={`tab-item ${activeTab === 1 ? 'active' : ''}`}
+                className={`tab-item ${activeTab === 1 ? "active" : ""}`}
                 onClick={() => handleTabbClick(1)}
               >
                 Захиалга
               </div>
               <div
-                className={`tab-item ${activeTab === 2 ? 'active' : ''}`}
+                className={`tab-item ${activeTab === 2 ? "active" : ""}`}
                 onClick={() => handleTabbClick(2)}
               >
                 Мэдэгдэл
               </div>
               <div
-                className={`tab-item ${activeTab === 3 ? 'active' : ''}`}
+                className={`tab-item ${activeTab === 3 ? "active" : ""}`}
                 onClick={() => handleTabbClick(3)}
               >
                 Лог
               </div>
               <div
-                className={`tab-item ${activeTab === 4 ? 'active' : ''}`}
+                className={`tab-item ${activeTab === 4 ? "active" : ""}`}
                 onClick={() => handleTabbClick(4)}
               >
                 Тэмдэглэл
               </div>
             </div>
             <div className="tab-content">
-              {activeTab === 1 &&
+              {activeTab === 1 && (
                 <div>
                   <div className="line-section">
                     {data.line.map((product) => (
-                      <div key={product.order_detail_id} className="product-line">
-                        <img src={product.product_image} alt={product.product_name} />
+                      <div
+                        key={product.order_detail_id}
+                        className="product-line"
+                      >
+                        <img
+                          src={product.product_image}
+                          alt={product.product_name}
+                        />
                         <div className="product-info">
-                          <div style={{ fontSize: "12px" }}>{product.product_name}</div>
-                          {edit !== undefined &&
-                            edit?.order_detail_id == product.order_detail_id ? (
-                            <div className="line-btm" style={{ gap: "10px" }}>
-                              <form className="flex">
-                                <input
-                                  value={edit.price}
-                                  name="price"
-                                  onChange={(e) => {
-                                    setEdit((prev) => ({
-                                      ...prev,
-                                      price: changePrice(e),
-                                    }));
-                                  }}
-                                />
-                                *
-                                <input
-                                  value={edit.quantity}
-                                  name="quantity"
-                                  onChange={(e) => {
-                                    setEdit((prev) => ({
-                                      ...prev,
-                                      quantity: changePrice(e),
-                                    }));
-                                  }}
-                                />
-                                <span>={Math.floor(edit.price * edit.quantity)}</span>
-                              </form>
+                          <div style={{ fontSize: "12px" }}>
+                            {product.product_name}
+                          </div>
+
+                          <div className="line-btm" style={{ gap: "10px" }}>
+                            <span style={{ fontWeight: "bold" }}>
+                              {" "}
+                              {Math.floor(product.price)}₮
+                            </span>
+                            <span>*{product.quantity}</span>
+                            <span style={{ fontWeight: "bold" }}>
+                              ={Math.floor(product.price * product.quantity)}₮
+                            </span>
+                            <div
+                              style={{
+                                fontSize: "12px",
+                                display: "flex",
+                                gap: "10px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span>SKU:</span>
+                              {product.product_sku}
+                              <span style={{ fontSize: "12px" }}>
+                                Barcode:{product.product_bar_code}
+                              </span>
                             </div>
-                          ) : (
-                            <div className="line-btm" style={{ gap: "10px" }}>
-                                <span style={{ fontWeight: "bold" }}> {Math.floor(product.price)}₮</span>
-                                <span>*{product.quantity}</span>
-                                <span style={{ fontWeight: "bold" }}>
-                                  ={Math.floor(product.price * product.quantity)}₮
-                                </span>
-                                <div style={{ fontSize: "12px", display: "flex", gap: "10px", alignItems: "center" }}><span>SKU:</span>{product.product_sku}<span style={{ fontSize: "12px" }}>Barcode:{product.product_bar_code}</span></div>
-                            </div>
-                          )}
-                          <span className="edit_b">
-                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                              <path d="M12.6367 4.05664L16.4417 7.86164" stroke="#808080" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              setEdit((prev) => ({
+                                ...prev,
+                                order_detail_id: product.order_detail_id,
+                                price: product.price,
+                                quantity: product.quantity,
+                              }));
+                            }}
+                            className="edit_b"
+                          >
+                            <svg
+                              width="20"
+                              height="21"
+                              viewBox="0 0 20 21"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501"
+                                stroke="#808080"
+                                stroke-width="1.25"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z"
+                                stroke="#808080"
+                                stroke-width="1.25"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M12.6367 4.05664L16.4417 7.86164"
+                                stroke="#808080"
+                                stroke-width="1.25"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
                             </svg>
-                          </span>
+                          </button>
                         </div>
                         {/* <button
                 onClick={() =>
@@ -532,24 +655,35 @@ const Order = (props) => {
                     </div>
                   </div>
                 </div>
-              }
-              {activeTab === 2 &&
+              )}
+              {activeTab === 2 && (
                 <div className="notif">
-                  <div className="notif_head">
-                    Push notification
-                  </div>
+                  <div className="notif_head">Push notification</div>
                   <div className="notif_ctr">
-                    <p>Таны Шуурхай түгээлт-д хийсэн захиалга баталгаажиж ХХ-ХХ өдөр хүргэгдэхээр боллоо. eBazaar.mn - 77071907</p>
+                    <p>
+                      Таны Шуурхай түгээлт-д хийсэн захиалга баталгаажиж ХХ-ХХ
+                      өдөр хүргэгдэхээр боллоо. eBazaar.mn - 77071907
+                    </p>
                   </div>
-                  <div className="notif_head">
-                    Notification log
-                  </div>
-                </div>}
+                  <div className="notif_head">Notification log</div>
+                </div>
+              )}
               {activeTab === 3 && <div>Content for Tab 3</div>}
               {activeTab === 4 && <div>Content for Tab 4</div>}
+              <Modal
+                cancel={() => setEdit(undefined)}
+                payload={edit}
+                save={() => editData()}
+                open={edit != undefined}
+                onChange={(e, key) => {
+                  setEdit((prev) => ({
+                    ...prev,
+                    [key]: changePrice(e),
+                  }));
+                }}
+              />
             </div>
           </div>
-
         </OrderDetail>
       )}
     </div>
@@ -557,3 +691,36 @@ const Order = (props) => {
 };
 
 export default Order;
+
+export const Modal = ({ open, payload, cancel, save, onChange }) => {
+  if (!open) return null;
+  return (
+    <section className="modal">
+      <article className="modal-content p-lg-4">
+        <div className="exit-icon text-end">
+          {/* <IoMdClose onClick={onClose} /> */}
+          <button onClick={cancel}>Close</button>
+        </div>
+        <main className="modal-mainContents">
+          <label>Price:</label>
+          <input value={payload.price} onChange={(e) => onChange(e, "price")} />
+
+          <label>Quantity:</label>
+          <input
+            value={payload.quantity}
+            onChange={(e) => onChange(e, "quantity")}
+          />
+
+          <span>
+            {payload.price}₮ * {payload.quantity} =
+            {Math.floor(payload.price * payload.quantity)}₮
+          </span>
+          <div className="modal-button">
+            <button onClick={cancel}>Cancel</button>
+            <button onClick={save}>Save</button>
+          </div>
+        </main>
+      </article>
+    </section>
+  );
+};
