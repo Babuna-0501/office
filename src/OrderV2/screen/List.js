@@ -267,8 +267,6 @@ const List = ({
 
     setLoading(true);
     const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
-    console.log("url engiin order", url);
-    console.log("requestOptions", requestOptions);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {

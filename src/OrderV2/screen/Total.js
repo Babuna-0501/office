@@ -25,7 +25,7 @@ const Total = (props) => {
       setTotalPrice(totalGrandTotal);
   
       // Хүргэлтийн төлбөр
-      let totalDelivery = props.data.reduce((acc, curr) => acc + curr.grand_total + 6000, 0); 
+      let totalDelivery = deliveredCount * 4000; 
       setTotalDeliveryPayment(totalDelivery);
 
       // Нийт төлбөр төлөлт
