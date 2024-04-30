@@ -1,165 +1,172 @@
 {
     "City" :[
-        {
-            "location_id": 1,
-            "parent_id": 0,
-            "location_name": "Улаанбаатар хот",
-            "latitude": 47.92123,
-            "longitude": 106.918556
-        },
-        {
-            "location_id": 2,
-            "parent_id": 1,
-            "location_name": "Багануур",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 3,
-            "parent_id": 1,
-            "location_name": "Багахангай",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 11,
-            "parent_id": 0,
-            "location_name": "Архангай аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 32,
-            "parent_id": 0,
-            "location_name": "Баян-Өлгий аймаг",
-            "latitude": 48.5,
-            "longitude": 90
-        },
-        {
-            "location_id": 47,
-            "parent_id": 0,
-            "location_name": "Баянхонгор аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 69,
-            "parent_id": 0,
-            "location_name": "Булган аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 106,
-            "parent_id": 0,
-            "location_name": "Говьсүмбэр аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 111,
-            "parent_id": 0,
-            "location_name": "Дархан-Уул аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 117,
-            "parent_id": 0,
-            "location_name": "Дорноговь аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 132,
-            "parent_id": 0,
-            "location_name": "Дорнод аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 148,
-            "parent_id": 0,
-            "location_name": "Дундговь аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 165,
-            "parent_id": 0,
-            "location_name": "Завхан аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 190,
-            "parent_id": 0,
-            "location_name": "Орхон аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 194,
-            "parent_id": 0,
-            "location_name": "Өвөрхангай аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 214,
-            "parent_id": 0,
-            "location_name": "Өмнөговь аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 230,
-            "parent_id": 0,
-            "location_name": "Сүхбаатар аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 244,
-            "parent_id": 0,
-            "location_name": "Сэлэнгэ аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 262,
-            "parent_id": 0,
-            "location_name": "Төв аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 290,
-            "parent_id": 0,
-            "location_name": "Увс аймаг",
-            "latitude": 49.5,
-            "longitude": 93
-        },
-        {
-            "location_id": 310,
-            "parent_id": 0,
-            "location_name": "Ховд аймаг",
-            "latitude": 48.00556,
-            "longitude": 91.64194
-        },
-        {
-            "location_id": 329,
-            "parent_id": 0,
-            "location_name": "Хөвсгөл аймаг",
-            "latitude": null,
-            "longitude": null
-        },
-        {
-            "location_id": 355,
-            "parent_id": 0,
-            "location_name": "Хэнтий аймаг",
-            "latitude": null,
-            "longitude": null
-        }
+      {
+        "location_id": 0,
+        "parent_id": 0,
+        "location_name": "Бүгд",
+        "latitude": 47.92123,
+        "longitude": 106.918556
+      },
+      {
+        "location_id": 1,
+        "parent_id": 0,
+        "location_name": "Улаанбаатар хот",
+        "latitude": 47.92123,
+        "longitude": 106.918556
+      },
+      {
+        "location_id": 2,
+        "parent_id": 1,
+        "location_name": "Багануур",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 3,
+        "parent_id": 1,
+        "location_name": "Багахангай",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 11,
+        "parent_id": 0,
+        "location_name": "Архангай аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 32,
+        "parent_id": 0,
+        "location_name": "Баян-Өлгий аймаг",
+        "latitude": 48.5,
+        "longitude": 90
+      },
+      {
+        "location_id": 47,
+        "parent_id": 0,
+        "location_name": "Баянхонгор аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 69,
+        "parent_id": 0,
+        "location_name": "Булган аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 106,
+        "parent_id": 0,
+        "location_name": "Говьсүмбэр аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 111,
+        "parent_id": 0,
+        "location_name": "Дархан-Уул аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 117,
+        "parent_id": 0,
+        "location_name": "Дорноговь аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 132,
+        "parent_id": 0,
+        "location_name": "Дорнод аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 148,
+        "parent_id": 0,
+        "location_name": "Дундговь аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 165,
+        "parent_id": 0,
+        "location_name": "Завхан аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 190,
+        "parent_id": 0,
+        "location_name": "Орхон аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 194,
+        "parent_id": 0,
+        "location_name": "Өвөрхангай аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 214,
+        "parent_id": 0,
+        "location_name": "Өмнөговь аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 230,
+        "parent_id": 0,
+        "location_name": "Сүхбаатар аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 244,
+        "parent_id": 0,
+        "location_name": "Сэлэнгэ аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 262,
+        "parent_id": 0,
+        "location_name": "Төв аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 290,
+        "parent_id": 0,
+        "location_name": "Увс аймаг",
+        "latitude": 49.5,
+        "longitude": 93
+      },
+      {
+        "location_id": 310,
+        "parent_id": 0,
+        "location_name": "Ховд аймаг",
+        "latitude": 48.00556,
+        "longitude": 91.64194
+      },
+      {
+        "location_id": 329,
+        "parent_id": 0,
+        "location_name": "Хөвсгөл аймаг",
+        "latitude": null,
+        "longitude": null
+      },
+      {
+        "location_id": 355,
+        "parent_id": 0,
+        "location_name": "Хэнтий аймаг",
+        "latitude": null,
+        "longitude": null
+      }
     ]
 }

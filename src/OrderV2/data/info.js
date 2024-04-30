@@ -1,5 +1,11 @@
 const Channel = [
   {
+    business_type_id: 0,
+    business_type_name: "Бүгд",
+    // channel_id: 1,
+    // channel_name: "Хүнсний дэлгүүр",
+  },
+  {
     business_type_id: 1,
     business_type_name: "8 нэрийн дэлгүүр",
     channel_id: 1,

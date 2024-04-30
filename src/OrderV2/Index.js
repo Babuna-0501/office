@@ -10,7 +10,7 @@ import { getDates } from "./data/info";
 import myHeaders from "./components/MyHeader/myHeader";
 import ReportBtn from "./components/reportBtn.js/reportBtn";
 
-const App = () => {
+const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
     status: null,
@@ -43,16 +43,20 @@ const App = () => {
   const [selectedOrders, setSelectedOrders] = useState([]);
 
   const filterDataByDateRange = (data, startDate, endDate) => {
-    return data.filter(item => {
-      const itemDate = new Date(item.date); 
+    return data.filter((item) => {
+      const itemDate = new Date(item.date);
       return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
     });
   };
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
-    const dataToFilter = [...selectedFilter]; 
+    const dataToFilter = [...selectedFilter];
 
-    const filteredData = filterDataByDateRange(dataToFilter, startDate, endDate);
+    const filteredData = filterDataByDateRange(
+      dataToFilter,
+      startDate,
+      endDate
+    );
 
     setFilterState((prev) => ({
       ...prev,
@@ -108,6 +112,7 @@ const App = () => {
       content: () => (
         <div>
           <List1
+            userData={props.userData}
             data={data}
             setData={setData}
             filteredData={filteredData}
@@ -142,7 +147,8 @@ const App = () => {
         view={selectedOrders.length > 0 || filterState.checked}
         updateOrdersDeliver={updateOrdersDeliver}
       />
-      <ReportBtn/>
+
+      <ReportBtn />
     </div>
   );
 };

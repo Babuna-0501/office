@@ -7,7 +7,7 @@ import DistrictData from "../data/district.json";
 
 import "./style.css";
 
-const options = [
+let options = [
   { value: "0", label: "Бүгд" },
   { value: "1", label: "Хүлээгдэж буй" },
   { value: "2", label: "Баталгаажсан" },
@@ -17,7 +17,6 @@ const options = [
   { value: "14", label: "Ачигдсан" },
   { value: "15", label: "Хойшилсон" },
 ];
-
 
 const managers = [
   { value: "manager1", label: "Жаак" },
@@ -35,31 +34,32 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
-
 const ListHeader = (props) => {
-
-   
   // const handleChange = (event, key) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
   const handleChange = (event, key) => {
     const { target } = event;
     const { value } = target;
-  
-    if (key === "status" && value === "0") {
-      props.handleSpinner(true);
-    } else {
-      props.setFilterState(prev => ({ ...prev, [key]: value }));
-    }
+
+    // if (key === "status" && value === "0") {
+    //   props.handleSpinner(true);
+    // } else {
+    props.setFilterState((prev) => ({ ...prev, [key]: value }));
+    // }
   };
-  
+
   const sequence = props.sequence;
   const sequenceSizes = props.sequenceSizes;
   let width = 0;
   for (const size in sequenceSizes) {
     width += sequenceSizes[size];
   }
-
+  const statusOptions = () => {
+    return props.userData.company_id === "|14268|"
+      ? options
+      : options.slice(0, 6);
+  };
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
   const renderHTML = [];
@@ -103,7 +103,7 @@ const ListHeader = (props) => {
       >
         <h5>Статус</h5>
         <Dropdown
-          options={options}
+          options={statusOptions()}
           onChange={(e) => {
             handleChange(e, "status");
           }}

@@ -58,3 +58,8 @@
   .payment_mode {
     width: 66px;
   }
+
+
+  .flex {
+     display: flex
+  }
