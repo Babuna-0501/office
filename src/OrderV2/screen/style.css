@@ -306,7 +306,7 @@
 }
 
 .vat{
-  width: 120px;
+  width: 90px;
 }
 .salesman ,.butsaalt {
   width: 110px;
@@ -460,9 +460,6 @@
   .tab-item {
     padding: 10px;
     cursor: pointer;
-    background-color: #f0f0f0;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
   }
   
   .tab-item.active {
@@ -491,6 +488,20 @@
     white-space: nowrap;
     border-radius: 4px;
   }
+
+  .add_product {
+    width: 130px;
+    height: 24px;
+    border: 1px solid #2AB674;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5%;
+    color: #2AB674;
+    white-space: nowrap;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   
   .notif_ctr {
     width: 500px;
@@ -506,63 +517,110 @@
     font-size: 12px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/* modal */
-
-
-.modal {
- position: fixed;
- left: 0;
- top: 0;
- right: 0;
- bottom: 0;
- background-color: rgba(0, 0, 0, 0.5);
- display: flex;
- align-items: center;
- justify-content: center;
-}
-.modal-content {
- border: 1px solid #fff;
- width: 400px;
- background-color: #fff;
- border-radius: 15px;
- padding: 20px 16px;
-}
-.exit-icon {
- cursor: pointer;
- font-size: 20px;
- text-align: end;
-
+.add-popup {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal-mainContents {
+/* Popup content */
+.popup-content_add {
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+
+/* Show the popup when the container is active */
+.add-popup.active {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+}
+
+.add_popup_search input {
+  display: flex;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding: 5px 10px;
+  align-items: center;
+  width: 422px;
+  font-size: 12px;
+  font-weight: bold;
   margin-top: 20px;
-  
+  margin-bottom: 20px;
 }
 
-.modal-button {
+.add_popup_title {
   display: flex;
-  justify-content: space-around;
+  gap: 20px;
+  width: 422px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding: 5px 10px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.add_popup_title p {
+  font-size: 12px;
+  font-weight: bold;
+  color: #4d4d4d;
+}
+
+.add_popup_btn {
+  display: flex;
+  justify-content: center;
   gap: 20px;
 }
-.modal-button button {
- /* border: 1px solid #6821c3; */
- padding: 6px;
- width: 8rem;
- /* background-color: #6821c3; */
- /* color: white; */
- border-radius: 7px;
+
+.add_popup_btn button {
+  height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content_add svg {
+  cursor: pointer;
+}
+
+.add_popup_btn button:first-of-type {
+  width: 82px;
+  color: #000;
+}
+
+.add_popup_btn button:last-of-type {
+  background-color: #2AB674;
+  width: 170px;
+  color: #fff;
+}
+
+.add_popup_md {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 30px;
+}
+
+.add_popup_md .add_popup_quantity {
+  width: 68px;
+  height: 25px;
+  border: none;
+  border: 1px solid #e6e6e6;
+  border-radius: 3px;
+}
+
+.add_popup_md span {
+  font-size: 12px;
+  font-weight: 600;
 }
