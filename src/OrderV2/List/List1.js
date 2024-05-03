@@ -5,6 +5,7 @@ import "./style.css";
 const List1 = ({
   filteredData,
   setFilteredData,
+  userData,
   setSelectedOrders,
   selectedOrders,
   data,
@@ -15,6 +16,7 @@ const List1 = ({
   return (
     <div className="list">
       <List
+        userData={userData}
         data={data}
         setData={setData}
         filteredData={filteredData}

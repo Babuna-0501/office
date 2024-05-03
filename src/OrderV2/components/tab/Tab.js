@@ -34,11 +34,6 @@ const Tab = ({ tabs, updateOrdersDeliver, view }) => {
               updateOrdersDeliver={updateOrdersDeliver}
             />
           </div>
-          <div className='stick'>
-            <Stick trigger={<button>Open Stick</button>}>
-              <p>This is the content inside the Stick.</p>
-            </Stick>
-          </div>
         </div>
       </div>
 

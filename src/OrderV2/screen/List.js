@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { CSVLink } from "react-csv";
+
 import Total from "./Total";
 import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
@@ -10,6 +12,7 @@ const List = ({
   setFilterState,
   setSelectedOrders,
   selectedOrders,
+  userData,
   data,
   setData,
   filteredData,
@@ -20,7 +23,7 @@ const List = ({
   const [interval, setIntervalDate] = useState(["", ""]);
 
   const [totalData, SetTotalData] = useState([]);
-
+  const [hariutsagch, setHariutsagch] = useState();
   const sequence = [
     "index",
     "id",
@@ -75,6 +78,51 @@ const List = ({
     butsaalt: 120,
   };
 
+  const myCustomHeaders = [
+    { label: "Order number", key: "order_id" },
+    { label: "Vendor", key: "order_supplier" },
+    { label: "Total", key: "grand_total" },
+    { label: "Completed at", key: "product_name" },
+    { label: "When to ship", key: "delivery_date" },
+    { label: "Shipped at", key: "product_name" },
+    { label: "Note", key: "product_name" },
+    { label: "Receiver phone", key: "phone" },
+    { label: "Receiver info", key: "product_name" },
+    { label: "Receiver name", key: "product_name" },
+    { label: "Branch", key: "product_name" },
+    { label: "Business type", key: "product_name" },
+    { label: "State name", key: "tradeshop_city" },
+    { label: "District", key: "tradeshop_district" },
+    { label: "Quarter", key: "product_name" },
+    { label: "Address", key: "product_name" },
+    { label: "Original total", key: "product_name" },
+    { label: "Status", key: "order_supplier" },
+    { label: "Register", key: "product_name" },
+  ];
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     try {
+  //       const companyId = Number(props.userData.company_id.replaceAll("|", ""));
+
+  //       const url = `https://api2.ebazaar.mn/api/backoffice/users?company=${companyId}`;
+  //       const requestOptions = {
+  //         method: "GET",
+  //         headers: myHeaders,
+  //         redirect: "follow",
+  //       };
+
+  //       const res = await fetch(url, requestOptions);
+  //       const resData = await res.json();
+
+  //       setHariutsagch(resData.data);
+  //       console.log("USER", resData.data);
+  //     } catch (error) {
+  //       console.log("error while fetching users: ", error);
+  //     }
+  //   };
+
+  //   getUsers();
+  // }, []);
   useEffect(() => {
     // console.log("EFFECT", props.hariutsagchNer);
     setPage(0);
@@ -110,6 +158,7 @@ const List = ({
       getOrders(false);
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
+
   const getOrders = (filter) => {
     var requestOptions = {
       method: "GET",
@@ -119,6 +168,14 @@ const List = ({
     let url;
 
     let params = "";
+    const changeParams = (value, name, all = "0") => {
+      value == all
+        ? (params = params
+            .split("&")
+            .filter((u) => !u.includes(name))
+            .join(""))
+        : (params += `${name}=${parseInt(value)}&`);
+    };
     if (filterState.startDate && filterState.endDate) {
       params += `order_start=${filterState.startDate}&`;
       params += `order_end=${filterState.endDate}&`;
@@ -148,22 +205,22 @@ const List = ({
       }
     }
     if (filterState.status) {
-      params += `order_status=${parseInt(filterState.status)}&`;
+      changeParams(filterState.status, "order_status");
     }
     if (filterState.tradeshop_name) {
       params += `tradeshop_name=${filterState.tradeshop_name}&`;
     }
 
     if (filterState.business_type) {
-      params += `business_type=${parseInt(filterState.business_type)}&`;
+      changeParams(filterState.business_type, "business_type");
     }
     if (filterState.city) {
-      params += `city=${parseInt(filterState.city)}&`;
+      changeParams(filterState.city, "city");
+    }
+    if (filterState.district) {
+      changeParams(filterState.district, "tradeshop_disctrict");
     }
 
-    if (filterState.district) {
-      params += `tradeshop_disctrict=${parseInt(filterState.district)}&`;
-    }
     if (filterState.address) {
       params += `address=${filterState.address}&`;
     }
@@ -210,7 +267,6 @@ const List = ({
 
     setLoading(true);
     const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
-
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -247,6 +303,7 @@ const List = ({
     <>
       <div className="OrderPageWrapper">
         <ListHeader
+          userData={userData}
           sequence={sequence}
           sequenceSizes={sequenceSizes}
           onFilterChange={handleFilterChange}
@@ -286,6 +343,14 @@ const List = ({
         )}
       </div>
       <Total data={filteredData} />
+      <CSVLink
+        data={filteredData}
+        headers={myCustomHeaders}
+        filename={"orders.csv"}
+        className="export-button"
+      >
+        Export to Excel
+      </CSVLink>
     </>
   );
 };
