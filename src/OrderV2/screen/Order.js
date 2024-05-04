@@ -7,6 +7,7 @@ import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
 import { ContourValueResolver } from "igniteui-react-charts";
+import { ProductModal } from "../components/product/modal";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -66,7 +67,7 @@ const Order = (props) => {
     { id: 9, name: "Qmenu" },
     { id: 10, name: "Amar" },
   ];
-
+  let ids = [];
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
   const [editedOrder, setEditedOrders] = useState([]);
@@ -216,6 +217,35 @@ const Order = (props) => {
 
   const closeAddPopup = () => {
     setIsAddPopupOpen(false);
+  };
+
+  const ProductAddHandler = (item) => {
+    let raw = JSON.stringify({
+      orderId: data.order_id,
+      products: item.map((x) => {
+        return {
+          productId: x.productId,
+          quantity: x.quantity == 0 ? 1 : x.quantity,
+          price: x.price,
+        };
+      }),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("https://api2.ebazaar.mn/api/orderDetail/create", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("product add", result);
+        if (result.code == 200) {
+          document.location.reload();
+        }
+      });
   };
 
   return (
@@ -627,60 +657,16 @@ const Order = (props) => {
                     Хадгалах
                   </button>
 
-                  <div
-                    className={`add-popup ${isAddPopupOpen ? "active" : ""}`}
-                  >
-                    <div className="popup-content_add">
-                      <span className="close-button" onClick={closeAddPopup}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
-                            fill="#1A1A1A"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
-                            fill="#1A1A1A"
-                          />
-                        </svg>
-                      </span>
-                      <span style={{ marginLeft: "30px" }}>
-                        Захиалгын дугаар: {data.order_id}
-                      </span>
-                      <div className="add_popup_search">
-                        {" "}
-                        <input type="text" placeholder="Бүтээгдэхүүн хайх" />
-                      </div>
-                      <div className="add_popup_title">
-                        <p>Бүтээгдэхүүний нэр</p>
-                        <p>Тоо ширхэг</p>
-                        <p>Нэгж үнэ</p>
-                        <p>Нийт үнийн дүн</p>
-                      </div>
-                      {/* End baraanii lsit garch irne */}
-                      <div className="add_popup_md">
-                        <span>Тахианы мах</span>
-                        <span>
-                          <input className="add_popup_quantity" type="number" />
-                        </span>
-                        <span>10000₮</span>
-                        <span>1000000₮</span>
-                      </div>
-                      <div className="add_popup_btn">
-                        <button>Цуцлах</button>
-                        <button>Бүтээгдэхүүн нэмэх</button>
-                      </div>
-                    </div>
-                  </div>
+                  <ProductModal
+                    orderId={data.order_id}
+                    close={closeAddPopup}
+                    submit={(e) => {
+                      ProductAddHandler(e);
+                    }}
+                    supId={data.supplier_id}
+                    ids={ids}
+                    open={isAddPopupOpen}
+                  />
 
                   <div className="line-section">
                     {data.line.map((product) => {
