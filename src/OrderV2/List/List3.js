@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Report from '../screen/Report/Report';
 
 const List3 = () => {
   return (
-    <div>List3</div>
+    <div>
+      <Report/>
+    </div>
   )
 }
 

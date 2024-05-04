@@ -52,10 +52,6 @@
   width: 125px;
 }
 
-.list_header {
-  background: #f4f4f4;
-}
-
 .order {
   height: 52px;
   border-bottom: 1px solid #ccc;
@@ -90,7 +86,6 @@
 }
 
 .order:hover {
-  background-color: #eee;
   cursor: pointer;
 }
 
@@ -417,6 +412,7 @@
     position: absolute;
     right: 10px;
     top: 10px;
+    cursor: pointer;
   }
   
   .edit_b {
@@ -623,4 +619,43 @@
 .add_popup_md span {
   font-size: 12px;
   font-weight: 600;
+}
+
+
+.btn_btm button{
+  width: 165px;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.5%;
+  line-height: 20px;
+  border: none;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  cursor: pointer;
+}
+
+.btn_btm button:first-of-type {
+  color: #1a1a1a;
+  background-color: #f2f2f2;
+} 
+
+.btn_btm button:last-of-type {
+  color: #fff;
+  background-color: #2AB674;
+} 
+
+
+.save_changes {
+  width: 150px;
+  height: 24px;
+  border: 1px solid #2AB674;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: -0.5%;
+  color: #2AB674;
+  white-space: nowrap;
+  border-radius: 4px;
+  cursor: pointer;
 }

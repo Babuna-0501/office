@@ -6,6 +6,7 @@ import getColorForStatus from "../components/color";
 import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
+import { ContourValueResolver } from "igniteui-react-charts";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -13,7 +14,7 @@ const Order = (props) => {
 
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(data.status);
-  const [ userId , setUserId] = useState([]);
+  const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
     const id = parseInt(businessTypeId);
     const channel = Channel.find((item) => item.business_type_id === id);
@@ -68,14 +69,11 @@ const Order = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
-
   const [payment, setPayment] = useState({
     // end props oor orj irj bga valuegaa oruulna
-    balance: 22000,
-    paid: 200000,
-    all: props.data.line
-      .map((e) => e.price * e.quantity)
-      .reduce((a, b) => a + b),
+    balance: 0,
+    paid: 0,
+    all: 0,
 
     edit: false,
   });
@@ -93,51 +91,94 @@ const Order = (props) => {
 
   const editData = async () => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-        // body
-        body: JSON.stringify({
-        }),
-      };
-      const res = await fetch(
-        "https://api2.ebazaar.mn/api/order/update",
-        requestOptions
-      ).then((d) => d.json());
+      // const requestOptions = {
+      //   method: "POST",
+      //   headers: myHeaders,
+      //   redirect: "follow",
+      //   // body
+      //   body: JSON.stringify({}),
+      // };
+      // const res = await fetch(
+      //   "https://api2.ebazaar.mn/api/order/update",
+      //   requestOptions
+      console.log(edit);
+      // ).then((d) => d.json());
       setEdit(undefined);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getPaidPrice = async () => {
-    try {
-      // end requestee oruulaad
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify({ prePayment: "100" }),
-      };
+  const PriceHandlerSave = (l) => {
+    let raw = JSON.stringify({
+      order_id: data.order_id,
+      line: [
+        {
+          order_detail_id: l.order_detail_id,
+          product_id: l.product_id,
+          price: l.price,
+        },
+      ],
+    });
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    // console.log("new price change ", requestOptions);
 
-      const res = await fetch(
-        "https://api2.ebazaar.mn/api/orderdata/update",
-        requestOptions
-      ).then((d) => d.json());
-      // res gedgiin irj bga dun gej bodoj bga
-      setPayment((prev) => ({
-        ...prev,
-        balance: Math.floor(payment.all - res),
-        paid: res,
-      }));
-    } catch (error) {
-      console.error(error);
-    }
+    fetch(`https://api2.ebazaar.mn/api/order/update/price`, requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log("price response", res);
+        if (res.code === 200) {
+          fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
+            method: "POST",
+            headers: myHeaders,
+            redirect: "follow",
+            body: JSON.stringify({
+              section_name: "Захиалгын үнэ өөрчилөв.",
+              entry_id: props.data.order_id,
+              user_name: props.userData.email,
+              action: `Захиалгын үнэ өөрчилөв. Шинэ үнэ : ${l.price}. Хуучин үнэ : ${l.price}`,
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) => console.log("res", res))
+            .catch((error) => {
+              console.log("error", error);
+            });
+          let aaa = data;
+          let bbb = aaa.line.map((x) => {
+            if (x.order_detail_id === l.order_detail_id) {
+              x.price = l.price;
+            }
+          });
+          console.log(bbb);
+          // setData(bbb);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
   useEffect(() => {
-    // getPaidPrice();
-  }, []);
+    let all = props.data.line
+      .map((e) => e.price * e.quantity)
+      .reduce((a, b) => a + b);
+
+    let paid = JSON.parse(props.data.order_data)?.prePayment ?? 0;
+    console.log("paid", paid);
+    paid = paid == "" ? 0 : paid;
+    all = all == "" ? 0 : all;
+    setPayment((prev) => ({
+      ...prev,
+      balance: all - paid,
+      all: all,
+      paid: paid,
+    }));
+  }, [props.data]);
 
   const changePrice = (e) => {
     let value = isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value);
@@ -172,15 +213,19 @@ const Order = (props) => {
   };
 
   const matchingFunction = (userData) => {
-    const matchUser = userData.find(user => user.user_id === data.deliver_man);
-    const matchHt = userData.find(user => user.user_id === data.sales_man_employee_id)
+    const matchUser = userData.find(
+      (user) => user.user_id === data.deliver_man
+    );
+    const matchHt = userData.find(
+      (user) => user.user_id === data.sales_man_employee_id
+    );
     if (matchUser) {
       setMatchedFirstName(matchUser.first_name);
     } else {
       console.log("Baihgui1");
     }
 
-    if(matchHt) {
+    if (matchHt) {
       setMatchedHt(matchHt.first_name);
     } else {
       console.log("baihgui");
@@ -191,7 +236,6 @@ const Order = (props) => {
     fetchUserData();
   }, []);
 
-
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
 
   const openAddPopup = () => {
@@ -201,7 +245,6 @@ const Order = (props) => {
   const closeAddPopup = () => {
     setIsAddPopupOpen(false);
   };
-
 
   return (
     <div className="WrapperOut">
@@ -253,8 +296,8 @@ const Order = (props) => {
 
         <div className="payment_mode">
           <div className="fullcontainer price_wrapper idWrapper">
-            <span>{data.grand_total}₮</span>
-            <span>{data.payment_amount}₮</span>
+            <span>{Math.floor(data.grand_total)}₮</span>
+            <span>{Math.floor(data.payment_amount)}₮</span>
           </div>
         </div>
         <div className="cancel_reason">
@@ -268,8 +311,8 @@ const Order = (props) => {
           </div>
         </div>
         <div className="phone">
-          <div className="fullcontainer">
-            <span>{data.phone}</span>
+          <div className="fullcontainer" style={{height:"auto"}}>
+          <span dangerouslySetInnerHTML={{ __html: data.phone.replace(/,/g, "<br />") }}></span>
           </div>
         </div>
         <div className="merchant">
@@ -340,13 +383,13 @@ const Order = (props) => {
         <div className="salesman">
           <div className="fullcontainer">
             <span>{data.sales_man_employee_id}</span>&nbsp;
-            <span>{matchedHt || ''}</span>
+            <span>{matchedHt || ""}</span>
           </div>
         </div>
         <div className="deliveryman">
           <div className="fullcontainer">
             <span>{data.deliver_man}</span>&nbsp;
-            <span>{matchedFirstName || ''}</span>
+            <span>{matchedFirstName || ""}</span>
           </div>
         </div>
         <div className="manager">
@@ -457,9 +500,11 @@ const Order = (props) => {
                       value={payment.paid}
                       style={{ fontSize: "12px", width: "70px" }}
                       onChange={(e) => {
+                        let price = changePrice(e);
                         setPayment((prev) => ({
                           ...prev,
                           paid: changePrice(e),
+                          balance: payment.all - price,
                         }));
                       }}
                     />
@@ -481,9 +526,11 @@ const Order = (props) => {
                           height: "33px",
                         }}
                         onChange={(e) => {
+                          let price = changePrice(e);
                           setPayment((prev) => ({
                             ...prev,
                             balance: changePrice(e),
+                            paid: payment.paid - price,
                           }));
                         }}
                       />
@@ -516,7 +563,7 @@ const Order = (props) => {
                     {payment.all}₮
                   </span>
                 </span>
-                <button
+                <div
                   className="btn_edit"
                   onClick={() => {
                     setPayment((prev) => ({ ...prev, edit: !payment.edit }));
@@ -554,7 +601,7 @@ const Order = (props) => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                </button>
+                </div>
               </div>
               <div style={{ fontSize: "10px", display: "flex", gap: "145px" }}>
                 <span>
@@ -601,39 +648,68 @@ const Order = (props) => {
             <div className="tab-content">
               {activeTab === 1 && (
                 <div>
-                <button className="add_product" onClick={openAddPopup}>
-                Бүтээгдэхүүн нэмэх
-                </button>
-
-                <div className={`add-popup ${isAddPopupOpen ? 'active' : ''}`}>
-                  <div className="popup-content_add">
-                    <span className="close-button" onClick={closeAddPopup}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z" fill="#1A1A1A"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z" fill="#1A1A1A"/>
-                    </svg>
-                    </span>
-                    <span style={{marginLeft:"30px"}}>Захиалгын дугаар: {data.order_id}</span>
-                    <div className="add_popup_search"> <input type="text" placeholder="Бүтээгдэхүүн хайх" /></div>
-                    <div className="add_popup_title">
-                      <p>Бүтээгдэхүүний нэр</p>
-                      <p>Тоо ширхэг</p>
-                      <p>Нэгж үнэ</p>
-                      <p>Нийт үнийн дүн</p>
-                    </div>
-                    {/* End baraanii lsit garch irne */}
-                    <div className="add_popup_md">
+                  <div style={{display:"flex", gap:"20px"}}>   
+                    <button className="add_product" onClick={openAddPopup}>
+                      Бүтээгдэхүүн нэмэх
+                    </button>
+                    <button className="save_changes">
+                      Өөрчлөлтийг хадгалах 
+                    </button>
+                  </div>
+                  <div
+                    className={`add-popup ${isAddPopupOpen ? "active" : ""}`}
+                  >
+                    <div className="popup-content_add">
+                      <span className="close-button" onClick={closeAddPopup}>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
+                            fill="#1A1A1A"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
+                            fill="#1A1A1A"
+                          />
+                        </svg>
+                      </span>
+                      <span style={{ marginLeft: "30px" }}>
+                        Захиалгын дугаар: {data.order_id}
+                      </span>
+                      <div className="add_popup_search">
+                        {" "}
+                        <input type="text" placeholder="Бүтээгдэхүүн хайх" />
+                      </div>
+                      <div className="add_popup_title">
+                        <p>Бүтээгдэхүүний нэр</p>
+                        <p>Тоо ширхэг</p>
+                        <p>Нэгж үнэ</p>
+                        <p>Нийт үнийн дүн</p>
+                      </div>
+                      {/* End baraanii lsit garch irne */}
+                      <div className="add_popup_md">
                         <span>Тахианы мах</span>
-                        <span><input className="add_popup_quantity" type="number"/></span>
+                        <span>
+                          <input className="add_popup_quantity" type="number" />
+                        </span>
                         <span>10000₮</span>
                         <span>1000000₮</span>
-                    </div>
-                    <div className="add_popup_btn">
-                      <button>Цуцлах</button>
-                      <button>Бүтээгдэхүүн нэмэх</button>
+                      </div>
+                      <div className="add_popup_btn">
+                        <button>Цуцлах</button>
+                        <button>Бүтээгдэхүүн нэмэх</button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
                   <div className="line-section">
                     {data.line.map((product) => (
@@ -675,10 +751,11 @@ const Order = (props) => {
                             </div>
                           </div>
 
-                          <button
+                          <div
                             onClick={() => {
                               setEdit((prev) => ({
                                 ...prev,
+                                product_id: product.product_id,
                                 order_detail_id: product.order_detail_id,
                                 price: product.price,
                                 quantity: product.quantity,
@@ -717,7 +794,7 @@ const Order = (props) => {
                                 stroke-linejoin="round"
                               />
                             </svg>
-                          </button>
+                          </div>
                         </div>
                         {/* <button
                 onClick={() =>
@@ -792,7 +869,10 @@ export const Modal = ({ open, payload, cancel, save, onChange }) => {
         </div>
         <main className="modal-mainContents">
           <label>Price:</label>
-          <input value={Math.floor(payload.price)} onChange={(e) => onChange(e, "price")} />
+          <input
+            value={Math.floor(payload.price)}
+            onChange={(e) => onChange(e, "price")}
+          />
           <label>Quantity:</label>
           <input
             value={payload.quantity}

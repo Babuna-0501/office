@@ -126,7 +126,7 @@ const App = (props) => {
       ),
     },
     { label: "Захиалгын тохиргоо", content: () => <List2 /> },
-    { label: "Захиалгын загвар", content: () => <List3 /> },
+    { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
 
   return (
