@@ -6,7 +6,7 @@ import getColorForStatus from "../components/color";
 import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
-import { ContourValueResolver } from "igniteui-react-charts";
+import { ProductModal } from "../components/product/modal";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -66,23 +66,18 @@ const Order = (props) => {
     { id: 9, name: "Qmenu" },
     { id: 10, name: "Amar" },
   ];
-
+  let ids = [];
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
-  const [payment, setPayment] = useState({
-    // end props oor orj irj bga valuegaa oruulna
-    balance: 0,
-    paid: 0,
-    all: 0,
-
-    edit: false,
-  });
+  const [editedOrder, setEditedOrders] = useState([]);
+  const [payment, setPayment] = useState(props.payment);
   const handleOpen = () => {
     setIsOpen(true);
   };
 
   const handleClose = () => {
     setPayment((prev) => ({
+      ...prev,
       edit: false,
     }));
     setEdit(undefined);
@@ -91,97 +86,74 @@ const Order = (props) => {
 
   const editData = async () => {
     try {
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: myHeaders,
-      //   redirect: "follow",
-      //   // body
-      //   body: JSON.stringify({}),
-      // };
-      // const res = await fetch(
-      //   "https://api2.ebazaar.mn/api/order/update",
-      //   requestOptions
-      console.log(edit);
-      // ).then((d) => d.json());
+      setEditedOrders((prev) => [...prev, edit]);
       setEdit(undefined);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const PriceHandlerSave = (l) => {
-    let raw = JSON.stringify({
-      order_id: data.order_id,
-      line: [
-        {
-          order_detail_id: l.order_detail_id,
-          product_id: l.product_id,
-          price: l.price,
-        },
-      ],
-    });
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-    // console.log("new price change ", requestOptions);
-
-    fetch(`https://api2.ebazaar.mn/api/order/update/price`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        // console.log("price response", res);
-        if (res.code === 200) {
-          fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-            method: "POST",
-            headers: myHeaders,
-            redirect: "follow",
-            body: JSON.stringify({
-              section_name: "Захиалгын үнэ өөрчилөв.",
-              entry_id: props.data.order_id,
-              user_name: props.userData.email,
-              action: `Захиалгын үнэ өөрчилөв. Шинэ үнэ : ${l.price}. Хуучин үнэ : ${l.price}`,
-            }),
-          })
-            .then((res) => res.json())
-            .then((res) => console.log("res", res))
-            .catch((error) => {
-              console.log("error", error);
-            });
-          let aaa = data;
-          let bbb = aaa.line.map((x) => {
-            if (x.order_detail_id === l.order_detail_id) {
-              x.price = l.price;
-            }
-          });
-          console.log(bbb);
-          // setData(bbb);
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
+  const save = async () => {
+    try {
+      let priceBody = JSON.stringify({
+        order_id: data.order_id,
+        line: editedOrder.map((e) => {
+          return {
+            order_detail_id: e.order_detail_id,
+            product_id: e.product_id,
+            price: e.price,
+          };
+        }),
       });
+      let quantityBody = JSON.stringify({
+        order_id: data.order_id,
+        line: editedOrder.map((e) => {
+          return {
+            order_detail_id: e.order_detail_id,
+            quantity: e.quantity,
+          };
+        }),
+      });
+      let requestOptionsPrice = {
+        method: "POST",
+        headers: myHeaders,
+        body: priceBody,
+        redirect: "follow",
+      };
+      let requestOptionsQuantity = {
+        method: "POST",
+        headers: myHeaders,
+        body: quantityBody,
+        redirect: "follow",
+      };
+      await fetch(
+        "https://api2.ebazaar.mn/api/order/update",
+        requestOptionsQuantity
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("quantity", result);
+        });
+      await fetch(
+        `https://api2.ebazaar.mn/api/order/update/price`,
+        requestOptionsPrice
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("price", res);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+      setIsOpen(false);
+      window.location.reload();
+    } catch (error) { }
   };
-  useEffect(() => {
-    let all = props.data.line
-      .map((e) => e.price * e.quantity)
-      .reduce((a, b) => a + b);
-
-    let paid = JSON.parse(props.data.order_data)?.prePayment ?? 0;
-    console.log("paid", paid);
-    paid = paid == "" ? 0 : paid;
-    all = all == "" ? 0 : all;
-    setPayment((prev) => ({
-      ...prev,
-      balance: all - paid,
-      all: all,
-      paid: paid,
-    }));
-  }, [props.data]);
 
   const changePrice = (e) => {
-    let value = isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value);
+    let value = isNaN(parseFloat(e.target.value))
+      ? 0
+      : parseFloat(e.target.value);
     return value;
   };
 
@@ -206,7 +178,7 @@ const Order = (props) => {
       );
       const data2 = await response.json();
       matchingFunction(data2.data);
-      console.log("batdorj k", data2.data);
+      // console.log("batdorj k", data2.data);
     } catch (error) {
       console.error(error);
     }
@@ -244,6 +216,35 @@ const Order = (props) => {
 
   const closeAddPopup = () => {
     setIsAddPopupOpen(false);
+  };
+
+  const ProductAddHandler = (item) => {
+    let raw = JSON.stringify({
+      orderId: data.order_id,
+      products: item.map((x) => {
+        return {
+          productId: x.productId,
+          quantity: x.quantity == 0 ? 1 : x.quantity,
+          price: x.price,
+        };
+      }),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("https://api2.ebazaar.mn/api/orderDetail/create", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("product add", result);
+        if (result.code == 200) {
+          document.location.reload();
+        }
+      });
   };
 
   return (
@@ -311,8 +312,8 @@ const Order = (props) => {
           </div>
         </div>
         <div className="phone">
-          <div className="fullcontainer" style={{height:"auto"}}>
-          <span dangerouslySetInnerHTML={{ __html: data.phone.replace(/,/g, "<br />") }}></span>
+          <div className="fullcontainer" style={{ height: "auto" }}>
+            <span dangerouslySetInnerHTML={{ __html: data.phone.replace(/,/g, "<br />") }}></span>
           </div>
         </div>
         <div className="merchant">
@@ -606,7 +607,7 @@ const Order = (props) => {
               <div style={{ fontSize: "10px", display: "flex", gap: "145px" }}>
                 <span>
                   <span style={{ fontSize: "10px" }}>ХТ:</span>
-                  {}
+                  { }
                 </span>
                 <span>
                   <span style={{ fontSize: "10px" }}>Түгээгч:</span>
@@ -648,155 +649,151 @@ const Order = (props) => {
             <div className="tab-content">
               {activeTab === 1 && (
                 <div>
-                  <div style={{display:"flex", gap:"20px"}}>   
-                    <button className="add_product" onClick={openAddPopup}>
-                      Бүтээгдэхүүн нэмэх
-                    </button>
-                    <button className="save_changes">
-                      Өөрчлөлтийг хадгалах 
-                    </button>
-                  </div>
-                  <div
-                    className={`add-popup ${isAddPopupOpen ? "active" : ""}`}
-                  >
-                    <div className="popup-content_add">
-                      <span className="close-button" onClick={closeAddPopup}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
-                            fill="#1A1A1A"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
-                            fill="#1A1A1A"
-                          />
-                        </svg>
-                      </span>
-                      <span style={{ marginLeft: "30px" }}>
-                        Захиалгын дугаар: {data.order_id}
-                      </span>
-                      <div className="add_popup_search">
-                        {" "}
-                        <input type="text" placeholder="Бүтээгдэхүүн хайх" />
-                      </div>
-                      <div className="add_popup_title">
-                        <p>Бүтээгдэхүүний нэр</p>
-                        <p>Тоо ширхэг</p>
-                        <p>Нэгж үнэ</p>
-                        <p>Нийт үнийн дүн</p>
-                      </div>
-                      {/* End baraanii lsit garch irne */}
-                      <div className="add_popup_md">
-                        <span>Тахианы мах</span>
-                        <span>
-                          <input className="add_popup_quantity" type="number" />
-                        </span>
-                        <span>10000₮</span>
-                        <span>1000000₮</span>
-                      </div>
-                      <div className="add_popup_btn">
-                        <button>Цуцлах</button>
-                        <button>Бүтээгдэхүүн нэмэх</button>
-                      </div>
-                    </div>
-                  </div>
+                  <button className="add_product" onClick={openAddPopup}>
+                    Бүтээгдэхүүн нэмэх
+                  </button>
+                  <button className="add_product" onClick={() => save()}>
+                    Хадгалах
+                  </button>
+
+                  <ProductModal
+                    orderId={data.order_id}
+                    close={closeAddPopup}
+                    submit={(e) => {
+                      ProductAddHandler(e);
+                    }}
+                    supId={data.supplier_id}
+                    ids={ids}
+                    open={isAddPopupOpen}
+                  />
 
                   <div className="line-section">
-                    {data.line.map((product) => (
-                      <div
-                        key={product.order_detail_id}
-                        className="product-line"
-                      >
-                        <img
-                          src={product.product_image}
-                          alt={product.product_name}
-                        />
-                        <div className="product-info">
-                          <div style={{ fontSize: "12px" }}>
-                            {product.product_name}
-                          </div>
-
-                          <div className="line-btm" style={{ gap: "10px" }}>
-                            <span style={{ fontWeight: "bold" }}>
-                              {" "}
-                              {Math.floor(product.price)}₮
-                            </span>
-                            <span>*{product.quantity}</span>
-                            <span style={{ fontWeight: "bold" }}>
-                              ={Math.floor(product.price * product.quantity)}₮
-                            </span>
-                            <div
-                              style={{
-                                fontSize: "12px",
-                                display: "flex",
-                                gap: "10px",
-                                alignItems: "center",
-                              }}
-                            >
-                              <span>SKU:</span>
-                              {product.product_sku}
-                              <span style={{ fontSize: "12px" }}>
-                                Barcode:{product.product_bar_code}
-                              </span>
+                    {data.line.map((product) => {
+                      let edited = editedOrder.filter(
+                        (e) => e.order_detail_id == product.order_detail_id
+                      );
+                      return (
+                        <div
+                          key={product.order_detail_id}
+                          className="product-line"
+                        >
+                          <img
+                            src={product.product_image}
+                            alt={product.product_name}
+                          />
+                          <div className="product-info">
+                            <div style={{ fontSize: "12px" }}>
+                              {product.product_name}
                             </div>
-                          </div>
 
-                          <div
-                            onClick={() => {
-                              setEdit((prev) => ({
-                                ...prev,
-                                product_id: product.product_id,
-                                order_detail_id: product.order_detail_id,
-                                price: product.price,
-                                quantity: product.quantity,
-                              }));
-                            }}
-                            className="edit_b"
-                          >
-                            <svg
-                              width="20"
-                              height="21"
-                              viewBox="0 0 20 21"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            <div className="line-btm" style={{ gap: "10px" }}>
+                              {edited.length > 0 && (
+                                <>
+                                  <span style={{ fontWeight: "bold" }}>
+                                    {" "}
+                                    {Math.floor(edited[0].price)}₮
+                                  </span>
+                                  <span>*{edited[0].quantity}</span>
+                                  <span style={{ fontWeight: "bold" }}>
+                                    =
+                                    {Math.floor(
+                                      edited[0].price * edited[0].quantity
+                                    )}
+                                    ₮
+                                  </span>
+                                </>
+                              )}
+                              <>
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: edited.length > 0 ? "red" : "black",
+                                  }}
+                                >
+                                  {" "}
+                                  {Math.floor(product.price)}₮
+                                </span>
+                                <span
+                                  style={{
+                                    color: edited.length > 0 ? "red" : "black",
+                                  }}
+                                >
+                                  *{product.quantity}
+                                </span>
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: edited.length > 0 ? "red" : "black",
+                                  }}
+                                >
+                                  =
+                                  {Math.floor(product.price * product.quantity)}
+                                  ₮
+                                </span>
+                              </>
+
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  display: "flex",
+                                  gap: "10px",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <span>SKU:</span>
+                                {product.product_sku}
+                                <span style={{ fontSize: "12px" }}>
+                                  Barcode:{product.product_bar_code}
+                                </span>
+                              </div>
+                            </div>
+
+                            <button
+                              onClick={() => {
+                                setEdit((prev) => ({
+                                  ...prev,
+                                  product_id: product.product_id,
+                                  order_detail_id: product.order_detail_id,
+                                  price: product.price,
+                                  quantity: product.quantity,
+                                }));
+                              }}
+                              className="edit_b"
                             >
-                              <path
-                                d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501"
-                                stroke="#808080"
-                                stroke-width="1.25"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z"
-                                stroke="#808080"
-                                stroke-width="1.25"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                              <path
-                                d="M12.6367 4.05664L16.4417 7.86164"
-                                stroke="#808080"
-                                stroke-width="1.25"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
+                              <svg
+                                width="20"
+                                height="21"
+                                viewBox="0 0 20 21"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501"
+                                  stroke="#808080"
+                                  stroke-width="1.25"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z"
+                                  stroke="#808080"
+                                  stroke-width="1.25"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  d="M12.6367 4.05664L16.4417 7.86164"
+                                  stroke="#808080"
+                                  stroke-width="1.25"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
                           </div>
-                        </div>
-                        {/* <button
+                          {/* <button
                 onClick={() =>
                   edit == undefined &&
                   edit?.order_detail_id == product.order_detail_id
@@ -813,8 +810,9 @@ const Order = (props) => {
                   ? "edit"
                   : "done"}
               </button> */}
-                      </div>
-                    ))}
+                        </div>
+                      );
+                    })}
                     <div className="btn_btm">
                       <button>Захиалга цуцлах</button>
                       <button>Баталгаажуулах</button>
