@@ -148,7 +148,11 @@ const App = (props) => {
         updateOrdersDeliver={updateOrdersDeliver}
       />
 
-      <ReportBtn />
+      <ReportBtn
+        onClick={() => {
+          console.log("asdf");
+        }}
+      />
     </div>
   );
 };
