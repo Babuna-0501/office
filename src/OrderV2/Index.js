@@ -118,12 +118,16 @@ const App = (props) => {
         key: "address",
       },
     ];
+    let qr = 0;
+    let pr = 0;
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
+        qr += l.quantity;
+        pr += l.amount;
       });
       worksheet.addRow({
         number: i + 1,
@@ -155,6 +159,20 @@ const App = (props) => {
           address: "",
         });
       });
+    });
+    worksheet.addRow({
+      number: "",
+      id: "",
+      name: "GRAND TOTAL",
+      quantity: qr,
+      unitPrice: "",
+      price: pr,
+      allPrice: pr,
+      tradeshop: "",
+      phone: "",
+      haritsagch: "",
+      deliverman: "",
+      address: "",
     });
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], {

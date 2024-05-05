@@ -44,6 +44,8 @@ export const ExportModal = ({
 
   props,
 }) => {
+  let qt = 0;
+  let pr = 0;
   if (!open) return null;
   return (
     <section className="modal modal_export">
@@ -74,7 +76,10 @@ export const ExportModal = ({
               p.line.map((l) => {
                 quantity += l.quantity;
                 price += l.amount;
+                qt += l.quantity;
+                pr += l.amount;
               });
+
               return (
                 <>
                   <div key={i} className="modal_table_head head">
@@ -112,6 +117,20 @@ export const ExportModal = ({
                 </>
               );
             })}
+            <div className="modal_table_head head">
+              <span className="flex-1"></span>
+              <span className="flex-3"></span>
+              <span>GRAND TOTAL</span>
+              <span className="flex-4">{qt}</span>
+              <span className="flex-4"></span>
+              <span className="flex-5">{pr}₮</span>
+              <span className="flex-5">{pr}₮</span>
+              <span className="flex-6"></span>
+              <span className="flex-3"></span>
+              <span className="flex-4"></span>
+              <span className="flex-4"></span>
+              <span className="flex-8"></span>
+            </div>
           </div>
 
           <div className="modal-button export-btns">
