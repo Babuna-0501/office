@@ -153,10 +153,12 @@ const List = ({
       })
       .filter((s) => s == true);
 
-    if (starts.length == 0) {
-      fetchData(false);
-    } else {
-      getOrders(false);
+    if (page != 0) {
+      if (starts.length == 0) {
+        fetchData(false);
+      } else {
+        getOrders(false);
+      }
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
@@ -249,6 +251,7 @@ const List = ({
       .then((result) => {
         setLoading(false);
         if (!filter) {
+          // console.log('one 1Ө')
           setData((prev) => [...prev, result.data]);
           setFilteredData((prev) => [...prev, ...result.data]);
         } else {

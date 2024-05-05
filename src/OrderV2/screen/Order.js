@@ -72,7 +72,10 @@ const Order = (props) => {
   const [edit, setEdit] = useState(undefined);
   const [editedOrder, setEditedOrders] = useState([]);
   const [payment, setPayment] = useState(props.payment);
-  const handleOpen = () => {
+  const handleOpen = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     setIsOpen(true);
   };
 
@@ -204,7 +207,7 @@ const Order = (props) => {
 
   return (
     <div className="WrapperOut">
-      <div className="order col_wrapper" onClick={handleOpen}>
+      <div className="order col_wrapper" onClick={(e) => handleOpen(e)}>
         <div className="order_index">
           <div>
             <input
