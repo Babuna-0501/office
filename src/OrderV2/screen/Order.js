@@ -71,13 +71,17 @@ const Order = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
   const [editedOrder, setEditedOrders] = useState([]);
-  const [payment, setPayment] = useState(props.payment);
+  const [payment, setPayment] = useState();
   const handleOpen = (e) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    setPayment(props.payment);
+  }, [props.payment]);
 
   const handleClose = () => {
     setPayment((prev) => ({
@@ -203,6 +207,33 @@ const Order = (props) => {
           document.location.reload();
         }
       });
+  };
+
+  const updatePayment = async () => {
+    if (payment.edit) {
+      let raw = JSON.stringify({
+        orderId: data.order_id,
+        data: {
+          prePayment: payment.paid,
+        },
+      });
+
+      var requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("https://api2.ebazaar.mn/api/orderdata/update ", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("payment update", result);
+
+          document.location.reload();
+        });
+    }
+    setPayment((prev) => ({ ...prev, edit: !payment.edit }));
   };
 
   return (
@@ -462,7 +493,7 @@ const Order = (props) => {
                         let price = changePrice(e);
                         setPayment((prev) => ({
                           ...prev,
-                          paid: changePrice(e),
+                          paid: price,
                           balance: payment.all - price,
                         }));
                       }}
@@ -525,7 +556,7 @@ const Order = (props) => {
                 <button
                   className="btn_edit"
                   onClick={() => {
-                    setPayment((prev) => ({ ...prev, edit: !payment.edit }));
+                    updatePayment();
                   }}
                 >
                   {payment.edit ? "" : ""}
