@@ -125,6 +125,7 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
         <div className="add_popup_search">
           {" "}
           <input
+            autoFocus
             type="text"
             placeholder="Бүтээгдэхүүн хайх"
             onChange={(e) => setProductid(e.target.value)}
@@ -139,11 +140,11 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
         </div>
         {/* End baraanii lsit garch irne */}
         <div style={{ height: "500px", overflow: "scroll" }}>
+          {search?.length > 0 && <p>Сонгосон</p>}
           {search?.map((s, i) => {
-            console.log(s);
             return (
               <ProductAddCard
-                name={s.productId}
+                name={s.name}
                 price={s.price}
                 quantity={s.quantity}
                 setQuantity={(e) => {
@@ -156,28 +157,27 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
               />
             );
           })}
-
-          {productid != null &&
-            copy?.map((d) => {
-              console.log(d);
-              return (
-                <ProductAddCard
-                  add={(q) => {
-                    setSearch((prev) => [
-                      ...prev,
-                      {
-                        productId: d._id,
-                        quantity: q,
-                        price: d.stock,
-                      },
-                    ]);
-                  }}
-                  quantity={0}
-                  name={d._id}
-                  price={d.stock}
-                />
-              );
-            })}
+          {productid != null && copy?.length > 0 && <p>Хайсан</p>}
+          {copy?.map((d) => {
+            return (
+              <ProductAddCard
+                add={(q) => {
+                  setSearch((prev) => [
+                    ...prev,
+                    {
+                      name: d.name,
+                      productId: d._id,
+                      quantity: q,
+                      price: d.stock,
+                    },
+                  ]);
+                }}
+                quantity={0}
+                name={d.name}
+                price={d.stock}
+              />
+            );
+          })}
         </div>
         <div className="add_popup_btn">
           <button onClick={() => cancel()}>Цуцлах</button>
@@ -219,11 +219,13 @@ const ProductAddCard = ({
       </span>
       <span>{price}₮</span>
       <span>{Math.floor((quantity ?? 0) * price)}₮ </span>
-      {add == undefined ? (
-        <button onClick={remove}>del</button>
-      ) : (
-        <button onClick={() => add(quantity)}>add</button>
-      )}
+      <span>
+        {add == undefined ? (
+          <button onClick={remove}>del</button>
+        ) : (
+          <button onClick={() => add(quantity)}>add</button>
+        )}
+      </span>
     </div>
   );
 };

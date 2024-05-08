@@ -24,6 +24,7 @@ const List = ({
 
   const [totalData, SetTotalData] = useState([]);
   const [hariutsagch, setHariutsagch] = useState();
+  const [delivermans, setDeliverMans] = useState([]);
   const sequence = [
     "index",
     "id",
@@ -152,10 +153,12 @@ const List = ({
       })
       .filter((s) => s == true);
 
-    if (starts.length == 0) {
-      fetchData(false);
-    } else {
-      getOrders(false);
+    if (page != 0) {
+      if (starts.length == 0) {
+        fetchData(false);
+      } else {
+        getOrders(false);
+      }
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
@@ -248,6 +251,7 @@ const List = ({
       .then((result) => {
         setLoading(false);
         if (!filter) {
+          // console.log('one 1Ө')
           setData((prev) => [...prev, result.data]);
           setFilteredData((prev) => [...prev, ...result.data]);
         } else {
@@ -298,6 +302,28 @@ const List = ({
   const handleSpinner = (showSpinner) => {
     setLoading(showSpinner);
   };
+  const fetchUserData = async () => {
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      const response = await fetch(
+        "https://api2.ebazaar.mn/api/backoffice/users",
+        requestOptions
+      );
+      const data2 = await response.json();
+      setDeliverMans(data2.data);
+      // console.log("batdorj k", data2.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <>
@@ -328,11 +354,17 @@ const List = ({
               let all = order.line
                 .map((e) => e.price * e.quantity)
                 .reduce((a, b) => a + b);
-
               let paid = JSON.parse(order.order_data)?.prePayment ?? 0;
+              console.log(paid, order.order_id);
 
               paid = paid == "" ? 0 : paid;
               all = all == "" ? 0 : all;
+              const matchUser = delivermans?.find(
+                (user) => user.user_id === order.deliver_man
+              );
+              const matchHt = delivermans?.find(
+                (user) => user.user_id === order.sales_man_employee_id
+              );
 
               return (
                 <Order
@@ -340,6 +372,8 @@ const List = ({
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}
                   sequence={sequence}
+                  firstname={matchUser?.first_name ?? ""}
+                  salesmanFirstname={matchHt?.first_name ?? ""}
                   onCheckboxChange={(e) =>
                     chooseOrder(order.order_id, e.target.checked)
                   }
@@ -354,7 +388,7 @@ const List = ({
           </div>
         )}
       </div>
-      <Total data={filteredData} />
+      <Total data={filteredData} userData={userData} />
       <CSVLink
         data={filteredData}
         headers={myCustomHeaders}

@@ -70,10 +70,17 @@ const Order = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(undefined);
   const [editedOrder, setEditedOrders] = useState([]);
-  const [payment, setPayment] = useState(props.payment);
-  const handleOpen = () => {
+  const [payment, setPayment] = useState();
+  const handleOpen = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    setPayment(props.payment);
+  }, [props.payment]);
 
   const handleClose = () => {
     setPayment((prev) => ({
@@ -162,52 +169,6 @@ const Order = (props) => {
     setActiveTab(tabIndex);
   };
 
-  const [matchedFirstName, setMatchedFirstName] = useState(null);
-  const [matchedHt, setMatchedHt] = useState(null);
-
-  const fetchUserData = async () => {
-    try {
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-      const response = await fetch(
-        "https://api2.ebazaar.mn/api/backoffice/users",
-        requestOptions
-      );
-      const data2 = await response.json();
-      matchingFunction(data2.data);
-      // console.log("batdorj k", data2.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const matchingFunction = (userData) => {
-    const matchUser = userData.find(
-      (user) => user.user_id === data.deliver_man
-    );
-    const matchHt = userData.find(
-      (user) => user.user_id === data.sales_man_employee_id
-    );
-    if (matchUser) {
-      setMatchedFirstName(matchUser.first_name);
-    } else {
-      console.log("Baihgui1");
-    }
-
-    if (matchHt) {
-      setMatchedHt(matchHt.first_name);
-    } else {
-      console.log("baihgui");
-    }
-  };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
 
   const openAddPopup = () => {
@@ -247,9 +208,36 @@ const Order = (props) => {
       });
   };
 
+  const updatePayment = async () => {
+    if (payment.edit) {
+      let raw = JSON.stringify({
+        orderId: data.order_id,
+        data: {
+          prePayment: payment.paid,
+        },
+      });
+
+      var requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("https://api2.ebazaar.mn/api/orderdata/update ", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("payment update", result);
+
+          document.location.reload();
+        });
+    }
+    setPayment((prev) => ({ ...prev, edit: !payment.edit }));
+  };
+
   return (
     <div className="WrapperOut">
-      <div className="order col_wrapper" onClick={handleOpen}>
+      <div className="order col_wrapper" onClick={(e) => handleOpen(e)}>
         <div className="order_index">
           <div>
             <input
@@ -384,13 +372,13 @@ const Order = (props) => {
         <div className="salesman">
           <div className="fullcontainer">
             <span>{data.sales_man_employee_id}</span>&nbsp;
-            <span>{matchedHt || ""}</span>
+            <span>{props?.salesmanFirstname || ""}</span>
           </div>
         </div>
         <div className="deliveryman">
           <div className="fullcontainer">
             <span>{data.deliver_man}</span>&nbsp;
-            <span>{matchedFirstName || ""}</span>
+            <span>{props?.firstname || ""}</span>
           </div>
         </div>
         <div className="manager">
@@ -504,7 +492,7 @@ const Order = (props) => {
                         let price = changePrice(e);
                         setPayment((prev) => ({
                           ...prev,
-                          paid: changePrice(e),
+                          paid: price,
                           balance: payment.all - price,
                         }));
                       }}
@@ -567,7 +555,7 @@ const Order = (props) => {
                 <div
                   className="btn_edit"
                   onClick={() => {
-                    setPayment((prev) => ({ ...prev, edit: !payment.edit }));
+                    updatePayment();
                   }}
                 >
                   {payment.edit ? "" : ""}
