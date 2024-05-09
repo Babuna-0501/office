@@ -216,13 +216,13 @@ const List = ({
         params += `deliveryManNotNull=true&`;
       } else {
         // null utga awdag
-        // params += `deliver_man=${
-        //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
-        // }&`;
-        // null utga awdaggui
-        params += `deliveryManNotNull=true&deliver_man=${
+        params += `delivery_man=${
           deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
         }&`;
+        // null utga awdaggui
+        // params += `deliveryManNotNull=true&deliver_man=${
+        //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
+        // }&`;
       }
     }
     if (filterState.status) {
