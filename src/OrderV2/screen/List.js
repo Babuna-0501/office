@@ -249,15 +249,16 @@ const List = ({
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((result) => {
-        setLoading(false);
-        if (!filter) {
-          // console.log('one 1Ө')
-          setData((prev) => [...prev, result.data]);
-          setFilteredData((prev) => [...prev, ...result.data]);
-        } else {
-          setData(result.data);
-          setFilteredData(result.data);
-        }
+        // setLoading(false);
+        console.log(filter);
+        // if (!filter) {
+        //   // console.log('one 1Ө')
+        //   setData((prev) => [...prev, result.data]);
+        //   setFilteredData((prev) => [...prev, ...result.data]);
+        // } else {
+        //   setData(result.data);
+        //   setFilteredData(result.data);
+        // }
       })
       .catch((error) => console.log("error++++", error))
       .finally(() => setLoading(false));
