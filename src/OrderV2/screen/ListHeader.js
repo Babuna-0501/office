@@ -335,9 +335,25 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["deliveryman"] + "px" }}
       >
         <h5>Түгээгч код/нэр</h5>
-        <input
-          type="text"
-          placeholder="Хайх"
+        <Dropdown
+          options={[
+            {
+              user_id: "",
+              first_name: "Бүгд",
+            },
+            {
+              user_id: "null",
+              first_name: "Хуваарьлаагүй",
+            },
+            {
+              user_id: "notNull",
+              first_name: "Хуваарьласан",
+            },
+            ...props.users,
+          ].map((item) => ({
+            value: item.user_id,
+            label: item.first_name,
+          }))}
           onChange={(e) => handleChange(e, "deliveryman")}
         />
       </div>

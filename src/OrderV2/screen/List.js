@@ -202,23 +202,15 @@ const List = ({
       params += `phone=${parseInt(filterState.phone)}&`;
       // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
-    if (filterState.deliveryman) {
-      let deliver = delivermans.filter((d) =>
-        d.first_name
-          ?.toLowerCase()
-          .includes(filterState.deliveryman.toLowerCase())
-      );
-      console.log(deliver);
-
+    if (filterState.deliveryman && filterState.deliveryman != "") {
+      console.log(filterState.deliveryman);
       if (filterState.deliveryman == "null") {
         params += `deliveryManNull=true&`;
       } else if (filterState.deliveryman === "notNull") {
         params += `deliveryManNotNull=true&`;
       } else {
         // null utga awdag
-        params += `delivery_man=${
-          deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
-        }&`;
+        params += `delivery_man=${filterState.deliveryman}&`;
         // null utga awdaggui
         // params += `deliveryManNotNull=true&deliver_man=${
         //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
@@ -313,7 +305,7 @@ const List = ({
   const chooseOrder = (id, value) => {
     value
       ? setSelectedOrders((prev) => [...prev, id])
-      : setSelectedOrders(selectedOrders.filter((s) => s != id));
+      : setSelectedOrders(selectedOrders?.filter((s) => s != id));
   };
 
   const handleSpinner = (showSpinner) => {
@@ -348,6 +340,19 @@ const List = ({
         <ListHeader
           userData={userData}
           sequence={sequence}
+          users={[
+            ...new Map(
+              []
+                .concat(
+                  ...filteredData.map((f) =>
+                    delivermans.filter(
+                      (deliver) => f.deliver_man === deliver.user_id
+                    )
+                  )
+                )
+                .map((c) => [c.user_id, c])
+            ).values(),
+          ]}
           sequenceSizes={sequenceSizes}
           onFilterChange={handleFilterChange}
           filterState={filterState}
