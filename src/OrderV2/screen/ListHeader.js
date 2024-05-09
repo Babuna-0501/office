@@ -35,9 +35,45 @@ const paymentMethods = [
 ];
 
 const ListHeader = (props) => {
+  const [delivermans, setDeliverMans] = useState([
+    {
+      user_id: "",
+      first_name: "Бүгд",
+    },
+    {
+      user_id: "null",
+      first_name: "Хуваарьлаагүй",
+    },
+    {
+      user_id: "notNull",
+      first_name: "Хуваарьласан",
+    },
+  ]);
   // const handleChange = (event, key) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
+  useEffect(() => {
+    console.log(props.users);
+    let users = props.users.map((f) => {
+      let d = delivermans.filter(
+        (deliver) =>
+          f.user_id !== deliver.user_id &&
+          deliver.user_id != "null" &&
+          deliver.user_id != "notNull" &&
+          deliver.user_id != ""
+      );
+
+      if (d.length == 0)
+        setDeliverMans((prev) => [
+          ...prev,
+          {
+            user_id: f.user_id,
+            first_name: f.first_name,
+          },
+        ]);
+    });
+  }, [props.users]);
+  console.log(delivermans);
   const handleChange = (event, key) => {
     const { target } = event;
     const { value } = target;
@@ -336,21 +372,7 @@ const ListHeader = (props) => {
       >
         <h5>Түгээгч код/нэр</h5>
         <Dropdown
-          options={[
-            {
-              user_id: "",
-              first_name: "Бүгд",
-            },
-            {
-              user_id: "null",
-              first_name: "Хуваарьлаагүй",
-            },
-            {
-              user_id: "notNull",
-              first_name: "Хуваарьласан",
-            },
-            ...props.users,
-          ].map((item) => ({
+          options={delivermans.map((item) => ({
             value: item.user_id,
             label: item.first_name,
           }))}
