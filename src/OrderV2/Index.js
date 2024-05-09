@@ -211,7 +211,11 @@ const App = (props) => {
     // tugeegchiin id
 
     try {
-      selectedOrders.map(async (order) => {
+      let status = 500;
+      (filterState.checked
+        ? filteredData.map((e) => e.order_id)
+        : selectedOrders
+      ).map(async (order) => {
         var requestOptions = {
           method: "POST",
           headers: myHeaders,
@@ -221,7 +225,10 @@ const App = (props) => {
             deliveryManId: id,
           }),
         };
-
+        console.log({
+          order_id: order,
+          deliveryManId: id,
+        });
         let url = `https://api2.ebazaar.mn/api/order/update`;
         await fetch(url, requestOptions)
           .then((r) => r.json())
@@ -230,12 +237,15 @@ const App = (props) => {
               ...prev,
               update: filterState.update == null ? true : !filterState.update,
             }));
+            status = result.code;
+            console.log(result);
           })
           .catch((error) => console.log("error++++", error));
       });
-      alert("Амжилттай");
+      status == 200 ? alert("Амжилттай") : alert("Амжилтгүй");
     } catch (error) {
       alert("Амжилтгүй");
+      console.log(error);
       setFilterState((prev) => ({ ...prev, update: null }));
     }
   };

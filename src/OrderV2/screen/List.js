@@ -355,8 +355,8 @@ const List = ({
               let all = order.line
                 .map((e) => e.price * e.quantity)
                 .reduce((a, b) => a + b);
-
               let paid = JSON.parse(order.order_data)?.prePayment ?? 0;
+              console.log(paid, order.order_id);
 
               paid = paid == "" ? 0 : paid;
               all = all == "" ? 0 : all;
