@@ -162,7 +162,7 @@ const List = ({
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
-  const getOrders = (filter) => {
+  const getOrders = async (filter) => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -193,23 +193,42 @@ const List = ({
       params += `delivery_date=${filterState.delivery_date}&`;
     }
     if (filterState.order_id) {
-      params += `id=${parseInt(filterState.order_id)}&`;
+      params += `order_id=${parseInt(filterState.order_id)}&`;
+    }
+    if (filterState.salesman) {
+      params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
     }
     if (filterState.phone) {
-      params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
+      params += `phone=${parseInt(filterState.phone)}&`;
+      // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
     if (filterState.deliveryman) {
+      let deliver = delivermans.filter((d) =>
+        d.first_name
+          ?.toLowerCase()
+          .includes(filterState.deliveryman.toLowerCase())
+      );
+      console.log(deliver);
+
       if (filterState.deliveryman == "null") {
         params += `deliveryManNull=true&`;
       } else if (filterState.deliveryman === "notNull") {
         params += `deliveryManNotNull=true&`;
       } else {
-        params += `delivery_man=${filterState.deliveryman}&`;
+        // null utga awdag
+        // params += `deliver_man=${
+        //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
+        // }&`;
+        // null utga awdaggui
+        params += `deliveryManNotNull=true&deliver_man=${
+          deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
+        }&`;
       }
     }
     if (filterState.status) {
       changeParams(filterState.status, "order_status");
     }
+
     if (filterState.tradeshop_name) {
       params += `tradeshop_name=${filterState.tradeshop_name}&`;
     }
@@ -248,20 +267,17 @@ const List = ({
     console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((r) => r.json())
-      .then((result) => {
-        // setLoading(false);
-        console.log(filter);
-        // if (!filter) {
-        //   // console.log('one 1Ө')
-        //   setData((prev) => [...prev, result.data]);
-        //   setFilteredData((prev) => [...prev, ...result.data]);
-        // } else {
-        //   setData(result.data);
-        //   setFilteredData(result.data);
-        // }
+      .then((res) => {
+        console.log(res.data);
+        if (filter) {
+          setData(res.data);
+          setFilteredData(res.data);
+        } else {
+          setData((prev) => [...prev, res.data]);
+          setFilteredData((prev) => [...prev, ...res.data]);
+        }
       })
-      .catch((error) => console.log("error++++", error))
-      .finally(() => setLoading(false));
+      .catch((error) => console.log("error++++", error));
   };
   const fetchData = (filter) => {
     const requestOptions = {
@@ -275,12 +291,12 @@ const List = ({
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if (!filter) {
-          setData((prev) => [...prev, result.data]);
-          setFilteredData((prev) => [...prev, ...result.data]);
-        } else {
+        if (filter) {
           setData(result.data);
           setFilteredData(result.data);
+        } else {
+          setData((prev) => [...prev, result.data]);
+          setFilteredData((prev) => [...prev, ...result.data]);
         }
       })
       .catch((error) => console.log("error", error))
@@ -356,7 +372,6 @@ const List = ({
                 .map((e) => e.price * e.quantity)
                 .reduce((a, b) => a + b);
               let paid = JSON.parse(order.order_data)?.prePayment ?? 0;
-              console.log(paid, order.order_id);
 
               paid = paid == "" ? 0 : paid;
               all = all == "" ? 0 : all;
