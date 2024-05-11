@@ -218,7 +218,11 @@ const List = ({
       }
     }
     if (filterState.status) {
-      changeParams(filterState.status, "order_status");
+      if (filterState.status == 14 || filterState.status == 15) {
+        changeParams(filterState.status, "shipment_status");
+      } else {
+        changeParams(filterState.status, "order_status");
+      }
     }
 
     if (filterState.tradeshop_name) {
@@ -389,6 +393,7 @@ const List = ({
 
               return (
                 <Order
+                  userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}

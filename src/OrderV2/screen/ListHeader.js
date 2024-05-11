@@ -92,7 +92,7 @@ const ListHeader = (props) => {
     width += sequenceSizes[size];
   }
   const statusOptions = () => {
-    return props.userData.company_id === "|14268|"
+    return props.userData?.company_id === "|14268|"
       ? options
       : options.slice(0, 6);
   };
@@ -123,7 +123,7 @@ const ListHeader = (props) => {
         <h5>Дугаар</h5>
         <input
           type="text"
-          value={props.filterState.order_id ?? ""}
+          value={props.filterState?.order_id ?? ""}
           placeholder="хайх"
           onChange={(e) => {
             handleChange(e, "order_id");
@@ -204,7 +204,7 @@ const ListHeader = (props) => {
           type="text"
           placeholder="Хайх"
           onChange={(e) => handleChange(e, "phone")}
-          value={props.filterState.phone}
+          value={props.filterState?.phone}
         />
       </div>
     ),
@@ -279,7 +279,7 @@ const ListHeader = (props) => {
         <h5>Хороо</h5>
         <input
           type="text"
-          value={props.filterState.tradeshop_horoo}
+          value={props.filterState?.tradeshop_horoo}
           placeholder="хайх"
           onChange={(e) => {
             handleChange(e, "tradeshop_horoo");
@@ -372,10 +372,14 @@ const ListHeader = (props) => {
       >
         <h5>Түгээгч код/нэр</h5>
         <Dropdown
-          options={delivermans.map((item) => ({
-            value: item.user_id,
-            label: item.first_name,
-          }))}
+          options={
+            delivermans.length > 0
+              ? delivermans.map((item) => ({
+                  value: item.user_id,
+                  label: item.first_name,
+                }))
+              : []
+          }
           onChange={(e) => handleChange(e, "deliveryman")}
         />
       </div>
@@ -409,9 +413,19 @@ const ListHeader = (props) => {
     cancelReason: <div></div>,
   };
 
-  sequence.map((sequence) => {
-    renderHTML.push(list[sequence]);
-  });
+  let headers = localStorage.getItem("ordersHeaderList");
+  if (headers == null) {
+    sequence.map((sequence) => {
+      renderHTML.push(list[sequence]);
+    });
+  } else {
+    let heads = JSON.parse(headers);
+    heads.map((head) => {
+      if (head.show) {
+        renderHTML.push(list[sequence[head.index]]);
+      }
+    });
+  }
 
   return (
     <div className="list_header order" style={{ minWidth: width + "px" }}>
