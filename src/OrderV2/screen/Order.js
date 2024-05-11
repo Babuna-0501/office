@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductAvatar from "../components/productImg/productImg";
 import Channel from "../data/info";
 import "./style.css";
-import getColorForStatus from "../components/color";
+import getColorForStatus, { getChangeStatusThemes } from "../components/color";
 import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
@@ -13,7 +13,11 @@ const Order = (props) => {
   const data = filteredData.length ? filteredData : props.data;
 
   //Түгээгчийн попап
-  const { color, name, fontColor } = getColorForStatus(data.status);
+  const { color, name, fontColor } = getColorForStatus(
+    data?.shipmentStatus == 14 || data?.shipmentStatus == 15
+      ? data.shipmentStatus
+      : data.status
+  );
   const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
     const id = parseInt(businessTypeId);
@@ -234,7 +238,118 @@ const Order = (props) => {
     }
     setPayment((prev) => ({ ...prev, edit: !payment.edit }));
   };
+  const cancel = async () => {
+    try {
+      let body = {
+        order_id: data.order_id,
+        order_status: 5,
+      };
 
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: JSON.stringify(body),
+      };
+      let url = `https://api2.ebazaar.mn/api/order/status`;
+
+      await fetch(url, requestOptions)
+        .then((r) => r.json())
+        .then((result) => {
+          console.log(result);
+          if (result.code === 200) {
+            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
+              method: "POST",
+              headers: myHeaders,
+              redirect: "follow",
+              body: JSON.stringify({
+                section_name: "Захиалгын статусыг өөрчилөв.",
+                entry_id: data.order_id,
+                user_name: props.userData.email,
+                action: `Шинэ захиалга:{"orderId":${data.order_id},"order_status":5}`,
+              }),
+            })
+              .then((res) => res.json())
+              .then((res) => console.log("res", res))
+              .catch((error) => {
+                console.log("error", error);
+              });
+
+            alert("Амжилттай хадгалагдлаа");
+          } else {
+            alert("Алдаа гарлаа, Дахин оролдоно уу");
+          }
+        })
+        .catch((error) => console.log("error++++", error));
+    } catch (error) {
+      alert("Амжилтгүй");
+      console.log(error);
+    }
+  };
+
+  const submitShipmentStatus = async (order_id, code) => {
+    try {
+      console.log(order_id, code);
+    } catch (error) {}
+  };
+
+  const submit = async () => {
+    try {
+      const { code } = getChangeStatusThemes(
+        data?.shipmentStatus == 14 || data?.shipmentStatus == 15
+          ? data.shipmentStatus
+          : data.status
+      );
+      let body = {
+        order_id: data.order_id,
+        order_status: code,
+      };
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: JSON.stringify(body),
+      };
+      let url =
+        code != 3
+          ? `https://api2.ebazaar.mn/api/order/status`
+          : "https://api2.ebazaar.mn/api/order/recreate";
+      await fetch(url, requestOptions)
+        .then((r) => r.json())
+        .then((result) => {
+          if (result.code === 200) {
+            if (code == 14 || code == 15) {
+              submitShipmentStatus(data.order_id, code);
+            }
+            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
+              method: "POST",
+              headers: myHeaders,
+              redirect: "follow",
+              body: JSON.stringify({
+                section_name: "Захиалгын статусыг өөрчилөв.",
+                entry_id: data.order_id,
+                user_name: props.userData.email,
+                action: `Шинэ захиалга:{"orderId":${data.order_id},"order_status":${code}}`,
+              }),
+            })
+              .then((res) => res.json())
+              .then((res) => console.log("res", res))
+              .catch((error) => {
+                console.log("error", error);
+              });
+
+            alert("Амжилттай хадгалагдлаа");
+          } else {
+            alert("Алдаа гарлаа, Дахин оролдоно уу");
+          }
+        })
+        .catch((error) => console.log("error++++", error));
+    } catch (error) {
+      alert("Амжилтгүй");
+      console.log(error);
+    }
+  };
   return (
     <div className="WrapperOut">
       <div className="order col_wrapper" onClick={(e) => handleOpen(e)}>
@@ -802,8 +917,17 @@ const Order = (props) => {
                       );
                     })}
                     <div className="btn_btm">
-                      <button>Захиалга цуцлах</button>
-                      <button>Баталгаажуулах</button>
+                      <button onClick={cancel}>Захиалга цуцлах</button>
+                      <button onClick={submit}>
+                        {
+                          getChangeStatusThemes(
+                            data?.shipmentStatus == 14 ||
+                              data?.shipmentStatus == 15
+                              ? data.shipmentStatus
+                              : data.status
+                          )?.name
+                        }
+                      </button>
                     </div>
                   </div>
                 </div>

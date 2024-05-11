@@ -41,7 +41,7 @@ export const ExportModal = ({
   cancel,
   exportExcel,
   print,
-
+  exportPdf,
   props,
 }) => {
   let qt = 0;
@@ -135,7 +135,8 @@ export const ExportModal = ({
 
           <div className="modal-button export-btns">
             <button onClick={cancel}>Цуцлах</button>
-            <button onClick={exportExcel}>Татах</button>
+            <button onClick={exportExcel}>Excel Татах</button>
+            <button onClick={exportPdf}>Pdf Татах</button>
             <button onClick={print}>Хэвлэх</button>
           </div>
         </main>

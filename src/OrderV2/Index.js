@@ -11,7 +11,9 @@ import myHeaders from "./components/MyHeader/myHeader";
 import ReportBtn from "./components/reportBtn.js/reportBtn";
 import { ExportModal } from "./components/modal/modal";
 import { Workbook } from "exceljs";
-
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+// import * as myFont from "src/OrderV2/data/theano-font.zip";
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -190,6 +192,91 @@ const App = (props) => {
     });
   };
 
+  const exportPdf = () => {
+    const doc = new jsPDF();
+    // doc.addFileToVFS("MyFont.ttf", myFont);
+    // doc.addFont("MyFont.ttf", "MyFont", "normal");
+    // doc.setFont("Calibri");
+    let list = [];
+    let qr = 0;
+    let pr = 0;
+    let items = filterState.checked
+      ? filteredData
+      : filteredData.filter((f) => selectedOrders.includes(f.order_id));
+    items.map((item, i) => {
+      let quantity = 0;
+      let price = 0;
+      item.line.map((l) => {
+        quantity += l.quantity;
+        price += l.amount;
+        qr += l.quantity;
+        pr += l.amount;
+      });
+      list.push([
+        i + 1,
+        item.order_id,
+        "НИЙТ",
+        quantity,
+        "",
+        price,
+        price,
+        item.tradeshop_name,
+        item.tradeshop_name,
+        "",
+        item.deliverman,
+        item.address,
+      ]);
+      item.line.map((l, index) => {
+        list.push([
+          index + 1,
+          "",
+          l.product_name,
+          l.quantity,
+          l.price,
+          l.amount,
+          price,
+          "",
+          "",
+          "",
+          "",
+          "",
+        ]);
+      });
+    });
+    list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
+    autoTable(doc, {
+      head: [
+        [
+          "№",
+
+          "Дугаар",
+
+          "Тоо ширхэг",
+
+          "Нэгж үнэ",
+
+          "Нийт үнэ",
+
+          "Эцсийн нийт үнэ",
+
+          "Үйлчилгээний газрын нэр",
+
+          "Утас",
+
+          "Хариуцсан ХТ",
+
+          "Түгээгч",
+
+          "Дэлгэрэнгүй хаяг",
+        ],
+      ],
+      body: list,
+    });
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
+    doc.save(`Тайлан ${formattedDate}`);
+  };
+
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
 
@@ -276,11 +363,26 @@ const App = (props) => {
         </div>
       ),
     },
-    { label: "Захиалгын тохиргоо", content: () => <List2 /> },
-    { label: "Захиалгын тайлан", content: () => <List3 /> },
+    {
+      label: "Захиалгын тохиргоо",
+      content: () => (
+        <List2
+          userData={props.userData}
+          data={data}
+          setData={setData}
+          filteredData={filteredData}
+          setFilteredData={setFilteredData}
+          selectedOrders={selectedOrders}
+          setSelectedOrders={setSelectedOrders}
+          filterState={filterState}
+          setFilterState={setFilterState}
+        />
+      ),
+    },
+    { label: "Захиалгын загвар", content: () => <List3 /> },
   ];
 
-  const openExport = () => {};
+  const openExport = () => { };
 
   return (
     <div className="Container">
@@ -315,13 +417,17 @@ const App = (props) => {
           exportExcel();
           setExportOpen(false);
         }}
+        exportPdf={() => {
+          exportPdf();
+          // setExportOpen(false);
+        }}
         open={exportOpen}
         payload={
           filterState.checked
             ? filteredData
             : filteredData.filter((d) => selectedOrders.includes(d.order_id))
         }
-        print={() => {}}
+        print={() => { }}
       />
     </div>
   );
