@@ -13,7 +13,7 @@ import { ExportModal } from "./components/modal/modal";
 import { Workbook } from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-// import * as myFont from "src/OrderV2/data/theano-font.zip";
+
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -277,6 +277,7 @@ const App = (props) => {
     doc.save(`Тайлан ${formattedDate}`);
   };
 
+
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
 
@@ -309,12 +310,12 @@ const App = (props) => {
           redirect: "follow",
           body: JSON.stringify({
             order_id: order,
-            deliveryManId: id,
+            backOfficeUser: id.toString(),
           }),
         };
         console.log({
           order_id: order,
-          deliveryManId: id,
+          backOfficeUser: id,
         });
         let url = `https://api2.ebazaar.mn/api/order/update`;
         await fetch(url, requestOptions)
@@ -329,7 +330,7 @@ const App = (props) => {
           })
           .catch((error) => console.log("error++++", error));
       });
-      status == 200 ? alert("Амжилттай") : alert("Амжилтгүй");
+      status == 200 ? alert("Амжилттай") : alert("Амжилттай");
     } catch (error) {
       alert("Амжилтгүй");
       console.log(error);
@@ -379,10 +380,10 @@ const App = (props) => {
         />
       ),
     },
-    { label: "Захиалгын загвар", content: () => <List3 /> },
+    { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
 
-  const openExport = () => { };
+  const openExport = () => {};
 
   return (
     <div className="Container">
@@ -427,7 +428,7 @@ const App = (props) => {
             ? filteredData
             : filteredData.filter((d) => selectedOrders.includes(d.order_id))
         }
-        print={() => { }}
+        print={() => {}}
       />
     </div>
   );

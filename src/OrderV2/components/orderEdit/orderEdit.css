@@ -45,8 +45,8 @@
 .stick_wrapper {
     width: 424px;
     display: flex;
-    gap: 10px;
     flex-direction: column;
+    gap: 10px;
 }
 
 .stick_wrapper div {

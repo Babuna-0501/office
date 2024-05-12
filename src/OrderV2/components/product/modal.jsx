@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import myHeaders from "../../../components/MyHeader/myHeader";
-import { ContourValueResolver } from "igniteui-react-charts";
 
 export const ProductModal = ({ open, close, orderId, supId, submit }) => {
   const [data, setData] = useState([]);

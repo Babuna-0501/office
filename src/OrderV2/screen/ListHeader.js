@@ -18,6 +18,11 @@ let options = [
   { value: "15", label: "Хойшилсон" },
 ];
 
+let options2 = [
+  { value: "14", label: "Ачигдсан" },
+  { value: "15", label: "Хойшилсон" },
+];
+
 const managers = [
   { value: "manager1", label: "Жаак" },
   { value: "manager2", label: "Бат" },
@@ -92,9 +97,19 @@ const ListHeader = (props) => {
     width += sequenceSizes[size];
   }
   const statusOptions = () => {
+    if (!props || !props.userData) {
+      return [];
+    }
+
+    const { userData } = props;
+
+    if (!userData.company_id) {
+      return [];
+    }
+
     return props.userData?.company_id === "|14268|"
-      ? options
-      : options.slice(0, 6);
+      ? options.concat(options2)
+      : options
   };
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];

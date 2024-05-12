@@ -22,7 +22,7 @@
 }
 .modal-content-export {
   border: 1px solid #fff;
-  width: 80vw;
+  width: 1230px;
 
   background-color: #fff;
   border-radius: 15px;
@@ -35,13 +35,14 @@
   overflow-y: scroll;
 }
 .modal_table .head {
-  background: greenyellow;
+  background: #CCFFCC;
 }
 .modal_table_head {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(12, 1fr);
   gap: 6px;
+  align-items: center;
 }
 .modal_table_head span {
   font-size: 12px;
@@ -93,4 +94,32 @@
   /* background-color: #6821c3; */
   /* color: white; */
   border-radius: 7px;
+}
+
+@media print {
+  .printable-content {
+    width: 100%;
+    height: 297mm; 
+    margin: 0 auto;
+    padding: 20px; 
+    font-size: 12px; 
+  }
+
+  .modal-button.export-btns {
+    display: none;
+  }
+
+  .exit-icon {
+    display: none;
+  }
+
+  .tab-header--first {
+    display: none;
+  }
+  .reportBtn {
+    display: none;
+  }
+  .tab-header--second {
+    display: none;
+  }
 }

@@ -26,7 +26,7 @@ const Popup = (props) => {
     togglePopup();
   };
 
-  const fetchdata = async () => {
+  const fetchData = async () => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -51,7 +51,7 @@ const Popup = (props) => {
   };
 
   useEffect(() => {
-    fetchdata();
+    fetchData();
   }, []);
 
   const handleSearchChange = (e) => {
@@ -106,10 +106,16 @@ const Popup = (props) => {
                 placeholder="Түгээгч хайх ..."
                 value={searchTerm}
                 onChange={handleSearchChange}
+                className="tugeegch-search"
               />
-              <div style={{marginTop:"20px"}}>
+              <div style={{ marginTop: "20px" }} className="tugeegch-wrap">
                 {users.map((user) => {
-                  if (user && user.role === 2 && user.first_name && user.first_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                  if (
+                    user &&
+                    user.role === 2 &&
+                    user.first_name &&
+                    user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
                     return (
                       <div key={user.user_id}>
                         <label>
@@ -120,7 +126,7 @@ const Popup = (props) => {
                             checked={selectedUsers.includes(user.user_id)}
                             onChange={() => handleUserSelect(user.user_id)}
                           />
-                          Нэр: {user.first_name} {user.last_name}
+                         {user.profile_picture} {user.first_name} {user.last_name}
                         </label>
                       </div>
                     );

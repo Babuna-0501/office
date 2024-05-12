@@ -14,10 +14,12 @@ const Order = (props) => {
 
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(
-    data?.shipmentStatus == 14 || data?.shipmentStatus == 15
+    data?.shipmentStatus === 14 || data?.shipmentStatus === 15
       ? data.shipmentStatus
       : data.status
   );
+  
+
   const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
     const id = parseInt(businessTypeId);
@@ -158,7 +160,7 @@ const Order = (props) => {
         });
       setIsOpen(false);
       window.location.reload();
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const changePrice = (e) => {
@@ -352,7 +354,7 @@ const Order = (props) => {
   };
   return (
     <div className="WrapperOut">
-      <div className="order col_wrapper" onClick={(e) => handleOpen(e)}>
+      <div className="order col_wrapper">
         <div className="order_index">
           <div>
             <input
@@ -398,10 +400,10 @@ const Order = (props) => {
           </div>
         </div>
 
-        <div className="payment_mode">
+        <div className="payment_mode" onClick={(e) => handleOpen(e)}>
           <div className="fullcontainer price_wrapper idWrapper">
-            <span>{Math.floor(data.grand_total)}₮</span>
-            <span>{Math.floor(data.payment_amount)}₮</span>
+            <span>{data.grand_total}₮</span>
+            <span>{data.payment_amount}₮</span>
           </div>
         </div>
         <div className="cancel_reason">
@@ -415,8 +417,8 @@ const Order = (props) => {
           </div>
         </div>
         <div className="phone">
-          <div className="fullcontainer" style={{ height: "auto" }}>
-            <span dangerouslySetInnerHTML={{ __html: data.phone.replace(/,/g, "<br />") }}></span>
+          <div className="fullcontainer">
+            <span>{data.phone}</span>
           </div>
         </div>
         <div className="merchant">
@@ -667,7 +669,7 @@ const Order = (props) => {
                     {payment.all}₮
                   </span>
                 </span>
-                <div
+                <button
                   className="btn_edit"
                   onClick={() => {
                     updatePayment();
@@ -705,12 +707,12 @@ const Order = (props) => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                </div>
+                </button>
               </div>
               <div style={{ fontSize: "10px", display: "flex", gap: "145px" }}>
                 <span>
                   <span style={{ fontSize: "10px" }}>ХТ:</span>
-                  { }
+                  {}
                 </span>
                 <span>
                   <span style={{ fontSize: "10px" }}>Түгээгч:</span>
@@ -916,7 +918,7 @@ const Order = (props) => {
                         </div>
                       );
                     })}
-                    <div className="btn_btm">
+                       <div className="btn_btm">
                       <button onClick={cancel}>Захиалга цуцлах</button>
                       <button onClick={submit}>
                         {

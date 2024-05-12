@@ -193,7 +193,7 @@ const List = ({
       params += `delivery_date=${filterState.delivery_date}&`;
     }
     if (filterState.order_id) {
-      params += `order_id=${parseInt(filterState.order_id)}&`;
+      params += `id=${parseInt(filterState.order_id)}&`;
     }
     if (filterState.salesman) {
       params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
@@ -218,11 +218,14 @@ const List = ({
       }
     }
     if (filterState.status) {
-      if (filterState.status == 14 || filterState.status == 15) {
+      if (filterState.status === 14 || filterState.status === 15) {
         changeParams(filterState.status, "shipment_status");
       } else {
         changeParams(filterState.status, "order_status");
       }
+    }
+    if (filterState.status) {
+      changeParams(filterState.status, "order_status");
     }
 
     if (filterState.tradeshop_name) {
@@ -415,14 +418,14 @@ const List = ({
         )}
       </div>
       <Total data={filteredData} userData={userData} />
-      <CSVLink
+      {/* <CSVLink
         data={filteredData}
         headers={myCustomHeaders}
         filename={"orders.csv"}
         className="export-button"
       >
         Export to Excel
-      </CSVLink>
+      </CSVLink> */}
     </>
   );
 };

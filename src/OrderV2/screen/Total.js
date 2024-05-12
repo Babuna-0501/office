@@ -7,6 +7,8 @@ const Total = (props) => {
   const [totalPaymentAmount, setTotalPaymentAmount] = useState(0);
   const [totalCancelPaymentAmount, setTotalCancelPaymentAmount] = useState(0);
   const [totalDeliveryPayment, setTotalDeliveryPayment] = useState(0);
+  const [totalShipped, setTotalShipped] = useState(0);
+
   const [
     totalGrandTotalForConfirmedOrders,
     setTotalGrandTotalForConfirmedOrders,
@@ -31,6 +33,11 @@ const Total = (props) => {
   const [delayedOrdersCount, setDelayedOrdersCount] = useState(0);
   const [deliveredOrdersCount, setdeliveredOrdersCount] = useState(0);
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
+  const [
+    totalGrandTotalForShippedOrders,
+    setTotalGrandTotalForShippedOrders,
+  ] = useState(0);
+  const [shippedOrdersCount, setShippedOrdersCount] = useState(0);
 
   useEffect(() => {
     if (props.data && props.data.length > 0) {
@@ -41,17 +48,12 @@ const Total = (props) => {
       );
       setTotalPrice(totalGrandTotal);
 
-      // Хүргэлтийн төлбөр
-      let totalDelivery = deliveredCount * 4000;
-      setTotalDeliveryPayment(totalDelivery);
-
       // Нийт төлбөр төлөлт
       let totalPaymentAmount = props.data.reduce(
         (acc, curr) => acc + curr.payment_amount,
         0
       );
       setTotalPaymentAmount(totalPaymentAmount);
-
       // Баталгаажсан
       const confirmedOrders = props.data.filter(
         (order) => getColorForStatus(order.status)?.name === "Баталгаажсан"
@@ -64,12 +66,14 @@ const Total = (props) => {
       setconfirmedOrdersCount(confirmedOrders.length);
 
       // Хүргэгдсэн
-      const deliveredOrders = props.data.filter(
-        (order) => getColorForStatus(order.status)?.name === "Хүргэгдсэн"
-      );
-      const totalGrandTotalForDelivered = deliveredOrders.length * 4000;
+      const deliveredOrders = props.data.filter(order => getColorForStatus(order.status)?.name === "Хүргэгдсэн");
+      const totalGrandTotalForDelivered = deliveredOrders.reduce((acc, curr) => acc + curr.grand_total, 0);
       setTotalGrandTotalForDeliveredOrders(totalGrandTotalForDelivered);
       setdeliveredOrdersCount(deliveredOrders.length);
+
+      // Хүргэлтийн төлбөр
+      let totalDelivery = deliveredOrders.length * 6000;
+      setTotalDeliveryPayment(totalDelivery);
 
       // Цуцлагдсан
       const canceledOrders = props.data.filter(
@@ -113,7 +117,7 @@ const Total = (props) => {
       );
       setTotalGrandTotalForDelayedOrders(totalGrandTotalForDelayed);
       setDelayedOrdersCount(delayedOrders.length);
-    }
+        }
   }, [props.data]);
 
   let aaa = totalPrice?.toLocaleString();
@@ -250,7 +254,7 @@ const Total = (props) => {
       <div className="wrapper" style={{ background: "#fff" }}>
         <div style={{ color: "#90A4AE" }} className="statuscontainer">
           <div className="firswrapper" style={{ background: "#8DC543" }}>
-            <span style={{ color: "#fff" }}>{totalCancelPaymentAmount}ш</span>
+            <span style={{ color: "#fff" }}>{deliveredCount}ш</span>
           </div>
           <div className="secondwrapper">
             <span style={{ color: "#000" }}>Хүргэлтийн төлбөр:</span>

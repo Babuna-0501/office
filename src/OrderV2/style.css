@@ -4,6 +4,7 @@
     background-color: #F5F5F5;
     position: relative;
     top: 0;
+    height: -webkit-fill-available;
 }
 
 .sidebarWrapper {
