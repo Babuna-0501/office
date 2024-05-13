@@ -194,9 +194,10 @@ const App = (props) => {
 
   const exportPdf = () => {
     const doc = new jsPDF();
-    // doc.addFileToVFS("MyFont.ttf", myFont);
-    // doc.addFont("MyFont.ttf", "MyFont", "normal");
-    // doc.setFont("Calibri");
+  
+    // Set font to support UTF-8 characters
+    doc.setFont("Arial", "normal");
+  
     let list = [];
     let qr = 0;
     let pr = 0;
@@ -215,7 +216,7 @@ const App = (props) => {
       list.push([
         i + 1,
         item.order_id,
-        "НИЙТ",
+        "НИЙТ", // Assuming "НИЙТ" is a UTF-8 Cyrillic text
         quantity,
         "",
         price,
@@ -248,26 +249,17 @@ const App = (props) => {
       head: [
         [
           "№",
-
-          "Дугаар",
-
-          "Тоо ширхэг",
-
-          "Нэгж үнэ",
-
-          "Нийт үнэ",
-
-          "Эцсийн нийт үнэ",
-
-          "Үйлчилгээний газрын нэр",
-
-          "Утас",
-
-          "Хариуцсан ХТ",
-
-          "Түгээгч",
-
-          "Дэлгэрэнгүй хаяг",
+          "ID",
+          "Product name",
+          "Quantity",
+          "Unit price",
+          "Total price",
+          "Grand total price",
+          "Store name",
+          "Phone",
+          "Salesman",
+          "Deliverman",
+          "Address",
         ],
       ],
       body: list,
@@ -276,6 +268,7 @@ const App = (props) => {
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
     doc.save(`Тайлан ${formattedDate}`);
   };
+  
 
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {

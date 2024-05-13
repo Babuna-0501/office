@@ -69,6 +69,25 @@
   display: block;
 }
 
+.elips {
+  white-space: nowrap;
+  overflow: auto;
+}
+
+.elips::-webkit-scrollbar {
+  height: 7px;
+}
+.elips::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the track */
+}
+.elips::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb */
+  border-radius: 5px; /* Rounded corners for the thumb */
+}
+.elips::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the thumb on hover */
+}
+
 .order > div:not(:first-child) {
   padding: 0 1rem 0 0;
 }
@@ -146,12 +165,12 @@
   font-size: 9px;
   white-space: nowrap;
 }
-.delivery_date {
-  margin-left: 30px;
-}
 
 .payment_mode {
   margin-left: 35px;
+}
+.delivery_date {
+  width: 77px;
 }
 
 .price_wrapper {
@@ -162,13 +181,13 @@
   color: #8dc543;
 }
 .cancel_reason {
-  width: 150px;
+  width: 143px;
   margin-left: 30px;
   text-align: center;
 }
 
 .phone {
-  width: 75px;
+  width: 80px;
   text-align: justify;
 }
 .business_type {
@@ -184,7 +203,7 @@
 }
 
 .full_address {
-  width: 280px;
+  width: 265px;
   line-height: 16px;
   font-size: 9px !important;
 }
@@ -194,11 +213,11 @@
 }
 
 .tradeshop_horoo {
-  width: 120px;
+  width: 110px;
 }
 
 .payment_type {
-  width: 100px;
+  width: 120px;
 }
 
 .pick_pack {
@@ -298,13 +317,15 @@
   align-items: center;
   padding-left: 10px;
 }
-
+.order_date {
+  width: 115px;
+}
 .vat {
   width: 90px;
 }
 .salesman,
 .butsaalt {
-  width: 117px;
+  width: 113px;
 }
 
 .manager {
@@ -657,4 +678,15 @@
 .btn_btm button:last-of-type {
   background-color: #2AB674;
   color: #fff;
+}
+
+.delete_order {
+  background-color: #ffa400;
+  color: #fff;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 90px !important;
 }

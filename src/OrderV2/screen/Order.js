@@ -352,6 +352,46 @@ const Order = (props) => {
       console.log(error);
     }
   };
+
+  // Захиалга устгах
+
+  const orderDeleteHandler = async (order_id) => {
+    try {
+        const confirmed = window.confirm("Та энэ захиалгыг устгахдаа итгэлтэй байна уу?");
+        if (!confirmed) {
+          return; 
+        }
+      let raw = JSON.stringify({
+        order_id: parseInt(order_id),
+      });
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+  
+      const response = await fetch("https://api2.ebazaar.mn/api/order/datechange", requestOptions);
+      const result = await response.json();
+  
+      if (result.code === 200) {
+        alert("Амжилттай устгалаа.");
+      } else {
+        alert("Алдаа гарлаа.");
+      }
+    } catch (error) {
+      console.log("Error deleting order:", error);
+      alert("Алдаа гарлаа.");
+    }
+  };
+  
+
+  const grandTotal = typeof data.grand_total === 'number' ? data.grand_total : 0;
+  const deliveryFee = typeof data.order_data?.delivery_fee === 'number' ? parseFloat(data.order_data.delivery_fee) : 0;
+  const adjustedDeliveryFee = deliveryFee === 0 || deliveryFee == null ? deliveryFee + 6000 : deliveryFee;
+  const totalAmount = Math.ceil(grandTotal + adjustedDeliveryFee);
+  
+
   return (
     <div className="WrapperOut">
       <div className="order col_wrapper">
@@ -400,35 +440,47 @@ const Order = (props) => {
           </div>
         </div>
 
-        <div className="payment_mode" onClick={(e) => handleOpen(e)}>
-          <div className="fullcontainer price_wrapper idWrapper">
-            <span>{data.grand_total}₮</span>
-            <span>{data.payment_amount}₮</span>
-          </div>
-        </div>
+        {
+          props.userData?.company_id === "|14268|" ? (
+            <div className="payment_mode" onClick={handleOpen}>
+              <div className="fullcontainer price_wrapper idWrapper">
+                {totalAmount != null && <span>{totalAmount}₮</span>}
+                <span>{Math.ceil(data.payment_amount)}₮</span>
+              </div>
+            </div>
+          ) : (
+            <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+              <div className="fullcontainer price_wrapper idWrapper">
+                <span>{data.grand_total}₮</span>
+                <span>{data.payment_amount}₮</span>
+              </div>
+            </div>
+          )
+        }
+
         <div className="cancel_reason">
           <div className="fullcontainer">
-            {/* <span>{data.order_cancel_reason}</span> */}
-            <span>
+            <span>{data.order_cancel_reason}</span>
+            {/* <span>
               {" "}
               Нийлүүлэгч цуцалсан <br />
               /Үнийн мэдээлэл зөрүүт...
-            </span>
+            </span> */}
           </div>
         </div>
         <div className="phone">
           <div className="fullcontainer">
-            <span>{data.phone}</span>
+            <span className="elips">{data.phone}</span>
           </div>
         </div>
         <div className="merchant">
           <div className="fullcontainer">
-            <span>{data.tradeshop_name}</span>
+            <span className="elips">{data.tradeshop_name}</span>
           </div>
         </div>
         <div className="business_type">
           <div className="fullcontainer">
-            <span>{businessTypeName}</span>
+            <span className="elips">{businessTypeName}</span>
           </div>
         </div>
         <div className="tradeshop_city">
@@ -463,7 +515,7 @@ const Order = (props) => {
         </div>
         <div className="full_address">
           <div className="fullcontainer">
-            <span>{data.address}</span>
+            <span className="elips">{data.address}</span>
           </div>
         </div>
         <div className="payment_type">
@@ -506,6 +558,11 @@ const Order = (props) => {
         <div className="butsaalt">
           <div className="fullcontainer">
             <span>butsaalt</span>
+          </div>
+        </div>
+        <div className="delete">
+          <div className="fullcontainer">
+            <button className="delete_order" onClick={() => orderDeleteHandler(data.order_id)}>Устгах</button>
           </div>
         </div>
       </div>
@@ -669,7 +726,7 @@ const Order = (props) => {
                     {payment.all}₮
                   </span>
                 </span>
-                <button
+                <div
                   className="btn_edit"
                   onClick={() => {
                     updatePayment();
@@ -707,7 +764,7 @@ const Order = (props) => {
                       stroke-linejoin="round"
                     />
                   </svg>
-                </button>
+                </div>
               </div>
               <div style={{ fontSize: "10px", display: "flex", gap: "145px" }}>
                 <span>
@@ -754,13 +811,14 @@ const Order = (props) => {
             <div className="tab-content">
               {activeTab === 1 && (
                 <div>
-                  <button className="add_product" onClick={openAddPopup}>
-                    Бүтээгдэхүүн нэмэх
-                  </button>
-                  <button className="add_product" onClick={() => save()}>
-                    Хадгалах
-                  </button>
-
+                  <div style={{display:"flex", gap:"10px"}}>
+                    <button className="add_product" onClick={openAddPopup}>
+                      Бүтээгдэхүүн нэмэх
+                    </button>
+                    <button className="add_product" onClick={() => save()}>
+                      Хадгалах
+                    </button>
+                  </div>
                   <ProductModal
                     orderId={data.order_id}
                     close={closeAddPopup}
@@ -853,7 +911,7 @@ const Order = (props) => {
                               </div>
                             </div>
 
-                            <button
+                            <div
                               onClick={() => {
                                 setEdit((prev) => ({
                                   ...prev,
@@ -896,7 +954,7 @@ const Order = (props) => {
                                   stroke-linejoin="round"
                                 />
                               </svg>
-                            </button>
+                            </div>
                           </div>
                           {/* <button
                 onClick={() =>
@@ -947,7 +1005,11 @@ const Order = (props) => {
                 </div>
               )}
               {activeTab === 3 && <div>Content for Tab 3</div>}
-              {activeTab === 4 && <div>Content for Tab 4</div>}
+              {activeTab === 4 && 
+              {/* <div>
+                <Input/>
+              </div> */}
+              }
               <Modal
                 cancel={() => setEdit(undefined)}
                 payload={edit}

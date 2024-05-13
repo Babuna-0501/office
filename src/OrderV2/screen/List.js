@@ -198,8 +198,8 @@ const List = ({
     if (filterState.salesman) {
       params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
     }
-    if (filterState.phone) {
-      params += `phone=${parseInt(filterState.phone)}&`;
+    if (filterState?.phone) {
+      params += `tradeshop_phone=${filterState?.phone}&`;
       // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
     if (filterState.deliveryman && filterState.deliveryman != "") {
@@ -217,13 +217,13 @@ const List = ({
         // }&`;
       }
     }
-    if (filterState.status) {
-      if (filterState.status === 14 || filterState.status === 15) {
-        changeParams(filterState.status, "shipment_status");
-      } else {
-        changeParams(filterState.status, "order_status");
-      }
-    }
+    // if (filterState.status) {
+    //   if (filterState.status === 14 || filterState.status === 15) {
+    //     changeParams(filterState.status, "shipment_status");
+    //   } else {
+    //     changeParams(filterState.status, "order_status");
+    //   }
+    // }
     if (filterState.status) {
       changeParams(filterState.status, "order_status");
     }
@@ -267,16 +267,21 @@ const List = ({
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
-        console.log(res.data);
-        if (filter) {
-          setData(res.data);
-          setFilteredData(res.data);
+        if (res && res.data) {
+          if (filter) {
+            setData(res.data);
+            setFilteredData(res.data);
+          } else {
+            setData((prev) => [...prev, res.data]);
+            setFilteredData((prev) => [...prev, res.data]);
+          }
         } else {
-          setData((prev) => [...prev, res.data]);
-          setFilteredData((prev) => [...prev, ...res.data]);
+          console.error("Empty or invalid response from the API");
         }
       })
-      .catch((error) => console.log("error++++", error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
   const fetchData = (filter) => {
     const requestOptions = {
@@ -396,7 +401,6 @@ const List = ({
 
               return (
                 <Order
-                  userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}

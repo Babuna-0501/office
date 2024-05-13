@@ -14,8 +14,6 @@ let options = [
   { value: "3", label: "Хүргэгдсэн" },
   { value: "4", label: "Төлөгдсөн" },
   { value: "5", label: "Цуцлагдсан" },
-  { value: "14", label: "Ачигдсан" },
-  { value: "15", label: "Хойшилсон" },
 ];
 
 let options2 = [
