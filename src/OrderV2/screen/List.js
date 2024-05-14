@@ -176,8 +176,8 @@ const List = ({
         ? (params = params
             .split("&")
             .filter((u) => !u.includes(name))
-            .join(""))
-        : (params += `${name}=${parseInt(value)}&`);
+            .join("&"))
+        : (params += `${name}=${parseInt(value).toString()}&`);
     };
     if (filterState.startDate && filterState.endDate) {
       params += `order_start=${filterState.startDate}&`;
@@ -192,6 +192,9 @@ const List = ({
     if (filterState.delivery_date) {
       params += `delivery_date=${filterState.delivery_date}&`;
     }
+    if (filterState.khoroo) {
+      params += `khoroo=${filterState.khoroo}&`;
+    }
     if (filterState.order_id) {
       params += `id=${parseInt(filterState.order_id)}&`;
     }
@@ -202,15 +205,20 @@ const List = ({
       params += `tradeshop_phone=${filterState?.phone}&`;
       // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
+
+    //  if (orderPrice) {
+    //    params += `amount_equal=${orderPrice}&`;
+    //  }
+
     if (filterState.deliveryman && filterState.deliveryman != "") {
-      console.log(filterState.deliveryman);
       if (filterState.deliveryman == "null") {
         params += `deliveryManNull=true&`;
       } else if (filterState.deliveryman === "notNull") {
         params += `deliveryManNotNull=true&`;
       } else {
         // null utga awdag
-        params += `delivery_man=${filterState.deliveryman}&`;
+        params += `delivery_man=${filterState.deliveryman.toString()}` + "&";
+        console.log(params);
         // null utga awdaggui
         // params += `deliveryManNotNull=true&deliver_man=${
         //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
@@ -267,6 +275,7 @@ const List = ({
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
+        console.log(res);
         if (res && res.data) {
           if (filter) {
             setData(res.data);
@@ -345,7 +354,8 @@ const List = ({
   useEffect(() => {
     fetchUserData();
   }, []);
-
+  let headers = JSON.parse(localStorage.getItem("ordersHeaderList"));
+  let head = headers?.map((h) => h.show);
   return (
     <>
       <div className="OrderPageWrapper">
@@ -404,7 +414,7 @@ const List = ({
                   payment={{ balance: all - paid, all: all, paid: paid }}
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}
-                  sequence={sequence}
+                  head={head}
                   firstname={matchUser?.first_name ?? ""}
                   salesmanFirstname={matchHt?.first_name ?? ""}
                   onCheckboxChange={(e) =>

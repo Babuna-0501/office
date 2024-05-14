@@ -26,6 +26,7 @@ const App = (props) => {
     city: null,
     district: null,
     address: null,
+    khoroo: null,
     srcode: null,
     origin: null,
     vat: null,

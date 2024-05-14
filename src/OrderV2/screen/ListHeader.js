@@ -38,6 +38,7 @@ const paymentMethods = [
 ];
 
 const ListHeader = (props) => {
+  
   const [delivermans, setDeliverMans] = useState([
     {
       user_id: "",
@@ -56,7 +57,6 @@ const ListHeader = (props) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
   useEffect(() => {
-    console.log(props.users);
     let users = props.users.map((f) => {
       let d = delivermans.filter(
         (deliver) =>
@@ -76,7 +76,7 @@ const ListHeader = (props) => {
         ]);
     });
   }, [props.users]);
-  console.log(delivermans);
+
   const handleChange = (event, key) => {
     const { target } = event;
     const { value } = target;
@@ -107,11 +107,12 @@ const ListHeader = (props) => {
 
     return props.userData?.company_id === "|14268|"
       ? options.concat(options2)
-      : options
+      : options;
   };
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
   const renderHTML = [];
+
   const list = {
     index: (
       <div
@@ -292,10 +293,10 @@ const ListHeader = (props) => {
         <h5>Хороо</h5>
         <input
           type="text"
-          value={props.filterState?.tradeshop_horoo}
+          value={props.filterState?.khoroo}
           placeholder="хайх"
           onChange={(e) => {
-            handleChange(e, "tradeshop_horoo");
+            handleChange(e, "khoroo");
           }}
         />
       </div>
@@ -433,9 +434,10 @@ const ListHeader = (props) => {
     });
   } else {
     let heads = JSON.parse(headers);
+    renderHTML.push(list[sequence[0]]);
     heads.map((head) => {
       if (head.show) {
-        renderHTML.push(list[sequence[head.index]]);
+        renderHTML.push(list[sequence[head.index + 1]]);
       }
     });
   }
