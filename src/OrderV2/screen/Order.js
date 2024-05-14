@@ -176,7 +176,8 @@ const Order = (props) => {
 
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [statusAlert, setStatusAlert] = useState(0);
-
+  const [cancelReasonData, setCancelReasonData] = useState([]);
+  const [cancelReason, setCancelReason] = useState();
   const openAddPopup = () => {
     setIsAddPopupOpen(true);
   };
@@ -245,6 +246,7 @@ const Order = (props) => {
       let body = {
         order_id: data.order_id,
         order_status: 5,
+        cancel_reason: Number(cancelReason),
       };
 
       var requestOptions = {
@@ -287,6 +289,21 @@ const Order = (props) => {
       alert("Амжилтгүй");
       console.log(error);
     }
+  };
+
+  const getCancelReason = () => {
+    fetch(`https://api2.ebazaar.mn/api/order/cancelreason`, {
+      method: "GET",
+      headers: myHeaders,
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        console.log("cancel reason data", res.data);
+        setCancelReasonData(res.data);
+      })
+      .catch((error) => {
+        console.log("order reason tathad aldaa ", error);
+      });
   };
 
   const submitShipmentStatus = async (order_id, code) => {
@@ -1028,7 +1045,15 @@ const Order = (props) => {
                       );
                     })}
                     <div className="btn_btm">
-                      <button onClick={() => setStatusAlert(1)}>
+                      <button
+                        onClick={() => {
+                          if (cancelReasonData?.length == 0) getCancelReason();
+                          if(cancelReason == undefined) {
+                            setCancelReason(0)
+                          }
+                          setStatusAlert(1);
+                        }}
+                      >
                         Захиалга цуцлах
                       </button>
                       <button onClick={() => setStatusAlert(2)}>
@@ -1095,7 +1120,22 @@ const Order = (props) => {
                 open={statusAlert != 0}
                 type={statusAlert}
                 onChange={(e) => {}}
-              />
+              >
+                {statusAlert == 1 && (
+                  <select
+                    value={cancelReason}
+                    onChange={(e) => setCancelReason(e.target.value)}
+                  >
+                    {cancelReasonData?.map((it, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {it.name} : {it.reason}
+                        </option>
+                      );
+                    })}
+                  </select>
+                )}
+              </Dialog>
             </div>
           </div>
         </OrderDetail>
@@ -1106,8 +1146,17 @@ const Order = (props) => {
 
 export default Order;
 
-export const Dialog = ({ open, payload, cancel, save, type, onChange }) => {
+export const Dialog = ({
+  open,
+  children,
+  payload,
+  cancel,
+  save,
+  type,
+  onChange,
+}) => {
   if (!open) return null;
+
   return (
     <section className="modal">
       <article className="modal-content p-lg-4">
@@ -1120,15 +1169,7 @@ export const Dialog = ({ open, payload, cancel, save, type, onChange }) => {
             Та статусыг {type == 1 ? "устгагдсан" : payload.toLowerCase()}{" "}
             болгохдоо итгэлтэй байна уу
           </span>
-          {type == 1 && (
-            <select
-              // value={suppler}
-              onChange={(e) => onChange(e.target.value)}
-              // className={css.selectwrapper}
-            >
-              {/* <option>--Нийлүүлэгч--</option> */}
-            </select>
-          )}
+          {children}
           <div className="modal-button">
             <button onClick={cancel}>Цуцлах</button>
             <button onClick={save}>Хадгалах</button>

@@ -38,8 +38,21 @@ const paymentMethods = [
 ];
 
 const ListHeader = (props) => {
-  
   const [delivermans, setDeliverMans] = useState([
+    {
+      user_id: "",
+      first_name: "Бүгд",
+    },
+    {
+      user_id: "null",
+      first_name: "Хуваарьлаагүй",
+    },
+    {
+      user_id: "notNull",
+      first_name: "Хуваарьласан",
+    },
+  ]);
+  const [ht, setHt] = useState([
     {
       user_id: "",
       first_name: "Бүгд",
@@ -57,7 +70,7 @@ const ListHeader = (props) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
   useEffect(() => {
-    let users = props.users.map((f) => {
+    props.users.map((f) => {
       let d = delivermans.filter(
         (deliver) =>
           f.user_id !== deliver.user_id &&
@@ -76,6 +89,26 @@ const ListHeader = (props) => {
         ]);
     });
   }, [props.users]);
+  useEffect(() => {
+    props.hts.map((f) => {
+      let d = ht.filter(
+        (deliver) =>
+          f.user_id !== deliver.user_id &&
+          deliver.user_id != "null" &&
+          deliver.user_id != "notNull" &&
+          deliver.user_id != ""
+      );
+
+      if (d.length == 0)
+        setHt((prev) => [
+          ...prev,
+          {
+            user_id: f.user_id,
+            first_name: f.first_name,
+          },
+        ]);
+    });
+  }, [props.hts]);
 
   const handleChange = (event, key) => {
     const { target } = event;
@@ -372,9 +405,15 @@ const ListHeader = (props) => {
         style={{ width: sequenceSizes["salesman"] + "px" }}
       >
         <h5>ХТ код/нэр</h5>
-        <input
-          type="text"
-          placeholder="Хайх"
+        <Dropdown
+          options={
+            ht.length > 0
+              ? ht.map((item) => ({
+                  value: item.user_id,
+                  label: item.first_name,
+                }))
+              : []
+          }
           onChange={(e) => handleChange(e, "salesman")}
         />
       </div>

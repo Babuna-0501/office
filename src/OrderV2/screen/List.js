@@ -198,8 +198,17 @@ const List = ({
     if (filterState.order_id) {
       params += `id=${parseInt(filterState.order_id)}&`;
     }
-    if (filterState.salesman) {
-      params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
+    // if (filterState.salesman) {
+    //   params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
+    // }
+    if (filterState.salesman && filterState.salesman != "") {
+      if (filterState.salesman == "null") {
+        params += `salesManNull=true&`;
+      } else if (filterState.salesman === "notNull") {
+        params += `salesManNotNull=true&`;
+      } else {
+        params += `sales_man=${filterState.salesman.toString()}` + "&";
+      }
     }
     if (filterState?.phone) {
       params += `tradeshop_phone=${filterState?.phone}&`;
@@ -369,6 +378,19 @@ const List = ({
                   ...filteredData.map((f) =>
                     delivermans.filter(
                       (deliver) => f.deliver_man === deliver.user_id
+                    )
+                  )
+                )
+                .map((c) => [c.user_id, c])
+            ).values(),
+          ]}
+          hts={[
+            ...new Map(
+              []
+                .concat(
+                  ...filteredData.map((f) =>
+                    delivermans.filter(
+                      (deliver) => f.sales_man_employee_id === deliver.user_id
                     )
                   )
                 )
