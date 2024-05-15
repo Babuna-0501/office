@@ -7,6 +7,7 @@ import LocationData from "../data/location.json";
 import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
 import { ProductModal } from "../components/product/modal";
+import { NoteOrderDetail } from "../components/note";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -82,7 +83,7 @@ const Order = (props) => {
     e.nativeEvent.stopImmediatePropagation();
     setIsOpen(true);
   };
-
+  const [foo, setFoo] = useState("");
   useEffect(() => {
     setPayment(props.payment);
   }, [props.payment]);
@@ -492,12 +493,17 @@ const Order = (props) => {
         {props.head?.[6] && (
           <div className="cancel_reason">
             <div className="fullcontainer">
-              <span>{data.order_cancel_reason}</span>
-              {/* <span>
-              {" "}
-              Нийлүүлэгч цуцалсан <br />
-              /Үнийн мэдээлэл зөрүүт...
-            </span> */}
+              <span>
+                {data.description && data.description.length > 0
+                  ? `${JSON.parse(data.description)?.[0]?.body} (${
+                      JSON.parse(data.description)?.[0]?.date?.length > 0
+                        ? JSON.parse(data.description)?.[0]
+                            ?.date.toString()
+                            .substring(0, 10)
+                        : null
+                    })`
+                  : null}
+              </span>
             </div>
           </div>
         )}
@@ -1048,8 +1054,8 @@ const Order = (props) => {
                       <button
                         onClick={() => {
                           if (cancelReasonData?.length == 0) getCancelReason();
-                          if(cancelReason == undefined) {
-                            setCancelReason(0)
+                          if (cancelReason == undefined) {
+                            setCancelReason(0);
                           }
                           setStatusAlert(1);
                         }}
@@ -1083,12 +1089,18 @@ const Order = (props) => {
                 </div>
               )}
               {activeTab === 3 && <div>Content for Tab 3</div>}
-              {activeTab === 4 &&
-                {
-                  /* <div>
-                <Input/>
-              </div> */
-                }}
+
+              {activeTab === 4 && (
+                <NoteOrderDetail
+                  note={foo}
+                  setFoo={setFoo}
+                  id={data.order_id}
+                  userData={props.userData}
+                />
+              )}
+
+              {console.log(props.userData)}
+
               <Modal
                 cancel={() => setEdit(undefined)}
                 payload={edit}
