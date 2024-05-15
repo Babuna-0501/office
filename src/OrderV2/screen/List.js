@@ -433,6 +433,7 @@ const List = ({
 
               return (
                 <Order
+                  fetch={() => fetchData(true)}
                   userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}
                   data={order}

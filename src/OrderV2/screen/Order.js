@@ -315,7 +315,12 @@ const Order = (props) => {
 
   const submit = async () => {
     try {
-      const { code } = getChangeStatusThemes(
+      const { code, name } = getChangeStatusThemes(
+        data?.shipmentStatus == 14 || data?.shipmentStatus == 15
+          ? data.shipmentStatus
+          : data.status
+      );
+      let prev = getColorForStatus(
         data?.shipmentStatus == 14 || data?.shipmentStatus == 15
           ? data.shipmentStatus
           : data.status
@@ -365,6 +370,36 @@ const Order = (props) => {
           }
         })
         .catch((error) => console.log("error++++", error));
+      let d = new Date();
+      let date =
+        d.getFullYear() +
+        "-" +
+        (d.getMonth() + 1) +
+        "-" +
+        d.getDate() +
+        " " +
+        d.getHours() +
+        ":" +
+        d.getMinutes();
+      let desc = "";
+
+      var raw = JSON.stringify({
+        order_id: data.order_id,
+        order_note: prev.name,
+      });
+
+      var requestOptionsNote = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("https://api2.ebazaar.mn/api/order/update_note", requestOptionsNote)
+        .then((response) => response.text())
+        .then((result) => {
+          props.fetch();
+        });
     } catch (error) {
       alert("Амжилтгүй");
       console.log(error);
