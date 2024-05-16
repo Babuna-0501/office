@@ -131,10 +131,10 @@ const List = ({
       return;
     }
     let starts = Object.values(filterState)
-      .map((v) => {
+      ?.map((v) => {
         return v != null;
       })
-      .filter((s) => s == true);
+      ?.filter((s) => s == true);
 
     if (starts.length == 0) {
       fetchData(true);
@@ -155,14 +155,14 @@ const List = ({
 
     if (page != 0) {
       if (starts.length == 0) {
-        fetchData(false);
+        fetchData(false, false);
       } else {
-        getOrders(false);
+        getOrders(false, false);
       }
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
-  const getOrders = async (filter) => {
+  const getOrders = async (filter, loading = true) => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -281,17 +281,18 @@ const List = ({
 
     localStorage.setItem("url", url);
     console.log("url engiin order", url);
+
+    if (loading) setLoading(true);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
-        console.log(res);
         if (res && res.data) {
           if (filter) {
             setData(res.data);
             setFilteredData(res.data);
           } else {
-            setData((prev) => [...prev, res.data]);
-            setFilteredData((prev) => [...prev, res.data]);
+            setData((prev) => [...prev, ...res.data]);
+            setFilteredData((prev) => [...prev, ...res.data]);
           }
         } else {
           console.error("Empty or invalid response from the API");
@@ -300,16 +301,18 @@ const List = ({
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    setLoading(false);
   };
-  const fetchData = (filter) => {
+  const fetchData = (filter, loading = true) => {
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
     };
 
-    setLoading(true);
+    if (loading) setLoading(true);
     const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
+    console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -367,7 +370,17 @@ const List = ({
   let head = headers?.map((h) => h.show);
   return (
     <>
-      <div className="OrderPageWrapper">
+      <div
+        className="OrderPageWrapper"
+        onScroll={(e) => {
+          const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+          const bottom = Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
+
+          if (bottom && filteredData?.length % 50 == 0) {
+            setPage((prev) => prev + 1);
+          }
+        }}
+      >
         <ListHeader
           userData={userData}
           sequence={sequence}
@@ -375,7 +388,7 @@ const List = ({
             ...new Map(
               []
                 .concat(
-                  ...filteredData.map((f) =>
+                  ...filteredData?.map((f) =>
                     delivermans.filter(
                       (deliver) => f.deliver_man === deliver.user_id
                     )
@@ -388,7 +401,7 @@ const List = ({
             ...new Map(
               []
                 .concat(
-                  ...filteredData.map((f) =>
+                  ...filteredData?.map((f) =>
                     delivermans.filter(
                       (deliver) => f.sales_man_employee_id === deliver.user_id
                     )
@@ -404,23 +417,15 @@ const List = ({
           handleSpinner={handleSpinner}
         />
         {!loading && filteredData && filteredData.length > 0 ? (
-          <div
-            className="order_wrapper"
-            onScroll={(e) => {
-              const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-              const bottom =
-                Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
-
-              if (bottom && filteredData.length % 50 == 0) {
-                setPage((prev) => prev + 1);
-              }
-            }}
-          >
-            {filteredData.map((order) => {
+          <div className="order_wrapper">
+            {filteredData?.map((order) => {
               let all = order.line
-                .map((e) => e.price * e.quantity)
-                .reduce((a, b) => a + b);
-              let paid = JSON.parse(order.order_data)?.prePayment ?? 0;
+                ?.map((e) => e.price * e.quantity)
+                ?.reduce((a, b) => a + b);
+              let paid =
+                order.order_data != undefined
+                  ? JSON.parse(order.order_data)?.prePayment ?? 0
+                  : 0;
 
               paid = paid == "" ? 0 : paid;
               all = all == "" ? 0 : all;
