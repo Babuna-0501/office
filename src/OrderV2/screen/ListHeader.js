@@ -90,7 +90,7 @@ const ListHeader = (props) => {
     });
   }, [props.users]);
   useEffect(() => {
-    props.hts.map((f) => {
+    props.hts?.map((f) => {
       let d = ht.filter(
         (deliver) =>
           f.user_id !== deliver.user_id &&
@@ -466,17 +466,17 @@ const ListHeader = (props) => {
     cancelReason: <div></div>,
   };
 
-  let headers = localStorage.getItem("ordersHeaderList");
-  if (headers == null) {
+  if (!props.fieldsData) {
     sequence.map((sequence) => {
       renderHTML.push(list[sequence]);
     });
   } else {
-    let heads = JSON.parse(headers);
     renderHTML.push(list[sequence[0]]);
-    heads.map((head) => {
+    let copy = [...props.fieldsData];
+    let sorted = copy.sort((a, b) => a.position - b.position);
+    sorted.map((head, i) => {
       if (head.show) {
-        renderHTML.push(list[sequence[head.index + 1]]);
+        renderHTML.push(list[sequence[head.id - 1]]);
       }
     });
   }

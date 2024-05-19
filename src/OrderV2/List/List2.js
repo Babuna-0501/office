@@ -122,9 +122,12 @@ const List2 = (
   data,
   setData,
   setFilterState,
+  fieldsData,
+  setFieldsData,
   filterState
 ) => {
   const [headerLists, setHeaderLists] = useState([]);
+
   const sequence = [
     "index",
     "id",
@@ -178,11 +181,11 @@ const List2 = (
     manager: 140,
     butsaalt: 120,
   };
+  console.log(fieldsData);
   useEffect(() => {
-    let list = JSON.parse(localStorage.getItem("ordersHeaderList"));
-    if (list == null) list = defaultHeaderList;
-    setHeaderLists(list);
-  }, []);
+    console.log(fieldsData);
+    setHeaderLists(fieldsData);
+  }, [fieldsData]);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {
@@ -190,7 +193,6 @@ const List2 = (
   };
 
   const save = () => {
-    localStorage.setItem("ordersHeaderList", JSON.stringify(headerLists));
     alert("Хадгаллаа");
     window.location.reload();
   };
@@ -344,12 +346,12 @@ const List2 = (
             <h3 style={{ fontSize: "14px" }}>
               Багана зайг ихэсгэх багасгах тохируулах боломжтой
             </h3>
-            <p>{localStorage.getItem("orderHeaderList")}</p>
+
             <div
               className="stick_wrapper"
               style={{ fontSize: "12px", marginTop: "20px" }}
             >
-              {headerLists.map((head, i) => {
+              {headerLists?.map((head, i) => {
                 return (
                   <div key={i}>
                     <label class="switch">

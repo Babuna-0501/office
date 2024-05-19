@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CSVLink } from "react-csv";
 
 import Total from "./Total";
@@ -6,6 +6,8 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
+import { OrdersHook } from "../../Hooks/OrdersHook";
+import { Order2Hook } from "../hook/data";
 
 const List = ({
   filterState,
@@ -14,6 +16,7 @@ const List = ({
   selectedOrders,
   userData,
   data,
+  fieldsData,
   setData,
   filteredData,
   setFilteredData,
@@ -25,6 +28,9 @@ const List = ({
   const [totalData, SetTotalData] = useState([]);
   const [hariutsagch, setHariutsagch] = useState();
   const [delivermans, setDeliverMans] = useState([]);
+
+  // const { fieldsDataReport, tablePosition } = ordersCtx;
+
   const sequence = [
     "index",
     "id",
@@ -382,6 +388,7 @@ const List = ({
         }}
       >
         <ListHeader
+          fieldsData={fieldsData}
           userData={userData}
           sequence={sequence}
           users={[
@@ -416,6 +423,7 @@ const List = ({
           setFilterState={setFilterState}
           handleSpinner={handleSpinner}
         />
+        {/* {console.log(fieldsDataReport, tablePosition)} */}
         {!loading && filteredData && filteredData.length > 0 ? (
           <div className="order_wrapper">
             {filteredData?.map((order) => {
@@ -438,6 +446,7 @@ const List = ({
 
               return (
                 <Order
+                  fieldsData={fieldsData}
                   fetch={() => fetchData(true)}
                   userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}

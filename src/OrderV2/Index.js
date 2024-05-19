@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Tab from "./components/tab/Tab";
 import List1 from "./List/List1";
 import List2 from "./List/List2";
@@ -13,7 +13,6 @@ import { ExportModal } from "./components/modal/modal";
 import { Workbook } from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -42,9 +41,271 @@ const App = (props) => {
     update: null,
   });
 
+  const [fieldsData, setFieldsData] = useState([]);
+
+  const [tablePosition, setTablePosition] = useState({
+    order: {
+      field: [],
+      report: [],
+    },
+    product: {
+      field: [],
+      report: [],
+    },
+  });
+
+  useEffect(() => {
+    if (props.userData && tablePosition.order.field.length > 0) {
+      setFieldsData(tablePosition.order.field);
+    } else if (props.userData) {
+      setFieldsData([
+        {
+          id: 1,
+          position: 1,
+          title: "Дугаар",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 2,
+          position: 2,
+          title: "Статус",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 3,
+          position: 3,
+          title: "Захиалга",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 4,
+          position: 4,
+          title: "Захиалсан өдөр",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 5,
+          position: 5,
+          title: "Хүргүүлэх өдөр",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 6,
+          position: 6,
+          title: "paidamount",
+          permission: true,
+          show: false,
+        },
+        {
+          id: 7,
+          position: 7,
+          title: "Тэмдэглэл",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 8,
+          position: 8,
+          title: "Утас",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 9,
+          position: 9,
+          title: "Захиалсан",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 10,
+          position: 10,
+          title: "Суваг",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 11,
+          position: 11,
+          title: "--Хот/аймаг--",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 12,
+          position: 12,
+          title: "--Дүүрэг/сум--",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 13,
+          position: 13,
+          title: "Хороо",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 14,
+          position: 14,
+          title: "Дэлгэрэнгүй хаяг",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 15,
+          position: 15,
+          title: "Төлбөрийн хэлбэр",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 16,
+          position: 16,
+          title: "Pick Pack",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 17,
+          position: 17,
+          title: "Origin",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 18,
+          position: 18,
+          title: "VAT",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 19,
+          position: 19,
+          title: "ХТ код/нэр",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 20,
+          position: 20,
+          title: "Түгээгч код/нэр",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 21,
+          position: 21,
+          title: "Менежер",
+          permission: true,
+          show: true,
+        },
+        {
+          id: 22,
+          position: 22,
+          title: "Буцаалт",
+          permission: true,
+          show: true,
+        },
+        // {
+        //   id: 23,
+        //   position: 23,
+        //   title: "VAT",
+        //   permission: true,
+        //   show: false,
+        // },
+        // {
+        //   id: 24,
+        //   position: 24,
+        //   title: "user_date",
+        //   permission: true,
+        //   show: false,
+        // },
+        // {
+        //   id: 25,
+        //   position: 25,
+        //   title: "Хариуцагч",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 26,
+        //   position: 26,
+        //   title: "Хариуцагч нэр",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 27,
+        //   position: 27,
+        //   title: " Утасны дугаар",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 28,
+        //   position: 28,
+        //   title: "Түгээгч",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 29,
+        //   position: 29,
+        //   title: "Ачилт",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 30,
+        //   position: 30,
+        //   title: "Захиалга устгах",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 31,
+        //   position: 31,
+        //   title: "Утасны захиалга",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 32,
+        //   position: -1,
+        //   title: "Буцаалт",
+        //   permission: true,
+        //   show: true,
+        // },
+        // {
+        //   id: 33,
+        //   position: 33,
+        //   title: "ХТ код",
+        //   permission: true,
+        //   show: true,
+        // },
+      ]);
+    }
+    console.log(fieldsData);
+  }, [tablePosition.order.field, tablePosition.order.report, props.userData]);
+  useEffect(() => {
+    try {
+      if (props.userData && props.userData?.tablePosition) {
+        setTablePosition(JSON.parse(props.userData?.tablePosition));
+      }
+    } catch (error) {
+      console.log("tablePosition error");
+    }
+  }, [props.userData]);
+
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
-
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [exportOpen, setExportOpen] = useState(false);
   const filterDataByDateRange = (data, startDate, endDate) => {
@@ -195,10 +456,10 @@ const App = (props) => {
 
   const exportPdf = () => {
     const doc = new jsPDF();
-  
+
     // Set font to support UTF-8 characters
     doc.setFont("Arial", "normal");
-  
+
     let list = [];
     let qr = 0;
     let pr = 0;
@@ -269,8 +530,6 @@ const App = (props) => {
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
     doc.save(`Тайлан ${formattedDate}`);
   };
-  
-
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
@@ -345,6 +604,7 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
+            fieldsData={fieldsData}
             userData={props.userData}
             data={data}
             setData={setData}
@@ -360,19 +620,24 @@ const App = (props) => {
     },
     {
       label: "Захиалгын тохиргоо",
-      content: () => (
-        <List2
-          userData={props.userData}
-          data={data}
-          setData={setData}
-          filteredData={filteredData}
-          setFilteredData={setFilteredData}
-          selectedOrders={selectedOrders}
-          setSelectedOrders={setSelectedOrders}
-          filterState={filterState}
-          setFilterState={setFilterState}
-        />
-      ),
+      content: () => {
+        console.log(props.userData);
+        return (
+          <List2
+            userData={props.userData}
+            fieldsData={fieldsData}
+            setFieldsData={setFieldsData}
+            data={data}
+            setData={setData}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        );
+      },
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];

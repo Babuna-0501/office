@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ProductAvatar from "../components/productImg/productImg";
 import Channel from "../data/info";
 import "./style.css";
@@ -8,11 +8,12 @@ import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
 import { ProductModal } from "../components/product/modal";
 import { NoteOrderDetail } from "../components/note";
+import { Order2Hook } from "../hook/data";
 
 const Order = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
-
+  const [fields, setFields] = useState([]);
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(
     data?.shipmentStatus === 14 || data?.shipmentStatus === 15
@@ -32,6 +33,7 @@ const Order = (props) => {
   const tradeshopCityId = parseInt(data.tradeshop_city);
   const tradeshopDistrict = parseInt(data.tradeshop_district);
   const tradeshopHoroo = parseInt(data.tradeshop_horoo);
+
   const location = LocationData.Location.find(
     (item) => item.location_id === tradeshopCityId
   );
@@ -455,6 +457,259 @@ const Order = (props) => {
     deliveryFee === 0 || deliveryFee == null ? deliveryFee + 6000 : deliveryFee;
   const totalAmount = Math.ceil(grandTotal + adjustedDeliveryFee);
 
+  useEffect(() => {
+    const fieldsCopy = [...props.fieldsData];
+
+    for (const field of fieldsCopy) {
+      switch (field.id) {
+        case 1:
+          field.content = (
+            <div className="order_id" key={field.id}>
+              <div className="fullcontainer idWrapper">
+                <span>{data.order_id}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 2:
+          field.content = (
+            <div className="order_supplier" key={field.id}>
+              <div className="fullcontainer">
+                <span
+                  className="statusbar"
+                  style={{ backgroundColor: color, color: fontColor }}
+                >
+                  {name}
+                </span>
+              </div>
+            </div>
+          );
+          break;
+        case 3:
+          field.content = (
+            <div className="order_product" key={field.id}>
+              <div className="fullcontainer">
+                <ProductAvatar data={data} />
+              </div>
+            </div>
+          );
+          break;
+        case 4:
+          field.content = (
+            <div className="order_date" key={field.id}>
+              <div className="fullcontainer order_date">
+                <span>{formatDate(data.order_date)}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 5:
+          field.content = (
+            <div className="delivery_date" key={field.id}>
+              <div className="fullcontainer order_date">
+                <span>{formatDate(data.delivery_date)}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 6:
+          field.content =
+            props.userData?.company_id === "|14268|" ? (
+              <div className="payment_mode" onClick={handleOpen}>
+                <div className="fullcontainer price_wrapper idWrapper">
+                  {totalAmount != null && <span>{totalAmount}₮</span>}
+                  <span>{Math.ceil(data.payment_amount)}₮</span>
+                </div>
+              </div>
+            ) : (
+              <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+                <div className="fullcontainer price_wrapper idWrapper">
+                  <span>{data.grand_total}₮</span>
+                  <span>{data.payment_amount}₮</span>
+                </div>
+              </div>
+            );
+          break;
+
+        case 7:
+          field.content = (
+            <div className="cancel_reason" key={field.id}>
+              <div className="fullcontainer">
+                <span>
+                  {data.description && data.description.length > 0
+                    ? `${JSON.parse(data.description)?.[0]?.body} (${
+                        JSON.parse(data.description)?.[0]?.date?.length > 0
+                          ? JSON.parse(data.description)?.[0]
+                              ?.date.toString()
+                              .substring(0, 10)
+                          : null
+                      })`
+                    : null}
+                </span>
+              </div>
+            </div>
+          );
+          break;
+        case 8:
+          field.content = (
+            <div className="phone" key={field.id}>
+              <div className="fullcontainer">
+                <span className="elips">{data.phone}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 9:
+          field.content = (
+            <div className="merchant" key={field.id}>
+              <div className="fullcontainer">
+                <span className="elips">{data.tradeshop_name}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 10:
+          field.content = (
+            <div className="business_type" key={field.id}>
+              <div className="fullcontainer">
+                <span className="elips">{businessTypeName}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 11:
+          field.content = (
+            <div className="tradeshop_city" key={field.id}>
+              <div className="fullcontainer">
+                {location ? (
+                  <span>{location.location_name}</span>
+                ) : (
+                  <span>Байршил олдсонгүй</span>
+                )}
+              </div>
+            </div>
+          );
+          break;
+        case 12:
+          field.content = (
+            <div className="tradeshop_district" key={field.id}>
+              <div className="fullcontainer">
+                {location2 ? (
+                  <span>{location2.location_name}</span>
+                ) : (
+                  <span>Байршил олдсонгүй</span>
+                )}
+              </div>
+            </div>
+          );
+          break;
+        case 13:
+          field.content = (
+            <div className="tradeshop_horoo" key={field.id}>
+              <div className="fullcontainer">
+                {location3 ? (
+                  <span>{location3.location_name}</span>
+                ) : (
+                  <span>
+                    Байршил <br /> олдсонгүй
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+          break;
+        case 14:
+          field.content = (
+            <div className="full_address" key={field.id}>
+              <div className="fullcontainer">
+                <span className="elips">{data.address}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 15:
+          field.content = (
+            <div className="payment_type" key={field.id}>
+              <div className="fullcontainer">
+                <span>Дансаар</span>
+              </div>
+            </div>
+          );
+          break;
+        case 16:
+          field.content = (
+            <div className="pick_pack" key={field.id}>
+              <div className="fullcontainer">
+                <span>Pickpack</span>
+              </div>
+            </div>
+          );
+          break;
+        case 17:
+          field.content = (
+            <div className="origin" key={field.id}>
+              <div className="fullcontainer">
+                <span>{data.origin}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 18:
+          field.content = (
+            <div className="vat" key={field.id}>
+              <div className="fullcontainer">
+                <span>VAT</span>
+              </div>
+            </div>
+          );
+          break;
+        case 19:
+          field.content = (
+            <div className="salesman" key={field.id}>
+              <div className="fullcontainer">
+                <span>{data.sales_man_employee_id}</span>&nbsp;
+                <span>{props?.salesmanFirstname || ""}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 20:
+          field.content = (
+            <div className="deliveryman" key={field.id}>
+              <div className="fullcontainer">
+                <span>{data.deliver_man}</span>&nbsp;
+                <span>{props?.firstname || ""}</span>
+              </div>
+            </div>
+          );
+          break;
+        case 21:
+          field.content = (
+            <div className="manager" key={field.id}>
+              <div className="fullcontainer">
+                <span>manager</span>
+              </div>
+            </div>
+          );
+          break;
+        case 22:
+          field.content = (
+            <div className="butsaalt" key={field.id}>
+              <div className="fullcontainer">
+                <span>butsaalt</span>
+              </div>
+            </div>
+          );
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    setFields(fieldsCopy);
+  }, [props.fieldsData]);
+
   return (
     <div className="WrapperOut">
       <div className="order col_wrapper">
@@ -468,201 +723,11 @@ const Order = (props) => {
           </div>
         </div>
 
-        {props.head?.[0] && (
-          <div className="order_id">
-            <div className="fullcontainer idWrapper">
-              <span>{data.order_id}</span>
-            </div>
-          </div>
-        )}
-
-        {props.head?.[1] && (
-          <div className="order_supplier">
-            <div className="fullcontainer">
-              <span
-                className="statusbar"
-                style={{ backgroundColor: color, color: fontColor }}
-              >
-                {name}
-              </span>
-            </div>
-          </div>
-        )}
-        {props.head?.[2] && (
-          <div className="order_product">
-            <div className="fullcontainer">
-              <ProductAvatar data={data} />
-            </div>
-          </div>
-        )}
-        {props.head?.[3] && (
-          <div className="order_date">
-            <div className="fullcontainer order_date">
-              <span>{formatDate(data.order_date)}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[4] && (
-          <div className="delivery_date">
-            <div className="fullcontainer order_date">
-              <span>{formatDate(data.delivery_date)}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[5] &&
-          (props.userData?.company_id === "|14268|" ? (
-            <div className="payment_mode" onClick={handleOpen}>
-              <div className="fullcontainer price_wrapper idWrapper">
-                {totalAmount != null && <span>{totalAmount}₮</span>}
-                <span>{Math.ceil(data.payment_amount)}₮</span>
-              </div>
-            </div>
-          ) : (
-            <div className="payment_mode" onClick={(e) => handleOpen(e)}>
-              <div className="fullcontainer price_wrapper idWrapper">
-                <span>{data.grand_total}₮</span>
-                <span>{data.payment_amount}₮</span>
-              </div>
-            </div>
-          ))}
-        {props.head?.[6] && (
-          <div className="cancel_reason">
-            <div className="fullcontainer">
-              <span>
-                {data.description && data.description.length > 0
-                  ? `${JSON.parse(data.description)?.[0]?.body} (${
-                      JSON.parse(data.description)?.[0]?.date?.length > 0
-                        ? JSON.parse(data.description)?.[0]
-                            ?.date.toString()
-                            .substring(0, 10)
-                        : null
-                    })`
-                  : null}
-              </span>
-            </div>
-          </div>
-        )}
-        {props.head?.[7] && (
-          <div className="phone">
-            <div className="fullcontainer">
-              <span className="elips">{data.phone}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[8] && (
-          <div className="merchant">
-            <div className="fullcontainer">
-              <span className="elips">{data.tradeshop_name}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[9] && (
-          <div className="business_type">
-            <div className="fullcontainer">
-              <span className="elips">{businessTypeName}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[10] && (
-          <div className="tradeshop_city">
-            <div className="fullcontainer">
-              {location ? (
-                <span>{location.location_name}</span>
-              ) : (
-                <span>Байршил олдсонгүй</span>
-              )}
-            </div>
-          </div>
-        )}
-        {props.head?.[11] && (
-          <div className="tradeshop_district">
-            <div className="fullcontainer">
-              {location2 ? (
-                <span>{location2.location_name}</span>
-              ) : (
-                <span>Байршил олдсонгүй</span>
-              )}
-            </div>
-          </div>
-        )}
-        {props.head?.[12] && (
-          <div className="tradeshop_horoo">
-            <div className="fullcontainer">
-              {location3 ? (
-                <span>{location3.location_name}</span>
-              ) : (
-                <span>
-                  Байршил <br /> олдсонгүй
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-        {props.head?.[13] && (
-          <div className="full_address">
-            <div className="fullcontainer">
-              <span className="elips">{data.address}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[14] && (
-          <div className="payment_type">
-            <div className="fullcontainer">
-              <span>Дансаар</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[15] && (
-          <div className="pick_pack">
-            <div className="fullcontainer">
-              <span>Pickpack</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[16] && (
-          <div className="origin">
-            <div className="fullcontainer">
-              <span>{data.origin}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[17] && (
-          <div className="vat">
-            <div className="fullcontainer">
-              <span>VAT</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[18] && (
-          <div className="salesman">
-            <div className="fullcontainer">
-              <span>{data.sales_man_employee_id}</span>&nbsp;
-              <span>{props?.salesmanFirstname || ""}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[19] && (
-          <div className="deliveryman">
-            <div className="fullcontainer">
-              <span>{data.deliver_man}</span>&nbsp;
-              <span>{props?.firstname || ""}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[20] && (
-          <div className="manager">
-            <div className="fullcontainer">
-              <span>manager</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[21] && (
-          <div className="butsaalt">
-            <div className="fullcontainer">
-              <span>butsaalt</span>
-            </div>
-          </div>
-        )}
+        {fields
+          .sort((a, b) => a.position - b.position)
+          .map((field) => {
+            return field.permission && field.show ? field.content : null;
+          })}
 
         <div className="delete">
           <div className="fullcontainer">
@@ -1133,8 +1198,6 @@ const Order = (props) => {
                   userData={props.userData}
                 />
               )}
-
-              {console.log(props.userData)}
 
               <Modal
                 cancel={() => setEdit(undefined)}

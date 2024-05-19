@@ -30,6 +30,7 @@ import { ShipmentProvider } from "./Hooks/ShipmentHook";
 import { HeaderProvider } from "./Hooks/HeaderHook";
 import { GlobalProvider } from "./Hooks/GlobalContext";
 import { ShuurkhaiHook } from "./Hooks/ShuurkhaiHook";
+import { Order2Hook } from "./OrderV2/hook/data";
 
 // if (process.env.NODE_ENV === "production") {
 //   console.log = () => {};
@@ -38,60 +39,62 @@ import { ShuurkhaiHook } from "./Hooks/ShuurkhaiHook";
 // }
 
 ReactDOM.render(
-	<GlobalProvider>
-		<HeaderProvider>
-			<UserDataHook>
-				<AppHook>
-					<VatHook>
-						<SupplierHook>
-							<SfaHook>
-								<UpointHook>
-									<ContentHook>
-										<PromoHook>
-											<PromoHookV1>
-												<XTHook>
-													<BackOfficeHook>
-														<OrdersHook>
-															<ShuurkhaiHook>
-																<ProductHook>
-																	<TdaysHook>
-																		<SMSHook>
-																			<CollectionHook>
-																				<ZonesHook>
-																					<LendHook>
-																						<ChatHook>
-																							<ProductReportHook>
-																								<OrderReportHook>
-																									<MerchantRegisterHook>
-																										<MerchantReportStore>
-																											<ShipmentProvider>
-																												<App />
-																											</ShipmentProvider>
-																										</MerchantReportStore>
-																									</MerchantRegisterHook>
-																								</OrderReportHook>
-																							</ProductReportHook>
-																						</ChatHook>
-																					</LendHook>
-																				</ZonesHook>
-																			</CollectionHook>
-																		</SMSHook>
-																	</TdaysHook>
-																</ProductHook>
-															</ShuurkhaiHook>
-														</OrdersHook>
-													</BackOfficeHook>
-												</XTHook>
-											</PromoHookV1>
-										</PromoHook>
-									</ContentHook>
-								</UpointHook>
-							</SfaHook>
-						</SupplierHook>
-					</VatHook>
-				</AppHook>
-			</UserDataHook>
-		</HeaderProvider>
-	</GlobalProvider>,
-	document.getElementById("root")
+  <GlobalProvider>
+    <HeaderProvider>
+      <UserDataHook>
+        <AppHook>
+          <VatHook>
+            <SupplierHook>
+              <SfaHook>
+                <UpointHook>
+                  <ContentHook>
+                    <PromoHook>
+                      <PromoHookV1>
+                        <XTHook>
+                          <BackOfficeHook>
+                            <OrdersHook>
+                              <Order2Hook>
+                                <ShuurkhaiHook>
+                                  <ProductHook>
+                                    <TdaysHook>
+                                      <SMSHook>
+                                        <CollectionHook>
+                                          <ZonesHook>
+                                            <LendHook>
+                                              <ChatHook>
+                                                <ProductReportHook>
+                                                  <OrderReportHook>
+                                                    <MerchantRegisterHook>
+                                                      <MerchantReportStore>
+                                                        <ShipmentProvider>
+                                                          <App />
+                                                        </ShipmentProvider>
+                                                      </MerchantReportStore>
+                                                    </MerchantRegisterHook>
+                                                  </OrderReportHook>
+                                                </ProductReportHook>
+                                              </ChatHook>
+                                            </LendHook>
+                                          </ZonesHook>
+                                        </CollectionHook>
+                                      </SMSHook>
+                                    </TdaysHook>
+                                  </ProductHook>
+                                </ShuurkhaiHook>
+                              </Order2Hook>
+                            </OrdersHook>
+                          </BackOfficeHook>
+                        </XTHook>
+                      </PromoHookV1>
+                    </PromoHook>
+                  </ContentHook>
+                </UpointHook>
+              </SfaHook>
+            </SupplierHook>
+          </VatHook>
+        </AppHook>
+      </UserDataHook>
+    </HeaderProvider>
+  </GlobalProvider>,
+  document.getElementById("root")
 );
