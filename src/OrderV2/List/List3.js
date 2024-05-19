@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import './ReportNew.css'
+import React, { useState, useEffect } from 'react';
+import './ReportNew.css';
 import myHeaders from '../components/MyHeader/myHeader';
+import * as XLSX from 'xlsx';
 
 const ReportDetail = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State for progress indicator
+  const [isLoading, setIsLoading] = useState(false); 
+  const [users, setUsers] = useState([]);
 
   const fetchData = async () => {
-    setIsLoading(true); // Set loading to true when fetching data
+    setIsLoading(true);
 
     var requestOptions = {
       headers: myHeaders,
@@ -17,7 +19,7 @@ const ReportDetail = () => {
     };
     
     if (!startDate || !endDate) {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
       alert('Эхлэх дуусах огноог сонгоно уу.');
       return;
     }
@@ -30,7 +32,7 @@ const ReportDetail = () => {
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
-      setIsLoading(false); // Reset loading state after data fetch completes
+      setIsLoading(false);
     }
   };
 
@@ -40,80 +42,132 @@ const ReportDetail = () => {
       return;
     }
   
-    const dataset = data.map(item => ({
-      orderId: item.orderId,
-      productName: item.productName,
-      barcode: item.barcode,
-      supplierName: item.supplierName,
-      quantity: item.quantity,
-      price: item.price,
-      total: item.total,
-      orderAt: new Date(item.orderAt).toLocaleDateString('en-US'), 
-      deliveryAt: new Date(item.deliveryAt).toLocaleDateString('en-US'), 
-      phone: item.phone,
-      register: item.register,
-      customerName: item.customerName,
-      tradeshopName: item.tradeshopName,
-      BusinessType: item.BusinessType,
-      state: item.state,
-      district: item.district,
-      quarter: item.quarter,
-      address: item.address,
-      note: item.note,
-      status: item.status,
-      mainCategory: item.mainCategory,
-      category: item.category,
-      cancelReason: item.cancelReason,
-      origin: item.origin,
-      orderType: item.orderType,
-      canceledBy: item.canceledBy,
-      createdAt: new Date(item.createdAt).toLocaleDateString('en-US'), 
-      recievedAt: item.recievedAt ? new Date(item.recievedAt).toLocaleDateString('en-US') : '', 
-      brand: item.brand,
-      productVendor: item.productVendor,
-      deliveryMan: item.deliveryMan,
-      salesMan: item.salesMan
-    }));
+    const dataset = data.map(item => {
+      const orderData = JSON.parse(item.orderData);
+      const payment = orderData?.payment || {}; 
+      const deliveryManInfo = users[item.deliveryMan] || {};
+      const salesManInfo = users[item.salesMan] || {};
   
-    const csvContent = [
-      '\uFEFF', 
-      Object.keys(dataset[0]).join(','), 
-      ...dataset.map(item => Object.values(item).join(',')), 
-    ].join('\n');
+      return {
+        orderId: item.orderId,
+        productName: item.productName,
+        barcode: item.barcode,
+        supplierName: item.supplierName,
+        quantity: item.quantity,
+        price: item.price,
+        total: item.total,
+        orderAt: new Date(item.orderAt).toLocaleDateString('en-US'),
+        deliveryAt: new Date(item.deliveryAt).toLocaleDateString('en-US'),
+        phone: item.phone,
+        register: item.register,
+        customerName: item.customerName,
+        tradeshopName: item.tradeshopName,
+        BusinessType: item.BusinessType,
+        state: item.state,
+        district: item.district,
+        quarter: item.quarter,
+        address: item.address,
+        note: item.note,
+        status: item.status,
+        mainCategory: item.mainCategory,
+        category: item.category,
+        cancelReason: item.cancelReason,
+        origin: item.origin,
+        orderType: item.orderType,
+        canceledBy: item.canceledBy,
+        createdAt: new Date(item.createdAt).toLocaleDateString('en-US'),
+        recievedAt: item.recievedAt ? new Date(item.recievedAt).toLocaleDateString('en-US') : '',
+        brand: item.brand,
+        productVendor: item.productVendor,
+        deliveryManFirstName: deliveryManInfo.first_name || '',
+        salesManFirstName: salesManInfo.first_name || '',
+        Төлбөр_бэлэн: payment.m1 || '',
+        Төлбөр_банк: payment.m2 || '', 
+        Төлбөр_зээл: payment.m3 || '', 
+        Урьдчилгаа: orderData.prePayment || '', 
+      };
+    });
+
+    // Create worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(dataset);
     
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'Дэлгэрэнгүй тайлан.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Adjust column widths
+    const columnWidths = [
+      { wch: 10 }, // orderId
+      { wch: 20 }, // productName
+      { wch: 15 }, // barcode
+      { wch: 20 }, // supplierName
+      { wch: 10 }, // quantity
+      { wch: 10 }, // price
+      { wch: 15 }, // total
+      { wch: 15 }, // orderAt
+      { wch: 15 }, // deliveryAt
+      { wch: 15 }, // phone
+      { wch: 15 }, // register
+      { wch: 20 }, // customerName
+      { wch: 20 }, // tradeshopName
+      { wch: 15 }, // BusinessType
+      { wch: 10 }, // state
+      { wch: 10 }, // district
+      { wch: 10 }, // quarter
+      { wch: 20 }, // address
+      { wch: 30 }, // note
+      { wch: 10 }, // status
+      { wch: 20 }, // mainCategory
+      { wch: 20 }, // category
+      { wch: 20 }, // cancelReason
+      { wch: 10 }, // origin
+      { wch: 10 }, // orderType
+      { wch: 20 }, // canceledBy
+      { wch: 15 }, // createdAt
+      { wch: 15 }, // recievedAt
+      { wch: 15 }, // brand
+      { wch: 20 }, // productVendor
+      { wch: 20 }, // deliveryManFirstName
+      { wch: 20 }, // salesManFirstName
+      { wch: 15 }, // Төлбөр_бэлэн
+      { wch: 15 }, // Төлбөр_банк
+      { wch: 15 }, // Төлбөр_зээл
+      { wch: 15 }, // Урьдчилгаа
+    ];
+
+    worksheet['!cols'] = columnWidths;
+
+    // Create workbook and export
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Дэлгэрэнгүй тайлан');
+
+    XLSX.writeFile(workbook, 'Дэлгэрэнгүй тайлан.xlsx');
   };
   
-  // const fetchData2 = async () => {
-  //   var requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const data2 = await fetch(
-  //       "https://api2.ebazaar.mn/api/backoffice/users",
-  //       requestOptions
-  //     );
-  //     const res = await data2.json();
-  //     setUsers(res.data2);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData2();
-  // }, []);
-
+  useEffect(() => {
+    const fetchUsers = async () => {
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        const response = await fetch('https://api2.ebazaar.mn/api/backoffice/users', requestOptions);
+        const userData = await response.json();
+  
+        // Create a mapping of user IDs to user information objects
+        const usersDataMap = {};
+        userData.data.forEach(user => {
+          usersDataMap[user.user_id] = user;
+        });
+  
+        // Update the users state with the mapping
+        setUsers(usersDataMap);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+  
+    fetchUsers();
+  }, []);
+  
   return (
     <div className='reportDetail'>
       <h1>Захиалгын Дэлгэрэнгүй Тайлан</h1>

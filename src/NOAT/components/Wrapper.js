@@ -304,7 +304,7 @@ const Wrapper = (props) => {
                   posNo: "1000",
                   taxType: "1",
                   registerNo: registerCompany.toString(),
-                  reportMonth: `2024-02`,
+                  reportMonth: `2024-01`,
                 };
                 let mainRawMonth = {
                   amount: _total.toFixed(2).toString(),

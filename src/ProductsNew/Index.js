@@ -5,7 +5,6 @@ import Header from './Header'
 import Form from './Form'
 import AppHook from "../Hooks/AppHook"
 import MassChannelPrice from './MassChannelPrice'
-import MassImport from './MassImport'
 
 const Index = () => {
 	const appContext = useContext(AppHook)
@@ -19,7 +18,6 @@ const Index = () => {
 	const [loading, setLoading] =  useState(false)
 	const [supplierUsers, setSupplierUsers] = useState(null)
 	const [massChannelPrice, setMassChannelPrice] = useState(false)
-	const [productMassImport, setProductMassImport] = useState(false)
 	useEffect(() => {
 		fetchSiteData()
 		fetchAttributes()
@@ -88,14 +86,13 @@ const Index = () => {
 			<Header tab={tab} setTab={setTab} />
 			<div className="containerPageButtons">
 				<button className="pageButton" onClick={() => setProduct('new')}>+ Шинэ бүтээгдэхүүн</button>
-				<button className="pageButton secondary" onClick={() => setProductMassImport(true)}>Бүтээгдэхүүн масс импортлох</button>
+				<button className="pageButton secondary">Бүтээгдэхүүн масс импортлох</button>
 				<button className="pageButton secondary">Бүтээгдэхүүний тайлан</button>
 				<button className="pageButton secondary" onClick={() => setMassChannelPrice(true)}>Масс сувгийн үнийн тохиргоо</button>
 			</div>
 			{<List setPage={setPage} data={data} widths={widths} totalWidth={totalWidth} setProduct={setProduct} page={page + 1} attributes={attributes} productGroups={productGroups} supplierUsers={supplierUsers} />}
 			{product ? <Form setProduct={setProduct} product={product} supplierId={parseInt(appContext.userData.company_id.match(/(\d+)/)[0])} customers={customers} productGroups={productGroups} attributes={attributes} /> : null}
 			{massChannelPrice ? <MassChannelPrice setMassChannelPrice={setMassChannelPrice} /> : null}
-			{productMassImport ? <MassImport setProductMassImport={setProductMassImport} /> : null}
 		</>
 	) : <div>Түр хүлээнэ үү...</div>
 }

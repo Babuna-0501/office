@@ -19,6 +19,7 @@ const Order = (props) => {
       ? data.shipmentStatus
       : data.status
   );
+  
 
   const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
@@ -83,7 +84,9 @@ const Order = (props) => {
     e.nativeEvent.stopImmediatePropagation();
     setIsOpen(true);
   };
+
   const [foo, setFoo] = useState("");
+
   useEffect(() => {
     setPayment(props.payment);
   }, [props.payment]);
@@ -179,6 +182,7 @@ const Order = (props) => {
   const [statusAlert, setStatusAlert] = useState(0);
   const [cancelReasonData, setCancelReasonData] = useState([]);
   const [cancelReason, setCancelReason] = useState();
+
   const openAddPopup = () => {
     setIsAddPopupOpen(true);
   };
@@ -218,30 +222,53 @@ const Order = (props) => {
 
   const updatePayment = async () => {
     if (payment.edit) {
+      let existingData = JSON.parse(data.order_data);
+      let term = existingData.term;
+      let discounts = existingData.discounts;
+      let paymentDetails = existingData.payment;
+      let brTotal = existingData.brTotal;
+      let wherehouse = existingData.wherehouse;
+      let promotion = existingData.promotion;
+      let percent = existingData.percent;
+      let delivery_fee = existingData.delivery_fee;
+      let type = existingData.type;
+  
+      existingData.prePayment = payment.paid;
+  
       let raw = JSON.stringify({
         orderId: data.order_id,
         data: {
-          prePayment: payment.paid,
-        },
+          term: term,
+          discounts: discounts,
+          brTotal: brTotal,
+          wherehouse: wherehouse,
+          prePayment: payment.paid,  
+          promotion: promotion,
+          percent: percent,
+          delivery_fee: delivery_fee,
+          type: type
+        }
       });
-
+  
       var requestOptions = {
         method: "PATCH",
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: "follow"
       };
-
-      fetch("https://api2.ebazaar.mn/api/orderdata/update ", requestOptions)
+  
+      fetch("https://api2.ebazaar.mn/api/orderdata/update", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           console.log("payment update", result);
-
           document.location.reload();
-        });
+        })
+        .catch(error => console.log('error', error));
     }
+  
     setPayment((prev) => ({ ...prev, edit: !payment.edit }));
   };
+  
   const cancel = async () => {
     try {
       let body = {
@@ -406,18 +433,14 @@ const Order = (props) => {
     }
   };
 
-  const dialog = (type) => {};
-
   // Захиалга устгах
 
   const orderDeleteHandler = async (order_id) => {
     try {
-      const confirmed = window.confirm(
-        "Та энэ захиалгыг устгахдаа итгэлтэй байна уу?"
-      );
-      if (!confirmed) {
-        return;
-      }
+        const confirmed = window.confirm("Та энэ захиалгыг устгахдаа итгэлтэй байна уу?");
+        if (!confirmed) {
+          return; 
+        }
       let raw = JSON.stringify({
         order_id: parseInt(order_id),
       });
@@ -427,13 +450,10 @@ const Order = (props) => {
         body: raw,
         redirect: "follow",
       };
-
-      const response = await fetch(
-        "https://api2.ebazaar.mn/api/order/datechange",
-        requestOptions
-      );
+  
+      const response = await fetch("https://api2.ebazaar.mn/api/order/datechange", requestOptions);
       const result = await response.json();
-
+  
       if (result.code === 200) {
         alert("Амжилттай устгалаа.");
       } else {
@@ -444,16 +464,7 @@ const Order = (props) => {
       alert("Алдаа гарлаа.");
     }
   };
-
-  const grandTotal =
-    typeof data.grand_total === "number" ? data.grand_total : 0;
-  const deliveryFee =
-    typeof data.order_data?.delivery_fee === "number"
-      ? parseFloat(data.order_data.delivery_fee)
-      : 0;
-  const adjustedDeliveryFee =
-    deliveryFee === 0 || deliveryFee == null ? deliveryFee + 6000 : deliveryFee;
-  const totalAmount = Math.ceil(grandTotal + adjustedDeliveryFee);
+  console.log(props, "props ireh");
 
   return (
     <div className="WrapperOut">
@@ -468,67 +479,60 @@ const Order = (props) => {
           </div>
         </div>
 
-        {props.head?.[0] && (
-          <div className="order_id">
-            <div className="fullcontainer idWrapper">
-              <span>{data.order_id}</span>
+        <div className="order_id">
+          <div className="fullcontainer idWrapper">
+            <span>{data.order_id}</span>
+          </div>
+        </div>
+
+        <div className="order_supplier">
+          <div className="fullcontainer">
+            <span
+              className="statusbar"
+              style={{ backgroundColor: color, color: fontColor }}
+            >
+              {name}
+            </span>
+          </div>
+        </div>
+
+        <div className="order_product">
+          <div className="fullcontainer">
+            <ProductAvatar data={data} />
+          </div>
+        </div>
+
+        <div className="order_date">
+          <div className="fullcontainer order_date">
+            <span>{formatDate(data.order_date)}</span>
+          </div>
+        </div>
+
+        <div className="delivery_date">
+          <div className="fullcontainer order_date">
+            <span>{formatDate(data.delivery_date)}</span>
+          </div>
+        </div>
+        {props.data.supplier_id === 14268 ? (
+          <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+            <div className="fullcontainer price_wrapper idWrapper">
+              {data && <span>{data.grand_total + 6000}₮</span>}
+              {data && <span>{data.payment_amount}₮</span>}
+            </div>
+          </div>
+        ) : (
+          <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+            <div className="fullcontainer price_wrapper idWrapper">
+              {data && <span>{data.grand_total}₮</span>}
+              {data && <span>{data.payment_amount}₮</span>}
             </div>
           </div>
         )}
 
-        {props.head?.[1] && (
-          <div className="order_supplier">
+
+        <div className="cancel_reason">
             <div className="fullcontainer">
-              <span
-                className="statusbar"
-                style={{ backgroundColor: color, color: fontColor }}
-              >
-                {name}
-              </span>
-            </div>
-          </div>
-        )}
-        {props.head?.[2] && (
-          <div className="order_product">
-            <div className="fullcontainer">
-              <ProductAvatar data={data} />
-            </div>
-          </div>
-        )}
-        {props.head?.[3] && (
-          <div className="order_date">
-            <div className="fullcontainer order_date">
-              <span>{formatDate(data.order_date)}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[4] && (
-          <div className="delivery_date">
-            <div className="fullcontainer order_date">
-              <span>{formatDate(data.delivery_date)}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[5] &&
-          (props.userData?.company_id === "|14268|" ? (
-            <div className="payment_mode" onClick={handleOpen}>
-              <div className="fullcontainer price_wrapper idWrapper">
-                {totalAmount != null && <span>{totalAmount}₮</span>}
-                <span>{Math.ceil(data.payment_amount)}₮</span>
-              </div>
-            </div>
-          ) : (
-            <div className="payment_mode" onClick={(e) => handleOpen(e)}>
-              <div className="fullcontainer price_wrapper idWrapper">
-                <span>{data.grand_total}₮</span>
-                <span>{data.payment_amount}₮</span>
-              </div>
-            </div>
-          ))}
-        {props.head?.[6] && (
-          <div className="cancel_reason">
-            <div className="fullcontainer">
-              <span>
+              <span className="order_desc-l">
                 {data.description && data.description.length > 0
                   ? `${JSON.parse(data.description)?.[0]?.body} (${
                       JSON.parse(data.description)?.[0]?.date?.length > 0
@@ -541,137 +545,101 @@ const Order = (props) => {
               </span>
             </div>
           </div>
-        )}
-        {props.head?.[7] && (
-          <div className="phone">
-            <div className="fullcontainer">
-              <span className="elips">{data.phone}</span>
-            </div>
+        <div className="phone">
+          <div className="fullcontainer">
+            <span className="elips">{data.phone}</span>
           </div>
-        )}
-        {props.head?.[8] && (
-          <div className="merchant">
-            <div className="fullcontainer">
-              <span className="elips">{data.tradeshop_name}</span>
-            </div>
+        </div>
+        <div className="merchant">
+          <div className="fullcontainer">
+            <span className="elips">{data.tradeshop_name}</span>
           </div>
-        )}
-        {props.head?.[9] && (
-          <div className="business_type">
-            <div className="fullcontainer">
-              <span className="elips">{businessTypeName}</span>
-            </div>
+        </div>
+        <div className="business_type">
+          <div className="fullcontainer">
+            <span className="elips">{businessTypeName}</span>
           </div>
-        )}
-        {props.head?.[10] && (
-          <div className="tradeshop_city">
-            <div className="fullcontainer">
-              {location ? (
-                <span>{location.location_name}</span>
-              ) : (
-                <span>Байршил олдсонгүй</span>
-              )}
-            </div>
+        </div>
+        <div className="tradeshop_city">
+          <div className="fullcontainer">
+            {location ? (
+              <span>{location.location_name}</span>
+            ) : (
+              <span>Байршил олдсонгүй</span>
+            )}
           </div>
-        )}
-        {props.head?.[11] && (
-          <div className="tradeshop_district">
-            <div className="fullcontainer">
-              {location2 ? (
-                <span>{location2.location_name}</span>
-              ) : (
-                <span>Байршил олдсонгүй</span>
-              )}
-            </div>
-          </div>
-        )}
-        {props.head?.[12] && (
-          <div className="tradeshop_horoo">
-            <div className="fullcontainer">
-              {location3 ? (
-                <span>{location3.location_name}</span>
-              ) : (
-                <span>
-                  Байршил <br /> олдсонгүй
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-        {props.head?.[13] && (
-          <div className="full_address">
-            <div className="fullcontainer">
-              <span className="elips">{data.address}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[14] && (
-          <div className="payment_type">
-            <div className="fullcontainer">
-              <span>Дансаар</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[15] && (
-          <div className="pick_pack">
-            <div className="fullcontainer">
-              <span>Pickpack</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[16] && (
-          <div className="origin">
-            <div className="fullcontainer">
-              <span>{data.origin}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[17] && (
-          <div className="vat">
-            <div className="fullcontainer">
-              <span>VAT</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[18] && (
-          <div className="salesman">
-            <div className="fullcontainer">
-              <span>{data.sales_man_employee_id}</span>&nbsp;
-              <span>{props?.salesmanFirstname || ""}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[19] && (
-          <div className="deliveryman">
-            <div className="fullcontainer">
-              <span>{data.deliver_man}</span>&nbsp;
-              <span>{props?.firstname || ""}</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[20] && (
-          <div className="manager">
-            <div className="fullcontainer">
-              <span>manager</span>
-            </div>
-          </div>
-        )}
-        {props.head?.[21] && (
-          <div className="butsaalt">
-            <div className="fullcontainer">
-              <span>butsaalt</span>
-            </div>
-          </div>
-        )}
+        </div>
 
+        <div className="tradeshop_district">
+          <div className="fullcontainer">
+            {location2 ? (
+              <span>{location2.location_name}</span>
+            ) : (
+              <span>Байршил олдсонгүй</span>
+            )}
+          </div>
+        </div>
+        <div className="tradeshop_horoo">
+          <div className="fullcontainer">
+            {location3 ? (
+              <span>{location3.location_name}</span>
+            ) : (
+              <span>
+                Байршил <br /> олдсонгүй
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="full_address">
+          <div className="fullcontainer">
+            <span className="elips">{data.address}</span>
+          </div>
+        </div>
+        <div className="payment_type">
+          <div className="fullcontainer">
+            <span>Дансаар</span>
+          </div>
+        </div>
+        <div className="pick_pack">
+          <div className="fullcontainer">
+            <span>Pickpack</span>
+          </div>
+        </div>
+        <div className="origin">
+          <div className="fullcontainer">
+            <span>{data.origin}</span>
+          </div>
+        </div>
+        <div className="vat">
+          <div className="fullcontainer">
+            <span>VAT</span>
+          </div>
+        </div>
+        <div className="salesman">
+          <div className="fullcontainer">
+            <span>{data.sales_man_employee_id}</span>&nbsp;
+            <span>{props?.salesmanFirstname || ""}</span>
+          </div>
+        </div>
+        <div className="deliveryman">
+          <div className="fullcontainer">
+            <span>{data.deliver_man}</span>&nbsp;
+            <span>{props?.firstname || ""}</span>
+          </div>
+        </div>
+        <div className="manager">
+          <div className="fullcontainer">
+            <span>manager</span>
+          </div>
+        </div>
+        <div className="butsaalt">
+          <div className="fullcontainer">
+            <span>butsaalt</span>
+          </div>
+        </div>
         <div className="delete">
           <div className="fullcontainer">
-            <button
-              className="delete_order"
-              onClick={() => orderDeleteHandler(data.order_id)}
-            >
-              Устгах
-            </button>
+            <button className="delete_order" onClick={() => orderDeleteHandler(data.order_id)}>Устгах</button>
           </div>
         </div>
       </div>
@@ -920,7 +888,7 @@ const Order = (props) => {
             <div className="tab-content">
               {activeTab === 1 && (
                 <div>
-                  <div style={{ display: "flex", gap: "10px" }}>
+                  <div style={{display:"flex", gap:"10px"}}>
                     <button className="add_product" onClick={openAddPopup}>
                       Бүтээгдэхүүн нэмэх
                     </button>
@@ -1085,12 +1053,12 @@ const Order = (props) => {
                         </div>
                       );
                     })}
-                    <div className="btn_btm">
-                      <button
+                       <div className="btn_btm">
+                       <button
                         onClick={() => {
                           if (cancelReasonData?.length == 0) getCancelReason();
-                          if (cancelReason == undefined) {
-                            setCancelReason(0);
+                          if(cancelReason == undefined) {
+                            setCancelReason(0)
                           }
                           setStatusAlert(1);
                         }}
@@ -1124,7 +1092,6 @@ const Order = (props) => {
                 </div>
               )}
               {activeTab === 3 && <div>Content for Tab 3</div>}
-
               {activeTab === 4 && (
                 <NoteOrderDetail
                   note={foo}
@@ -1135,7 +1102,6 @@ const Order = (props) => {
               )}
 
               {console.log(props.userData)}
-
               <Modal
                 cancel={() => setEdit(undefined)}
                 payload={edit}
@@ -1148,7 +1114,7 @@ const Order = (props) => {
                   }));
                 }}
               />
-              <Dialog
+                 <Dialog
                 cancel={() => setStatusAlert(0)}
                 payload={
                   getChangeStatusThemes(

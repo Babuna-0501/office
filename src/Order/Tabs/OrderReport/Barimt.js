@@ -352,10 +352,10 @@ const Barimt = (props) => {
                 height: "1px",
                 textAlign: "center",
                 border: "1px solid black",
-                display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
+                display: props.order?.supplier_id !== 14246 ? 'none' : null
               }}
             >
-              {props.order?.supplier_id === 14246 ? 'Хэмжих нэгж' : 'Хайрцаг'}
+              Хэмжих нэгж
             </th>
 
             <th
@@ -421,12 +421,7 @@ const Barimt = (props) => {
               if(item.base_price !== item.price) {
                 totalDiscountAmount += discountAmount
               }
-              let foo = item.isBox ? 'хайрцаг ' + item.quantity / item.product_in_case : 'шт'
-              if(props.order.supplier_id === 14233) {
-                let foobarblah = item.quantity / item.product_in_case
-
-                foo = (Number.isInteger(foobarblah) ? foobarblah : foobarblah.toFixed(2)) + ' хайрцаг'
-              }
+              const foo = item.isBox ? 'хайрцаг ' + item.quantity / item.product_in_case : 'шт'
               console.log()
               const totalPrice = item.quantity * item.price;
               totalQuantity += item.quantity
@@ -500,7 +495,7 @@ const Barimt = (props) => {
                       fontSize: "10px",
                       textAlign: "center",
                       border: "1px solid black",
-                      display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
+                      display: props.order?.supplier_id !== 14246 ? 'none' : null
                     }}
                   >
                     {foo}
@@ -584,7 +579,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233? 9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ? 9 : 8}
             >
               НӨАТгүй дүн
             </td>
@@ -594,7 +589,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ?  9 : 8}
             >
               НӨАТ
             </td>
@@ -604,7 +599,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ?  9 : 8}
             >
               Нийт дүн
             </td>

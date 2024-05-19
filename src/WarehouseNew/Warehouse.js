@@ -11,6 +11,7 @@ import {ModuleContext} from './index'
 const WarehouseContext = createContext()
 
 const Warehouse = (wh) => {
+	console.log(wh)
 	const [activeTab, setActiveTab] = useState('in')
 	const context = useContext(ModuleContext)
 	const [products, setProducts] = useState(null)
@@ -31,6 +32,7 @@ const Warehouse = (wh) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
+			console.log(response.data[0].products)
 			setProducts(response.data[0].products)
 		})
 	}, [])
@@ -41,9 +43,11 @@ const Warehouse = (wh) => {
 			redirect: "follow",
 	    }
 	    const url = `https://api2.ebazaar.mn/api/nugan/products?supplierId=${wh.props.supplierId}`
+		console.log(url)
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
+			console.log(response.products)
 			setAllProducts(response.products)
 		})
 	}, [])

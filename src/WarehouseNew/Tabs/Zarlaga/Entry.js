@@ -5,6 +5,7 @@ import Receipt from './Receipt'
 import {useState} from 'react'
 
 const Entry = (props) => {
+	console.log(props)
 	const data = props.data
 	const context = useContext(ModuleContext)
 	let requestedBy = ''
@@ -55,11 +56,10 @@ const Entry = (props) => {
 			break
 	}
 	const width = [50, 100, 200, 100, 140, 300]
-	const id = props.companyId === 14005 ? data.createdDate.slice(0, 10) : (data.generateId ? data.generateId.slice(-7) : null)
 	return (
 		<div className={css.entry}>
 			<div className={css.entry_id} style={{width: width[0] + 'px'}}><input type="checkbox" /></div>
-			<div className={css.entry_images} style={{width: width[1] + 'px'}} onClick={() => props.setForm(data)}>{id}</div>
+			<div className={css.entry_images} style={{width: width[1] + 'px'}} onClick={() => props.setForm(data)}>{data.generateId ? data.generateId.slice(-7) : null}</div>
 			<div className={css.entry_date} style={{width: width[2] + 'px'}}>{data.createdDate}</div>
 			<div className={css.entry_userid} style={{width: width[3] + 'px'}}>{requestedBy}</div>
 			<div className={css.entry_userid} style={{width: width[4] + 'px'}}>{status}</div>

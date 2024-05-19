@@ -620,6 +620,14 @@ const SupplierIndex = props => {
 							//   },
 							//   city: locationids,
 							// },
+							OtherData: JSON.stringify({
+								products: [
+								  {
+									name: "string",
+									barcode: "string",
+								  },
+								],
+							  }),
 					  })
 					: JSON.stringify({
 							SupplierID: index,
@@ -687,6 +695,14 @@ const SupplierIndex = props => {
 								sfa: sfaActive,
 								arig: false,
 							}),
+							OtherData: JSON.stringify({
+								products: [
+								  {
+									name: "string",
+									barcode: "string",
+								  },
+								],
+							  }),
 					  });
 
 			var requestOptions = {

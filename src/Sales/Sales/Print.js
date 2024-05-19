@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import myHeaders from "../../components/MyHeader/myHeader"
 import QRCode from "react-qr-code"
 
 const Print = (props) => {
 	console.log(props)
-	const [ready, setReady] = useState(false)
-	const [qr, setQr] = useState('')
-	const [billId, setBillId] = useState('')
 	const [taxPayerType, setTaxPayerType] = useState('individual')
 	const [businessName, setBusinessName] = useState(null)
 	const [businessRegister, setBusinessRegister] = useState(null)
@@ -53,77 +50,7 @@ const Print = (props) => {
 	props.data.map(product => {
 		total += product.quantity * product.sellPrice.retail
 	})
-	useEffect(() => {
-		console.log(taxPayerType + ' and ' + businessRegister)
-		//noatAmountOrig += (x.price.toFixed(2) * x.quantity.toFixed(2)) / 11.2;
-		let vatStocks = []
-		let totalVat = 0
-		let totalAmount = 0
-		let taxBillId
-		props.data.map(product => {
-			const vatAmount = (parseInt(product.sellPrice.retail) * parseInt(product.quantity)/11).toFixed(2)
-			vatStocks.push({
-				"code": String(product._id),
-                "name": String(product.name),
-                "measureUnit": "ш",
-                "qty": String(product.quantity.toFixed(2)),
-                "unitPrice": String(parseInt(product.sellPrice.retail).toFixed(2)),
-                "totalAmount": String((parseInt(product.sellPrice.retail) * parseInt(product.quantity)).toFixed(2)),
-                "cityTax": "0.00",
-                "vat": String(parseFloat(vatAmount).toFixed(2)),
-                "barCode": String(product.bar_code)
-			})
-			totalVat += parseFloat(vatAmount)
-			totalAmount += parseFloat(parseInt(product.quantity) * parseInt(product.sellPrice.retail))
-		})
-		console.log(totalVat.toFixed(2))
-		console.log(totalAmount)
-		let vatData = {
-			"register": 2155214,
-		    "bankTransactions": null,
-		    "orderId": Math.floor(Math.random() * 100 * Math.random() *100 * Math.random() * 100 * 100),
-		    "body": {
-		        "amount": String(totalAmount.toFixed(2)),
-		        "vat": String(parseFloat(totalVat).toFixed(2)),
-		        "cashAmount": String(totalAmount.toFixed(2)),
-		        "nonCashAmount": "0.00",
-		        "cityTax": "0.00",
-		        "districtCode": "35",
-		        "posNo": "1000",
-		        "customerNo": taxPayerType === "business" ? String(businessRegister) : "",
-		        "billType": taxPayerType === 'business' ? "3" : "",
-		        "billIdSuffix": "",
-		        "taxType": "1",
-		        "registerNo": "2155214",
-		        "stocks": vatStocks,
-		        "bankTransactions": null
-		    }
-		}
-		console.log(vatData)
-		const url = `https://api2.ebazaar.mn/api/ebarimt/barimt`
-		var requestOptions = {
-			method: "POST",
-			headers: myHeaders,
-			redirect: "follow",
-			body: JSON.stringify(vatData)
-	    }
-	    fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			console.log(response.code)
-			if(response.code === 200 && response.data) {
-				console.log(response)
-				console.log(response.data.qrData)
-				setQr(response.data.qrData)
-				setBillId(response.data.billId)
-				setReady(true)
-			} else {
-				alert('Алдаа гарлаа.')
-			}
-		})
-	}, [])
-	const currentDate = new Date()
-	return ready ? (
+	return (
 		<div className="paymentpage" style={{zIndex: '3000000000'}}>
 			<div className="leftblock" style={{background: '#f6f6f6'}}>
 				<div style={{position: 'absolute', right: '0', bottom: '0', left: '0', padding: '2rem '}}>
@@ -135,9 +62,9 @@ const Print = (props) => {
 			<div className="rightblock" style={{overflow: 'auto', background: 'white', paddingRight: '2rem'}} id="printcontent">
 				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>{props.taxPayerType === 'business' ? 'Байгуулагын баримт' : 'Иргэнд очих баримт'}</p>
 				<div style={{textAlign: 'center'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', margin: '12px 0'}}>{warehouseName}</p></div>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ТТД: 2155214</p>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ДДТД: {billId}</p>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>Огноо: {currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate()}</p>
+				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ТТД: 123456789</p>
+				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ДДТД: 123456789123456789</p>
+				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>Огноо: 2024-01-11</p>
 				<div>
 					<div style={{width: '40%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Бараа</p></div>
 					<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Тоо</p></div>
@@ -177,12 +104,12 @@ const Print = (props) => {
 					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{(total / 11).toFixed(2)}</p></div>
 				</div>
 				<div style={{textAlign: 'center'}}>
-					<p style={{margin: '1rem 0', fontSize: '16px', fontWeight: 'bold'}}></p>
+					<p style={{margin: '1rem 0', fontSize: '16px', fontWeight: 'bold'}}>AB12345678</p>
 					<div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
 						<QRCode
 						    size={256}
 						    style={{ height: "160px", maxWidth: "100%", width: "100%" }}
-						    value={qr}
+						    value={Math.random() + Math.random() + 'lorem ipsum foo bar blah blah'}
 						    viewBox={`0 0 256 256`}
 					    />
 					</div>
@@ -190,7 +117,7 @@ const Print = (props) => {
 			</div>
 			<span className="closePage" onClick={() => props.setPrint(false)}>x</span>
 		</div>
-	) : <div className="paymentpage" style={{zIndex: '3000000000'}}><div className="padding1rem">Түр хүлээнэ үү...</div></div>
+	)
 }
 
 export default Print

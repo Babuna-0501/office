@@ -2,8 +2,9 @@ import {useState, useContext, useEffect, useRef} from 'react'
 import myHeaders from '../components/MyHeader/myHeader'
 
 const List = (props) => {
+    console.log(props)
     // Search parameters
-    const [data, setData] = useState([])
+    const [data, setData] = useState(null)
     const [searchID, setSearchID] = useState(null)
     const [searchDate, setSearchDate] = useState(false)
     const [searchName, setSearchName] = useState('')
@@ -23,6 +24,7 @@ const List = (props) => {
     let fetchedProducts = useRef([])
     // Matching records
     const fetchData = (pageNum) => {
+        console.log('fetching data')
         let parameters = ''
         if(search.current.name && search.current.name.length > 0) {
             console.log(search.current.name)
@@ -36,14 +38,18 @@ const List = (props) => {
             headers: myHeaders,
             redirect: "follow",
         }
-        const url = `https://api2.ebazaar.mn/api/products/get1?${parameters}page=${page.current}&limit=100&order_by=created_desc`
+        const url = `https://api2.ebazaar.mn/api/products/get1?${parameters}page=${page.current}&limit=40&order_by=created_desc`
         fetch(url, requestOptions)
         .then((r) => r.json())
         .then((response) => {
+            console.log(response)
             if(response.data.length > 0) {
-                fetchedProducts.current = [...fetchedProducts.current, ...response.data]
-                setData(fetchedProducts.current)
-                fetchingData.current = false
+                console.log(response)
+                console.log('------------------------------------------46')
+                //fetchedProducts.current = [...fetchedProducts.current, ...response.data]
+                setData(response.data)
+                console.log(response)
+                //fetchingData.current = false
             }
         })
         .catch((error) => {
@@ -76,7 +82,7 @@ const List = (props) => {
                 for (const [key, value] of Object.entries(props.attributes.manufacturer)) {
                     if(key === product.manufacturer) {
                         manufacturer = value
-                        return
+                        //return
                     }
                 }
             }
@@ -84,18 +90,21 @@ const List = (props) => {
                 props.productGroups.map(prodgroup => {
                     if(parseInt(prodgroup.ID) === parseInt(product.category_id)) {
                         category = prodgroup.Name
-                        return
+                        //return
                     }
                 })
             }
             if(parseInt(product.created_by) > 0) {
                 props.supplierUsers.map(user => {
-                    createdBy = user.first_name + ' ' + user.last_name
+                    if(product.created_by === user.user_id) {
+                        createdBy = user.first_name + ' ' + user.last_name
+                    }
                 })
             }
+            console.log(product.stock)
             renderHTML.push(
                 <>
-                    <div className="listEntry" style={{width: props.totalWidth + 'px'}}>
+                    <div className="listEntry" style={{width: props.totalWidth + 200 + 'px'}}>
                         <div className="entryBlock" style={{width: widths[0]}}>
                             <input type="checkbox" data-id={product._id} className="customerToggle" />
                         </div>
@@ -105,8 +114,8 @@ const List = (props) => {
                         <div className="entryBlock" style={{width: widths[3]}}>
                             <img src={product.image && product.image[0] ? product.image[0].replace('original', 'small') : null} style={{width: '30px', height: '30px'}} alt="" />
                         </div>
-                        <div className="entryBlock" style={{width: widths[2]}}>
-                            <p>{product.name}</p>
+                        <div className="entryBlock width300px">
+                            <p title={product.name}>{product.name}</p>
                         </div>
                         <div className="entryBlock" style={{width: widths[4]}}>
                             <p>{product.vendor}</p>
@@ -116,6 +125,9 @@ const List = (props) => {
                         </div>
                         <div className="entryBlock" style={{width: widths[5]}}>
                             <p>{product.bar_code}</p>
+                        </div>
+                        <div className="entryBlock" style={{width: widths[5]}}>
+                            <p>{product.stock}</p>
                         </div>
                         <div className="entryBlock" style={{width: widths[5]}}>
                             <p>{product.emdData ? 'ЭМД' : null}</p>
@@ -136,6 +148,7 @@ const List = (props) => {
                 </>
             )
         })
+        console.log(renderHTML)
     } catch(e) {
         console.log(e)
     }
@@ -168,9 +181,10 @@ const List = (props) => {
         page.current = parseInt(page.current) + 1
         fetchData()
     }
-    return (
+    console.log(renderHTML)
+    return data ? (
         <div id="pageList">
-            <div className="listEntry" id="listHeader" style={{minWidth: props.totalWidth + 'px'}}>
+            <div className="listEntry" id="listHeader" style={{minWidth: props.totalWidth + 200 + 'px'}}>
                 <div className="entryBlock" style={{width: widths[0], justifyContent: 'center'}}>
                     <input type="checkbox" />
                 </div>
@@ -186,7 +200,7 @@ const List = (props) => {
                         <input type="text" disabled />
                     </div>
                 </div>
-                <div className="entryBlock" style={{width: widths[2]}}>
+                <div className="entryBlock width300px">
                     <div className="entryHeader">
                         <label>Нэр</label>
                         <input type="text" onKeyUp={(e) => fnSearchByName(e)} />
@@ -210,6 +224,12 @@ const List = (props) => {
                     <div className="entryHeader">
                         <label>Баркод</label>
                         <input type="text" onKeyUp={(e) => fnSearchByBarcode(e)} />
+                    </div>
+                </div>
+                <div className="entryBlock" style={{width: widths[4]}}>
+                    <div className="entryHeader">
+                        <label>Үлдэгдэл</label>
+                        <input type="text" disabled={true} />
                     </div>
                 </div>
                 <div className="entryBlock" style={{width: widths[4]}}>
@@ -245,7 +265,7 @@ const List = (props) => {
             </div>
             {renderHTML}
         </div>
-    )
+    ) : <div id="pageList">Түр хүлээнэ үү ...</div>
 }
 
 export default List

@@ -11,7 +11,6 @@ import OrderHistory from "./Tabs/OrderHistory";
 import { PaymentType } from "./Tabs/PaymentType";
 
 function Detail2(props) {
-  console.log(props)
   const { TabPane } = Tabs;
   const data = props.data;
   const locations = props.locations;
@@ -24,7 +23,6 @@ function Detail2(props) {
   const [excludedConfig, setExcludedConfig] = useState([]);
   const [includeProductList, setIncludeProductList] = useState("");
   const [excludeProductList, setExcludeProductList] = useState("");
-  const [customerType, setCustomerType] = useState(null)
 
   const [isOrderDetail, setIsOrderDetail] = useState(false);
   const [order, setOrder] = useState({});
@@ -53,7 +51,6 @@ function Detail2(props) {
   const updateTradeshopType = (e) => {
     console.log(props)
     console.log(e.target.value)
-    setCustomerType(e.target.value)
   }
   const getNewData = () => {
     var requestOptions = {
@@ -485,7 +482,7 @@ function Detail2(props) {
       newRegister: allData.c_register,
       name: allData.c_ANname,
       tradeshop_id: props.data.tradeshop_id,
-      channel: customerType,
+      channel: allData.business_type,
       city: allData.city,
       disctrict: allData.district,
       khoroo: allData.khoroo,
@@ -700,7 +697,7 @@ function Detail2(props) {
                   display: props.user.company_id === "|1|" ? "block" : "none",
                 }}
               >
-                Дэлгэрэнгүй судалгаа1
+                Дэлгэрэнгүй судалгаа
               </h1>
               <div
                 className={css.container2}
@@ -1753,7 +1750,7 @@ function Detail2(props) {
                 }
                 style={{ marginTop: "10px", width: "200px" }}
               >
-                Хадгалах2
+                Хадгалах
               </button>
             </>
             {/* )) */}

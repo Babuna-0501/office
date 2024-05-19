@@ -249,18 +249,12 @@ const TradeShops = (props) => {
               (x) => x.business_type_id == item.business_type_id
             )[0].business_type_name;
             console.log("item", item);
-            let cityname = "";
-            let districtname = "";
-
-            const city = prodctx.sitedata.location.find(x => x.location_id === item.city);
-            if (city) {
-                cityname = city.location_name;
-            }
-
-            const district = prodctx.sitedata.location.find(x => x.location_id === item.district);
-            if (district) {
-                districtname = district.location_name;
-            }
+            let cityname = prodctx.sitedata.location.filter(
+              (x) => x.location_id == item.city
+            )[0].location_name;
+            let districtname = prodctx.sitedata.location.filter(
+              (x) => x.location_id == item.district
+            )[0].location_name;
 
             let khorooname = "";
             if (item.horoo !== null) {

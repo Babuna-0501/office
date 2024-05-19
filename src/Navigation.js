@@ -172,6 +172,14 @@ function Navigation(props) {
         !orderHideCompanyIds.includes(props.userData.company_id),
     },
     {
+      path: "/orderstwo",
+      title: "Захиалга 2.0",
+      icon: "https://ebazaar.mn/icon/admin/orders.svg",
+      show:
+        permission?.order.read &&
+        !orderHideCompanyIds.includes(props.userData.company_id),
+    },
+    {
       path: "/newOrders",
       title: "Шинэ Захиалга",
       icon: "https://ebazaar.mn/icon/admin/orders.svg",

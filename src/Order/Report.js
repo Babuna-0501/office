@@ -10,8 +10,26 @@ import { Button } from "../Achiltiinzahialga/components/common";
 import { Checkbox } from "../components/common";
 import OrdersHook from "../Hooks/OrdersHook";
 import css from "./report.module.css";
-
+import { originData } from "./Index";
 /////// ORDERIIN DELGERENGUI TAILAN
+
+const columnsToKeep = [
+  "Order number",
+  "Product name",
+  "Merchant Sku",
+  "Vendor",
+  "Register",
+  "Qty",
+  "Gr",
+  "Price",
+  "Total",
+  "Completed at",
+  "When to ship",
+  "Branch",
+  "Status",
+];
+
+// Filter the initial schema to create the new schema
 
 function Report(props) {
   const [initialSchema, setInitialSchema] = useState([
@@ -236,8 +254,26 @@ function Report(props) {
       type: String,
       value: (d) => d.origin,
     },
-
+    
   ]);
+
+  // const schema =
+  //   props.userData.company_id === "|948|" || props.userData.company_id === "|14209|"
+  //     ? [
+  //         ...initialSchema,
+  //         {
+  //           column: "Төлбөрийн хэлбэр",
+  //           type: String,
+  //           value: (d) => d.paymentMethod,
+  //         },
+  //         { column: "ХТ мэдээлэл", type: String, value: (d) => d.tugeegchName },
+  //         {
+  //           column: "Хариуцагч",
+  //           type: String,
+  //           value: (d) => d.hariutsagch,
+  //         },
+  //       ]
+  //     : initialSchema;
 
   const schema = [
     ...initialSchema,
@@ -253,6 +289,8 @@ function Report(props) {
       value: (d) => d.hariutsagch,
     },
   ];
+  
+      
 
   const output = (lines, dates) => {
     writeXlsxFile(lines, {
@@ -261,7 +299,9 @@ function Report(props) {
     });
   };
   const orderFilterctx = useContext(OrdersHook);
+
   const { updateUser, fieldsDataReport, setFieldsDataReport } = orderFilterctx;
+
   const [isModal, setIsModal] = useState(false);
   let [exporting, setExporting] = useState(false);
   let [data, setData] = useState(true);
@@ -275,6 +315,8 @@ function Report(props) {
   let categories = props.categories;
   const orderCTX = useContext(OrderReportHook);
   const sitectx = useContext(ProductsReportHook);
+
+  console.log("props+++++1", props);
 
   useEffect(() => {
     if (!props.permissionData.order.report) {
@@ -348,7 +390,9 @@ function Report(props) {
       "Origin",
     ],
   ];
-
+  // if (props.userData.company_id === "|14014|") {
+  //   csv[0].push("XT ID", "XT Name", "XT Phone");
+  // }
   const statusDataInfo = [
     { id: 1, name: "Хүлээгдэж буй", name_english: "Waiting" },
     { id: 2, name: "Баталгаажсан", name_english: "Confirmed" },
@@ -394,31 +438,44 @@ function Report(props) {
   ];
   let [blah, setBlah] = useState(csv);
   const getCategories = (categoryId) => {
-    const cats = { main: "", sub: "", subsub: "" };
-  
-    const category = categories.find((cat) => cat.id === categoryId);
-    if (!category) return cats;
-  
-    const parentCategory = categories.find((cat) => cat.id === category.parent_id);
-    if (parentCategory && parentCategory.parent_id === 0) {
-      cats.main = parentCategory.name;
-      cats.sub = category.name;
-    } else if (parentCategory) {
-      const grandParentCategory = categories.find((cat) => cat.id === parentCategory.parent_id);
-      if (grandParentCategory) {
-        cats.main = grandParentCategory.name;
-        cats.sub = parentCategory.name;
-        cats.subsub = category.name;
+    let cats = {
+      main: "",
+      sub: "",
+      subsub: "",
+    };
+    categories.map((category) => {
+      if (category.id === categoryId) {
+        if (category.parent_id === 0) {
+          cats["main"] = category["name"];
+        } else {
+          let parent = category.parent_id;
+          categories.map((categoryParent) => {
+            if (categoryParent.id === category.parent_id) {
+              if (categoryParent.id === 0) {
+                cats["main"] = categoryParent["name"];
+                cats["sub"] = category["name"];
+              } else {
+                categories.map((categoryParentParent) => {
+                  if (categoryParentParent.id === categoryParent.parent_id) {
+                    cats["main"] = categoryParentParent["name"];
+                    cats["sub"] = categoryParent["name"];
+                    cats["subsub"] = category["name"];
+                  }
+                });
+              }
+            }
+          });
+        }
       }
-    }
+    });
     return cats;
   };
-  
 
   // let url = localStorage.getItem("url");
 
   const exporter = () => {
     let locations = props.locations;
+
     let url = localStorage.getItem("url");
 
     if (startDate && endDate) {
@@ -436,10 +493,12 @@ function Report(props) {
       redirect: "follow",
     };
     url = url.split("page=")[0] + "page=all";
+
+    // url = `https://api2.ebazaar.mn/api/orders?delivery_start=2022-04-01&delivery_end=2023-07-05&supplier_id=13884&page=all`;
+
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((response) => {
-        console.log('frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', response)
         if (props.userData.company_id === "|14014|") {
           let aaa = [
             {
@@ -462,204 +521,468 @@ function Report(props) {
             schema.push(item);
           });
         }
- 
-        const processOrder = (order, props, csv, buram) => {
+
+        let csv = [];
+
+        response.data.map((order) => {
           const orderId = order.order_id;
-          let supplierName = order.supplier_name || "";
-        
-          let orderdata = {};
+          let supplierName = order.supplier_name;
+          const customerPhone = order.phone;
+          const customerAddress = order.address;
+          let orderdata = "";
+
           if (order.order_data && order.order_data.trim() !== "") {
             orderdata = JSON.parse(order.order_data);
           }
-        
+          let reasondatainfo = "Тодорхойгүй";
+          let buram = [];
+
           if (props.userData.company_id === "|14014|") {
-            supplierName = "Нүүдэл Жи ХХК";
-            processBuramhanajilchid(order, props, buram);
-          } else if (props.userData.company_id === "|948|") {
-            processBuramhanajilchid(order, props, buram);
+            props.buramhanajilchid.map((item) => {
+              if (item.user_id === Number(order.back_office_user)) {
+                buram.push(item);
+              }
+
+              console.log("backdsadsdd", order.back_office_user)
+
+              if (order.back_office_user === null) {
+                buram.push({
+                  created_date: "2019-01-01T00:00:00.000Z",
+                  email: "example@example.com",
+                  employee_id: "null",
+                  first_name: "null",
+                  is_active: 1,
+                  last_name: "null",
+                  leasing: "null",
+                  notification: "null",
+                  origin: 1,
+                  permission: "",
+                  phone_number: 99999999,
+                  profile_picture: null,
+                  role: 1,
+                  special_tradeshops: null,
+                  supplier_id: "|14014|",
+                  target: null,
+                  tradeshop: null,
+                  updated_by: 351,
+                  updated_date: "2000-01-01T01:01:01.000Z",
+                  user_id: "0000",
+                  zones: null,
+                });
+              }
+            });
           }
-          const {
-            reasondatainfo,
-            RegisterNumber,
-            businessTypeName,
-            createdDate,
-            shippingDate,
-            orderStatusName,
-            note,
-            city,
-            khoroo,
-            district,
-          } = processOrderDetails(order, props);
-        
-          processOrderLines(order, props, csv, supplierName, orderdata, buram, orderId, RegisterNumber, businessTypeName, createdDate, shippingDate, orderStatusName, reasondatainfo, note, city, district, khoroo);
-        };
-        
-        const processBuramhanajilchid = (order, props, buram) => {
-          const userIds = order.back_office_user
-            .split(",")
-            .map((id) => Number(id))
-            .filter((id) => id);
-        
-          for (const userId of userIds) {
-            const user = props.buramhanajilchid.find((item) => item.user_id === userId);
-            if (user) {
-              buram.push(user);
+
+          if (props.userData.company_id === "|948|") {
+            const userIds = order.back_office_user
+              .split(",")
+              .map((id) => Number(id))
+              .filter((id) => id);
+
+            for (const userId of userIds) {
+              props.buramhanajilchid.map((item) => {
+                if (item.user_id === Number(userId)) {
+                  buram.push(item);
+                }
+              });
             }
           }
-        
-          if (!userIds.length || order.back_office_user === null) {
-            buram.push({
-              created_date: "2019-01-01T00:00:00.000Z",
-              email: "example@example.com",
-              employee_id: "null",
-              first_name: "null",
-              is_active: 1,
-              last_name: "null",
-              leasing: "null",
-              notification: "null",
-              origin: 1,
-              permission: "",
-              phone_number: 99999999,
-              profile_picture: null,
-              role: 1,
-              special_tradeshops: null,
-              supplier_id: "|14014|",
-              target: null,
-              tradeshop: null,
-              updated_by: 351,
-              updated_date: "2000-01-01T01:01:01.000Z",
-              user_id: "0000",
-              zones: null,
-            });
-          }
-        };
-        
-        const processOrderDetails = (order, props) => {
-          let reasondatainfo = "Тодорхойгүй";
+
           if (order.order_cancel_reason) {
-            const aa = reasondata.filter((item) => item.ID === order.order_cancel_reason);
-            reasondatainfo = aa.map((item) => `${item.name} / ${item.reason}`);
-          }
-          const oneSupp = props.suppliers.find((item) => item.id === order.supplier_id) || {};
-          const RegisterNumber = oneSupp.register || "";
-          const businessTypeName = sitectx.sitedata.business_types.find((item) => Number(order.business_type_id) === Number(item.business_type_id))?.business_type_name || "";
-          const createdDate = order.order_date ? `${order.order_date.substr(0, 10)} ${order.order_date.substr(11, 8)}` : "";
-          const shippingDate = order.delivery_date ? order.delivery_date.substr(0, 10) : "";
-          const orderStatusName = statusDataInfo.find((item) => item.id === order.status)?.name || "";
-          const city = getLocationName(order.tradeshop_city);
-          const khoroo = getLocationName(order.tradeshop_horoo);
-          const district = getLocationName(order.tradeshop_district);
-        
-          let note = "";
-          try {
-            note = JSON.parse(order.description)?.sort((a, b) => a?.date - b?.date)?.[0]?.body || "";
-          } catch (e) {}
-        
-          return {
-            reasondatainfo,
-            RegisterNumber,
-            businessTypeName,
-            createdDate,
-            shippingDate,
-            orderStatusName,
-            note,
-            city,
-            khoroo,
-            district,
-          };
-        };
-        
-        const getLocationName = (locationId) => {
-          return locations.find((location) => location.location_id == parseInt(locationId, 10))?.location_name || "";
-        };
-        
-        const processOrderLines = (order, props, csv, supplierName, orderdata, buram, orderId, RegisterNumber, businessTypeName, createdDate, shippingDate, orderStatusName, reasondatainfo, note, city, district, khoroo) => {
-          const rawTotal = calculateRawTotal(order);
-        
-          if (order.line && order.line.length > 0) {
-            order.line
-              .filter((e) => Number(supSelect) === null || Number(supSelect) === 0 || Number(supSelect) === Number(e.vendor))
-              .forEach((line) => {
-                const template = createTemplate(order, props, supplierName, orderdata, buram, orderId, RegisterNumber, businessTypeName, createdDate, shippingDate, orderStatusName, reasondatainfo, note, city, district, khoroo, line, rawTotal);
-                csv.push(template);
-              });
-          } else if (JSON.parse(order.raw_order)) {
-            JSON.parse(order.raw_order).forEach((ro) => {
+            let aa = [];
+            reasondata.map((item) => {
+              if (order.order_cancel_reason === item.ID) {
+                aa.push(`${item.name} / ${item.reason}`);
+              }
             });
+            reasondatainfo = aa;
           }
-        };
-        
-        const calculateRawTotal = (order) => {
+          let oneSupp = props.suppliers.filter(
+            (item) => item.id === order.supplier_id
+          );
+
+          console.log("oneSupp", oneSupp);
+
+          const RegisterNumber = oneSupp.map((item) => {
+            return item.register;
+          });
+          console.log("reasondatainfo", reasondatainfo);
+          let businessType = order.business_type_id;
+          let businessTypeName;
+          // console.log("sitectx", sitectx);
+          sitectx.sitedata.business_types.map((item) => {
+            if (Number(businessType) === Number(item.business_type_id)) {
+              businessTypeName = item.business_type_name;
+            }
+          });
+          const createdDate = order.order_date
+            ? order.order_date.substr(0, 10) +
+              " " +
+              order.order_date.substr(11, 8)
+            : "";
+          const shippingDate = order.delivery_date
+            ? order.delivery_date.substr(0, 10)
+            : "";
+          let orderStatus = order.status;
+          let orderStatusName;
+          statusDataInfo.map((item) => {
+            if (item.id === orderStatus) {
+              orderStatusName = item.name;
+            }
+          });
+          let note = "";
+          let city = "";
+          let khoroo = "";
+          let district = "";
+          locations.map((location) => {
+            if (
+              location.location_id == parseInt(order.tradeshop_district, 10)
+            ) {
+              district = location.location_name;
+            }
+          });
+          locations.map((location) => {
+            if (location.location_id == parseInt(order.tradeshop_horoo, 10)) {
+              khoroo = location.location_name;
+            }
+          });
+          locations.map((location) => {
+            if (location.location_id == parseInt(order.tradeshop_city, 10)) {
+              city = location.location_name;
+            }
+          });
+          try {
+            note =
+              JSON.parse(order.description)?.sort(
+                (a, b) => a?.date - b?.date
+              )?.[0]?.body || "";
+          } catch (e) {}
+          let lines = [];
           let rawTotal = 0;
           if (JSON.parse(order.raw_order)) {
-            JSON.parse(order.raw_order).forEach((ro) => {
-              rawTotal += parseInt(ro.quantity, 10) * parseInt(ro.price, 10) || 0;
+            JSON.parse(order.raw_order).map((ro) => {
+              rawTotal =
+                rawTotal + parseInt(ro.quantity, 10) * parseInt(ro.price, 10) ||
+                0;
             });
           }
-          return rawTotal;
-        };
-        
-        const createTemplate = (order, props, supplierName, orderdata, buram, orderId, RegisterNumber, businessTypeName, createdDate, shippingDate, orderStatusName, reasondatainfo, note, city, district, khoroo, line, rawTotal) => {
-          const cat = getCategories(parseInt(line.product_type_id, 10));
-          const productName = String(line.product_name.replaceAll(",", ""));
-          const payMeth = [
-            { Id: 0, Name: "Дансаар" },
-            { Id: 1, Name: "Бэлнээр" },
-            { Id: 2, Name: "Зээлээр" },
-            { Id: 3, Name: "Бэлэн+Данс" },
-            { Id: 4, Name: "Бэлэн+Зээл" },
-            { Id: 5, Name: "Данс+Зээл" },
-          ];
-        
-          return {
-            OrderNumber: String(orderId),
-            ProductName: String(productName),
-            Barcode: String(line.product_bar_code),
-            SKU: String(line.product_sku),
-            Brand: "",
-            Vendor: String(supplierName),
-            Register: String(RegisterNumber),
-            Qty: Number(line.quantity),
-            Price: Number(line.price),
-            Total: Number(line.quantity * line.price),
-            FinalTotal: Number(line.quantity * line.price),
-            CompletedAt: String(createdDate),
-            WhenToShip: String(shippingDate),
-            ReceiverPhone: String(order.phone),
-            ReceiverInfo: String(order.register),
-            ReceiverName: String(order.business_name ? order.business_name : ""),
-            Branch: String(order.tradeshop_name),
-            BusinessType: businessTypeName,
-            StateName: String(city),
-            District: String(district),
-            Quarter: String(khoroo),
-            Address: String(order.address),
-            LatestNote: String(note),
-            Status: String(orderStatusName),
-            CancelReason: String(reasondatainfo),
-            MainCategory: String(cat["main"]),
-            SubCategory: String(cat["sub"]),
-            SubSubCategory: String(cat["subsub"]),
-            Tugeegch: String(order.deliver_man_employee_id),
-            OriginalTotal: Number(rawTotal),
-            paymentMethod: orderdata && orderdata["payment"] ? payMeth.find((el) => el.Id === orderdata["payment"].paymentId)?.Name || "" : "",
-            hariutsagch: String(orderdata !== "" ? orderdata?.payment?.userName || "" : ""),
-          };
-        };
-        
-        const csv = [];
-        const buram = [];
-        
-        response.data.forEach((order) => {
-          processOrder(order, props, csv, buram);
+
+          if (order.line && order.line.length > 0) {
+            order.line
+              .filter((e) => {
+                if (Number(supSelect) === null) {
+                  return e;
+                }
+                if (Number(supSelect) === 0) {
+                  return e;
+                }
+                if (Number(supSelect) === Number(e.vendor)) {
+                  return e;
+                }
+              })
+              .map((line, idx) => {
+                let template = {};
+                let cat = getCategories(parseInt(line.product_type_id, 10));
+
+                let productName = String(line.product_name.replaceAll(",", ""));
+                console.log("supSelect", supSelect);
+                if (supSelect == 948) {
+                  supplierName = "Нүүдэл Жи ХХК";
+                } else if (supSelect == 14033) {
+                  supplierName = "Милл хаус ХХК";
+                } else {
+                  supplierName = supplierName;
+                }
+
+                if (props.userData.company_id === "|14014|") {
+                  template = {
+                    OrderNumber: String(orderId),
+                    ProductName: String(productName),
+                    Barcode: String(line.product_bar_code),
+                    SKU: String(line.product_sku),
+                    Brand: "",
+                    Vendor: String(supplierName),
+                    Register: String(RegisterNumber),
+                    Qty: Number(line.quantity),
+                    Price: Number(line.price),
+                    Total: Number(line.quantity * line.price),
+                    Taken: "",
+                    Canceled: "",
+                    Returned: "",
+                    FinalTotal: Number(line.quantity * line.price),
+                    CompletedAt: String(createdDate),
+                    WhenToShip: String(shippingDate),
+                    PaidAt: "",
+                    ShippedAt: "",
+                    ReceiverPhone: String(customerPhone),
+                    ReceiverInfo: String(order.register),
+                    ReceiverName: String(
+                      order.business_name ? order.business_name : ""
+                    ),
+                    Branch: String(order?.tradeshop_name),
+                    BusinessType: businessTypeName,
+                    StateName: String(city),
+                    District: String(district),
+                    Quarter: String(khoroo),
+                    Address: String(order.address),
+                    LatestNote: String(note),
+                    Status: String(orderStatusName),
+                    Reason: "",
+                    MainCategory: String(cat["main"]),
+                    SubCategory: String(cat["sub"]),
+                    SubSubCategory: String(cat["subsub"]),
+                    OriginalTotal: Number(rawTotal),
+                    CancelReason: String(reasondatainfo),
+                    xtid: String(buram[0].user_id),
+                    xtname: String(buram[0].first_name),
+                    xtphone: String(buram[0].phone_number),
+                    paymentBelen: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m1 !== undefined && idx === 0
+                        ? orderdata.payment.m1
+                        : 0
+                    ),
+                    paymentBank: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m2 !== undefined && idx === 0
+                        ? orderdata.payment.m2
+                        : ""
+                    ),
+                    paymentZeel: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m3 !== undefined && idx === 0
+                        ? orderdata.payment.m3
+                        : 0
+                    ),
+                    paymentLendMn: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m7 !== undefined && idx === 0
+                        ? orderdata.payment.m7
+                        : ""
+                    ),
+                    paymentStorePay: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m8 !== undefined && idx === 0
+                        ? orderdata.payment.m8
+                        : ""
+                    ),
+                    prePayment: Number(
+                      orderdata !== "" && idx === 0
+                        ? orderdata?.prePayment || ""
+                        : ""
+                    ),
+                    tugeegch: String(
+                      orderdata !== "" ? orderdata?.payment?.userName || "" : ""
+                    ),
+                    origin:
+                      originData.find((origin) => origin.id === order.origin)
+                        ?.name || "",
+                  };
+                } else if (props.userData.company_id === "|948|") {
+                  const payMeth = [
+                    { Id: 0, Name: "Дансаар" },
+                    { Id: 1, Name: "Бэлнээр" },
+                    { Id: 2, Name: "Зээлээр" },
+                    { Id: 3, Name: "Бэлэн+Данс" },
+                    { Id: 4, Name: "Бэлэн+Зээл" },
+                    { Id: 5, Name: "Данс+Зээл" },
+                  ];
+
+                  template = {
+                    OrderNumber: String(orderId),
+                    ProductName: String(productName),
+                    Barcode: String(line.product_bar_code),
+                    SKU: String(line.product_sku),
+                    Brand: "",
+                    Vendor: String(supplierName),
+                    Register: String(RegisterNumber),
+                    Qty: Number(line.quantity),
+                    Price: Number(line.price),
+                    Total: Number(line.quantity * line.price),
+                    Taken: "",
+                    Canceled: "",
+                    Returned: "",
+                    FinalTotal: Number(line.quantity * line.price),
+                    CompletedAt: String(createdDate),
+                    WhenToShip: String(shippingDate),
+                    PaidAt: "",
+                    ShippedAt: "",
+                    ReceiverPhone: String(customerPhone),
+                    ReceiverInfo: String(order.register),
+                    ReceiverName: String(
+                      order.business_name ? order.business_name : ""
+                    ),
+                    Branch: String(order?.tradeshop_name),
+                    BusinessType: businessTypeName,
+                    StateName: String(city),
+                    District: String(district),
+                    Quarter: String(khoroo),
+                    Address: String(order.address),
+                    LatestNote: String(note),
+                    Status: String(orderStatusName),
+                    Reason: "",
+                    MainCategory: String(cat["main"]),
+                    SubCategory: String(cat["sub"]),
+                    SubSubCategory: String(cat["subsub"]),
+                    OriginalTotal: Number(rawTotal),
+                    CancelReason: String(reasondatainfo),
+                    tugeegchName: String(buram[0].first_name),
+                    paymentMethod:
+                      orderdata && orderdata["payment"]
+                        ? payMeth.find(
+                            (el) => el.Id === orderdata["payment"].paymentId
+                          ).Name ?? ""
+                        : "",
+                    paymentBelen: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m1 !== undefined && idx === 0
+                        ? orderdata.payment.m1
+                        : ""
+                    ),
+                    paymentBank: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m2 !== undefined && idx === 0
+                        ? orderdata.payment.m2
+                        : ""
+                    ),
+                    paymentZeel: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m3 !== undefined && idx === 0
+                        ? orderdata.payment.m3
+                        : ""
+                    ),
+                    paymentLendMn: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m7 !== undefined && idx === 0
+                        ? orderdata.payment.m7
+                        : ""
+                    ),
+                    paymentStorePay: Number(
+                      orderdata === ""
+                        ? ""
+                        : orderdata.payment?.m8 !== undefined && idx === 0
+                        ? orderdata.payment.m8
+                        : ""
+                    ),
+                    prePayment: Number(
+                      orderdata !== "" && idx === 0
+                        ? orderdata?.prePayment || ""
+                        : ""
+                    ),
+                    tugeegch: String(
+                      orderdata !== "" ? orderdata?.payment?.userName || "" : ""
+                    ),
+                    origin:
+                      originData.find((origin) => origin.id === order.origin)
+                        ?.name || "",
+                  };
+                } else {
+                  
+                  const payMeth = [
+                    { Id: 0, Name: "Дансаар" },
+                    { Id: 1, Name: "Бэлнээр" },
+                    { Id: 2, Name: "Зээлээр" },
+                    { Id: 3, Name: "Бэлэн+Данс" },
+                    { Id: 4, Name: "Бэлэн+Зээл" },
+                    { Id: 5, Name: "Данс+Зээл" },
+                  ];
+
+                  template = {
+                    OrderNumber: String(orderId),
+                    ProductName: String(productName),
+                    Barcode: String(line.product_bar_code),
+                    SKU: String(line.product_sku),
+                    Brand: "",
+                    Vendor: String(supplierName),
+                    Register: String(RegisterNumber),
+                    Qty: Number(line.quantity),
+                    Price: Number(line.price),
+                    Total: Number(line.quantity * line.price),
+                    Taken: "",
+                    Canceled: "",
+                    Returned: "",
+                    FinalTotal: Number(line.quantity * line.price),
+                    CompletedAt: String(createdDate),
+                    WhenToShip: String(shippingDate),
+                    PaidAt: "",
+                    ShippedAt: "",
+                    ReceiverPhone: String(customerPhone),
+                    ReceiverInfo: String(order.register),
+                    ReceiverName: String(
+                      order.business_name ? order.business_name : ""
+                    ),
+                    Branch: String(order?.tradeshop_name),
+                    BusinessType: businessTypeName,
+                    StateName: String(city),
+                    District: String(district),
+                    Quarter: String(khoroo),
+                    Address: String(order.address),
+                    LatestNote: String(note),
+                    Status: String(orderStatusName),
+                    Reason: "",
+                    MainCategory: String(cat["main"]),
+                    SubCategory: String(cat["sub"]),
+                    SubSubCategory: String(cat["subsub"]),
+                    OriginalTotal: Number(rawTotal),
+                    CancelReason: String(reasondatainfo),
+                    paymentBelen: Number(1),
+                    paymentBank: Number(1),
+                    paymentZeel: Number(1),
+                    paymentLendMn: Number(1),
+                    paymentStorePay: Number(1),
+                    prePayment: Number(1),
+                    tugeegch: String(),
+                    origin:
+                      originData.find((origin) => origin.id === order.origin)
+                        ?.name || "",
+                    paymentMethod:
+                      orderdata && orderdata["payment"]
+                        ? payMeth.find(
+                            (el) => el.Id === orderdata["payment"].paymentId
+                            ).Name ?? ""
+                          : "",
+                    hariutsagch: String(
+                      orderdata !== "" ? orderdata?.payment?.userName || "" : ""
+                    ),
+                  };
+                }
+
+                csv.push(template);
+              });
+          } else {
+            if (JSON.parse(order.raw_order)) {
+              console.log(order.raw_order);
+              JSON.parse(order.raw_order).map((ro) => {
+                //let cat = getCategories(parseInt(ro.product_type_id, 10))
+                //let temp = [orderId, ro.ProductID, 'n/a', 'n/a', '', supplierName, ro.Quantity, ro.Price, 'n/a', '', '', '', 'n/a', createdDate, shippingDate, '', '', customerPhone, order.register, (order.business_name ? order.business_name : ''), order.tradeshop_name, 'business type', city, district, khoroo, order.address, note, '', '', cat['main'], cat['sub'], cat['subsub'], rawTotal]
+                //csv.push(temp)
+                //console.log('366')
+              });
+            }
+          }
         });
-        
+
         output(csv, startDate + "_" + endDate);
         setStartDate("");
         setEndDate("");
         setExporting(false);
         orderCTX.setOrderReportUrl(false);
       });
+  };
+  useEffect(() => {
+    //getOrders()
+  }, []);
+  const prepare = () => {
+    setPreparing(true);
   };
 
   useEffect(() => {

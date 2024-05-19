@@ -5,7 +5,7 @@ const List = (props) => {
 	//console.log(props.data[0].products)
 	let renderHTML = []
 	props.data.map((data) => {
-		renderHTML.push(<Entry data={data} setForm={props.setForm} companyId={props.companyId} />)
+		renderHTML.push(<Entry data={data} setForm={props.setForm} />)
 	})
 	const width = [50, 100, 200, 100, 140, 300]
 	return (
@@ -14,7 +14,8 @@ const List = (props) => {
 				<input type="date" value={props.startDate} className="formInput marginleft1rem" onChange={(e) => props.setStartDate(e.target.value)} />
 				<input type="date" value={props.endDate} className="formInput marginleft1rem" onChange={(e) => props.setEndDate(e.target.value)} />
 				<button className="pageButton marginleft1rem" onClick={() => props.setForm(['new', 'warehouse', 'Агуулах руу зарлагадах'])}>Агуулах руу зарлагадах</button>
-				<button className="pageButton secondary marginleft1rem" onClick={() => props.setForm(['new', 'customer', 'Харилцагч руу зарлагадах'])}>Харилцагч руу зарлагадах</button>
+				<button className="pageButton marginleft1rem" onClick={() => props.setForm(['new', 'customer', 'Харилцагч руу зарлагадах'])}>Харилцагч руу зарлагадах</button>
+				<button className="pageButton marginleft1rem" onClick={() => props.setForm(['new', 'other', 'Бусад зарлага'])}>Бусад зарлага</button>
 			</div>
 			<div className="box_header_container">
 				<div className="box_header" style={{width: width[0] + 'px'}}></div>

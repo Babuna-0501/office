@@ -7,11 +7,8 @@ import { read, utils, writeFileXLSX } from 'xlsx'
 import AppHook from "../Hooks/AppHook"
 import writeXlsxFile from "write-excel-file"
 
-const Index = (props) => {
-	console.log(props)
-	const isSfaSupplier = props.sfaSupp
+const Index = () => {
 	const appContext = useContext(AppHook)
-	console.log(appContext)
 	const [data, setData] = useState(null)
 	const [tab, setTab] = useState('customer')
 	const [customer, setCustomer] = useState(null)
@@ -26,7 +23,7 @@ const Index = (props) => {
 			headers: myHeaders,
 			redirect: "follow",
 		}
-		const url = `https://api2.ebazaar.mn/api/merchants`
+		const url = `https://api2.ebazaar.mn/api/merchants?page=1`
 		fetch(url, requestOptions)
 		.then((r) => r.json())
 		.then((response) => {
@@ -51,11 +48,11 @@ const Index = (props) => {
 			<Header tab={tab} setTab={setTab} />
 			<div className="containerPageButtons">
 				<button className="pageButton" onClick={() => setCustomer('new')}>+ Шинэ харилцагч</button>
-				<button className="pageButton marginleft1rem secondary">Харилцагч масс импортлох</button>
-				<button className="pageButton marginleft1rem secondary" onClick={() => downloadReport(foo)} style={{display: 'none'}}>Харилцагчийн тайлан</button>
+				<button className="pageButton">Харилцагч масс импортлох</button>
+				<button className="pageButton" onClick={() => downloadReport(foo)}>Харилцагчийн тайлан</button>
 			</div>
 			{data ? <List data={data} widths={widths} widthsSum={widthsSum} setCustomer={setCustomer} /> : null}
-			{customer ? <Form setCustomer={setCustomer} customer={customer} supplierId={parseInt(appContext.userData.company_id.match(/(\d+)/)[0])} fetchData={fetchData} isSfaSupplier={isSfaSupplier} businessTypes={props.businessType}/> : null}
+			{customer ? <Form setCustomer={setCustomer} customer={customer} supplierId={parseInt(appContext.userData.company_id.match(/(\d+)/)[0])} fetchData={fetchData} /> : null}
 		</>
 	)
 }

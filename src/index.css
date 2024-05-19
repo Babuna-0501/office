@@ -19,10 +19,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: .75rem;
 }
 
-select {
-    outline: none;
-}
-
 #contents #foo h1,
 #contents #foo h2,
 #contents #foo h3 {
@@ -1265,12 +1261,10 @@ overflow-x: auto;
 }
 
 #overlaypage {
-    position: fixed;
-    top: 60px;
-    right: 60px;
-    bottom: 60px;
-    left: 60px;
+    width: 90%;
+    height: 90%;
     background: white;
+    position: relative;
     border-radius: 4px;
 }
 
@@ -1466,7 +1460,7 @@ overflow-x: auto;
     padding: 0 .5rem 0 0;
 }
 
-.box input[type="text"], .box_header input[type=text], .box input[type=number], .box_header input[type=number], .box input[type=date], .box_header input[type=date], .box select, .box_header select, .box select {
+.box input[type="text"], .box_header input[type=text], .box input[type=number], .box_header input[type=number], .box input[type=date], .box_header input[type=date], .box select, .box_header select {
     width: 100%;
     border-radius: 3px;
     border: 1px solid #ccc;
@@ -1474,10 +1468,6 @@ overflow-x: auto;
     font-size: .75rem;
     flex-shrink: 0;
     height: 30px;
-}
-
-.box select option {
-    font-size: .75rem;
 }
 
 .box_header_container {
@@ -1910,7 +1900,7 @@ box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.02);
     transition: border-color .1s ease-in-out,box-shadow .1s ease-in-out;
     border: 1px solid #ddd;
     border-radius: 3px;
-    width: 100%;
+    width: 360px;
 }
 .custom-select:hover {
     //border: 1px solid #999;
@@ -1955,10 +1945,10 @@ select::-ms-expand {
 
 #container_productselector {
     position: fixed;
-    top: 4rem;
-    right: 4rem;
-    bottom: 4rem;
-    left: 4rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1966,8 +1956,8 @@ select::-ms-expand {
 }
 
 #productselector {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     background: white;
     position: relative;
 }
@@ -2635,192 +2625,3 @@ input.massPrice {
     height: 100%;
 }
 
-.container-modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100000;
-}
-
-.container-modal-contents {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    bottom: 2rem;
-    left: 2rem;
-    background: white;
-    z-index: 100002;
-}
-
-.container-modal-bg {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: black;
-    opacity: 0.6;
-    z-index: 100001;
-}
-
-.container-modal .left {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.container-modal .right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.container-modal h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.paddingleftright2rem {
-    padding: 0 2rem;
-}
-
-.padding2rem {
-    padding: 2rem;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productID {
-    width: 52px;
-}
-
-.productImage {
-    width: 52px;
-}
-
-.productName {
-    width: 52px;
-}
-
-.productCategory {
-    width: 52px;
-}
-
-.productBarcode {
-    width: 52px;
-}
-
-.productType {
-    width: 52px;
-}
-
-.productSKU {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.productCheckbox {
-    width: 52px;
-}
-
-.width50px {
-    width: 50px;
-}
-
-.width100px {
-    width: 100px;
-}
-
-.width120px {
-    width: 120px;
-}
-
-.width180px {
-    width: 180px;
-}
-
-.width300px {
-    width: 300px;
-}
-
-.width30px {
-    width: 30px;
-}
-
-.width40px {
-    width: 40px;
-}
-
-input:disabled {
-    background: #eee;
-}
-
-#contents .disabledForm input, #contents .disabledForm select, #contents .disabledForm textarea {
-    background: Lavender;
-    border-color: Lavender;
-    pointer-events: none;
-}
-
-#contents .disabledForm button.addSeries, #contents .disabledForm button.addProduct {
-    pointer-events: none;
-    background: Lavender;
-    border-color: Lavender;;
-}
-
-#contents .disabledForm img.removeProduct {
-    display: none;
-}
-
-#productList {
-    position: absolute;
-    top: 8rem;
-    right: 1rem;
-    bottom: 4rem;
-    left: 1rem;
-    overflow: auto;
-}
-
-.entryBlock .fullWidth {
-    width: 100%;
-}
-
-.entryBlock .fullHeight {
-    height: 100%;
-}
-
-.noPadding {
-    padding: 0;
-}
-
-.entryBlock input.noBorder {
-    border: none;
-}
-
-.paddingright1rem {
-    padding: 0 1rem 0 0;
-}

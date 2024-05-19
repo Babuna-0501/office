@@ -416,38 +416,40 @@ const List = ({
               }
             }}
           >
-            {filteredData.map((order) => {
-              let all = order.line
-                .map((e) => e.price * e.quantity)
-                .reduce((a, b) => a + b);
-              let paid = JSON.parse(order.order_data)?.prePayment ?? 0;
+      {filteredData.map((order) => {
+          let all = order.line.map((e) => e.price * e.quantity).reduce((a, b) => a + b, 0);
+          let orderData;
+          let paid = 0;
+          try {
+            orderData = JSON.parse(order.order_data);
+            paid = orderData?.prePayment ?? 0;
+            paid = paid === "" ? 0 : paid;
+          } catch (error) {
+            console.error("Invalid order_data JSON for order ID:", order.order_id, error);
+            console.log("Received order_data:", order.order_data);
+            orderData = {};
+          }
 
-              paid = paid == "" ? 0 : paid;
-              all = all == "" ? 0 : all;
-              const matchUser = delivermans?.find(
-                (user) => user.user_id === order.deliver_man
-              );
-              const matchHt = delivermans?.find(
-                (user) => user.user_id === order.sales_man_employee_id
-              );
+          all = all === "" ? 0 : all;
 
-              return (
-                <Order
-                  fetch={() => fetchData(true)}
-                  userData={userData}
-                  payment={{ balance: all - paid, all: all, paid: paid }}
-                  data={order}
-                  checked={selectedOrders.includes(order.order_id)}
-                  head={head}
-                  firstname={matchUser?.first_name ?? ""}
-                  salesmanFirstname={matchHt?.first_name ?? ""}
-                  onCheckboxChange={(e) =>
-                    chooseOrder(order.order_id, e.target.checked)
-                  }
-                  sequenceSizes={sequenceSizes}
-                />
-              );
-            })}
+          const matchUser = delivermans?.find((user) => user.user_id === order.deliver_man);
+          const matchHt = delivermans?.find((user) => user.user_id === order.sales_man_employee_id);
+
+          return (
+            <Order
+              fetch={() => fetchData(true)}
+              userData={userData}
+              payment={{ balance: all - paid, all: all, paid: paid }}
+              data={order}
+              checked={selectedOrders.includes(order.order_id)}
+              sequence={sequence}
+              firstname={matchUser?.first_name ?? ""}
+              salesmanFirstname={matchHt?.first_name ?? ""}
+              onCheckboxChange={(e) => chooseOrder(order.order_id, e.target.checked)}
+              sequenceSizes={sequenceSizes}
+            />
+          );
+        })}
           </div>
         ) : (
           <div className="spinner-container">

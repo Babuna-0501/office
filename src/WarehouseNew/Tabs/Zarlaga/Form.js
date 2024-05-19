@@ -1,135 +1,55 @@
-import {useState, useContext, useEffect, useRef, useMemo} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import {ModuleContext} from '../../index'
 import myHeaders from "../../../components/MyHeader/myHeader"
 import ProductSelector from '../../ProductSelector'
 import {WarehouseContext} from '../../Warehouse'
 
 const Form = (props) => {
+	console.log(props.form)
 	const context = useContext(ModuleContext)
 	const whcontext = useContext(WarehouseContext)
-	const customers = context.customers
+	console.log(whcontext)
 	const [products, setProducts] = useState([])
-	const [saving, setSaving] = useState(false)
-	const [mode, setMode] = useState(null)
-	const clickHandler = (e) => {
-		if(e.target.getAttribute('data-action')) {
-				switch(e.target.getAttribute('data-action')) {
-				case 'removeSelectedProduct':
-					document.getElementById(e.target.getAttribute('data-id')).remove()
-					break
-				case 'addSeries':
-					const uid = e.target.getAttribute('data-id')
-					const uid2 = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
-					const clone = document.getElementById(e.target.getAttribute('data-id')).outerHTML
-					document.getElementById(e.target.getAttribute('data-id')).insertAdjacentHTML('afterEnd', clone.replaceAll(uid, uid2))
-					break
-			}
-		}
-	}
-	const keyDownHandler = (e) => {
-		console.log(e.target.getAttribute('data-action'))
-		if(e.target.getAttribute('data-action') === 'changeQuantity') {
-			setTimeout(() => {
-				document.getElementById('totalCost' + e.target.getAttribute('data-id')).value = Number(e.target.value) * Number(document.getElementById('cost' + e.target.getAttribute('data-id')).value)
-			}, 1)
-		} else if(e.target.getAttribute('data-action') === 'changeCost') {
-			setTimeout(() => {
-				document.getElementById('totalCost' + e.target.getAttribute('data-id')).value = Number(e.target.value) * Number(document.getElementById('quantity' + e.target.getAttribute('data-id')).value)
-			}, 1)
-		} else if(e.target.getAttribute('data-action') === 'setDiscount') {
-			setTimeout(() => {
-				if(parseFloat(e.target.value) > 0 && parseFloat(e.target.value) < 100) {
-					const uid = e.target.getAttribute('data-id')
-					const discountAmount = e.target.value
-					const cost = document.getElementById('cost' + uid).value
-					const quantity = document.getElementById('quantity' + uid).value
-					document.getElementById('discountAmount' + uid).value = (parseFloat(cost) * parseFloat(quantity)) / 100 * parseFloat(discountAmount)
-					document.getElementById('payingAmount' + uid).value = (cost * quantity) - (parseFloat(cost) * parseFloat(quantity)) / 100 * parseFloat(discountAmount)
-				} else if(parseFloat(e.target.value) > 100) {
-					e.target.style.borderColor = 'red'
-				}
-			}, 1)
-		}
-	}
 	useEffect(() => {
 		if(props.form[0] !== 'new') {
 			let foo = {}
 			whcontext.allProducts.map(product => {
 				foo[product._id] = product
 			})
+			console.log(foo)
 			let bar = props.form.products
+			console.log(props.form)
 			bar.map((product, index) => {
+				console.log(bar[index])
 				bar[index]['_id'] = bar[index]['productId']
 				bar[index]['name'] = foo[bar[index]['productId']]['name']
 				bar[index]['image'] = []
 				bar[index]['image'][0] = foo[bar[index]['productId']]['image'][0]
 				bar[index]['bar_code'] = foo[bar[index]['productId']]['bar_code']
+				bar[index]['incase'] = foo[bar[index]['productId']]['incase']
 			})
-			addProducts(JSON.parse(JSON.stringify(bar)))
-		}
-		document.addEventListener('click', clickHandler, false)
-		document.addEventListener('keydown', keyDownHandler, false)
-		// Орлогын төрөл
-		const renderHTMLOutboundTypes = []
-		const outboundTypes = context.systemData.shipment.variety.outbound
-		console.log(context.systemData)
-		for (const outboundType in outboundTypes) {
-			console.log(props.form.variety)
-			console.log(outboundType)
-			document.getElementById('outboundTypes').insertAdjacentHTML('beforeEnd', `<option ${props.form.variety === outboundType ? ' selected' : ''} value=${outboundType}>${outboundTypes[outboundType]}</option>`)
-		}
-		// Агуулах болох харилцагч
-		console.log(typeof props.form.from)
-		let fromSource = 'import'
-		if(props.form[1] === 'customer' || props.form[1] === 'warehouse' || props.form.from) {
-			document.getElementById('from').insertAdjacentHTML('beforeEnd', `
-				<div>
-					<div>
-						<h2>${type === 'warehouse' ? 'Зарлага гаргах агуулах:' : 'Зарлага гаргах харилцагч:'}</h2>
-					</div>
-					<div>
-						<select id="fromSelect" class="custom-select" value="${props.form.from}">
-							<option value="">--сонгоно уу--</option>
-						</select>
-					</div>
-				</div>
-			`)
-			context.warehouseList.map((warehouse) => {
-				if(warehouse._id === props.form.from) {
-					fromSource = 'warehouse'
-				}
-			})
-			customers.map(customer => {
-				if(parseInt(customer.tradeshop_id) === parseInt(props.form.from)) {
-					fromSource = 'purchase'
-				}
-			})
-		}
-		//  Агуулах болох харилцагч сонголт
-		let optionsFrom = ''
-		if(props.form[1] === 'customer' || fromSource === 'purchase') {
-			customers.map(customer => {
-				optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from) ? ' selected' : ''}>${customer.customer_name}</option>`
-			})
-		} else if(props.form[1] === 'warehouse' || fromSource === 'warehouse') {
-			context.warehouseList.map((warehouse) => {
-				optionsFrom += (context.activeWarehouse._id && context.activeWarehouse._id !== warehouse._id) ? `<option ${warehouse._id === props.form.from ? ' selected' : ''} value=${warehouse._id}>${warehouse.name}</option>` : ''
-			})
-		}
-		//  Агуулах болох харилцагч сонголтыг нэмэх
-		if(props.form[1] === 'customer' || props.form[1] === 'warehouse' ||  fromSource === 'warehouse' || fromSource === 'purchase') {
-			document.getElementById('fromSelect').insertAdjacentHTML('beforeEnd', optionsFrom)
-		}
-		return () => {
-			document.removeEventListener('click', clickHandler, false)
-			document.removeEventListener('keypress', keyDownHandler, false)
+			setProducts(JSON.parse(JSON.stringify(bar)))
+			//console.log(bar)
+			/*let temp = []
+			props.form.products.map(product => {
+				console.log(product)
+				whcontext.products.map(prod => {
+					if(product._id === prod._id) {
+						console.log('found')
+					}
+				})
+			})*/
+			//temp.map(product => {
+				//tempconsole.log(product)
+			//})
 		}
 	}, [])
-	const [type, setType] = useState(props.form[1])
-	const [from, setFrom] = useState(props.form.from ? props.form.from : '')
+	const title = 'Зарлагын хүсэлт'
+	const [type, setType] = useState('warehouse')
 	const [sender, setSender] = useState(null)
 	const [productSelector, setProductSelector] = useState(false)
 	const [sendingWarehouse, setSendingWarehouse] = useState(null)
+	const [outboundType, setOutboundType] = useState(null)
 	const sequenceSizes = {
 		index: 80,
 		id: 120,
@@ -147,225 +67,190 @@ const Form = (props) => {
 		expire: 120,
 		series: 180
 	}
-	const widths = [80, 100, 60, 240, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+	const widths = [60, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
 	let width = 0
-	for(const size in widths) {
-		width += widths[size]
+	for(const size in sequenceSizes) {
+		width += sequenceSizes[size]
 	}
-	async function getSeries (selectedProducts) {
-		console.log('async')
-		var requestOptions = {
-			method: "GET",
-			headers: myHeaders,
-			redirect: "follow",
-	    }
-	    const productIDs = selectedProducts.map(selectedProduct => selectedProduct._id)
-	    console.log(JSON.stringify(productIDs))
-		selectedProducts.map(selectedProduct => {
-			console.log(selectedProduct)
-			let url = `https://api2.ebazaar.mn/api/warehouse_series/get?productIds=${JSON.stringify(productIDs)}&warehouseId=${context.activeWarehouse._id}`;
-			fetch(url, requestOptions).
-			then(r => r.json()).
-			then(response => {
-				if(response.success === true) {
-					return true		
-				}
-			})
-		})
+	const calculateTotalCost = (e, id) => {
+
+		/*const quantity = document.getElementById('quantity' + id).value
+		const cost = document.getElementById('cost' + id).value
+		if(Number(quantity) !== 0 && Number(cost) !== 0) {
+			document.getElementById('totalcost' + id).innerText = (Number(quantity) * Number(cost)).toLocaleString()
+		}*/
 	}
-	async function addProducts(selectedProducts) {
-		console.log('156')
-		//const productSeries = await getSeries(selectedProducts)
-		var requestOptions = {
-			method: "GET",
-			headers: myHeaders,
-			redirect: "follow",
-	    }
-	    const productIDs = selectedProducts.map(selectedProduct => selectedProduct._id)
-		let url = `https://api2.ebazaar.mn/api/warehouse_series/get?productIds=${JSON.stringify(productIDs)}&warehouseId=${context.activeWarehouse._id}`;
-		let productSeriesData =  await fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			if(response.success === true) {
-				return response.data		
+	const updateQuantity = (prod, newQuantity) => {
+		console.log(products)
+		let temp = products
+		temp.map((product,index) => {
+			if(product._id === prod._id) {
+				temp[index].quantity = Number(newQuantity)
 			}
 		})
-		selectedProducts.map(product => {
-			let availableSeries = []
-			productSeriesData.map(ps => {
-				if(ps.productId === product._id) {
-					availableSeries.push({
-						seriesNumber: ps.seriesNumber,
-						seriesQuantity: ps.quantity 
-					})
-				}
-			})
-			console.log(availableSeries)
-			let seriesHTML = ''
-			availableSeries.map(seriesInfo => {
-				seriesHTML += `<option value="${seriesInfo.seriesNumber}" ${product.seriesNumber === seriesInfo.seriesNumber ? ' selected' : ''}>${seriesInfo.seriesQuantity + ' - ' + seriesInfo.seriesNumber}</option>`
-			})
-			console.log(seriesHTML)
-			const category = product.category ? product.category : ''
-			const uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
-			const productHTML = `
-				<div class="box_container productEntry" id="${uid}" data-id="${product._id}">
-					<div class="box_header width50px" >
-						<span>
-							<img src="https://admin.ebazaar.mn/images/remove.svg" alt="" class="width30px removeProduct" data-action="removeSelectedProduct" data-id="${uid}" />
-						</span>
+		setProducts([...temp])
+	}
+	const updateCost = (prod, newCost) => {
+		console.log(products)
+		let temp = products
+		temp.map((product,index) => {
+			if(product._id === prod._id) {
+				temp[index].cost = Number(newCost)
+			}
+		})
+		setProducts([...temp])
+	}
+	const returnHTML = []
+	let counter = 0
+	const series = (e, uid) => {
+		let temp = products
+		temp.map((product, index) => {
+			if(product.uid === uid) {
+				temp[index].seriesNumber = e.target.value
+			}
+		})
+	}
+	const quantity = (e, uid) => {
+		let temp = products
+		temp.map((product, index) => {
+			if(product.uid === uid) {
+				temp[index].quantity = e.target.value
+				document.getElementById('cost' + uid).innerText = Number(e.target.value) * Number(temp[index].cost)
+			}
+		})
+	}
+	const cost = (e, uid) => {
+		let temp = products
+		temp.map((product, index) => {
+			if(product.uid === uid) {
+				temp[index].cost = e.target.value
+				document.getElementById('cost' + uid).innerText = Number(e.target.value) * Number(temp[index].quantity)
+			}
+		})
+	}
+	const wholesale = (e, uid) => {
+		let temp = products
+		temp.map((product, index) => {
+			if(product.uid === uid) {
+				temp[index].sellPrice.wholesale = e.target.value
+			}
+		})
+	}
+	const retail = (e, uid) => {
+		let temp = products
+		temp.map((product, index) => {
+			if(product.uid === uid) {
+				temp[index].sellPrice.retail = e.target.value
+			}
+		})
+	}
+	const removeProduct = (id) => {
+		let temp = JSON.parse(JSON.stringify(products))
+		temp.splice(id, 1)
+		setProducts(temp)
+	}
+	if(products.length > 0) {
+		products.map((temp, index) => {
+			const product = temp
+			returnHTML.push(
+				<div className="box_container" key={Math.random()}>
+					<div className="box_header justify_content_center" style={{width: widths[0]}}><input type="checkbox" /></div>
+					<div className="box_header" style={{width: widths[1]}}><p>{product._id}</p></div>
+					<div className="box_header" style={{width: widths[2]}}>{product.image && product.image[0] ? <img src={product.image[0]} style={{height: '40px', width: '40px'}} /> : null}</div>
+					<div className="box_header" style={{width: widths[3]}}><p className="product_name">{product.name}</p></div>
+					<div className="box_header" style={{width: widths[4]}}><p>{product.category}Category</p></div>
+					<div className="box_header" style={{width: widths[5]}}><p>{product.bar_code}Barcode</p></div>
+					<div className="box_header" style={{width: widths[6]}}><p>{product.sku}SKU</p></div>
+					<div className="box_header" style={{width: widths[7]}}>
+						<input type="text" style={{height: '30px'}} defaultValue={product.sellPrice && product.sellPrice.wholesale ? product.sellPrice.wholesale : null} onKeyUp={(e) => wholesale(e, product.uid)} />
 					</div>
-					<div class="box_header width120px">
-						<p>${product._id}</p>
+					<div className="box_header" style={{width: widths[8]}}>
+						<input type="text" style={{height: '30px'}} id={'quantity' + product._id} onKeyUp={(e) => quantity(e, product.uid)} defaultValue={product.quantity} />
 					</div>
-					<div class="box_header width120px">
-						${product.image && product.image[0] ? `<img src=${product.image[0]} class="width40px" />` : ''}
+					<div className="box_header" style={{width: widths[9]}}><p id={'cost' + product.uid}></p></div>
+					<div className="box_header" style={{width: widths[10]}}>
+						<select>
+							<option value="">--сери сонгоно уу --</option>
+						</select>
 					</div>
-					<div class="box_header width300px">
-						<p className="product_name">${product.name}</p>
+					<div className="box_header" style={{width: widths[11]}}>
+						<input type="date" style={{height: '30px'}} />
 					</div>
-					<div class="box_header width120px">
-						<p>${category}</p>
-					</div>
-					<div class="box_header width120px">
-						<p>${product.bar_code}</p>
-					</div>
-					<div class="box_header width120px">
-					</div>
-					<div class="box_header width120px">
-						<p>${product.sku ? product.sku : ''}</p>
-					</div>
-					<div class="box_header width120px">
-						<select id=${'series' + uid} data-id="${uid}"><option>--сонгоно уу--</option>${seriesHTML}</select>
-					</div>
-					<div class="box_header width120px">
-						<input type="number" value="${product.quantity}" id=${'quantity' + uid} data-id="${uid}" data-action="changeQuantity" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text"  id="${'cost' + uid}" value="${product.cost}" data-id="${uid}" data-action="changeCost" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text" id=${'totalCost' + uid} disabled />
-					</div>
-					<div class="box_header width120px">
-						<input type="number" id=${'discount' + uid} value="${product.discount ? product.discount : ''}" data-action="setDiscount" data-id="${uid}" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text"  id=${'discountAmount' + uid} value="${product.discount ? product.discount : ''}" disabled data-id="${uid}" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text"  id=${'payingAmount' + uid} value="${product.discount ? product.discount : ''}" disabled data-id="${uid}" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text" value="${product.sellPrice ? product.sellPrice.retail : ''}" id="${'sellprice' + uid}" />
-					</div>
-					<div class="box_header width120px">
-						<input type="text"  value="${product.seriesNumber ? product.seriesNumber : ''}" id="${'series' + uid}" />
-					</div>
-					<div class="box_header width120px">
-						<button class="pageButton small addSeries" data-action="addSeries" data-id="${uid}">+ Сери</button>
-					</div>
-					<div class="box_header width120px">
-						<input type="date" />
+					<div className="box_header" style={{width: widths[12]}}>
+						<span onClick={() => removeProduct(index)}><img src="https://admin.ebazaar.mn/images/remove.svg" alt="" style={{width: '26px'}} />
+					</span>
 					</div>
 				</div>
-			`
-			document.getElementById('productList').insertAdjacentHTML('beforeEnd', productHTML)
+			)
+			counter++
 		})
+	}
+	const addProducts = (selectedProducts) => {
+		console.log(selectedProducts)
+		let foobar = products
+		selectedProducts.map(selectedProduct => {
+			foobar.push(selectedProduct)
+		})
+		setProducts(foobar)
 		setProductSelector(false)
+		/*console.log(selectedProducts)
+		setProducts([...products, selectedProducts])
+		setTimeout(() => {
+			console.log(products)
+		}, 2000)
+		setProductSelector(false)*/
+	}
+	const renderHTMLWarehouses = context.warehouseList.map((warehouse) => {
+		return context.activeWarehouse._id !== warehouse._id ? <option key={Math.random()} value={warehouse._id}>{warehouse.name}</option> : null
+	})
+	const renderHTMLPartners = (
+		<>
+			<option value="1">Харилцагч</option>
+		</>
+	)
+	const renderHTMLOutboundTypes = []
+	const outboundTypes = context.systemData.shipment.variety.outbound
+	for (const outboundType in outboundTypes) {
+		renderHTMLOutboundTypes.push(<option key={Math.random()} value={outboundType}>{outboundTypes[outboundType]}</option>)
 	}
 	const send = () => {
-		if(saving) {
-			alert('Түр хүлээнэ үү')
-			return
-		}
-		const borderColor = document.getElementById('outboundTypes').style.borderColor
-		if(type !== 'import' && document.getElementById('fromSelect').value === '') {
-			document.getElementById('fromSelect').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('fromSelect').style.borderColor = borderColor
-			}, 2000)
-			return
-		} else if(document.getElementById('outboundTypes').value === '') {
-			document.getElementById('outboundTypes').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('outboundTypes').style.borderColor = borderColor
-			}, 2000)
+		if(document.getElementById('sendingWarehouse').value === '') {
+			document.getElementById('sendingWarehouse').style.borderColor = 'red'
 			return
 		} else if(document.getElementById('requestNote').value === '') {
 			document.getElementById('requestNote').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('requestNote').style.borderColor = borderColor
-			}, 2000)
 			return
-		} else if(document.querySelectorAll('.productEntry').length === 0) {
+		} else if(products.length === 0) {
 			alert('Бүтээгдэхүүн сонгоно уу!')
-			return
 		}
-		console.log('sending')
 		let foo = []
-		const productEntries = document.querySelectorAll('.productEntry')
-		for(let i = 0; i < productEntries.length; i++) {
-			console.log(productEntries[i])
-			const product = productEntries[i]
-			const uid = product.getAttribute('id')
-			console.log(uid)
-			let __temp = {
-				productId: parseInt(product.getAttribute('data-id')),
-				quantity: parseFloat(product.querySelector('#quantity' + uid).value),
-				cost: parseInt(product.querySelector('#cost' + uid).value),
-				sellPrice: {retail: parseInt(product.querySelector('#sellprice' + uid).value), wholesale: 0}
-			}
-			if(product.querySelector('#series' + uid).value && product.querySelector('#series' + uid).value !== '') {
-				__temp['seriesNumber'] = product.querySelector('#series' + uid).value
-			}
-			console.log(__temp)
-			foo.push(__temp)
-		}
-		console.log(foo)
+		products.map(product => {
+			foo.push({
+				productId: product._id,
+				quantity: product.quantity,
+				cost: product.cost,
+				seriesNumber: product.seriesNumber,
+				sellPrice: product.sellPrice
+			})
+		})
 		let sendData = {
 			"supplierId": context.activeWarehouse.supplierId,
 		    "documentId": "none",
 		    "type": 2,
-		    "variety": document.getElementById('outboundTypes').value,
+		    "variety": 1,
 		    "note": document.getElementById('requestNote').value,
+		    "to": document.getElementById('sendingWarehouse').value,
 		    "products": foo,
 		    "from": context.activeWarehouse._id,
-		    "thirdParty": type === 'warehouse' || type === 'import' ? false : true
+		    "thirdParty": false
 		}
-		if(type !== 'import') {
-			sendData['to'] = document.getElementById('fromSelect').value
-		}
-		/*
-			let sendData = {
-			"supplierId": activeWarehouseID,
-		    "documentId": "Кассын борлуулалт",
-		    "type": 2,
-		    "variety": 1,
-		    "note": "Кассын борлуулалт",
-		    "from": props.warehouse,
-		    "products": foo
-		}
-		*/
-		console.log(sendData)
-		/*
-		let sendData = {
-			"supplierId": activeWarehouseID,
-		    "documentId": "Кассын борлуулалт",
-		    "type": 2,
-		    "variety": 1,
-		    "note": "Кассын борлуулалт",
-		    "from": props.warehouse,
-		    "products": foo
-		}
-		*/
 		var requestOptions = {
 			method: "POST",
 			headers: myHeaders,
 			redirect: "follow",
 			body: JSON.stringify(sendData)
 	    }
-	    setSaving(true)
+	    console.log(sendData)
 	    const url = 'https://api2.ebazaar.mn/api/shipment'
 		fetch(url, requestOptions).
 		then(r => r.json()).
@@ -375,12 +260,26 @@ const Form = (props) => {
 				props.sentRequest()
 				props.foobar(props.ognoo)
 				props.setForm(false)
-				setSaving(false)
-			} else {
-				alert('Оруулсан мэдээллээ шалгана уу.')
-				setSaving(false)
 			}
 		})
+	}
+	const duplicate = (duplicatingProduct) => {
+		let temp = []
+		let insertedDuplicateEntry = false
+		products.map((product, index) => {
+			temp.push(product)
+			if(duplicatingProduct._id === product._id && insertedDuplicateEntry === false) {
+				console.log(duplicatingProduct)
+				let foo = JSON.parse(JSON.stringify(duplicatingProduct))
+				const uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+				console.log('bfoere' + foo.uid)
+				foo.uid = uid
+				console.log('after'+ foo.uid)
+				temp.push(foo)
+				insertedDuplicateEntry = true
+			}
+		})
+		setProducts(temp)
 	}
 	const confirmRequest = () => {
 		let sendData = {
@@ -393,7 +292,7 @@ const Form = (props) => {
 			redirect: "follow",
 			body: JSON.stringify(sendData)
 	    }
-	    setSaving(true)
+	    console.log(sendData)
 	    const url = 'https://api2.ebazaar.mn/api/shipment'
 		fetch(url, requestOptions).
 		then(r => r.json()).
@@ -402,114 +301,126 @@ const Form = (props) => {
 			if(response.message === 'success') {
 				alert('Хүсэлтийг баталлаа!')
 				props.sentRequest()
-				setSaving(true)
+				props.foobar(props.ognoo)
 				props.setForm(false)
 			}
 		})
-	}
-	const saveUpdate = () => {
-		console.log('saving update')
 	}
 	let renderButtons = null
 	if(props.form[0] === 'new') {
 		renderButtons = (
 			<>
-				<button onClick={() => send()} className="pageButton" disabled={saving}>Илгээх</button>
+				<button onClick={() => props.setForm(false)} className="button secondary large" style={{margin: '0 1rem 0 0!important'}}>Хаах</button>
+				<button onClick={() => send()} className="button primary large">Илгээх</button>
 			</>
 		)
 	} else {
-		if(props.form.status === 1 && mode !== 'edit') {
+		if(props.form.status === 2) {
 			renderButtons = (
 				<>
-					<button onClick={() => edit()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Зарлагын хүсэлт засах</button>
+					<button onClick={() => props.setForm(false)} className="button secondary large" style={{margin: '0 1rem 0 0!important'}}>Хаах</button>
 				</>
 			)
-		} else if(props.form.status === 1 && mode === 'edit') {
+		} else {
 			renderButtons = (
 				<>
-					<button onClick={() => saveUpdate()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Засварыг хадгалах</button>
-				</>
-			)
-		} else if(props.form.status === 2) {
-			renderButtons = (
-				<>
-					<button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Зарлагын хүсэлтийг батлах</button>
+					<button onClick={() => props.setForm(false)} className="button secondary large" style={{margin: '0 1rem 0 0!important'}}>Хаах</button>
+					<button onClick={() => confirmRequest()} className="button primary large">Зарлагын хүсэлтийг батлах</button>
 				</>
 			)
 		}
 	}
-	const edit = () => {
-		document.getElementById('container-modal-contents').classList.remove('disabledForm')
-		setMode('edit')
-	}
 	return (
 		<>
-			<div className="container-modal" id="container-modal">
-				<div className={'container-modal-contents' + (props.form.status === 1 ? ' disabledForm' : '')} id="container-modal-contents">
-					<div className="left padding2rem" style={{width: '400px', background: '#f6f6f6'}}>
-						<h1>{props.form[2]}</h1>
-						<div>
-							<div id="from">
-								
-							</div>
-							<div>
+			<div id="overlaypage_bg">
+				<div id="overlaypage">
+					<div id="overlaypage_header">
+						<h1>{title}</h1>
+						<div style={{display: 'flex', width: '1280px'}}>
+							<div style={{width: '320px'}}>
 								<div>
-									<h2>Зарлагын төрөл:</h2>
+									<h2>Зарлагын хүсэлт илгээх төрөл:</h2>
 								</div>
 								<div>
-									<select id="outboundTypes" className="custom-select">
+									<select className="custom-select" style={{width: '300px', margin: '0 1rem 0 0'}} onChange={(e) => setType(e.target.value)}>
+										<option value="warehouse">Агуулах хооронд</option>
+										<option value="partners">Харилцагч</option>
+									</select>
+								</div>
+							</div>
+							<div style={{width: '320px'}}>
+								<div>
+									<h2>Зарлагын хүсэлт илгээх агуулах</h2>
+								</div>
+								<div>
+									<select id="sendingWarehouse" className="custom-select" style={{width: '300px', margin: '0 1rem 0 0'}} value={props.form.from ? props.form.from : sendingWarehouse} onChange={(e) => setSendingWarehouse(e.target.value)}>
 										<option value="">--сонгоно уу--</option>
 										{
-											//renderHTMLInboundTypes
+											type === 'warehouse' ? renderHTMLWarehouses : renderHTMLPartners
 										}
 									</select>
 								</div>
 							</div>
-							<div style={{width: '100%'}}>
+							<div style={{width: '320px'}}>
 								<div>
-									<h2>Тэмдэглэл:</h2>
+									<h2>Зарлагын төрөл:</h2>
 								</div>
-								<textarea placeholder="Тэмдэглэл" id="requestNote" style={{width: '100%', height: '300px'}}>{props.form.note ? props.form.note : ''}</textarea>
+								<div>
+									<select className="custom-select" value={outboundType} style={{width: '300px', margin: '0 1rem 0 0'}} value={props.form.type ? props.form.type : null} onChange={(e) => setOutboundType(e.target.value)}>
+										<option value="">--сонгоно уу--</option>
+										{
+											renderHTMLOutboundTypes
+										}
+									</select>
+								</div>
+							</div>
+							<div style={{width: '320px'}}>
+								<div>
+									<h2>Борлуулах үнийн төрөл:</h2>
+								</div>
+								<div>
+									<select className="custom-select" value={outboundType} style={{width: '300px', margin: '0 1rem 0 0'}} value={props.form.type ? props.form.type : null} onChange={(e) => setOutboundType(e.target.value)}>
+										<option value="">--сонгоно уу--</option>
+										<option value="wholesale">Бөөний үнэ</option>
+										<option value="retail">Жижиглэн үнэ</option>
+									</select>
+								</div>
+							</div>
+							<div style={{width: '320px'}}>
+								<textarea placeholder="Тэмдэглэл" id="requestNote">{props.form.note ? props.form.note : ''}</textarea>
 							</div>
 						</div>
 						<div>
-							<div style={{width: '600px'}}>
-								
+							<div style={{width: '320px'}}>
+								<button style={{margin: '0 0 0 1rem !important'}} className="pageButton" onClick={() => setProductSelector(true)}>Бүтээгдэхүүн нэмэх</button>
 							</div>
 						</div>
 					</div>
-					<div className="right padding2rem" style={{left: '400px', overflow: 'auto'}}>
-						<div>
-							<button className="pageButton addProduct" onClick={() => setProductSelector(true)}>Бүтээгдэхүүн нэмэх</button>
+					<div id="overlaypage_body" style={{minWidth: width}}>
+						<div className="box_header_container">
+							<div className="box_header justify_content_center" style={{width: widths[0]}}><input type="checkbox" /></div>
+							<div className="box_header" style={{width: widths[1]}}>Дугаар</div>
+							<div className="box_header" style={{width: widths[2]}}>IMG</div>
+							<div className="box_header" style={{width: widths[3]}}>Нэр</div>
+							<div className="box_header" style={{width: widths[4]}}>Ангилал</div>
+							<div className="box_header" style={{width: widths[5]}}>Баркод</div>
+							<div className="box_header" style={{width: widths[6]}}>SKU</div>
+							<div className="box_header" style={{width: widths[7]}}>Борлуулах үнэ</div>
+							<div className="box_header" style={{width: widths[8]}}>Тоо ширхэг</div>
+							<div className="box_header" style={{width: widths[9]}}>Дүн</div>
+							<div className="box_header" style={{width: widths[10]}}>Сери</div>
+							<div className="box_header" style={{width: widths[11]}}>Дуусах</div>
+							<div className="box_header" style={{width: widths[12]}}></div>
 						</div>
-						<div style={{border: '1px solid #eee'}} className="margintop1rem" id="productList">
-							<div className="box_header_container" style={{width: '4000px', background: '#f6f6f6'}}>
-								<div className="width50px box_header justify_content_center"></div>
-								<div className="width120px box_header">Дугаар</div>
-								<div className="width120px box_header">IMG</div>
-								<div className="width300px box_header">Нэр</div>
-								<div className="width120px box_header">Ангилал</div>
-								<div className="width120px box_header">Баркод</div>
-								<div className="width120px box_header">Хэлбэр</div>
-								<div className="width120px box_header">SKU</div>
-								<div className="width120px box_header">Сери</div>
-								<div className="width120px box_header">Татах тоо</div>
-								<div className="width120px box_header">Өртөг</div>
-								<div className="width120px box_header">Нийт өртөг</div>
-								<div className="width120px box_header">Хямдралын хувь</div>
-								<div className="width120px box_header">Хямдралын дүн</div>
-								<div className="width120px box_header">Төлөх дүн</div>
-								<div className="width120px box_header">Зарах үнэ</div>
-								<div className="width120px box_header">Сери</div>
-								<div className="width120px box_header">Сери +</div>
-								<div className="width120px box_header">Дуусах</div>
-							</div>
-						</div>
+						{
+							products.length > 0 ? returnHTML : <div style={{padding: '2rem'}}>Бүтээгдэхүүн сонгоогүй байна.</div>
+						}
 					</div>
 					<div id="overlaypage_footer">
 						<div className="total">
 							<div className="left">
-
+								<h1>Нийт үнийн дүн:</h1>
+								<h2></h2>
 							</div>
 							<div className="right">
 							{
@@ -520,7 +431,6 @@ const Form = (props) => {
 					</div>
 					<span id="overlaypage_close" onClick={() => props.in ? props.setInForm(false) : props.setForm(false)}>x</span>
 				</div>
-				<div className="container-modal-bg"></div>
 			</div>
 			{productSelector ? <ProductSelector setProductSelector={setProductSelector} addProducts={addProducts} products={products} /> : null}
 		</>

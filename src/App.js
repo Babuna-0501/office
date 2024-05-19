@@ -680,7 +680,7 @@ function App() {
 
               <Route path="/customer">
                 <Protected permission={permission?.order?.read}>
-                  <Customer sfaSupp={sfaSupp} businessType={businessType} supplierID={parseInt(userData.company_id.replace(/\D/g, ''))} />
+                  <Customer />
                 </Protected>
               </Route>
 

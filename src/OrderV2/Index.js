@@ -13,6 +13,7 @@ import { ExportModal } from "./components/modal/modal";
 import { Workbook } from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import html2pdf from "html2pdf.js";
 
 const App = (props) => {
   const [filterState, setFilterState] = useState({
@@ -192,13 +193,7 @@ const App = (props) => {
       window.URL.revokeObjectURL(url);
     });
   };
-
   const exportPdf = () => {
-    const doc = new jsPDF();
-  
-    // Set font to support UTF-8 characters
-    doc.setFont("Arial", "normal");
-  
     let list = [];
     let qr = 0;
     let pr = 0;
@@ -217,7 +212,7 @@ const App = (props) => {
       list.push([
         i + 1,
         item.order_id,
-        "НИЙТ", // Assuming "НИЙТ" is a UTF-8 Cyrillic text
+        "НИЙТ",
         quantity,
         "",
         price,
@@ -246,28 +241,55 @@ const App = (props) => {
       });
     });
     list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
-    autoTable(doc, {
-      head: [
-        [
-          "№",
-          "ID",
-          "Product name",
-          "Quantity",
-          "Unit price",
-          "Total price",
-          "Grand total price",
-          "Store name",
-          "Phone",
-          "Salesman",
-          "Deliverman",
-          "Address",
-        ],
-      ],
-      body: list,
-    });
+  
+    const contentHtml = generateHtmlContent(list);
+  
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-    doc.save(`Тайлан ${formattedDate}`);
+  
+    html2pdf()
+      .set({
+        margin: 1,
+        filename: `Тайлан ${formattedDate}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+      })
+      .from(contentHtml)
+      .save();
+  };
+  
+  const generateHtmlContent = (data) => {
+    let html = '<div class="pdf-content">';
+    html += '<div class="container-p">';
+    html += '<div class="header-p">';
+    html += '<div class="header-cell">№</div>';
+    html += '<div class="header-cell">Дугаар</div>';
+    html += '<div class="header-cell">Барааны нэр</div>';
+    html += '<div class="header-cell">Тоо ширхэг</div>';
+    html += '<div class="header-cell">Нэгж үнэ</div>';
+    html += '<div class="header-cell">Нийт үнэ</div>';
+    html += '<div class="header-cell">Эцсийн нийт үнэ</div>';
+    html += '<div class="header-cell">Үйлчилгээний газрын нэр</div>';
+    html += '<div class="header-cell">Утас</div>';
+    html += '<div class="header-cell">Хариуцсан ХТ</div>';
+    html += '<div class="header-cell">Түгээгч</div>';
+    html += '<div class="header-cell">Дэлгэрэнгүй хаяг</div>';
+    html += '</div>';
+  
+    html += '<div class="table-container">';
+    for (let row of data) {
+      html += '<div class="row">';
+      for (let cell of row) {
+        html += `<div class="cell">${cell}</div>`;
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  
+    return html;
   };
   
 
@@ -290,14 +312,11 @@ const App = (props) => {
   };
 
   const updateOrdersDeliver = async (id) => {
-    // tugeegchiin id
-
     try {
       let status = 500;
-      (filterState.checked
-        ? filteredData.map((e) => e.order_id)
-        : selectedOrders
-      ).map(async (order) => {
+      const ordersToUpdate = filterState.checked ? filteredData.map((e) => e.order_id) : selectedOrders;
+      
+      for (const order of ordersToUpdate) {
         var requestOptions = {
           method: "POST",
           headers: myHeaders,
@@ -307,24 +326,26 @@ const App = (props) => {
             backOfficeUser: id.toString(),
           }),
         };
+        
         console.log({
           order_id: order,
           backOfficeUser: id,
         });
+  
         let url = `https://api2.ebazaar.mn/api/order/update`;
-        await fetch(url, requestOptions)
-          .then((r) => r.json())
-          .then((result) => {
-            setFilterState((prev) => ({
-              ...prev,
-              update: filterState.update == null ? true : !filterState.update,
-            }));
-            status = result.code;
-            console.log(result);
-          })
-          .catch((error) => console.log("error++++", error));
-      });
-      status == 200 ? alert("Амжилттай") : alert("Амжилттай");
+        const response = await fetch(url, requestOptions);
+        const result = await response.json();
+  
+        setFilterState((prev) => ({
+          ...prev,
+          update: filterState.update == null ? true : !filterState.update,
+        }));
+        
+        status = result.code;
+        console.log(result);
+      }
+  
+      status === 200 ? alert("Амжилттай") : alert("Амжилтгүй");
     } catch (error) {
       alert("Амжилтгүй");
       console.log(error);

@@ -30,7 +30,6 @@ const Orlogo = (props) => {
 		fetchData()
 	}, [startDate, endDate])
 	const sentRequest = () => {
-		fetchData()
 		console.log('sent request successfully')
 	}
 	const fetchData = () => {
@@ -48,7 +47,7 @@ const Orlogo = (props) => {
 	}
 	const foobar = (blahblah) => {
 		//if(blahblah === 'today' || blahblah === 'thismonth' || blahblah === 'thisweek') {
-			//fetchData()
+			fetchData()
 		//}
 	}
 	return data ? (

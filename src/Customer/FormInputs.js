@@ -34,18 +34,6 @@ const FormInputs = (props) => {
 		return valid
 	} 
 	const update = () => {
-		if(validate(['customerType', 'name', 'register', 'businessType', 'phoneNumber', 'city', 'district', 'khoroo', 'address'])) {
-			const customerType = document.getElementById('customerType').value
-			const name = document.getElementById('name').value
-			const register = document.getElementById('register').value
-			const businessType = document.getElementById('businessType').value
-			const phoneNumber = document.getElementById('phoneNumber').value
-			const city = document.getElementById('city').value
-			const district = document.getElementById('district').value
-			const khoroo = document.getElementById('khoroo').value
-			const address = document.getElementById('address').value
-			props.update(customerType, name, register, businessType, phoneNumber, city, district, khoroo, address, customer)
-		}
 	}
 	return (
 		<div id="overlaypage_bg">
@@ -57,7 +45,7 @@ const FormInputs = (props) => {
 				<div id="pageBody">
 					<div className="left" style={{width: '400px'}}>
 						<div className="inputContainer">
-							<label>Аж ахуйн нэгжийн төрөл:</label>
+							<label>Аж ахуйн төрөл:</label>
 							<select id="customerType">
 								<option value="1">Байгууллага</option>
 								<option value="2">Хувь хүн</option>
@@ -65,30 +53,21 @@ const FormInputs = (props) => {
 						</div>
 						<div className="inputContainer">
 							<label>Байгууллагын нэр:</label>
-							<input type="text" id="name" defaultValue={props.customer === 'new' ? null : props.customer.customer_name} />
+							<input type="text" id="name" value={props.customer === 'new' ? null : props.customer.customer_name} />
 						</div>
 						<div className="inputContainer">
 							<label>Регистрийн дугаар:</label>
-							<input type="text" id="register" defaultValue={props.customer === 'new' ? null : props.customer.business_register} />
+							<input type="text" id="register" value={props.customer === 'new' ? null : props.customer.business_register} />
 						</div>
-						<div className="inputContainer" style={{display: 'none'}}>
+						<div className="inputContainer">
 							<label>Үйл ажиллагааны төрөл:</label>
-							<select id="__businessType">
+							<select id="businessType">
 								<option value="1">Импортлогч</option>
 							</select>
 						</div>
 						<div className="inputContainer">
-							<label>Суваг:</label>
-							<select id="businessType" defaultValue={props.customer.business_type_id}>
-								<option value="">---сонгоно уу---</option>
-								{props.businessTypes.map(type => {
-									return <option value={type.business_type_id}>{type.business_type_name}</option>
-								})}
-							</select>
-						</div>
-						<div className="inputContainer">
 							<label>Утасны дугаар:</label>
-							<input type="text" id="phoneNumber" defaultValue={props.customer === 'new' ? null : props.customer.user_phone_number} />
+							<input type="text" id="phoneNumber" value={props.customer === 'new' ? null : props.customer.user_phone_number} />
 						</div>
 						<div className="inputContainer">
 							<label>Хот/Аймаг:</label>
@@ -98,21 +77,21 @@ const FormInputs = (props) => {
 						</div>
 						<div className="inputContainer">
 							<label>Дүүрэг/Сум:</label>
-							<input type="text" id="district" defaultValue={props.customer === 'new' ? null : props.customer.district} />
+							<input type="text" id="district" value={props.customer === 'new' ? null : props.customer.district} />
 						</div>
 						<div className="inputContainer">
 							<label>Хороо:</label>
-							<input type="text" id="khoroo" defaultValue={props.customer === 'new' ? null : props.customer.horoo} />
+							<input type="text" id="khoroo" value={props.customer === 'new' ? null : props.customer.horoo} />
 						</div>
 						<div className="inputContainer">
 							<label>Дэлгэрэнгүй хаяг:</label>
-							<textarea id="address" defaultValue={props.customer === 'new' ? null : props.customer.address}>
+							<textarea id="address" value={props.customer === 'new' ? null : props.customer.address}>
 							</textarea>
 						</div>
 					</div>
 					<div className="right" style={{left: '400px'}}>
 						<span className="tab active">Нэмэлт мэдээлэл</span>
-						<div className="containerButtons"><button className="button primary large" onClick={() => props.customer === 'new' ? save() : update()}>{props.customer === 'new' ? 'Бүртгэх' : 'Өөрчлөлтийг хадгалах'}</button></div>
+						<div className="containerButtons"><button className="button primary large" onClick={() => props.customer === 'new' ? save() : update()}>{props.customer === 'new' ? 'Харилцагчийг бүртгэх' : 'Өөрчлөлтийг хадгалах'}</button></div>
 					</div>
 				</div>
 			</div>

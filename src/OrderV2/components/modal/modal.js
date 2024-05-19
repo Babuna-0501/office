@@ -51,7 +51,6 @@ export const ExportModal = ({
     <section className="modal modal_export">
       <article className="modal-content-export p-lg-4">
         <div className="exit-icon text-end">
-          {/* <IoMdClose onClick={onClose} /> */}
           <button onClick={cancel}>Close</button>
         </div>
         <main className="modal-mainContents">
@@ -68,7 +67,7 @@ export const ExportModal = ({
               <span className="flex-3">Утас</span>
               <span className="flex-4">Хариуцсан ХТ</span>
               <span className="flex-4">Түгээгч</span>
-              <span className="flex-8">Дэлгэрэнгүй хаяг</span>
+              <span className="flex-8">Хаяг</span>
             </div>
             {payload?.map((p, i) => {
               let price = 0;

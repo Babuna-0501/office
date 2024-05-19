@@ -14,7 +14,6 @@ const List = (props) => {
     let customers = props.data
     // Matching records
     customers.map(customer => {
-        console.log(customer)
         let foo = true
         if(searchID && searchID.toString().length > 0) {
             foo = customer.tradeshop_id.toString().includes(searchID)  ? true : false
@@ -40,6 +39,7 @@ const List = (props) => {
                 return
             }
         }
+        console.log(customer)
         if(foo) {
             renderHTML.push(
                 <>
@@ -112,25 +112,7 @@ const List = (props) => {
                 </div>
                 <div className="entryBlock" style={{width: widths[4]}}>
                     <div className="entryHeader">
-                        <label>Регистер</label>
-                        <input type="text" onKeyUp={(e) => setSearchRegister(e.target.value)} />
-                    </div>
-                </div>
-                <div className="entryBlock" style={{width: widths[4]}}>
-                    <div className="entryHeader">
-                        <label>Хот/аймаг</label>
-                        <input type="text" onKeyUp={(e) => setSearchRegister(e.target.value)} />
-                    </div>
-                </div>
-                <div className="entryBlock" style={{width: widths[4]}}>
-                    <div className="entryHeader">
-                        <label>Сум/дүүрэг</label>
-                        <input type="text" onKeyUp={(e) => setSearchRegister(e.target.value)} />
-                    </div>
-                </div>
-                <div className="entryBlock" style={{width: widths[4]}}>
-                    <div className="entryHeader">
-                        <label>Баг/хороо</label>
+                        <label>Регистр</label>
                         <input type="text" onKeyUp={(e) => setSearchRegister(e.target.value)} />
                     </div>
                 </div>

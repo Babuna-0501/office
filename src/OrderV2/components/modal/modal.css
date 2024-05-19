@@ -32,17 +32,17 @@
 .modal_table {
   width: 100%;
   max-height: 65vh;
-  overflow-y: scroll;
 }
 .modal_table .head {
   background: #CCFFCC;
+  height: 30px;
+  line-height: 31px;
 }
 .modal_table_head {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(12, 1fr);
   gap: 6px;
-  align-items: center;
 }
 .modal_table_head span {
   font-size: 12px;
@@ -65,6 +65,14 @@
 .flex-8 {
   flex: 8;
 } */
+
+.flex-8 {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block; /* Ensure ellipsis works correctly */
+}
 
 .exit-icon {
   cursor: pointer;
