@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Tab from "./components/tab/Tab";
 import List1 from "./List/List1";
-import List2 from "./List/List2";
+import List2, { defaultHeaderList } from "./List/List2";
 import List3 from "./List/List3";
 import DateFilter from "./components/date/date"; // Renamed Date component
 import Sidebar from "./components/sidebar/sidebar";
@@ -54,6 +54,35 @@ const App = (props) => {
       return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
     });
   };
+
+  const [fieldsData, setFieldsData] = useState([]);
+  const [tablePosition, setTablePosition] = useState({
+    order: {
+      field: [],
+      report: [],
+    },
+    product: {
+      field: [],
+      report: [],
+    },
+  });
+
+  useEffect(() => {
+    if (props.userData && props.userData?.tablePosition) {
+      setFieldsData(JSON.parse(props.userData.tablePosition));
+    } else {
+      setFieldsData({
+        order: {
+          field: defaultHeaderList,
+          report: [],
+        },
+        product: {
+          field: [],
+          report: [],
+        },
+      });
+    }
+  }, [props.userData]);
 
   const exportExcel = () => {
     const workbook = new Workbook();
@@ -241,12 +270,12 @@ const App = (props) => {
       });
     });
     list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
-  
+
     const contentHtml = generateHtmlContent(list);
-  
+
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-  
+
     html2pdf()
       .set({
         margin: 1,
@@ -258,7 +287,7 @@ const App = (props) => {
       .from(contentHtml)
       .save();
   };
-  
+
   const generateHtmlContent = (data) => {
     let html = '<div class="pdf-content">';
     html += '<div class="container-p">';
@@ -275,24 +304,22 @@ const App = (props) => {
     html += '<div class="header-cell">Хариуцсан ХТ</div>';
     html += '<div class="header-cell">Түгээгч</div>';
     html += '<div class="header-cell">Дэлгэрэнгүй хаяг</div>';
-    html += '</div>';
-  
+    html += "</div>";
+
     html += '<div class="table-container">';
     for (let row of data) {
       html += '<div class="row">';
       for (let cell of row) {
         html += `<div class="cell">${cell}</div>`;
       }
-      html += '</div>';
+      html += "</div>";
     }
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-  
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+
     return html;
   };
-  
-
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
@@ -314,8 +341,10 @@ const App = (props) => {
   const updateOrdersDeliver = async (id) => {
     try {
       let status = 500;
-      const ordersToUpdate = filterState.checked ? filteredData.map((e) => e.order_id) : selectedOrders;
-      
+      const ordersToUpdate = filterState.checked
+        ? filteredData.map((e) => e.order_id)
+        : selectedOrders;
+
       for (const order of ordersToUpdate) {
         var requestOptions = {
           method: "POST",
@@ -326,25 +355,25 @@ const App = (props) => {
             backOfficeUser: id.toString(),
           }),
         };
-        
+
         console.log({
           order_id: order,
           backOfficeUser: id,
         });
-  
+
         let url = `https://api2.ebazaar.mn/api/order/update`;
         const response = await fetch(url, requestOptions);
         const result = await response.json();
-  
+
         setFilterState((prev) => ({
           ...prev,
           update: filterState.update == null ? true : !filterState.update,
         }));
-        
+
         status = result.code;
         console.log(result);
       }
-  
+
       status === 200 ? alert("Амжилттай") : alert("Амжилтгүй");
     } catch (error) {
       alert("Амжилтгүй");
@@ -366,6 +395,7 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
+            fieldsData={fieldsData}
             userData={props.userData}
             data={data}
             setData={setData}
@@ -382,17 +412,21 @@ const App = (props) => {
     {
       label: "Захиалгын тохиргоо",
       content: () => (
-        <List2
-          userData={props.userData}
-          data={data}
-          setData={setData}
-          filteredData={filteredData}
-          setFilteredData={setFilteredData}
-          selectedOrders={selectedOrders}
-          setSelectedOrders={setSelectedOrders}
-          filterState={filterState}
-          setFilterState={setFilterState}
-        />
+        <div>
+          <List2
+            userData={props.userData}
+            fieldsData={fieldsData}
+            setFieldsData={setFieldsData}
+            data={data}
+            setData={setData}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        </div>
       ),
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },

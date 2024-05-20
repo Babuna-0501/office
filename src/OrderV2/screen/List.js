@@ -16,6 +16,7 @@ const List = ({
   data,
   setData,
   filteredData,
+  fieldsData,
   setFilteredData,
 }) => {
   const [page, setPage] = useState(0);
@@ -28,28 +29,38 @@ const List = ({
   const sequence = [
     "index",
     "id",
-    "status",
+    "logo",
+    "supplier",
+    "notification",
     "orderlist",
-    "orderdate",
-    "deliverydate",
-    "paidamount",
+    "deliveryManOne",
+    "deliver",
+    "merchants",
+    "price",
+    "firstPrice",
+    "coupon",
     "note",
     "customerphone",
-    "customer",
-    "merchants",
     "customerchannel",
     "city",
     "district",
     "khoroo",
     "address",
     "paymenttype",
+    "paidamount",
     "srcode",
     "origin",
     "vat",
-    "salesman",
-    "deliveryman",
     "manager",
+    "userDate",
+    "salesmanName",
+    "deliveryman",
+    "porter",
+    "salesman",
     "butsaalt",
+    "status",
+    "orderdate",
+    "deliverydate",
   ];
 
   const sequenceSizes = {
@@ -363,12 +374,11 @@ const List = ({
   useEffect(() => {
     fetchUserData();
   }, []);
-  let headers = JSON.parse(localStorage.getItem("ordersHeaderList"));
-  let head = headers?.map((h) => h.show);
   return (
     <>
       <div className="OrderPageWrapper">
         <ListHeader
+          fieldsData={fieldsData}
           userData={userData}
           sequence={sequence}
           users={[
@@ -416,40 +426,53 @@ const List = ({
               }
             }}
           >
-      {filteredData.map((order) => {
-          let all = order.line.map((e) => e.price * e.quantity).reduce((a, b) => a + b, 0);
-          let orderData;
-          let paid = 0;
-          try {
-            orderData = JSON.parse(order.order_data);
-            paid = orderData?.prePayment ?? 0;
-            paid = paid === "" ? 0 : paid;
-          } catch (error) {
-            console.error("Invalid order_data JSON for order ID:", order.order_id, error);
-            console.log("Received order_data:", order.order_data);
-            orderData = {};
-          }
+            {filteredData.map((order) => {
+              let all = order.line
+                .map((e) => e.price * e.quantity)
+                .reduce((a, b) => a + b, 0);
+              let orderData;
+              let paid = 0;
+              try {
+                orderData = JSON.parse(order.order_data);
+                paid = orderData?.prePayment ?? 0;
+                paid = paid === "" ? 0 : paid;
+              } catch (error) {
+                console.error(
+                  "Invalid order_data JSON for order ID:",
+                  order.order_id,
+                  error
+                );
+                console.log("Received order_data:", order.order_data);
+                orderData = {};
+              }
 
-          all = all === "" ? 0 : all;
+              all = all === "" ? 0 : all;
 
-          const matchUser = delivermans?.find((user) => user.user_id === order.deliver_man);
-          const matchHt = delivermans?.find((user) => user.user_id === order.sales_man_employee_id);
+              const matchUser = delivermans?.find(
+                (user) => user.user_id === order.deliver_man
+              );
+              const matchHt = delivermans?.find(
+                (user) => user.user_id === order.sales_man_employee_id
+              );
 
-          return (
-            <Order
-              fetch={() => fetchData(true)}
-              userData={userData}
-              payment={{ balance: all - paid, all: all, paid: paid }}
-              data={order}
-              checked={selectedOrders.includes(order.order_id)}
-              sequence={sequence}
-              firstname={matchUser?.first_name ?? ""}
-              salesmanFirstname={matchHt?.first_name ?? ""}
-              onCheckboxChange={(e) => chooseOrder(order.order_id, e.target.checked)}
-              sequenceSizes={sequenceSizes}
-            />
-          );
-        })}
+              return (
+                <Order
+                  fieldsData={fieldsData}
+                  fetch={() => fetchData(true)}
+                  userData={userData}
+                  payment={{ balance: all - paid, all: all, paid: paid }}
+                  data={order}
+                  checked={selectedOrders.includes(order.order_id)}
+                  sequence={sequence}
+                  firstname={matchUser?.first_name ?? ""}
+                  salesmanFirstname={matchHt?.first_name ?? ""}
+                  onCheckboxChange={(e) =>
+                    chooseOrder(order.order_id, e.target.checked)
+                  }
+                  sequenceSizes={sequenceSizes}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="spinner-container">

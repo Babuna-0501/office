@@ -38,7 +38,6 @@ const paymentMethods = [
 ];
 
 const ListHeader = (props) => {
-  
   const [delivermans, setDeliverMans] = useState([
     {
       user_id: "",
@@ -92,7 +91,7 @@ const ListHeader = (props) => {
   }, [props.users]);
 
   useEffect(() => {
-    props.hts.map((f) => {
+    props.hts?.map((f) => {
       let d = ht.filter(
         (deliver) =>
           f.user_id !== deliver.user_id &&
@@ -146,7 +145,7 @@ const ListHeader = (props) => {
   };
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
-  const renderHTML = [];
+  const [renderHTML, setHTML] = useState([]);
 
   const list = {
     index: (
@@ -467,21 +466,27 @@ const ListHeader = (props) => {
 
     cancelReason: <div></div>,
   };
+  useEffect(() => {
+    if (!props.fieldsData) {
+      sequence.map((sequence) => {
+        setHTML((prev) => [
+          ...prev,
+          list[sequence] != null ? list[sequence] : null,
+        ]);
+      });
+    } else {
+      let heads = props.fieldsData?.order?.field ?? [];
 
-  let headers = localStorage.getItem("ordersHeaderList");
-  if (headers == null) {
-    sequence.map((sequence) => {
-      renderHTML.push(list[sequence]);
-    });
-  } else {
-    let heads = JSON.parse(headers);
-    renderHTML.push(list[sequence[0]]);
-    heads.map((head) => {
-      if (head.show) {
-        renderHTML.push(list[sequence[head.index + 1]]);
-      }
-    });
-  }
+      setHTML((prev) => [...prev, list[sequence[0]]]);
+      heads.map((head) => {
+        if (head.show) {
+          setHTML((prev) => [...prev, list[sequence[head.id]]]);
+        }
+      });
+    }
+  }, [props.fieldsData]);
+
+  // let headers = localStorage.getItem("ordersHeaderList");
 
   return (
     <div className="list_header order" style={{ minWidth: width + "px" }}>

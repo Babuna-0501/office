@@ -1,129 +1,254 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import ListHeader from "../screen/ListHeader";
-const defaultHeaderList = [
+import myHeaders from "../../components/MyHeader/myHeader";
+export const defaultHeaderList = [
   {
-    name: "Дугаар",
+    id: 1,
+    permission: true,
+    position: 1,
+    title: "Дугаар",
     show: true,
-    index: 0,
   },
   {
-    name: "Статус",
+    id: 31,
+    permission: true,
+    position: 2,
+    title: "Статус",
     show: true,
-    index: 1,
   },
   {
-    name: "Захиалга",
-    show: true,
-    index: 2,
+    id: 2,
+    permission: true,
+    position: 23,
+    title: "Logo",
+    show: false,
   },
   {
-    name: "Захиалсан өдөр",
-    show: true,
-    index: 3,
+    id: 3,
+    permission: true,
+    position: 24,
+    title: "Нийлүүлэгч",
+    show: false,
   },
   {
-    name: "Хүргүүлэх өдөр",
-    show: true,
-    index: 4,
+    id: 6,
+    permission: true,
+    position: 25,
+    title: "DeliveryManOne",
+    show: false,
   },
   {
-    name: "Төлбөр",
-    show: true,
-    index: 5,
+    id: 7,
+    permission: true,
+    position: 26,
+    title: "Хүргүүлэх",
+    show: false,
   },
   {
-    name: "Тэмдэглэл",
-    show: true,
-    index: 6,
+    title: "Notification",
+    show: false,
+    id: 4,
+    permission: true,
+    position: 27,
   },
   {
-    name: "Утас",
-    show: true,
-    index: 7,
+    title: "Анхны дүн",
+    show: false,
+    id: 10,
+    permission: true,
+    position: 28,
   },
   {
-    name: "Захиалсан",
-    show: true,
-    index: 8,
+    title: "Дүн",
+    show: false,
+    id: 9,
+    permission: true,
+    position: 29,
   },
   {
-    name: "Суваг",
-    show: true,
-    index: 9,
+    title: "Coupon",
+    show: false,
+    id: 11,
+    permission: true,
+    position: 30,
   },
   {
-    name: "Хот/аймаг",
-    show: true,
-    index: 10,
+    title: "user_date",
+    show: false,
+    id: 25,
+    permission: true,
+    position: 31,
   },
   {
-    name: "Дүүрэг/сум",
-    show: true,
-    index: 11,
+    title: "Хариуцагч нэр",
+    show: false,
+    id: 26,
+    permission: true,
+    position: 32,
   },
   {
-    name: "Хороо",
+    title: "Ачилт",
+    show: false,
+    id: 28,
+    permission: true,
+    position: 33,
+  },
+
+  {
+    title: "Захиалга",
     show: true,
-    index: 12,
+    id: 5,
+    permission: true,
+    position: 3,
   },
   {
-    name: "Дэлгэрэнгүй хаяг",
+    title: "Захиалсан өдөр",
     show: true,
-    index: 13,
+    id: 32,
+    permission: true,
+    position: 4,
   },
   {
-    name: "Төлбөрийн хэлбэр",
+    title: "Хүргүүлэх өдөр",
     show: true,
-    index: 14,
+    id: 33,
+    permission: true,
+    position: 5,
   },
   {
-    name: "Pick Pack",
+    title: "Төлбөр",
     show: true,
-    index: 15,
+    id: 20,
+    permission: true,
+    position: 6,
   },
   {
-    name: "Origin",
+    title: "Тэмдэглэл",
     show: true,
-    index: 16,
+    id: 12,
+    permission: true,
+    position: 7,
   },
   {
-    name: "VAT",
+    title: "Утас",
     show: true,
-    index: 17,
+    id: 13,
+    permission: true,
+    position: 8,
   },
   {
-    name: "ХТ код/нэр",
+    title: "Захиалсан",
     show: true,
-    index: 18,
+    id: 8,
+    permission: true,
+    position: 9,
   },
   {
-    name: "Түгээгч код/нэр",
+    title: "Суваг",
     show: true,
-    index: 19,
+    id: 14,
+    permission: true,
+    position: 10,
   },
   {
-    name: "Менежер",
+    title: "Хот/аймаг",
     show: true,
-    index: 20,
+    id: 15,
+    permission: true,
+    position: 11,
   },
   {
-    name: "Буцаалт",
+    title: "Дүүрэг/сум",
     show: true,
-    index: 21,
+    id: 16,
+    permission: true,
+    position: 12,
+  },
+  {
+    title: "Хороо",
+    show: true,
+    id: 17,
+    permission: true,
+    position: 13,
+  },
+  {
+    title: "Хаяг",
+    show: true,
+    id: 18,
+    permission: true,
+    position: 14,
+  },
+  {
+    title: "Төлбөрийн хэлбэр",
+    show: true,
+    id: 19,
+    permission: true,
+    position: 15,
+  },
+  {
+    title: "Pick Pack",
+    show: true,
+    id: 21,
+    permission: true,
+    position: 16,
+  },
+  {
+    title: "Origin",
+    show: true,
+    id: 22,
+    permission: true,
+    position: 17,
+  },
+  {
+    title: "VAT",
+    show: true,
+    id: 23,
+    permission: true,
+    position: 18,
+  },
+  {
+    title: "ХТ код/нэр",
+    show: true,
+    id: 29,
+    permission: true,
+    position: 19,
+  },
+  {
+    title: "Түгээгч код/нэр",
+    show: true,
+    id: 27,
+    permission: true,
+    position: 20,
+  },
+  {
+    title: "Хариуцагч",
+    show: true,
+    id: 24,
+    permission: true,
+    position: 21,
+  },
+  {
+    title: "Буцаалт",
+    show: true,
+    id: 30,
+    permission: true,
+    position: 22,
   },
 ];
-const List2 = (
+const List2 = ({
   filteredData,
   setFilteredData,
   userData,
   setSelectedOrders,
   selectedOrders,
+  fieldsData,
+  setFieldsData,
   data,
   setData,
   setFilterState,
-  filterState
-) => {
+  filterState,
+}) => {
   const [headerLists, setHeaderLists] = useState([]);
   const sequence = [
     "index",
@@ -179,22 +304,47 @@ const List2 = (
     butsaalt: 120,
   };
   useEffect(() => {
-    let list = JSON.parse(localStorage.getItem("ordersHeaderList"));
-    if (list == null) list = defaultHeaderList;
-    setHeaderLists(list);
-  }, []);
+    setHeaderLists(fieldsData?.order?.field ?? defaultHeaderList);
+  }, [fieldsData]);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
+  const save = () => {};
+  const updateUser = () => {
+    const data = {
+      user_id: userData.id,
+      tablePosition: {
+        order: {
+          field: headerLists,
+          report: [],
+        },
+        product: {
+          field: [],
+          report: [],
+        },
+      },
+    };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+      body: JSON.stringify(data),
+    };
 
-  const save = () => {
-    localStorage.setItem("ordersHeaderList", JSON.stringify(headerLists));
-    alert("Хадгаллаа");
-    window.location.reload();
+    fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.code === 200) {
+          alert(`${res.message}`);
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        alert(`Алдаа гарлаа. ${error}`);
+      });
   };
-
   return (
     <div className="order_settings">
       <div className="tab_buttons">
@@ -349,26 +499,27 @@ const List2 = (
               className="stick_wrapper"
               style={{ fontSize: "12px", marginTop: "20px" }}
             >
-              {headerLists.map((head, i) => {
-                return (
-                  <div key={i}>
-                    <label class="switch">
-                      <input
-                        type="checkbox"
-                        checked={head.show}
-                        onChange={(e) => {
-                          head.show = e.target.checked;
-                          setHeaderLists((prev) => [...prev]);
-                        }}
-                      />
-                      <span class="slider round"></span>
-                    </label>
-                    {head.name}
-                  </div>
-                );
-              })}
+              {headerLists &&
+                headerLists?.map((head, i) => {
+                  return (
+                    <div key={i}>
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          checked={head.show}
+                          onChange={(e) => {
+                            head.show = e.target.checked;
+                            setHeaderLists((prev) => [...prev]);
+                          }}
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                      {head.title}
+                    </div>
+                  );
+                })}
             </div>
-            <button onClick={() => save()}>Хадгалах</button>
+            <button onClick={() => updateUser()}>Хадгалах</button>
           </div>
         </div>
       )}
