@@ -6,6 +6,7 @@ import CityData from "../data/city.json";
 import DistrictData from "../data/district.json";
 
 import "./style.css";
+import { visibles } from "../List/List2";
 
 let options = [
   { value: "0", label: "Бүгд" },
@@ -151,6 +152,7 @@ const ListHeader = (props) => {
     index: (
       <div
         className="order_index"
+        key={0}
         style={{ width: sequenceSizes["index"] + "px" }}
       >
         <div>
@@ -167,7 +169,11 @@ const ListHeader = (props) => {
       </div>
     ),
     id: (
-      <div className="order_id" style={{ width: sequenceSizes["id"] + "px" }}>
+      <div
+        className="order_id"
+        style={{ width: sequenceSizes["id"] + "px" }}
+        key={1}
+      >
         <h5>Дугаар</h5>
         <input
           type="text"
@@ -183,6 +189,7 @@ const ListHeader = (props) => {
     status: (
       <div
         className="order_vendor"
+        key={2}
         style={{ width: sequenceSizes["supplier"] + "px" }}
       >
         <h5>Статус</h5>
@@ -197,6 +204,7 @@ const ListHeader = (props) => {
 
     orderlist: (
       <div
+        key={3}
         className="order_date"
         style={{ width: sequenceSizes["orderlist"] + "px" }}
       >
@@ -206,6 +214,7 @@ const ListHeader = (props) => {
     ),
     orderdate: (
       <div
+        key={4}
         className="order_commonfield"
         style={{ width: sequenceSizes["orderdate"] + "px" }}
       >
@@ -215,6 +224,7 @@ const ListHeader = (props) => {
     ),
     deliverydate: (
       <div
+        key={5}
         className="order_commonfield"
         style={{ width: sequenceSizes["deliverydate"] + "px" }}
       >
@@ -224,6 +234,7 @@ const ListHeader = (props) => {
     ),
     paidamount: (
       <div
+        key={6}
         className="order_commonfield"
         style={{ width: sequenceSizes["paymenttype"] + "px" }}
       >
@@ -234,6 +245,7 @@ const ListHeader = (props) => {
     ),
     note: (
       <div
+        key={7}
         className="order_commonfield"
         style={{ width: sequenceSizes["note"] + "px" }}
       >
@@ -244,6 +256,7 @@ const ListHeader = (props) => {
 
     customerphone: (
       <div
+        key={8}
         className="order_commonfield"
         style={{ width: sequenceSizes["customerphone"] + "px" }}
       >
@@ -259,6 +272,7 @@ const ListHeader = (props) => {
 
     merchants: (
       <div
+        key={9}
         className="order_commonfield"
         style={{ width: sequenceSizes["merchants"] + "px" }}
       >
@@ -274,6 +288,7 @@ const ListHeader = (props) => {
 
     customerchannel: (
       <div
+        key={10}
         className="order_commonfield"
         style={{ width: sequenceSizes["customerchannel"] + "px" }}
       >
@@ -290,6 +305,7 @@ const ListHeader = (props) => {
 
     city: (
       <div
+        key={11}
         className="order_commonfield"
         style={{ width: sequenceSizes["city"] + "px" }}
       >
@@ -306,6 +322,7 @@ const ListHeader = (props) => {
     ),
     district: (
       <div
+        key={12}
         className="order_commonfield"
         style={{ width: sequenceSizes["district"] + "px" }}
       >
@@ -321,6 +338,7 @@ const ListHeader = (props) => {
     ),
     khoroo: (
       <div
+        key={13}
         className="order_commonfield"
         style={{ width: sequenceSizes["khoroo"] + "px" }}
       >
@@ -337,6 +355,7 @@ const ListHeader = (props) => {
     ),
     address: (
       <div
+        key={14}
         className="order_commonfield"
         style={{ width: sequenceSizes["address"] + "px" }}
       >
@@ -350,6 +369,7 @@ const ListHeader = (props) => {
     ),
     paymenttype: (
       <div
+        key={15}
         className="order_commonfield"
         style={{ width: sequenceSizes["paidamount"] + "px" }}
       >
@@ -362,6 +382,7 @@ const ListHeader = (props) => {
     ),
     srcode: (
       <div
+        key={16}
         className="order_commonfield"
         style={{ width: sequenceSizes["srcode"] + "px" }}
       >
@@ -376,6 +397,7 @@ const ListHeader = (props) => {
     origin: (
       <div
         className="order_commonfield"
+        key={17}
         style={{ width: sequenceSizes["origin"] + "px" }}
       >
         <h5>Origin</h5>
@@ -388,6 +410,7 @@ const ListHeader = (props) => {
     ),
     vat: (
       <div
+        key={18}
         className="order_commonfield"
         style={{ width: sequenceSizes["vat"] + "px" }}
       >
@@ -403,6 +426,7 @@ const ListHeader = (props) => {
     salesman: (
       <div
         className="order_commonfield"
+        key={19}
         style={{ width: sequenceSizes["salesman"] + "px" }}
       >
         <h5>ХТ код/нэр</h5>
@@ -440,6 +464,7 @@ const ListHeader = (props) => {
     ),
     manager: (
       <div
+        key={21}
         className="order_commonfield"
         style={{ width: sequenceSizes["manager"] + "px" }}
       >
@@ -452,6 +477,7 @@ const ListHeader = (props) => {
     ),
     butsaalt: (
       <div
+        key={22}
         className="order_commonfield"
         style={{ width: sequenceSizes["butsaalt"] + "px" }}
       >
@@ -466,23 +492,32 @@ const ListHeader = (props) => {
 
     cancelReason: <div></div>,
   };
+
   useEffect(() => {
     if (!props.fieldsData) {
+      let lists = [];
       sequence.map((sequence) => {
-        setHTML((prev) => [
-          ...prev,
-          list[sequence] != null ? list[sequence] : null,
-        ]);
+        lists.push(list[sequence] != null ? list[sequence] : []);
       });
+      setHTML(lists);
     } else {
       let heads = props.fieldsData?.order?.field ?? [];
+      let lists = [list[sequence[0]]];
 
-      setHTML((prev) => [...prev, list[sequence[0]]]);
-      heads.map((head) => {
-        if (head.show) {
-          setHTML((prev) => [...prev, list[sequence[head.id]]]);
-        }
-      });
+      heads
+        .sort((a, b) => a.position - b.position)
+        .map((head) => {
+          if (
+            head.position >= 0 &&
+            head.show &&
+            !visibles.includes(head.id) &&
+            head.permission
+          ) {
+            lists.push(list[sequence[head.id]]);
+          }
+        });
+
+      setHTML(lists);
     }
   }, [props.fieldsData]);
 

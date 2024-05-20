@@ -6,6 +6,7 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
+import { sequence } from "../List/List2";
 
 const List = ({
   filterState,
@@ -26,42 +27,6 @@ const List = ({
   const [totalData, SetTotalData] = useState([]);
   const [hariutsagch, setHariutsagch] = useState();
   const [delivermans, setDeliverMans] = useState([]);
-  const sequence = [
-    "index",
-    "id",
-    "logo",
-    "supplier",
-    "notification",
-    "orderlist",
-    "deliveryManOne",
-    "deliver",
-    "merchants",
-    "price",
-    "firstPrice",
-    "coupon",
-    "note",
-    "customerphone",
-    "customerchannel",
-    "city",
-    "district",
-    "khoroo",
-    "address",
-    "paymenttype",
-    "paidamount",
-    "srcode",
-    "origin",
-    "vat",
-    "manager",
-    "userDate",
-    "salesmanName",
-    "deliveryman",
-    "porter",
-    "salesman",
-    "butsaalt",
-    "status",
-    "orderdate",
-    "deliverydate",
-  ];
 
   const sequenceSizes = {
     index: 52,
@@ -377,6 +342,7 @@ const List = ({
   return (
     <>
       <div className="OrderPageWrapper">
+        {console.log(fieldsData)}
         <ListHeader
           fieldsData={fieldsData}
           userData={userData}

@@ -338,14 +338,14 @@ const Order = (props) => {
       console.log(order_id, code);
     } catch (error) {}
   };
-
+  // 14,
   useEffect(() => {
     const fieldsCopy = [...(props.fieldsData?.order?.field ?? [])];
-
+    console.log(fieldsCopy);
     for (const field of fieldsCopy) {
       switch (field.id) {
         case 1:
-          field.content = (
+          field.contents = (
             <div className="order_id" key={field.id}>
               <div className="fullcontainer idWrapper">
                 <span>{data.order_id}</span>
@@ -354,7 +354,7 @@ const Order = (props) => {
           );
           break;
         case 5:
-          field.content = (
+          field.contents = (
             <div className="order_product" key={field.id}>
               <div className="fullcontainer">
                 <ProductAvatar data={data} />
@@ -362,8 +362,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 32:
-          field.content = (
+        case 35:
+          field.contents = (
             <div className="order_date" key={field.id}>
               <div className="fullcontainer order_date">
                 <span>{formatDate(data.order_date)}</span>
@@ -371,8 +371,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 33:
-          field.content = (
+        case 36:
+          field.contents = (
             <div className="delivery_date" key={field.id}>
               <div className="fullcontainer order_date">
                 <span>{formatDate(data.delivery_date)}</span>
@@ -380,8 +380,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 20:
-          field.content =
+        case 9:
+          field.contents =
             props.data.supplier_id === 14268 ? (
               <div className="payment_mode" onClick={(e) => handleOpen(e)}>
                 <div className="fullcontainer price_wrapper idWrapper">
@@ -399,7 +399,7 @@ const Order = (props) => {
             );
           break;
         case 12:
-          field.content = (
+          field.contents = (
             <div className="cancel_reason" key={field.id}>
               <div className="fullcontainer">
                 <span className="order_desc-l">
@@ -418,7 +418,7 @@ const Order = (props) => {
           );
           break;
         case 13:
-          field.content = (
+          field.contents = (
             <div className="phone" key={field.id}>
               <div className="fullcontainer">
                 <span className="elips">{data.phone}</span>
@@ -426,8 +426,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 8:
-          field.content = (
+        case 7:
+          field.contents = (
             <div className="merchant" key={field.id}>
               <div className="fullcontainer">
                 <span className="elips">{data.tradeshop_name}</span>
@@ -435,8 +435,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 14:
-          field.content = (
+        case 15:
+          field.contents = (
             <div className="business_type" key={field.id}>
               <div className="fullcontainer">
                 <span className="elips">{businessTypeName}</span>
@@ -444,8 +444,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 15:
-          field.content = (
+        case 16:
+          field.contents = (
             <div className="tradeshop_city" key={field.id}>
               <div className="fullcontainer">
                 {location ? (
@@ -457,8 +457,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 16:
-          field.content = (
+        case 17:
+          field.contents = (
             <div className="tradeshop_district" key={field.id}>
               <div className="fullcontainer">
                 {location2 ? (
@@ -470,8 +470,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 17:
-          field.content = (
+        case 18:
+          field.contents = (
             <div className="tradeshop_horoo" key={field.id}>
               <div className="fullcontainer">
                 {location3 ? (
@@ -485,8 +485,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 18:
-          field.content = (
+        case 19:
+          field.contents = (
             <div className="full_address" key={field.id}>
               <div className="fullcontainer">
                 <span className="elips">{data.address}</span>
@@ -494,8 +494,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 19:
-          field.content = (
+        case 20:
+          field.contents = (
             <div className="payment_type" key={field.id}>
               <div className="fullcontainer">
                 <span>Дансаар</span>
@@ -504,7 +504,7 @@ const Order = (props) => {
           );
           break;
         case 21:
-          field.content = (
+          field.contents = (
             <div className="pick_pack" key={field.id}>
               <div className="fullcontainer">
                 <span>Pickpack</span>
@@ -513,7 +513,7 @@ const Order = (props) => {
           );
           break;
         case 22:
-          field.content = (
+          field.contents = (
             <div className="origin" key={field.id}>
               <div className="fullcontainer">
                 <span>{data.origin}</span>
@@ -522,7 +522,7 @@ const Order = (props) => {
           );
           break;
         case 23:
-          field.content = (
+          field.contents = (
             <div className="vat" key={field.id}>
               <div className="fullcontainer">
                 <span>VAT</span>
@@ -530,8 +530,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 29:
-          field.content = (
+        case 33:
+          field.contents = (
             <div className="salesman" key={field.id}>
               <div className="fullcontainer">
                 <span>{data.sales_man_employee_id}</span>&nbsp;
@@ -540,8 +540,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 27:
-          field.content = (
+        case 28:
+          field.contents = (
             <div className="deliveryman" key={field.id}>
               <div className="fullcontainer">
                 <span>{data.deliver_man}</span>&nbsp;
@@ -550,8 +550,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 24:
-          field.content = (
+        case 25:
+          field.contents = (
             <div className="manager" key={field.id}>
               <div className="fullcontainer">
                 <span>manager</span>
@@ -559,8 +559,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 30:
-          field.content = (
+        case 32:
+          field.contents = (
             <div className="butsaalt" key={field.id}>
               <div className="fullcontainer">
                 <span>butsaalt</span>
@@ -568,8 +568,8 @@ const Order = (props) => {
             </div>
           );
           break;
-        case 31:
-          field.content = (
+        case 34:
+          field.contents = (
             <div className="order_supplier" key={field.id}>
               <div className="fullcontainer">
                 <span
@@ -734,11 +734,13 @@ const Order = (props) => {
             />
           </div>
         </div>
-
+        {console.log(fields.sort((a, b) => a.position - b.position))}
         {fields
           .sort((a, b) => a.position - b.position)
           .map((field) => {
-            return field.permission && field.show ? field.content : null;
+            return field.position >= 0 && field.permission && field.show
+              ? field.contents
+              : null;
           })}
 
         <div className="delete">
@@ -1200,7 +1202,7 @@ const Order = (props) => {
                   <div className="notif_head">Notification log</div>
                 </div>
               )}
-              {activeTab === 3 && <div>Content for Tab 3</div>}
+              {activeTab === 3 && <div>content for Tab 3</div>}
               {activeTab === 4 && (
                 <NoteOrderDetail
                   note={foo}
@@ -1286,7 +1288,7 @@ export const Dialog = ({
           {/* <IoMdClose onClick={onClose} /> */}
           <button onClick={cancel}>Хаах</button>
         </div>
-        <main className="modal-mainContents">
+        <main className="modal-maincontentss">
           <span>
             Та статусыг {type == 1 ? "устгагдсан" : payload.toLowerCase()}{" "}
             болгохдоо итгэлтэй байна уу
@@ -1311,7 +1313,7 @@ export const Modal = ({ open, payload, cancel, save, onChange }) => {
           {/* <IoMdClose onClick={onClose} /> */}
           <button onClick={cancel}>Хаах</button>
         </div>
-        <main className="modal-mainContents">
+        <main className="modal-maincontents">
           <label>Price:</label>
           <input
             value={Math.floor(payload.price)}
