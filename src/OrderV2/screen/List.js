@@ -187,7 +187,7 @@ const List = ({
       }
     }
     if (filterState?.phone) {
-      params += `tradeshop_phone=${filterState?.phone}&`;
+      params += `phone=${filterState?.phone}&`;
       // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
 
@@ -342,7 +342,6 @@ const List = ({
   return (
     <>
       <div className="OrderPageWrapper">
-        {console.log(fieldsData)}
         <ListHeader
           fieldsData={fieldsData}
           userData={userData}

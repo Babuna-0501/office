@@ -55,21 +55,36 @@ const App = (props) => {
     });
   };
 
-  const [fieldsData, setFieldsData] = useState([]);
-  const [tablePosition, setTablePosition] = useState({
-    order: {
-      field: [],
-      report: [],
+  const [fieldsData, setFieldsData] = useState([
+    {
+      order: {
+        field: [],
+        report: [],
+      },
+      product: {
+        field: [],
+        report: [],
+      },
     },
-    product: {
-      field: [],
-      report: [],
-    },
-  });
+  ]);
 
   useEffect(() => {
     if (props.userData && props.userData?.tablePosition) {
-      setFieldsData(JSON.parse(props.userData.tablePosition));
+      try {
+        let tablePosition = JSON.parse(props.userData.tablePosition);
+        setFieldsData(tablePosition);
+      } catch (error) {
+        setFieldsData({
+          order: {
+            field: defaultHeaderList,
+            report: [],
+          },
+          product: {
+            field: [],
+            report: [],
+          },
+        });
+      }
     } else {
       setFieldsData({
         order: {

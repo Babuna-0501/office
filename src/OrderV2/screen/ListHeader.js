@@ -72,13 +72,23 @@ const ListHeader = (props) => {
   // };
   useEffect(() => {
     props.users.map((f) => {
-      let d = delivermans.filter(
-        (deliver) =>
+      let d = delivermans.filter((deliver) => {
+        console.log(
+          f,
           f.user_id !== deliver.user_id &&
+            deliver.user_id != "null" &&
+            deliver.user_id != "notNull" &&
+            deliver.user_id != ""
+        );
+        console.log(deliver.user_id);
+        return (
+          f.user_id != deliver.user_id &&
           deliver.user_id != "null" &&
           deliver.user_id != "notNull" &&
           deliver.user_id != ""
-      );
+        );
+      });
+      console.log(f);
 
       if (d.length == 0)
         setDeliverMans((prev) => [
@@ -95,7 +105,7 @@ const ListHeader = (props) => {
     props.hts?.map((f) => {
       let d = ht.filter(
         (deliver) =>
-          f.user_id !== deliver.user_id &&
+          f.user_id != deliver.user_id &&
           deliver.user_id != "null" &&
           deliver.user_id != "notNull" &&
           deliver.user_id != ""

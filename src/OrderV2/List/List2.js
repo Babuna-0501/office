@@ -54,14 +54,14 @@ export const defaultHeaderList = [
   {
     id: 2,
     permission: false,
-    position: 2,
+    position: 34,
     title: "Logo",
     show: false,
   },
   {
     id: 3,
     permission: false,
-    position: 3,
+    position: 35,
     title: "Нийлүүлэгч",
     show: false,
   },
@@ -70,7 +70,7 @@ export const defaultHeaderList = [
     show: false,
     id: 4,
     permission: false,
-    position: 4,
+    position: 36,
   },
   {
     title: "Захиалга",
@@ -280,7 +280,7 @@ export const defaultHeaderList = [
   {
     id: 34,
     permission: true,
-    position: 34,
+    position: 2,
     title: "Статус",
     show: true,
   },
@@ -290,14 +290,14 @@ export const defaultHeaderList = [
     show: true,
     id: 35,
     permission: true,
-    position: 35,
+    position: 3,
   },
   {
     title: "Хүргүүлэх өдөр",
     show: true,
     id: 36,
     permission: true,
-    position: 36,
+    position: 4,
   },
 ];
 const List2 = ({
@@ -376,12 +376,12 @@ const List2 = ({
     setActiveTab(index);
   };
   const save = () => {};
-  const updateUser = () => {
+  const updateUser = (res) => {
     const data = {
       user_id: userData.id,
       tablePosition: {
         order: {
-          field: headerLists,
+          field: res ? defaultHeaderList : headerLists,
           report: [],
         },
         product: {
@@ -396,8 +396,7 @@ const List2 = ({
       redirect: "follow",
       body: JSON.stringify(data),
     };
-    console.log(data)
-
+    console.log(data);
     fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
       .then((r) => r.json())
       .then((res) => {
@@ -565,26 +564,29 @@ const List2 = ({
               style={{ fontSize: "12px", marginTop: "20px" }}
             >
               {headerLists &&
-                headerLists.filter((h) => !visibles.includes(h.id))?.map((head, i) => {
-                  return (
-                    <div key={i}>
-                      <label class="switch">
-                        <input
-                          type="checkbox"
-                          checked={head.show}
-                          onChange={(e) => {
-                            head.show = e.target.checked;
-                            setHeaderLists((prev) => [...prev]);
-                          }}
-                        />
-                        <span class="slider round"></span>
-                      </label>
-                      {head.title}
-                    </div>
-                  );
-                })}
+                headerLists
+                  .filter((h) => !visibles.includes(h.id))
+                  ?.map((head, i) => {
+                    return (
+                      <div key={i}>
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            checked={head.show}
+                            onChange={(e) => {
+                              head.show = e.target.checked;
+                              setHeaderLists((prev) => [...prev]);
+                            }}
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                        {head.title}
+                      </div>
+                    );
+                  })}
             </div>
-            <button onClick={() => updateUser()}>Хадгалах</button>
+            <button onClick={() => updateUser(false)}>Хадгалах</button>
+            <button onClick={() => updateUser(true)}>Шинэчлэх</button>
           </div>
         </div>
       )}

@@ -341,7 +341,7 @@ const Order = (props) => {
   // 14,
   useEffect(() => {
     const fieldsCopy = [...(props.fieldsData?.order?.field ?? [])];
-    console.log(fieldsCopy);
+
     for (const field of fieldsCopy) {
       switch (field.id) {
         case 1:
@@ -734,7 +734,7 @@ const Order = (props) => {
             />
           </div>
         </div>
-        {console.log(fields.sort((a, b) => a.position - b.position))}
+
         {fields
           .sort((a, b) => a.position - b.position)
           .map((field) => {
