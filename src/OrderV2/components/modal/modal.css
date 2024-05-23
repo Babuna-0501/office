@@ -35,7 +35,7 @@
 }
 .modal_table .head {
   background: #CCFFCC;
-  height: 30px;
+  height: 35px;
   line-height: 31px;
 }
 .modal_table_head {
@@ -68,10 +68,9 @@
 
 .flex-8 {
   max-width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  display: inline-block; /* Ensure ellipsis works correctly */
+  overflow: auto;
+  line-height: 12px;
+  width: 180px;
 }
 
 .exit-icon {
@@ -85,6 +84,9 @@
   flex-direction: column;
   gap: 20px;
   margin-top: 20px;
+  overflow: auto;
+  margin-bottom: 1rem;
+  padding: 10px;
 }
 
 .modal-button {
@@ -94,6 +96,9 @@
 }
 .export-btns {
   justify-content: end;
+}
+.modal_table_head {
+  width: 1160px;
 }
 .modal-button button {
   /* border: 1px solid #6821c3; */

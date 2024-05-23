@@ -143,7 +143,7 @@ const Total = (props) => {
   let pendingCount = pendingOrdersCount.toLocaleString();
 
   return (
-    <div className="container">
+    <div className="container-2">
       <div className="wrapper">
         <div className="footerspan">Нийт захиалгын тоо: </div>
         <span className="footerspantww">{props.data?.length ?? 0}ш</span>

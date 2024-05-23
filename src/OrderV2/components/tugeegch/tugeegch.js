@@ -19,7 +19,6 @@ const Popup = (props) => {
   const handleSave = () => {
     setShowPopup(false);
     props.updateOrdersDeliver(selectedUsers[0]);
-    window.location.reload(); 
   };
   
 

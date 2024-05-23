@@ -11,13 +11,11 @@ const List1 = ({
   data,
   setData,
   setFilterState,
-  fieldsData,
   filterState,
 }) => {
   return (
     <div className="list">
       <List
-        fieldsData={fieldsData}
         userData={userData}
         data={data}
         setData={setData}

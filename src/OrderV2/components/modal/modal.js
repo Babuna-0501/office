@@ -7,7 +7,6 @@ const Modal = ({ open, payload, cancel, save, onChange, props }) => {
     <section className="modal">
       <article className="modal-content p-lg-4">
         <div className="exit-icon text-end">
-          {/* <IoMdClose onClick={onClose} /> */}
           <button onClick={cancel}>Close</button>
         </div>
         <main className="modal-mainContents">
@@ -35,6 +34,7 @@ const Modal = ({ open, payload, cancel, save, onChange, props }) => {
 };
 
 export default Modal;
+
 export const ExportModal = ({
   open,
   payload,
@@ -46,37 +46,69 @@ export const ExportModal = ({
 }) => {
   let qt = 0;
   let pr = 0;
+  let deliverFee = 6000;
+  let totalAmount = 0;
+
   if (!open) return null;
+
   return (
     <section className="modal modal_export">
       <article className="modal-content-export p-lg-4">
         <div className="exit-icon text-end">
-          <button onClick={cancel}>Close</button>
+          <div onClick={cancel}>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.450101 0.450101C0.938256 -0.0380545 1.72971 -0.0380545 2.21787 0.450101L15.5512 13.7834C16.0394 14.2716 16.0394 15.063 15.5512 15.5512C15.063 16.0394 14.2716 16.0394 13.7834 15.5512L0.450101 2.21787C-0.0380545 1.72971 -0.0380545 0.938256 0.450101 0.450101Z"
+                fill="#455A64"
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M15.5512 0.450101C16.0394 0.938256 16.0394 1.72971 15.5512 2.21787L2.21787 15.5512C1.72971 16.0394 0.938256 16.0394 0.450101 15.5512C-0.0380545 15.063 -0.0380545 14.2716 0.450101 13.7834L13.7834 0.450101C14.2716 -0.0380545 15.063 -0.0380545 15.5512 0.450101Z"
+                fill="#455A64"
+              />
+            </svg>
+          </div>
         </div>
-        <main className="modal-mainContents">
-          <div className="modal_table">
-            <div className="modal_table_head">
+        <div className="modal_table_head">
               <span className="flex-1">№</span>
               <span className="flex-3">Дугаар</span>
               <span>Барааны нэр</span>
               <span className="flex-4">Тоо ширхэг</span>
               <span className="flex-4">Нэгж үнэ</span>
               <span className="flex-5">Нийт үнэ</span>
-              <span className="flex-5">Эцсийн нийт үнэ</span>
               <span className="flex-6">Үйлчилгээний газрын нэр</span>
               <span className="flex-3">Утас</span>
               <span className="flex-4">Хариуцсан ХТ</span>
               <span className="flex-4">Түгээгч</span>
               <span className="flex-8">Хаяг</span>
             </div>
+        <main className="modal-mainContents">
+          <div className="modal_table">
+     
             {payload?.map((p, i) => {
-              let price = 0;
               let quantity = 0;
-              p.line.map((l) => {
+              let price = 0;
+
+              p.line.forEach((l) => {
                 quantity += l.quantity;
                 price += l.amount;
                 qt += l.quantity;
                 pr += l.amount;
+
+                if (payload[0].supplier_id === 14268) {
+                  totalAmount += l.price_amount + deliverFee;
+                } else {
+                  totalAmount += l.price_amount;
+                }
               });
 
               return (
@@ -87,32 +119,38 @@ export const ExportModal = ({
                     <span>НИЙТ</span>
                     <span className="flex-4">{quantity}</span>
                     <span className="flex-4"></span>
-                    <span className="flex-5">{price}₮</span>
-                    <span className="flex-5">{price}₮</span>
+                    <span className="flex-5">
+                      {payload[0].supplier_id === 14268
+                        ? price + deliverFee
+                        : price}
+                      ₮ <br />
+                    </span>
                     <span className="flex-6">{p.tradeshop_name}</span>
-                    <span className="flex-3">Утас</span>
-                    <span className="flex-4">Хариуцсан ХТ</span>
+                    <span className="flex-3">{p.tradeshop_phone}</span>
+                    <span className="flex-4">{p.sales_man}</span>
                     <span className="flex-4">{p.deliver_man ?? ""}</span>
-                    <span className="flex-8">{p.address}</span>
+                    <span className="flex-8">{p.address}, {p.tradeshop_city}</span>
                   </div>
-                  {p.line.map((l, index) => {
-                    return (
-                      <div key={index} className="modal_table_head">
-                        <span className="flex-1">{index + 1}</span>
-                        <span className="flex-3"></span>
-                        <span>{l.product_name}</span>
-                        <span className="flex-4">{l.quantity}</span>
-                        <span className="flex-4">{l.price}</span>
-                        <span className="flex-5">{l.price_amount}₮</span>
-                        <span className="flex-5">{price}₮</span>
-                        <span className="flex-6"></span>
-                        <span className="flex-3"></span>
-                        <span className="flex-4"></span>
-                        <span className="flex-4"></span>
-                        <span className="flex-8"></span>
-                      </div>
-                    );
-                  })}
+                  {p.line.map((l, index) => (
+                    <div key={index} className="modal_table_head">
+                      <span className="flex-1">{index + 1}</span>
+                      <span className="flex-3"></span>
+                      <span>{l.product_name}</span>
+                      <span className="flex-4">{l.quantity}</span>
+                      <span className="flex-4">{l.price}</span>
+                      <span className="flex-5">
+                        {payload[0].supplier_id === 14268
+                          ? l.price_amount + deliverFee
+                          : l.price_amount}
+                        ₮ <br />
+                      </span>
+                      <span className="flex-6"></span>
+                      <span className="flex-3"></span>
+                      <span className="flex-4"></span>
+                      <span className="flex-4"></span>
+                      <span className="flex-8"></span>
+                    </div>
+                  ))}
                 </>
               );
             })}
@@ -122,8 +160,9 @@ export const ExportModal = ({
               <span>GRAND TOTAL</span>
               <span className="flex-4">{qt}</span>
               <span className="flex-4"></span>
-              <span className="flex-5">{pr}₮</span>
-              <span className="flex-5">{pr}₮</span>
+              <span className="flex-5">
+                {totalAmount}₮ <br />
+              </span>
               <span className="flex-6"></span>
               <span className="flex-3"></span>
               <span className="flex-4"></span>
@@ -131,14 +170,13 @@ export const ExportModal = ({
               <span className="flex-8"></span>
             </div>
           </div>
-
-          <div className="modal-button export-btns">
+        </main>
+        <div className="modal-button export-btns">
             <button onClick={cancel}>Цуцлах</button>
             <button onClick={exportExcel}>Excel Татах</button>
             <button onClick={exportPdf}>Pdf Татах</button>
             <button onClick={print}>Хэвлэх</button>
           </div>
-        </main>
       </article>
     </section>
   );

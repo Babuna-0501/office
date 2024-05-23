@@ -1,5 +1,6 @@
 import { useState } from "react";
 import myHeaders from "../../components/MyHeader/myHeader";
+import './note.css'
 
 export const NoteOrderDetail = (props) => {
   let notes = props.note
@@ -65,7 +66,10 @@ export const NoteOrderDetail = (props) => {
     }
   };
   return (
-    <div>
+    <div className="note_fx">
+      <div className="note_logs">
+        {/* end log haruulna */}
+      </div>
       <div>
         <h1>Тэмдэглэл</h1>
       </div>
@@ -85,7 +89,7 @@ export const NoteOrderDetail = (props) => {
         })}
       </div>
 
-      <div>
+      <div className="note_input"> 
         <input
           type="text"
           placeholder="Тэмдэглэлээ энд бичнэ үү"
@@ -93,7 +97,7 @@ export const NoteOrderDetail = (props) => {
         />
       </div>
 
-      <div>
+      <div className="note_btn">
         <button onClick={() => save()}>
           {saving ? "Түр хүлээнэ үү" : "Хадгалах"}
         </button>

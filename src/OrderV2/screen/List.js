@@ -6,7 +6,6 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
-import { sequence } from "../List/List2";
 
 const List = ({
   filterState,
@@ -16,8 +15,8 @@ const List = ({
   userData,
   data,
   setData,
-  filteredData,
   fieldsData,
+  filteredData,
   setFilteredData,
 }) => {
   const [page, setPage] = useState(0);
@@ -27,6 +26,32 @@ const List = ({
   const [totalData, SetTotalData] = useState([]);
   const [hariutsagch, setHariutsagch] = useState();
   const [delivermans, setDeliverMans] = useState([]);
+  const sequence = [
+    "index",
+    "id",
+    "status",
+    "orderlist",
+    "orderdate",
+    "deliverydate",
+    "paidamount",
+    "note",
+    "customerphone",
+    "customer",
+    "merchants",
+    "customerchannel",
+    "city",
+    "district",
+    "khoroo",
+    "address",
+    "paymenttype",
+    "srcode",
+    "origin",
+    "vat",
+    "salesman",
+    "deliveryman",
+    "manager",
+    "butsaalt",
+  ];
 
   const sequenceSizes = {
     index: 52,
@@ -57,24 +82,24 @@ const List = ({
 
   const myCustomHeaders = [
     { label: "Order number", key: "order_id" },
-    { label: "Vendor", key: "order_supplier" },
+    { label: "Vendor", key: "supplier_id" },
     { label: "Total", key: "grand_total" },
-    { label: "Completed at", key: "product_name" },
+    { label: "Completed at", key: "delivery_date" },
     { label: "When to ship", key: "delivery_date" },
     { label: "Shipped at", key: "product_name" },
-    { label: "Note", key: "product_name" },
+    { label: "Note", key: "description" },
     { label: "Receiver phone", key: "phone" },
-    { label: "Receiver info", key: "product_name" },
-    { label: "Receiver name", key: "product_name" },
-    { label: "Branch", key: "product_name" },
-    { label: "Business type", key: "product_name" },
-    { label: "State name", key: "tradeshop_city" },
+    { label: "Receiver info", key: "business_name" },
+    { label: "Receiver name", key: "tradeshop_name" },
+    { label: "Branch", key: "phone" },
+    { label: "Business type", key: "business_type_id" },
+    { label: "City", key: "tradeshop_city" },
     { label: "District", key: "tradeshop_district" },
     { label: "Quarter", key: "product_name" },
-    { label: "Address", key: "product_name" },
+    { label: "Address", key: "address" },
     { label: "Original total", key: "product_name" },
     { label: "Status", key: "order_supplier" },
-    { label: "Register", key: "product_name" },
+    { label: "Register", key: "register" },
   ];
   // useEffect(() => {
   //   const getUsers = async () => {
@@ -107,10 +132,10 @@ const List = ({
       return;
     }
     let starts = Object.values(filterState)
-      .map((v) => {
+      ?.map((v) => {
         return v != null;
       })
-      .filter((s) => s == true);
+      ?.filter((s) => s == true);
 
     if (starts.length == 0) {
       fetchData(true);
@@ -131,14 +156,14 @@ const List = ({
 
     if (page != 0) {
       if (starts.length == 0) {
-        fetchData(false);
+        fetchData(false, false);
       } else {
-        getOrders(false);
+        getOrders(false, false);
       }
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
-  const getOrders = async (filter) => {
+  const getOrders = async (filter, loading = true) => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -187,7 +212,7 @@ const List = ({
       }
     }
     if (filterState?.phone) {
-      params += `phone=${filterState?.phone}&`;
+      params += `tradeshop_phone=${filterState?.phone}&`;
       // params += `tradeshop_phone=${parseInt(filterState.phone)}&`;
     }
 
@@ -257,17 +282,18 @@ const List = ({
 
     localStorage.setItem("url", url);
     console.log("url engiin order", url);
+
+    if (loading) setLoading(true);
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
-        console.log(res);
         if (res && res.data) {
           if (filter) {
             setData(res.data);
             setFilteredData(res.data);
           } else {
-            setData((prev) => [...prev, res.data]);
-            setFilteredData((prev) => [...prev, res.data]);
+            setData((prev) => [...prev, ...res.data]);
+            setFilteredData((prev) => [...prev, ...res.data]);
           }
         } else {
           console.error("Empty or invalid response from the API");
@@ -276,16 +302,18 @@ const List = ({
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    setLoading(false);
   };
-  const fetchData = (filter) => {
+  const fetchData = (filter, loading = true) => {
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
     };
 
-    setLoading(true);
+    if (loading) setLoading(true);
     const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
+    console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -339,10 +367,39 @@ const List = ({
   useEffect(() => {
     fetchUserData();
   }, []);
+  let headers = JSON.parse(localStorage.getItem("ordersHeaderList"));
+  let head = headers?.map((h) => h.show);
+
+  const formattedData = filteredData.map(item => ({
+    ...item,
+    delivery_date: item.delivery_date ? new Date(item.delivery_date).toLocaleDateString("en-US") : "",
+  }));
+  
+
   return (
     <>
-      <div className="OrderPageWrapper">
-        <ListHeader
+      <CSVLink
+        data={formattedData }
+        headers={myCustomHeaders}
+        filename={"Хураангүй.csv"}
+        className="export-button"
+      >
+        Хураангүй тайлан
+      </CSVLink>
+      <div
+        className="OrderPageWrapper"
+        onScroll={(e) => {
+          const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+          const tolerance = 5; // Tolerance for detecting bottom of scroll
+          const bottom = scrollHeight - clientHeight - scrollTop <= tolerance;
+
+          if (bottom && filteredData?.length % 50 === 0) {
+            setPage((prev) => prev + 1);
+          }
+        }}
+
+      >
+          <ListHeader
           fieldsData={fieldsData}
           userData={userData}
           sequence={sequence}
@@ -379,40 +436,18 @@ const List = ({
           handleSpinner={handleSpinner}
         />
         {!loading && filteredData && filteredData.length > 0 ? (
-          <div
-            className="order_wrapper"
-            onScroll={(e) => {
-              const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
-              const bottom =
-                Math.abs(scrollHeight - clientHeight - scrollTop) == 0;
-
-              if (bottom && filteredData.length % 50 == 0) {
-                setPage((prev) => prev + 1);
-              }
-            }}
-          >
-            {filteredData.map((order) => {
+          <div className="order_wrapper">
+            {filteredData?.map((order) => {
               let all = order.line
-                .map((e) => e.price * e.quantity)
-                .reduce((a, b) => a + b, 0);
-              let orderData;
-              let paid = 0;
-              try {
-                orderData = JSON.parse(order.order_data);
-                paid = orderData?.prePayment ?? 0;
-                paid = paid === "" ? 0 : paid;
-              } catch (error) {
-                console.error(
-                  "Invalid order_data JSON for order ID:",
-                  order.order_id,
-                  error
-                );
-                console.log("Received order_data:", order.order_data);
-                orderData = {};
-              }
+                ?.map((e) => e.price * e.quantity)
+                ?.reduce((a, b) => a + b);
+              let paid =
+                order.order_data != undefined
+                  ? JSON.parse(order.order_data)?.prePayment ?? 0
+                  : 0;
 
-              all = all === "" ? 0 : all;
-
+              paid = paid == "" ? 0 : paid;
+              all = all == "" ? 0 : all;
               const matchUser = delivermans?.find(
                 (user) => user.user_id === order.deliver_man
               );
@@ -422,13 +457,12 @@ const List = ({
 
               return (
                 <Order
-                  fieldsData={fieldsData}
                   fetch={() => fetchData(true)}
                   userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}
-                  sequence={sequence}
+                  head={head}
                   firstname={matchUser?.first_name ?? ""}
                   salesmanFirstname={matchHt?.first_name ?? ""}
                   onCheckboxChange={(e) =>
@@ -446,14 +480,6 @@ const List = ({
         )}
       </div>
       <Total data={filteredData} userData={userData} />
-      {/* <CSVLink
-        data={filteredData}
-        headers={myCustomHeaders}
-        filename={"orders.csv"}
-        className="export-button"
-      >
-        Export to Excel
-      </CSVLink> */}
     </>
   );
 };

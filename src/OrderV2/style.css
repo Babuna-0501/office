@@ -1,4 +1,4 @@
-.Container {
+.Container_order2 {
     display: flex;
     flex-direction: row;
     background-color: #F5F5F5;
@@ -121,50 +121,14 @@
   border-radius: 7px;
  }
 
- .pdf-content {
-  font-family: Arial, sans-serif;
-}
 
-.container-p {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-}
-
-.header-p {
-  grid-column: 1 / -1; 
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  font-weight: bold;
-  text-align: center;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-}
 
 .header-cell {
-  padding: 5px;
-  border-right: 1px solid #ddd;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 22px;
 }
 
 .table-container {
-  grid-column: 1 / -1; 
-  font-size: 12px;
+  font-size: 11px;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  border-top: 1px solid #ddd;
-  height: 60px;
-}
-
-.cell {
-  padding: 5px;
-  text-align: center;
-  border-right: 1px solid #ddd;
-}
-
-.cell:last-child {
-  border-right: none;
-}

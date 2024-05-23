@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ReportNew.css';
 import myHeaders from '../components/MyHeader/myHeader';
 import * as XLSX from 'xlsx';
+import Brief from '../components/brief/Brief'
 
 const ReportDetail = () => {
   const [startDate, setStartDate] = useState('');
@@ -79,19 +80,17 @@ const ReportDetail = () => {
         recievedAt: item.recievedAt ? new Date(item.recievedAt).toLocaleDateString('en-US') : '',
         brand: item.brand,
         productVendor: item.productVendor,
-        deliveryManFirstName: deliveryManInfo.first_name || '',
-        salesManFirstName: salesManInfo.first_name || '',
+        Түгээгч: deliveryManInfo.first_name || '',
+        ХТ: salesManInfo.first_name || '',
         Төлбөр_бэлэн: payment.m1 || '',
         Төлбөр_банк: payment.m2 || '', 
         Төлбөр_зээл: payment.m3 || '', 
-        Урьдчилгаа: orderData.prePayment || '', 
+        Урьдчилгаа: orderData?.prePayment ?? '',
       };
     });
 
-    // Create worksheet and workbook
     const worksheet = XLSX.utils.json_to_sheet(dataset);
     
-    // Adjust column widths
     const columnWidths = [
       { wch: 10 }, // orderId
       { wch: 20 }, // productName
@@ -133,7 +132,6 @@ const ReportDetail = () => {
 
     worksheet['!cols'] = columnWidths;
 
-    // Create workbook and export
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Дэлгэрэнгүй тайлан');
 
@@ -152,13 +150,11 @@ const ReportDetail = () => {
         const response = await fetch('https://api2.ebazaar.mn/api/backoffice/users', requestOptions);
         const userData = await response.json();
   
-        // Create a mapping of user IDs to user information objects
         const usersDataMap = {};
         userData.data.forEach(user => {
           usersDataMap[user.user_id] = user;
         });
   
-        // Update the users state with the mapping
         setUsers(usersDataMap);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -169,24 +165,33 @@ const ReportDetail = () => {
   }, []);
   
   return (
-    <div className='reportDetail'>
-      <h1>Захиалгын Дэлгэрэнгүй Тайлан</h1>
-      <div style={{ marginBottom: '20px' }}>
-        <label>Эхлэх огноо:</label>
-        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-        <label>Дуусах огноо:</label>
-        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-        <button onClick={fetchData} disabled={isLoading}>Тайлан бэлдэх</button>
-        {isLoading && <progress style={{ marginLeft: '10px' }} />}
+    <div className='tailan_wrapper'>
+      <div className='reportDetail'>
+        <div className='detailed'>      
+          <h1>Захиалгын Дэлгэрэнгүй Тайлан</h1>
+          <div style={{ marginBottom: '20px' }}>
+            <label>Эхлэх огноо:</label>
+            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            <label>Дуусах огноо:</label>
+            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            <button onClick={fetchData} disabled={isLoading}>Тайлан бэлдэх</button>
+            {isLoading && <progress style={{ marginLeft: '10px' }} />}
+          </div>
+          {data.length > 0 ? (
+            <>
+              <button onClick={handleExport}>Тайлан татах</button>
+            </>
+          ) : (
+            <p>Тайлангийн дата байхгүй.</p>
+          )}
+        </div>
       </div>
-      {data.length > 0 ? (
-        <>
-          <button onClick={handleExport}>Тайлан татах</button>
-        </>
-      ) : (
-        <p>Тайлангийн дата байхгүй.</p>
-      )}
+      <div className='reportDetail'>
+        <h1>Захиалгын Товч Тайлан</h1>
+        <Brief/>
+      </div>
     </div>
+  
   );
 };
 

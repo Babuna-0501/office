@@ -52,3 +52,9 @@
 .reportDetail progress {
   vertical-align: middle;
 }
+
+.tailan_wrapper {
+  display: flex;
+  width: 62rem;
+  justify-content: center;
+}

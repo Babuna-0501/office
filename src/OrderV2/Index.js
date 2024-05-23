@@ -45,7 +45,7 @@ const App = (props) => {
 
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]); // Филтэр хийж байгаа датаг энэ стэйтэд хадгаллаа.
-
+  const [users, setUsers] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [exportOpen, setExportOpen] = useState(false);
   const filterDataByDateRange = (data, startDate, endDate) => {
@@ -130,20 +130,20 @@ const App = (props) => {
         key: "id",
       },
       {
+        header: "Барааны нэр",
+        key: "product_name",
+      },
+      {
         header: "Тоо ширхэг",
-        key: "",
+        key: "quantity",
       },
       {
         header: "Нэгж үнэ",
-        key: "amount",
+        key: "unitPrice",
       },
       {
         header: "Нийт үнэ",
         key: "price",
-      },
-      {
-        header: "Эцсийн нийт үнэ",
-        key: "allPrice",
       },
       {
         header: "Үйлчилгээний газрын нэр",
@@ -159,7 +159,7 @@ const App = (props) => {
       },
       {
         header: "Түгээгч",
-        key: "deliverman",
+        key: "deliver_man",
       },
       {
         header: "Дэлгэрэнгүй хаяг",
@@ -168,60 +168,68 @@ const App = (props) => {
     ];
     let qr = 0;
     let pr = 0;
+    let deliverFee = 6000;
+  
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
+  
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
+  
+        if (item.supplier_id === 14268) {
+          pr += deliverFee;
+        }
       });
+  
       worksheet.addRow({
         number: i + 1,
         id: item.order_id,
-        name: "НИЙТ",
+        product_name: "НИЙТ",
         quantity: quantity,
         unitPrice: "",
-        price: price,
-        allPrice: price,
+        price: item.supplier_id === 14268 ? price + deliverFee : price,
         tradeshop: item.tradeshop_name,
         phone: item.tradeshop_name,
-        haritsagch: "",
-        deliverman: item.deliverman,
+        haritsagch: item.sales_man,
+        deliver_man: item.deliver_man,
         address: item.address,
       });
+  
       item.line.map((l, index) => {
         worksheet.addRow({
-          number: index + 1,
+          number: "",
           id: "",
-          name: l.product_name,
+          product_name: l.product_name,
           quantity: l.quantity,
           unitPrice: l.price,
-          price: l.amount,
-          allPrice: price,
+          price: item.supplier_id === 14268 ? l.amount + deliverFee : l.amount,
           tradeshop: "",
           phone: "",
-          haritsagch: "",
-          deliverman: "",
+          haritsagch: item.sales_man,
+          deliver_man: "",
           address: "",
         });
       });
     });
+  
     worksheet.addRow({
       number: "",
       id: "",
-      name: "GRAND TOTAL",
+      product_name: "GRAND TOTAL",
       quantity: qr,
       unitPrice: "",
       price: pr,
-      allPrice: pr,
       tradeshop: "",
       phone: "",
       haritsagch: "",
-      deliverman: "",
+      deliver_man: "",
       address: "",
     });
+  
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -229,30 +237,86 @@ const App = (props) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      const date = new Date();
-      const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-      a.download = `Тайлан ${formattedDate}`;
-
+      const formattedDate = date.toISOString().slice(0, 10);
+      a.download = `Тайлан ${formattedDate}.xlsx`;
+  
       a.click();
       window.URL.revokeObjectURL(url);
     });
   };
+  
+  
+  
+
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      try {
+        const response = await fetch('https://api2.ebazaar.mn/api/backoffice/users', requestOptions);
+        const userData = await response.json();
+  
+        // Map user data to object for faster lookups
+        const usersMap = userData.reduce((acc, user) => {
+          acc[user.user_id] = user.first_name;
+          return acc;
+        }, {});
+  
+        // Update item data with first names
+        const updatedUsersData = users.map(item => ({
+          ...item,
+          sales_man: usersMap[item.sales_man],
+          deliver_man: usersMap[item.deliver_man]
+        }));
+  
+        setUsers(updatedUsersData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+  
+    fetchUsers();
+  }, []);
+  
   const exportPdf = () => {
     let list = [];
     let qr = 0;
     let pr = 0;
+    let deliverFee = 6000; // Define the delivery fee
+  
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
+  
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
+  
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
+  
+        if (item.supplier_id === 14268) {
+          // Add the delivery fee to the price if supplier_id is 14268
+          price += deliverFee;
+          pr += deliverFee;
+        }
       });
+  
+      const salesManName =
+        users.find((user) => user.user_id === item.sales_man)?.first_name ||
+        item.sales_man;
+      const deliverManName =
+        users.find((user) => user.user_id === item.deliver_man)?.first_name ||
+        item.deliver_man;
+  
       list.push([
         i + 1,
         item.order_id,
@@ -263,10 +327,11 @@ const App = (props) => {
         price,
         item.tradeshop_name,
         item.tradeshop_name,
-        "",
-        item.deliverman,
+        salesManName,
+        deliverManName,
         item.address,
       ]);
+  
       item.line.map((l, index) => {
         list.push([
           index + 1,
@@ -284,13 +349,14 @@ const App = (props) => {
         ]);
       });
     });
+  
     list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
-
+  
     const contentHtml = generateHtmlContent(list);
-
+  
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-
+  
     html2pdf()
       .set({
         margin: 1,
@@ -302,39 +368,87 @@ const App = (props) => {
       .from(contentHtml)
       .save();
   };
-
+  
+  
+  
   const generateHtmlContent = (data) => {
-    let html = '<div class="pdf-content">';
-    html += '<div class="container-p">';
-    html += '<div class="header-p">';
-    html += '<div class="header-cell">№</div>';
-    html += '<div class="header-cell">Дугаар</div>';
-    html += '<div class="header-cell">Барааны нэр</div>';
-    html += '<div class="header-cell">Тоо ширхэг</div>';
-    html += '<div class="header-cell">Нэгж үнэ</div>';
-    html += '<div class="header-cell">Нийт үнэ</div>';
-    html += '<div class="header-cell">Эцсийн нийт үнэ</div>';
-    html += '<div class="header-cell">Үйлчилгээний газрын нэр</div>';
-    html += '<div class="header-cell">Утас</div>';
-    html += '<div class="header-cell">Хариуцсан ХТ</div>';
-    html += '<div class="header-cell">Түгээгч</div>';
-    html += '<div class="header-cell">Дэлгэрэнгүй хаяг</div>';
-    html += "</div>";
-
-    html += '<div class="table-container">';
+    let html = `
+      <style>
+        .pdf-content {
+          font-family: Arial, sans-serif;
+          width: 100%;
+          border-collapse: collapse;
+        }
+  
+        .container-p {
+          width: 100%;
+          padding: 10px;
+        }
+  
+        .header-p, .row {
+          display: grid;
+          grid-template-columns: 65px 65px 65px 65px 65px 65px 65px 100px 65px 65px 65px 100px;
+          background-color: #f2f2f2;
+        }
+  
+        .header-cell, .cell {
+          padding: 8px;
+          text-align: left;
+          height: 60px;
+        }
+  
+        .header-cell {
+          background-color: #f8f8f8;
+          font-weight: bold;
+        }
+  
+        .row:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+  
+        .row:hover {
+          background-color: #f1f1f1;
+        }
+      </style>
+      <div class="pdf-content">
+        <div class="container-p">
+          <div class="header-p">
+            <div class="header-cell">№</div>
+            <div class="header-cell">Дугаар</div>
+            <div class="header-cell">Барааны нэр</div>
+            <div class="header-cell">Тоо ширхэг</div>
+            <div class="header-cell">Нэгж үнэ</div>
+            <div class="header-cell">Нийт үнэ</div>
+            <div class="header-cell">Эцсийн нийт үнэ</div>
+            <div class="header-cell">Үйлчилгээний газрын нэр</div>
+            <div class="header-cell">Утас</div>
+            <div class="header-cell">Хариуцсан ХТ</div>
+            <div class="header-cell">Түгээгч</div>
+            <div class="header-cell">Дэлгэрэнгүй хаяг</div>
+          </div>
+          <div class="table-container">
+    `;
+  
     for (let row of data) {
       html += '<div class="row">';
       for (let cell of row) {
         html += `<div class="cell">${cell}</div>`;
       }
-      html += "</div>";
+      html += '</div>';
     }
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-
+  
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+  
     return html;
   };
+  
+  
+  
+
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
@@ -352,50 +466,56 @@ const App = (props) => {
       filteredData: filteredData,
     }));
   };
+// Түгээгч
+const updateOrdersDeliver = async (id) => {
+  try {
+    let status = 500;
+    const ordersToUpdate = filterState.checked ? filteredData.map((e) => e.order_id) : selectedOrders;
 
-  const updateOrdersDeliver = async (id) => {
-    try {
-      let status = 500;
-      const ordersToUpdate = filterState.checked
-        ? filteredData.map((e) => e.order_id)
-        : selectedOrders;
-
-      for (const order of ordersToUpdate) {
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          redirect: "follow",
-          body: JSON.stringify({
-            order_id: order,
-            backOfficeUser: id.toString(),
-          }),
-        };
-
-        console.log({
+    for (const order of ordersToUpdate) {
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: JSON.stringify({
           order_id: order,
-          backOfficeUser: id,
-        });
+          backOfficeUser: id.toString(),
+        }),
+      };
 
-        let url = `https://api2.ebazaar.mn/api/order/update`;
-        const response = await fetch(url, requestOptions);
-        const result = await response.json();
+      console.log({
+        order_id: order,
+        backOfficeUser: id,
+      });
 
-        setFilterState((prev) => ({
-          ...prev,
-          update: filterState.update == null ? true : !filterState.update,
-        }));
+      let url = `https://api2.ebazaar.mn/api/order/update`;
+      const response = await fetch(url, requestOptions);
+      const result = await response.json();
 
-        status = result.code;
-        console.log(result);
-      }
+      setFilterState((prev) => ({
+        ...prev,
+        update: filterState.update == null ? true : !filterState.update,
+      }));
 
-      status === 200 ? alert("Амжилттай") : alert("Амжилтгүй");
-    } catch (error) {
-      alert("Амжилтгүй");
-      console.log(error);
-      setFilterState((prev) => ({ ...prev, update: null }));
+      status = result.code;
+      console.log(result);
     }
-  };
+
+    if (status === 200) {
+      alert("Амжилттай");
+      // Refresh the page
+      window.location.reload();
+    } else {
+      alert("Амжилтгүй");
+    }
+  } catch (error) {
+    alert("Амжилтгүй");
+    console.log(error);
+    setFilterState((prev) => ({ ...prev, update: null }));
+  }
+};
+
+  
   useEffect(() => {
     if (filterState.checked != null && filterState.checked) {
       setSelectedOrders(filteredData.map((e) => e.order_id));
@@ -410,7 +530,6 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
-            fieldsData={fieldsData}
             userData={props.userData}
             data={data}
             setData={setData}
@@ -427,21 +546,17 @@ const App = (props) => {
     {
       label: "Захиалгын тохиргоо",
       content: () => (
-        <div>
-          <List2
-            userData={props.userData}
-            fieldsData={fieldsData}
-            setFieldsData={setFieldsData}
-            data={data}
-            setData={setData}
-            filteredData={filteredData}
-            setFilteredData={setFilteredData}
-            selectedOrders={selectedOrders}
-            setSelectedOrders={setSelectedOrders}
-            filterState={filterState}
-            setFilterState={setFilterState}
-          />
-        </div>
+        <List2
+          userData={props.userData}
+          data={data}
+          setData={setData}
+          filteredData={filteredData}
+          setFilteredData={setFilteredData}
+          selectedOrders={selectedOrders}
+          setSelectedOrders={setSelectedOrders}
+          filterState={filterState}
+          setFilterState={setFilterState}
+        />
       ),
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
@@ -450,7 +565,7 @@ const App = (props) => {
   const openExport = () => {};
 
   return (
-    <div className="Container">
+    <div className="Container_order2">
       <div className="sidebarWrapper">
         <DateFilter
           handleFilterChange={handleFilterChange}
