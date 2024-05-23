@@ -38,7 +38,7 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
-const ListHeader = (props) => {
+const ListHeader = ({ fieldsData, ...props }) => {
   const [delivermans, setDeliverMans] = useState([
     {
       user_id: "",
@@ -73,14 +73,6 @@ const ListHeader = (props) => {
   useEffect(() => {
     props.users.map((f) => {
       let d = delivermans.filter((deliver) => {
-        console.log(
-          f,
-          f.user_id !== deliver.user_id &&
-            deliver.user_id != "null" &&
-            deliver.user_id != "notNull" &&
-            deliver.user_id != ""
-        );
-        console.log(deliver.user_id);
         return (
           f.user_id != deliver.user_id &&
           deliver.user_id != "null" &&
@@ -88,7 +80,6 @@ const ListHeader = (props) => {
           deliver.user_id != ""
         );
       });
-      console.log(f);
 
       if (d.length == 0)
         setDeliverMans((prev) => [
@@ -504,16 +495,16 @@ const ListHeader = (props) => {
   };
 
   useEffect(() => {
-    if (!props.fieldsData) {
+    if (!fieldsData) {
       let lists = [];
       sequence.map((sequence) => {
         lists.push(list[sequence] != null ? list[sequence] : []);
       });
       setHTML(lists);
     } else {
-      let heads = props.fieldsData?.order?.field ?? [];
+      let heads = fieldsData?.order?.field ?? [];
       let lists = [list[sequence[0]]];
-
+      console.log(heads.sort((a, b) => a.position - b.position));
       heads
         .sort((a, b) => a.position - b.position)
         .map((head) => {
@@ -529,7 +520,7 @@ const ListHeader = (props) => {
 
       setHTML(lists);
     }
-  }, [props.fieldsData]);
+  }, [fieldsData]);
 
   // let headers = localStorage.getItem("ordersHeaderList");
 

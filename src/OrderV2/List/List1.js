@@ -12,12 +12,18 @@ const List1 = ({
   setData,
   setFilterState,
   filterState,
+  suppliers,
+  fieldsData,
+  selectedItem,
 }) => {
   return (
     <div className="list">
       <List
+        selectedItem={selectedItem}
+        suppliers={suppliers}
         userData={userData}
         data={data}
+        fieldsData={fieldsData}
         setData={setData}
         filteredData={filteredData}
         setFilteredData={setFilteredData}

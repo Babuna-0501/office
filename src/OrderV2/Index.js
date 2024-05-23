@@ -48,12 +48,42 @@ const App = (props) => {
   const [users, setUsers] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [exportOpen, setExportOpen] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.date);
       return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
     });
   };
+  const [selectedItem, setSelectedItem] = useState(null);
+  const getArigSuppliers = async () => {
+    try {
+      const url2 = `https://api2.ebazaar.mn/api/backoffice/suppliers`;
+      const requestOptions2 = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      const res = await fetch(url2, requestOptions2);
+      const resJson = await res.json();
+      
+      const suppliersList = resJson.data.map((item) => ({
+        value: item.id,
+        label: item.name,
+        media: item.media,
+        available: item.available
+      }));
+
+      setSuppliers(suppliersList);
+      console.log("Supplier list:", suppliersList);
+    } catch (err) {
+      console.log("Error fetching suppliers:", err);
+    }
+  };
+
+  useEffect(() => {
+    getArigSuppliers();
+  }, []);
 
   const [fieldsData, setFieldsData] = useState([
     {
@@ -169,22 +199,22 @@ const App = (props) => {
     let qr = 0;
     let pr = 0;
     let deliverFee = 6000;
-  
+
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
-  
+
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
-  
+
         if (item.supplier_id === 14268) {
           pr += deliverFee;
         }
       });
-  
+
       worksheet.addRow({
         number: i + 1,
         id: item.order_id,
@@ -198,7 +228,7 @@ const App = (props) => {
         deliver_man: item.deliver_man,
         address: item.address,
       });
-  
+
       item.line.map((l, index) => {
         worksheet.addRow({
           number: "",
@@ -215,7 +245,7 @@ const App = (props) => {
         });
       });
     });
-  
+
     worksheet.addRow({
       number: "",
       id: "",
@@ -229,7 +259,7 @@ const App = (props) => {
       deliver_man: "",
       address: "",
     });
-  
+
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -239,15 +269,11 @@ const App = (props) => {
       a.href = url;
       const formattedDate = date.toISOString().slice(0, 10);
       a.download = `Тайлан ${formattedDate}.xlsx`;
-  
+
       a.click();
       window.URL.revokeObjectURL(url);
     });
   };
-  
-  
-  
-
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -256,67 +282,70 @@ const App = (props) => {
         headers: myHeaders,
         redirect: "follow",
       };
-  
+
       try {
-        const response = await fetch('https://api2.ebazaar.mn/api/backoffice/users', requestOptions);
+        const response = await fetch(
+          "https://api2.ebazaar.mn/api/backoffice/users",
+          requestOptions
+        );
         const userData = await response.json();
-  
+
         // Map user data to object for faster lookups
         const usersMap = userData.reduce((acc, user) => {
           acc[user.user_id] = user.first_name;
           return acc;
         }, {});
-  
+
         // Update item data with first names
-        const updatedUsersData = users.map(item => ({
+        const updatedUsersData = users.map((item) => ({
           ...item,
           sales_man: usersMap[item.sales_man],
-          deliver_man: usersMap[item.deliver_man]
+          deliver_man: usersMap[item.deliver_man],
         }));
-  
+
         setUsers(updatedUsersData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
-  
+
     fetchUsers();
   }, []);
-  
+
   const exportPdf = () => {
     let list = [];
     let qr = 0;
     let pr = 0;
     let deliverFee = 6000; // Define the delivery fee
-  
+
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
-  
+
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
-  
+
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
-  
+
         if (item.supplier_id === 14268) {
           // Add the delivery fee to the price if supplier_id is 14268
           price += deliverFee;
           pr += deliverFee;
         }
       });
-  
+
       const salesManName =
         users.find((user) => user.user_id === item.sales_man)?.first_name ||
         item.sales_man;
       const deliverManName =
         users.find((user) => user.user_id === item.deliver_man)?.first_name ||
         item.deliver_man;
-  
+
       list.push([
         i + 1,
         item.order_id,
@@ -331,7 +360,7 @@ const App = (props) => {
         deliverManName,
         item.address,
       ]);
-  
+
       item.line.map((l, index) => {
         list.push([
           index + 1,
@@ -349,14 +378,14 @@ const App = (props) => {
         ]);
       });
     });
-  
+
     list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
-  
+
     const contentHtml = generateHtmlContent(list);
-  
+
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-  
+
     html2pdf()
       .set({
         margin: 1,
@@ -368,9 +397,7 @@ const App = (props) => {
       .from(contentHtml)
       .save();
   };
-  
-  
-  
+
   const generateHtmlContent = (data) => {
     let html = `
       <style>
@@ -428,27 +455,23 @@ const App = (props) => {
           </div>
           <div class="table-container">
     `;
-  
+
     for (let row of data) {
       html += '<div class="row">';
       for (let cell of row) {
         html += `<div class="cell">${cell}</div>`;
       }
-      html += '</div>';
+      html += "</div>";
     }
-  
+
     html += `
           </div>
         </div>
       </div>
     `;
-  
+
     return html;
   };
-  
-  
-  
-
 
   const handleFilterChange = (selectedFilter, startDate, endDate) => {
     const dataToFilter = [...selectedFilter];
@@ -466,56 +489,57 @@ const App = (props) => {
       filteredData: filteredData,
     }));
   };
-// Түгээгч
-const updateOrdersDeliver = async (id) => {
-  try {
-    let status = 500;
-    const ordersToUpdate = filterState.checked ? filteredData.map((e) => e.order_id) : selectedOrders;
+  // Түгээгч
+  const updateOrdersDeliver = async (id) => {
+    try {
+      let status = 500;
+      const ordersToUpdate = filterState.checked
+        ? filteredData.map((e) => e.order_id)
+        : selectedOrders;
 
-    for (const order of ordersToUpdate) {
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify({
+      for (const order of ordersToUpdate) {
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          redirect: "follow",
+          body: JSON.stringify({
+            order_id: order,
+            backOfficeUser: id.toString(),
+          }),
+        };
+
+        console.log({
           order_id: order,
-          backOfficeUser: id.toString(),
-        }),
-      };
+          backOfficeUser: id,
+        });
 
-      console.log({
-        order_id: order,
-        backOfficeUser: id,
-      });
+        let url = `https://api2.ebazaar.mn/api/order/update`;
+        const response = await fetch(url, requestOptions);
+        const result = await response.json();
 
-      let url = `https://api2.ebazaar.mn/api/order/update`;
-      const response = await fetch(url, requestOptions);
-      const result = await response.json();
+        setFilterState((prev) => ({
+          ...prev,
+          update: filterState.update == null ? true : !filterState.update,
+        }));
 
-      setFilterState((prev) => ({
-        ...prev,
-        update: filterState.update == null ? true : !filterState.update,
-      }));
+        status = result.code;
+        console.log(result);
+      }
 
-      status = result.code;
-      console.log(result);
-    }
-
-    if (status === 200) {
-      alert("Амжилттай");
-      // Refresh the page
-      window.location.reload();
-    } else {
+      if (status === 200) {
+        alert("Амжилттай");
+        // Refresh the page
+        window.location.reload();
+      } else {
+        alert("Амжилтгүй");
+      }
+    } catch (error) {
       alert("Амжилтгүй");
+      console.log(error);
+      setFilterState((prev) => ({ ...prev, update: null }));
     }
-  } catch (error) {
-    alert("Амжилтгүй");
-    console.log(error);
-    setFilterState((prev) => ({ ...prev, update: null }));
-  }
-};
+  };
 
-  
   useEffect(() => {
     if (filterState.checked != null && filterState.checked) {
       setSelectedOrders(filteredData.map((e) => e.order_id));
@@ -530,6 +554,9 @@ const updateOrdersDeliver = async (id) => {
       content: () => (
         <div>
           <List1
+            selectedItem={selectedItem}
+            suppliers={suppliers}
+            fieldsData={fieldsData}
             userData={props.userData}
             data={data}
             setData={setData}
@@ -547,6 +574,7 @@ const updateOrdersDeliver = async (id) => {
       label: "Захиалгын тохиргоо",
       content: () => (
         <List2
+          fieldsData={fieldsData}
           userData={props.userData}
           data={data}
           setData={setData}
@@ -572,6 +600,9 @@ const updateOrdersDeliver = async (id) => {
           selectedFilter={filterState.selectedDate}
         />
         <Sidebar
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+          suppliers={suppliers}
           onClick={(e) => {
             setFilterState((prev) => ({ ...prev, arigSupplier: e }));
           }}

@@ -9,7 +9,7 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import { ProductModal } from "../components/product/modal";
 import { NoteOrderDetail } from "../components/note";
 
-const Order = (props) => {
+const Order = ({ fieldsData, ...props }) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
 
@@ -340,7 +340,7 @@ const Order = (props) => {
   };
   // 14,
   useEffect(() => {
-    const fieldsCopy = [...(props.fieldsData?.order?.field ?? [])];
+    const fieldsCopy = [...(fieldsData?.order?.field ?? [])];
 
     for (const field of fieldsCopy) {
       switch (field.id) {
@@ -589,7 +589,7 @@ const Order = (props) => {
     }
 
     setFields(fieldsCopy);
-  }, [props.fieldsData]);
+  }, [fieldsData]);
 
   const submit = async () => {
     try {

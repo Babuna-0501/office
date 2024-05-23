@@ -6,6 +6,7 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
+import { sequence } from "../List/List2";
 
 const List = ({
   filterState,
@@ -18,6 +19,8 @@ const List = ({
   fieldsData,
   filteredData,
   setFilteredData,
+  selectedItem,
+  suppliers,
 }) => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,32 +29,6 @@ const List = ({
   const [totalData, SetTotalData] = useState([]);
   const [hariutsagch, setHariutsagch] = useState();
   const [delivermans, setDeliverMans] = useState([]);
-  const sequence = [
-    "index",
-    "id",
-    "status",
-    "orderlist",
-    "orderdate",
-    "deliverydate",
-    "paidamount",
-    "note",
-    "customerphone",
-    "customer",
-    "merchants",
-    "customerchannel",
-    "city",
-    "district",
-    "khoroo",
-    "address",
-    "paymenttype",
-    "srcode",
-    "origin",
-    "vat",
-    "salesman",
-    "deliveryman",
-    "manager",
-    "butsaalt",
-  ];
 
   const sequenceSizes = {
     index: 52,
@@ -164,6 +141,13 @@ const List = ({
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
   const getOrders = async (filter, loading = true) => {
+    let sfa = JSON.parse(
+      selectedItem == null
+        ? suppliers[0].available
+        : suppliers.filter((s) => s.value == selectedItem)?.[0]?.available ??
+            suppliers[0].available
+    ).sfa;
+
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -228,20 +212,9 @@ const List = ({
       } else {
         // null utga awdag
         params += `delivery_man=${filterState.deliveryman.toString()}` + "&";
-        console.log(params);
-        // null utga awdaggui
-        // params += `deliveryManNotNull=true&deliver_man=${
-        //   deliver.length > 0 ? deliver[0].user_id : filterState.deliveryman
-        // }&`;
       }
     }
-    // if (filterState.status) {
-    //   if (filterState.status === 14 || filterState.status === 15) {
-    //     changeParams(filterState.status, "shipment_status");
-    //   } else {
-    //     changeParams(filterState.status, "order_status");
-    //   }
-    // }
+
     if (filterState.status) {
       changeParams(filterState.status, "order_status");
     }
@@ -277,8 +250,10 @@ const List = ({
           : filterState.arigSupplier
       }&`;
     }
-
-    url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
+    console.log(sfa);
+    url = `https://api2.ebazaar.mn/api/order/${
+      sfa ? "sfa" : "b2b"
+    }?${params}page=${page}`;
 
     localStorage.setItem("url", url);
     console.log("url engiin order", url);
@@ -296,6 +271,7 @@ const List = ({
             setFilteredData((prev) => [...prev, ...res.data]);
           }
         } else {
+          console.log(res);
           console.error("Empty or invalid response from the API");
         }
       })
@@ -370,16 +346,17 @@ const List = ({
   let headers = JSON.parse(localStorage.getItem("ordersHeaderList"));
   let head = headers?.map((h) => h.show);
 
-  const formattedData = filteredData.map(item => ({
+  const formattedData = filteredData.map((item) => ({
     ...item,
-    delivery_date: item.delivery_date ? new Date(item.delivery_date).toLocaleDateString("en-US") : "",
+    delivery_date: item.delivery_date
+      ? new Date(item.delivery_date).toLocaleDateString("en-US")
+      : "",
   }));
-  
 
   return (
     <>
       <CSVLink
-        data={formattedData }
+        data={formattedData}
         headers={myCustomHeaders}
         filename={"Хураангүй.csv"}
         className="export-button"
@@ -397,9 +374,8 @@ const List = ({
             setPage((prev) => prev + 1);
           }
         }}
-
       >
-          <ListHeader
+        <ListHeader
           fieldsData={fieldsData}
           userData={userData}
           sequence={sequence}
@@ -457,6 +433,7 @@ const List = ({
 
               return (
                 <Order
+                  fieldsData={fieldsData}
                   fetch={() => fetchData(true)}
                   userData={userData}
                   payment={{ balance: all - paid, all: all, paid: paid }}
