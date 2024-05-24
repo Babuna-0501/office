@@ -71,7 +71,7 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
   useEffect(() => {
-    if (delivermans.length - 3 < users.length) {
+    if (delivermans.length - 3 < users?.length) {
       setDeliverMans([
         {
           user_id: "",
@@ -96,7 +96,7 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
   }, [users]);
 
   useEffect(() => {
-    if (ht.length - 3 < hts.length) {
+    if (ht.length - 3 < hts?.length) {
       setHt([
         {
           user_id: "",
