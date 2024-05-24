@@ -38,7 +38,7 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
-const ListHeader = ({ fieldsData, ...props }) => {
+const ListHeader = ({ fieldsData, hts, users, ...props }) => {
   const [delivermans, setDeliverMans] = useState([
     {
       user_id: "",
@@ -71,47 +71,54 @@ const ListHeader = ({ fieldsData, ...props }) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
   useEffect(() => {
-    props.users.map((f) => {
-      let d = delivermans.filter((deliver) => {
-        return (
-          f.user_id != deliver.user_id &&
-          deliver.user_id != "null" &&
-          deliver.user_id != "notNull" &&
-          deliver.user_id != ""
-        );
-      });
-
-      if (d.length == 0)
-        setDeliverMans((prev) => [
-          ...prev,
-          {
-            user_id: f.user_id,
-            first_name: f.first_name,
-          },
-        ]);
-    });
-  }, [props.users]);
+    if (delivermans.length - 3 < users.length) {
+      setDeliverMans([
+        {
+          user_id: "",
+          first_name: "Бүгд",
+        },
+        {
+          user_id: "null",
+          first_name: "Хуваарьлаагүй",
+        },
+        {
+          user_id: "notNull",
+          first_name: "Хуваарьласан",
+        },
+        ...users.map((h) => {
+          return {
+            user_id: h.user_id,
+            first_name: h.first_name,
+          };
+        }),
+      ]);
+    }
+  }, [users]);
 
   useEffect(() => {
-    props.hts?.map((f) => {
-      let d = ht.filter(
-        (deliver) =>
-          f.user_id != deliver.user_id &&
-          deliver.user_id != "null" &&
-          deliver.user_id != "notNull" &&
-          deliver.user_id != ""
-      );
-
-      if (d.length == 0)
-        setHt((prev) => [
-          ...prev,
-          {
-            user_id: f.user_id,
-            first_name: f.first_name,
-          },
-        ]);
-    });
-  }, [props.hts]);
+    if (ht.length - 3 < hts.length) {
+      setHt([
+        {
+          user_id: "",
+          first_name: "Бүгд",
+        },
+        {
+          user_id: "null",
+          first_name: "Хуваарьлаагүй",
+        },
+        {
+          user_id: "notNull",
+          first_name: "Хуваарьласан",
+        },
+        ...hts.map((h) => {
+          return {
+            user_id: h.user_id,
+            first_name: h.first_name,
+          };
+        }),
+      ]);
+    }
+  }, [hts]);
 
   const handleChange = (event, key) => {
     const { target } = event;
@@ -496,31 +503,32 @@ const ListHeader = ({ fieldsData, ...props }) => {
 
   useEffect(() => {
     if (!fieldsData) {
-      let lists = [];
-      sequence.map((sequence) => {
-        lists.push(list[sequence] != null ? list[sequence] : []);
-      });
-      setHTML(lists);
+      setHTML(
+        sequence.map((sequence) => {
+          return list[sequence] != null ? list[sequence] : [];
+        })
+      );
     } else {
       let heads = fieldsData?.order?.field ?? [];
-      let lists = [list[sequence[0]]];
-      console.log(heads.sort((a, b) => a.position - b.position));
-      heads
-        .sort((a, b) => a.position - b.position)
-        .map((head) => {
-          if (
-            head.position >= 0 &&
-            head.show &&
-            !visibles.includes(head.id) &&
-            head.permission
-          ) {
-            lists.push(list[sequence[head.id]]);
-          }
-        });
 
-      setHTML(lists);
+      setHTML([
+        list[sequence[0]],
+        ...heads
+          .sort((a, b) => a.position - b.position)
+          .map((head) => {
+            if (
+              head.position >= 0 &&
+              head.show &&
+              !visibles.includes(head.id) &&
+              head.permission
+            ) {
+              return list[sequence[head.id]];
+            }
+          })
+          .filter((f) => f != undefined),
+      ]);
     }
-  }, [fieldsData]);
+  }, [fieldsData, ht, users]);
 
   // let headers = localStorage.getItem("ordersHeaderList");
 

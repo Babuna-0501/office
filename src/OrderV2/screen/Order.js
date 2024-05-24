@@ -98,7 +98,7 @@ const Order = ({ fieldsData, ...props }) => {
     setEdit(undefined);
     setIsOpen(false);
   };
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState(fieldsData?.order?.field ?? []);
   const editData = async () => {
     try {
       setEditedOrders((prev) => [...prev, edit]);
@@ -339,257 +339,6 @@ const Order = ({ fieldsData, ...props }) => {
     } catch (error) {}
   };
   // 14,
-  useEffect(() => {
-    const fieldsCopy = [...(fieldsData?.order?.field ?? [])];
-
-    for (const field of fieldsCopy) {
-      switch (field.id) {
-        case 1:
-          field.contents = (
-            <div className="order_id" key={field.id}>
-              <div className="fullcontainer idWrapper">
-                <span>{data.order_id}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 5:
-          field.contents = (
-            <div className="order_product" key={field.id}>
-              <div className="fullcontainer">
-                <ProductAvatar data={data} />
-              </div>
-            </div>
-          );
-          break;
-        case 35:
-          field.contents = (
-            <div className="order_date" key={field.id}>
-              <div className="fullcontainer order_date">
-                <span>{formatDate(data.order_date)}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 36:
-          field.contents = (
-            <div className="delivery_date" key={field.id}>
-              <div className="fullcontainer order_date">
-                <span>{formatDate(data.delivery_date)}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 9:
-          field.contents =
-            props.data.supplier_id === 14268 ? (
-              <div className="payment_mode" onClick={(e) => handleOpen(e)}>
-                <div className="fullcontainer price_wrapper idWrapper">
-                  {data && <span>{data.grand_total + 6000}₮</span>}
-                  {data && <span>{data.payment_amount}₮</span>}
-                </div>
-              </div>
-            ) : (
-              <div className="payment_mode" onClick={(e) => handleOpen(e)}>
-                <div className="fullcontainer price_wrapper idWrapper">
-                  {data && <span>{data.grand_total}₮</span>}
-                  {data && <span>{data.payment_amount}₮</span>}
-                </div>
-              </div>
-            );
-          break;
-        case 12:
-          field.contents = (
-            <div className="cancel_reason" key={field.id}>
-              <div className="fullcontainer">
-                <span className="order_desc-l">
-                  {data.description && data.description.length > 0
-                    ? `${JSON.parse(data.description)?.[0]?.body} (${
-                        JSON.parse(data.description)?.[0]?.date?.length > 0
-                          ? JSON.parse(data.description)?.[0]
-                              ?.date.toString()
-                              .substring(0, 10)
-                          : null
-                      })`
-                    : null}
-                </span>
-              </div>
-            </div>
-          );
-          break;
-        case 13:
-          field.contents = (
-            <div className="phone" key={field.id}>
-              <div className="fullcontainer">
-                <span className="elips">{data.phone}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 7:
-          field.contents = (
-            <div className="merchant" key={field.id}>
-              <div className="fullcontainer">
-                <span className="elips">{data.tradeshop_name}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 15:
-          field.contents = (
-            <div className="business_type" key={field.id}>
-              <div className="fullcontainer">
-                <span className="elips">{businessTypeName}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 16:
-          field.contents = (
-            <div className="tradeshop_city" key={field.id}>
-              <div className="fullcontainer">
-                {location ? (
-                  <span>{location.location_name}</span>
-                ) : (
-                  <span>Байршил олдсонгүй</span>
-                )}
-              </div>
-            </div>
-          );
-          break;
-        case 17:
-          field.contents = (
-            <div className="tradeshop_district" key={field.id}>
-              <div className="fullcontainer">
-                {location2 ? (
-                  <span>{location2.location_name}</span>
-                ) : (
-                  <span>Байршил олдсонгүй</span>
-                )}
-              </div>
-            </div>
-          );
-          break;
-        case 18:
-          field.contents = (
-            <div className="tradeshop_horoo" key={field.id}>
-              <div className="fullcontainer">
-                {location3 ? (
-                  <span>{location3.location_name}</span>
-                ) : (
-                  <span>
-                    Байршил <br /> олдсонгүй
-                  </span>
-                )}
-              </div>
-            </div>
-          );
-          break;
-        case 19:
-          field.contents = (
-            <div className="full_address" key={field.id}>
-              <div className="fullcontainer">
-                <span className="elips">{data.address}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 20:
-          field.contents = (
-            <div className="payment_type" key={field.id}>
-              <div className="fullcontainer">
-                <span>Дансаар</span>
-              </div>
-            </div>
-          );
-          break;
-        case 21:
-          field.contents = (
-            <div className="pick_pack" key={field.id}>
-              <div className="fullcontainer">
-                <span>Pickpack</span>
-              </div>
-            </div>
-          );
-          break;
-        case 22:
-          field.contents = (
-            <div className="origin" key={field.id}>
-              <div className="fullcontainer">
-                <span>{data.origin}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 23:
-          field.contents = (
-            <div className="vat" key={field.id}>
-              <div className="fullcontainer">
-                <span>VAT</span>
-              </div>
-            </div>
-          );
-          break;
-        case 33:
-          field.contents = (
-            <div className="salesman" key={field.id}>
-              <div className="fullcontainer">
-                <span>{data.sales_man_employee_id}</span>&nbsp;
-                <span>{props?.salesmanFirstname || ""}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 28:
-          field.contents = (
-            <div className="deliveryman" key={field.id}>
-              <div className="fullcontainer">
-                <span>{data.deliver_man}</span>&nbsp;
-                <span>{props?.firstname || ""}</span>
-              </div>
-            </div>
-          );
-          break;
-        case 25:
-          field.contents = (
-            <div className="manager" key={field.id}>
-              <div className="fullcontainer">
-                <span>manager</span>
-              </div>
-            </div>
-          );
-          break;
-        case 32:
-          field.contents = (
-            <div className="butsaalt" key={field.id}>
-              <div className="fullcontainer">
-                <span>butsaalt</span>
-              </div>
-            </div>
-          );
-          break;
-        case 34:
-          field.contents = (
-            <div className="order_supplier" key={field.id}>
-              <div className="fullcontainer">
-                <span
-                  className="statusbar"
-                  style={{ backgroundColor: color, color: fontColor }}
-                >
-                  {name}
-                </span>
-              </div>
-            </div>
-          );
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    setFields(fieldsCopy);
-  }, [fieldsData]);
 
   const submit = async () => {
     try {
@@ -738,9 +487,248 @@ const Order = ({ fieldsData, ...props }) => {
         {fields
           .sort((a, b) => a.position - b.position)
           .map((field) => {
-            return field.position >= 0 && field.permission && field.show
-              ? field.contents
-              : null;
+            switch (field.id) {
+              case 1:
+                return (
+                  <div className="order_id" key={field.id}>
+                    <div className="fullcontainer idWrapper">
+                      <span>{data.order_id}</span>
+                    </div>
+                  </div>
+                );
+
+              case 5:
+                return (
+                  <div className="order_product" key={field.id}>
+                    <div className="fullcontainer">
+                      <ProductAvatar data={data} />
+                    </div>
+                  </div>
+                );
+
+              case 35:
+                return (
+                  <div className="order_date" key={field.id}>
+                    <div className="fullcontainer order_date">
+                      <span>{formatDate(data.order_date)}</span>
+                    </div>
+                  </div>
+                );
+
+              case 36:
+                return (
+                  <div className="delivery_date" key={field.id}>
+                    <div className="fullcontainer order_date">
+                      <span>{formatDate(data.delivery_date)}</span>
+                    </div>
+                  </div>
+                );
+
+              case 9:
+                return props.data.supplier_id === 14268 ? (
+                  <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+                    <div className="fullcontainer price_wrapper idWrapper">
+                      {data && <span>{data.grand_total + 6000}₮</span>}
+                      {data && <span>{data.payment_amount}₮</span>}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+                    <div className="fullcontainer price_wrapper idWrapper">
+                      {data && <span>{data.grand_total}₮</span>}
+                      {data && <span>{data.payment_amount}₮</span>}
+                    </div>
+                  </div>
+                );
+
+              case 12:
+                return (
+                  <div className="cancel_reason" key={field.id}>
+                    <div className="fullcontainer">
+                      <span className="order_desc-l">
+                        {data.description && data.description.length > 0
+                          ? `${JSON.parse(data.description)?.[0]?.body} (${
+                              JSON.parse(data.description)?.[0]?.date?.length >
+                              0
+                                ? JSON.parse(data.description)?.[0]
+                                    ?.date.toString()
+                                    .substring(0, 10)
+                                : null
+                            })`
+                          : null}
+                      </span>
+                    </div>
+                  </div>
+                );
+
+              case 13:
+                return (
+                  <div className="phone" key={field.id}>
+                    <div className="fullcontainer">
+                      <span className="elips">{data.phone}</span>
+                    </div>
+                  </div>
+                );
+
+              case 7:
+                return (
+                  <div className="merchant" key={field.id}>
+                    <div className="fullcontainer">
+                      <span className="elips">{data.tradeshop_name}</span>
+                    </div>
+                  </div>
+                );
+
+              case 15:
+                return (
+                  <div className="business_type" key={field.id}>
+                    <div className="fullcontainer">
+                      <span className="elips">{businessTypeName}</span>
+                    </div>
+                  </div>
+                );
+
+              case 16:
+                return (
+                  <div className="tradeshop_city" key={field.id}>
+                    <div className="fullcontainer">
+                      {location ? (
+                        <span>{location.location_name}</span>
+                      ) : (
+                        <span>Байршил олдсонгүй</span>
+                      )}
+                    </div>
+                  </div>
+                );
+
+              case 17:
+                return (
+                  <div className="tradeshop_district" key={field.id}>
+                    <div className="fullcontainer">
+                      {location2 ? (
+                        <span>{location2.location_name}</span>
+                      ) : (
+                        <span>Байршил олдсонгүй</span>
+                      )}
+                    </div>
+                  </div>
+                );
+
+              case 18:
+                return (
+                  <div className="tradeshop_horoo" key={field.id}>
+                    <div className="fullcontainer">
+                      {location3 ? (
+                        <span>{location3.location_name}</span>
+                      ) : (
+                        <span>
+                          Байршил <br /> олдсонгүй
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+
+              case 19:
+                return (
+                  <div className="full_address" key={field.id}>
+                    <div className="fullcontainer">
+                      <span className="elips">{data.address}</span>
+                    </div>
+                  </div>
+                );
+
+              case 20:
+                return (
+                  <div className="payment_type" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>Дансаар</span>
+                    </div>
+                  </div>
+                );
+
+              case 21:
+                return (
+                  <div className="pick_pack" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>Pickpack</span>
+                    </div>
+                  </div>
+                );
+
+              case 22:
+                return (
+                  <div className="origin" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>{data.origin}</span>
+                    </div>
+                  </div>
+                );
+
+              case 23:
+                return (
+                  <div className="vat" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>VAT</span>
+                    </div>
+                  </div>
+                );
+
+              case 33:
+                return (
+                  <div className="salesman" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>{data.sales_man}</span>&nbsp;
+                      <span>{props?.salesmanFirstname || ""}</span>
+                    </div>
+                  </div>
+                );
+
+              case 28:
+                return (
+                  <div className="deliveryman" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>{data.deliver_man}</span>&nbsp;
+                      <span>{props?.firstname || ""}</span>
+                    </div>
+                  </div>
+                );
+
+              case 25:
+                return (
+                  <div className="manager" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>manager</span>
+                    </div>
+                  </div>
+                );
+
+              case 32:
+                return (
+                  <div className="butsaalt" key={field.id}>
+                    <div className="fullcontainer">
+                      <span>butsaalt</span>
+                    </div>
+                  </div>
+                );
+
+              case 34:
+                return (
+                  <div className="order_supplier" key={field.id}>
+                    <div className="fullcontainer">
+                      <span
+                        className="statusbar"
+                        style={{ backgroundColor: color, color: fontColor }}
+                      >
+                        {name}
+                      </span>
+                    </div>
+                  </div>
+                );
+
+              default:
+                return;
+            }
           })}
 
         <div className="delete">

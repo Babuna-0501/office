@@ -49,6 +49,7 @@ const App = (props) => {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [exportOpen, setExportOpen] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
+  const [sfa, setSfa] = useState(false);
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.date);
@@ -66,20 +67,36 @@ const App = (props) => {
       };
       const res = await fetch(url2, requestOptions2);
       const resJson = await res.json();
-      
+
       const suppliersList = resJson.data.map((item) => ({
         value: item.id,
         label: item.name,
         media: item.media,
-        available: item.available
+        available: item.available,
       }));
 
       setSuppliers(suppliersList);
+
       console.log("Supplier list:", suppliersList);
     } catch (err) {
       console.log("Error fetching suppliers:", err);
     }
   };
+  useEffect(() => {
+    let sfa = false;
+    try {
+      sfa = JSON.parse(
+        selectedItem == null
+          ? suppliers[0].available
+          : suppliers.filter((s) => s.value == selectedItem)?.[0]?.available ??
+              suppliers[0].available
+      ).sfa;
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("sfa", sfa);
+    setSfa(sfa);
+  }, [selectedItem, suppliers]);
 
   useEffect(() => {
     getArigSuppliers();
@@ -291,7 +308,7 @@ const App = (props) => {
         const userData = await response.json();
 
         // Map user data to object for faster lookups
-        const usersMap = userData.reduce((acc, user) => {
+        const usersMap = userData?.data?.reduce((acc, user) => {
           acc[user.user_id] = user.first_name;
           return acc;
         }, {});
@@ -554,8 +571,7 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
-            selectedItem={selectedItem}
-            suppliers={suppliers}
+            suppliers={sfa}
             fieldsData={fieldsData}
             userData={props.userData}
             data={data}

@@ -22,7 +22,7 @@ const List = ({
   selectedItem,
   suppliers,
 }) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [interval, setIntervalDate] = useState(["", ""]);
 
@@ -104,10 +104,11 @@ const List = ({
   // }, []);
   useEffect(() => {
     // console.log("EFFECT", props.hariutsagchNer);
-    setPage(0);
+    setPage(1);
     if (filterState.checked != null) {
       return;
     }
+
     let starts = Object.values(filterState)
       ?.map((v) => {
         return v != null;
@@ -119,11 +120,12 @@ const List = ({
     } else {
       getOrders(true);
     }
-  }, [filterState]); // Хуудас солигдох үед датаг fetch хийнэ.
+  }, [filterState, suppliers]); // Хуудас солигдох үед датаг fetch хийнэ.
   useEffect(() => {
     if (filterState.checked != null) {
       return;
     }
+    console.log("sfa 1", suppliers);
 
     let starts = Object.values(filterState)
       .map((v) => {
@@ -131,7 +133,7 @@ const List = ({
       })
       .filter((s) => s == true);
 
-    if (page != 0) {
+    if (page != 1) {
       if (starts.length == 0) {
         fetchData(false, false);
       } else {
@@ -141,13 +143,6 @@ const List = ({
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
   const getOrders = async (filter, loading = true) => {
-    let sfa = JSON.parse(
-      selectedItem == null
-        ? suppliers[0].available
-        : suppliers.filter((s) => s.value == selectedItem)?.[0]?.available ??
-            suppliers[0].available
-    ).sfa;
-
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -227,7 +222,7 @@ const List = ({
       changeParams(filterState.business_type, "business_type");
     }
     if (filterState.city) {
-      changeParams(filterState.city, "city");
+      changeParams(filterState.city, "tradeshop_city");
     }
     if (filterState.district) {
       changeParams(filterState.district, "tradeshop_disctrict");
@@ -250,9 +245,9 @@ const List = ({
           : filterState.arigSupplier
       }&`;
     }
-    console.log(sfa);
+
     url = `https://api2.ebazaar.mn/api/order/${
-      sfa ? "sfa" : "b2b"
+      suppliers ? "sfa" : "b2b"
     }?${params}page=${page}`;
 
     localStorage.setItem("url", url);
@@ -262,13 +257,14 @@ const List = ({
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
-        if (res && res.data) {
+        console.log(res);
+        if (res?.message == "success") {
           if (filter) {
-            setData(res.data);
-            setFilteredData(res.data);
+            setData(res.orders);
+            setFilteredData(res.orders);
           } else {
-            setData((prev) => [...prev, ...res.data]);
-            setFilteredData((prev) => [...prev, ...res.data]);
+            setData((prev) => [...prev, ...res.orders]);
+            setFilteredData((prev) => [...prev, ...res.orders]);
           }
         } else {
           console.log(res);
@@ -288,17 +284,20 @@ const List = ({
     };
 
     if (loading) setLoading(true);
-    const url = `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page}`;
+    const url = `https://api2.ebazaar.mn/api/order/${
+      suppliers ? "sfa" : "b2b"
+    }?order_type=1&page=${page}`;
+
     console.log("url engiin order", url);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (filter) {
-          setData(result.data);
-          setFilteredData(result.data);
+          setData(result.orders);
+          setFilteredData(result.orders);
         } else {
-          setData((prev) => [...prev, result.data]);
-          setFilteredData((prev) => [...prev, ...result.data]);
+          setData((prev) => [...prev, ...result.orders]);
+          setFilteredData((prev) => [...prev, ...result.orders]);
         }
       })
       .catch((error) => console.log("error", error))
@@ -307,7 +306,7 @@ const List = ({
 
   //Филтэр хийсэн датаг энд update хийж байна
   const handleFilterChange = (field, value) => {
-    const filtered = data.filter((item) =>
+    const filtered = data?.filter((item) =>
       item[field].toString().includes(value.toString())
     );
     setFilteredData(filtered);
@@ -428,7 +427,7 @@ const List = ({
                 (user) => user.user_id === order.deliver_man
               );
               const matchHt = delivermans?.find(
-                (user) => user.user_id === order.sales_man_employee_id
+                (user) => user.user_id === order.sales_man
               );
 
               return (
