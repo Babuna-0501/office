@@ -18,6 +18,7 @@ const List1 = ({
 }) => {
   return (
     <div className="list">
+      {/* <div className="list"> */}
       <List
         selectedItem={selectedItem}
         suppliers={suppliers}
