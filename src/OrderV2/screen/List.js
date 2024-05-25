@@ -247,7 +247,7 @@ const List = ({
     }
     const admin = userData.user_id == 1;
     url = admin
-      ? `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page - 1}`
+      ? `https://api2.ebazaar.mn/api/orders/?${params}page=${p - 1}`
       : `https://api2.ebazaar.mn/api/order/${
           suppliers ? "sfa" : "b2b"
         }?${params}page=${p}`;
