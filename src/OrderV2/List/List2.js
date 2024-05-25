@@ -402,7 +402,7 @@ const List2 = ({
       .then((res) => {
         if (res.code === 200) {
           alert(`${res.message}`);
-          // window.location.reload();
+          window.location.reload();
         }
       })
       .catch((error) => {

@@ -48,6 +48,7 @@ export const ExportModal = ({
   let pr = 0;
   let deliverFee = 6000;
   let totalAmount = 0;
+  let paids = 0;
 
   if (!open) return null;
 
@@ -79,21 +80,21 @@ export const ExportModal = ({
           </div>
         </div>
         <div className="modal_table_head">
-              <span className="flex-1">№</span>
-              <span className="flex-3">Дугаар</span>
-              <span>Барааны нэр</span>
-              <span className="flex-4">Тоо ширхэг</span>
-              <span className="flex-4">Нэгж үнэ</span>
-              <span className="flex-5">Нийт үнэ</span>
-              <span className="flex-6">Үйлчилгээний газрын нэр</span>
-              <span className="flex-3">Утас</span>
-              <span className="flex-4">Хариуцсан ХТ</span>
-              <span className="flex-4">Түгээгч</span>
-              <span className="flex-8">Хаяг</span>
-            </div>
+          <span className="flex-1">№</span>
+          <span className="flex-3">Дугаар</span>
+          <span>Барааны нэр</span>
+          <span className="flex-4">Тоо ширхэг</span>
+          <span className="flex-4">Нэгж үнэ</span>
+          <span className="flex-5">Төлсөн</span>
+          <span className="flex-5">Нийт үнэ</span>
+          <span className="flex-6">Үйлчилгээний газрын нэр</span>
+          <span className="flex-3">Утас</span>
+          <span className="flex-4">Хариуцсан ХТ</span>
+          <span className="flex-4">Түгээгч</span>
+          <span className="flex-8">Хаяг</span>
+        </div>
         <main className="modal-mainContents">
           <div className="modal_table">
-     
             {payload?.map((p, i) => {
               let quantity = 0;
               let price = 0;
@@ -110,7 +111,11 @@ export const ExportModal = ({
                   totalAmount += l.price_amount;
                 }
               });
-
+              let paid =
+                p.order_data != undefined
+                  ? JSON.parse(p.order_data)?.prePayment ?? 0
+                  : 0;
+              paids += paid;
               return (
                 <>
                   <div key={i} className="modal_table_head head">
@@ -119,6 +124,7 @@ export const ExportModal = ({
                     <span>НИЙТ</span>
                     <span className="flex-4">{quantity}</span>
                     <span className="flex-4"></span>
+                    <span className="flex-5">{paid}₮</span>
                     <span className="flex-5">
                       {payload[0].supplier_id === 14268
                         ? price + deliverFee
@@ -129,7 +135,9 @@ export const ExportModal = ({
                     <span className="flex-3">{p.tradeshop_phone}</span>
                     <span className="flex-4">{p.sales_man}</span>
                     <span className="flex-4">{p.deliver_man ?? ""}</span>
-                    <span className="flex-8">{p.address}, {p.tradeshop_city}</span>
+                    <span className="flex-8">
+                      {p.address}, {p.tradeshop_city}
+                    </span>
                   </div>
                   {p.line.map((l, index) => (
                     <div key={index} className="modal_table_head">
@@ -138,6 +146,7 @@ export const ExportModal = ({
                       <span>{l.product_name}</span>
                       <span className="flex-4">{l.quantity}</span>
                       <span className="flex-4">{l.price}</span>
+                      <span className="flex-5"></span>
                       <span className="flex-5">
                         {payload[0].supplier_id === 14268
                           ? l.price_amount + deliverFee
@@ -160,6 +169,7 @@ export const ExportModal = ({
               <span>GRAND TOTAL</span>
               <span className="flex-4">{qt}</span>
               <span className="flex-4"></span>
+              <span className="flex-5">{paids}₮</span>
               <span className="flex-5">
                 {totalAmount}₮ <br />
               </span>
@@ -172,11 +182,11 @@ export const ExportModal = ({
           </div>
         </main>
         <div className="modal-button export-btns">
-            <button onClick={cancel}>Цуцлах</button>
-            <button onClick={exportExcel}>Excel Татах</button>
-            <button onClick={exportPdf}>Pdf Татах</button>
-            <button onClick={print}>Хэвлэх</button>
-          </div>
+          <button onClick={cancel}>Цуцлах</button>
+          <button onClick={exportExcel}>Excel Татах</button>
+          <button onClick={exportPdf}>Pdf Татах</button>
+          <button onClick={print}>Хэвлэх</button>
+        </div>
       </article>
     </section>
   );

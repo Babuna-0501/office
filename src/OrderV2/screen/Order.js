@@ -98,7 +98,7 @@ const Order = ({ fieldsData, ...props }) => {
     setEdit(undefined);
     setIsOpen(false);
   };
-  const [fields, setFields] = useState(fieldsData?.order?.field ?? []);
+
   const editData = async () => {
     try {
       setEditedOrders((prev) => [...prev, edit]);
@@ -484,9 +484,10 @@ const Order = ({ fieldsData, ...props }) => {
           </div>
         </div>
 
-        {fields
+        {fieldsData?.order?.field
           .sort((a, b) => a.position - b.position)
           .map((field) => {
+            if (!field.show || !field.permission) return;
             switch (field.id) {
               case 1:
                 return (
@@ -1200,7 +1201,6 @@ const Order = ({ fieldsData, ...props }) => {
                 />
               )}
 
-              {console.log(props.userData)}
               <Modal
                 cancel={() => setEdit(undefined)}
                 payload={edit}

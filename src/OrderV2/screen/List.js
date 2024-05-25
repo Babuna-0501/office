@@ -118,7 +118,7 @@ const List = ({
     if (starts.length == 0) {
       fetchData(true);
     } else {
-      getOrders(true);
+      getOrders(true, true, 1);
     }
   }, [filterState, suppliers]); // Хуудас солигдох үед датаг fetch хийнэ.
   useEffect(() => {
@@ -137,12 +137,12 @@ const List = ({
       if (starts.length == 0) {
         fetchData(false, false);
       } else {
-        getOrders(false, false);
+        getOrders(false, false, page);
       }
     }
   }, [page]); // Хуудас солигдох үед датаг fetch хийнэ.
 
-  const getOrders = async (filter, loading = true) => {
+  const getOrders = async (filter, loading = true, p) => {
     var requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -248,7 +248,7 @@ const List = ({
 
     url = `https://api2.ebazaar.mn/api/order/${
       suppliers ? "sfa" : "b2b"
-    }?${params}page=${page}`;
+    }?${params}page=${p}`;
 
     localStorage.setItem("url", url);
     console.log("url engiin order", url);
@@ -365,11 +365,13 @@ const List = ({
       <div
         className="OrderPageWrapper"
         onScroll={(e) => {
+          e.preventDefault();
           const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+
           const tolerance = 5; // Tolerance for detecting bottom of scroll
           const bottom = scrollHeight - clientHeight - scrollTop <= tolerance;
 
-          if (bottom && filteredData?.length % 50 === 0) {
+          if (bottom & (filteredData.length > 0)) {
             setPage((prev) => prev + 1);
           }
         }}

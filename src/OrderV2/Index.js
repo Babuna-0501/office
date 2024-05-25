@@ -189,6 +189,10 @@ const App = (props) => {
         key: "unitPrice",
       },
       {
+        header: "Төлсөн",
+        key: "paid",
+      },
+      {
         header: "Нийт үнэ",
         key: "price",
       },
@@ -216,11 +220,15 @@ const App = (props) => {
     let qr = 0;
     let pr = 0;
     let deliverFee = 6000;
-
+    let paids = 0;
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
-
+      let paid =
+        item.order_data != undefined
+          ? JSON.parse(item.order_data)?.prePayment ?? 0
+          : 0;
+      paids += paid;
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
@@ -238,6 +246,7 @@ const App = (props) => {
         product_name: "НИЙТ",
         quantity: quantity,
         unitPrice: "",
+        paid: paid,
         price: item.supplier_id === 14268 ? price + deliverFee : price,
         tradeshop: item.tradeshop_name,
         phone: item.tradeshop_name,
@@ -253,6 +262,7 @@ const App = (props) => {
           product_name: l.product_name,
           quantity: l.quantity,
           unitPrice: l.price,
+          paid: "",
           price: item.supplier_id === 14268 ? l.amount + deliverFee : l.amount,
           tradeshop: "",
           phone: "",
@@ -269,6 +279,7 @@ const App = (props) => {
       product_name: "GRAND TOTAL",
       quantity: qr,
       unitPrice: "",
+      paid: paids,
       price: pr,
       tradeshop: "",
       phone: "",
@@ -334,7 +345,7 @@ const App = (props) => {
     let qr = 0;
     let pr = 0;
     let deliverFee = 6000; // Define the delivery fee
-
+    let paids = 0;
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
@@ -342,7 +353,11 @@ const App = (props) => {
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
-
+      let paid =
+        item.order_data != undefined
+          ? JSON.parse(item.order_data)?.prePayment ?? 0
+          : 0;
+      paids += paid;
       item.line.map((l) => {
         quantity += l.quantity;
         price += l.amount;
@@ -370,6 +385,7 @@ const App = (props) => {
         quantity,
         "",
         price,
+        paid,
         price,
         item.tradeshop_name,
         item.tradeshop_name,
@@ -386,6 +402,7 @@ const App = (props) => {
           l.quantity,
           l.price,
           l.amount,
+          "",
           price,
           "",
           "",
@@ -396,7 +413,21 @@ const App = (props) => {
       });
     });
 
-    list.push(["", "", "GRAND TOTAL", qr, "", pr, pr, "", "", "", "", ""]);
+    list.push([
+      "",
+      "",
+      "GRAND TOTAL",
+      qr,
+      "",
+      pr,
+      paids,
+      pr,
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
 
     const contentHtml = generateHtmlContent(list);
 
