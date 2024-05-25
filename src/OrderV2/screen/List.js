@@ -245,10 +245,12 @@ const List = ({
           : filterState.arigSupplier
       }&`;
     }
-
-    url = `https://api2.ebazaar.mn/api/order/${
-      suppliers ? "sfa" : "b2b"
-    }?${params}page=${p}`;
+    const admin = userData.user_id == 1;
+    url = admin
+      ? `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page - 1}`
+      : `https://api2.ebazaar.mn/api/order/${
+          suppliers ? "sfa" : "b2b"
+        }?${params}page=${p}`;
 
     localStorage.setItem("url", url);
     console.log("url engiin order", url);
@@ -282,11 +284,13 @@ const List = ({
       headers: myHeaders,
       redirect: "follow",
     };
-
+const admin = userData.user_id == 1;
     if (loading) setLoading(true);
-    const url = `https://api2.ebazaar.mn/api/order/${
-      suppliers ? "sfa" : "b2b"
-    }?order_type=1&page=${page}`;
+    const url = admin
+      ? `https://api2.ebazaar.mn/api/orders/?order_type=1&page=${page - 1}`
+      : `https://api2.ebazaar.mn/api/order/${
+          suppliers ? "sfa" : "b2b"
+        }?order_type=1&page=${page}`;
 
     console.log("url engiin order", url);
     fetch(url, requestOptions)
