@@ -59,7 +59,7 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
         });
 
         setData(update);
-        setCopy();
+        setCopy(update);
       })
       .catch((error) => {
         console.log("error", error);

@@ -51,16 +51,17 @@ export const NoteOrderDetail = (props) => {
         redirect: "follow",
       };
       console.log(requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/update_note", requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          window.location.reload();
-          setOrderNotes(notes);
-          props.setFoo(notes);
-          setSaving(false);
-          document.getElementById("note" + props.id).innerText = foobar.value;
-          foobar.value = "";
-        });
+      fetch(
+        "https://api2.ebazaar.mn/api/order/update_note",
+        requestOptions
+      ).then((result) => {
+        window.location.reload();
+        setOrderNotes(notes);
+        props.setFoo(notes);
+        setSaving(false);
+        document.getElementById("note" + props.id).innerText = foobar.value;
+        foobar.value = "";
+      });
     } else {
       alert("Тэмдэглэл хоосон байна");
     }

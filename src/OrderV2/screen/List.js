@@ -296,6 +296,7 @@ const admin = userData.user_id == 1;
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        console.log(result.orders);
         if (filter) {
           setData(result.orders);
           setFilteredData(result.orders);

@@ -87,9 +87,9 @@ const App = (props) => {
     try {
       sfa = JSON.parse(
         selectedItem == null
-          ? suppliers[0].available
+          ? suppliers[0]?.available
           : suppliers.filter((s) => s.value == selectedItem)?.[0]?.available ??
-              suppliers[0].available
+              suppliers[0]?.available
       ).sfa;
     } catch (error) {
       console.log(error);
