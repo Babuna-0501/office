@@ -56,7 +56,7 @@ export const NoteOrderDetail = (props) => {
         requestOptions
       ).then((result) => {
         console.log(result);
-        window.location.reload();
+        // window.location.reload();
         setOrderNotes(notes);
         props.setFoo(notes);
         setSaving(false);

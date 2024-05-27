@@ -547,11 +547,10 @@ const Order = ({ fieldsData, ...props }) => {
                   <div className="cancel_reason" key={field.id}>
                     <div className="fullcontainer">
                       <span className="order_desc-l">
-                        {data.description && data.description.length > 0
-                          ? `${JSON.parse(data.description)?.[0]?.body} (${
-                              JSON.parse(data.description)?.[0]?.date?.length >
-                              0
-                                ? JSON.parse(data.description)?.[0]
+                        {data.Note && data.Note.length > 0
+                          ? `${JSON.parse(data.Note)?.[0]?.body} (${
+                              JSON.parse(data.Note)?.[0]?.date?.length > 0
+                                ? JSON.parse(data.Note)?.[0]
                                     ?.date.toString()
                                     .substring(0, 10)
                                 : null
@@ -1132,7 +1131,11 @@ const Order = ({ fieldsData, ...props }) => {
                                 />
                               </svg>
                             </div>
+                            <div style={{ fontSize: "12px" }}>
+                              Хүргэлт: 6000₮
+                            </div>
                           </div>
+
                           {/* <button
                 onClick={() =>
                   edit == undefined &&

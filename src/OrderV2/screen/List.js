@@ -420,9 +420,10 @@ const admin = userData.user_id == 1;
         {!loading && filteredData && filteredData.length > 0 ? (
           <div className="order_wrapper">
             {filteredData?.map((order) => {
-              let all = order.line
-                ?.map((e) => e.price * e.quantity)
-                ?.reduce((a, b) => a + b);
+              let all =
+                order.line
+                  ?.map((e) => e.price * e.quantity)
+                  ?.reduce((a, b) => a + b) + 6000;
               let paid =
                 order.order_data != undefined
                   ? JSON.parse(order.order_data)?.prePayment ?? 0

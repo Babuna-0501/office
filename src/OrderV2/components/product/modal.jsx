@@ -26,7 +26,10 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
     if (productid !== null) {
       params += `id=${productid}&`;
     }
-
+console.log(
+  "product url " +
+    `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`
+);
     fetch(
       `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`,
       requestOptions
@@ -57,7 +60,7 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
             chosed: false,
           };
         });
-
+        console.log(res.data);
         setData(update);
         setCopy(update);
       })
