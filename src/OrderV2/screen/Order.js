@@ -15,8 +15,8 @@ const Order = ({ fieldsData, ...props }) => {
 
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(
-    data?.shipmentStatus === 14 || data?.shipmentStatus === 15
-      ? data.shipmentStatus
+    data?.ShipmentStatus === 14 || data?.ShipmentStatus === 15
+      ? data.ShipmentStatus
       : data.status
   );
 
@@ -343,13 +343,13 @@ const Order = ({ fieldsData, ...props }) => {
   const submit = async () => {
     try {
       const { code, name } = getChangeStatusThemes(
-        data?.shipmentStatus == 14 || data?.shipmentStatus == 15
-          ? data.shipmentStatus
+        data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
+          ? data.ShipmentStatus
           : data.status
       );
       let prev = getColorForStatus(
-        data?.shipmentStatus == 14 || data?.shipmentStatus == 15
-          ? data.shipmentStatus
+        data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
+          ? data.ShipmentStatus
           : data.status
       );
       let body = {
@@ -1171,9 +1171,9 @@ const Order = ({ fieldsData, ...props }) => {
                       <button onClick={() => setStatusAlert(2)}>
                         {
                           getChangeStatusThemes(
-                            data?.shipmentStatus == 14 ||
-                              data?.shipmentStatus == 15
-                              ? data.shipmentStatus
+                            data?.ShipmentStatus == 14 ||
+                              data?.ShipmentStatus == 15
+                              ? data.ShipmentStatus
                               : data.status
                           )?.name
                         }
@@ -1220,8 +1220,8 @@ const Order = ({ fieldsData, ...props }) => {
                 cancel={() => setStatusAlert(0)}
                 payload={
                   getChangeStatusThemes(
-                    data?.shipmentStatus == 14 || data?.shipmentStatus == 15
-                      ? data.shipmentStatus
+                    data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
+                      ? data.ShipmentStatus
                       : data.status
                   ).name
                 }

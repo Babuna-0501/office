@@ -211,11 +211,12 @@ const List = ({
     }
 
     if (filterState.status) {
-      if(filterState.status >10){
-        changeParams(filterState.status, "shipment_status")
-      } else{
+      // if (filterState.status > 10) {
+      //   changeParams(filterState.status, "ShipmentStatus");
+      // } else {
       changeParams(filterState.status, "order_status");
-    }}
+      // }
+    }
 
     if (filterState.tradeshop_name) {
       params += `tradeshop_name=${filterState.tradeshop_name}&`;
@@ -262,7 +263,8 @@ const List = ({
     fetch(url, requestOptions)
       .then((r) => r.json())
       .then((res) => {
-        console.log(res);
+        console.log(res.orders);
+        // console.log(res.orders.filter((r) => r.ShipmentStatus == 14));
         if (res?.message == "success") {
           if (filter) {
             setData(res.orders);
