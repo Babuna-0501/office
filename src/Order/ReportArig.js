@@ -10,24 +10,24 @@ import smartIdSku from "./arigJSONData/smartIdSku.json";
 
 export const ReportArig = props => {
 
-	// const getSupplierRegister = async ({ supplier_id }) => {
-  //   try {
-  //     const url = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${supplier_id}`;
-  //     const requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
+	const getSupplierRegister = async ({ supplier_id }) => {
+    try {
+      const url = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${supplier_id}`;
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
 
-  //     const res = await fetch(url, requestOptions);
-  //     const resData = await res.json();
+      const res = await fetch(url, requestOptions);
+      const resData = await res.json();
 
-  //     return resData.data[0].register || "";
-  //   } catch (error) {
-  //     console.log("Алдаа гарлаа", error);
-  //     throw error; // Rethrow the error to handle it in the calling function.
-  //   }
-  // };
+      return resData.data[0].register || "";
+    } catch (error) {
+      console.log("Алдаа гарлаа", error);
+      throw error; // Rethrow the error to handle it in the calling function.
+    }
+  };
 
 	const checkSupplierName = (el) => {
     let response = el;
@@ -114,7 +114,7 @@ export const ReportArig = props => {
     {
       column: "CustomerId",
       // type: String,
-      value: (order) => order.supplier_register, 
+      value: (order) => checkSupplierName(order.supplier),
       width: 20,
       align: "left",
       alignVertical: "center",
@@ -305,7 +305,7 @@ export const ReportArig = props => {
           id: "Гүйлгээ",
           orderId: "Баримтын №",
           date: "Огноо",
-          supplier_register: "Бэлтгэн нийлүүлэгч",
+          supplier: "Бэлтгэн нийлүүлэгч",
           address: yunaTailanType === 2 ? "Зарлагын байршил" : "Байршил",
           toWarehouseId: "Орлогын байршил",
           productNames: "Барааны нэр",
@@ -349,14 +349,14 @@ export const ReportArig = props => {
           const year = inputDate.getFullYear();
           reportOrder.date = `${month}/${day}/${year}`;
           // date end
-          reportOrder.supplier_register = order.supplier_register;
+
           // 14045 for yuna
-          // props.userData.company_id === "|14045|"
-          //   ? (reportOrder.supplier = reportOrder.supplier =
-          //       await getSupplierRegister({
-          //         supplier_id: order.supplier_id,
-          //       }))
-          //   : (reportOrder.supplier = order.supplier_name);
+          props.userData.company_id === "|14045|"
+            ? (reportOrder.supplier = reportOrder.supplier =
+                await getSupplierRegister({
+                  supplier_id: order.supplier_id,
+                }))
+            : (reportOrder.supplier = order.supplier_name);
 
           props.userData.company_id === "|14045|"
             ? (reportOrder.address =

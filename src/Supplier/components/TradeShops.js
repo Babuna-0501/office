@@ -56,10 +56,9 @@ const TradeShops = (props) => {
         setData(res.data);
       })
       .catch((error) => {
-        console.log("batdorj aldaa garlaa",error);
+        console.log(error);
       });
   }, [name, merchantid, bustype, city, district, khoroo, address, phone]);
-  
   const HandleOnChange = (x) => {
     // console.log("x", x.tradeshop_id);
     if (prodctx.tradeshopIDS.includes(x.tradeshop_id)) {

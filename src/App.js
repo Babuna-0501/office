@@ -314,7 +314,6 @@ function App() {
                 </Protected>
               </Route>
 
-              
               <Route path="/orderstwo">
                 <Protected
                   permission={

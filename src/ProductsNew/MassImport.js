@@ -1,6 +1,7 @@
 import readXlsxFile from 'read-excel-file'
 import {useState} from 'react'
-import {saveNewProduct} from './Form'
+import { saveNewProduct } from './Form';
+
 
 const MassImport = (props) => {
     const [saving, setSaving]  = useState(false)

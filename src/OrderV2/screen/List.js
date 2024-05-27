@@ -20,9 +20,9 @@ const List = ({
   filteredData,
   setFilteredData,
   selectedItem,
-  suppliers,,s
+  suppliers,
 }) => {
-  const [page, setPage] = x(1);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [interval, setIntervalDate] = useState(["", ""]);
 

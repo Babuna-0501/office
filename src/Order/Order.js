@@ -776,7 +776,7 @@ const Order = (data) => {
   useEffect(() => {
     StatusDataHI.map((x) => {
       if (Number(x.id) === Number(order.status)) {
-        console.log("order status background change", x);
+        // console.log("order status background", x);
         setStatusColor(x.backgroundColor);
       }
     });

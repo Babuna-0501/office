@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import List from "./List";
-import "./custom.css"
 import ReactDOM from "react-dom";
 import Report from "./Report";
 import ReportSecond from "./ReportSecond";
@@ -10,13 +9,13 @@ import upointIcon from "../assets/upoint symbol 2.svg";
 import { Select } from "antd";
 import OrdersHook from "../Hooks/OrdersHook";
 import Suppliers from "../components/Suppliers/Suppliers";
-import Supp from "../components/Supp/Supp";
 import Modal from "../components/Modal/Modal";
 import myHeaders from "../components/MyHeader/myHeader";
 import { styles } from "./style";
 import css from "./index.module.css";
 import Footer from "./Footer/Footer";
 import Districtdata from "../District.json";
+import ArigJSON from "./ArigSup.json";
 import XTcompany, { TugeegchCompany } from "./XTcompany";
 import ReportOrec from "./ReportOrec";
 import { YunaReport } from "./YunaReport";
@@ -33,8 +32,6 @@ import ErrorPopup from "../Achiltiinzahialga/components/common/ErrorPopup";
 import ReportDiamond from "./ReportDiamond";
 import ReportBuramhan from "./ReportBuramhan";
 import ReportBmTovchoo from "./ReportBmTovchoo";
-import Supplier from "../Merchants/Tabs/Supplier";
-
 
 export const originData = [
   { id: 1, name: "Android" },
@@ -44,9 +41,6 @@ export const originData = [
   { id: 5, name: "Base" },
   { id: 6, name: "Eclinic" },
   { id: 7, name: "OnTimePos" },
-  { id: 8, name: "Pos Test" },
-  { id: 9, name: "Qmenu" },
-  { id: 10, name: "Amar" },
 ];
 
 export const colaOrderUsers = [256, 273, 398, 320, 994];
@@ -102,12 +96,6 @@ const Index = React.memo(props => {
   const [hariutsagch, setHariutsagch] = useState([]);
   const [hariutsagchNer, setHariutsagchNer] = useState("");
   const [selectAll, setSelectAll] = useState(false);
-  const [otherSuppliers, setOtherSuppliers] = useState([]);
-  const [otherUsers, setOtherUsers] = useState(null);
-  const { Option } = Select;
-
-  const [enabledSuppliers, setEnabledSuppliers] = useState([]);
-  const [selectedSupplier, setSelectedSupplier] = useState('');
 
   const [changedTugeegch, setChangedTugeegch] = useState(false);
 
@@ -152,7 +140,6 @@ const Index = React.memo(props => {
 		getUsers();
 	}, []);
 
-
 	useEffect(() => {
 		setHeaderContent(<HeaderContent userData={props.userData} />);
 		setShowRefreshBtn(true);
@@ -192,7 +179,6 @@ const Index = React.memo(props => {
 
 	let orderDateFrom = "";
 	let orderDateTo = "";
-
 
 	const [permission, setPermission] = useState(props.userData);
 	const [footerdata, setFooterdata] = useState([]);
@@ -240,7 +226,6 @@ const Index = React.memo(props => {
           orderDateFrom={orderDateFrom}
           orderDateTo={orderDateTo}
           arigSupplier={arigSupplier}
-          otherUsers={otherUsers}
           buramhanajilchid={buramhanajilchid}
           setBuramhanajilchid={setBuramhanajilchid}
           origin={orderOrigin}
@@ -283,7 +268,6 @@ const Index = React.memo(props => {
     ordersCtx.orderEnd,
     ordersCtx.orderStatus,
     arigSupplier,
-    otherUsers,
     orderOrigin,
     selectAll,
     tugeegch,
@@ -334,14 +318,6 @@ const Index = React.memo(props => {
   };
   const handleChangeArig = (e) => {
     setArigSupplier(e.target.value);
-  };
-
-  const handleChangeOther = (e) => {
-    setOtherSuppliers(e.target.value);
-  };
-
-  const handleChangeUsers = (e) => {
-    setOtherUsers(e.target.value);
   };
 
   useEffect(() => {
@@ -427,46 +403,6 @@ const Index = React.memo(props => {
   };
 
   useEffect(() => {
-    const getArigSuppliers = async () => {
-      try {
-        const url2 = `https://api2.ebazaar.mn/api/backoffice/suppliers`;
-        const requestOptions2 = {
-          method: "GET",
-          headers: myHeaders,
-          redirect: "follow",
-        };
-        const res = await fetch(url2, requestOptions2);
-        const resJson = await res.json();
-        
-        const enabledSuppliers = resJson.data.flatMap(item => {
-          const supplierOptions = JSON.parse(item.supplier_options);
-          if (
-            supplierOptions &&
-            supplierOptions.order &&
-            supplierOptions.order.showSuppliers &&
-            supplierOptions.order.showSuppliers.isEnabled &&
-            supplierOptions.order.showSuppliers.supplier
-          ) {
-            return supplierOptions.order.showSuppliers.supplier.map(
-              supplier => ({
-                value: supplier.id,
-                label: supplier.name
-              })
-            );
-          }
-          return [];
-        });
-
-        setEnabledSuppliers(enabledSuppliers);
-        console.log("Arig list irlee", enabledSuppliers);
-      } catch(err) {
-        console.log('Ариг листэнд алдаа гарлаа', err);
-      }
-    }
-    getArigSuppliers();
-  }, []);
-
-  useEffect(() => {
     const fieldsCopy = [...fieldsData];
 
     for (const field of fieldsCopy) {
@@ -493,7 +429,6 @@ const Index = React.memo(props => {
                   type="checkbox"
                   onChange={(e) => setSelectAll(e.target.checked)}
                 />
-                
               </div>
 
               <div>
@@ -543,31 +478,21 @@ const Index = React.memo(props => {
               onDragEnd={onDragEnd}
             >
               <div style={{ position: "relative" }}>
-              <span className={css.headerTitle}>Нийлүүлэгч</span>
                 {props.userData.company_id !== "|13954|" && (
-                <Supp setSuppValue={setSuppValue}/>
+                  <Suppliers setSuppValue={setSuppValue} />
                 )}
                 {/* {props.userData.company_id === '|14045|' && (
                   <Suppliers setSuppValue={setSuppValue} />
                 )} */}
                 {props.userData.company_id === "|13954|" && (
-                  <div className="arigWrapper">
-                    <Select
-                      showSearch 
-                      style={{ width: 150 }}
-                      placeholder="Нийлүүлэгч"
-                      optionFilterProp="children" 
-                      filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                      } 
-                      onChange={setArigSupplier} 
-                      >
-                      {enabledSuppliers.map((supplier) => (
-                        <Option key={supplier.value} value={supplier.value}>
-                          {supplier.label}
-                        </Option>
-                      ))}
-                    </Select>
+                  <div className={css.selectwrapper}>
+                    <span>Нийлүүлэгч</span>
+                    <select value={arigSupplier} onChange={handleChangeArig}>
+                      <option>Нийлүүлэгч</option>
+                      {ArigJSON.map((item) => {
+                        return <option value={item.id}>{item.name}</option>;
+                      })}
+                    </select>
                   </div>
                 )}
               </div>
@@ -599,11 +524,9 @@ const Index = React.memo(props => {
                     src={notifIcon}
                     alt="notif"
                     style={{
-                      width: "20px",
-                      heigth: "20px",
+                      width: "24px",
+                      heigth: "24px",
                       objectFit: "cover",
-                      marginLeft: "auto",
-                      marginTop:"17px"
                     }}
                   />
                 </span>
@@ -726,11 +649,11 @@ const Index = React.memo(props => {
               <div>
                 <span className={css.headerTitle}>Дүн</span>
                 {/* <input type="text" onChange={(e) => Price(e.target.value)} /> */}
-                  <input
-                    type="text"
-                    value={orderAmount}
-                    onChange={(e) => setOrderAmount(e.target.value)}
-                  />
+                <input
+                  type="text"
+                  value={orderAmount}
+                  onChange={(e) => setOrderAmount(e.target.value)}
+                />
               </div>
             </div>
           );
@@ -950,7 +873,7 @@ const Index = React.memo(props => {
                 {/* <input type="text" onChange={e => searchDistrict(e.target.value)} /> */}
                 <select
                   value={orderDistrict}
-                  onChange={(e) => setOrderDistrict(e.target.value)}
+                  onChange={(e) => setOrderDistrict(Number(e.target.value))}
                 >
                   <option value={null}>---Дүүрэг/сум---</option>
                   {props.locations
@@ -1399,7 +1322,6 @@ const Index = React.memo(props => {
     fieldsData,
     orderID,
     arigSupplier,
-    otherUsers,
     props.userData.company_id,
     tugeegch,
     ordersCtx,
@@ -1737,4 +1659,3 @@ const Index = React.memo(props => {
 }, areEqual);
 
 export default Index;
-

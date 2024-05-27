@@ -13,10 +13,6 @@ const Header = (props) => {
 						<h1>Борлуулалт</h1>
 					</div>
 					<div>
-						<div id="interval" onClick={() => setDateSelector(true)}>
-							<img src="/static/media/Calendar.9f8ea6c5681d1601719d2a6b48aed426.svg" alt="" />
-							<span>Өнөөдөр</span>
-						</div>
 						<div>
 							<select onChange={(e) => props.setWarehouse(e.target.value)} className="foobarblah">
 								{

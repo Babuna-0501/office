@@ -139,12 +139,12 @@ function Navigation(props) {
 	);
 
 	const navigationItems = [
-    {
-      path: "/zahialga",
-      title: "Захиалга",
-      icon: "https://admin.ebazaar.mn/media/order.svg",
-      show: permission?.order?.read,
-    },
+    // {
+    //   path: "/zahialga",
+    //   title: "Захиалга",
+    //   icon: "https://admin.ebazaar.mn/media/order.svg",
+    //   show: permission?.order?.read,
+    // },
     {
       path: "/sales",
       title: "Борлуулалт",

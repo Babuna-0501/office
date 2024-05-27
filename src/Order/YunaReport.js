@@ -6,7 +6,7 @@ import myHeaders from "../components/MyHeader/myHeader";
 import writeXlsxFile from "write-excel-file";
 
 const tradeshopIds = [
-  3601, 5880, 5881, 5882, 5883, 5885, 5887, 6200, 6222, 6268,
+  3601, 5880, 5881, 5882, 5883, 5885, 5887, 6200, 6222, 6268, 10220
 ];
 
 const initialSchema = [

@@ -48,16 +48,11 @@
 .selectwrapper {
   display: flex;
   flex-direction: column;
-  font-size: 12px;
 }
 .selectwrapper span {
   font-size: 12px;
   font-weight: 700;
   color: #37474f;
-}
-
-.selectwrapper .ant-select-item-option-content {
-  font-size: 12px !important;
 }
 
 @media screen and (max-width: 1700px) {

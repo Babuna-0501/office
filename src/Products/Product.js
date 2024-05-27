@@ -514,7 +514,7 @@ const Product = (props) => {
         <div style={{ width: "120px" }}>{product?.bar_code}</div>
         {/* <div style={{ width: "120px" }}>{brand}</div> */}
         <div style={{ width: "120px" }}>{product.sku}</div>
-        {/* <div style={{ width: "120px" }}>
+        <div style={{ width: "120px" }}>
           <span onClick={() => permission.product.update && setPrice(!price)}>
             {product.locations["62f4aabe45a4e22552a3969f"]?.price?.tradeshop?.[
               "6249"
@@ -524,13 +524,8 @@ const Product = (props) => {
               ]}
             ₮
           </span>
-        </div> */}
-        <div style={{ width: "120px" }}>
-          <span onClick={() => permission.product.update && setPrice(!price)}>
-            {product.locations["62f4aabe45a4e22552a3969f"]?.price?.channel["1"]}₮
-          </span>
         </div>
-/        {pathname !== "/oresh" ? (
+        {pathname !== "/oresh" ? (
           <>
             <div style={{ width: "100px" }}>
               <span>

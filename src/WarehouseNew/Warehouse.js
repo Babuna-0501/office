@@ -11,7 +11,6 @@ import {ModuleContext} from './index'
 const WarehouseContext = createContext()
 
 const Warehouse = (wh) => {
-	console.log(wh)
 	const [activeTab, setActiveTab] = useState('in')
 	const context = useContext(ModuleContext)
 	const [products, setProducts] = useState(null)
@@ -19,7 +18,7 @@ const Warehouse = (wh) => {
 	const tabs = {
 		'stocks': <Stocks wh={wh.props._id} />,
 		'in': <Orlogo wh={wh.props._id} />,
-		'settings': <Settings />,
+		'settings': <Settings wh={wh} />,
 		'out': <Zarlaga wh={wh.props._id} />
 	}
 	useEffect(() => {
@@ -32,7 +31,6 @@ const Warehouse = (wh) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log(response.data[0].products)
 			setProducts(response.data[0].products)
 		})
 	}, [])
@@ -43,11 +41,9 @@ const Warehouse = (wh) => {
 			redirect: "follow",
 	    }
 	    const url = `https://api2.ebazaar.mn/api/nugan/products?supplierId=${wh.props.supplierId}`
-		console.log(url)
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log(response.products)
 			setAllProducts(response.products)
 		})
 	}, [])
@@ -55,11 +51,10 @@ const Warehouse = (wh) => {
 	return products && allProducts ? (
 		<WarehouseContext.Provider value={foo}>
 			<div>
-				<div id={css.tabs}>
-					<span onClick={() => setActiveTab('in')} className={css.tab} style={{borderBottom: activeTab === 'in' ? '3px solid #2AB674' : '', cursor: 'pointer'}}>Орлого</span>
-					<span onClick={() => setActiveTab('out')} className={css.tab} style={{borderBottom: activeTab === 'out' ? '3px solid #2AB674' : '', cursor: 'pointer'}}>Зарлага</span>
-					<span onClick={() => setActiveTab('stocks')} className={css.tab} style={{borderBottom: activeTab === 'stocks' ? '3px solid #2AB674' : '', cursor: 'pointer'}}>Үлдэгдэл</span>
-					<span style={{display: 'none'}} onClick={() => setActiveTab('settings')} className={css.tab} style={{borderBottom: activeTab === 'settings' ? '3px solid #2AB674' : '', display: 'none'}}>Тохиргоо</span>
+				<div id="containberTabs">
+					<span onClick={() => setActiveTab('in')} className={css.tab} style={{borderBottom: activeTab === 'in' ? '3px solid #2AB674' : '3px solid #fafafa', cursor: 'pointer'}}>Орлого, зарлага</span>
+					<span onClick={() => setActiveTab('stocks')} className={css.tab} style={{borderBottom: activeTab === 'stocks' ? '3px solid #2AB674' : '3px solid #fafafa', cursor: 'pointer'}}>Үлдэгдэл</span>
+					<span onClick={() => setActiveTab('settings')} className={css.tab} style={{borderBottom: activeTab === 'settings' ? '3px solid #2AB674' : '', cursor: 'pointer'}}>Тохиргоо</span>
 				</div>
 				<div>{tabs[activeTab]}</div>
 			</div>

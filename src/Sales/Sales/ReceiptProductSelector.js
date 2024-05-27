@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 
 const ReceiptProductSelector = (props) => {
-	console.log(props)
 	const data = props.data
 	let renderHTML = []
 	const width = [50, 180, 300, 180, 180, 180, 100]

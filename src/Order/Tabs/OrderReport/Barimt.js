@@ -172,23 +172,30 @@ const Barimt = (props) => {
       </>
     );
   } else {
-    bankInfo = (
-      <>
-        <p>
-          Данс:
-          <span>
-            {myData.orderXT.bankAccounts ? myData.orderXT.bankAccounts[0].bankName +
-              " - " +
-              myData.orderXT.bankAccounts[0].account : null}
-          </span>
-        </p>
-        <p>
-          Нэр:
-          <span>{myData.orderXT.bankAccounts[0].holder}</span>
-        </p>
-      </>
-    );
+    if (myData && myData.orderXT && myData.orderXT.bankAccounts && myData.orderXT.bankAccounts.length > 0) {
+      bankInfo = (
+        <>
+          <p>
+            Данс:
+            <span>
+              {myData.orderXT.bankAccounts[0].bankName +
+                " - " +
+                myData.orderXT.bankAccounts[0].account}
+            </span>
+          </p>
+          <p>
+            Нэр:
+            <span>{myData.orderXT.bankAccounts[0].holder}</span>
+          </p>
+        </>
+      );
+    } else {
+      bankInfo = (
+        <p>Банкны данс мэдээлэл байхгүй</p>
+      );
+    }
   }
+  
   let totalBoxes = 0
   console.log(props.order.supplier_id)
   return (
@@ -352,10 +359,10 @@ const Barimt = (props) => {
                 height: "1px",
                 textAlign: "center",
                 border: "1px solid black",
-                display: props.order?.supplier_id !== 14246 ? 'none' : null
+                display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
               }}
             >
-              Хэмжих нэгж
+              {props.order?.supplier_id === 14246 ? 'Хэмжих нэгж' : 'Хайрцаг'}
             </th>
 
             <th
@@ -421,7 +428,12 @@ const Barimt = (props) => {
               if(item.base_price !== item.price) {
                 totalDiscountAmount += discountAmount
               }
-              const foo = item.isBox ? 'хайрцаг ' + item.quantity / item.product_in_case : 'шт'
+              let foo = item.isBox ? 'хайрцаг ' + item.quantity / item.product_in_case : 'шт'
+              if(props.order.supplier_id === 14233) {
+                let foobarblah = item.quantity / item.product_in_case
+
+                foo = (Number.isInteger(foobarblah) ? foobarblah : foobarblah.toFixed(2)) + ' хайрцаг'
+              }
               console.log()
               const totalPrice = item.quantity * item.price;
               totalQuantity += item.quantity
@@ -495,7 +507,7 @@ const Barimt = (props) => {
                       fontSize: "10px",
                       textAlign: "center",
                       border: "1px solid black",
-                      display: props.order?.supplier_id !== 14246 ? 'none' : null
+                      display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
                     }}
                   >
                     {foo}
@@ -579,7 +591,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ? 9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233? 9 : 8}
             >
               НӨАТгүй дүн
             </td>
@@ -589,7 +601,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ?  9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
             >
               НӨАТ
             </td>
@@ -599,7 +611,7 @@ const Barimt = (props) => {
           </tr>
           <tr style={{ lineHeight: "12px" }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 ?  9 : 8}
+              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
             >
               Нийт дүн
             </td>

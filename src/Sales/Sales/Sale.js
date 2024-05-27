@@ -5,9 +5,18 @@ import Receipt from './Receipt'
 import SearchResult from './SearchResult'
 
 const Sale = (props) => {
+	let supplierId = null
+	props.warehouses.map(warehouse => {
+		if(warehouse._id === props.warehouse) {
+			supplierId =  warehouse.supplierId
+			return
+		}
+	})
+	console.log(supplierId)
 	console.log(props)
 	let temp = []
 	if(props.openingSaleData) {
+		console.log('----------------------------------------*******************************')
 		props.openingSaleData.products.map(product => {
 			temp.push(product)
 		})
@@ -56,12 +65,16 @@ const Sale = (props) => {
 	const functionalKeys = (e) => {
 		if(e.code === "F9") {
 			document.getElementById('search_sale').focus()
+		} else if(e.code === "F10") {
+			saveAsDraft()
 		}
 	}
 	useEffect(() => {
 		document.addEventListener('keydown', functionalKeys, true)
 	}, [])
 	const checkReceipt = () => {
+		console.log('66************************************************************')
+		setReceiptData(null)
 		const receiptNumber = document.getElementById('receiptNumber')
 		const customerregistrationid = document.getElementById('customerregistrationid')
 		const inputBorderColor = customerregistrationid.style.borderColor
@@ -89,10 +102,14 @@ const Sale = (props) => {
 			if(response.data === "") {
 				alert('Цахим жорын мэдээлэл олдсонгүй. Оруулсан мэдээллээ шалгана уу.')
 				receiptNumber.focus()
+			} else if(response.message !== 201) {
+				alert('Цахим жорын мэдээлэл олдсонгүй. Оруулсан мэдээллээ шалгана уу.')
+				receiptNumber.focus()
 			} else {
+				console.log(response)
 				setReceiptData(response.data)
-				receiptNumber.value = ''
-				customerregistrationid.value = ''
+				//receiptNumber.value = ''
+				//customerregistrationid.value = ''
 			}
 		})
 	}
@@ -155,8 +172,17 @@ const Sale = (props) => {
 	})
 	const saveAsDraft = () => {
 		if(!localStorage.getItem('draftsale')) {
-			localStorage.setItem('draftsale', '[]')
+			let temp = {}
+			temp[props.warehouse] = []
+			localStorage.setItem('draftsale', JSON.stringify(temp))
+		} else {
+			let temp = JSON.parse(localStorage.getItem('draftsale'))
+			if(!temp[props.warehouse]) {
+				temp[props.warehouse] = []
+			}
+			localStorage.setItem('draftsale', JSON.stringify(temp))
 		}
+		console.log(props.warehouse)
 		let drafts = JSON.parse(localStorage.getItem('draftsale'))
 		const newDraftSale = {
 			type: 0,
@@ -165,7 +191,7 @@ const Sale = (props) => {
 			products: data,
 			_id: Math.round(Math.random() * 100) * Math.round(Math.random() * 100) * Math.round(Math.random() * 100) * Math.round(Math.random() * 100) * Math.round(Math.random() * 100) * Math.round(Math.random() * 100)
 		}
-		drafts.push(newDraftSale)
+		drafts[props.warehouse].push(newDraftSale)
 		localStorage.setItem('draftsale', JSON.stringify(drafts))
 		props.saveDraft(newDraftSale)
 	}
@@ -181,8 +207,10 @@ const Sale = (props) => {
 	const selectSeries = (productId, seriesNumber) => {
 		console.log(productId  + ' and ' + seriesNumber)
 	}
-	const save = (taxPayerType, businessRegister) => {
-		console.log(taxPayerType + ' and ' + businessRegister)
+	const save = (taxPayerType, businessRegister, paymentInformation) => {
+
+		/*console.log('fn save')
+		console.log(taxPayerType + ' and ' + businessRegister + ' and ' + paymentInformation)
 		//noatAmountOrig += (x.price.toFixed(2) * x.quantity.toFixed(2)) / 11.2;
 		let vatStocks = []
 		let totalVat = 0
@@ -226,7 +254,8 @@ const Sale = (props) => {
 		        "stocks": vatStocks,
 		        "bankTransactions": null
 		    }
-		}
+		}*/
+
 		/*const url = `https://api2.ebazaar.mn/api/ebarimt/barimt`
 		var requestOptions = {
 			method: "POST",
@@ -283,8 +312,8 @@ const Sale = (props) => {
 		        "bankTransactions": null
 		    }
 		}
-		*/
-		/*let foo = []
+		
+		let foo = []
 		data.map(product => {
 			foo.push({
 				productId: product._id,
@@ -295,15 +324,8 @@ const Sale = (props) => {
 				}
 			})
 		})
-		let activeWarehouseID = null
-		props.warehouses.map(warehouse => {
-			if(warehouse._id === props.warehouse) {
-				activeWarehouseID =  warehouse.supplierId
-				return
-			}
-		})
 		let sendData = {
-			"supplierId": activeWarehouseID,
+			"supplierId": supplierId,
 		    "documentId": "Кассын борлуулалт",
 		    "type": 2,
 		    "variety": 1,
@@ -321,6 +343,7 @@ const Sale = (props) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
+			console.log(response)
 			if(response.message === 'success') {
 				const shipmentId = response.data.shipmentId
 				// Борлуулалтын батлагдсан зарлага болгох
@@ -339,7 +362,7 @@ const Sale = (props) => {
 				then(r => r.json()).
 				then(response => {
 					if(response.message === 'success') {
-						alert('Амжилттай бүртгэлээ.')
+						//alert('Амжилттай бүртгэлээ.')
 					}
 				})
 				// Борлуулалтын батлагдсан зарлага болгох
@@ -350,7 +373,8 @@ const Sale = (props) => {
 			} else {
 				alert('Алдаа гарлаа. F5 дарж дахин ачааллана уу!')
 			}
-		})*/
+		})
+		*/
 	}
 	const emd = () => {
 		console.log(data)
@@ -476,7 +500,7 @@ const Sale = (props) => {
 					</div>
 				</div>
 			</div>
-			{payment ? <Payment setPayment={setPayment} data={data} warehouses={props.warehouses} warehouse={props.warehouse} products={props.products} save={save} /> : null}
+			{payment ? <Payment setPayment={setPayment} newSale={props.newSale} data={data} warehouses={props.warehouses} warehouse={props.warehouse} products={props.products} save={save} supplierId={supplierId} /> : null}
 			<div id="overlaypage_close" onClick={() => props.setSale(false)}>x</div>
 		</div>
 	)

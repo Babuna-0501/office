@@ -19,6 +19,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: .75rem;
 }
 
+select {
+    outline: none;
+}
+
 #contents #foo h1,
 #contents #foo h2,
 #contents #foo h3 {
@@ -615,7 +619,7 @@ input[type="checkbox"] {
     border: 1.5px solid #90a4ae;
     width: 20px;
     height: 20px;
-    margin: 0 0.5rem 0 0;
+    margin: 0;
 }
 
 label {
@@ -726,6 +730,8 @@ box-sizing: border-box;
     color: rgb(55, 71, 79);
     display: inline-block;
     font-size: .75rem;
+    width: 100px;
+    text-align: center;
 }
 
 .statusn.pending {
@@ -1261,15 +1267,26 @@ overflow-x: auto;
 }
 
 #overlaypage {
-    width: 90%;
-    height: 90%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     background: white;
-    position: relative;
     border-radius: 4px;
+    width: 1250px;
+    height: 100%;
 }
 
 #overlaypage.disabled input {
     display: none;
+}
+
+.productv2 {
+    position: fixed;
+    /* width: 700px; */
+    top: -8px;
+    z-index: 100;
+    right: 7rem;
 }
 
 .paymentpage_bg {
@@ -1457,10 +1474,11 @@ overflow-x: auto;
     align-items: center;
     float: left;
     font-size: .875rem;
+    font-weight: bold;
     padding: 0 .5rem 0 0;
 }
 
-.box input[type="text"], .box_header input[type=text], .box input[type=number], .box_header input[type=number], .box input[type=date], .box_header input[type=date], .box select, .box_header select {
+.box input[type="text"], .box_header input[type=text], .box input[type=number], .box_header input[type=number], .box input[type=date], .box_header input[type=date], .box select, .box_header select, .box select {
     width: 100%;
     border-radius: 3px;
     border: 1px solid #ccc;
@@ -1468,6 +1486,10 @@ overflow-x: auto;
     font-size: .75rem;
     flex-shrink: 0;
     height: 30px;
+}
+
+.box select option {
+    font-size: .75rem;
 }
 
 .box_header_container {
@@ -1626,6 +1648,7 @@ background-color: #2ab674;
 .button.secondary {
     background-color: #f2f2f2;
     color: #1a1a1a;
+    margin-left: 1rem!important;
 }
 
 .button.secondary:hover {
@@ -1900,7 +1923,7 @@ box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.02);
     transition: border-color .1s ease-in-out,box-shadow .1s ease-in-out;
     border: 1px solid #ddd;
     border-radius: 3px;
-    width: 360px;
+    width: 100%;
 }
 .custom-select:hover {
     //border: 1px solid #999;
@@ -1945,10 +1968,10 @@ select::-ms-expand {
 
 #container_productselector {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 4rem;
+    right: 4rem;
+    bottom: 4rem;
+    left: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1956,8 +1979,8 @@ select::-ms-expand {
 }
 
 #productselector {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     background: white;
     position: relative;
 }
@@ -2305,10 +2328,11 @@ label.filter {
 .headerBlock .tab {
     height: 35px;
     padding: 0 .75rem;
-    line-height: 35px;
+    line-height: 20px;
     cursor: pointer;
-    font-size: .75rem;
+    font-size: 16px;
     border-bottom: 3px solid white;
+    font-weight: 600;
 }
 
 .headerBlock .tab.active {
@@ -2324,6 +2348,11 @@ label.filter {
     padding: 0 .75rem;
     cursor: pointer;
     font-size: .875rem;
+}
+
+.pageButton.disabled {
+    background: #aaa;
+    border-color: #aaa;
 }
 
 .pageButton.secondary {
@@ -2349,13 +2378,16 @@ label.filter {
 }
 
 #pageList {
-    position: fixed;
-    top: 180px;
+    /* position: fixed; */
+    /* top: 180px;
     right: 16px;
     bottom: 16px;
-    left: 88px;
+    left: 88px; */
     background: white;
     overflow: auto;
+    border: 1px solid #f5f5f5;
+    margin: 0 20px;
+    height: 800px;
 }
 
 .listEntry {
@@ -2378,7 +2410,7 @@ label.filter {
 }
 
 #listHeader {
-    position: fixed;
+    /* position: fixed; */
     top: 120px;
     right: 16px;
     bottom: 16px;
@@ -2390,12 +2422,22 @@ label.filter {
 .entryBlock label {
     width: 100%;
     display: block;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    letter-spacing: -0.5%;
+    color: #1A1A1A;
+}
+
+
+#pageList p {
+    margin-bottom: 0 !important;
 }
 
 .entryBlock input, .entryBlock select {
     width: 100%;
     border: none;
-    height: 20px;
+    height: 25px;
     line-height: 20px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -2625,3 +2667,429 @@ input.massPrice {
     height: 100%;
 }
 
+.container-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+    display: flex;
+}
+
+.container-modal-contents {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    bottom: 2rem;
+    left: 2rem;
+    background: white;
+    z-index: 100002;
+}
+
+.container-modal-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: black;
+    opacity: 0.6;
+    z-index: 100001;
+}
+
+.container-modal .left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.container-modal .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.container-modal h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.paddingleftright2rem {
+    padding: 0 2rem;
+}
+
+.padding2rem {
+    padding: 2rem;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productID {
+    width: 52px;
+}
+
+.productImage {
+    width: 52px;
+}
+
+.productName {
+    width: 52px;
+}
+
+.productCategory {
+    width: 52px;
+}
+
+.productBarcode {
+    width: 52px;
+}
+
+.productType {
+    width: 52px;
+}
+
+.productSKU {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.productCheckbox {
+    width: 52px;
+}
+
+.width50px {
+    width: 50px;
+}
+
+.width80px {
+    width: 80px;
+}
+
+.width100px {
+    width: 100px;
+}
+
+.width140px {
+    width: 120px;
+}
+
+.width160px {
+    width: 160px;
+}
+
+.width120px {
+    width: 120px;
+}
+
+.width180px {
+    width: 180px;
+}
+
+.width200px {
+    width: 200px;
+}
+
+.width240px {
+    width: 2400px;
+}
+
+.width300px {
+    width: 300px;
+}
+
+.width30px {
+    width: 30px;
+}
+
+.width40px {
+    width: 40px;
+}
+
+input:disabled {
+    background: #eee;
+}
+
+#contents .disabledForm input, #contents .disabledForm select, #contents .disabledForm textarea {
+    background: Lavender;
+    border-color: Lavender;
+    pointer-events: none;
+}
+
+#contents .disabledForm button.addSeries, #contents .disabledForm button.addProduct {
+    pointer-events: none;
+    background: Lavender;
+    border-color: Lavender;;
+}
+
+#contents .disabledForm img.removeProduct {
+    display: none;
+}
+
+#productList {
+    position: absolute;
+    top: 8rem;
+    right: 1rem;
+    bottom: 4rem;
+    left: 1rem;
+    overflow: auto;
+}
+
+.entryBlock .fullWidth {
+    width: 100%;
+}
+
+.entryBlock .fullHeight {
+    height: 100%;
+}
+
+.noPadding {
+    padding: 0;
+}
+
+.entryBlock input.noBorder {
+    border: none;
+}
+
+.paddingright1rem {
+    padding: 0 1rem 0 0;
+}
+
+.foo {
+    display: flex;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.noBorder {
+    border: none;
+}
+
+.inputMassImport {
+    border: none;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    height: 30px;
+    padding: .25rem;
+}
+
+.paddingtop1rem {
+    padding: 1rem 0 0 0;
+}
+
+.width800px {
+    width: 800px;
+}
+
+.height600px {
+    height: 600px;
+}
+
+.backgroundWhite {
+    background: white;
+}
+
+.flexCentered {
+    align-items: center;
+    justify-content: center;
+}
+
+.zindexUpMost {
+    z-index: 10000000000000;
+}
+
+.borderRadius8px {
+    border-radius: 8px;
+}
+
+.borderRadius4px {
+    border-radius: 4px;
+}
+
+.borderRadius2px {
+    border-radius: 2px;
+}
+
+.positionAbsoluteTop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.positionAbsoluteBottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.height40px {
+    height: 40px;
+}
+
+.positionRelative {
+    position: relative;
+}
+
+.height60px {
+    height: 60px;
+}
+
+.height80px {
+    height: 80px;
+}
+
+#containberTabs {
+    height: 53px;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.blah {
+    display: flex;
+    height: 40px;
+}
+
+.blahblah {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem 0 0;
+    box-sizing: border-box;
+}
+
+.blahblah p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.blahblahheader {
+    font-size: .75rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.blahblahtext {
+    font-size: .75rem;
+    margin: 0;
+}
+
+/*.blahblah input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+    font-size: .75rem;
+    height: 30px;
+    padding: 0 .5rem;
+    width: 100%;
+}*/
+
+.margintop8px {
+    margin-top: 8px;
+}
+
+.fontweightbold {
+    font-weight: bold;
+}
+
+.flexcentered2 {
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+    //height: 100%;
+    //width: 100%;
+}
+
+.__row {
+    display: flex;
+}
+
+.blah.header input, .blah.header select, .blah.header input, .blah.header {
+
+}
+
+.headerInputs {
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: .75rem;
+    outline: none;
+}
+
+
+
+.switch_product  {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch_product  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch_product .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.switch_product .slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 16px;
+    left: 1px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+
+}
+
+.switch_product input:checked + .slider {
+    background-color: #8DC543;
+}
+
+.switch_product input:checked + .slider:before {
+    transform: translateX(26px);
+}

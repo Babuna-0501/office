@@ -833,7 +833,6 @@ function LinesCopy(props) {
                     props.userData.id === 320 ||
                     props.userData.id === 366 ||
                     props.userData.id === 1189 ||
-                    props.userData.id === 1305 ||
                     props.userData.id === 1272 ||
                     props.userData.id === 980
                       ? "flex"
@@ -877,7 +876,6 @@ function LinesCopy(props) {
                     props.userData.id === 320 ||
                     props.userData.id === 256 ||
                     props.userData.id === 1272 ||
-                    props.userData.id === 1305 ||
                     props.userData.id === 1189 ||
                     props.userData.id === 1138
                       ? "flex"
@@ -1057,7 +1055,6 @@ function LinesCopy(props) {
                   props.userData.id === 256 ||
                   props.userData.id === 320 ||
                   props.userData.id === 990 ||
-                  props.userData.id === 1305 ||
                   props.userData.id === 1189 ||
                   props.userData.id === 366
                     ? "space-between"
@@ -1090,7 +1087,6 @@ function LinesCopy(props) {
                     props.userData.id === 320 ||
                     props.userData.id === 990 ||
                     props.userData.id === 1189 ||
-                    props.userData.id === 1305 ||
                     (props.userData.company_id === "|14005|" && permission.order.admin === true) ||
                     props.userData.id === 366
                       ? "block"
@@ -1122,7 +1118,6 @@ function LinesCopy(props) {
             props.userData.id === 990 ||
             props.userData.id === 1272 ||
             props.userData.id === 1189 ||
-            props.userData.id === 1305 ||
             props.userData.id === 1230 ||
             props.userData.id === 366) &&
             order.status === 3 &&
@@ -1136,7 +1131,6 @@ function LinesCopy(props) {
                     props.userData.id === 256 ||
                     props.userData.id === 320 ||
                     props.userData.id === 990 ||
-                    props.userData.id === 1305 ||
                     props.userData.id === 1272 ||
                     props.userData.id === 366
                       ? "space-between"
@@ -1164,7 +1158,6 @@ function LinesCopy(props) {
                       props.userData.id === 256 ||
                       props.userData.id === 320 ||
                       props.userData.id === 1230 ||
-                      props.userData.id === 1305 ||
                       props.userData.id === 1272 ||
                       (props.userData.company_id === "|14005|" &&
                         permission.order.admin === true) ||

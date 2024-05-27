@@ -254,43 +254,20 @@ function Report(props) {
       type: String,
       value: (d) => d.origin,
     },
-    
   ]);
 
-  // const schema =
-  //   props.userData.company_id === "|948|" || props.userData.company_id === "|14209|"
-  //     ? [
-  //         ...initialSchema,
-  //         {
-  //           column: "Төлбөрийн хэлбэр",
-  //           type: String,
-  //           value: (d) => d.paymentMethod,
-  //         },
-  //         { column: "ХТ мэдээлэл", type: String, value: (d) => d.tugeegchName },
-  //         {
-  //           column: "Хариуцагч",
-  //           type: String,
-  //           value: (d) => d.hariutsagch,
-  //         },
-  //       ]
-  //     : initialSchema;
-
-  const schema = [
-    ...initialSchema,
-    {
-      column: "Төлбөрийн хэлбэр",
-      type: String,
-      value: (d) => d.paymentMethod,
-    },
-    { column: "ХТ мэдээлэл", type: String, value: (d) => d.tugeegchName },
-    {
-      column: "Хариуцагч",
-      type: String,
-      value: (d) => d.hariutsagch,
-    },
-  ];
-  
-      
+  const schema =
+    props.userData.company_id === "|948|"
+      ? [
+          ...initialSchema,
+          {
+            column: "Төлбөрийн хэлбэр",
+            type: String,
+            value: (d) => d.paymentMethod,
+          },
+          { column: "ХТ мэдээлэл", type: String, value: (d) => d.tugeegchName },
+        ]
+      : initialSchema;
 
   const output = (lines, dates) => {
     writeXlsxFile(lines, {
@@ -315,7 +292,6 @@ function Report(props) {
   let categories = props.categories;
   const orderCTX = useContext(OrderReportHook);
   const sitectx = useContext(ProductsReportHook);
-
   console.log("props+++++1", props);
 
   useEffect(() => {
@@ -530,10 +506,10 @@ function Report(props) {
           const customerPhone = order.phone;
           const customerAddress = order.address;
           let orderdata = "";
-
           if (order.order_data && order.order_data.trim() !== "") {
             orderdata = JSON.parse(order.order_data);
           }
+
           let reasondatainfo = "Тодорхойгүй";
           let buram = [];
 
@@ -542,8 +518,6 @@ function Report(props) {
               if (item.user_id === Number(order.back_office_user)) {
                 buram.push(item);
               }
-
-              console.log("backdsadsdd", order.back_office_user)
 
               if (order.back_office_user === null) {
                 buram.push({
@@ -600,7 +574,6 @@ function Report(props) {
           let oneSupp = props.suppliers.filter(
             (item) => item.id === order.supplier_id
           );
-
           console.log("oneSupp", oneSupp);
 
           const RegisterNumber = oneSupp.map((item) => {
@@ -886,16 +859,6 @@ function Report(props) {
                         ?.name || "",
                   };
                 } else {
-                  
-                  const payMeth = [
-                    { Id: 0, Name: "Дансаар" },
-                    { Id: 1, Name: "Бэлнээр" },
-                    { Id: 2, Name: "Зээлээр" },
-                    { Id: 3, Name: "Бэлэн+Данс" },
-                    { Id: 4, Name: "Бэлэн+Зээл" },
-                    { Id: 5, Name: "Данс+Зээл" },
-                  ];
-
                   template = {
                     OrderNumber: String(orderId),
                     ProductName: String(productName),
@@ -940,19 +903,12 @@ function Report(props) {
                     paymentLendMn: Number(1),
                     paymentStorePay: Number(1),
                     prePayment: Number(1),
-                    tugeegch: String(),
+                    tugeegch: String(
+                      orderdata !== "" ? orderdata?.payment?.userName || "" : ""
+                    ),
                     origin:
                       originData.find((origin) => origin.id === order.origin)
                         ?.name || "",
-                    paymentMethod:
-                      orderdata && orderdata["payment"]
-                        ? payMeth.find(
-                            (el) => el.Id === orderdata["payment"].paymentId
-                            ).Name ?? ""
-                          : "",
-                    hariutsagch: String(
-                      orderdata !== "" ? orderdata?.payment?.userName || "" : ""
-                    ),
                   };
                 }
 
@@ -970,7 +926,6 @@ function Report(props) {
             }
           }
         });
-
         output(csv, startDate + "_" + endDate);
         setStartDate("");
         setEndDate("");

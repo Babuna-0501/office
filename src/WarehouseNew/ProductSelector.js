@@ -17,6 +17,7 @@ const ProductSelector = (props) => {
 		data.quantity = 1
 		data.uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
 		data.sellPrice = {retail: 0, wholesale: 0}
+		data.cost = 1
 		if(JSON.stringify(props.products).search(data._id) !== -1) {
 			return
 		} else if(JSON.stringify(selectedProducts).search(data._id) !== -1) {

@@ -2,68 +2,67 @@ import {useState, useContext, useEffect} from 'react'
 import FormInputs from './FormInputs'
 import myHeaders from '../components/MyHeader/myHeader'
 
-const Form = (props) => {
-    const save = (name, barcode, country, manufacturer, vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt) => {
-        const product = {
-            "name": name,
-            "barcode": barcode,
-            "country": props.supplierId,
-            "manufacturer": manufacturer,
-            "vendor": vendor,
-            "category": category,
-            "condition": condition,
-            "storage": storage,
-            "form": form,
-            "sku": sku,
-            "boditsavlalt": boditsavlalt,
-            "zardagsavlalt": zardagsavlalt
-        }
-        const productData = {
-            "alcohol": 0,
-            "attributes": [],
-            "bar_code": barcode,
-            "brand": 0,
-            "category_id": 0,
-            "city_tax": "0",
-            "country": country,
-            "description": "description",
-            "exclude": [],
-            "image": [
-                "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
-            ],
-            "include": [],
-            "locations": {
-                "62f4aabe45a4e22552a3969f": {
-                    "deliver_fee": {
-                        "channel": {
-                            "1": 0,
-                            "2": 0,
-                            "3": 0,
-                            "4": 0,
-                            "5": 0,
-                            "6": 0,
-                            "7": 0,
-                            "8": 0,
-                            "9": 0,
-                            "10": 0,
-                            "11": 0,
-                            "12": 0,
-                            "13": 0,
-                            "14": 0,
-                            "15": 0,
-                            "16": 0,
-                            "17": 0,
-                            "18": 0,
-                            "19": 0,
-                            "20": 0,
-                            "21": 0,
-                            "22": 0,
-                            "23": 0,
-                            "24": 0,
-                            "25": 0,
-                            "27": 0,
-                            "28": 0,
-                            "29": 0
+export const saveNewProduct = (props, name, barcode, country, manufacturer, vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt) => {
+    const product = {
+        "name": name,
+        "barcode": barcode,
+        "country": props.supplierId,
+        "manufacturer": manufacturer,
+        "vendor": vendor,
+        "category": category,
+        "condition": condition,
+        "storage": storage,
+        "form": form,
+        "sku": sku,
+        "boditsavlalt": boditsavlalt,
+        "zardagsavlalt": zardagsavlalt
+    }
+    const productData = {
+        "alcohol": 0,
+        "attributes": [],
+        "bar_code": barcode,
+        "brand": 0,
+        "category_id": 0,
+        "city_tax": "0",
+        "country": country,
+        "description": "description",
+        "exclude": [],
+        "image": [
+            "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+        ],
+        "include": [],
+        "locations": {
+            "62f4aabe45a4e22552a3969f": {
+                "deliver_fee": {
+                    "channel": {
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0,
+                        "10": 0,
+                        "11": 0,
+                        "12": 0,
+                        "13": 0,
+                        "14": 0,
+                        "15": 0,
+                        "16": 0,
+                        "17": 0,
+                        "18": 0,
+                        "19": 0,
+                        "20": 0,
+                        "21": 0,
+                        "22": 0,
+                        "23": 0,
+                        "24": 0,
+                        "25": 0,
+                        "27": 0,
+                        "28": 0,
+                        "29": 0
                         }
                     },
                     "in_case": {
@@ -270,11 +269,13 @@ const Form = (props) => {
         .catch((error) => {
             console.log("error", error);
         })
-    }
+}
+
+const Form = (props) => {
     const update = (customerType, name, register, businessTypes, phoneNumber, city, district, khoroo, address) => {
         console.log('updating')
     }
-    return <FormInputs setProduct={props.setProduct} save={save} update={update} product={props.product} customers={props.customers} productGroups={props.productGroups} attributes={props.attributes}/>
+    return <FormInputs setProduct={props.setProduct} save={(name, barcode, country, manufacturer, vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt) => saveNewProduct(props, name, barcode, country, manufacturer, vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt)} update={update} product={props.product} customers={props.customers} productGroups={props.productGroups} attributes={props.attributes}/>
 }
 
 export default Form

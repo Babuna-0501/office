@@ -5,6 +5,19 @@ import Sale from './Sale'
 import Total from './Total'
 //import WarehouseSelector from './WarehouseSelector'
 
+const FormattedDate = () => {
+	let currentDate = new Date()
+	const year = currentDate.getFullYear()
+	const month = (currentDate.getMonth() + 1) < 10 ? '0' + (currentDate.getMonth() + 1) : (currentDate.getMonth() + 1)
+	const day = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()
+	return {
+		currentDate: (year + '-' + month + '-' + day),
+		year: year,
+		month: month,
+		day: day
+	}
+}
+
 const Sales = (props) => {
 	const [warehouses, setWarehouses] = useState(null)
 	const [warehouse, setWarehouse] = useState(null)
@@ -12,6 +25,9 @@ const Sales = (props) => {
 	const [data, setData] = useState(null)
 	const [sale, setSale] = useState(false)
 	const [openingSaleData, setOpeningSaleData] = useState(null)
+	let foo =  FormattedDate()
+	const [startDate, setStartDate] = useState(foo['year'] + '-' + foo['month'] + '-' + '01')
+	const [endDate, setEndDate] = useState(foo['currentDate'])
 	const functionalKeys = (e) => {
 		if(e.code === "F8") {
 			setSale(sale === false ? 1 : false)
@@ -41,27 +57,32 @@ const Sales = (props) => {
 			headers: myHeaders,
 			redirect: "follow",
 	    }
-		let url = `https://api2.ebazaar.mn/api/shipment?type=2&from=${props.warehouse}&startDate=2024-01-01&endDate=2024-02-30&products=true`;
+	    console.log(myHeaders)
+		let url = `https://api2.ebazaar.mn/api/shipment?type=2&from=${props.warehouse}&startDate=${startDate}&endDate=${endDate}&products=true&createdDate=true`;
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			let temp = localStorage.getItem('draftsale') ? JSON.parse(localStorage.getItem('draftsale')): []
+			console.log(response)
+			let temp = localStorage.getItem('draftsale') && JSON.parse(localStorage.getItem('draftsale'))[props.warehouse] ? JSON.parse(localStorage.getItem('draftsale'))[props.warehouse] : []
 			response.data.map(sale => {
 				temp.push(sale)
 			})
 			setSales(temp)
+			console.log(temp)
 			setDatas(true)
 		})
 	}
 	useEffect(() => {
 		fetchData()
-	}, [])
+	}, [startDate, endDate])
 	// Previous sales block
 	const saveDraft = (draft) => {
+		console.log('79')
 		let temp = sales
 		temp.unshift(draft)
 		setSales(temp)
 		setSale(false)
+		setOpeningSaleData(null)
 	}
 	const openSale = (data) => {
 		setOpeningSaleData(data)
@@ -85,7 +106,8 @@ const Sales = (props) => {
 		}
 	}
 	const handleSave = () => {
-		setSale(false)
+		console.log('107')
+		//setSale(false)
 		fetchData()
 	}
 	const cancel = () => {
@@ -93,13 +115,20 @@ const Sales = (props) => {
 		console.log('canceling')
 		setOpeningSaleData(null)
 	}
+	const clear = () => {
+		setSale(false)
+		setOpeningSaleData(null)
+	}
+	const newSale = () => {
+		console.log('creaing new sale')
+		document.getElementById('overlaypage_bg').remove()
+		setOpeningSaleData(null)
+		setSale('new')
+	}
 	return products ? (
 		<>
-			<div id="context">
-				<button className="button primary medium" onClick={() => setSale('new')}>Борлуулалт (F8)</button>
-			</div>
-			{sale ? <Sale handleSave={handleSave} cancel={cancel} setSale={setSale} sale={sale} products={products} saveDraft={saveDraft} openingSaleData={openingSaleData} warehouses={props.warehouses} warehouse={props.warehouse} removeDraft={removeDraft} /> : null}
-			{datas ? <List setSale={setSale} warehouse={props.warehouse} data={sales} key={Math.random()} openSale={openSale} openDraft={openDraft} supplierUsers={props.supplierUsers} /> : null}
+			{sale ? <Sale handleSave={handleSave} cancel={cancel} newSale={newSale} setSale={clear} sale={sale} products={products} saveDraft={saveDraft} openingSaleData={openingSaleData} warehouses={props.warehouses} warehouse={props.warehouse} removeDraft={removeDraft} /> : null}
+			{datas ? <List setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} setSale={setSale} warehouse={props.warehouse} data={sales} key={Math.random()} openSale={openSale} openDraft={openDraft} supplierUsers={props.supplierUsers} setSale={setSale} /> : null}
 			{datas ? <Total data={sales} key={Math.random()} /> : null}
 		</>
 	) : null

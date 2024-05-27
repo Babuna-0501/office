@@ -4,13 +4,39 @@ import {ModuleContext} from '../../index'
 import List from './List'
 import Form from './Form'
 
-const Zarlaga = (props) => {
+const FormattedDate = () => {
+	let currentDate = new Date()
+	const year = currentDate.getFullYear()
+	const month = (currentDate.getMonth() + 1) < 10 ? '0' + (currentDate.getMonth() + 1) : (currentDate.getMonth() + 1)
+	const day = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()
+	return {
+		currentDate: (year + '-' + month + '-' + day),
+		year: year,
+		month: month,
+		day: day
+	}
+}
+
+const Orlogo = (props) => {
+	console.log(props)
+	let foo =  FormattedDate()
+	const [startDate, setStartDate] = useState(foo['year'] + '-' + foo['month'] + '-' + '01')
+	const [endDate, setEndDate] = useState(foo['currentDate'])
 	const context = useContext(ModuleContext)
 	const companyId = context.companyId.replace(/\D/g, "")
-	const url = `https://api2.ebazaar.mn/api/shipment?type=2&from=${props.wh}&products=true&startDate=2024-01-01&endDate=2024-01-30`
-	const [data, setData] = useState(null)
+	console.log(companyId)
 	const [form, setForm] = useState(false)
+	const [data, setData] = useState(null)
+	const [ognoo, setOgnoo] = useState(null)
 	useEffect(() => {
+		fetchData()
+	}, [startDate, endDate])
+	const sentRequest = () => {
+		fetchData()
+		console.log('sent request successfully')
+	}
+	const fetchData = () => {
+		const url = `https://api2.ebazaar.mn/api/shipment?type=${parseInt(companyId) === 14005 ? '3' : '2'}&from=${props.wh}&startDate=${startDate}&endDate=${endDate}&products=true&createdDate=true`
 		var requestOptions = {
 			method: "GET",
 			headers: myHeaders,
@@ -19,18 +45,21 @@ const Zarlaga = (props) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-			console.log(response)
 			setData(response.data)
 		})
-	}, [])
+	}
+	const foobar = (blahblah) => {
+		//if(blahblah === 'today' || blahblah === 'thismonth' || blahblah === 'thisweek') {
+			//fetchData()
+		//}
+	}
 	return data ? (
 		<>
-			<List data={data} setForm={setForm} />
-			{form ? <Form setForm={setForm} form={form} /> : null}
+			<List data={data} setForm={setForm} foobar={foobar} setOgnoo={setOgnoo} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} companyId={parseInt(companyId)} />
+			{form ? <Form setForm={setForm} form={form} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} /> : null}
 		</>
 	) : <div>Түр хүлээнэ үү...</div>
 
 }
 
-export default Zarlaga
+export default Orlogo

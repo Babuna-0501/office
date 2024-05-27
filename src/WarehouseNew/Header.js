@@ -4,7 +4,6 @@ import {ModuleContext} from './index'
 import WarehouseForm from './WarehouseForm'
 
 const Header = (props) => {
-	console.log(props)
 	const context = useContext(ModuleContext)
 	const [warehouseCreateForm, setWarehouseCreateForm] = useState(false)
 	return (

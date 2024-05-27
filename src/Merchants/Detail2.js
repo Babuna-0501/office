@@ -327,7 +327,7 @@ function Detail2(props) {
       redirect: "follow",
     };
 
-    let url = `https://api2.ebazaar.mn/api/merchants?id=${userResult?.t_id}`;
+    let url = `https://api2.ebazaar.mn/api/merchants?user_phone=${userResult?.t_phone}&id=${userResult?.t_id}`;
 
     fetch(url, requestOptions)
       .then((r) => r.json())

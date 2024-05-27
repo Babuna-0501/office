@@ -92,7 +92,6 @@ const WarehouseNew = (props) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log(response.data[0])
 			setAttributes(response.data[0])
 		})
 	}, [])

@@ -8,6 +8,7 @@
     align-items: center;
     width: 115px;
     height: 100%;
+    margin-left: 20%;
   }
   .avatars__item {
     height: 36px;

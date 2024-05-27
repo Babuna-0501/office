@@ -3,6 +3,7 @@ import myHeaders from "../../../components/MyHeader/myHeader"
 import {ModuleContext} from '../../index'
 import List from './List'
 import Form from './Form'
+import ZarlagaForm from '../Zarlaga/Form'
 
 const FormattedDate = () => {
 	let currentDate = new Date()
@@ -24,16 +25,17 @@ const Orlogo = (props) => {
 	const context = useContext(ModuleContext)
 	const companyId = context.companyId.replace(/\D/g, "")
 	const [form, setForm] = useState(false)
+	const [formZarlaga, setFormZarlaga] = useState(false)
 	const [data, setData] = useState(null)
 	const [ognoo, setOgnoo] = useState(null)
 	useEffect(() => {
 		fetchData()
 	}, [startDate, endDate])
 	const sentRequest = () => {
-		console.log('sent request successfully')
+		fetchData()
 	}
 	const fetchData = () => {
-		const url = `https://api2.ebazaar.mn/api/shipment?type=1&to=${props.wh}&startDate=${startDate}&endDate=${endDate}&products=true&createdDate=true`
+		const url = `https://api2.ebazaar.mn/api/shipment?owner=${props.wh}&startDate=${startDate}&endDate=${endDate}&products=true&createdDate=true&pageAll=true`
 		var requestOptions = {
 			method: "GET",
 			headers: myHeaders,
@@ -47,13 +49,14 @@ const Orlogo = (props) => {
 	}
 	const foobar = (blahblah) => {
 		//if(blahblah === 'today' || blahblah === 'thismonth' || blahblah === 'thisweek') {
-			fetchData()
+			//fetchData()
 		//}
 	}
 	return data ? (
 		<>
-			<List data={data} setForm={setForm} foobar={foobar} setOgnoo={setOgnoo} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} />
-			{form ? <Form setForm={setForm} form={form} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} /> : null}
+			<List data={data} setForm={setForm} setFormZarlaga={setFormZarlaga} foobar={foobar} setOgnoo={setOgnoo} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} />
+			{form ? <Form setForm={setForm} form={form} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} warehouseId={props.wh} /> : null}
+			{formZarlaga ? <ZarlagaForm setFormZarlaga={setFormZarlaga} form={formZarlaga} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} warehouseId={props.wh} /> : null}
 		</>
 	) : <div>Түр хүлээнэ үү...</div>
 

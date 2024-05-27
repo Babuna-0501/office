@@ -154,7 +154,6 @@ function ReportSecond(props) {
 			// urlReport = `https://api2.ebazaar.mn/api/orders?delivery_start=2023-06-01&delivery_end=2023-06-30&tradeshop_phone=99964644&page=all`;
 
 			// urlReport = `https://api2.ebazaar.mn/api/orders?order_start=2023-04-01&order_end=2023-06-30&tradeshop_phone=99964644&page=all`;
-			// urlReport = `https://api2.ebazaar.mn/api/order/duplicate/get?start_date=${date_start?.value}&end_date=${date_end?.value}`;
 			urlReport = `https://api2.ebazaar.mn/api/order/duplicate/get?start_date=${date_start?.value}&end_date=${date_end?.value}`;
 			requestOptions["method"] = "POST";
 			requestOptions["body"] = JSON.stringify({
@@ -407,7 +406,7 @@ function ReportSecond(props) {
 						district,
 						khoroo,
 						order.address,
-						Number(total),
+						Number(rawTotal),
 						orderStatus,
 						supRegister,
 					];
@@ -428,7 +427,7 @@ function ReportSecond(props) {
 							createdDate,
 							shippingDate,
 							order.tradeshop_name,
-							Number(total),
+							Number(rawTotal),
 							orderStatus,
 						];
 					}

@@ -164,23 +164,16 @@ function Update(props) {
 				let urlNew = `https://api2.ebazaar.mn/api/product/update1`;
 
 				fetch(urlNew, requestOptions)
-					.then(response => {
-						if (!response.ok) {
-							throw new Error("Хадгалах үед алдаа гарлаа"); 
-						}
-						return response.json();
-                	})
+					.then(response => response.json())
 					.then(result => {
 						console.log("mass update", result);
 					})
 					.catch(error => {
 						console.log("error", error);
-						alert("Хадгалах үед алдаа гарлаа!"); 
 					});
 			});
 			setTimeout(() => {
 				props.setUpdater(false);
-				alert("Амжилттай хадгаллаа"); 
 			}, 2000);
 		}
 	};
@@ -336,9 +329,6 @@ function Update(props) {
 							className="btn"
 							style={{ background: "#ddd" }}
 							onClick={() => props.setUpdater(false)}
-							onLoad={()=>{
-
-							}}
 						>
 							Cancel
 						</span>

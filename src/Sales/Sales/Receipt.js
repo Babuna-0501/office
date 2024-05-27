@@ -21,12 +21,13 @@ const Receipt = (props) => {
 			<h1>{data.patientFirstName + ' ' + data.patientLastName}</h1>
 			<h1>{data.patientRegNo}</h1>
 			<h3><strong>Онош:</strong> {data.receiptDiag}</h3>
-			<h3><strong>Дуусах:</strong> {expireDate.toISOString().substr(0, 10)}</h3>
+			<h3><strong>Дуусах:</strong> {expireDate.toISOString().substr(0, 10) + ' ' + expireDate.toISOString().substr(11, 5) }</h3>
 			<h3>Аймаг/хот: {data.hosOfficeName}</h3>
 			<h3>Сум/дүүрэг: {data.hosSubOffName}</h3>
 			<h3>Эмнэлэг: {data.hosName}</h3>
 			<h3>Эмчийн код: {data.cipherCode}</h3>
 			{renderHTML}
+			{receiptDetails.length === 0 ? <span style={{background: 'red', color: 'white'}}>Жорыг ашигласан</span> : null}
 			{receiptProductSelector ? <ReceiptProductSelector addProduct={props.addProduct} data={chosenProduct} products={props.products} setReceiptProductSelector={setReceiptProductSelector} /> : null}
 		</div>
 	)

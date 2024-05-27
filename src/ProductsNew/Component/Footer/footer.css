@@ -1,0 +1,91 @@
+/* footer */
+.container-2 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 12px 6px;
+    position: relative;
+    bottom: 0;
+    justify-content: center;
+  }
+  
+  .wrapper {
+    padding: 4px;
+    box-sizing: border-box;
+  }
+  .wrapper div {
+    font-weight: 700;
+    font-size: 10px;
+  }
+  .statuscontainer {
+    display: flex;
+    align-items: center;
+  }
+  .firswrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 37px;
+    height: 20px;
+    background: #d9d9d9;
+    border-radius: 3px;
+  }
+  .firswrapper span {
+    font-weight: 700;
+    font-size: 10px;
+    color: #4d4d4d;
+  }
+  .secondwrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 8px;
+  }
+  .secondwrapper span:first-child {
+    font-weight: 400;
+    font-size: 10px;
+    color: #4d4d4d;
+  }
+  .secondwrapper span:last-child {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a1a;
+  }
+  .footerspan {
+    font-weight: 400;
+    font-size: 10px;
+    color: #4d4d4d;
+  }
+  .footerspantww {
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  @media (max-width: 1500px) {
+    .wrapper div {
+      font-size: 10px;
+    }
+  }
+
+  .idWrapper {
+    justify-content: center;
+  }
+  .OrderPageWrapper {
+    overflow-y: scroll;
+  }
+  .container-2 {
+    gap: 10px;
+  }
+  
+  .container-2 .wrapper {
+    width: 168px;
+    height: 52px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid #e6e6e6;
+    align-items: center;
+    padding-left: 10px;
+  }

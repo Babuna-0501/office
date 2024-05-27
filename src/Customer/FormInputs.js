@@ -34,6 +34,7 @@ const FormInputs = (props) => {
 		return valid
 	} 
 	const update = () => {
+
 	}
 	return (
 		<div id="overlaypage_bg">

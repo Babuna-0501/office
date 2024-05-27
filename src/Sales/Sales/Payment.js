@@ -15,11 +15,8 @@ const Payment = (props) => {
 	const [businessRegister, setBusinessRegister] = useState(null)
 	const [businessName, setBusinessName] = useState(null)
 	const searchBusinessInfo = (e) => {
-		console.log('searchBusinessInfo')
-		console.log(e.target.value)
 		if (e.key === "Enter") {
             document.getElementById('businessorganizationname').placeholder = 'Байгууллагын мэдээлэл хайж байна'
-            
             if(e.target.value.length >= 7) {
 				var requestOptions = {
 					method: "GET",
@@ -30,8 +27,8 @@ const Payment = (props) => {
 				fetch(url, requestOptions).
 				then(r => r.json()).
 				then(response => {
+					console.log(response)
 					if(response.message === 201) {
-						console.log('business found')
 						setBusinessName(response.data.name)
 						setBusinessRegister(e.target.value)
 						document.getElementById('businessorganizationname').value = response.data.name
@@ -111,6 +108,8 @@ const Payment = (props) => {
 		if(taxPayerType === null) {
 			setTaxPayerError('Харилцагчийн төрөл сонгоно уу!')
 			setTimeout(() => setTaxPayerError(null), 1000)
+		} else if(taxPayerType === 'business' && businessRegister === null) {
+			alert('Байгууллагын мэдээлэл шалгана уу.')
 		} else {
 			setPrint(true)
 		}
@@ -234,26 +233,26 @@ const Payment = (props) => {
 						<div className="columns margintop1rem">
 							<div className="column2"><span>Хариулт:</span></div>
 							<div className="column2" style={{textAlign: 'right'}}>
-								<span></span>
+								<span>{totalPaid > total ? (totalPaid - total) : 0}</span>
 							</div>
 						</div>
 						<div className="columns margintop1rem">
 							<div className="column2"><span>Төлөөгүй дүн:</span></div>
 							<div className="column2" style={{textAlign: 'right'}}>
-								<span>{total - totalPaid}</span>
+								<span>{totalPaid >= total ? 0 : total - totalPaid }</span>
 							</div>
 						</div>
 						<div className="margintop1rem">
 							<div style={{height: '30px'}}>
 							{taxPayerError ? <p style={{color: 'red'}}>{taxPayerError}</p> : null}
 							</div>
-							<button className="button primary large" style={{width: '100%'}} onClick={() => next()}>Бүртгэх + баримт хэвлэх</button>
+							<button disabled={totalPaid >= total && taxPayerType ? false : true} className="button primary large" style={{width: '100%'}} onClick={() => next()}>Баримт хэвлэх</button>
 						</div>
 					</div>
 					<span className="closePage" onClick={() => props.setPayment(false)}>x</span>
 				</div>
 			</div>
-			{print ? <Print setPrint={setPrint} warehouses={props.warehouses} warehouse={props.warehouse} businessName={businessName} taxPayerType={taxPayerType} businessRegister={businessRegister} data={data} products={props.products} save={props.save} /> : null}
+			{print ? <Print supplierId={props.supplierId} newSale={props.newSale} setPrint={setPrint} warehouses={props.warehouses} warehouse={props.warehouse} businessName={businessName} taxPayerType={taxPayerType} businessRegister={businessRegister} data={data} products={props.products} save={props.save} /> : null}
 		</div>
 	)
 }
