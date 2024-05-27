@@ -176,7 +176,7 @@ const List = ({
       params += `khoroo=${filterState.khoroo}&`;
     }
     if (filterState.order_id) {
-      params += `id=${parseInt(filterState.order_id)}&`;
+      params += `orderId=${parseInt(filterState.order_id)}&`;
     }
     // if (filterState.salesman) {
     //   params += `sales_man_employee_id=${parseInt(filterState.salesman)}&`;
@@ -187,7 +187,7 @@ const List = ({
       } else if (filterState.salesman === "notNull") {
         params += `salesManNotNull=true&`;
       } else {
-        params += `sales_man=${filterState.salesman.toString()}` + "&";
+        params += `salesMan=${filterState.salesman.toString()}` + "&";
       }
     }
     if (filterState?.phone) {
@@ -222,7 +222,7 @@ const List = ({
       changeParams(filterState.business_type, "business_type");
     }
     if (filterState.city) {
-      changeParams(filterState.city, "tradeshop_city");
+      changeParams(filterState.city, "city");
     }
     if (filterState.district) {
       changeParams(filterState.district, "tradeshop_disctrict");

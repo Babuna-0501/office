@@ -55,6 +55,7 @@ export const NoteOrderDetail = (props) => {
         "https://api2.ebazaar.mn/api/order/update_note",
         requestOptions
       ).then((result) => {
+        console.log(result);
         window.location.reload();
         setOrderNotes(notes);
         props.setFoo(notes);

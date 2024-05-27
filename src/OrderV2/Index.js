@@ -76,7 +76,11 @@ const App = (props) => {
       }));
 
       setSuppliers(suppliersList);
+      let sfa = false;
 
+      sfa = JSON.parse(resJson.data[0]?.available).sfa;
+      setSfa(sfa);
+  
       console.log("Supplier list:", suppliersList);
     } catch (err) {
       console.log("Error fetching suppliers:", err);
@@ -84,13 +88,15 @@ const App = (props) => {
   };
   useEffect(() => {
     let sfa = false;
+
     try {
-      sfa = JSON.parse(
-        selectedItem == null
-          ? suppliers[0]?.available
-          : suppliers.filter((s) => s.value == selectedItem)?.[0]?.available ??
-              suppliers[0]?.available
-      ).sfa;
+      if (suppliers.length > 0)
+        sfa = JSON.parse(
+          selectedItem == null
+            ? suppliers[0]?.available
+            : suppliers.filter((s) => s.value == selectedItem)?.[0]
+                ?.available ?? suppliers[0]?.available
+        ).sfa;
     } catch (error) {
       console.log(error);
     }
