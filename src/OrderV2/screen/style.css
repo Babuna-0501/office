@@ -712,3 +712,8 @@
   z-index: 100;
   left: 47rem;
 }
+
+.date_update {
+  width: 15px;
+  height: 15px;
+}

@@ -3,6 +3,8 @@ import './ReportNew.css';
 import myHeaders from '../components/MyHeader/myHeader';
 import * as XLSX from 'xlsx';
 import Brief from '../components/brief/Brief'
+import YunaToExcel from '../components/yuna/Yuna';
+import ReportYuna from '../components/yuna/Yuna';
 
 const ReportDetail = () => {
   const [startDate, setStartDate] = useState('');
@@ -186,12 +188,14 @@ const ReportDetail = () => {
           )}
         </div>
       </div>
-      <div className='reportDetail'>
+      {/* <div className='reportDetail'>
         <h1>Захиалгын Товч Тайлан</h1>
         <Brief/>
+      </div> */}
+      <div className='reportDetail'>
+        <ReportYuna/>
       </div>
     </div>
-  
   );
 };
 

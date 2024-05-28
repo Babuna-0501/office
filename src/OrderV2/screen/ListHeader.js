@@ -137,21 +137,32 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
   for (const size in sequenceSizes) {
     width += sequenceSizes[size];
   }
+
   const statusOptions = () => {
     if (!props || !props.userData) {
       return [];
     }
-
-    const { userData } = props;
-
+  
+    const { userData, data } = props;
+  
     if (!userData.company_id) {
       return [];
     }
-
-    return props.userData?.company_id === "|14268|"
+  
+    const filteredOptions = props.userData?.company_id === "|14268|"
       ? options.concat(options2)
       : options;
+  
+    return filteredOptions.filter(option => {
+      const statusValue = parseInt(option.value);
+      console.log(userData.ShipmentStatus, "andaa 14 15")
+      return !(statusValue === 2 && [14, 15].includes(userData.ShipmentStatus));
+    });
   };
+  
+
+
+
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
   const [renderHTML, setHTML] = useState([]);

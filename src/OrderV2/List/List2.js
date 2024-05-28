@@ -585,19 +585,21 @@ const List2 = ({
                     );
                   })}
             </div>
-            <button onClick={() => updateUser(false)}>Хадгалах</button>
-            <button onClick={() => updateUser(true)}>Шинэчлэх</button>
+            <div style={{display:"flex", gap:"15px", marginTop:"20px"}}>
+              <button onClick={() => updateUser(false)}>Хадгалах</button>
+              <button onClick={() => updateUser(true)}>Шинэчлэх</button>
+            </div>
           </div>
         </div>
       )}
       {activeTab === 1 && (
         <div className="tab_content">
-          <h3>Захиалгын ерөнхий тохиргоо content goes here</h3>
+          <h3>Захиалгын ерөнхий тохиргоо</h3>
         </div>
       )}
       {activeTab === 2 && (
         <div className="tab_content">
-          <h3>Захиалгын дүнгийн тохиргоо content goes here</h3>
+          <h3>Захиалгын дүнгийн тохиргоо</h3>
         </div>
       )}
     </div>

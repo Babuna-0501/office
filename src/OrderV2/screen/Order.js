@@ -8,11 +8,23 @@ import OrderDetail from "../components/orderDetail/orderDetail";
 import myHeaders from "../../components/MyHeader/myHeader";
 import { ProductModal } from "../components/product/modal";
 import { NoteOrderDetail } from "../components/note";
+import DeliveryDate from "../components/DeliveryDate";
 
-const Order = ({ fieldsData, ...props }) => {
+const Order = ({ fieldsData, setOrder, ...props }) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
+  const [deliveryDate, setDeliveryDate] = useState(data.delivery_date);
+  const [showDeliveryDate, setShowDeliveryDate] = useState(false);
 
+  const handleDivClick = () => {
+    setShowDeliveryDate(true);
+  };
+
+  const handleSave = (updatedOrder) => {
+    setOrder(updatedOrder);
+    setDeliveryDate(updatedOrder.delivery_date);
+    setShowDeliveryDate(false);
+  };
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(
     data?.ShipmentStatus === 14 || data?.ShipmentStatus === 15
@@ -471,6 +483,13 @@ const Order = ({ fieldsData, ...props }) => {
   };
   // console.log(props, "props ireh");
 
+  function getOriginNameById(id) {
+    const origin = originData.find(item => item.id === id);
+    return origin ? origin.name : "Дата байхгүй";
+  }
+  
+  const originName = getOriginNameById(data.origin);
+
   return (
     <div className="WrapperOut">
       <div className="order col_wrapper">
@@ -518,10 +537,21 @@ const Order = ({ fieldsData, ...props }) => {
 
               case 36:
                 return (
-                  <div className="delivery_date" key={field.id}>
-                    <div className="fullcontainer order_date">
-                      <span>{formatDate(data.delivery_date)}</span>
-                    </div>
+                  <div style={{display:"flex", alignItems:"center"}}>
+                    <div className="delivery_date" key={data.id} onClick={handleDivClick}>
+                        <div className="fullcontainer order_date">
+                          <span style={{ display: 'flex', alignItems: 'baseline' }}>
+                            {formatDate(data.delivery_date)}
+                          </span>
+                        </div>
+                      </div>
+                      {showDeliveryDate && (
+                        <DeliveryDate 
+                          data={data} 
+                          setOrder={handleSave} 
+                          closeDeliveryDate={() => setShowDeliveryDate(false)}
+                        />
+                      )}
                   </div>
                 );
 
@@ -660,7 +690,7 @@ const Order = ({ fieldsData, ...props }) => {
                 return (
                   <div className="origin" key={field.id}>
                     <div className="fullcontainer">
-                      <span>{data.origin}</span>
+                      <span>{originName}</span>
                     </div>
                   </div>
                 );

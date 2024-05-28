@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./modal.css";
+import myHeaders from "../../../components/MyHeader/myHeader";
 
 const Modal = ({ open, payload, cancel, save, onChange, props }) => {
+  const [delivermans, setDeliverMans] = useState([]);
+
+  const fetchUserData = async () => {
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      const response = await fetch(
+        "https://api2.ebazaar.mn/api/backoffice/users",
+        requestOptions
+      );
+      const data = await response.json();
+      setDeliverMans(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   if (!open) return null;
   return (
     <section className="modal">
@@ -44,6 +69,35 @@ export const ExportModal = ({
   exportPdf,
   props,
 }) => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+        };
+        const response = await fetch(
+          "https://api2.ebazaar.mn/api/backoffice/users",
+          requestOptions
+        );
+        const data = await response.json();
+        setUsers(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const getUserName = (userId) => {
+    const user = users.find((user) => user.user_id === userId);
+    return user ? user.first_name : userId;
+  };
+
   let qt = 0;
   let pr = 0;
   let deliverFee = 6000;
@@ -132,9 +186,9 @@ export const ExportModal = ({
                       ₮ <br />
                     </span>
                     <span className="flex-6">{p.tradeshop_name}</span>
-                    <span className="flex-3">{p.tradeshop_phone}</span>
-                    <span className="flex-4">{p.sales_man}</span>
-                    <span className="flex-4">{p.deliver_man ?? ""}</span>
+                    <span className="flex-3">{p.phone}</span>
+                    <span className="flex-4">{getUserName(p.sales_man)}</span>
+                    <span className="flex-4">{getUserName(p.deliver_man)}</span>
                     <span className="flex-8">
                       {p.address}, {p.tradeshop_city}
                     </span>
