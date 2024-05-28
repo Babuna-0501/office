@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import ListHeader from "../screen/ListHeader";
 import myHeaders from "../../components/MyHeader/myHeader";
@@ -341,6 +341,9 @@ const List2 = ({
     "butsaalt",
   ];
 
+  const dragList = useRef(0);
+  const draggedOverList = useRef(0);
+
   const sequenceSizes = {
     index: 52,
     id: 65,
@@ -408,6 +411,26 @@ const List2 = ({
       .catch((error) => {
         alert(`Алдаа гарлаа. ${error}`);
       });
+  };
+  const handleSortBottom = () => {
+    const copyList = [...headerLists];
+    const temp = copyList[dragList.current];
+    copyList[dragList.current] = copyList[draggedOverList.current];
+    copyList[draggedOverList.current] = temp;
+    setHeaderLists(copyList);
+  };
+  const handleSort = (dl, dol) => {
+    const copyList = [...headerLists];
+    console.log(dl, dol);
+
+    const temp = copyList.filter((c) => c.position == dl)[0];
+    // const temp = copyList[dl];
+    // copyList[dl] = copyList[dol];
+    copyList.filter((c) => c.position == dl)[0] = copyList.filter(
+      (c) => c.position == dol
+    )[0];
+    copyList.filter((c) => c.position == dol)[0] = temp;
+    setHeaderLists(copyList);
   };
   return (
     <div className="order_settings">
@@ -546,7 +569,10 @@ const List2 = ({
         <div className="tab_content">
           <ListHeader
             userData={userData}
+            drag={true}
+            handleSort={handleSort}
             sequence={sequence}
+            headerLists={headerLists}
             users={[]}
             sequenceSizes={sequenceSizes}
             onFilterChange={() => {}}
@@ -554,21 +580,28 @@ const List2 = ({
             setFilterState={setFilterState}
             handleSpinner={() => {}}
           />
+
           <div style={{ marginTop: "3rem" }}>
             <h3 style={{ fontSize: "14px" }}>
               Багана зайг ихэсгэх багасгах тохируулах боломжтой
             </h3>
-            <p>{localStorage.getItem("orderHeaderList")}</p>
             <div
               className="stick_wrapper"
               style={{ fontSize: "12px", marginTop: "20px" }}
             >
               {headerLists &&
                 headerLists
-                  .filter((h) => !visibles.includes(h.id))
+                  // .filter((h) => !visibles.includes(h.id))
                   ?.map((head, i) => {
                     return (
-                      <div key={i}>
+                      <div
+                        key={i}
+                        draggable
+                        onDragStart={() => (dragList.current = i)}
+                        onDragEnter={() => (draggedOverList.current = i)}
+                        onDragEnd={handleSortBottom}
+                        onDragOver={(e) => e.preventDefault()}
+                      >
                         <label class="switch">
                           <input
                             type="checkbox"
@@ -585,7 +618,7 @@ const List2 = ({
                     );
                   })}
             </div>
-            <div style={{display:"flex", gap:"15px", marginTop:"20px"}}>
+            <div style={{ display: "flex", gap: "15px", marginTop: "20px" }}>
               <button onClick={() => updateUser(false)}>Хадгалах</button>
               <button onClick={() => updateUser(true)}>Шинэчлэх</button>
             </div>

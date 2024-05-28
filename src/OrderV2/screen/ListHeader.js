@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Dropdown from "../components/status/dropdown";
 import DatePick from "../components/datepick/datepick";
 import Channel from "../data/info";
@@ -38,7 +38,17 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
-const ListHeader = ({ fieldsData, hts, users, ...props }) => {
+const ListHeader = ({
+  fieldsData,
+  handleSort,
+  headerLists,
+  drag,
+  hts,
+  users,
+  ...props
+}) => {
+  const dragList = useRef(0);
+  const draggedOverList = useRef(0);
   const [delivermans, setDeliverMans] = useState([
     {
       user_id: "",
@@ -142,26 +152,24 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
     if (!props || !props.userData) {
       return [];
     }
-  
+
     const { userData, data } = props;
-  
+
     if (!userData.company_id) {
       return [];
     }
-  
-    const filteredOptions = props.userData?.company_id === "|14268|"
-      ? options.concat(options2)
-      : options;
-  
-    return filteredOptions.filter(option => {
+
+    const filteredOptions =
+      props.userData?.company_id === "|14268|"
+        ? options.concat(options2)
+        : options;
+
+    return filteredOptions.filter((option) => {
       const statusValue = parseInt(option.value);
-      console.log(userData.ShipmentStatus, "andaa 14 15")
+      console.log(userData.ShipmentStatus, "andaa 14 15");
       return !(statusValue === 2 && [14, 15].includes(userData.ShipmentStatus));
     });
   };
-  
-
-
 
   const CityArray = CityData.City || [];
   const DistrictArray = DistrictData.District || [];
@@ -192,6 +200,19 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
         className="order_id"
         style={{ width: sequenceSizes["id"] + "px" }}
         key={1}
+        draggable={drag}
+        onDragStart={() => {
+          console.log(headerLists.filter((h) => h.id == 1)[0].position);
+          dragList.current = headerLists.filter((h) => h.id == 1)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 1
+          )[0].position;
+          console.log(headerLists.filter((h) => h.id == 1)[0].position);
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
       >
         <h5>Дугаар</h5>
         <input
@@ -209,6 +230,19 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
       <div
         className="order_vendor"
         key={2}
+        draggable={drag}
+        onDragStart={() => {
+          console.log(headerLists.filter((h) => h.id == 32)[0].position);
+          dragList.current = headerLists.filter((h) => h.id == 32)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 32
+          )[0].position;
+          console.log(headerLists.filter((h) => h.id == 32)[0].position);
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         style={{ width: sequenceSizes["supplier"] + "px" }}
       >
         <h5>Статус</h5>
@@ -244,6 +278,19 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
     deliverydate: (
       <div
         key={5}
+        draggable={drag}
+        onDragStart={() => {
+          console.log(headerLists.filter((h) => h.id == 36)[0].position);
+          dragList.current = headerLists.filter((h) => h.id == 36)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 36
+          )[0].position;
+          console.log(headerLists.filter((h) => h.id == 36)[0].position);
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["deliverydate"] + "px" }}
       >
@@ -513,6 +560,21 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
   };
 
   useEffect(() => {
+    if (drag) {
+      let lists = headerLists.filter((h) => !visibles.includes(h.id));
+      setHTML([
+        list[sequence[0]],
+        ...headerLists
+          .sort((a, b) => a.position - b.position)
+          .map((head) => {
+            if (head.position >= 0 && head.show && head.permission) {
+              return list[sequence[head.id]];
+            }
+          })
+          .filter((f) => f != undefined),
+      ]);
+      return;
+    }
     if (!fieldsData) {
       setHTML(
         sequence.map((sequence) => {
@@ -539,7 +601,7 @@ const ListHeader = ({ fieldsData, hts, users, ...props }) => {
           .filter((f) => f != undefined),
       ]);
     }
-  }, [fieldsData, ht, users]);
+  }, [fieldsData, ht, users, headerLists]);
 
   // let headers = localStorage.getItem("ordersHeaderList");
 
