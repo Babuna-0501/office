@@ -33,10 +33,8 @@ const Total = (props) => {
   const [delayedOrdersCount, setDelayedOrdersCount] = useState(0);
   const [deliveredOrdersCount, setdeliveredOrdersCount] = useState(0);
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
-  const [
-    totalGrandTotalForShippedOrders,
-    setTotalGrandTotalForShippedOrders,
-  ] = useState(0);
+  const [totalGrandTotalForShippedOrders, setTotalGrandTotalForShippedOrders] =
+    useState(0);
   const [shippedOrdersCount, setShippedOrdersCount] = useState(0);
 
   useEffect(() => {
@@ -56,7 +54,12 @@ const Total = (props) => {
       setTotalPaymentAmount(totalPaymentAmount);
       // Баталгаажсан
       const confirmedOrders = props.data.filter(
-        (order) => getColorForStatus(order.status)?.name === "Баталгаажсан"
+        (order) =>
+          getColorForStatus(
+            order.status,
+            order.ShipmentStatus,
+            order.ShipmentStatus
+          )?.name === "Баталгаажсан"
       );
       const totalGrandTotalForConfirmed = confirmedOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
@@ -66,9 +69,27 @@ const Total = (props) => {
       setconfirmedOrdersCount(confirmedOrders.length);
 
       // Хүргэгдсэн
-      const deliveredOrders = props.data.filter(order => getColorForStatus(order.status)?.name === "Хүргэгдсэн");
-      const totalGrandTotalForDelivered = deliveredOrders.reduce((acc, curr) => acc + curr.grand_total, 0);
-      setTotalGrandTotalForDeliveredOrders(totalGrandTotalForDelivered);
+
+      const deliveredOrders = props.data.filter(
+        (order) =>
+          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          "Хүргэгдсэн"
+      );
+      const totalGrandTotalForDelivered = deliveredOrders.reduce(
+        (acc, curr) => acc + curr.grand_total,
+        0
+      );
+      const prePayment = deliveredOrders.map((d) =>
+        d.order_data
+          ? isNaN(parseInt(JSON.parse(d.order_data).prePayment))
+            ? 0
+            : parseInt(JSON.parse(d.order_data).prePayment)
+          : 0
+      );
+      setTotalGrandTotalForDeliveredOrders(
+        totalGrandTotalForDelivered -
+          prePayment.reduce((acc, curr) => acc + curr, 0)
+      );
       setdeliveredOrdersCount(deliveredOrders.length);
 
       // Хүргэлтийн төлбөр
@@ -77,7 +98,9 @@ const Total = (props) => {
 
       // Цуцлагдсан
       const canceledOrders = props.data.filter(
-        (order) => getColorForStatus(order.status)?.name === "Цуцлагдсан"
+        (order) =>
+          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          "Цуцлагдсан"
       );
       const totalGrandTotalForCanceled = canceledOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
@@ -88,7 +111,9 @@ const Total = (props) => {
 
       // Хүлээгдэж буй
       const pendingOrders = props.data.filter(
-        (order) => getColorForStatus(order.status)?.name === "Хүлээгдэж буй"
+        (order) =>
+          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          "Хүлээгдэж буй"
       );
       const totalGrandTotalForPending = pendingOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
@@ -98,7 +123,9 @@ const Total = (props) => {
       setPendingOrdersCount(pendingOrders.length);
       // ачигдсан
       const loadedOrders = props.data.filter(
-        (order) => getColorForStatus(order.shipmentStatus)?.name === "Ачигдсан"
+        (order) =>
+          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          "Ачигдсан"
       );
       const totalGrandTotalForLoaded = loadedOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
@@ -109,7 +136,9 @@ const Total = (props) => {
       // хойшилсон
 
       const delayedOrders = props.data.filter(
-        (order) => getColorForStatus(order.shipmentStatus)?.name === "Хойшилсон"
+        (order) =>
+          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          "Хойшилсон"
       );
       const totalGrandTotalForDelayed = delayedOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
@@ -117,7 +146,7 @@ const Total = (props) => {
       );
       setTotalGrandTotalForDelayedOrders(totalGrandTotalForDelayed);
       setDelayedOrdersCount(delayedOrders.length);
-        }
+    }
   }, [props.data]);
 
   let aaa = totalPrice?.toLocaleString();

@@ -202,14 +202,12 @@ const ListHeader = ({
         key={1}
         draggable={drag}
         onDragStart={() => {
-          console.log(headerLists.filter((h) => h.id == 1)[0].position);
           dragList.current = headerLists.filter((h) => h.id == 1)[0].position;
         }}
         onDragEnter={() => {
           draggedOverList.current = headerLists.filter(
             (h) => h.id == 1
           )[0].position;
-          console.log(headerLists.filter((h) => h.id == 1)[0].position);
         }}
         onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
         onDragOver={(e) => e.preventDefault()}
@@ -232,14 +230,12 @@ const ListHeader = ({
         key={2}
         draggable={drag}
         onDragStart={() => {
-          console.log(headerLists.filter((h) => h.id == 32)[0].position);
-          dragList.current = headerLists.filter((h) => h.id == 32)[0].position;
+          dragList.current = headerLists.filter((h) => h.id == 34)[0].position;
         }}
         onDragEnter={() => {
           draggedOverList.current = headerLists.filter(
-            (h) => h.id == 32
+            (h) => h.id == 34
           )[0].position;
-          console.log(headerLists.filter((h) => h.id == 32)[0].position);
         }}
         onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
         onDragOver={(e) => e.preventDefault()}
@@ -258,6 +254,17 @@ const ListHeader = ({
     orderlist: (
       <div
         key={3}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 5)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 5
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_date"
         style={{ width: sequenceSizes["orderlist"] + "px" }}
       >
@@ -269,6 +276,17 @@ const ListHeader = ({
       <div
         key={4}
         className="order_commonfield"
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 35)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 35
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         style={{ width: sequenceSizes["orderdate"] + "px" }}
       >
         <h5>Захиалсан өдөр</h5>
@@ -280,14 +298,12 @@ const ListHeader = ({
         key={5}
         draggable={drag}
         onDragStart={() => {
-          console.log(headerLists.filter((h) => h.id == 36)[0].position);
           dragList.current = headerLists.filter((h) => h.id == 36)[0].position;
         }}
         onDragEnter={() => {
           draggedOverList.current = headerLists.filter(
             (h) => h.id == 36
           )[0].position;
-          console.log(headerLists.filter((h) => h.id == 36)[0].position);
         }}
         onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
         onDragOver={(e) => e.preventDefault()}
@@ -302,6 +318,17 @@ const ListHeader = ({
       <div
         key={6}
         className="order_commonfield"
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 9)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 9
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         style={{ width: sequenceSizes["paymenttype"] + "px" }}
       >
         <h5>Төлбөр:</h5>
@@ -311,6 +338,17 @@ const ListHeader = ({
     ),
     note: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 12)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 12
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         key={7}
         className="order_commonfield"
         style={{ width: sequenceSizes["note"] + "px" }}
@@ -323,6 +361,17 @@ const ListHeader = ({
     customerphone: (
       <div
         key={8}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 13)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 13
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["customerphone"] + "px" }}
       >
@@ -339,6 +388,17 @@ const ListHeader = ({
     merchants: (
       <div
         key={9}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 7)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 7
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["merchants"] + "px" }}
       >
@@ -355,6 +415,17 @@ const ListHeader = ({
     customerchannel: (
       <div
         key={10}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 15)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 15
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["customerchannel"] + "px" }}
       >
@@ -372,6 +443,17 @@ const ListHeader = ({
     city: (
       <div
         key={11}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 16)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 16
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["city"] + "px" }}
       >
@@ -389,6 +471,17 @@ const ListHeader = ({
     district: (
       <div
         key={12}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 17)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 17
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["district"] + "px" }}
       >
@@ -405,6 +498,17 @@ const ListHeader = ({
     khoroo: (
       <div
         key={13}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 18)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 18
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["khoroo"] + "px" }}
       >
@@ -421,6 +525,17 @@ const ListHeader = ({
     ),
     address: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 19)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 19
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         key={14}
         className="order_commonfield"
         style={{ width: sequenceSizes["address"] + "px" }}
@@ -435,6 +550,17 @@ const ListHeader = ({
     ),
     paymenttype: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 20)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 20
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         key={15}
         className="order_commonfield"
         style={{ width: sequenceSizes["paidamount"] + "px" }}
@@ -449,6 +575,17 @@ const ListHeader = ({
     srcode: (
       <div
         key={16}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 21)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 21
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["srcode"] + "px" }}
       >
@@ -462,6 +599,17 @@ const ListHeader = ({
     ),
     origin: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 22)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 22
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         key={17}
         style={{ width: sequenceSizes["origin"] + "px" }}
@@ -477,6 +625,17 @@ const ListHeader = ({
     vat: (
       <div
         key={18}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 23)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 23
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["vat"] + "px" }}
       >
@@ -493,6 +652,17 @@ const ListHeader = ({
       <div
         className="order_commonfield"
         key={19}
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 33)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 33
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         style={{ width: sequenceSizes["salesman"] + "px" }}
       >
         <h5>ХТ код/нэр</h5>
@@ -511,6 +681,17 @@ const ListHeader = ({
     ),
     deliveryman: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 28)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 28
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         className="order_commonfield"
         style={{ width: sequenceSizes["deliveryman"] + "px" }}
       >
@@ -530,6 +711,17 @@ const ListHeader = ({
     ),
     manager: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 25)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 25
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         key={21}
         className="order_commonfield"
         style={{ width: sequenceSizes["manager"] + "px" }}
@@ -543,6 +735,17 @@ const ListHeader = ({
     ),
     butsaalt: (
       <div
+        draggable={drag}
+        onDragStart={() => {
+          dragList.current = headerLists.filter((h) => h.id == 32)[0].position;
+        }}
+        onDragEnter={() => {
+          draggedOverList.current = headerLists.filter(
+            (h) => h.id == 32
+          )[0].position;
+        }}
+        onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
+        onDragOver={(e) => e.preventDefault()}
         key={22}
         className="order_commonfield"
         style={{ width: sequenceSizes["butsaalt"] + "px" }}
@@ -561,7 +764,6 @@ const ListHeader = ({
 
   useEffect(() => {
     if (drag) {
-      let lists = headerLists.filter((h) => !visibles.includes(h.id));
       setHTML([
         list[sequence[0]],
         ...headerLists

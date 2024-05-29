@@ -4,43 +4,79 @@ import ListHeader from "../screen/ListHeader";
 import myHeaders from "../../components/MyHeader/myHeader";
 export const visibles = [2, 3, 4, 6, 8, 10, 11, 14, 24, 26, 27, 29, 30, 31];
 export const sequence = [
+  // 0
   "index",
+  // 1
   "id",
-  "logo",
-  "supplier",
-  "notification",
+  // 2
+  "status",
+  // 3
   "orderlist",
+  // 4
+  "notification",
+  // 5
+  "orderlist",
+  // 6
   "deliveryManOne",
+  // 7
   "merchants",
   // 8
-  "deliver",
+  "delivering",
+  // 9
   "paidamount",
+  // 10
   "firstPrice",
+  // 11
   "coupon",
+  // 12
   "note",
+  // 13
   "customerphone",
+  // 14
   "merchants1",
+  // 15
   "customerchannel",
+  // 16
   "city",
+  // 17
   "district",
+  // 18
   "khoroo",
+  // 19
   "address",
+  // 20
   "paymenttype",
+  // 21
   "srcode",
+  // 22
   "origin",
+  // 23
   "vat",
-  "userDate",
+  // 24
+  "userdate",
+  // 25
   "manager",
+  // 26
   "salesmanName",
-  "phoneNumber",
+  // 27
+  "phone",
+  // 28
   "deliveryman",
-  "porter",
+  // 29
+  "cargo",
+  // 30
   "deleteOrder",
+  // 31
   "phoneOrder",
+  // 32
   "butsaalt",
+  // 33
   "salesman",
+  // 34
   "status",
+  // 35
   "orderdate",
+  // 36
   "deliverydate",
 ];
 export const defaultHeaderList = [
@@ -314,32 +350,6 @@ const List2 = ({
   filterState,
 }) => {
   const [headerLists, setHeaderLists] = useState([]);
-  const sequence = [
-    "index",
-    "id",
-    "status",
-    "orderlist",
-    "orderdate",
-    "deliverydate",
-    "paidamount",
-    "note",
-    "customerphone",
-    "customer",
-    "merchants",
-    "customerchannel",
-    "city",
-    "district",
-    "khoroo",
-    "address",
-    "paymenttype",
-    "srcode",
-    "origin",
-    "vat",
-    "salesman",
-    "deliveryman",
-    "manager",
-    "butsaalt",
-  ];
 
   const dragList = useRef(0);
   const draggedOverList = useRef(0);
@@ -380,11 +390,27 @@ const List2 = ({
   };
   const save = () => {};
   const updateUser = (res) => {
+    let hList = [...headerLists];
+    if (hList.length == 22) {
+      hList = [
+        ...hList,
+        ...visibles
+          .map((v) => defaultHeaderList.filter((d) => d.id == v)[0])
+          .sort((a, b) => b.position - a.position)
+          .map((b, i) => ({
+            id: b.id,
+            show: b.show,
+            permission: b.permission,
+            title: b.title,
+            position: 36 - i,
+          })),
+      ];
+    }
     const data = {
       user_id: userData.id,
       tablePosition: {
         order: {
-          field: res ? defaultHeaderList : headerLists,
+          field: res ? defaultHeaderList : hList,
           report: [],
         },
         product: {
@@ -399,7 +425,7 @@ const List2 = ({
       redirect: "follow",
       body: JSON.stringify(data),
     };
-    console.log(data);
+
     fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
       .then((r) => r.json())
       .then((res) => {
@@ -412,35 +438,33 @@ const List2 = ({
         alert(`Алдаа гарлаа. ${error}`);
       });
   };
-  const handleSortBottom = () => {
-    const copyList = [...headerLists];
-    const temp = copyList[dragList.current];
-    copyList[dragList.current] = copyList[draggedOverList.current];
-    copyList[draggedOverList.current] = temp;
-    setHeaderLists(copyList);
-  };
+
   const handleSort = (dl, dol) => {
-    const copyList = [...headerLists];
-    console.log(dl, dol);
+    let copyList = [...headerLists]
+      .filter((h) => !visibles.includes(h.id))
+      .sort((a, b) => a.position - b.position);
 
     let prev = copyList.filter((c) => c.position == dl)[0];
     let last = copyList.filter((c) => c.position == dol)[0];
-    let prevIndex = copyList.indexOf(prev)
-    let lastIndex = copyList.indexOf(last)
-    copyList[prevIndex].position = dol
+    let prevIndex = copyList.indexOf(prev);
+    let lastIndex = copyList.indexOf(last);
+
+    copyList[prevIndex].position = dol;
     copyList = copyList.map((c, i) => {
-      if(prevIndex < lastIndex) {
-        if(prevIndex < i && lastIndex >= i) {
-          c.position-=1
-        } 
-        
+      if (prevIndex < lastIndex) {
+        if (prevIndex < i && lastIndex >= i) {
+          c.position -= 1;
+        }
       }
-      if(lastIndex < prevIndex) {
-         if (prevIndex > i && lastIndex <= i) {
-           c.position += 1;
-         } 
+
+      if (lastIndex < prevIndex) {
+        if (prevIndex > i && lastIndex <= i) {
+          c.position += 1;
+        }
       }
-    })
+      return c;
+    });
+
     // const temp = copyList[dl];
     // copyList[dl] = copyList[dol];
     // copyList.filter((c) => c.position == dl)[0] = copyList.filter(
@@ -608,17 +632,11 @@ const List2 = ({
             >
               {headerLists &&
                 headerLists
-                  // .filter((h) => !visibles.includes(h.id))
+                  .filter((h) => !visibles.includes(h.id))
+                  .sort((a, b) => a.position - b.position)
                   ?.map((head, i) => {
                     return (
-                      <div
-                        key={i}
-                        draggable
-                        onDragStart={() => (dragList.current = i)}
-                        onDragEnter={() => (draggedOverList.current = i)}
-                        onDragEnd={handleSortBottom}
-                        onDragOver={(e) => e.preventDefault()}
-                      >
+                      <div key={i}>
                         <label class="switch">
                           <input
                             type="checkbox"

@@ -26,11 +26,8 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
     setShowDeliveryDate(false);
   };
   //Түгээгчийн попап
-  const { color, name, fontColor } = getColorForStatus(
-    data?.ShipmentStatus === 14 || data?.ShipmentStatus === 15
-      ? data.ShipmentStatus
-      : data.status
-  );
+  const { color, name, fontColor, scolor, sname, sfontColor } =
+    getColorForStatus(data.status, data.ShipmentStatus);
 
   const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
@@ -354,19 +351,14 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
   const submit = async () => {
     try {
-      const { code, name } = getChangeStatusThemes(
-        data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
-          ? data.ShipmentStatus
-          : data.status
+      const { code, scode } = getChangeStatusThemes(
+        data.status,
+        data.ShipmentStatus
       );
-      let prev = getColorForStatus(
-        data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
-          ? data.ShipmentStatus
-          : data.status
-      );
+      let prev = getColorForStatus(data.status, data.ShipmentStatus);
       let body = {
         order_id: data.order_id,
-        order_status: code,
+        order_status: data.ShipmentStatus >= 14 ? scode : code,
       };
 
       var requestOptions = {
@@ -484,10 +476,10 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
   // console.log(props, "props ireh");
 
   function getOriginNameById(id) {
-    const origin = originData.find(item => item.id === id);
+    const origin = originData.find((item) => item.id === id);
     return origin ? origin.name : "Дата байхгүй";
   }
-  
+
   const originName = getOriginNameById(data.origin);
 
   return (
@@ -537,21 +529,27 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 36:
                 return (
-                  <div style={{display:"flex", alignItems:"center"}}>
-                    <div className="delivery_date" key={data.id} onClick={handleDivClick}>
-                        <div className="fullcontainer order_date">
-                          <span style={{ display: 'flex', alignItems: 'baseline' }}>
-                            {formatDate(data.delivery_date)}
-                          </span>
-                        </div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      className="delivery_date"
+                      key={data.id}
+                      onClick={handleDivClick}
+                    >
+                      <div className="fullcontainer order_date">
+                        <span
+                          style={{ display: "flex", alignItems: "baseline" }}
+                        >
+                          {formatDate(data.delivery_date)}
+                        </span>
                       </div>
-                      {showDeliveryDate && (
-                        <DeliveryDate 
-                          data={data} 
-                          setOrder={handleSave} 
-                          closeDeliveryDate={() => setShowDeliveryDate(false)}
-                        />
-                      )}
+                    </div>
+                    {showDeliveryDate && (
+                      <DeliveryDate
+                        data={data}
+                        setOrder={handleSave}
+                        closeDeliveryDate={() => setShowDeliveryDate(false)}
+                      />
+                    )}
                   </div>
                 );
 
@@ -748,9 +746,13 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                     <div className="fullcontainer">
                       <span
                         className="statusbar"
-                        style={{ backgroundColor: color, color: fontColor }}
+                        style={
+                          props.status >= 14
+                            ? { backgroundColor: scolor, color: sfontColor }
+                            : { backgroundColor: color, color: fontColor }
+                        }
                       >
-                        {name}
+                        {props.status >= 14 ? sname : name}
                       </span>
                     </div>
                   </div>
@@ -1199,14 +1201,15 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                         Захиалга цуцлах
                       </button>
                       <button onClick={() => setStatusAlert(2)}>
-                        {
-                          getChangeStatusThemes(
-                            data?.ShipmentStatus == 14 ||
-                              data?.ShipmentStatus == 15
-                              ? data.ShipmentStatus
-                              : data.status
-                          )?.name
-                        }
+                        {data.ShipmentStatus >= 14
+                          ? getChangeStatusThemes(
+                              data.status,
+                              data.ShipmentStatus
+                            )?.sname
+                          : getChangeStatusThemes(
+                              data.status,
+                              data.ShipmentStatus
+                            )?.name}
                       </button>
                     </div>
                   </div>
@@ -1249,11 +1252,11 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
               <Dialog
                 cancel={() => setStatusAlert(0)}
                 payload={
-                  getChangeStatusThemes(
-                    data?.ShipmentStatus == 14 || data?.ShipmentStatus == 15
-                      ? data.ShipmentStatus
-                      : data.status
-                  ).name
+                  data.ShipmentStatus >= 14
+                    ? getChangeStatusThemes(data.status, data.ShipmentStatus)
+                        ?.sname
+                    : getChangeStatusThemes(data.status, data.ShipmentStatus)
+                        ?.name
                 }
                 save={() => {
                   if (statusAlert == 1) {

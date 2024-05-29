@@ -1,7 +1,24 @@
-const getColorForStatus = (statusId) => {
+const getColorForStatus = (statusId, shipmentStatus) => {
   let color = "";
   let name = "";
   let fontColor = "";
+  let scolor = "";
+  let sname = "";
+  let sfontColor = "";
+  switch (shipmentStatus) {
+    case 14: // Shipment status
+      // case 6: // Shipment status
+      scolor = "#E3CE0E";
+      sname = "Ачигдсан";
+      sfontColor = "#fff";
+      break;
+    case 15: // Shipment status
+      // case 7: // Shipment status
+      scolor = "#CCCCCC";
+      sname = "Хойшилсон";
+      sfontColor = "#fff";
+      break;
+  }
 
   switch (statusId) {
     case 1: // Pending
@@ -29,18 +46,7 @@ const getColorForStatus = (statusId) => {
       name = "Цуцлагдсан";
       fontColor = "#fff";
       break;
-    case 14: // Shipment status
-      // case 6: // Shipment status
-      color = "#E3CE0E";
-      name = "Ачигдсан";
-      fontColor = "#fff";
-      break;
-    case 15: // Shipment status
-      // case 7: // Shipment status
-      color = "#CCCCCC";
-      name = "Хойшилсон";
-      fontColor = "#fff";
-      break;
+
     case "all":
       color = "transparent";
       name = "All Statuses";
@@ -52,14 +58,33 @@ const getColorForStatus = (statusId) => {
       fontColor = "#000";
   }
 
-  return { color, name, fontColor };
+  return { color, name, fontColor, scolor, sname, sfontColor };
 };
-export const getChangeStatusThemes = (statusId) => {
+export const getChangeStatusThemes = (statusId, shipmentStatus) => {
   let color = "";
   let name = "";
   let fontColor = "";
   let code = 0;
-
+  let scolor = "";
+  let sname = "";
+  let sfontColor = "";
+  let scode = 0;
+  switch (shipmentStatus) {
+    case 14: // Shipment status
+      // case 6: // Shipment status
+      scolor = "#E3CE0E";
+      sname = "Хойшилсон";
+      sfontColor = "#fff";
+      scode = 15;
+      break;
+    case 15: // Shipment status
+      // case 7: // Shipment status
+      scolor = "#58dd42";
+      sname = "Хүргэгдсэн";
+      scode = 3;
+      sfontColor = "#fff";
+      break;
+  }
   switch (statusId) {
     case 5: // Pending
       color = "#58dd42";
@@ -91,20 +116,7 @@ export const getChangeStatusThemes = (statusId) => {
       name = "Цуцлагдсан";
       fontColor = "#fff";
       break;
-    case 14: // Shipment status
-      // case 6: // Shipment status
-      color = "#E3CE0E";
-      name = "Хойшилсон";
-      fontColor = "#fff";
-      code = 15;
-      break;
-    case 15: // Shipment status
-      // case 7: // Shipment status
-      color = "#58dd42";
-      name = "Хүргэгдсэн";
-      code = 3;
-      fontColor = "#fff";
-      break;
+
     case "all":
       color = "transparent";
       name = "All Statuses";
@@ -116,7 +128,7 @@ export const getChangeStatusThemes = (statusId) => {
       fontColor = "#000";
   }
 
-  return { color, name, fontColor, code };
+  return { color, name, fontColor, code, scolor, sname, sfontColor, scode };
 };
 
 export default getColorForStatus;

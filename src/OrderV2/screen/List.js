@@ -452,6 +452,7 @@ const admin = userData.user_id == 1;
                   data={order}
                   checked={selectedOrders.includes(order.order_id)}
                   head={head}
+                  status={filterState.status}
                   firstname={matchUser?.first_name ?? ""}
                   salesmanFirstname={matchHt?.first_name ?? ""}
                   onCheckboxChange={(e) =>
