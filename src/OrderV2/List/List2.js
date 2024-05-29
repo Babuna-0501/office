@@ -423,13 +423,30 @@ const List2 = ({
     const copyList = [...headerLists];
     console.log(dl, dol);
 
-    const temp = copyList.filter((c) => c.position == dl)[0];
+    let prev = copyList.filter((c) => c.position == dl)[0];
+    let last = copyList.filter((c) => c.position == dol)[0];
+    let prevIndex = copyList.indexOf(prev)
+    let lastIndex = copyList.indexOf(last)
+    copyList[prevIndex].position = dol
+    copyList = copyList.map((c, i) => {
+      if(prevIndex < lastIndex) {
+        if(prevIndex < i && lastIndex >= i) {
+          c.position-=1
+        } 
+        
+      }
+      if(lastIndex < prevIndex) {
+         if (prevIndex > i && lastIndex <= i) {
+           c.position += 1;
+         } 
+      }
+    })
     // const temp = copyList[dl];
     // copyList[dl] = copyList[dol];
-    copyList.filter((c) => c.position == dl)[0] = copyList.filter(
-      (c) => c.position == dol
-    )[0];
-    copyList.filter((c) => c.position == dol)[0] = temp;
+    // copyList.filter((c) => c.position == dl)[0] = copyList.filter(
+    //   (c) => c.position == dol
+    // )[0];
+    // copyList.filter((c) => c.position == dol)[0] = temp;
     setHeaderLists(copyList);
   };
   return (
