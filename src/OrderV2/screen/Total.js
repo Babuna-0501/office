@@ -124,9 +124,10 @@ const Total = (props) => {
       // ачигдсан
       const loadedOrders = props.data.filter(
         (order) =>
-          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          getColorForStatus(order.status, order.ShipmentStatus)?.sname ===
           "Ачигдсан"
       );
+      console.log(loadedOrders);
       const totalGrandTotalForLoaded = loadedOrders.reduce(
         (acc, curr) => acc + curr.grand_total,
         0
@@ -137,7 +138,7 @@ const Total = (props) => {
 
       const delayedOrders = props.data.filter(
         (order) =>
-          getColorForStatus(order.status, order.ShipmentStatus)?.name ===
+          getColorForStatus(order.status, order.ShipmentStatus)?.sname ===
           "Хойшилсон"
       );
       const totalGrandTotalForDelayed = delayedOrders.reduce(
