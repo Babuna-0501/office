@@ -171,11 +171,15 @@ const ReportDetail = () => {
       <div className='reportDetail'>
         <div className='detailed'>      
           <h1>Захиалгын Дэлгэрэнгүй Тайлан</h1>
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '20px', display:"flex" }}>
+            <div style={{display:"flex", flexDirection:"column"}}>
             <label>Эхлэх огноо:</label>
             <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            </div>
+            <div style={{display:"flex", flexDirection:"column"}}>
             <label>Дуусах огноо:</label>
             <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </div>
             <button onClick={fetchData} disabled={isLoading}>Тайлан бэлдэх</button>
             {isLoading && <progress style={{ marginLeft: '10px' }} />}
           </div>
@@ -188,13 +192,13 @@ const ReportDetail = () => {
           )}
         </div>
       </div>
-      {/* <div className='reportDetail'>
+      <div className='reportDetail' style={{marginLeft:"20px",  display:"flex"}}>
         <h1>Захиалгын Товч Тайлан</h1>
         <Brief/>
-      </div> */}
-      <div className='reportDetail'>
-        <ReportYuna/>
       </div>
+      {/* <div className='reportDetail'>
+        <ReportYuna/>
+      </div> */}
     </div>
   );
 };

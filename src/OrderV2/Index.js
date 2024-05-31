@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Tab from "./components/tab/Tab";
 import List1 from "./List/List1";
 import List2, { defaultHeaderList } from "./List/List2";
@@ -14,6 +14,7 @@ import { Workbook } from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2pdf from "html2pdf.js";
+import * as XLSX from 'xlsx';
 
 const App = (props) => {
   const [filterState, setFilterState] = useState({
@@ -50,6 +51,7 @@ const App = (props) => {
   const [exportOpen, setExportOpen] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
   const [sfa, setSfa] = useState(false);
+  const usersMapRef = useRef({}); 
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.date);
@@ -152,163 +154,6 @@ const App = (props) => {
     }
   }, [props.userData]);
 
-  const exportExcel = () => {
-    const workbook = new Workbook();
-    let date = new Date();
-    workbook.creator = "test";
-    workbook.created = date;
-    workbook.modified = date;
-    let items = filterState.checked
-      ? filteredData
-      : filteredData.filter((f) => selectedOrders.includes(f.order_id));
-    workbook.views = [
-      {
-        x: 0,
-        y: 0,
-        width: 10000,
-        height: 20000,
-        firstSheet: 0,
-        activeTab: 0,
-        visibility: "visible",
-      },
-    ];
-    const worksheet = workbook.addWorksheet("Тайлан");
-    worksheet.columns = [
-      {
-        header: "№",
-        key: "number",
-      },
-      {
-        header: "Дугаар",
-        key: "id",
-      },
-      {
-        header: "Барааны нэр",
-        key: "product_name",
-      },
-      {
-        header: "Тоо ширхэг",
-        key: "quantity",
-      },
-      {
-        header: "Нэгж үнэ",
-        key: "unitPrice",
-      },
-      {
-        header: "Төлсөн",
-        key: "paid",
-      },
-      {
-        header: "Нийт үнэ",
-        key: "price",
-      },
-      {
-        header: "Үйлчилгээний газрын нэр",
-        key: "tradeshop",
-      },
-      {
-        header: "Утас",
-        key: "phone",
-      },
-      {
-        header: "Хариуцсан ХТ",
-        key: "haritsagch",
-      },
-      {
-        header: "Түгээгч",
-        key: "deliver_man",
-      },
-      {
-        header: "Дэлгэрэнгүй хаяг",
-        key: "address",
-      },
-    ];
-    let qr = 0;
-    let pr = 0;
-    let deliverFee = 6000;
-    let paids = 0;
-    items.map((item, i) => {
-      let quantity = 0;
-      let price = 0;
-      let paid =
-        item.order_data != undefined
-          ? JSON.parse(item.order_data)?.prePayment ?? 0
-          : 0;
-      paids += paid;
-      item.line.map((l) => {
-        quantity += l.quantity;
-        price += l.amount;
-        qr += l.quantity;
-        pr += l.amount;
-
-        if (item.supplier_id === 14268) {
-          pr += deliverFee;
-        }
-      });
-
-      worksheet.addRow({
-        number: i + 1,
-        id: item.order_id,
-        product_name: "НИЙТ",
-        quantity: quantity,
-        unitPrice: "",
-        paid: paid,
-        price: item.supplier_id === 14268 ? price + deliverFee : price,
-        tradeshop: item.tradeshop_name,
-        phone: item.tradeshop_name,
-        haritsagch: item.sales_man,
-        deliver_man: item.deliver_man,
-        address: item.address,
-      });
-
-      item.line.map((l, index) => {
-        worksheet.addRow({
-          number: "",
-          id: "",
-          product_name: l.product_name,
-          quantity: l.quantity,
-          unitPrice: l.price,
-          paid: "",
-          price: item.supplier_id === 14268 ? l.amount + deliverFee : l.amount,
-          tradeshop: "",
-          phone: "",
-          haritsagch: item.sales_man,
-          deliver_man: "",
-          address: "",
-        });
-      });
-    });
-
-    worksheet.addRow({
-      number: "",
-      id: "",
-      product_name: "GRAND TOTAL",
-      quantity: qr,
-      unitPrice: "",
-      paid: paids,
-      price: pr,
-      tradeshop: "",
-      phone: "",
-      haritsagch: "",
-      deliver_man: "",
-      address: "",
-    });
-
-    workbook.xlsx.writeBuffer().then((buffer) => {
-      const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      const formattedDate = date.toISOString().slice(0, 10);
-      a.download = `Тайлан ${formattedDate}.xlsx`;
-
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
-  };
-
   useEffect(() => {
     const fetchUsers = async () => {
       const requestOptions = {
@@ -318,39 +163,136 @@ const App = (props) => {
       };
 
       try {
-        const response = await fetch(
-          "https://api2.ebazaar.mn/api/backoffice/users",
-          requestOptions
-        );
+        const response = await fetch("https://api2.ebazaar.mn/api/backoffice/users", requestOptions);
         const userData = await response.json();
 
-        // Map user data to object for faster lookups
         const usersMap = userData?.data?.reduce((acc, user) => {
           acc[user.user_id] = user.first_name;
           return acc;
         }, {});
 
-        // Update item data with first names
-        const updatedUsersData = users.map((item) => ({
-          ...item,
-          sales_man: usersMap[item.sales_man],
-          deliver_man: usersMap[item.deliver_man],
-        }));
-
-        setUsers(updatedUsersData);
+        usersMapRef.current = usersMap;
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, []); 
+
+  useEffect(() => {
+    const updateUserDetails = () => {
+      const updatedUsersData = users.map((item) => ({
+        ...item,
+        sales_man: usersMapRef.current[item.sales_man],
+        deliver_man: usersMapRef.current[item.deliver_man],
+      }));
+
+      setUsers(updatedUsersData);
+    };
+
+    if (Object.keys(usersMapRef.current).length > 0) {
+      updateUserDetails();
+    }
+  }, [users]); 
+
+  
+
+  const exportExcel = () => {
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10);
+    let items = filterState.checked
+      ? filteredData
+      : filteredData.filter((f) => selectedOrders.includes(f.order_id));
+  
+    const wsData = [
+      ["№", "Дугаар", "Барааны нэр", "Тоо ширхэг", "Нэгж үнэ", "Төлсөн", "Нийт үнэ", "Үйлчилгээний газрын нэр", "Утас", "Хариуцсан ХТ", "Түгээгч", "Дэлгэрэнгүй хаяг"]
+    ];
+  
+    let qr = 0;
+    let pr = 0;
+    let deliverFee = 6000;
+    let paids = 0;
+  
+    items.forEach((item, i) => {
+      let quantity = 0;
+      let price = 0;
+      let paid = item.order_data != undefined ? JSON.parse(item.order_data)?.prePayment ?? 0 : 0;
+      paids += paid;
+  
+      item.line.forEach((l) => {
+        quantity += l.quantity;
+        price += l.amount;
+        qr += l.quantity;
+        pr += l.amount;
+  
+        if (item.supplier_id === 14268) {
+          pr += deliverFee;
+        }
+      });
+  
+      wsData.push([
+        i + 1,
+        item.order_id,
+        "НИЙТ",
+        quantity,
+        "",
+        paid,
+        item.supplier_id === 14268 ? price + deliverFee : price,
+        item.tradeshop_name,
+        item.phone,
+        usersMapRef.current[item.sales_man],
+        usersMapRef.current[item.deliver_man],
+        item.address
+      ]);
+  
+      item.line.forEach((l) => {
+        wsData.push([
+          "",
+          "",
+          l.product_name,
+          l.quantity,
+          l.price,
+          "",
+          item.supplier_id === 14268 ? l.amount + deliverFee : l.amount,
+          "",
+          "",
+          usersMapRef.current[item.sales_man],
+          "",
+          ""
+        ]);
+      });
+    });
+  
+    wsData.push([
+      "",
+      "",
+      "GRAND TOTAL",
+      qr,
+      "",
+      paids,
+      pr,
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]);
+  
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Тайлан");
+  
+    XLSX.writeFile(wb, `Тайлан ${formattedDate}.xlsx`);
+  };
+  
+
 
   const exportPdf = () => {
     let list = [];
     let qr = 0;
     let pr = 0;
-    let deliverFee = 6000; // Define the delivery fee
+    let deliverFee = 6000; 
     let paids = 0;
     let items = filterState.checked
       ? filteredData
@@ -669,7 +611,11 @@ const App = (props) => {
 
       <ReportBtn
         onClick={() => {
-          setExportOpen(true);
+          if (!filterState.checked && filteredData.filter((d) => selectedOrders.includes(d.order_id)).length === 0) {
+            alert('Та захиалга сонгоогүй байна');
+          } else {
+            setExportOpen(true);
+          }
         }}
       />
 
@@ -693,6 +639,7 @@ const App = (props) => {
         }
         print={() => {}}
       />
+
     </div>
   );
 };

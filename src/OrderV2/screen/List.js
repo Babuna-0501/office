@@ -121,11 +121,11 @@ const List = ({
       getOrders(true, true, 1);
     }
   }, [filterState, suppliers]); // Хуудас солигдох үед датаг fetch хийнэ.
+  
   useEffect(() => {
     if (filterState.checked != null) {
       return;
     }
-    console.log("sfa 1", suppliers);
 
     let starts = Object.values(filterState)
       .map((v) => {
@@ -183,9 +183,9 @@ const List = ({
     // }
     if (filterState.salesman && filterState.salesman != "") {
       if (filterState.salesman == "null") {
-        params += `salesManNull=true&`;
+        params += `salesman_null=true&`;
       } else if (filterState.salesman === "notNull") {
-        params += `salesManNotNull=true&`;
+        params += `salesman_notnull=true&`;
       } else {
         params += `salesMan=${filterState.salesman.toString()}` + "&";
       }
@@ -201,9 +201,9 @@ const List = ({
 
     if (filterState.deliveryman && filterState.deliveryman != "") {
       if (filterState.deliveryman == "null") {
-        params += `deliveryManNull=true&`;
+        params += `deliveryman_null=true&`;
       } else if (filterState.deliveryman === "notNull") {
-        params += `deliveryManNotNull=true&`;
+        params += `deliveryman_notnull=true&`;
       } else {
         // null utga awdag
         params += `delivery_man=${filterState.deliveryman.toString()}` + "&";
@@ -364,21 +364,13 @@ const admin = userData.user_id == 1;
 
   return (
     <>
-      <CSVLink
-        data={formattedData}
-        headers={myCustomHeaders}
-        filename={"Хураангүй.csv"}
-        className="export-button"
-      >
-        Хураангүй тайлан
-      </CSVLink>
       <div
         className="OrderPageWrapper"
         onScroll={(e) => {
           e.preventDefault();
           const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
 
-          const tolerance = 5; // Tolerance for detecting bottom of scroll
+          const tolerance = 5; 
           const bottom = scrollHeight - clientHeight - scrollTop <= tolerance;
 
           if (bottom & (filteredData.length > 0)) {

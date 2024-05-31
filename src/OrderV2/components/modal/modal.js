@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./modal.css";
 import myHeaders from "../../../components/MyHeader/myHeader";
+import City from "../../data/city.json";
+import District from "../../data/district.json";
+
+const cityMapping = City.City.reduce((acc, city) => {
+  acc[city.location_id] = city.location_name;
+  return acc;
+}, {});
+
+const districtMapping = District.District.reduce((acc, district) => {
+  acc[district.location_id] = district.location_name;
+  return acc;
+}, {});
 
 const Modal = ({ open, payload, cancel, save, onChange, props }) => {
   const [delivermans, setDeliverMans] = useState([]);
@@ -140,7 +152,7 @@ export const ExportModal = ({
           <span className="flex-4">Тоо ширхэг</span>
           <span className="flex-4">Нэгж үнэ</span>
           <span className="flex-5">Төлсөн</span>
-          <span className="flex-5">Нийт үнэ</span>
+          <span className="flex-5">Төлбөрийн үлдэгдэл</span>
           <span className="flex-6">Үйлчилгээний газрын нэр</span>
           <span className="flex-3">Утас</span>
           <span className="flex-4">Хариуцсан ХТ</span>
@@ -175,13 +187,13 @@ export const ExportModal = ({
                   <div key={i} className="modal_table_head head">
                     <span className="flex-1">{i + 1}</span>
                     <span className="flex-3">{p.order_id}</span>
-                    <span>НИЙТ</span>
+                    <span></span>
                     <span className="flex-4">{quantity}</span>
                     <span className="flex-4"></span>
                     <span className="flex-5">{paid}₮</span>
                     <span className="flex-5">
                       {payload[0].supplier_id === 14268
-                        ? price + deliverFee
+                        ? price + deliverFee - paid
                         : price}
                       ₮ <br />
                     </span>
@@ -190,7 +202,7 @@ export const ExportModal = ({
                     <span className="flex-4">{getUserName(p.sales_man)}</span>
                     <span className="flex-4">{getUserName(p.deliver_man)}</span>
                     <span className="flex-8">
-                      {p.address}, {p.tradeshop_city}
+                      {p.address}, {cityMapping[p.tradeshop_city] || p.tradeshop_city}, {districtMapping[p.tradeshop_district] || p.tradeshop_district}
                     </span>
                   </div>
                   {p.line.map((l, index) => (
@@ -203,7 +215,7 @@ export const ExportModal = ({
                       <span className="flex-5"></span>
                       <span className="flex-5">
                         {payload[0].supplier_id === 14268
-                          ? l.price_amount + deliverFee
+                          ? l.price_amount + deliverFee -paid
                           : l.price_amount}
                         ₮ <br />
                       </span>
@@ -223,7 +235,9 @@ export const ExportModal = ({
               <span>GRAND TOTAL</span>
               <span className="flex-4">{qt}</span>
               <span className="flex-4"></span>
-              <span className="flex-5">{paids}₮</span>
+              <span className="flex-5">
+              {/* {paids}₮ */}
+              </span>
               <span className="flex-5">
                 {totalAmount}₮ <br />
               </span>

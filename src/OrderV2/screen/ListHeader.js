@@ -166,7 +166,6 @@ const ListHeader = ({
 
     return filteredOptions.filter((option) => {
       const statusValue = parseInt(option.value);
-      console.log(userData.ShipmentStatus, "andaa 14 15");
       return !(statusValue === 2 && [14, 15].includes(userData.ShipmentStatus));
     });
   };
