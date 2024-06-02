@@ -211,11 +211,11 @@ const List = ({
     }
 
     if (filterState.status) {
-       if(filterState.status > 10) {
-      changeParams(filterState.status, "shipment_status");
-     } else {
-      changeParams(filterState.status, "order_status");
-      }
+       if (userData.company_id === "|14268|") {
+         changeParams(filterState.status, "shipment_status");
+       } else {
+         changeParams(filterState.status, "order_status");
+       }
     }
 
     if (filterState.tradeshop_name) {

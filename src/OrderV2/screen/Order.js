@@ -26,8 +26,9 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
     setShowDeliveryDate(false);
   };
   //Түгээгчийн попап
-  const { color, name, fontColor, scolor, sname, sfontColor } =
-    getColorForStatus(data.status, data.ShipmentStatus);
+  const { color, name, fontColor } = getColorForStatus(
+    props.userData.company_id === "|14268|" ? data.ShipmentStatus : data.status
+  );
 
   const [userId, setUserId] = useState([]);
   const getBusinessTypeName = (businessTypeId) => {
@@ -351,14 +352,19 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
   const submit = async () => {
     try {
-      const { code, scode } = getChangeStatusThemes(
-        data.status,
-        data.ShipmentStatus
+      const { code } = getChangeStatusThemes(
+        props.userData.company_id === "|14268|"
+          ? data.ShipmentStatus
+          : data.status
       );
-      let prev = getColorForStatus(data.status, data.ShipmentStatus);
+      let prev = getColorForStatus(
+        props.userData.company_id === "|14268|"
+          ? data.ShipmentStatus
+          : data.status
+      );
       let body = {
         order_id: data.order_id,
-        order_status: data.ShipmentStatus >= 14 ? scode : code,
+        order_status: code,
       };
 
       var requestOptions = {
@@ -746,13 +752,9 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                     <div className="fullcontainer">
                       <span
                         className="statusbar"
-                        style={
-                          props.status >= 14
-                            ? { backgroundColor: scolor, color: sfontColor }
-                            : { backgroundColor: color, color: fontColor }
-                        }
+                        style={{ backgroundColor: color, color: fontColor }}
                       >
-                        {props.status >= 14 ? sname : name}
+                        { name}
                       </span>
                     </div>
                   </div>
@@ -1201,15 +1203,13 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                         Захиалга цуцлах
                       </button>
                       <button onClick={() => setStatusAlert(2)}>
-                        {data.ShipmentStatus >= 14
-                          ? getChangeStatusThemes(
-                              data.status,
-                              data.ShipmentStatus
-                            )?.sname
-                          : getChangeStatusThemes(
-                              data.status,
-                              data.ShipmentStatus
-                            )?.name}
+                        {
+                          getChangeStatusThemes(
+                            props.userData.company_id === "|14268|"
+                              ? data.ShipmentStatus
+                              : data.status
+                          )?.name
+                        }
                       </button>
                     </div>
                   </div>
@@ -1252,11 +1252,11 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
               <Dialog
                 cancel={() => setStatusAlert(0)}
                 payload={
-                  data.ShipmentStatus >= 14
-                    ? getChangeStatusThemes(data.status, data.ShipmentStatus)
-                        ?.sname
-                    : getChangeStatusThemes(data.status, data.ShipmentStatus)
-                        ?.name
+                  getChangeStatusThemes(
+                    props.userData.company_id === "|14268|"
+                      ? data.ShipmentStatus
+                      : data.status
+                  )?.name
                 }
                 save={() => {
                   if (statusAlert == 1) {
