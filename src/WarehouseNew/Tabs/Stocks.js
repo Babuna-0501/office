@@ -1,9 +1,9 @@
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from 'react'
 import myHeaders from "../../components/MyHeader/myHeader"
 import List from './List'
 import Detail from './Detail'
-import {ModuleContext} from '../index'
-import {WarehouseContext} from '../Warehouse'
+import { ModuleContext } from '../index'
+import { WarehouseContext } from '../Warehouse'
 
 const In = (props) => {
 	const context = useContext(ModuleContext)
@@ -17,17 +17,18 @@ const In = (props) => {
 			method: "GET",
 			headers: myHeaders,
 			redirect: "follow",
-	    }
+		}
 		fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			setData(response.data)
-		})
+			then(r => r.json()).
+			then(response => {
+				setData(response.data)
+			})
 	}, [])
+
 	return data ? (
 		<>
-		<List data={warehouseContext.products} setEntry={setEntry} productGroups={context.productGroups} />
-		{entry ? <Detail data={entry} setEntry={setEntry} /> : null}
+			<List data={warehouseContext.products} setEntry={setEntry} productGroups={context.productGroups} />
+			{entry ? <Detail data={entry} setEntry={setEntry} /> : null}
 		</>
 	) : <div>Түр хүлээнэ үү...</div>
 }

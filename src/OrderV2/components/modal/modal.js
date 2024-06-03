@@ -179,7 +179,7 @@ export const ExportModal = ({
               });
               let paid =
                 p.order_data != undefined
-                  ? JSON.parse(p.order_data)?.prePayment ?? 0
+                  ? Number(JSON.parse(p.order_data)?.prePayment) ?? 0
                   : 0;
               paids += paid;
               return (
@@ -190,12 +190,12 @@ export const ExportModal = ({
                     <span></span>
                     <span className="flex-4">{quantity}</span>
                     <span className="flex-4"></span>
-                    <span className="flex-5">{paid}₮</span>
+                    <span className="flex-5"></span>
                     <span className="flex-5">
-                      {payload[0].supplier_id === 14268
+                      {/* {payload[0].supplier_id === 14268
                         ? price + deliverFee - paid
                         : price}
-                      ₮ <br />
+                      ₮ <br /> */}
                     </span>
                     <span className="flex-6">{p.tradeshop_name}</span>
                     <span className="flex-3">{p.phone}</span>
@@ -212,7 +212,7 @@ export const ExportModal = ({
                       <span>{l.product_name}</span>
                       <span className="flex-4">{l.quantity}</span>
                       <span className="flex-4">{l.price}</span>
-                      <span className="flex-5"></span>
+                      <span className="flex-5">{paid}₮</span>
                       <span className="flex-5">
                         {payload[0].supplier_id === 14268
                           ? l.price_amount + deliverFee -paid
@@ -236,10 +236,10 @@ export const ExportModal = ({
               <span className="flex-4">{qt}</span>
               <span className="flex-4"></span>
               <span className="flex-5">
-              {/* {paids}₮ */}
+              {paids}₮
               </span>
               <span className="flex-5">
-                {totalAmount}₮ <br />
+                {totalAmount - paids}₮ <br />
               </span>
               <span className="flex-6"></span>
               <span className="flex-3"></span>

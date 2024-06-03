@@ -1,6 +1,6 @@
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from 'react'
 import myHeaders from "../../../components/MyHeader/myHeader"
-import {ModuleContext} from '../../index'
+import { ModuleContext } from '../../index'
 import List from './List'
 import Form from './Form'
 import ZarlagaForm from '../Zarlaga/Form'
@@ -19,7 +19,7 @@ const FormattedDate = () => {
 }
 
 const Orlogo = (props) => {
-	let foo =  FormattedDate()
+	let foo = FormattedDate()
 	const [startDate, setStartDate] = useState(foo['year'] + '-' + foo['month'] + '-' + '01')
 	const [endDate, setEndDate] = useState(foo['currentDate'])
 	const context = useContext(ModuleContext)
@@ -40,21 +40,27 @@ const Orlogo = (props) => {
 			method: "GET",
 			headers: myHeaders,
 			redirect: "follow",
-	    }
+		}
 		fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			setData(response.data)
-		})
+			then(r => r.json()).
+			then(response => {
+				setData(response.data)
+			})
 	}
+
+	const clickDownload = (ids) => {
+		if (ids.length == 0) return
+		console.log(ids);
+	}
+
 	const foobar = (blahblah) => {
 		//if(blahblah === 'today' || blahblah === 'thismonth' || blahblah === 'thisweek') {
-			//fetchData()
+		//fetchData()
 		//}
 	}
 	return data ? (
 		<>
-			<List data={data} setForm={setForm} setFormZarlaga={setFormZarlaga} foobar={foobar} setOgnoo={setOgnoo} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} />
+			<List data={data} setForm={setForm} setFormZarlaga={setFormZarlaga} foobar={foobar} setDownload={clickDownload} setOgnoo={setOgnoo} setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} />
 			{form ? <Form setForm={setForm} form={form} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} warehouseId={props.wh} /> : null}
 			{formZarlaga ? <ZarlagaForm setFormZarlaga={setFormZarlaga} form={formZarlaga} foobar={foobar} sentRequest={sentRequest} ognoo={ognoo} warehouseId={props.wh} /> : null}
 		</>

@@ -15,6 +15,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2pdf from "html2pdf.js";
 import * as XLSX from 'xlsx';
+import City from "./data/city.json";
+import District from "./data/district.json";
 
 const App = (props) => {
   const [filterState, setFilterState] = useState({
@@ -196,8 +198,17 @@ const App = (props) => {
     }
   }, [users]); 
 
-  
 
+  const cityMapping = City.City.reduce((acc, city) => {
+    acc[city.location_id] = city.location_name;
+    return acc;
+  }, {});
+  
+  const districtMapping = District.District.reduce((acc, district) => {
+    acc[district.location_id] = district.location_name;
+    return acc;
+  }, {});
+  
   const exportExcel = () => {
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10);
@@ -217,7 +228,7 @@ const App = (props) => {
     items.forEach((item, i) => {
       let quantity = 0;
       let price = 0;
-      let paid = item.order_data != undefined ? JSON.parse(item.order_data)?.prePayment ?? 0 : 0;
+      let paid = item.order_data != undefined ? Number(JSON.parse(item.order_data)?.prePayment)  ?? 0 : 0;
       paids += paid;
   
       item.line.forEach((l) => {
@@ -231,19 +242,23 @@ const App = (props) => {
         }
       });
   
+      const tradeshopCityName = cityMapping[item.tradeshop_city] || item.tradeshop_city;
+      const tradeshopDistrictName = districtMapping[item.tradeshop_district] || item.tradeshop_district;
+  
       wsData.push([
         i + 1,
         item.order_id,
-        "НИЙТ",
+        "",
         quantity,
         "",
         paid,
-        item.supplier_id === 14268 ? price + deliverFee : price,
+        "",
+        // item.supplier_id === 14268 ? price + deliverFee : price,
         item.tradeshop_name,
         item.phone,
         usersMapRef.current[item.sales_man],
         usersMapRef.current[item.deliver_man],
-        item.address
+        item.address + ',' + tradeshopCityName + ',' + tradeshopDistrictName  
       ]);
   
       item.line.forEach((l) => {
@@ -254,7 +269,7 @@ const App = (props) => {
           l.quantity,
           l.price,
           "",
-          item.supplier_id === 14268 ? l.amount + deliverFee : l.amount,
+          item.supplier_id === 14268 ? l.amount + deliverFee - paid : l.amount,
           "",
           "",
           usersMapRef.current[item.sales_man],
@@ -271,7 +286,7 @@ const App = (props) => {
       qr,
       "",
       paids,
-      pr,
+      pr - paids,
       "",
       "",
       "",
@@ -297,7 +312,9 @@ const App = (props) => {
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
-
+  
+    const usersMap = usersMapRef.current; 
+  
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
@@ -311,37 +328,30 @@ const App = (props) => {
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
-
+  
         if (item.supplier_id === 14268) {
-          // Add the delivery fee to the price if supplier_id is 14268
           price += deliverFee;
           pr += deliverFee;
         }
       });
-
-      const salesManName =
-        users.find((user) => user.user_id === item.sales_man)?.first_name ||
-        item.sales_man;
-      const deliverManName =
-        users.find((user) => user.user_id === item.deliver_man)?.first_name ||
-        item.deliver_man;
-
+  
+      const salesManName = usersMap[item.sales_man] || item.sales_man;
+      const deliverManName = usersMap[item.deliver_man] || item.deliver_man;
+  
       list.push([
         i + 1,
         item.order_id,
-        "НИЙТ",
-        quantity,
         "",
+        quantity,
         price,
         paid,
-        price,
         item.tradeshop_name,
-        item.tradeshop_name,
+        item.phone,
         salesManName,
         deliverManName,
-        item.address,
+        ""
       ]);
-
+  
       item.line.map((l, index) => {
         list.push([
           index + 1,
@@ -351,16 +361,16 @@ const App = (props) => {
           l.price,
           l.amount,
           "",
-          price,
+          item.phone,
           "",
           "",
-          "",
+          item.address, // The address line to be styled
           "",
           "",
         ]);
       });
     });
-
+  
     list.push([
       "",
       "",
@@ -376,12 +386,12 @@ const App = (props) => {
       "",
       "",
     ]);
-
+  
     const contentHtml = generateHtmlContent(list);
-
+  
     const date = new Date();
-    const formattedDate = date.toISOString().slice(0, 10); // Format the date as yyyy-mm-dd
-
+    const formattedDate = date.toISOString().slice(0, 10); 
+  
     html2pdf()
       .set({
         margin: 1,
@@ -393,6 +403,7 @@ const App = (props) => {
       .from(contentHtml)
       .save();
   };
+  
 
   const generateHtmlContent = (data) => {
     let html = `
@@ -410,14 +421,18 @@ const App = (props) => {
   
         .header-p, .row {
           display: grid;
-          grid-template-columns: 65px 65px 65px 65px 65px 65px 65px 100px 65px 65px 65px 100px;
+          grid-template-columns: 35px 65px 65px 65px 65px 65px 70px 65px 65px 65px 300px;
           background-color: #f2f2f2;
         }
   
         .header-cell, .cell {
           padding: 8px;
           text-align: left;
-          height: 60px;
+          height: 50px;
+        }
+
+        .header-cell, .cell:last-of-type {
+          width:250px
         }
   
         .header-cell {
@@ -432,6 +447,10 @@ const App = (props) => {
         .row:hover {
           background-color: #f1f1f1;
         }
+        .hayg {
+          width: 300px;
+          font-size: 10px;
+        }
       </style>
       <div class="pdf-content">
         <div class="container-p">
@@ -442,12 +461,11 @@ const App = (props) => {
             <div class="header-cell">Тоо ширхэг</div>
             <div class="header-cell">Нэгж үнэ</div>
             <div class="header-cell">Нийт үнэ</div>
-            <div class="header-cell">Эцсийн нийт үнэ</div>
             <div class="header-cell">Үйлчилгээний газрын нэр</div>
             <div class="header-cell">Утас</div>
             <div class="header-cell">Хариуцсан ХТ</div>
             <div class="header-cell">Түгээгч</div>
-            <div class="header-cell">Дэлгэрэнгүй хаяг</div>
+            <div class="header-cell hayg">Дэлгэрэнгүй хаяг</div>
           </div>
           <div class="table-container">
     `;

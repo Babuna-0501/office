@@ -1,9 +1,8 @@
 import css from '../../style.module.css'
-import {ModuleContext} from '../../index'
-import {useContext, useState} from 'react'
+import { ModuleContext } from '../../index'
+import { useContext, useState } from 'react'
 
 const Entry = (props) => {
-	console.log(props)
 	const context = useContext(ModuleContext)
 	//console.log(props.data.from)
 	const data = props.data
@@ -11,13 +10,13 @@ const Entry = (props) => {
 	let requestingWarehouse = null
 	let confirmedBy = ''
 	context.warehouseList.map(warehouse => {
-		if(warehouse._id === data.from) {
+		if (warehouse._id === data.from) {
 			requestingWarehouse = warehouse.name
-		} 
+		}
 	})
-	if(props.supplierUsers) {
+	if (props.supplierUsers) {
 		props.supplierUsers.map(user => {
-			if(user.user_id === data.requestedBy) {
+			if (user.user_id === data.requestedBy) {
 				requestedBy = user.first_name + ' ' + user.last_name
 			}
 		})
@@ -26,11 +25,11 @@ const Entry = (props) => {
 	let total = 0
 	const [printReceipt, setPrintReceipt] = useState(false)
 	data.products.map(product => {
-		if(product.sellPrice && (product.sellPrice.retail || product.sellPrice.wholesale)) {
+		if (product.sellPrice && (product.sellPrice.retail || product.sellPrice.wholesale)) {
 			total += product.quantity * (product.sellPrice.retail ? product.sellPrice.retail : product.sellPrice.wholesale)
 		}
 	})
-	switch(data.status) {
+	switch (data.status) {
 		case 1:
 			status = <span className="statusn pending margintop8px">Хүлээгдэж буй</span>
 			break
@@ -43,36 +42,36 @@ const Entry = (props) => {
 	}
 	let requestedTo = requestingWarehouse
 	//if(data.thirdParty === true) {
-		context.customers.map(customer => {
-			if(parseInt(customer.tradeshop_id) === parseInt(data.from)) {
-				requestedTo = customer.customer_name
-			}
-			return
-		})
+	context.customers.map(customer => {
+		if (parseInt(customer.tradeshop_id) === parseInt(data.from)) {
+			requestedTo = customer.customer_name
+		}
+		return
+	})
 	//}
-	if(data.confirmedBy) {
+	if (data.confirmedBy) {
 		context.supplierUsers.map(user => {
-			if(user.user_id === data.requestedBy) {
+			if (user.user_id === data.requestedBy) {
 				confirmedBy = user.first_name + ' ' + user.last_name
 			}
 		})
 	}
 	const widths = props.widths
 	let distribution = <button className="blahblahtext">Түгээлт тохируулах</button>
-	if(data.externalData && data.externalData.distributionSettings) {
+	if (data.externalData && data.externalData.distributionSettings) {
 		let courierName = ''
 		props.supplierUsers.map(user => {
-			if(user.user_id === data.externalData.distributionSettings.courier) {
+			if (user.user_id === data.externalData.distributionSettings.courier) {
 				courierName = user.first_name + ' ' + user.last_name
 			}
 		})
 		distribution = <span className="blahblahtext">{courierName}</span>
 	}
 	return (
-		<div className="blah" style={{background: data.type === 1 ? 'rgb(1 255 32 / 14%)' : 'white'}}>
+		<div className="blah" style={{ background: data.type === 1 ? 'rgb(1 255 32 / 14%)' : 'white' }}>
 			<div className="blahblah">
 				<div className="width40px">
-					<input type="checkbox" />
+					<input type="checkbox" onChange={(e) => props.onRowSelect(data._id)} />
 				</div>
 			</div>
 			<div className="blahblah" onClick={() => data.type === 1 ? props.setForm(data) : props.setFormZarlaga(data)}>
@@ -82,17 +81,17 @@ const Entry = (props) => {
 			</div>
 			<div className="blahblah">
 				<div className="width100px">
-				<p className="blahblahtext">{data.type === 1 ? 'Орлого' : 'Зарлага'}</p>
+					<p className="blahblahtext">{data.type === 1 ? 'Орлого' : 'Зарлага'}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width100px">
-				<p className="blahblahtext">{data.createdDate.slice(0, 10)}</p>
+					<p className="blahblahtext">{data.createdDate.slice(0, 10)}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width200px">
-				<p className="blahblahtext">{requestedTo}</p>
+					<p className="blahblahtext">{requestedTo}</p>
 				</div>
 			</div>
 			<div className="blahblah">
@@ -102,27 +101,27 @@ const Entry = (props) => {
 			</div>
 			<div className="blahblah">
 				<div className="width200px">
-				<p className="blahblahtext">{requestedBy}</p>
+					<p className="blahblahtext">{requestedBy}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width200px">
-				<p className="blahblahtext">{data.note}</p>
+					<p className="blahblahtext">{data.note}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width100px">
-				<p className="blahblahtext">{data.confirmedDate ? data.confirmedDate.slice(0, 10) : null}</p>
+					<p className="blahblahtext">{data.confirmedDate ? data.confirmedDate.slice(0, 10) : null}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width200px">
-				<p className="blahblahtext">{confirmedBy}</p>
+					<p className="blahblahtext">{confirmedBy}</p>
 				</div>
 			</div>
 			<div className="blahblah">
 				<div className="width200px">
-				<p className="blahblahtext">{total}</p>
+					<p className="blahblahtext">{total}</p>
 				</div>
 			</div>
 			<div className="blahblah">

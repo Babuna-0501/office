@@ -1,6 +1,6 @@
 import Entry from './Entry'
-import {useContext, useState} from 'react'
-import {ModuleContext} from '../../index'
+import { useContext, useState } from 'react'
+import { ModuleContext } from '../../index'
 import DistributionSettings from './DistributionSettings'
 import Total from './Total'
 
@@ -9,8 +9,19 @@ const List = (props) => {
 	const widths = [52, 100, 120, 360, 120, 120, 300]
 	let renderHTML = []
 	const [distributionSettings, setDistributionSettings] = useState(false)
+	// const [isDisabled, setIsDisabled] = useState(false);
+	let ids = []
+
+	const onRowSelect = (id) => {
+		if (ids.includes(id)) {
+			ids = ids.filter((e) => e !== id)
+		} else {
+			ids = [...ids, id]
+		}
+	}
+
 	props.data.map((data) => {
-		renderHTML.push(<Entry data={data} supplierUsers={context.supplierUsers} setForm={props.setForm} setFormZarlaga={props.setFormZarlaga} key={Math.random()} widths={widths} setDistributionSettings={setDistributionSettings} />)
+		renderHTML.push(<Entry data={data} supplierUsers={context.supplierUsers} setForm={props.setForm} setFormZarlaga={props.setFormZarlaga} key={Math.random()} widths={widths} setDistributionSettings={setDistributionSettings} onRowSelect={onRowSelect} />)
 	})
 	const changeInterval = (newInterval) => {
 		props.setOgnoo(newInterval)
@@ -20,7 +31,7 @@ const List = (props) => {
 		let courierName = ''
 		context.supplierUsers.map(user => {
 			context.supplierUsers.map(user => {
-				if(user.user_id === courierId) {
+				if (user.user_id === courierId) {
 					courierName = user.first_name + ' ' + user.last_name
 				}
 			})
@@ -30,7 +41,7 @@ const List = (props) => {
 	}
 	return (
 		<>
-			<div style={{padding: '0 1.5rem', position: 'fixed', top: '103px', right: '0px', left: '72px'}}>
+			<div style={{ padding: '0 1.5rem', position: 'fixed', top: '103px', right: '0px', left: '72px' }}>
 				<div>
 					<input type="date" value={props.startDate} className="formInput" onChange={(e) => props.setStartDate(e.target.value)} />
 					<input type="date" value={props.endDate} className="formInput marginleft1rem" onChange={(e) => props.setEndDate(e.target.value)} />
@@ -39,8 +50,9 @@ const List = (props) => {
 					<button className="pageButton secondary marginleft1rem" onClick={() => props.setForm(['new', 'import', 'Импортын орлого'])}>+ Импортын орлого</button>
 					<button className="pageButton marginleft1rem" onClick={() => props.setFormZarlaga(['new', 'warehouse', 'Агуулах руу зарлагадах'])}>Агуулах руу зарлагадах</button>
 					<button className="pageButton secondary marginleft1rem" onClick={() => props.setFormZarlaga(['new', 'customer', 'Харилцагч руу зарлагадах'])}>Харилцагч руу зарлагадах</button>
+					<button className="pageButton secondary marginleft1rem" disabled={false} onClick={() => props.setDownload(ids)}>Download PDF</button>
 				</div>
-				<div className="blah margintop8px" style={{height: '60px'}}>
+				<div className="blah margintop8px" style={{ height: '60px' }}>
 					<div className="blahblah">
 						<div className="width40px">
 							<input type="checkbox" className="headerInputs" />
@@ -124,7 +136,7 @@ const List = (props) => {
 					<div className="blahblah"><div className="width200px"><p className="blahblahheader">Хүргэлт, түгээлт</p></div></div>
 				</div>
 			</div>
-			<div style={{padding: '0 1.5rem', position: 'fixed', top: '213px', bottom: '58px', right: '0px', left: '72px', overflow: 'auto'}}>
+			<div style={{ padding: '0 1.5rem', position: 'fixed', top: '213px', bottom: '58px', right: '0px', left: '72px', overflow: 'auto' }}>
 				{renderHTML}
 			</div>
 			<Total data={props.data} />

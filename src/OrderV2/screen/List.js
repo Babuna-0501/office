@@ -211,12 +211,12 @@ const List = ({
     }
 
     if (filterState.status) {
-       if (userData.company_id === "|14268|") {
-         changeParams(filterState.status, "shipment_status");
-       } else {
-         changeParams(filterState.status, "order_status");
-       }
-    }
+      if (userData.company_id === "|14268|") {
+        changeParams(filterState.status, "shipment_status");
+      } else {
+        changeParams(filterState.status, "order_status");
+      }
+   }
 
     if (filterState.tradeshop_name) {
       params += `tradeshop_name=${filterState.tradeshop_name}&`;

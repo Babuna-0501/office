@@ -1,9 +1,12 @@
-import {useState, useContext, useEffect, useRef, useMemo} from 'react'
-import {ModuleContext} from '../../index'
+import { useState, useContext, useEffect, useRef, useMemo } from 'react'
+import { ModuleContext } from '../../index'
 import myHeaders from "../../../components/MyHeader/myHeader"
 import ProductSelector from '../../ProductSelector'
-import {WarehouseContext} from '../../Warehouse'
+import { WarehouseContext } from '../../Warehouse'
 import readXlsxFile from 'read-excel-file'
+import { Space } from 'antd'
+import { saveAs} from "file-saver";
+
 
 const Form = (props) => {
 	const context = useContext(ModuleContext)
@@ -16,8 +19,8 @@ const Form = (props) => {
 	const [saving, setSaving] = useState(false)
 	const [mode, setMode] = useState(null)
 	const clickHandler = (e) => {
-		if(e.target.getAttribute('data-action')) {
-				switch(e.target.getAttribute('data-action')) {
+		if (e.target.getAttribute('data-action')) {
+			switch (e.target.getAttribute('data-action')) {
 				case 'removeSelectedProduct':
 					document.getElementById(e.target.getAttribute('data-id')).remove()
 					break
@@ -32,31 +35,31 @@ const Form = (props) => {
 	}
 	const keyDownHandler = (e) => {
 		console.log(e.target.getAttribute('data-action'))
-		if(e.target.getAttribute('data-action') === 'changeQuantity') {
+		if (e.target.getAttribute('data-action') === 'changeQuantity') {
 			setTimeout(() => {
 				document.getElementById('totalCost' + e.target.getAttribute('data-id')).value = Number(e.target.value) * Number(document.getElementById('cost' + e.target.getAttribute('data-id')).value)
 			}, 1)
-		} else if(e.target.getAttribute('data-action') === 'changeCost') {
+		} else if (e.target.getAttribute('data-action') === 'changeCost') {
 			setTimeout(() => {
 				document.getElementById('totalCost' + e.target.getAttribute('data-id')).value = Number(e.target.value) * Number(document.getElementById('quantity' + e.target.getAttribute('data-id')).value)
 			}, 1)
-		} else if(e.target.getAttribute('data-action') === 'setDiscount') {
+		} else if (e.target.getAttribute('data-action') === 'setDiscount') {
 			setTimeout(() => {
-				if(parseFloat(e.target.value) > 0 && parseFloat(e.target.value) < 100) {
+				if (parseFloat(e.target.value) > 0 && parseFloat(e.target.value) < 100) {
 					const uid = e.target.getAttribute('data-id')
 					const discountAmount = e.target.value
 					const cost = document.getElementById('cost' + uid).value
 					const quantity = document.getElementById('quantity' + uid).value
 					document.getElementById('discountAmount' + uid).value = (parseFloat(cost) * parseFloat(quantity)) / 100 * parseFloat(discountAmount)
 					document.getElementById('payingAmount' + uid).value = (cost * quantity) - (parseFloat(cost) * parseFloat(quantity)) / 100 * parseFloat(discountAmount)
-				} else if(parseFloat(e.target.value) > 100) {
+				} else if (parseFloat(e.target.value) > 100) {
 					e.target.style.borderColor = 'red'
 				}
 			}, 1)
 		}
 	}
 	useEffect(() => {
-		if(props.form[0] !== 'new') {
+		if (props.form[0] !== 'new') {
 			let foo = {}
 			whcontext.allProducts.map(product => {
 				foo[product._id] = product
@@ -84,7 +87,7 @@ const Form = (props) => {
 		// Агуулах болох харилцагч
 		console.log(typeof props.form.from)
 		let fromSource = 'import'
-		if(props.form[1] === 'customer' || props.form[1] === 'warehouse' || props.form.from) {
+		if (props.form[1] === 'customer' || props.form[1] === 'warehouse' || props.form.from) {
 			document.getElementById('from').insertAdjacentHTML('beforeEnd', `
 				<div>
 					<div>
@@ -98,29 +101,29 @@ const Form = (props) => {
 				</div>
 			`)
 			context.warehouseList.map((warehouse) => {
-				if(warehouse._id === props.form.from) {
+				if (warehouse._id === props.form.from) {
 					fromSource = 'warehouse'
 				}
 			})
 			customers.map(customer => {
-				if(parseInt(customer.tradeshop_id) === parseInt(props.form.from)) {
+				if (parseInt(customer.tradeshop_id) === parseInt(props.form.from)) {
 					fromSource = 'purchase'
 				}
 			})
 		}
 		//  Агуулах болох харилцагч сонголт
 		let optionsFrom = ''
-		if(props.form[1] === 'customer' || fromSource === 'purchase') {
+		if (props.form[1] === 'customer' || fromSource === 'purchase') {
 			customers.map(customer => {
 				optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from) ? ' selected' : ''}>${customer.customer_name}</option>`
 			})
-		} else if(props.form[1] === 'warehouse' || fromSource === 'warehouse') {
+		} else if (props.form[1] === 'warehouse' || fromSource === 'warehouse') {
 			context.warehouseList.map((warehouse) => {
 				optionsFrom += (context.activeWarehouse._id && context.activeWarehouse._id !== warehouse._id) ? `<option ${warehouse._id === props.form.from ? ' selected' : ''} value=${warehouse._id}>${warehouse.name}</option>` : ''
 			})
 		}
 		//  Агуулах болох харилцагч сонголтыг нэмэх
-		if(props.form[1] === 'customer' || props.form[1] === 'warehouse' ||  fromSource === 'warehouse' || fromSource === 'purchase') {
+		if (props.form[1] === 'customer' || props.form[1] === 'warehouse' || fromSource === 'warehouse' || fromSource === 'purchase') {
 			document.getElementById('toSelect').insertAdjacentHTML('beforeEnd', optionsFrom)
 		}
 		return () => {
@@ -128,14 +131,14 @@ const Form = (props) => {
 			document.removeEventListener('keypress', keyDownHandler, false)
 		}
 		// Масс орлого импортлох
-		if(document.getElementById('massimport')) {
+		if (document.getElementById('massimport')) {
 			const input = document.getElementById('massimport')
 			input.addEventListener('change', () => {
 				readXlsxFile(input.files[0]).then((rows) => {
-				console.log(rows)
+					console.log(rows)
 				})
 			})
-        }
+		}
 	}, [])
 	const [type, setType] = useState(props.form[1])
 	const [from, setFrom] = useState(props.form.from ? props.form.from : '')
@@ -162,7 +165,7 @@ const Form = (props) => {
 	}
 	const widths = [80, 100, 60, 240, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
 	let width = 0
-	for(const size in widths) {
+	for (const size in widths) {
 		width += widths[size]
 	}
 	const addProducts = (selectedProducts) => {
@@ -253,37 +256,37 @@ const Form = (props) => {
 		setProductSelector(false)
 	}
 	const send = () => {
-		if(saving) {
+		if (saving) {
 			alert('Түр хүлээнэ үү')
 			return
 		}
 		const borderColor = document.getElementById('inboundTypes').style.borderColor
-		if(type !== 'import' && document.getElementById('toSelect').value === '') {
+		if (type !== 'import' && document.getElementById('toSelect').value === '') {
 			document.getElementById('toSelect').style.borderColor = 'red'
 			setTimeout(() => {
 				document.getElementById('toSelect').style.borderColor = borderColor
 			}, 2000)
 			return
-		} else if(document.getElementById('inboundTypes').value === '') {
+		} else if (document.getElementById('inboundTypes').value === '') {
 			document.getElementById('inboundTypes').style.borderColor = 'red'
 			setTimeout(() => {
 				document.getElementById('inboundTypes').style.borderColor = borderColor
 			}, 2000)
 			return
-		} else if(document.getElementById('requestNote').value === '') {
+		} else if (document.getElementById('requestNote').value === '') {
 			document.getElementById('requestNote').style.borderColor = 'red'
 			setTimeout(() => {
 				document.getElementById('requestNote').style.borderColor = borderColor
 			}, 2000)
 			return
-		} else if(document.querySelectorAll('.productEntry').length === 0) {
+		} else if (document.querySelectorAll('.productEntry').length === 0) {
 			alert('Бүтээгдэхүүн сонгоно уу!')
 			return
 		}
 		console.log('sending')
 		let foo = []
 		const productEntries = document.querySelectorAll('.productEntry')
-		for(let i = 0; i < productEntries.length; i++) {
+		for (let i = 0; i < productEntries.length; i++) {
 			console.log(productEntries[i])
 			const product = productEntries[i]
 			const uid = product.getAttribute('id')
@@ -292,9 +295,9 @@ const Form = (props) => {
 				productId: parseInt(product.getAttribute('data-id')),
 				quantity: parseFloat(product.querySelector('#quantity' + uid).value),
 				cost: parseInt(product.querySelector('#cost' + uid).value !== '' ? product.querySelector('#cost' + uid).value : 1),
-				sellPrice: {retail: parseInt(product.querySelector('#sellprice' + uid).value), wholesale: 0}
+				sellPrice: { retail: parseInt(product.querySelector('#sellprice' + uid).value), wholesale: 0 }
 			}
-			if(product.querySelector('#series' + uid).value && product.querySelector('#series' + uid).value !== '') {
+			if (product.querySelector('#series' + uid).value && product.querySelector('#series' + uid).value !== '') {
 				__temp['seriesNumber'] = product.querySelector('#series' + uid).value
 			}
 			console.log(__temp)
@@ -303,86 +306,124 @@ const Form = (props) => {
 		console.log(foo)
 		let sendData = {
 			"supplierId": context.activeWarehouse.supplierId,
-		    "documentId": "none",
-		    "type": 1,
-		    "variety": document.getElementById('inboundTypes').value,
-		    "note": document.getElementById('requestNote').value,
-		    "products": foo,
-		    "to": context.activeWarehouse._id,
-		    "thirdParty": type === 'warehouse' || type === 'import' ? false : true
+			"documentId": "none",
+			"type": 1,
+			"variety": document.getElementById('inboundTypes').value,
+			"note": document.getElementById('requestNote').value,
+			"products": foo,
+			"to": context.activeWarehouse._id,
+			"thirdParty": type === 'warehouse' || type === 'import' ? false : true
 		}
-		if(type !== 'import') {
+		if (type !== 'import') {
 			sendData['from'] = document.getElementById('toSelect').value
 		}
 		console.log(sendData)
-		
+
 		var requestOptions = {
 			method: "POST",
 			headers: myHeaders,
 			redirect: "follow",
 			body: JSON.stringify(sendData)
-	    }
-	    setSaving(true)
-	    const url = 'https://api2.ebazaar.mn/api/shipment'
+		}
+		setSaving(true)
+		const url = 'https://api2.ebazaar.mn/api/shipment'
 		fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			if(response.message === 'success') {
-				alert('Амжилттай илгээлээ!')
-				props.sentRequest()
-				props.foobar(props.ognoo)
-				props.setForm(false)
-				setSaving(false)
-			} else {
-				alert('Оруулсан мэдээллээ шалгана уу.')
-				setSaving(false)
-			}
-		})
+			then(r => r.json()).
+			then(response => {
+				if (response.message === 'success') {
+					alert('Амжилттай илгээлээ!')
+					props.sentRequest()
+					props.foobar(props.ognoo)
+					props.setForm(false)
+					setSaving(false)
+				} else {
+					alert('Оруулсан мэдээллээ шалгана уу.')
+					setSaving(false)
+				}
+			})
 	}
 	const confirmRequest = () => {
 		console.log('confirmgin')
 		let sendData = {
 			"_id": props.form._id,
-		    "status": 2
+			"status": 2
 		}
 		var requestOptions = {
 			method: "PATCH",
 			headers: myHeaders,
 			redirect: "follow",
 			body: JSON.stringify(sendData)
-	    }
-	    setSaving(true)
-	    const url = 'https://api2.ebazaar.mn/api/shipment'
+		}
+		setSaving(true)
+		const url = 'https://api2.ebazaar.mn/api/shipment'
 		fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			console.log(response)
-			if(response.message === 'success') {
-				alert('Хүсэлтийг баталлаа!')
-				props.sentRequest()
-				setSaving(true)
-				props.setForm(false)
-			}   else if(response.message === 'Products with insufficient stock') {
-				alert(JSON.stringify(response.data)  + ' Үлдэгдэл хүрэлцэхгүй байна!')
-				setSaving(false)
-			}
-		})
+			then(r => r.json()).
+			then(response => {
+				console.log(response)
+				if (response.message === 'success') {
+					alert('Хүсэлтийг баталлаа!')
+					props.sentRequest()
+					setSaving(true)
+					props.setForm(false)
+				} else if (response.message === 'Products with insufficient stock') {
+					alert(JSON.stringify(response.data) + ' Үлдэгдэл хүрэлцэхгүй байна!')
+					setSaving(false)
+				}
+			})
 	}
+
+	const download = async () => {
+		try {
+			const shipmentId = '665d19375b60efdf3c9e3dd8';
+			const url = `https://api2.ebazaar.mn/api/shipment/receipt?shipmentId=${shipmentId}`;
+			// const url = `http://172.16.193.18/api/shipment/receipt?shipmentId=${shipmentId}`;
+			const requestOptions = {
+				method: 'GET',
+				headers: myHeaders,
+				redirect: 'follow',
+			};
+	
+			const response = await fetch(url, requestOptions);
+	
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+	
+			const contentType = response.headers.get('content-type');
+			// if (!contentType || !contentType.includes('application/pdf')) {
+			// 	throw new Error('Response is not a PDF');
+			// }
+	
+			const blob = await response.blob();
+			saveAs(blob, 'shipment_receipt.pdf');
+		} catch (error) {
+			console.error('Error downloading PDF:', error);
+		}
+	};
+	
+	  
+
+	  
+	
+	
+	
+
 	const saveUpdate = () => {
 		console.log('saving update')
 	}
 	let renderButtons = null
-	if(props.form[0] === 'new') {
+	if (props.form[0] === 'new') {
 		renderButtons = (
 			<>
 				<button onClick={() => send()} className="pageButton" disabled={saving}>Орлогын хүсэлт илгээх</button>
 			</>
 		)
 	} else {
-		if(props.warehouseId === props.form.owner) {
+		if (props.warehouseId === props.form.owner) {
 			renderButtons = (
 				<>
-					<button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Орлогын хүсэлтийг батлах</button>
+					<button onClick={() => download()} disabled={saving} className="pageButton secondary" style={{ margin: '0 1rem 0 0' }}>Download</button>
+					<button onClick={() => confirmRequest()} disabled={saving} className="pageButton" style={{ margin: '0 1rem 0 0' }} > Орлогын хүсэлтийг батлах</button >
 				</>
 			)
 		}
@@ -433,7 +474,7 @@ const Form = (props) => {
 			let counter = 0
 			let temp = []
 			rows.map(row => {
-				if(counter > 0 && foo[row[0]]) {
+				if (counter > 0 && foo[row[0]]) {
 					const productInfo = foo[row[0]]
 					console.log(productInfo['image'][0])
 					temp.push({
@@ -458,8 +499,8 @@ const Form = (props) => {
 	return (
 		<>
 			<div className="container-modal" id="container-modal">
-				<div className={'container-modal-contents' + (props.form.status === 1 || props.form.status === 2? ' disabledForm' : '')} id="container-modal-contents">
-					<div className="left padding2rem" style={{width: '400px', background: '#f6f6f6'}}>
+				<div className={'container-modal-contents' + (props.form.status === 1 || props.form.status === 2 ? ' disabledForm' : '')} id="container-modal-contents">
+					<div className="left padding2rem" style={{ width: '400px', background: '#f6f6f6' }}>
 						<h1>{props.form[2]}</h1>
 						<div>
 							<div id="from"></div>
@@ -476,26 +517,26 @@ const Form = (props) => {
 									</select>
 								</div>
 							</div>
-							<div style={{width: '100%'}}>
+							<div style={{ width: '100%' }}>
 								<div>
 									<h2>Тэмдэглэл:</h2>
 								</div>
-								<textarea placeholder="Тэмдэглэл" id="requestNote" style={{width: '100%', height: '300px'}}>{props.form.note ? props.form.note : ''}</textarea>
+								<textarea placeholder="Тэмдэглэл" id="requestNote" style={{ width: '100%', height: '300px' }}>{props.form.note ? props.form.note : ''}</textarea>
 							</div>
 						</div>
 						<div>
-							<div style={{width: '600px'}}>
-								
+							<div style={{ width: '600px' }}>
+
 							</div>
 						</div>
 					</div>
-					<div className="right padding2rem" style={{left: '400px', overflow: 'auto'}}>
+					<div className="right padding2rem" style={{ left: '400px', overflow: 'auto' }}>
 						<div>
 							<button className="pageButton addProduct" onClick={() => setProductSelector(true)}>Бүтээгдэхүүн нэмэх</button>
-							<input type="file" className="marginleft1rem" id="massimport" onChange={(e) => foobar(e)} style={{width: '200px'}} />
+							<input type="file" className="marginleft1rem" id="massimport" onChange={(e) => foobar(e)} style={{ width: '200px' }} />
 						</div>
-						<div style={{border: '1px solid #eee'}} id="productList">
-							<div className="blah" style={{background: '#f6f6f6'}}>
+						<div style={{ border: '1px solid #eee' }} id="productList">
+							<div className="blah" style={{ background: '#f6f6f6' }}>
 								<div className="blahblah"><div className="width40px"></div></div>
 								<div className="blahblah"><div className="width120px"><p>Дугаар</p></div></div>
 								<div className="blahblah"><div className="width120px"><p>IMG</p></div></div>
@@ -517,15 +558,15 @@ const Form = (props) => {
 							</div>
 						</div>
 					</div>
-					<div id="overlaypage_footer" style={{background: 'white'}}>
+					<div id="overlaypage_footer" style={{ background: 'white' }}>
 						<div className="total">
 							<div className="left">
 
 							</div>
 							<div className="right">
-							{
-								renderButtons
-							}
+								{
+									renderButtons
+								}
 							</div>
 						</div>
 					</div>

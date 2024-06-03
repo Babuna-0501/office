@@ -586,7 +586,7 @@ const Barimt = (props) => {
               
                <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalDiscountAmount.toLocaleString()}₮</td>
             <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan="2">
-              {props.total.toLocaleString() + "₮"}
+             {props.total ? props.total.toLocaleString() + "₮" : "N/A"}
             </td>
           </tr>
           <tr style={{ lineHeight: "12px" }}>
@@ -616,7 +616,7 @@ const Barimt = (props) => {
               Нийт дүн
             </td>
             <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }}>
-              {props.total.toLocaleString() + "₮"}
+               {props.total ? props.total.toLocaleString() + "₮" : "N/A"}
             </td>
           </tr>
 

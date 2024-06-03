@@ -91,7 +91,7 @@ const Total = (props) => {
       );
       setTotalGrandTotalForDeliveredOrders(
         totalGrandTotalForDelivered -
-          prePayment.reduce((acc, curr) => acc + curr, 0)
+          prePayment.reduce((acc, curr) => acc + curr - 6000, 0)
       );
       setdeliveredOrdersCount(deliveredOrders.length);
 

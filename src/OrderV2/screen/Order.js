@@ -9,12 +9,14 @@ import myHeaders from "../../components/MyHeader/myHeader";
 import { ProductModal } from "../components/product/modal";
 import { NoteOrderDetail } from "../components/note";
 import DeliveryDate from "../components/DeliveryDate";
+import Barimt from "../../Order/Tabs/OrderReport/Barimt";
 
 const Order = ({ fieldsData, setOrder, ...props }) => {
   const [filteredData, setFilteredData] = useState([]);
   const data = filteredData.length ? filteredData : props.data;
   const [deliveryDate, setDeliveryDate] = useState(data.delivery_date);
   const [showDeliveryDate, setShowDeliveryDate] = useState(false);
+  const [isModalPadaanOpen, setIsModalPadaanOpen] = useState(false);
 
   const handleDivClick = () => {
     setShowDeliveryDate(true);
@@ -24,6 +26,16 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
     setOrder(updatedOrder);
     setDeliveryDate(updatedOrder.delivery_date);
     setShowDeliveryDate(false);
+  };
+ 
+
+  //Padaan
+  const handleClickPadaan = () => {
+    setIsModalPadaanOpen(true);
+  };
+
+  const handleClosePadaan = () => {
+    setIsModalPadaanOpen(false);
   };
   //Түгээгчийн попап
   const { color, name, fontColor } = getColorForStatus(
@@ -480,13 +492,14 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
     }
   };
   // console.log(props, "props ireh");
-
   function getOriginNameById(id) {
     const origin = originData.find((item) => item.id === id);
     return origin ? origin.name : "Дата байхгүй";
   }
 
   const originName = getOriginNameById(data.origin);
+  
+
 
   return (
     <div className="WrapperOut">
@@ -778,9 +791,26 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
       </div>
       {isOpen && (
         <OrderDetail isOpen={isOpen} onClose={handleClose}>
-          <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
-            Захиалгын дугаар {data.order_id}
-          </h2>
+          <div style={{display:"flex", gap:"20px"}}>
+            <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
+              Захиалгын дугаар {data.order_id}
+            </h2>
+            <span style={{cursor:"pointer"}} onClick={handleClickPadaan}>
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.1324 16.7231L13.1324 3.67871" stroke="#4D4D4D" stroke-width="1.625" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.2915 13.5518L13.1325 16.7238L9.9735 13.5518" stroke="#4D4D4D" stroke-width="1.625" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18.1512 8.80566L19.162 8.80566C21.3665 8.80566 23.153 10.5921 23.153 12.7977V18.0887C23.153 20.2879 21.3709 22.07 19.1717 22.07L7.10337 22.07C4.89879 22.07 3.11129 20.2825 3.11129 18.0779V12.7858C3.11129 10.5877 4.89445 8.80566 7.09254 8.80566H8.11304" stroke="#4D4D4D" stroke-width="1.625" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {/* {isModalPadaanOpen && (
+                <div className="modal">
+                  <div className="modal-content">
+                    <button onClick={handleClosePadaan}>Хаах</button>
+                    <Barimt order={data} />
+                  </div>
+                </div>
+              )} */}
+            </span>
+          </div>
           <div className="delguur">
             <div className="delguur_top">
               <span>

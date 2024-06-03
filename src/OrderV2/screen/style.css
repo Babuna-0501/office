@@ -15,6 +15,7 @@
 .order_wrapper {
   height: calc(100vh - 241px);
   min-width: 3050px;
+  /* margin-top: 50px; */
 }
 
 .order_id {
@@ -716,4 +717,10 @@
 .date_update {
   width: 15px;
   height: 15px;
+}
+
+.list_header {
+  /* position: fixed; */
+  background-color: #fff;
+  z-index: 100;
 }

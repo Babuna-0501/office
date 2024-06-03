@@ -2785,6 +2785,10 @@ input.massPrice {
     width: 50px;
 }
 
+.width60px {
+    width: 60px;
+}
+
 .width80px {
     width: 80px;
 }
@@ -2805,6 +2809,10 @@ input.massPrice {
     width: 120px;
 }
 
+.width160px {
+    width: 160px;
+}
+
 .width180px {
     width: 180px;
 }
@@ -2819,6 +2827,10 @@ input.massPrice {
 
 .width300px {
     width: 300px;
+}
+
+.width340px {
+    width: 340px;
 }
 
 .width30px {
