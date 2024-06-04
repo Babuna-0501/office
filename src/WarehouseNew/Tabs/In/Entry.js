@@ -68,69 +68,88 @@ const Entry = (props) => {
 		distribution = <span className="blahblahtext">{courierName}</span>
 	}
 	return (
-		<div className="blah" style={{ background: data.type === 1 ? 'rgb(1 255 32 / 14%)' : 'white' }}>
-			<div className="blahblah">
-				<div className="width40px">
-					<input type="checkbox" onChange={(e) => props.onRowSelect(data._id)} />
-				</div>
-			</div>
-			<div className="blahblah" onClick={() => data.type === 1 ? props.setForm(data) : props.setFormZarlaga(data)}>
-				<div className="width100px">
-					<p className="blahblahtext fontweightbold">{data.generateId ? data.generateId.slice(-7) : null}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width100px">
-					<p className="blahblahtext">{data.type === 1 ? 'Орлого' : 'Зарлага'}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width100px">
-					<p className="blahblahtext">{data.createdDate.slice(0, 10)}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px">
-					<p className="blahblahtext">{requestedTo}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width100px">
-					{status}
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px">
-					<p className="blahblahtext">{requestedBy}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px">
-					<p className="blahblahtext">{data.note}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width100px">
-					<p className="blahblahtext">{data.confirmedDate ? data.confirmedDate.slice(0, 10) : null}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px">
-					<p className="blahblahtext">{confirmedBy}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px">
-					<p className="blahblahtext">{total}</p>
-				</div>
-			</div>
-			<div className="blahblah">
-				<div className="width200px" onClick={() => props.setDistributionSettings(data)} id={'courier' + data._id}>
-					{distribution}
-				</div>
-			</div>
-		</div>
-	)
+    <div
+      className="blah"
+      style={{ background: data.type === 1 ? "rgb(1 255 32 / 14%)" : "white" }}
+    >
+      <div className="blahblah">
+        <div className="width40px">
+          <input
+            type="checkbox"
+            onChange={(e) => props.onRowSelect(data._id, data.requestedBy)}
+          />
+        </div>
+      </div>
+      <div
+        className="blahblah"
+        onClick={() =>
+          data.type === 1 ? props.setForm(data) : props.setFormZarlaga(data)
+        }
+      >
+        <div className="width100px">
+          <p className="blahblahtext fontweightbold">
+            {data.generateId ? data.generateId.slice(-7) : null}
+          </p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width100px">
+          <p className="blahblahtext">
+            {data.type === 1 ? "Орлого" : "Зарлага"}
+          </p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width100px">
+          <p className="blahblahtext">{data.createdDate.slice(0, 10)}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width200px">
+          <p className="blahblahtext">{requestedTo}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width100px">{status}</div>
+      </div>
+      <div className="blahblah">
+        <div className="width200px">
+          <p className="blahblahtext">{requestedBy}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width200px">
+          <p className="blahblahtext">{data.note}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width100px">
+          <p className="blahblahtext">
+            {data.confirmedDate ? data.confirmedDate.slice(0, 10) : null}
+          </p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width200px">
+          <p className="blahblahtext">{confirmedBy}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div className="width200px">
+          <p className="blahblahtext">{total}</p>
+        </div>
+      </div>
+      <div className="blahblah">
+        <div
+          className="width200px"
+          onClick={() => props.setDistributionSettings(data)}
+          id={"courier" + data._id}
+        >
+          {distribution}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Entry
