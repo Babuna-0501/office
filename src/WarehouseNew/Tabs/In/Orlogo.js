@@ -4,7 +4,7 @@ import { ModuleContext } from "../../index";
 import List from "./List";
 import Form from "./Form";
 import ZarlagaForm from "../Zarlaga/Form";
-
+import { saveAs } from "file-saver";
 const FormattedDate = () => {
   let currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -58,9 +58,40 @@ const Orlogo = (props) => {
       });
   };
 
-  const clickDownload = (ids) => {
-    if (ids.length == 0) return;
-    console.log(ids);
+  const clickDownload = async (ids) => {
+    let id =
+      ids.length == 0
+        ? data.map((d) => '"' + d._id + '"')
+        : ids.map((id) => '"' + id.id + '"');
+    let headers = myHeaders;
+    headers.append("Accept", "application/pdf");
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+      responseType: "arraybuffer",
+    };
+
+    const url = `https://api2.ebazaar.mn/api/shipment/report?shipmentIds=[${id}]`;
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10);
+    try {
+      const response = await fetch(url, requestOptions);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+      // if (!contentType || !contentType.includes('application/pdf')) {
+      // 	throw new Error('Response is not a PDF');
+      // }
+
+      const blob = await response.blob();
+      saveAs(blob, `Тайлан ${formattedDate}.pdf`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const foobar = (blahblah) => {

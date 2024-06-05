@@ -76,6 +76,9 @@ const Entry = (props) => {
         <div className="width40px">
           <input
             type="checkbox"
+            checked={
+              props.ids?.filter((id) => id.id == data._id)?.[0] !== undefined
+            }
             onChange={(e) => props.onRowSelect(data._id, data.requestedBy)}
           />
         </div>

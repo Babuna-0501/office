@@ -12,14 +12,25 @@ const List = (props) => {
   let renderHTML = [];
   const [distributionSettings, setDistributionSettings] = useState(false);
   // const [isDisabled, setIsDisabled] = useState(false);
-  let ids = [];
+  const [ids, setIds] = useState([]);
   const [params, setParams] = useState([]);
 
   const onRowSelect = (id, requestedBy) => {
-    if (ids.includes(id)) {
-      ids = ids.filter((e) => e !== id);
+    if (ids.filter((i) => i.id == id)?.[0] == undefined) {
+      if (
+        ids.length == 0 ||
+        ids.filter((i) => i.by == requestedBy)?.[0] != undefined
+      ) {
+        setIds((prev) => [
+          ...prev,
+          {
+            id: id,
+            by: requestedBy,
+          },
+        ]);
+      }
     } else {
-      ids = [...ids, id];
+      setIds(ids.filter((i) => i.id != id));
     }
   };
   useEffect(() => {
@@ -91,6 +102,7 @@ const List = (props) => {
         setFormZarlaga={props.setFormZarlaga}
         key={Math.random()}
         widths={widths}
+        ids={ids}
         setDistributionSettings={setDistributionSettings}
         onRowSelect={onRowSelect}
       />
