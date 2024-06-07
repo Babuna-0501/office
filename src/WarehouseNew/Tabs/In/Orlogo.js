@@ -5,7 +5,6 @@ import List from "./List";
 import Form from "./Form";
 import ZarlagaForm from "../Zarlaga/Form";
 import { saveAs } from "file-saver";
-
 const FormattedDate = () => {
   let currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -93,7 +92,7 @@ const Orlogo = (props) => {
     } catch (error) {
       console.error(error);
     }
-}
+  };
 
   const foobar = (blahblah) => {
     //if(blahblah === 'today' || blahblah === 'thismonth' || blahblah === 'thisweek') {
