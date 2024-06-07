@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import myHeaders from '../MyHeader/myHeader';
 import './yuna.css';
 
@@ -8,11 +9,11 @@ const YunaToExcel = (props) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isDataFetched, setIsDataFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);  // New loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
-    setIsLoading(true);  // Start loading
-    var requestOptions = {
+    setIsLoading(true);
+    const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
@@ -21,32 +22,32 @@ const YunaToExcel = (props) => {
       const response = await fetch(`https://api2.ebazaar.mn/api/order/tailan/yuna?start=${startDate}&end=${endDate}`, requestOptions);
       const jsonData = await response.json();
       setData(jsonData.data);
-      setIsDataFetched(true); 
+      setIsDataFetched(true);
     } catch (error) {
       console.error('Error fetching data:', error);
-      setIsDataFetched(false); 
+      setIsDataFetched(false);
     }
-    setIsLoading(false);  // End loading
+    setIsLoading(false);
   };
 
-  const exportToExcel = () => {
-    // Define the headers in the desired order
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Orders');
+
     const headers = [
-      'DocumentId', 'DocumentNumber', 'DocumentDate', 'DocumentDesc', 'CustomerId', 
-      'WarehouseId', 'AccountId', 'ItemId', 'ItemName', 'Qty', 
-      'UnitPrice', 'VatAmount', 'Amount', 'DocumentS1', 'DocumentS2', 
+      'DocumentId', 'DocumentNumber', 'DocumentDate', 'DocumentDesc', 'CustomerId',
+      'WarehouseId', 'AccountId', 'ItemId', 'ItemName', 'Qty',
+      'UnitPrice', 'VatAmount', 'Amount', 'DocumentS1', 'DocumentS2',
       'DocumentS3', 'DocumentS4', 'DocumentS5'
     ];
 
-    // Cyrillic headers to be included in the first row
     const cyrillicHeaders = [
-      'Гүйлгээ', 'Баримтын № Огноо', 'Баримтын огноо', 'Гүйлгээний утга', 'Бэлтгэн нийлүүлэгч', 
-      'Байршил', 'Харилцсан данс', 'Барааны код', 'Барааны нэр', 'Тоо хэмжээ', 
-      'Нэгж үнэ', 'НӨАТ-ын дүн', 'Дүн', 'Баримтын сегмент 1', 'Баримтын сегмент 2', 
+      'Гүйлгээ', 'Баримтын № Огноо', 'Баримтын огноо', 'Гүйлгээний утга', 'Бэлтгэн нийлүүлэгч',
+      'Байршил', 'Харилцсан данс', 'Барааны код', 'Барааны нэр', 'Тоо хэмжээ',
+      'Нэгж үнэ', 'НӨАТ-ын дүн', 'Дүн', 'Баримтын сегмент 1', 'Баримтын сегмент 2',
       'Баримтын сегмент 3', 'Баримтын сегмент 4', 'Баримтын сегмент 5'
     ];
 
-    // Map the data to match the headers
     const mappedData = data.map(item => ({
       DocumentId: item.DocumentId,
       DocumentNumber: item.DocumentNumber,
@@ -61,40 +62,60 @@ const YunaToExcel = (props) => {
       UnitPrice: item.UnitPrice,
       VatAmount: item.VatAmount,
       Amount: item.Amount,
-      DocumentS1: '',  // Add appropriate values or leave as empty strings
+      DocumentS1: '',
       DocumentS2: '',
       DocumentS3: '',
       DocumentS4: '',
       DocumentS5: ''
     }));
 
-    // Create a worksheet with the headers and mapped data
-    const worksheet = XLSX.utils.json_to_sheet([]);
-    XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: 'A1' });
-    XLSX.utils.sheet_add_aoa(worksheet, [cyrillicHeaders], { origin: 'A2' });
-    XLSX.utils.sheet_add_json(worksheet, mappedData, { origin: 'A3', skipHeader: true });
+    const columnWidths = [
+      { wch: 15 }, // DocumentId
+      { wch: 20 }, // DocumentNumber
+      { wch: 20 }, // DocumentDate
+      { wch: 30 }, // DocumentDesc
+      { wch: 20 }, // CustomerId
+      { wch: 15 }, // WarehouseId
+      { wch: 15 }, // AccountId
+      { wch: 15 }, // ItemId
+      { wch: 30 }, // ItemName
+      { wch: 10 }, // Qty
+      { wch: 15 }, // UnitPrice
+      { wch: 15 }, // VatAmount
+      { wch: 15 }, // Amount
+      { wch: 20 }, // DocumentS1
+      { wch: 20 }, // DocumentS2
+      { wch: 20 }, // DocumentS3
+      { wch: 20 }, // DocumentS4
+      { wch: 20 }, // DocumentS5
+    ];
 
-    // Adding styles to headers
-    const headerRange = XLSX.utils.decode_range(worksheet['!ref']);
-    for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
-      const cellAddress1 = XLSX.utils.encode_cell({ r: 0, c: col });
-      const cellAddress2 = XLSX.utils.encode_cell({ r: 1, c: col });
-      worksheet[cellAddress1].s = {
-        fill: { fgColor: { rgb: 'FFFF00' } },
-        font: { bold: true, color: { rgb: '000000' } },
-        alignment: { horizontal: 'center', vertical: 'center' }
-      };
-      worksheet[cellAddress2].s = {
-        fill: { fgColor: { rgb: 'FFFF00' } },
-        font: { bold: true, color: { rgb: '000000' } },
-        alignment: { horizontal: 'center', vertical: 'center' }
-      };
-    }
+    worksheet.addRow(headers);
+    worksheet.addRow(cyrillicHeaders);
+    mappedData.forEach(item => worksheet.addRow(Object.values(item)));
 
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Orders');
-    XLSX.writeFile(workbook, 'Yuna.xlsx');
-    window.location.reload(); 
+    worksheet.columns.forEach((column, index) => {
+      column.width = columnWidths[index].wch; 
+    });
+
+    const headerRow = worksheet.getRow(1);
+    headerRow.eachCell(cell => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fcc203' }
+      };
+      cell.font = {
+        bold: true,
+        color: { argb: '000000' }
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'center' };
+    });
+
+    worksheet.autoFilter = 'A1:R1';
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), 'Yuna.xlsx');
   };
 
   return (
@@ -111,7 +132,7 @@ const YunaToExcel = (props) => {
       </div>
       <div style={{ display: "flex", gap: "40px", alignItems: "center" }}>
         <button className='yuna_btn' onClick={fetchData} disabled={isLoading}>Тайлан бэлдэх</button>
-        {isLoading && <div>Түр хүлээнэ үү...</div>}  {/* Loading indicator */}
+        {isLoading && <div>Түр хүлээнэ үү...</div>}
         {isDataFetched && (
           <button className='yuna_btn' onClick={exportToExcel}>Тайлан татах</button>
         )}

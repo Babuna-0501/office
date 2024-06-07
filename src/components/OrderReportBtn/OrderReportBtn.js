@@ -11,8 +11,9 @@ import { colaOrderUsers } from "../../Order/Index";
 import FilterConfig from "../../Order/FilterButton/FilterConfig";
 import YunaToExcel from "../../OrderV2/components/yuna/Yuna";
 import YunaModal from "./YunaModal";
+import MgcToExcel from "../../OrderV2/components/mgc/mgc";
 
-const dataIDS = ["|14057|", "|14045|", "|13954|"];
+const dataIDS = ["|14057|", "|14045|", "|13954|" , "|13948|"];
 
 const OrderReportBtn = (props) => {
   const orderCTX = useContext(OrderReportHook);
@@ -54,7 +55,7 @@ const OrderReportBtn = (props) => {
           {(props.userData.company_id === "|14005|" ||  
             props.userData.company_id === "|14005||14238|" ||
             props.userData.company_id === "|14191|" ||
-            props.userData.company_id === "|14246|") && (
+            props.userData.company_id === "|14246|" ) && (
             <>
               <Button
                 onClick={() => orderCTX.setShowOrderReceipts(true)}
@@ -112,7 +113,7 @@ const OrderReportBtn = (props) => {
                 Тайлан
               </Button>
             )}
-          {props.userData.company_id === "|14045|" &&
+          {props.userData.company_id === "|14045|"  &&
             permission.order.report && (
               <Button
                 variant="primary"
@@ -124,6 +125,21 @@ const OrderReportBtn = (props) => {
                 Хангамж
               </Button>
             )}
+
+            {props.userData.company_id === "|13948|" &&
+            permission.order.report && (
+              <Button
+                variant="primary"
+                size="medium"
+                onClick={() => orderCTX.setShowIrishReport(true)}
+                icon
+              >
+                <img src={upload} alt="upload" />
+                Хангамж Irish
+              </Button>
+            )}
+
+       
           {props.userData.company_id === "|14045|" &&
             permission.order.report && (
               <Button
@@ -176,7 +192,7 @@ const OrderReportBtn = (props) => {
                   isOpen={isYunaModalOpen}
                   onClose={() => setIsYunaModalOpen(false)} 
                 >
-                  <YunaToExcel />
+                  <MgcToExcel/>
                 </YunaModal>
               </>
             )}

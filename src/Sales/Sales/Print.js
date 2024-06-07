@@ -26,7 +26,7 @@ const Print = (props) => {
         win.print()
         win.document.close()
         if(!saved) {
-        	props.save(props.taxPayerType, props.businessRegister, {cash: 1, card: 2, wire: 3})
+        	props.save(props)
         	setSaved(true)
         } else {
         	console.log('already saved')

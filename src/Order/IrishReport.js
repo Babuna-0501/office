@@ -29,7 +29,7 @@ const initialSchema = [
 ];
 
 export const YunaReport = (props) => {
-  const { setShowYunaReport } = useContext(OrderReportHook);
+  const { setShowIrishReport } = useContext(OrderReportHook);
 
   const [reportLoading, setReportLoading] = useState(false);
   const [reportReady, setReportReady] = useState(false);
@@ -45,9 +45,9 @@ export const YunaReport = (props) => {
     ////|| Number(props.userData.company_id !== 907)
     if (!props.permissionData.order.report) {
       alert("Танд тайлангийн эрх байхгүй байна.");
-      setShowYunaReport(false);
+      setShowIrishReport(false);
     }
-  }, [props, setShowYunaReport]);
+  }, [props, setShowIrishReport]);
 
   const generateReport = async () => {
     try {
@@ -65,7 +65,7 @@ export const YunaReport = (props) => {
         return;
       }
 
-      const orderUrl = `https://api2.ebazaar.mn/api/orders?order_type=1&supplier_id=14045&order_start=${starDate}&order_end=${endDate}&page=all`;
+      const orderUrl = `https://api2.ebazaar.mn/api/orders?order_type=1&supplier_id=13948&order_start=${starDate}&order_end=${endDate}&page=all`;
       const tradeshopUrl = `https://api2.ebazaar.mn/api/merchants?id=${tradeshopIds.toString()}&page=all`;
       const requestOptions = {
         method: "GET",
@@ -203,7 +203,7 @@ export const YunaReport = (props) => {
   const downloadReport = () => {
     writeXlsxFile(reportData, {
       schema,
-      fileName: `yuna-report-/${starDate}/-/${endDate}/.xlsx`,
+      fileName: `irish-report-/${starDate}/-/${endDate}/.xlsx`,
       headerStyle: {
         backgroundColor: "#d3d3d3",
         align: "center",
@@ -225,14 +225,14 @@ export const YunaReport = (props) => {
     setReportLoading(false);
   };
 
-  const closeHandler = () => setShowYunaReport(false);
+  const closeHandler = () => setShowIrishReport(false);
 
   return (
     <div id="formwithtransparentbackground">
       <div id="form" style={{ height: 240, width: 400 }}>
         <div className={css.wrapper}>
           <div className={css.headerWrapper}>
-            <h1 className={css.title}>Yuna тайлан</h1>
+            <h1 className={css.title}>Irish тайлан</h1>
             <button
               type="button"
               onClick={closeHandler}

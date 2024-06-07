@@ -207,8 +207,11 @@ const Sale = (props) => {
 	const selectSeries = (productId, seriesNumber) => {
 		console.log(productId  + ' and ' + seriesNumber)
 	}
-	const save = (taxPayerType, businessRegister, paymentInformation) => {
-
+	const save = (saleData) => {
+		console.log('saving shipment')
+		console.log(data)
+		console.log(saleData)
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>         >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 		/*console.log('fn save')
 		console.log(taxPayerType + ' and ' + businessRegister + ' and ' + paymentInformation)
 		//noatAmountOrig += (x.price.toFixed(2) * x.quantity.toFixed(2)) / 11.2;
@@ -312,7 +315,7 @@ const Sale = (props) => {
 		        "bankTransactions": null
 		    }
 		}
-		
+		*/
 		let foo = []
 		data.map(product => {
 			foo.push({
@@ -345,9 +348,10 @@ const Sale = (props) => {
 		then(response => {
 			console.log(response)
 			if(response.message === 'success') {
+				console.log('shipment successfully recorded')
 				const shipmentId = response.data.shipmentId
 				// Борлуулалтын батлагдсан зарлага болгох
-				let sendData = {
+				/*let sendData = {
 					"_id": shipmentId,
 				    "status": 2
 				}
@@ -364,7 +368,7 @@ const Sale = (props) => {
 					if(response.message === 'success') {
 						//alert('Амжилттай бүртгэлээ.')
 					}
-				})
+				})*/
 				// Борлуулалтын батлагдсан зарлага болгох
 				if(props.sale === 'draft') {
 					props.removeDraft(props.openingSaleData._id)
@@ -374,7 +378,7 @@ const Sale = (props) => {
 				alert('Алдаа гарлаа. F5 дарж дахин ачааллана уу!')
 			}
 		})
-		*/
+		
 	}
 	const emd = () => {
 		console.log(data)
@@ -383,7 +387,7 @@ const Sale = (props) => {
 		})
 	}
 	return (
-		<div id="overlaypage_bg">
+		<div id="overlaypage_bg" className="sale">
 			<div id="overlaypage" className={props.sale === 'open' ? 'disabled' : null}>
 				<div id="layout_left">
 					<h1>Борлуулалт</h1>

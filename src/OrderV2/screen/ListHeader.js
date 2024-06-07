@@ -38,6 +38,20 @@ const paymentMethods = [
   { Id: 5, Name: "Данс+Зээл" },
 ];
 
+const originData = [
+  { id: 0, name: "Бүгд" },
+  { id: 1, name: "Android" },
+  { id: 2, name: "iOS" },
+  { id: 3, name: "Web" },
+  { id: 4, name: "SFA" },
+  { id: 5, name: "Base" },
+  { id: 6, name: "Eclinic" },
+  { id: 7, name: "OnTimePos" },
+  { id: 8, name: "Pos Test" },
+  { id: 9, name: "Qmenu" },
+  { id: 10, name: "Amar" },
+];
+
 const ListHeader = ({
   fieldsData,
   handleSort,
@@ -80,6 +94,7 @@ const ListHeader = ({
   // const handleChange = (event, key) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
+  
   useEffect(() => {
     if (delivermans.length - 3 < users?.length) {
       setDeliverMans([
@@ -87,7 +102,7 @@ const ListHeader = ({
           user_id: "",
           first_name: "Бүгд",
         },
-        {
+        { 
           user_id: "null",
           first_name: "Хуваарьлаагүй",
         },
@@ -614,11 +629,15 @@ const ListHeader = ({
         style={{ width: sequenceSizes["origin"] + "px" }}
       >
         <h5>Origin</h5>
-        <input
+        <Dropdown
+          options={originData}
+          onChange={(e) => handleChange(e, "origin")}
+        />
+        {/* <input
           type="text"
           placeholder="Хайх"
           onChange={(e) => handleChange(e, "origin")}
-        />
+        /> */}
       </div>
     ),
     vat: (

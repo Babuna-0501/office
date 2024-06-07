@@ -1,0 +1,29 @@
+.btn_p {
+    width: 57px;
+    background-color:#ffa400;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn_pp {
+    width: 57px;
+    background-color:rgb(235, 94, 67);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.prod_popup_order2 {
+    width: 590px;
+}
+
+.prod_title_order2 {
+    width: 560px;
+}
+
+.head_list {
+    overflow-y: auto;
+}

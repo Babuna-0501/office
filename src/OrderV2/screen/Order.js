@@ -66,13 +66,18 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
   const formatDate = (dateString) => {
     const dateObj = new Date(dateString);
-    const formattedDate = dateObj.toLocaleDateString("en-US", {
+    const formattedDate = dateObj.toLocaleString("en-US", {
       month: "2-digit",
       day: "2-digit",
       year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, 
     });
     return formattedDate;
   };
+  
 
   const paymentMethods = [
     { Id: 0, Name: "Дансаар" },
@@ -499,6 +504,9 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
   const originName = getOriginNameById(data.origin);
   
+  function formatCurrency(value) {
+    return value ? value.toLocaleString() : '0';
+  }
 
 
   return (
@@ -583,8 +591,8 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                 ) : (
                   <div className="payment_mode" onClick={(e) => handleOpen(e)}>
                     <div className="fullcontainer price_wrapper idWrapper">
-                      {data && <span>{data.grand_total}₮</span>}
-                      {data && <span>{data.payment_amount}₮</span>}
+                      {data && <span>{formatCurrency(data.grand_total)}₮</span>}
+                      {data && <span>{formatCurrency(data.payment_amount)}₮</span>}
                     </div>
                   </div>
                 );
@@ -969,6 +977,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                 <div
                   className="btn_edit"
                   onClick={() => {
+                    alert('Үнийн дүнг шинэчлэхдээ итгэлтэй байна уу!');
                     updatePayment();
                   }}
                 >
@@ -1340,9 +1349,30 @@ export const Dialog = ({
       <article className="modal-content p-lg-4">
         <div className="exit-icon text-end">
           {/* <IoMdClose onClick={onClose} /> */}
-          <button onClick={cancel}>Хаах</button>
+          <button onClick={cancel}>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
+              fill="#1A1A1A"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
+              fill="#1A1A1A"
+            />
+          </svg>
+          </button>
         </div>
-        <main className="modal-maincontentss">
+        <main className="modal-maincontentss price_up">
           <span>
             Та статусыг {type == 1 ? "устгагдсан" : payload.toLowerCase()}{" "}
             болгохдоо итгэлтэй байна уу
@@ -1360,14 +1390,39 @@ export const Dialog = ({
 
 export const Modal = ({ open, payload, cancel, save, onChange }) => {
   if (!open) return null;
+  function formatCurrency(value) {
+    return value.toLocaleString();
+  }
+  const total = Math.ceil(payload.price * payload.quantity);
   return (
     <section className="modal">
       <article className="modal-content p-lg-4">
         <div className="exit-icon text-end">
           {/* <IoMdClose onClick={onClose} /> */}
-          <button onClick={cancel}>Хаах</button>
+          <div onClick={cancel}>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
+              fill="#1A1A1A"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
+              fill="#1A1A1A"
+            />
+          </svg>
+          </div>
         </div>
-        <main className="modal-maincontents">
+        <main className="modal-maincontents price_up">
           <label>Price:</label>
           <input
             value={Math.floor(payload.price)}
@@ -1380,10 +1435,9 @@ export const Modal = ({ open, payload, cancel, save, onChange }) => {
           />
 
           <span>
-            {payload.price}₮ * {payload.quantity} =
-            {Math.floor(payload.price * payload.quantity)}₮
+            {formatCurrency(payload.price)}₮ * {payload.quantity} ш = {formatCurrency(total)}₮
           </span>
-          <div className="modal-button">
+          <div className="modal-button p_price--update">
             <button onClick={cancel}>Цуцлах</button>
             <button onClick={save}>Хадгалах</button>
           </div>

@@ -580,7 +580,7 @@ const Barimt = (props) => {
 
             <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalQuantity.toLocaleString()}</td>
             <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold', display: props.order.supplier_id !== 14246 ? 'none' : null}}></td>
-            <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}></td>
+            <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalBoxes}</td>
              <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalOriginalAmount.toLocaleString()}₮</td>
               <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}></td>
               

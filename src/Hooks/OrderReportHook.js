@@ -11,6 +11,7 @@ export const OrderReportHook = (props) => {
   const [orderReportUrl, setOrderReportUrl] = useState(false);
   const [showYunaReport, setShowYunaReport] = useState(false);
   const [showArigReport, setShowArigReport] = useState(false);
+  const [showIrishReport, setShowIrishReport] = useState(false);
   const [tugeegchBtnDisabled, setTugeegchBtnDisabled] = useState(true);
   const [shipmentBtnDisabled, setShipmentBtnDisabled] = useState(true);
   const [showTugeegchAssign, setShowTugeegchAssign] = useState(false);
@@ -61,6 +62,8 @@ export const OrderReportHook = (props) => {
         setBmTovchoo,
         yunaTailanType,
         setYunaTailanType,
+        showIrishReport,
+        setShowIrishReport
       }}
     >
       {props.children}

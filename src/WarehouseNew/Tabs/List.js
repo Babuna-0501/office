@@ -4,6 +4,8 @@ import { ModuleContext } from '../index'
 import { WarehouseContext } from '../Warehouse'
 import { useContext, useState, useEffect } from 'react'
 import { jsPDF } from "jspdf"
+import * as XLSX from 'xlsx'
+import myHeaders from '../../components/MyHeader/myHeader'
 
 const List = (props) => {
 	const context = useContext(ModuleContext)
@@ -18,13 +20,37 @@ const List = (props) => {
 	const [ids, setIds] = useState([])
 	const [stock, setStock] = useState(null)
 	const [box, setBox] = useState(null)
-
-	let startDate, endDate
+	const [startDate, setStartDate] = useState(null)
+	const [endDate, setEndDate] = useState(null)
 
 	const download = () => {
 		console.log(startDate);
 		console.log(endDate);
 		console.log(ids.length == 0 ? products.map(e => e._id) : ids);
+	}
+
+	const downloadExcel = async () => {
+		if (!startDate || !endDate) {
+			alert("Эхлэх дуусах өдрийг сонгоно уу.");
+			return;
+		}
+
+		const requestOptions = {
+			method: 'GET',
+			headers: myHeaders,
+			redirect: 'follow',
+		};
+
+		const response = await fetch(`https://api2.ebazaar.mn/api/warehouse/report?start=${startDate}&end=${endDate}&warehouseId=${context.activeWarehouse._id}`, requestOptions);
+		const blob = await response.blob();
+		const url = window.URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.style.display = 'none';
+		a.href = url;
+		a.download = 'report.xlsx';
+		document.body.appendChild(a);
+		a.click();
+		window.URL.revokeObjectURL(url);
 	}
 
 	const onChange = (id) => {
@@ -105,9 +131,10 @@ const List = (props) => {
 	return (
 		<div style={{ display: "flex", flexDirection: "column" }}>
 			<div style={{ padding: '.5rem', float: 'left' }}>
-				<input type="date" value={startDate} className="formInput" onChange={(e) => startDate = e.target.value} />
-				<input type="date" value={endDate} className="formInput marginleft1rem" onChange={(e) => endDate = e.target.value} />
+				<input type="date" value={startDate} className="formInput" onChange={(e) => setStartDate(e.target.value)} />
+				<input type="date" value={endDate} className="formInput marginleft1rem" onChange={(e) => setEndDate(e.target.value)} />
 				<button className="pageButton marginleft1rem" disabled={false} onClick={() => download()}>Download PDF</button>
+				<button className="pageButton marginleft1rem" disabled={false} onClick={() => downloadExcel()}>Download Excel</button>
 			</div>
 			<div id="container-list" style={{ margin: '0 0 0 1rem' }}>
 				<div className="blah margintop8px" style={{ height: '60px' }}>
@@ -168,8 +195,8 @@ const List = (props) => {
 					</div>
 				</div>
 			</div>
-		</div >
+		</div>
 	)
 }
 
-export default List
+export default List;

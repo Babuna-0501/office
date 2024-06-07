@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import myHeaders from "../../../components/MyHeader/myHeader";
+import "./modal_product.css"
 
 export const ProductModal = ({ open, close, orderId, supId, submit }) => {
   const [data, setData] = useState([]);
@@ -8,7 +9,7 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
   const [supplier, setSupplier] = useState(supId ? supId : null);
   const [productid, setProductid] = useState(null);
   const [search, setSearch] = useState([]);
-  const [productname, setProductname] = useState(null);
+
   const getData = () => {
     var requestOptions = {
       method: "GET",
@@ -26,41 +27,18 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
     if (productid !== null) {
       params += `id=${productid}&`;
     }
-console.log(
-  "product url " +
-    `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`
-);
     fetch(
       `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`,
       requestOptions
     )
       .then((res) => res.json())
       .then((res) => {
-        // console.log("res", res);
-        // let update = res.data.map((item) => {
-        //   if (
-        //     smsctx.prodIDS.length !== 0 &&
-        //     smsctx.prodIDS.includes(item._id)
-        //   ) {
-        //     return {
-        //       ...item,
-        //       chosed: true,
-        //     };
-        //   } else {
-        //     return {
-        //       ...item,
-        //       chosed: false,
-        //     };
-        //   }
-        // });
-
         let update = res.data.map((item) => {
           return {
             ...item,
             chosed: false,
           };
         });
-        console.log(res.data);
         setData(update);
         setCopy(update);
       })
@@ -99,8 +77,8 @@ console.log(
   };
 
   return (
-    <div className={`add-popup ${open ? "active" : ""}`}>
-      <div className="popup-content_add">
+    <div className={`add-popup ${open ? "active" : ""}`}> 
+      <div className="popup-content_add prod_popup_order2">
         <span className="close-button" onClick={close}>
           <svg
             width="16"
@@ -123,7 +101,7 @@ console.log(
             />
           </svg>
         </span>
-        <span style={{ marginLeft: "30px" }}>Захиалгын дугаар: {orderId}</span>
+        <span style={{ marginLeft: "30px", fontSize:"18px", fontWeight:700 }}>Захиалгын дугаар: {orderId}</span>
         <div className="add_popup_search">
           {" "}
           <input
@@ -133,21 +111,23 @@ console.log(
             onChange={(e) => setProductid(e.target.value)}
           />
         </div>
-        <div className="add_popup_title">
+        <div className="add_popup_title prod_title_order2">
           <p>Бүтээгдэхүүний нэр</p>
+          <p>Зураг</p>
           <p>Тоо ширхэг</p>
           <p>Нэгж үнэ</p>
-          <p>Нийт үнийн дүн</p>
+          <p>Нийт дүн</p>
           <p>Action</p>
         </div>
         {/* End baraanii lsit garch irne */}
-        <div style={{ height: "500px", overflow: "scroll" }}>
-          {search?.length > 0 && <p>Сонгосон</p>}
+        <div className="head_list" style={{ height: "600px", marginBottom:"10px"}}>
+          {search?.length > 0 && <p style={{fontWeight:700}}>Сонгосон Бүтээгдэхүүн</p>}
           {search?.map((s, i) => {
             return (
               <ProductAddCard
                 name={s.name}
                 price={s.price}
+                image={s.image}
                 quantity={s.quantity}
                 setQuantity={(e) => {
                   s.quantity = e;
@@ -168,6 +148,7 @@ console.log(
                     ...prev,
                     {
                       name: d.name,
+                      image: d.image,
                       productId: d._id,
                       quantity: q,
                       price: d.stock,
@@ -176,6 +157,7 @@ console.log(
                 }}
                 quantity={0}
                 name={d.name}
+                image = {d.image}
                 price={d.stock}
               />
             );
@@ -192,7 +174,7 @@ console.log(
 
 const ProductAddCard = ({
   name,
-
+  image,
   price,
   add,
   remove,
@@ -202,6 +184,7 @@ const ProductAddCard = ({
   return (
     <div className="add_popup_md">
       <span>{name}</span>
+      <span> <img style={{width:"50px"}} src={image}/></span>
       <span>
         <input
           className="add_popup_quantity"
@@ -223,9 +206,9 @@ const ProductAddCard = ({
       <span>{Math.floor((quantity ?? 0) * price)}₮ </span>
       <span>
         {add == undefined ? (
-          <button onClick={remove}>del</button>
+          <button className="btn_pp" onClick={remove}>Устгах</button>
         ) : (
-          <button onClick={() => add(quantity)}>add</button>
+          <button className="btn_p" onClick={() => add(quantity)}>Нэмэх</button>
         )}
       </span>
     </div>

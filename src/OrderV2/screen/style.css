@@ -724,3 +724,29 @@
   background-color: #fff;
   z-index: 100;
 }
+
+.price_up {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.price_up input {
+  width: 150px;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  padding: 5px;
+  font-size: 14px;
+}
+.p_price--update button:first-of-type {
+  background-color: rgb(235, 94, 67);
+  border: none;
+  color: #fff;
+}
+
+.p_price--update button:last-of-type {
+  background-color: #ffa400;
+  color: #fff;
+  border: none;
+}

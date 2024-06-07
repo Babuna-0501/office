@@ -17,6 +17,7 @@ import html2pdf from "html2pdf.js";
 import * as XLSX from 'xlsx';
 import City from "./data/city.json";
 import District from "./data/district.json";
+import List4 from "./List/List4";
 
 const App = (props) => {
   const [filterState, setFilterState] = useState({
@@ -542,7 +543,6 @@ const App = (props) => {
 
       if (status === 200) {
         alert("Амжилттай");
-        // Refresh the page
         window.location.reload();
       } else {
         alert("Амжилтгүй");
@@ -564,10 +564,30 @@ const App = (props) => {
 
   const tabs = [
     {
-      label: "Захиалгын жагсаалт",
+      label: "Захиалгын жагсаалт ",
       content: () => (
         <div>
           <List1
+            suppliers={sfa}
+            fieldsData={fieldsData}
+            userData={props.userData}
+            data={data}
+            setData={setData}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        </div>
+      ),
+    },
+    {
+      label: "Захиалгын жагсаалт b2b",
+      content: () => (
+        <div>
+          <List4
             suppliers={sfa}
             fieldsData={fieldsData}
             userData={props.userData}
