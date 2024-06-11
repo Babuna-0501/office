@@ -697,7 +697,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                 return (
                   <div className="payment_type" key={field.id}>
                     <div className="fullcontainer">
-                      <span>Дансаар</span>
+                      <span>{paymentMethods[data.payment_satus].Name}</span>
                     </div>
                   </div>
                 );

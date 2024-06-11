@@ -7,6 +7,7 @@ import DistrictData from "../data/district.json";
 
 import "./style.css";
 import { visibles } from "../List/List2";
+import { tsastaltaindol } from "../Index";
 
 let options = [
   { value: "0", label: "Бүгд" },
@@ -30,26 +31,27 @@ const managers = [
 ];
 
 const paymentMethods = [
-  { Id: 0, Name: "Дансаар" },
-  { Id: 1, Name: "Бэлнээр" },
-  { Id: 2, Name: "Зээлээр" },
-  { Id: 3, Name: "Бэлэн+Данс" },
-  { Id: 4, Name: "Бэлэн+Зээл" },
-  { Id: 5, Name: "Данс+Зээл" },
+  { value: '', label: "Бүгд" },
+  { value: 1, label: "Дансаар" },
+  { value: 2, label: "Бэлнээр" },
+  { value: 3, label: "Зээлээр" },
+  { value: 4, label: "Бэлэн+Данс" },
+  { value: 5, label: "Бэлэн+Зээл" },
+  { value: 6, label: "Данс+Зээл" },
 ];
 
-const originData = [
-  { id: 0, name: "Бүгд" },
-  { id: 1, name: "Android" },
-  { id: 2, name: "iOS" },
-  { id: 3, name: "Web" },
-  { id: 4, name: "SFA" },
-  { id: 5, name: "Base" },
-  { id: 6, name: "Eclinic" },
-  { id: 7, name: "OnTimePos" },
-  { id: 8, name: "Pos Test" },
-  { id: 9, name: "Qmenu" },
-  { id: 10, name: "Amar" },
+let originData = [
+  { value: '', label: "Бүгд" },
+  { value: 1, label: "Androvalue" },
+  { value: 2, label: "iOS" },
+  { value: 3, label: "Web" },
+  { value: 4, label: "SFA" },
+  { value: 5, label: "Base" },
+  { value: 6, label: "Eclinic" },
+  { value: 7, label: "OnTimePos" },
+  { value: 8, label: "Pos Test" },
+  { value: 9, label: "Qmenu" },
+  { value: 10, label: "Amar" },
 ];
 
 const ListHeader = ({
@@ -77,6 +79,7 @@ const ListHeader = ({
       first_name: "Хуваарьласан",
     },
   ]);
+
   const [ht, setHt] = useState([
     {
       user_id: "",
@@ -91,10 +94,17 @@ const ListHeader = ({
       first_name: "Хуваарьласан",
     },
   ]);
+  if (props.userData.company_id == tsastaltaindol) {
+    originData = [
+      { value: '', label: "Бүгд" },
+      { value: 1, label: "mobile" },
+      { value: 2, label: "SFA" },
+    ];
+  }
   // const handleChange = (event, key) => {
   //   props.setFilterState((prev) => ({ ...prev, [key]: event.target.value }));
   // };
-  
+
   useEffect(() => {
     if (delivermans.length - 3 < users?.length) {
       setDeliverMans([
@@ -102,7 +112,7 @@ const ListHeader = ({
           user_id: "",
           first_name: "Бүгд",
         },
-        { 
+        {
           user_id: "null",
           first_name: "Хуваарьлаагүй",
         },
@@ -148,6 +158,7 @@ const ListHeader = ({
   const handleChange = (event, key) => {
     const { target } = event;
     const { value } = target;
+    console.log(value);
 
     // if (key === "status" && value === "0") {
     //   props.handleSpinner(true);
@@ -582,7 +593,7 @@ const ListHeader = ({
         <h5>Төлбөрийн хэлбэр</h5>
         <Dropdown
           options={paymentMethods}
-          onChange={(e) => handleChange(e, "district")}
+          onChange={(e) => handleChange(e, "payment_status")}
         />
       </div>
     ),

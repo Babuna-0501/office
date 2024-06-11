@@ -14,11 +14,13 @@ import { Workbook } from "exceljs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2pdf from "html2pdf.js";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 import City from "./data/city.json";
 import District from "./data/district.json";
 import List4 from "./List/List4";
 
+export const b2bs = ["|14233|"];
+export const tsastaltaindol = "|14233|";
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -45,6 +47,7 @@ const App = (props) => {
     selectedDate: null,
     endDate: null,
     update: null,
+    payment_status: null,
   });
 
   const [data, setData] = useState([]);
@@ -54,7 +57,9 @@ const App = (props) => {
   const [exportOpen, setExportOpen] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
   const [sfa, setSfa] = useState(false);
-  const usersMapRef = useRef({}); 
+  const usersMapRef = useRef({});
+
+  let b2b = b2bs.includes(props.userData.company_id);
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.date);
@@ -84,8 +89,9 @@ const App = (props) => {
       let sfa = false;
 
       sfa = JSON.parse(resJson.data[0]?.available).sfa;
+
       setSfa(sfa);
-  
+
       console.log("Supplier list:", suppliersList);
     } catch (err) {
       console.log("Error fetching suppliers:", err);
@@ -105,7 +111,7 @@ const App = (props) => {
     } catch (error) {
       console.log(error);
     }
-    console.log("sfa", sfa);
+
     setSfa(sfa);
   }, [selectedItem, suppliers]);
 
@@ -166,7 +172,10 @@ const App = (props) => {
       };
 
       try {
-        const response = await fetch("https://api2.ebazaar.mn/api/backoffice/users", requestOptions);
+        const response = await fetch(
+          "https://api2.ebazaar.mn/api/backoffice/users",
+          requestOptions
+        );
         const userData = await response.json();
 
         const usersMap = userData?.data?.reduce((acc, user) => {
@@ -181,7 +190,7 @@ const App = (props) => {
     };
 
     fetchUsers();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const updateUserDetails = () => {
@@ -197,55 +206,72 @@ const App = (props) => {
     if (Object.keys(usersMapRef.current).length > 0) {
       updateUserDetails();
     }
-  }, [users]); 
-
+  }, [users]);
 
   const cityMapping = City.City.reduce((acc, city) => {
     acc[city.location_id] = city.location_name;
     return acc;
   }, {});
-  
+
   const districtMapping = District.District.reduce((acc, district) => {
     acc[district.location_id] = district.location_name;
     return acc;
   }, {});
-  
+
   const exportExcel = () => {
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10);
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
-  
+
     const wsData = [
-      ["№", "Дугаар", "Барааны нэр", "Тоо ширхэг", "Нэгж үнэ", "Төлсөн", "Нийт үнэ", "Үйлчилгээний газрын нэр", "Утас", "Хариуцсан ХТ", "Түгээгч", "Дэлгэрэнгүй хаяг"]
+      [
+        "№",
+        "Дугаар",
+        "Барааны нэр",
+        "Тоо ширхэг",
+        "Нэгж үнэ",
+        "Төлсөн",
+        "Нийт үнэ",
+        "Үйлчилгээний газрын нэр",
+        "Утас",
+        "Хариуцсан ХТ",
+        "Түгээгч",
+        "Дэлгэрэнгүй хаяг",
+      ],
     ];
-  
+
     let qr = 0;
     let pr = 0;
     let deliverFee = 6000;
     let paids = 0;
-  
+
     items.forEach((item, i) => {
       let quantity = 0;
       let price = 0;
-      let paid = item.order_data != undefined ? Number(JSON.parse(item.order_data)?.prePayment)  ?? 0 : 0;
+      let paid =
+        item.order_data != undefined
+          ? Number(JSON.parse(item.order_data)?.prePayment) ?? 0
+          : 0;
       paids += paid;
-  
+
       item.line.forEach((l) => {
         quantity += l.quantity;
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
-  
+
         if (item.supplier_id === 14268) {
           pr += deliverFee;
         }
       });
-  
-      const tradeshopCityName = cityMapping[item.tradeshop_city] || item.tradeshop_city;
-      const tradeshopDistrictName = districtMapping[item.tradeshop_district] || item.tradeshop_district;
-  
+
+      const tradeshopCityName =
+        cityMapping[item.tradeshop_city] || item.tradeshop_city;
+      const tradeshopDistrictName =
+        districtMapping[item.tradeshop_district] || item.tradeshop_district;
+
       wsData.push([
         i + 1,
         item.order_id,
@@ -259,9 +285,9 @@ const App = (props) => {
         item.phone,
         usersMapRef.current[item.sales_man],
         usersMapRef.current[item.deliver_man],
-        item.address + ',' + tradeshopCityName + ',' + tradeshopDistrictName  
+        item.address + "," + tradeshopCityName + "," + tradeshopDistrictName,
       ]);
-  
+
       item.line.forEach((l) => {
         wsData.push([
           "",
@@ -275,11 +301,11 @@ const App = (props) => {
           "",
           usersMapRef.current[item.sales_man],
           "",
-          ""
+          "",
         ]);
       });
     });
-  
+
     wsData.push([
       "",
       "",
@@ -292,30 +318,28 @@ const App = (props) => {
       "",
       "",
       "",
-      ""
+      "",
     ]);
-  
+
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Тайлан");
-  
+
     XLSX.writeFile(wb, `Тайлан ${formattedDate}.xlsx`);
   };
-  
-
 
   const exportPdf = () => {
     let list = [];
     let qr = 0;
     let pr = 0;
-    let deliverFee = 6000; 
+    let deliverFee = 6000;
     let paids = 0;
     let items = filterState.checked
       ? filteredData
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
-  
-    const usersMap = usersMapRef.current; 
-  
+
+    const usersMap = usersMapRef.current;
+
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
@@ -329,16 +353,16 @@ const App = (props) => {
         price += l.amount;
         qr += l.quantity;
         pr += l.amount;
-  
+
         if (item.supplier_id === 14268) {
           price += deliverFee;
           pr += deliverFee;
         }
       });
-  
+
       const salesManName = usersMap[item.sales_man] || item.sales_man;
       const deliverManName = usersMap[item.deliver_man] || item.deliver_man;
-  
+
       list.push([
         i + 1,
         item.order_id,
@@ -350,9 +374,9 @@ const App = (props) => {
         item.phone,
         salesManName,
         deliverManName,
-        ""
+        "",
       ]);
-  
+
       item.line.map((l, index) => {
         list.push([
           index + 1,
@@ -371,7 +395,7 @@ const App = (props) => {
         ]);
       });
     });
-  
+
     list.push([
       "",
       "",
@@ -387,12 +411,12 @@ const App = (props) => {
       "",
       "",
     ]);
-  
+
     const contentHtml = generateHtmlContent(list);
-  
+
     const date = new Date();
-    const formattedDate = date.toISOString().slice(0, 10); 
-  
+    const formattedDate = date.toISOString().slice(0, 10);
+
     html2pdf()
       .set({
         margin: 1,
@@ -404,7 +428,6 @@ const App = (props) => {
       .from(contentHtml)
       .save();
   };
-  
 
   const generateHtmlContent = (data) => {
     let html = `
@@ -568,7 +591,7 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
-            suppliers={sfa}
+            suppliers={true}
             fieldsData={fieldsData}
             userData={props.userData}
             data={data}
@@ -583,26 +606,7 @@ const App = (props) => {
         </div>
       ),
     },
-    {
-      label: "Захиалгын жагсаалт b2b",
-      content: () => (
-        <div>
-          <List4
-            suppliers={sfa}
-            fieldsData={fieldsData}
-            userData={props.userData}
-            data={data}
-            setData={setData}
-            filteredData={filteredData}
-            setFilteredData={setFilteredData}
-            selectedOrders={selectedOrders}
-            setSelectedOrders={setSelectedOrders}
-            filterState={filterState}
-            setFilterState={setFilterState}
-          />
-        </div>
-      ),
-    },
+
     {
       label: "Захиалгын тохиргоо",
       content: () => (
@@ -622,7 +626,28 @@ const App = (props) => {
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
-
+  if (b2b) {
+    tabs.splice(1, 0, {
+      label: "Захиалгын жагсаалт b2b",
+      content: () => (
+        <div>
+          <List4
+            suppliers={false}
+            fieldsData={fieldsData}
+            userData={props.userData}
+            data={data}
+            setData={setData}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        </div>
+      ),
+    });
+  }
   const openExport = () => {};
 
   return (
@@ -649,8 +674,12 @@ const App = (props) => {
 
       <ReportBtn
         onClick={() => {
-          if (!filterState.checked && filteredData.filter((d) => selectedOrders.includes(d.order_id)).length === 0) {
-            alert('Та захиалга сонгоогүй байна');
+          if (
+            !filterState.checked &&
+            filteredData.filter((d) => selectedOrders.includes(d.order_id))
+              .length === 0
+          ) {
+            alert("Та захиалга сонгоогүй байна");
           } else {
             setExportOpen(true);
           }
@@ -677,7 +706,6 @@ const App = (props) => {
         }
         print={() => {}}
       />
-
     </div>
   );
 };
