@@ -626,7 +626,7 @@ const App = (props) => {
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
-  if (b2b) {
+  if (b2b | (props.userData.user_id == 1)) {
     tabs.splice(1, 0, {
       label: "Захиалгын жагсаалт b2b",
       content: () => (
