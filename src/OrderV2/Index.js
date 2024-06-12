@@ -19,6 +19,10 @@ import City from "./data/city.json";
 import District from "./data/district.json";
 import List4 from "./List/List4";
 
+
+export const b2bs = ["|14233|"];
+export const tsastaltaindol = "|14233|";
+
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -45,6 +49,7 @@ const App = (props) => {
     selectedDate: null,
     endDate: null,
     update: null,
+    payment_status: null,
   });
 
   const [data, setData] = useState([]);
@@ -55,6 +60,7 @@ const App = (props) => {
   const [suppliers, setSuppliers] = useState([]);
   const [sfa, setSfa] = useState(false);
   const usersMapRef = useRef({}); 
+  let b2b = b2bs.includes(props.userData.company_id);
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.date);
@@ -259,7 +265,7 @@ const App = (props) => {
         item.phone,
         usersMapRef.current[item.sales_man],
         usersMapRef.current[item.deliver_man],
-        item.address + ',' + tradeshopCityName + ',' + tradeshopDistrictName  
+        item.address + ',' + tradeshopCityName + ',' + tradeshopDistrictName,  
       ]);
   
       item.line.forEach((l) => {
@@ -275,7 +281,7 @@ const App = (props) => {
           "",
           usersMapRef.current[item.sales_man],
           "",
-          ""
+          "",
         ]);
       });
     });
@@ -350,7 +356,7 @@ const App = (props) => {
         item.phone,
         salesManName,
         deliverManName,
-        ""
+        "",
       ]);
   
       item.line.map((l, index) => {
@@ -568,7 +574,7 @@ const App = (props) => {
       content: () => (
         <div>
           <List1
-            suppliers={sfa}
+            suppliers={true}
             fieldsData={fieldsData}
             userData={props.userData}
             data={data}
@@ -583,26 +589,7 @@ const App = (props) => {
         </div>
       ),
     },
-    {
-      label: "Захиалгын жагсаалт b2b",
-      content: () => (
-        <div>
-          <List4
-            suppliers={sfa}
-            fieldsData={fieldsData}
-            userData={props.userData}
-            data={data}
-            setData={setData}
-            filteredData={filteredData}
-            setFilteredData={setFilteredData}
-            selectedOrders={selectedOrders}
-            setSelectedOrders={setSelectedOrders}
-            filterState={filterState}
-            setFilterState={setFilterState}
-          />
-        </div>
-      ),
-    },
+
     {
       label: "Захиалгын тохиргоо",
       content: () => (
@@ -622,6 +609,28 @@ const App = (props) => {
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
+  if (b2b | (props.userData.user_id === 1)) {
+    tabs.splice(1, 0, {
+      label: "Захиалгын жагсаалт b2b",
+      content: () => (
+        <div>
+          <List4
+            suppliers={false}
+            fieldsData={fieldsData}
+            userData={props.userData}
+            data={data}
+            setData={setData}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+            selectedOrders={selectedOrders}
+            setSelectedOrders={setSelectedOrders}
+            filterState={filterState}
+            setFilterState={setFilterState}
+          />
+        </div>
+      ),
+    });
+  }
 
   const openExport = () => {};
 
@@ -649,8 +658,12 @@ const App = (props) => {
 
       <ReportBtn
         onClick={() => {
-          if (!filterState.checked && filteredData.filter((d) => selectedOrders.includes(d.order_id)).length === 0) {
-            alert('Та захиалга сонгоогүй байна');
+          if (
+            !filterState.checked &&
+            filteredData.filter((d) => selectedOrders.includes(d.order_id))
+              .length === 0
+          ) {
+            alert("Та захиалга сонгоогүй байна");
           } else {
             setExportOpen(true);
           }

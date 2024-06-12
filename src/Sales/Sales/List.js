@@ -7,7 +7,6 @@ const List = (props) => {
 	const [sendingReceipts, setSendingReceipts] = useState(false)
 	const sendReceipts = () => {
 		if(window.confirm('Та баримт илгээхдээ итгэлтэй байна уу?')) {
-			console.log('sending')
 			setSendingReceipts(true)
 			var requestOptions = {
 				method: "GET",

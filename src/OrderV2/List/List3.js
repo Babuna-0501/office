@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext} from 'react';
 import './ReportNew.css';
 import myHeaders from '../components/MyHeader/myHeader';
 import * as XLSX from 'xlsx';
 import Brief from '../components/brief/Brief'
-import YunaToExcel from '../components/yuna/Yuna';
-import ReportYuna from '../components/yuna/Yuna';
+import { Button } from '../../Achiltiinzahialga/components/common';
+import { OrderReportHook } from '../../Hooks/OrderReportHook';
+// import YunaToExcel from '../components/yuna/Yuna';
+// import ReportYuna from '../components/yuna/Yuna';
 
-const ReportDetail = () => {
+
+const ReportDetail = (props) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [data, setData] = useState([]);

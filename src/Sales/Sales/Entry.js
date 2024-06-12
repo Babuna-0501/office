@@ -1,7 +1,12 @@
 import {useState} from "react"
 import {ModuleContext} from '../../index'
+import VatDetailForm from './VatDetailForm'
 
 const Entry = (props) => {
+	console.log(props)
+	const billId = props?.entryData?.config?.sale?.vat?.billId
+	console.log(billId)
+	const [vatDetail, setVatDetail] = useState(false)
 	const [removed, setRemoved] = useState(false)
 	const data = props.entryData
 	let total = 0
@@ -33,22 +38,30 @@ const Entry = (props) => {
 			requestedBy = user.first_name + ' ' + user.last_name
 		}
 	})
+	let taxPayerType = ''
+	if(data?.config?.sale?.vat?.taxPayerType) {
+		taxPayerType = (data?.config?.sale?.vat?.taxPayerType === 'individual') ? "Иргэн" : 'Байгууллага'
+	}
+
 	return (
-		<div id={data.type === 0 ? data._id : null} className="box_container" style={{borderRadius: '3px', display: removed === false ? 'block' : 'none', overflow: 'hidden', background: data.type === 0 ? '#fffd7554' : 'inherit'}} key={Math.random()}>
-			<div className="box" style={{width: '52px', justifyContent: 'center'}}><input type="checkbox" /></div>
-			<div className="box" style={{width: '80px'}}><span onClick={() => data.type === 0 ? props.openDraft(data) : props.openSale(data)} style={{color: '#0F548C'}}>{dataId}</span></div>
-			<div className="box" style={{width: '180px'}}><span>{data.createdDate ? data.createdDate.substr(0, 10) + ' ' + data.createdDate.substr(11, 8) : null}</span></div>
-			<div className="box" style={{width: '180px'}}><span>{total.toLocaleString()}₮</span></div>
-			<div className="box" style={{width: '180px'}}><span>{data.discount ? data.discount : null}</span></div>
-			<div className="box" style={{width: '180px'}}><span>{data.vat ? data.vat : null}</span></div>
-			<div className="box" style={{width: '180px'}}><span></span></div>
-			<div className="box" style={{width: '180px'}}><span></span></div>
-			<div className="box" style={{width: '180px'}}><span></span></div>
-			<div className="box" style={{width: '180px'}}><span>{total.toLocaleString()}₮</span></div>
-			<div className="box" style={{width: '180px'}}><span></span></div>
-			<div className="box" style={{width: '180px'}}><span>{requestedBy}</span></div>
-			<div className="box" style={{width: '100px'}}>{data.type === 0 && removed === false ? <span onClick={() => removeDraft(data._id)}><button>Устгах</button></span> : null}</div>
-		</div>
+		<>
+			<div id={data.type === 0 ? data._id : null} className="box_container" style={{borderRadius: '3px', display: removed === false ? 'block' : 'none', overflow: 'hidden', background: data.type === 0 ? '#fffd7554' : 'inherit'}} key={Math.random()}>
+				<div className="box" style={{width: '52px', justifyContent: 'center'}}><input type="checkbox" /></div>
+				<div className="box" style={{width: '80px'}}><span onClick={() => data.type === 0 ? props.openDraft(data) : props.openSale(data)} style={{color: '#0F548C'}}>{dataId}</span></div>
+				<div className="box" style={{width: '180px'}}><span>{data.createdDate ? data.createdDate.substr(0, 10) + ' ' + data.createdDate.substr(11, 8) : null}</span></div>
+				<div className="box" style={{width: '180px'}}><span>{total.toLocaleString()}₮</span></div>
+				<div className="box" style={{width: '180px'}}><span>{data.discount ? data.discount : null}</span></div>
+				<div className="box" style={{width: '180px'}}><span></span></div>
+				<div className="box" style={{width: '180px'}}><span onClick={() => setVatDetail(true)} style={{color: (data?.config?.sale?.vat?.returned && data.config.sale.vat.returned === true) ? 'red' : '#2ab674'}} id={'billId' + billId}>{taxPayerType} {data?.config?.sale?.vat?.totalVat ?? null}</span></div>
+				<div className="box" style={{width: '180px'}}><span></span></div>
+				<div className="box" style={{width: '180px'}}><span></span></div>
+				<div className="box" style={{width: '180px'}}><span>{total.toLocaleString()}₮</span></div>
+				<div className="box" style={{width: '180px'}}><span></span></div>
+				<div className="box" style={{width: '180px'}}><span>{requestedBy}</span></div>
+				<div className="box" style={{width: '100px'}}>{data.type === 0 && removed === false ? <span onClick={() => removeDraft(data._id)}><button>Устгах</button></span> : null}</div>
+			</div>
+			{vatDetail ? <VatDetailForm props={props} setVatDetail={setVatDetail} /> : null }
+		</>
 	)
 }
 

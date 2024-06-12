@@ -2,7 +2,6 @@ import ReceiptProductSelector from './ReceiptProductSelector'
 import { useEffect, useState } from "react"
 
 const Receipt = (props) => {
-	console.log(props)
 	const data = props.data
 	const receiptDetails = data.receiptDetails
 	const [chosenProduct, setChosenProduct] = useState(null)
@@ -34,9 +33,3 @@ const Receipt = (props) => {
 }
 
 export default Receipt
-/*
-        "hosOfficeName": "СҮХБААТАР",
-        "hosName": "Асгат сумын эрүүл мэндийн төв / Сүхбаатар /",
-        "hosSubOffName": "АСГАТ СУМ",
-        "cipherCode": "ЛА99030912",
-*/

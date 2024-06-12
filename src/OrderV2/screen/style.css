@@ -379,7 +379,7 @@
 .uldsen {
   display: flex;
   flex-direction: column;
-  width: 65px;
+  width: 85px;
   margin-top: 5px;
   height: 33px;
   border: 1px solid #da1414;
@@ -423,7 +423,7 @@
   gap: 10px;
   position: relative;
   border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 40px;
+  padding-bottom: 45px;
   padding-top: 40px;
 }
 
@@ -443,7 +443,16 @@
   top: 0;
   right: 0;
   cursor: pointer;
+  width: 80px;
+  height: 23px;
+  background-color: rgb(255, 166, 0);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 13px;
+  text-align: center;
+  top: 40%;
 }
+
 
 .btn_btm {
   position: fixed;

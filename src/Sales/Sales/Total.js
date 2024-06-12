@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 const Total = (props) => {
-	//console.log(props)
 	let totalSalesAmount = 0
 	let salesNumber = 0
 	props.data.map(sale => {

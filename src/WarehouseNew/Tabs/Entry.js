@@ -5,6 +5,7 @@ const Entry = (props) => {
 	const data = props.data
 	// console.log(data)
 	const productGroups = props.productGroups
+	console.log('productGroups', props)
 	let productGroup = null
 	if (data.category_id !== 0) {
 		productGroups.map(group => {
@@ -50,12 +51,24 @@ const Entry = (props) => {
 			<div className="box" style={{ width: width[5] }}>
 				{productGroup}
 			</div>
-			<div className="box" style={{ width: width[6] }}>
-				<h6>{data.stock}</h6><h6 style={{ color: '#faa51a' }}>{data.reservedStock}</h6>
-			</div>
-			<div className="box" style={{ width: width[7] }}>
+			{ props.data.company_id === "|14005|" ?
+				<div className="box" style={{ width: width[6] }}>
+					<h6>{data.stock}</h6><h6 style={{ color: '#faa51a' }}>
+					{/* {data.reservedStock} */}
+					</h6>
+				</div>
+				:
+				<div className="box" style={{ width: width[6] }}>
+					<h6>{data.stock < 0 ? 0 : data.stock.toFixed(3)}</h6>
+
+					<h6 style={{ color: '#faa51a' }}>
+					{/* {data.reservedStock} */}
+					</h6>
+				</div>
+			}
+			{/* <div className="box" style={{ width: width[7] }}>
 				<h6>{totalBox}</h6><h6 style={{ color: '#faa51a' }}>{totalBoxCalculated}</h6>
-			</div>
+			</div> */}
 		</div>
 	)
 }

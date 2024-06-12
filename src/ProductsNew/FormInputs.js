@@ -117,7 +117,7 @@ const FormInputs = (props) => {
 					<span className="pageClose" onClick={() => props.setProduct(null)}><img src="https://admin.ebazaar.mn/images/close.svg" alt="" /></span>
 				</div>
 				<div id="pageBody">
-					<div className="left" style={{width: '400px'}}>
+					<div className="left">
 						<div className="inputContainer">
 							<label>Бүтээгдэхүүний нэр:</label>
 							<input type="text" id="name" value={props.product === 'new' ? null : product.name} />
@@ -233,7 +233,7 @@ const FormInputs = (props) => {
 							</div>
 						</div>
 					</div>
-					<div className="right" style={{left: '400px'}}>
+					{/* <div className="right" style={{left: '400px'}}>
 						<span className="tab active">Дэлгэрэнгүй мэдээлэл</span>
 						<span className="tab">Нэмэлт мэдээлэл</span>
 						<textarea className="text margintop1rem"></textarea>
@@ -241,7 +241,7 @@ const FormInputs = (props) => {
 							<button onClick={() => console.log('yeah')}>Print product group</button>
 							<button className="button primary large" onClick={() => props.product === 'new' ? save() : update()}>{props.product === 'new' ? 'Бүтээгдэхүүнийг бүртгэх' : 'Өөрчлөлтийг хадгалах'}</button>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>
