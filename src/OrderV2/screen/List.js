@@ -7,6 +7,8 @@ import Order from "./Order";
 import ListHeader from "./ListHeader";
 import "./style.css";
 import { sequence } from "../List/List2";
+
+
  export const originData = [
    { id: 1, name: "Android" },
    { id: 2, name: "iOS" },
