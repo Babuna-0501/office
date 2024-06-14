@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react"
 import myHeaders from "../../components/MyHeader/myHeader"
 import QRCode from "react-qr-code"
+import "./sales.css";
 
 const Print = (props) => {
-	console.log(props)
-	/*
-		props.businessName
-		props.taxPayerType
-		props.businessRegister
-	*/
+	useEffect(() => {
+		foobar()
+	}, [])
 	const [ready, setReady] = useState(false)
 	const [saved, setSaved] = useState(false)
 	const [qr, setQr] = useState('')
@@ -46,7 +44,6 @@ const Print = (props) => {
 			then(r => r.json()).
 			then(response => {
 				if(response.message === 201) {
-					console.log('business found')
 					setBusinessName(response.data.name)
 					setBusinessRegister(reg)
 					document.getElementById('businessorganizationname').value = response.data.name
@@ -69,9 +66,6 @@ const Print = (props) => {
 	props.data.map(product => {
 		total += product.quantity * product.sellPrice.retail
 	})
-	useEffect(() => {
-		foobar()
-	}, [])
 	async function getCustomerTin() {
 		const requestOptions = {
 			method: "GET",
@@ -79,10 +73,12 @@ const Print = (props) => {
 			redirect: "follow"
 		}
 		const url = "https://api2.ebazaar.mn/pos-api/tin?regNo=" + props.businessRegister
-		console.log(url)
 		const tin = await fetch(url, requestOptions)
 		.then((response) => response.json())
-		.then((result) => result)
+		.then((result) => {
+			console.log(result)
+			return result
+		})
 		.catch((error) => console.error(error))
 		return tin.data
 	}
@@ -148,7 +144,9 @@ const Print = (props) => {
 			]
 		}
 		if(taxPayerType === "business") {
+			console.log('waiting tin code')
 			raw['customerTin'] = await getCustomerTin()
+			console.log('fetch tin' + raw['customerTin'])
 		}
 		var requestOptions = {
 			method: "POST",
@@ -158,15 +156,31 @@ const Print = (props) => {
 		fetch("https://api2.ebazaar.mn/pos-api/receipt/create", requestOptions)
 		.then((response) => response.json())
 		.then((result) => {
+			console.log('vat---------------')
+			console.log(result)
+			console.log('vat---------------')
 			if(result.message === 201) {
-				console.log(result)
+				console.log('before calling save');
+				const configData = {
+					sale: {
+						vat: {
+							taxPayerType: taxPayerType,
+							totalVat: totalVat,
+							totalAmount: totalAmount,
+							businessRegister: props.businessRegister,
+							billId: result.data.id
+						}
+					}
+				}
+				props.save(props, configData)
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!before calling save');
 				setQr(result.data.qrData)
 				setBillId(result.data.id)
 				setLotteryNumber(result.data.lottery)
 				setReady(true)
 				setLotteryAmount(totalAmount)
 			} else {
-				alert('Алдаа гарлаа.')
+				alert('Ибаримт үүсгэхэд алдаа гарлаа.')
 			}
 		})
 		.catch((error) => console.error(error))
@@ -266,43 +280,48 @@ const Print = (props) => {
 				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>Огноо: {currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate()}</p>
 				{props.taxPayerType === 'business' ? <p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ААН нэр: {props.businessName}</p> : null}
 				{props.taxPayerType === 'business' ? <p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ААН РД: {props.businessRegister}</p> : null}
-				<div>
-					<div style={{width: '40%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Бараа</p></div>
-					<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Тоо</p></div>
-					<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Үнэ</p></div>
-					<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Хөнг</p></div>
-					<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black', textAlign: 'right'}}>Дүн</p></div>
+				<div style={{borderTop: '1px dotted gray', borderBottom: '1px dotted gray'}}>
+					<div style={{width: '25%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Бараа</p></div>
+					<div style={{width: '10%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Тоо</p></div>
+					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Үнэ</p></div>
+					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>НӨАТ</p></div>
+					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>НХАТ</p></div>
+					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Хөнг</p></div>
+					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black', textAlign: 'right'}}>Дүн</p></div>
 				</div>
 				{
 					props.data.map(product => {
-						let temp = restructuredProducts[product._id]
 						console.log(product)
+						let temp = restructuredProducts[product._id]
+						const cityTax = product.citytax && parseInt(product.citytax) > 0 ? (parseInt(product.sellPrice.retail) / 110).toFixed(2) : null
 						return (
-							<div style={{borderTop: '1px dotted gray'}}>
-								<div style={{width: '40%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>{temp.name}}</p></div>
-								<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>{product.quantity}</p></div>
-								<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>{product.sellPrice.retail}</p></div>
-								<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>0</p></div>
-								<div style={{width: '15%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{Number(product.sellPrice.retail) * product.quantity}</p></div>
+							<div>
+								<div style={{width: '25%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0 .25rem 0 0', padding: '0 .5rem 0 0', boxSizing: 'border-box'}} className="twolineellipses">{temp.name}}</p></div>
+								<div style={{width: '10%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{product.quantity}</p></div>
+								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{product.sellPrice.retail}</p></div>
+								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{(parseInt(product.sellPrice.retail) / 11).toFixed(2)}</p></div>
+								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{cityTax}</p></div>
+								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses"></p></div>
+								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}} className="twolineellipses">{(Number(product.sellPrice.retail) * product.quantity).toLocaleString()}₮</p></div>
 							</div>
 						)
 					})
 				}
 				<div style={{margin: '1rem 0 0 0'}}>
 					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>Нийт дүн:</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}</p></div>
+					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}₮</p></div>
 				</div>
 				<div>
 					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>ЭМД хөнгөлөлт</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>0</p></div>
+					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}></p></div>
 				</div>
 				<div>
 					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>Төлөх дүн</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}</p></div>
+					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}₮</p></div>
 				</div>
 				<div>
 					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>НӨАТ</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{(total / 11).toFixed(2)}</p></div>
+					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{(total / 11).toFixed(2)}₮</p></div>
 				</div>
 
 				<div style={{textAlign: 'center'}}>

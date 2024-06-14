@@ -1,0 +1,19 @@
+.brief_supp {
+    width: 200px;
+    border: none;
+    padding: 5px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    font-size: 13px;
+    font-stretch: normal;
+    font-weight: 600;
+}
+.brief_supp_ul li {
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.brief_supp_ul {
+    width: 200px;
+    cursor: pointer;
+}

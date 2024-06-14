@@ -12,11 +12,8 @@ const Sale = (props) => {
 			return
 		}
 	})
-	console.log(supplierId)
-	console.log(props)
 	let temp = []
 	if(props.openingSaleData) {
-		console.log('----------------------------------------*******************************')
 		props.openingSaleData.products.map(product => {
 			temp.push(product)
 		})
@@ -73,7 +70,6 @@ const Sale = (props) => {
 		document.addEventListener('keydown', functionalKeys, true)
 	}, [])
 	const checkReceipt = () => {
-		console.log('66************************************************************')
 		setReceiptData(null)
 		const receiptNumber = document.getElementById('receiptNumber')
 		const customerregistrationid = document.getElementById('customerregistrationid')
@@ -106,7 +102,6 @@ const Sale = (props) => {
 				alert('Цахим жорын мэдээлэл олдсонгүй. Оруулсан мэдээллээ шалгана уу.')
 				receiptNumber.focus()
 			} else {
-				console.log(response)
 				setReceiptData(response.data)
 				//receiptNumber.value = ''
 				//customerregistrationid.value = ''
@@ -115,7 +110,6 @@ const Sale = (props) => {
 	}
 	const randomPrice = Math.round(Math.random() * 10000)
 	const addProduct = (addedProduct) => {
-		console.log(addedProduct.emdData)
 		let tempProductData = {}
 		let existingId = null
 		data.map((prod, index) => {
@@ -132,6 +126,8 @@ const Sale = (props) => {
 				image: addedProduct.image,
 				name: addedProduct.name,
 				bar_code: addedProduct.bar_code,
+				citytax: addedProduct.city_tax,
+				alcohol: addedProduct.alcohol,
 				sku: addedProduct.sku,
 				sellPrice: addedProduct.series[0].sellPrice,
 				quantity: 1,
@@ -182,7 +178,6 @@ const Sale = (props) => {
 			}
 			localStorage.setItem('draftsale', JSON.stringify(temp))
 		}
-		console.log(props.warehouse)
 		let drafts = JSON.parse(localStorage.getItem('draftsale'))
 		const newDraftSale = {
 			type: 0,
@@ -207,7 +202,7 @@ const Sale = (props) => {
 	const selectSeries = (productId, seriesNumber) => {
 		console.log(productId  + ' and ' + seriesNumber)
 	}
-	const save = (saleData) => {
+	async function save(saleData, configData) {
 		console.log('saving shipment')
 		console.log(data)
 		console.log(saleData)
@@ -334,7 +329,8 @@ const Sale = (props) => {
 		    "variety": 1,
 		    "note": "Кассын борлуулалт",
 		    "from": props.warehouse,
-		    "products": foo
+		    "products": foo,
+		    "config":configData
 		}
 		var requestOptions = {
 			method: "POST",
@@ -373,8 +369,9 @@ const Sale = (props) => {
 				if(props.sale === 'draft') {
 					props.removeDraft(props.openingSaleData._id)
 				}
-				props.handleSave()
+				return 1
 			} else {
+				return 2
 				alert('Алдаа гарлаа. F5 дарж дахин ачааллана уу!')
 			}
 		})

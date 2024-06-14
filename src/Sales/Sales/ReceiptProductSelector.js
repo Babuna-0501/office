@@ -8,7 +8,6 @@ const ReceiptProductSelector = (props) => {
 	const [selectedProduct, setSelectedProduct] = useState(null)
 	props.products.map(product => {
 		if(product.emdData && product.emdData.packGroup === data.packGroup) {
-			console.log(product)
 			const price = parseInt(product.series[0].sellPrice.retail)
 			const emdPrice = parseInt(product.emdData.tbltUnitPrice)
 			const emdDiscount = parseInt(product.emdData.tbltUnitDisAmt)

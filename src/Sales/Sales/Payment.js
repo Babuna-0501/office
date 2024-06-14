@@ -27,7 +27,6 @@ const Payment = (props) => {
 				fetch(url, requestOptions).
 				then(r => r.json()).
 				then(response => {
-					console.log(response)
 					if(response.message === 201) {
 						setBusinessName(response.data.name)
 						setBusinessRegister(e.target.value)
@@ -104,7 +103,6 @@ const Payment = (props) => {
             win.print(); 
 	}
 	const next = () => {
-		console.log('next')
 		if(taxPayerType === null) {
 			setTaxPayerError('Харилцагчийн төрөл сонгоно уу!')
 			setTimeout(() => setTaxPayerError(null), 1000)

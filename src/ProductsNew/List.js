@@ -35,7 +35,7 @@ const List = (props) => {
             filteredData = filteredData.filter(item => item.sku.toLowerCase().includes(searchSku.toLowerCase()));
         }
         setFilteredData(filteredData);
-    }, [searchID, searchName, searchSku,  data]);
+    }, [searchID, searchName, searchSku, searchBarcode, data]);
 
     const fetchData = (pageNum) => {
         let parameters = '';

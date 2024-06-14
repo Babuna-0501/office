@@ -498,7 +498,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
   };
   // console.log(props, "props ireh");
   function getOriginNameById(id) {
-    const origin = originData.find((item) => item.id === id);
+    const origin = originData.find((item) => item.id === id); 
     return origin ? origin.name : "Дата байхгүй";
   }
 
@@ -507,7 +507,13 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
   function formatCurrency(value) {
     return value ? value.toLocaleString() : '0';
   }
-
+  
+  const formatNumber = (number) => {
+    const [integerPart, fractionalPart] = number.toString().split('.');
+    const formattedIntegerPart = parseInt(integerPart, 10).toLocaleString('en-US');
+    const formattedFractionalPart = fractionalPart ? fractionalPart.replace(/0+$/, '').substring(0, 3) : '';
+    return formattedFractionalPart ? `${formattedIntegerPart}.${formattedFractionalPart}` : formattedIntegerPart;
+  };
 
   return (
     <div className="WrapperOut">
@@ -961,7 +967,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                           }}
                         >
                           {" "}
-                          {payment.balance}₮
+                          {payment && payment.balance !== undefined ? formatNumber(payment.balance) + '₮' : 'N/A'}
                         </div>
                       </span>
                     )}
@@ -971,7 +977,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                   <span style={{ fontSize: "12px" }}>Захиалгын нийт дүн </span>
                   <br />
                   <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                    {payment.all}₮
+                    {payment && payment.all !== undefined ? formatNumber(payment.all) + '₮' : 'N/A'}
                   </span>
                 </span>
                 <div
@@ -1123,14 +1129,15 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                                   }}
                                 >
                                   {" "}
-                                  {Math.floor(product.price)}₮
+                                  {formatNumber(product.price)}₮
                                 </span>
+
                                 <span
                                   style={{
                                     color: edited.length > 0 ? "red" : "black",
                                   }}
                                 >
-                                  *{product.quantity}
+                                 &nbsp; * {product.quantity}&nbsp;
                                 </span>
                                 <span
                                   style={{
@@ -1138,9 +1145,8 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                                     color: edited.length > 0 ? "red" : "black",
                                   }}
                                 >
-                                  =
-                                  {Math.floor(product.price * product.quantity)}
-                                  ₮
+                                  =&nbsp;
+                                  {formatNumber(product.price * product.quantity)}₮
                                 </span>
                               </>
 
@@ -1155,7 +1161,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                                 <span>SKU:</span>
                                 {product.product_sku}
                                 <span style={{ fontSize: "12px" }}>
-                                  Barcode:{product.product_bar_code}
+                                  Barcode:&nbsp;{product.product_bar_code}
                                 </span>
                               </div>
                             </div>
@@ -1172,41 +1178,17 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                               }}
                               className="edit_b"
                             >
-                              <svg
-                                width="20"
-                                height="21"
-                                viewBox="0 0 20 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M9.57797 2.54688H6.46214C3.89964 2.54688 2.29297 4.36104 2.29297 6.92938V13.8577C2.29297 16.426 3.89214 18.2402 6.46214 18.2402H13.8155C16.3863 18.2402 17.9855 16.426 17.9855 13.8577V10.501"
-                                  stroke="#808080"
-                                  stroke-width="1.25"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M7.3575 9.32242L13.585 3.09492C14.3608 2.31992 15.6183 2.31992 16.3942 3.09492L17.4083 4.10909C18.1842 4.88492 18.1842 6.14326 17.4083 6.91826L11.1508 13.1758C10.8117 13.5149 10.3517 13.7058 9.87167 13.7058H6.75L6.82833 10.5558C6.84 10.0924 7.02917 9.65076 7.3575 9.32242Z"
-                                  stroke="#808080"
-                                  stroke-width="1.25"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                                <path
-                                  d="M12.6367 4.05664L16.4417 7.86164"
-                                  stroke="#808080"
-                                  stroke-width="1.25"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
+                            Үнэ засах
                             </div>
-                            <div style={{ fontSize: "12px" }}>
-                              Хүргэлт: 6000₮
-                            </div>
+                            
+                              { props.userData.company_id === "|14268|" ? 
+                              <div style={{ fontSize: "12px" }}>  
+                                Хүргэлт: 6000₮
+                              </div> :     
+                              <div style={{ fontSize: "12px" }}>  
+                                
+                              </div>}
+                         
                           </div>
 
                           {/* <button
@@ -1390,51 +1372,71 @@ export const Dialog = ({
 
 export const Modal = ({ open, payload, cancel, save, onChange }) => {
   if (!open) return null;
+
   function formatCurrency(value) {
     return value.toLocaleString();
   }
-  const total = Math.ceil(payload.price * payload.quantity);
+
+  // Function to round to three decimal places
+  function roundToThreeDecimals(value) {
+    return parseFloat(value.toFixed(3));
+  }
+
+  const total = roundToThreeDecimals(payload.price * payload.quantity);
+
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    onChange({ target: { value: value ? parseFloat(value) : '' } }, 'price');
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    onChange({ target: { value: value ? parseInt(value, 10) : '' } }, 'quantity');
+  };
+
   return (
     <section className="modal">
       <article className="modal-content p-lg-4">
         <div className="exit-icon text-end">
-          {/* <IoMdClose onClick={onClose} /> */}
           <div onClick={cancel}>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
-              fill="#1A1A1A"
-            />
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
-              fill="#1A1A1A"
-            />
-          </svg>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.452054 0.450101C0.940209 -0.0380545 1.73167 -0.0380545 2.21982 0.450101L15.5532 13.7834C16.0413 14.2716 16.0413 15.063 15.5532 15.5512C15.065 16.0394 14.2735 16.0394 13.7854 15.5512L0.452054 2.21787C-0.0361014 1.72971 -0.0361014 0.938256 0.452054 0.450101Z"
+                fill="#1A1A1A"
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M15.5532 0.450101C16.0413 0.938256 16.0413 1.72971 15.5532 2.21787L2.21982 15.5512C1.73167 16.0394 0.940209 16.0394 0.452054 15.5512C-0.0361014 15.063 -0.0361014 14.2716 0.452054 13.7834L13.7854 0.450101C14.2735 -0.0380545 15.065 -0.0380545 15.5532 0.450101Z"
+                fill="#1A1A1A"
+              />
+            </svg>
           </div>
         </div>
         <main className="modal-maincontents price_up">
           <label>Price:</label>
           <input
-            value={Math.floor(payload.price)}
-            onChange={(e) => onChange(e, "price")}
+            type="number"
+            step="0.01"
+            value={payload.price || ''}
+            onChange={handlePriceChange}
           />
           <label>Quantity:</label>
           <input
-            value={payload.quantity}
-            onChange={(e) => onChange(e, "quantity")}
+            type="number"
+            value={payload.quantity || ''}
+            onChange={handleQuantityChange}
           />
 
-          <span>
+          <span style={{fontWeight:700}}>
             {formatCurrency(payload.price)}₮ * {payload.quantity} ш = {formatCurrency(total)}₮
           </span>
           <div className="modal-button p_price--update">
@@ -1446,3 +1448,4 @@ export const Modal = ({ open, payload, cancel, save, onChange }) => {
     </section>
   );
 };
+

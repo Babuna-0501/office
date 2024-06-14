@@ -44,7 +44,6 @@ const Sales = (props) => {
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log(response)
 			setProducts(response.data[0].products)
 		})
 	}, [])
@@ -57,18 +56,15 @@ const Sales = (props) => {
 			headers: myHeaders,
 			redirect: "follow",
 	    }
-	    console.log(myHeaders)
 		let url = `https://api2.ebazaar.mn/api/shipment?type=2&from=${props.warehouse}&startDate=${startDate}&endDate=${endDate}&products=true&createdDate=true`;
 		fetch(url, requestOptions).
 		then(r => r.json()).
 		then(response => {
-			console.log(response)
 			let temp = localStorage.getItem('draftsale') && JSON.parse(localStorage.getItem('draftsale'))[props.warehouse] ? JSON.parse(localStorage.getItem('draftsale'))[props.warehouse] : []
 			response.data.map(sale => {
 				temp.push(sale)
 			})
 			setSales(temp)
-			console.log(temp)
 			setDatas(true)
 		})
 	}
@@ -77,7 +73,6 @@ const Sales = (props) => {
 	}, [startDate, endDate])
 	// Previous sales block
 	const saveDraft = (draft) => {
-		console.log('79')
 		let temp = sales
 		temp.unshift(draft)
 		setSales(temp)
@@ -106,13 +101,11 @@ const Sales = (props) => {
 		}
 	}
 	const handleSave = () => {
-		console.log('107')
 		//setSale(false)
-		fetchData()
+		//fetchData()
 	}
 	const cancel = () => {
 		setSale(false)
-		console.log('canceling')
 		setOpeningSaleData(null)
 	}
 	const clear = () => {
@@ -120,14 +113,15 @@ const Sales = (props) => {
 		setOpeningSaleData(null)
 	}
 	const newSale = () => {
-		console.log('creaing new sale')
-		document.getElementById('overlaypage_bg').remove()
+		//document.getElementById('overlaypage_bg').remove()
+		fetchData()
 		setOpeningSaleData(null)
-		setSale('new')
+		setSale(false)
+		setSale(true)
 	}
 	return products ? (
 		<>
-			{sale ? <Sale handleSave={handleSave} cancel={cancel} newSale={newSale} setSale={clear} sale={sale} products={products} saveDraft={saveDraft} openingSaleData={openingSaleData} warehouses={props.warehouses} warehouse={props.warehouse} removeDraft={removeDraft} /> : null}
+			{sale ? <Sale handleSave={handleSave} cancel={cancel} newSale={newSale} setSale={clear} sale={sale} products={products} saveDraft={saveDraft} openingSaleData={openingSaleData} warehouses={props.warehouses} warehouse={props.warehouse} removeDraft={removeDraft} key={Math.random()} /> : null}
 			{datas ? <List setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} setSale={setSale} warehouse={props.warehouse} data={sales} key={Math.random()} openSale={openSale} openDraft={openDraft} supplierUsers={props.supplierUsers} setSale={setSale} /> : null}
 			{datas ? <Total data={sales} key={Math.random()} /> : null}
 		</>

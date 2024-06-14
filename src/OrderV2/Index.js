@@ -19,8 +19,10 @@ import City from "./data/city.json";
 import District from "./data/district.json";
 import List4 from "./List/List4";
 
+
 export const b2bs = ["|14233|"];
 export const tsastaltaindol = "|14233|";
+
 const App = (props) => {
   const [filterState, setFilterState] = useState({
     order_id: null,
@@ -58,7 +60,6 @@ const App = (props) => {
   const [suppliers, setSuppliers] = useState([]);
   const [sfa, setSfa] = useState(false);
   const usersMapRef = useRef({});
-
   let b2b = b2bs.includes(props.userData.company_id);
   const filterDataByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
@@ -106,7 +107,7 @@ const App = (props) => {
           selectedItem == null
             ? suppliers[0]?.available
             : suppliers.filter((s) => s.value == selectedItem)?.[0]
-                ?.available ?? suppliers[0]?.available
+              ?.available ?? suppliers[0]?.available
         ).sfa;
     } catch (error) {
       console.log(error);
@@ -285,7 +286,7 @@ const App = (props) => {
         item.phone,
         usersMapRef.current[item.sales_man],
         usersMapRef.current[item.deliver_man],
-        item.address + "," + tradeshopCityName + "," + tradeshopDistrictName,
+        item.address + ',' + tradeshopCityName + ',' + tradeshopDistrictName,
       ]);
 
       item.line.forEach((l) => {
@@ -626,7 +627,7 @@ const App = (props) => {
     },
     { label: "Захиалгын тайлан", content: () => <List3 /> },
   ];
-  if (b2b | (props.userData.user_id == 1)) {
+  if (b2b | (props.userData.user_id === 1)) {
     tabs.splice(1, 0, {
       label: "Захиалгын жагсаалт b2b",
       content: () => (
@@ -648,7 +649,7 @@ const App = (props) => {
       ),
     });
   }
-  const openExport = () => {};
+  const openExport = () => { };
 
   return (
     <div className="Container_order2">
@@ -704,7 +705,7 @@ const App = (props) => {
             ? filteredData
             : filteredData.filter((d) => selectedOrders.includes(d.order_id))
         }
-        print={() => {}}
+        print={() => { }}
       />
     </div>
   );
