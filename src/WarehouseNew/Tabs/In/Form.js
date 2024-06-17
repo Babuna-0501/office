@@ -79,6 +79,7 @@ const Form = (props) => {
 		// Орлогын төрөл
 		const renderHTMLInboundTypes = []
 		const inboundTypes = context.systemData.shipment.variety.inbound
+	
 		for (const inboundType in inboundTypes) {
 			console.log(props.form.variety)
 			console.log(inboundType)
@@ -87,6 +88,7 @@ const Form = (props) => {
 		// Агуулах болох харилцагч
 		console.log(typeof props.form.from)
 		let fromSource = 'import'
+		console.log('props.form.from', props.form.from)
 		if (props.form[1] === 'customer' || props.form[1] === 'warehouse' || props.form.from) {
 			document.getElementById('from').insertAdjacentHTML('beforeEnd', `
 				<div>
@@ -255,34 +257,9 @@ const Form = (props) => {
 		})
 		setProductSelector(false)
 	}
+	
+
 	const send = () => {
-		if (saving) {
-			alert('Түр хүлээнэ үү')
-			return
-		}
-		const borderColor = document.getElementById('inboundTypes').style.borderColor
-		if (type !== 'import' && document.getElementById('toSelect').value === '') {
-			document.getElementById('toSelect').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('toSelect').style.borderColor = borderColor
-			}, 2000)
-			return
-		} else if (document.getElementById('inboundTypes').value === '') {
-			document.getElementById('inboundTypes').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('inboundTypes').style.borderColor = borderColor
-			}, 2000)
-			return
-		} else if (document.getElementById('requestNote').value === '') {
-			document.getElementById('requestNote').style.borderColor = 'red'
-			setTimeout(() => {
-				document.getElementById('requestNote').style.borderColor = borderColor
-			}, 2000)
-			return
-		} else if (document.querySelectorAll('.productEntry').length === 0) {
-			alert('Бүтээгдэхүүн сонгоно уу!')
-			return
-		}
 		console.log('sending')
 		let foo = []
 		const productEntries = document.querySelectorAll('.productEntry')
@@ -318,7 +295,7 @@ const Form = (props) => {
 			sendData['from'] = document.getElementById('toSelect').value
 		}
 		console.log(sendData)
-
+	
 		var requestOptions = {
 			method: "POST",
 			headers: myHeaders,
@@ -342,6 +319,9 @@ const Form = (props) => {
 				}
 			})
 	}
+	
+
+
 	const confirmRequest = () => {
 		console.log('confirmgin')
 		let sendData = {
@@ -513,9 +493,6 @@ const Form = (props) => {
 								<div>
 									<select id="inboundTypes" className="custom-select">
 										<option value="">--сонгоно уу--</option>
-										{
-											//renderHTMLInboundTypes
-										}
 									</select>
 								</div>
 							</div>

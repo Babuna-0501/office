@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import myHeaders from '../components/MyHeader/myHeader';
+import Img from '../assets/setting.png'
 
 const List = (props) => {
     const [data, setData] = useState([]);
@@ -129,6 +130,10 @@ const List = (props) => {
                 </div>
                 <div className="entryBlock" style={{ width: widths[8], marginLeft: '6px' }}>
                     <p>{product.created_date.substr(0, 10)}</p>
+                </div>
+                {/* settings */}
+                <div className="entryBlock" style={{ width: widths[4], marginLeft: '6px' }}>
+                    <img style={{width:"25px"}} src={Img}/>
                 </div>
             </div>
         );

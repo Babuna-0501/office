@@ -18,9 +18,9 @@
   /* margin-top: 50px; */
 }
 
-.order_id {
+/* .order_id {
   width: 80px;
-}
+} */
 
 .order input {
   width: 100%;
@@ -48,13 +48,15 @@
   border-radius: 5px;
 }
 
-.order_supplier {
+/* .order_supplier {
   width: 125px;
-}
+} */
 
 .order {
   height: 52px;
   border-bottom: 1px solid #ccc;
+  gap: 6px;
+  display: flex;
 }
 
 .order > div {
@@ -90,7 +92,7 @@
 }
 
 .order > div:not(:first-child) {
-  padding: 0 1rem 0 0;
+  padding: 0;
 }
 
 .order input[type="checkbox"] {
@@ -154,8 +156,7 @@
 
 .col_wrapper {
   display: flex;
-  gap: 6px;
-  padding-left: 20px;
+  /* gap: 6px; */
 }
 
 .fullcontainer .statusbar {
@@ -167,31 +168,33 @@
   white-space: nowrap;
 }
 
-.payment_mode {
+/* .payment_mode {
   margin-left: 35px;
 }
 .delivery_date {
   width: 77px;
-}
+} */
 
 .price_wrapper {
   flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
 }
 
 .price_wrapper span:last-of-type {
   color: #8dc543;
 }
 .cancel_reason {
-  width: 143px;
-  margin-left: 30px;
+  /* width: 143px;
+  margin-left: 30px; */
   text-align: center;
 }
 
 .phone {
-  width: 80px;
+  /* width: 80px; */
   text-align: justify;
 }
-.business_type {
+/* .business_type {
   width: 140px;
 }
 .tradeshop_district,
@@ -201,9 +204,9 @@
 
 .tradeshop_city {
   width: 130px;
-}
+} */
 
-.full_address {
+/* .full_address {
   width: 265px;
   line-height: 16px;
   font-size: 9px !important;
@@ -227,7 +230,7 @@
 
 .origin {
   width: 120px;
-}
+} */
 
 /* footer */
 .container-2 {
@@ -301,9 +304,6 @@
   }
 }
 
-.idWrapper {
-  justify-content: center;
-}
 .OrderPageWrapper {
   overflow-y: scroll;
 }
@@ -320,7 +320,7 @@
   align-items: center;
   padding-left: 10px;
 }
-.order_date {
+/* .order_date {
   width: 115px;
 }
 .vat {
@@ -337,7 +337,7 @@
 
 .deliveryman {
   width: 110px;
-}
+} */
 
 .delguur {
   width: 528px;

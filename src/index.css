@@ -1273,7 +1273,7 @@ overflow-x: auto;
     bottom: 0;
     background: white;
     border-radius: 4px;
-    width: 1250px;
+    width: 673px;
     height: 100%;
 }
 
@@ -2471,13 +2471,16 @@ label.filter {
 }
 
 #pageBody .left {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     bottom: 0;
     border-right: 1px solid #eee;
     padding: 2rem;
     overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 #pageBody .right {
@@ -2502,6 +2505,7 @@ label.filter {
 
 .inputContainer {
     margin: 0 0 1rem 0;
+    width: 222px;
 }
 
 .tab {
@@ -2531,6 +2535,8 @@ label.filter {
     right: 0;
     bottom: 0;
     padding: 2rem;
+    display: flex;
+    gap: 30px;
 }
 
 .text {
@@ -3110,3 +3116,49 @@ input:disabled {
 .switch_product input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* Toggle button styles */
+.toggle-wrapper {
+    position: relative;
+    width: 60px;
+    height: 30px;
+  }
+  
+  .toggle-input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .toggle-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-label::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+  }
+  
+  .toggle-input:checked + .toggle-label {
+    background-color: #8BC34A;
+  }
+  
+  .toggle-input:checked + .toggle-label::after {
+    transform: translateX(30px);
+  }
+  

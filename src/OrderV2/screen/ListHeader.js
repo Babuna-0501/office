@@ -8,6 +8,7 @@ import DistrictData from "../data/district.json";
 import "./style.css";
 import { visibles } from "../List/List2";
 import { tsastaltaindol } from "../Index";
+import { nerst } from "../Index";
 
 let options = [
   { value: "0", label: "Бүгд" },
@@ -94,7 +95,7 @@ const ListHeader = ({
       first_name: "Хуваарьласан",
     },
   ]);
-  if (props.userData.company_id == tsastaltaindol) {
+  if (props.userData.company_id == tsastaltaindol || nerst ) {
     originData = [
       { value: '', label: "Бүгд" },
       { value: 1, label: "mobile" },
@@ -251,7 +252,7 @@ const ListHeader = ({
     ),
     status: (
       <div
-        className="order_vendor"
+        className="order_status"
         key={2}
         draggable={drag}
         onDragStart={() => {
@@ -264,7 +265,7 @@ const ListHeader = ({
         }}
         onDragEnd={() => handleSort(dragList.current, draggedOverList.current)}
         onDragOver={(e) => e.preventDefault()}
-        style={{ width: sequenceSizes["supplier"] + "px" }}
+        style={{ width: sequenceSizes["status"] + "px" }}
       >
         <h5>Статус</h5>
         <Dropdown

@@ -518,7 +518,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
   return (
     <div className="WrapperOut">
       <div className="order col_wrapper">
-        <div className="order_index">
+        <div className="order_index" style={{width:"52px"}}>
           <div>
             <input
               type="checkbox"
@@ -535,7 +535,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
             switch (field.id) {
               case 1:
                 return (
-                  <div className="order_id" key={field.id}>
+                  <div className="order_id" key={field.id} style={{width:"65px"}}>
                     <div className="fullcontainer idWrapper">
                       <span>{data.order_id}</span>
                     </div>
@@ -544,7 +544,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 5:
                 return (
-                  <div className="order_product" key={field.id}>
+                  <div className="order_product" key={field.id} style={{width:"130px"}}>
                     <div className="fullcontainer">
                       <ProductAvatar data={data} />
                     </div>
@@ -553,7 +553,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 35:
                 return (
-                  <div className="order_date" key={field.id}>
+                  <div className="order_date" key={field.id} style={{width:"125px"}}>
                     <div className="fullcontainer order_date">
                       <span>{formatDate(data.order_date)}</span>
                     </div>
@@ -567,6 +567,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
                       className="delivery_date"
                       key={data.id}
                       onClick={handleDivClick}
+                      style={{width:"125px"}}
                     >
                       <div className="fullcontainer order_date">
                         <span
@@ -588,14 +589,14 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 9:
                 return props.data.supplier_id === 14268 ? (
-                  <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+                  <div className="payment_mode" onClick={(e) => handleOpen(e)} style={{width:"100px"}}>
                     <div className="fullcontainer price_wrapper idWrapper">
                       {data && <span>{data.grand_total + 6000}₮</span>}
                       {data && <span>{data.payment_amount}₮</span>}
                     </div>
                   </div>
                 ) : (
-                  <div className="payment_mode" onClick={(e) => handleOpen(e)}>
+                  <div className="payment_mode" onClick={(e) => handleOpen(e)} style={{width:"100px"}}>
                     <div className="fullcontainer price_wrapper idWrapper">
                       {data && <span>{formatCurrency(data.grand_total)}₮</span>}
                       {data && <span>{formatCurrency(data.payment_amount)}₮</span>}
@@ -605,7 +606,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 12:
                 return (
-                  <div className="cancel_reason" key={field.id}>
+                  <div className="cancel_reason" key={field.id} style={{width:"150px"}}>
                     <div className="fullcontainer">
                       <span className="order_desc-l">
                         {data.Note && data.Note.length > 0
@@ -624,7 +625,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 13:
                 return (
-                  <div className="phone" key={field.id}>
+                  <div className="phone" key={field.id} style={{width:"85px"}}>
                     <div className="fullcontainer">
                       <span className="elips">{data.phone}</span>
                     </div>
@@ -633,7 +634,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 7:
                 return (
-                  <div className="merchant" key={field.id}>
+                  <div className="merchant" key={field.id} style={{width:"160px"}}>
                     <div className="fullcontainer">
                       <span className="elips">{data.tradeshop_name}</span>
                     </div>
@@ -642,7 +643,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 15:
                 return (
-                  <div className="business_type" key={field.id}>
+                  <div className="business_type" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span className="elips">{businessTypeName}</span>
                     </div>
@@ -651,7 +652,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 16:
                 return (
-                  <div className="tradeshop_city" key={field.id}>
+                  <div className="tradeshop_city" key={field.id} style={{width:"140px"}}>
                     <div className="fullcontainer">
                       {location ? (
                         <span>{location.location_name}</span>
@@ -664,7 +665,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 17:
                 return (
-                  <div className="tradeshop_district" key={field.id}>
+                  <div className="tradeshop_district" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       {location2 ? (
                         <span>{location2.location_name}</span>
@@ -677,7 +678,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 18:
                 return (
-                  <div className="tradeshop_horoo" key={field.id}>
+                  <div className="tradeshop_horoo" key={field.id} style={{width:"100px"}}>
                     <div className="fullcontainer">
                       {location3 ? (
                         <span>{location3.location_name}</span>
@@ -692,7 +693,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 19:
                 return (
-                  <div className="full_address" key={field.id}>
+                  <div className="full_address" key={field.id} style={{width:"270px"}}>
                     <div className="fullcontainer">
                       <span className="elips">{data.address}</span>
                     </div>
@@ -701,7 +702,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 20:
                 return (
-                  <div className="payment_type" key={field.id}>
+                  <div className="payment_type" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>{paymentMethods[data.payment_satus].Name}</span>
                     </div>
@@ -710,7 +711,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 21:
                 return (
-                  <div className="pick_pack" key={field.id}>
+                  <div className="pick_pack" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>Pickpack</span>
                     </div>
@@ -719,7 +720,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 22:
                 return (
-                  <div className="origin" key={field.id}>
+                  <div className="origin" key={field.id} style={{width:"120px"}} >
                     <div className="fullcontainer">
                       <span>{originName}</span>
                     </div>
@@ -728,7 +729,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 23:
                 return (
-                  <div className="vat" key={field.id}>
+                  <div className="vat" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>VAT</span>
                     </div>
@@ -737,7 +738,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 33:
                 return (
-                  <div className="salesman" key={field.id}>
+                  <div className="salesman" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>{data.sales_man}</span>&nbsp;
                       <span>{props?.salesmanFirstname || ""}</span>
@@ -747,7 +748,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 28:
                 return (
-                  <div className="deliveryman" key={field.id}>
+                  <div className="deliveryman" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>{data.deliver_man}</span>&nbsp;
                       <span>{props?.firstname || ""}</span>
@@ -757,7 +758,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 25:
                 return (
-                  <div className="manager" key={field.id}>
+                  <div className="manager" key={field.id} style={{width:"140px"}}>
                     <div className="fullcontainer">
                       <span>manager</span>
                     </div>
@@ -766,7 +767,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 32:
                 return (
-                  <div className="butsaalt" key={field.id}>
+                  <div className="butsaalt" key={field.id} style={{width:"120px"}}>
                     <div className="fullcontainer">
                       <span>butsaalt</span>
                     </div>
@@ -775,7 +776,7 @@ const Order = ({ fieldsData, setOrder, ...props }) => {
 
               case 34:
                 return (
-                  <div className="order_supplier" key={field.id}>
+                  <div className="order_supplier" key={field.id} style={{width:"90px"}}>
                     <div className="fullcontainer">
                       <span
                         className="statusbar"

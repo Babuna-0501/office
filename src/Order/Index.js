@@ -41,6 +41,9 @@ export const originData = [
   { id: 5, name: "Base" },
   { id: 6, name: "Eclinic" },
   { id: 7, name: "OnTimePos" },
+  { id: 8, name: "Pos Test" },
+  { id: 9, name: "Qmenu" },
+  { id: 10, name: "Amar" },
 ];
 
 export const colaOrderUsers = [256, 273, 398, 320, 994];

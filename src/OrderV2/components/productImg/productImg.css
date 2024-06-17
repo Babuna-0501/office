@@ -1,14 +1,11 @@
 .avatars {
     display: flex;
     list-style-type: none;
-    margin: auto; 
+    margin: 0; 
     padding: 0px 7px 0px 0px;
     z-index: 1;
     justify-content: flex-start;
     align-items: center;
-    width: 115px;
-    height: 100%;
-    margin-left: 20%;
   }
   .avatars__item {
     height: 36px;

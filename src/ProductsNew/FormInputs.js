@@ -1,8 +1,39 @@
 import {useState, useContext, useEffect} from 'react'
+import myHeaders from '../components/MyHeader/myHeader';
 
 const FormInputs = (props) => {
+	const [prodSuppliers, setProdSuppliers] = useState([]);
 	const product = props.product
 	const [productGroup, setProductGroup] = useState(null)
+
+
+	const getProdSuppliers = async () => {
+		try {
+		  const url2 = `https://api2.ebazaar.mn/api/backoffice/suppliers`;
+		  const requestOptions2 = {
+			method: "GET",
+			headers: myHeaders,
+			redirect: "follow",
+		  };
+		  const res = await fetch(url2, requestOptions2);
+		  const resJson = await res.json();
+	
+		  const suppliersList = resJson.data.map((item) => ({
+			value: item.id,
+			label: item.name,
+			media: item.media,
+		  }));
+	
+		  setProdSuppliers(suppliersList);
+		} catch (err) {
+		  console.log("Error fetching suppliers:", err);
+		}
+	};
+
+	useEffect(() => {
+		getProdSuppliers();
+	}, []);
+
 	useEffect(() => {
 		document.getElementById('pageBody').style.top = document.getElementById('pageHeader').offsetHeight + 'px'
 	}, [])
@@ -13,6 +44,7 @@ const FormInputs = (props) => {
 			const country = document.getElementById('country').value
 			const manufacturer = document.getElementById('manufacturer').value
 			const vendor = document.getElementById('vendor').value
+			const supplier = document.getElementById('supplier').value
 			let category = ''
 			if(document.getElementById('category').value !== '') {
 				console.log('1')
@@ -28,7 +60,7 @@ const FormInputs = (props) => {
 			const sku = document.getElementById('sku').value
 			const boditsavlalt = document.getElementById('boditsavlalt').value
 			const zardagsavlalt = document.getElementById('zardagsavlalt').value
-			props.save(name.value, barcode, country, manufacturer, vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt)
+			props.save(name.value, barcode, country, manufacturer, supplier,  vendor, category, condition, storage, form, sku, boditsavlalt, zardagsavlalt)
 		} else {
 			const borderColor = name.style.borderColor
 			name.style.borderColor = 'red'
@@ -141,16 +173,14 @@ const FormInputs = (props) => {
 							</select>
 						</div>
 						<div className="inputContainer">
-							<label>Нийлүүлэгч</label>
-							<select id="vendor">
-								<option value="0">--сонгоно уу--</option>
-								{
-								customers.map(customer => {
-									return <option value={customer.tradeshop_id}>{customer.customer_name}</option>
-								})
-								}
-							</select>
-						</div>
+                            <label>Нийлүүлэгч</label>
+                            <select id="supplier">
+                                <option value="0">--сонгоно уу--</option>
+                                {prodSuppliers.map(supplier => (
+                                    <option key={supplier.value} value={supplier.value}>{supplier.label}</option>
+                                ))}
+                            </select>
+                        </div>
 						<div className="inputContainer">
 							<label>Ангилал:</label>
 							<select id="parentcategory" onChange={(e) => setProductGroup(e.target.value)}>
@@ -213,10 +243,33 @@ const FormInputs = (props) => {
 							<label>Зардаг савлалт:</label>
 							<input type="text" id="zardagsavlalt" value={props.product === 'new' ? null : props.product.name} />
 						</div>
-						<div className="inputContainer">
+						<div style={{display:"flex", gap:"37px", width:"529px"}}>
 							<div>
-								<div style={{display: 'flex', alignItems: 'center'}}><input type="checkbox" style={{width: '20px', height: '20px'}} id="musthave" /><label for="musthave" style={{cursor: 'pointer'}}>Заавал байх</label></div>
+								<h4>Алкохолны төрөл эсэх</h4>
+								<div className="toggle-wrapper" style={{display: 'flex',  flexDirection:"column-reverse"}}><input type="checkbox" className="toggle-input"  style={{width: '20px', height: '20px'}} id="alochol" /><label for="alochol" style={{cursor: 'pointer'}} className="toggle-label"></label></div>
 							</div>
+							<div>
+								<h4>Хотын татвар төлөх эсэх</h4>
+								<div className="toggle-wrapper" style={{display: 'flex',  flexDirection:"column-reverse"}}><input type="checkbox" className="toggle-input"  style={{width: '20px', height: '20px'}} id="cityTax" /><label for="cityTax" style={{cursor: 'pointer'}} className="toggle-label"></label></div>
+							</div>
+							<div>
+								<h4>Бутархайгаар сагслах боломжтой эсэх</h4>
+								<div className="toggle-wrapper" style={{display: 'flex',  flexDirection:"column-reverse"}}><input type="checkbox" className="toggle-input"  style={{width: '20px', height: '20px'}} id="fraction" /><label for="fraction" style={{cursor: 'pointer'}} className="toggle-label"></label></div>
+							</div>
+						</div>
+						<div style={{marginTop:"25px"}}>
+							<h2 style={{fontSize:"16px", fontWeight:600, color:"#1A1A1A"}}>Бүтээгдэхүүний үнэ</h2>
+							<h4>Ялгаатай үнийн тохиргоо байгаа эсэх</h4>
+							<div className="toggle-wrapper" style={{display: 'flex',  flexDirection:"column-reverse"}}><input type="checkbox" className="toggle-input"  style={{width: '20px', height: '20px'}} id="toggle" /><label for="toggle" style={{cursor: 'pointer'}} className="toggle-label"></label></div>
+						</div>
+						<div className="inputContainer" style={{marginTop:"25px"}}>
+							<label>Бүтээгдэхүүний үнэ:</label>
+							<input placeholder='Бүтээгдэхүүний үнэ' type="text" id="price" value={props.product === 'new' ? null : product.price} />
+						</div>
+						<div style={{width:"212px"}}>
+							<h2 style={{fontSize:"16px", fontWeight:600, color:"#1A1A1A"}}>Захиалга хийх харилцагчид</h2>
+							<h4>Ялгаатай харилцагчдын тохиргоо байгаа эсэх</h4>
+							<div className="toggle-wrapper" style={{display: 'flex',  flexDirection:"column-reverse"}}><input type="checkbox" className="toggle-input"  style={{width: '20px', height: '20px'}} id="orderCustomer" /><label for="orderCustomer" style={{cursor: 'pointer'}} className="toggle-label"></label></div>
 						</div>
 						<div className="inputContainer">
 							<label>Бүтээгдэхүүний зураг:</label>
@@ -232,6 +285,10 @@ const FormInputs = (props) => {
 
 							</div>
 						</div>
+						<div className="containerButtons">
+							<button className='button secondary large'>Цуцлах</button>
+							<button className="button primary large" onClick={() => props.product === 'new' ? save() : update()}>{props.product === 'new' ? 'Бүтээгдэхүүнийг бүртгэх' : 'Өөрчлөлтийг хадгалах'}</button>
+						</div>
 					</div>
 					{/* <div className="right" style={{left: '400px'}}>
 						<span className="tab active">Дэлгэрэнгүй мэдээлэл</span>
@@ -244,6 +301,7 @@ const FormInputs = (props) => {
 					</div> */}
 				</div>
 			</div>
+		
 		</div>
 	)
 }

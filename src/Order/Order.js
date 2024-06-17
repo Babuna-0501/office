@@ -1278,6 +1278,7 @@ const Order = (data) => {
           }}
           className={`${css.textcontainer} ${css.notewrapper}`}
         >
+          {console.log(order)}
           <span id={"note" + order.order_id} className={css.noted}>
             {order.description !== null && order.description !== "" ? (
               <Note note={foo} setFoo={setFoo} />
@@ -1634,6 +1635,7 @@ const Order = (data) => {
             gap: 3,
           }}
         >
+          {console.log("orderTugeegch", orderTugeegch)}
           {orderTugeegch ? (
             <>
               <div className={`${css.tugeegchStatus} ${css.assigned}`}>
