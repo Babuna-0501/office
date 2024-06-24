@@ -77,7 +77,7 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
   };
 
   return (
-    <div className={`add-popup ${open ? "active" : ""}`}> 
+    <div className={`add-popup ${open ? "active" : ""}`}>
       <div className="popup-content_add prod_popup_order2">
         <span className="close-button" onClick={close}>
           <svg
@@ -101,7 +101,9 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
             />
           </svg>
         </span>
-        <span style={{ marginLeft: "30px", fontSize:"18px", fontWeight:700 }}>Захиалгын дугаар: {orderId}</span>
+        <span style={{ marginLeft: "30px", fontSize: "18px", fontWeight: 700 }}>
+          Захиалгын дугаар: {orderId}
+        </span>
         <div className="add_popup_search">
           {" "}
           <input
@@ -120,8 +122,13 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
           <p>Action</p>
         </div>
         {/* End baraanii lsit garch irne */}
-        <div className="head_list" style={{ height: "600px", marginBottom:"10px"}}>
-          {search?.length > 0 && <p style={{fontWeight:700}}>Сонгосон Бүтээгдэхүүн</p>}
+        <div
+          className="head_list"
+          style={{ height: "600px", marginBottom: "10px" }}
+        >
+          {search?.length > 0 && (
+            <p style={{ fontWeight: 700 }}>Сонгосон Бүтээгдэхүүн</p>
+          )}
           {search?.map((s, i) => {
             return (
               <ProductAddCard
@@ -141,9 +148,29 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
           })}
           {productid != null && copy?.length > 0 && <p>Хайсан</p>}
           {copy?.map((d) => {
+            let priceValue = 0;
+            let priceKeys = Object.keys(d.locations);
+            if (priceKeys.length !== 0) {
+              priceValue = d.locations[priceKeys[0]]?.price?.channel["1"];
+            }
+
             return (
               <ProductAddCard
                 add={(q) => {
+                  console.log({
+                    name: d.name,
+                    image: d.image,
+                    productId: d._id,
+                    quantity: q,
+                    price: d.stock,
+                  });
+                  console.log({
+                    name: d.name,
+                    image: d.image,
+                    productId: d._id,
+                    quantity: q,
+                    price: priceValue,
+                  });
                   setSearch((prev) => [
                     ...prev,
                     {
@@ -151,14 +178,14 @@ export const ProductModal = ({ open, close, orderId, supId, submit }) => {
                       image: d.image,
                       productId: d._id,
                       quantity: q,
-                      price: d.stock,
+                      price: priceValue,
                     },
                   ]);
                 }}
                 quantity={0}
                 name={d.name}
-                image = {d.image}
-                price={d.stock}
+                image={d.image}
+                price={priceValue}
               />
             );
           })}
