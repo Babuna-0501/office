@@ -17,7 +17,7 @@ const TabsProduct = ({ tabs }) => {
           </button>
         ))}
       </div>
-      <div className="tab-content">
+      <div className="tab-content_prod2">
         {tabs[activeTab].content}
       </div>
     </div>

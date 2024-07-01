@@ -2394,6 +2394,13 @@ label.filter {
     margin: 0 20px;
     height: 800px;
 }
+.product2_wrapper {
+    width: 1005;
+}
+
+.product2_header {
+    width: 100%;
+}
 
 .listEntry {
     height: 40px;

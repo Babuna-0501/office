@@ -149,10 +149,25 @@ const List = (props) => {
           <p>{product.name}</p>
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
+          <p>{product.country}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
           <p>{product.brand}</p>
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
           <p>{product.category}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <p>{product.sub_category}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "150px" }}>
+          <p>{product.supplier_company}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <p>{product.temperature}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <p>{product.placement}</p>
         </div>
         <div className="entryBlock" style={{ width: widths[9] }}>
           <p>{product.description}</p>
@@ -169,19 +184,19 @@ const List = (props) => {
         <div className="entryBlock" style={{ width: widths[4] }}>
           <p>{manufacturer}</p>
         </div>
-        <div
+        {/* <div
           className="entryBlock"
           style={{ width: widths[8], marginLeft: "6px" }}
         >
           <p>{product.created_date.substr(0, 10)}</p>
-        </div>
+        </div> */}
         {/* settings */}
-        <div
+        {/* <div
           className="entryBlock"
           style={{ width: widths[4], marginLeft: "6px" }}
         >
           <img style={{ width: "25px" }} src={Img} />
-        </div>
+        </div> */}
       </div>
     );
   });
@@ -221,11 +236,11 @@ const List = (props) => {
   };
 
   return (
-    <div id="pageList">
+    <div id="pageList" className="product2_wrapper">
       <div
-        className="listEntry"
+        className="listEntry product2_header"
         id="listHeader"
-        style={{ minWidth: props.totalWidth + "px" }}
+        style={{ minWidth: "2500px"}}
       >
         <div
           className="entryBlock"
@@ -267,6 +282,16 @@ const List = (props) => {
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
           <div className="entryHeader">
+            <label>Үйлдвэрлэгч улс</label>
+            <input
+              type="text"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <div className="entryHeader">
             <label>Брэнд</label>
             <input type="text" />
           </div>
@@ -277,6 +302,30 @@ const List = (props) => {
             <select>
               <option value="all">Бүгд</option>
             </select>
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <div className="entryHeader">
+            <label>Дэд ангилал</label>
+            <input type="text" />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "150px" }}>
+          <div className="entryHeader">
+            <label>Нийлүүлэгч байгууллага</label>
+            <input type="text" />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <div className="entryHeader">
+            <label>Хадгалах хэм</label>
+            <input type="text" />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <div className="entryHeader">
+            <label>Хадгалах байршил</label>
+            <input type="text" />
           </div>
         </div>
         <div className="entryBlock" style={{ width: widths[4] }}>
