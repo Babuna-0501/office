@@ -3,7 +3,7 @@ import myHeaders from "../components/MyHeader/myHeader";
 import Img from "../assets/setting.png";
 
 const List = (props) => {
-  const [data, setData] = useState([]);
+  
   const [searchID, setSearchID] = useState("");
   const [searchName, setSearchName] = useState("");
   // const [searchBrand, setSearchBrand] = useState()
@@ -16,19 +16,15 @@ const List = (props) => {
   const widths = props.widths;
   const renderHTML = [];
   const [filteredData, setFilteredData] = useState([]);
-
-  useEffect(() => {
-    fetchData(true);
-  }, [props.suppliers]);
-  useEffect(() => {
-    fetchData();
-  }, []);
   useEffect(() => {
     fetchData(false);
   }, [page]);
+  useEffect(() => {
+    fetchData(true);
+  }, [props.suppliers]);
 
   useEffect(() => {
-    let filteredData = data;
+    let filteredData = props.data;
     if (searchID.trim() !== "") {
       filteredData = filteredData.filter((item) =>
         item._id.toString().includes(searchID)
@@ -50,7 +46,7 @@ const List = (props) => {
       );
     }
     setFilteredData(filteredData);
-  }, [searchID, searchName, searchSku, searchBarcode, data]);
+  }, [searchID, searchName, searchSku, searchBarcode, props.data]);
 
   const fetchData = (start = false, pageNum) => {
     let parameters = "";
@@ -69,8 +65,8 @@ const List = (props) => {
       .then((response) => {
         if (response.data.length > 0) {
           start
-            ? setData(response.data)
-            : setData([...fetchedProducts.current, ...response.data]);
+            ? props.setData(response.data)
+            : props.setData((prev) => [...prev, ...response.data]);
           fetchingData.current = false;
         }
       })
@@ -233,6 +229,7 @@ const List = (props) => {
   const pageIncrement = () => {
     page.current = parseInt(page.current) + 1;
     fetchData();
+    console.log("adsf");
   };
 
   return (

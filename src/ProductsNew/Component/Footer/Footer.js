@@ -43,9 +43,10 @@ const Total = (props) => {
     if (props.data && props.data.length > 0) {
       // Нийт мөнгөн дүн
       let totalGrandTotal = props.data.reduce(
-        (acc, curr) => acc + curr.grand_total,
+        (acc, curr) => acc + curr.stock,
         0
       );
+      console.log(props.data);
       setTotalPrice(totalGrandTotal);
 
       // Нийт төлбөр төлөлт
@@ -66,8 +67,13 @@ const Total = (props) => {
       setconfirmedOrdersCount(confirmedOrders.length);
 
       // Хүргэгдсэн
-      const deliveredOrders = props.data.filter(order => getColorForStatus(order.status)?.name === "Хүргэгдсэн");
-      const totalGrandTotalForDelivered = deliveredOrders.reduce((acc, curr) => acc + curr.grand_total, 0);
+      const deliveredOrders = props.data.filter(
+        (order) => getColorForStatus(order.status)?.name === "Хүргэгдсэн"
+      );
+      const totalGrandTotalForDelivered = deliveredOrders.reduce(
+        (acc, curr) => acc + curr.grand_total,
+        0
+      );
       setTotalGrandTotalForDeliveredOrders(totalGrandTotalForDelivered);
       setdeliveredOrdersCount(deliveredOrders.length);
 
@@ -117,7 +123,7 @@ const Total = (props) => {
       );
       setTotalGrandTotalForDelayedOrders(totalGrandTotalForDelayed);
       setDelayedOrdersCount(delayedOrders.length);
-        }
+    }
   }, [props.data]);
 
   let aaa = totalPrice?.toLocaleString();
@@ -146,7 +152,8 @@ const Total = (props) => {
     <div className="container-2">
       <div>
         <div style={{ fontSize: "12px", fontWeight: "bold" }}>
-          Нийт бүтээгдэхүүн : {Math.ceil((props.data?.length ?? 0) / 50)}
+          Нийт бүтээгдэхүүний хуудас :{" "}
+          {Math.ceil((props.data?.length ?? 0) / 100)}
         </div>
       </div>
       <div className="wrapper">
@@ -157,7 +164,7 @@ const Total = (props) => {
         <div className="footerspan">Нийт мөнгөн дүн :</div>
         <span className="footerspantww">{aaa}₮</span>
       </div>
-      <div
+      {/* <div
         className="wrapper"
         style={{ border: "1px solid #8DC543", width: "184px" }}
       >
@@ -173,8 +180,8 @@ const Total = (props) => {
             <span>{bbb}₮</span>
           </div>
         </div>
-      </div>
-      <div className="wrapper" style={{ background: "#F2F2F2" }}>
+      </div> */}
+      {/* <div className="wrapper" style={{ background: "#F2F2F2" }}>
         <div style={{ color: "#90A4AE" }} className="statuscontainer">
           <div className="firswrapper" style={{ background: "#fff" }}>
             <span style={{ color: "#000" }}>{pendingCount}ш</span>
@@ -184,7 +191,7 @@ const Total = (props) => {
             <span>{totalGrandTotalForPendingOrdersFormatted}₮</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
