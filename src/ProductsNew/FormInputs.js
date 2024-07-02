@@ -533,8 +533,8 @@ const FormInputs = (props) => {
   ]);
 
   useEffect(() => {
-    setIsEmhangan(loggedUser?.company_id.includes("1"));
-    // setIsEmhangan(loggedUser?.company_id.includes("14142"));
+    // setIsEmhangan(loggedUser?.company_id.includes("1"));
+    setIsEmhangan(loggedUser?.company_id.includes("14142"));
   }, [loggedUser?.company_id]);
 
   useEffect(() => {
