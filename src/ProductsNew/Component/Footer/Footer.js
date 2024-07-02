@@ -157,11 +157,11 @@ const Total = (props) => {
         </div>
       </div>
       <div className="wrapper">
-        <div className="footerspan">Нийт захиалгын тоо: </div>
+        <div className="footerspan">Идэвхтэй: </div>
         <span className="footerspantww">{props.data?.length ?? 0}ш</span>
       </div>
       <div className="wrapper">
-        <div className="footerspan">Нийт мөнгөн дүн :</div>
+        <div className="footerspan">Идэвхгүй :</div>
         <span className="footerspantww">{aaa}₮</span>
       </div>
       {/* <div
@@ -176,7 +176,7 @@ const Total = (props) => {
             <span style={{ color: "#fff" }}>{totalPaymentAmount}ш</span>
           </div>
           <div className="secondwrapper">
-            <span style={{ whiteSpace: "nowrap" }}>Нийт төлбөр төлөлт:</span>
+            <span style={{ whiteSpace: "nowrap" }}>Нийт ангилал:</span>
             <span>{bbb}₮</span>
           </div>
         </div>
@@ -187,7 +187,7 @@ const Total = (props) => {
             <span style={{ color: "#000" }}>{pendingCount}ш</span>
           </div>
           <div className="secondwrapper">
-            <span style={{ color: "#000" }}>Хүлээгдэж буй:</span>
+            <span style={{ color: "#000" }}>Нийт брэнд:</span>
             <span>{totalGrandTotalForPendingOrdersFormatted}₮</span>
           </div>
         </div>
