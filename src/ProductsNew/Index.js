@@ -304,6 +304,7 @@ const Index = (props) => {
               setPage={setPage}
               suppliers={selectedSupplier}
               data={data}
+              setData={setData}
               widths={widths}
               totalWidth={totalWidth}
               setProduct={setProduct}
@@ -332,7 +333,8 @@ const Index = (props) => {
             // <MassImport setProductMassImport={setProductMassImport} />
             <p>mass</p>
           ) : null} */}
-          <Total />
+          
+          <Total data={data} setData={setData}/>
         </>
       ),
     },
