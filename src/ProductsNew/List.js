@@ -107,7 +107,7 @@ const List = (props) => {
     renderHTML.push(
       <div
         className="listEntry"
-        style={{ width: props.totalWidth + "px" }}
+        style={{ width:"3000px" }}
         key={product._id}
       >
         <div className="entryBlock" style={{ width: widths[0] }}>
@@ -164,6 +164,9 @@ const List = (props) => {
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
           <p>{product.placement}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <p>{product.type}</p>
         </div>
         <div className="entryBlock" style={{ width: widths[9] }}>
           <p>{product.description}</p>
@@ -237,7 +240,7 @@ const List = (props) => {
       <div
         className="listEntry product2_header"
         id="listHeader"
-        style={{ minWidth: "2500px"}}
+        style={{ minWidth: "3000px"}}
       >
         <div
           className="entryBlock"
@@ -322,6 +325,12 @@ const List = (props) => {
         <div className="entryBlock" style={{ width: "120px" }}>
           <div className="entryHeader">
             <label>Хадгалах байршил</label>
+            <input type="text" />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "120px" }}>
+          <div className="entryHeader">
+            <label>Хэлбэр</label>
             <input type="text" />
           </div>
         </div>

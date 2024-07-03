@@ -15,7 +15,7 @@ const Warehouse = (props) => {
   useEffect(() => {
     const getInventories = async () => {
       try {
-        const url = `https://api2.ebazaar.mn/api/warehouse/get/new`;
+        const url = `https://api2.ebazaar.mn/api/warehouse/get/new?limit=100`;
         const requestOptions = {
           method: "GET",
           headers: myHeaders,
@@ -24,13 +24,13 @@ const Warehouse = (props) => {
 
         const res = await fetch(url, requestOptions);
         const resData = await res.json();
-
+        console.log(resData, "dsdsadsadsa")
         setInventorydata(resData.data);
       } catch (error) {
         console.log(error);
       }
     };
-
+   
     getInventories();
   }, []);
 

@@ -18,6 +18,7 @@ import * as XLSX from 'xlsx';
 import City from "./data/city.json";
 import District from "./data/district.json";
 import List4 from "./List/List4";
+import ListHeader from "./screen/ListHeader";
 
 
 export const b2bs = ["|14233|", "|14191|", "|14178|", "|14045|"];
@@ -322,7 +323,8 @@ const App = (props) => {
       : filteredData.filter((f) => selectedOrders.includes(f.order_id));
   
     const usersMap = usersMapRef.current; 
-  
+    console.log("header", list);
+
     items.map((item, i) => {
       let quantity = 0;
       let price = 0;
