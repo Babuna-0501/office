@@ -5,5 +5,8 @@
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
 	"editor.formatOnSaveMode": "modificationsIfAvailable",
-	"prettier.arrowParens": "always"
+	"prettier.arrowParens": "always",
+	"[javascript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	}
 }

@@ -52,7 +52,7 @@ function XLSX(props) {
           url = `https://api2.ebazaar.mn/api/products/get1?supplier=13884`;
         }
       } else {
-        url = `https://api2.ebazaar.mn/api/products/get1?supplier=${supplier_id}`;
+        url = `https://api2.ebazaar.mn/api/products/get1?page=all&supplier=${supplier_id}`;
       }
 
     console.log("product report url", url);

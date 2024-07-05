@@ -47,6 +47,16 @@ const FormInputs = (props) => {
   const prodctx = useContext(ProductHook);
   const backCtx = useContext(BackOfficeHook);
   const prodReportCtx = useContext(ProductReportHook);
+
+
+  useEffect(() => {
+    if (props.company_id === "|14010|") {
+      setIsEmhangan(true);
+    } else {
+      setIsEmhangan(false);
+    }
+  }, [props.company_id]);
+
   let emSubCategory = [
     {
       id: "ahuinKhereglee",
@@ -176,7 +186,7 @@ const FormInputs = (props) => {
   }, [brand]);
 
   const ConfirmHandler = () => {
-    if (isEmhangan) {
+    if (props.company_id === "|14010|") {
       if (!boditSavlalt) {
         alert("Та бодит савлалт оруулна уу");
         return;
@@ -383,12 +393,12 @@ const FormInputs = (props) => {
       .insertAdjacentHTML(
         "beforeEnd",
         '<form method="post" enctype="multipart/form‐data" id="' +
-          id +
-          '" name=' +
-          id +
-          '><input type="file" id="uploader' +
-          id +
-          '" multiple /></form>'
+        id +
+        '" name=' +
+        id +
+        '><input type="file" id="uploader' +
+        id +
+        '" multiple /></form>'
       );
     document.getElementById("uploader" + id).click();
     document
@@ -404,7 +414,7 @@ const FormInputs = (props) => {
     }
     fetch(
       "https://ebazaar.mn/media/ehlo.php?preset=product&ebazaar_admin_token=" +
-        localStorage.getItem("ebazaar_admin_token"),
+      localStorage.getItem("ebazaar_admin_token"),
       { method: "POST", body: formData }
     )
       .then((r) => r.json())
@@ -538,7 +548,7 @@ const FormInputs = (props) => {
   }, [loggedUser?.company_id]);
 
   useEffect(() => {
-    if (isEmhangan) {
+    if (props.company_id === "|14010|") {
       setDisplayFields([
         "Нийлүүлэгч нэр",
         "Бүтээгдэхүүний нэр",
@@ -1063,7 +1073,7 @@ const FormInputs = (props) => {
               channelPrice={channelPrice}
             />
           )} */}
-        </div>
+        </div>Can 
         <div className={css.btncontainer}>
           <Button variant="secondary">
             <span onClick={CancelHandler}>Цуцлах</span>

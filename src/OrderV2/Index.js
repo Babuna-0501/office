@@ -21,7 +21,7 @@ import List4 from "./List/List4";
 import ListHeader from "./screen/ListHeader";
 
 
-export const b2bs = ["|14233|", "|14191|", "|14178|", "|14045|"];
+export const b2bs = ["|14233|", "|14191|", "|14178|", "|14045|", "|1|"];
 export const tsastaltaindol = "|14233|";
 export const nerst = "|14191|";
 

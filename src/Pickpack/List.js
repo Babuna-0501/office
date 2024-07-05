@@ -51,7 +51,7 @@ export const List = () => {
 
         productIds = [...new Set(productIds)];
 
-        const productUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${productIds.join(",")}]`;
+				const productUrl = `https://api2.ebazaar.mn/api/products/get1?page=all&ids=[${productIds.join(",")}]`;
 
         const productRes = await fetch(productUrl, requestOptions);
         const productData = await productRes.json();
