@@ -6,6 +6,7 @@ import deleteIcon from "../assets/delete_red_small.svg";
 import LoadingSpinner from "../components/Spinner/Spinner";
 import myHeaders from "../components/MyHeader/myHeader";
 import ProductReportHook from "../Hooks/ProductsReportHook";
+import { region } from "caniuse-lite";
 
 const MassImport = (props) => {
   //   const [saving, setSaving] = useState(false);
@@ -79,7 +80,7 @@ const MassImport = (props) => {
   //     //   );
   //     //   rows.map((row) => {
   //     //     if (counter === 0) {
-  //     //       row.map((index, column) => {
+  //     //       row?.map((index, column) => {
   //     //         orders[index.trim()] = column;
   //     //       });
   //     //       counter++;
@@ -375,6 +376,7 @@ const MassImport = (props) => {
     });
   });
   console.log(prodctx, "prodctx");
+  console.log(rows)
 
   const save = () => {
     if (supID === null && company_id === 1) {
@@ -478,6 +480,16 @@ const MassImport = (props) => {
             (e) =>
               e?.name?.toLowerCase() === product?.shuurkhaicat?.toLowerCase()
           )?.id || 0,
+        form: product.form,
+        packActual: product.packActual,
+        packSale: product.packSale,
+        region: product.region,
+        organization: product.organization,
+        supplier: product.supplier,
+        storageCondition: product.storageCondition,
+        wholePrice: product.wholePrice,
+        unitPrice: product.unitPrice,
+        seriesNumber: product.seriesNumber,
       };
 
       var requestOptions = {
@@ -552,10 +564,12 @@ const MassImport = (props) => {
   };
 
   const CancelHandler = () => {
-    props?.setImporter(false);
+
     document.getElementById("read").remove();
     setSaving(false);
     setSupID("");
+
+    props.setMassImportData(null)
   };
   return (
     <div id="formwithtransparentbackground">
@@ -595,23 +609,35 @@ const MassImport = (props) => {
               </div>
             )}
             <div className="entry header" style={{ width: "100%" }}>
-              <div>Name</div>
-              <div>Barcode</div>
-              <div>Аctive</div>
-              <div>SKU</div>
-              <div>Price</div>
-              <div>Description</div>
-              <div>InCase</div>
-              <div>city_tax</div>
-              <div>Priority</div>
-              <div>Stock</div>
-              <div>Brand</div>
-              <div>Category</div>
-              <div>ShuurkhaiCategory</div>
-              <div>Alcohol</div>
-              <div>Product_measure</div>
-              <div>Хадгалах хугацаа/өдөр/</div>
-              <div></div>
+              {rows?.[0]?.name && <div>Name</div>}
+              {rows?.[0]?.barcode && <div>Barcode</div>}
+              {rows?.[0]?.sku && <div>Sku</div>}
+              {rows?.[0]?.price && <div>Price</div>}
+              {rows?.[0]?.description && <div>Description</div>}
+              {rows?.[0]?.incase && <div>InCase</div>}
+              {rows?.[0]?.city_tax && <div>city_tax</div>}
+              {rows?.[0]?.priority && <div>Priority</div>}
+              {rows?.[0]?.stock && <div>Stock</div>}
+              {rows?.[0]?.brand && <div>Brand</div>}
+              {rows?.[0]?.category && <div>Category</div>}
+              {rows?.[0]?.shuurkhaicat && <div>ShuurkhaiCategory</div>}
+              {rows?.[0]?.alcohol && <div>Alcohol</div>}
+              {rows?.[0]?.product_measure && <div>Product_measure</div>}
+              {rows?.[0]?.storage_day && <div>Хадгалах хугацаа/өдөр/</div>}
+              {rows?.[0]?.subCategory && <div>Дэд ангилал</div>}
+              {rows?.[0]?.form && <div>Хэлбэр</div>}
+              {rows?.[0]?.packActual && <div>Бодит савлалт</div>}
+              {rows?.[0]?.packSale && <div>Зардаг савлалт</div>}
+              {rows?.[0]?.region && <div>Үйлдвэрлэгч улс</div>}
+              {rows?.[0]?.organization && <div>Үйлдвэрлэгч байгууллага</div>}
+              {rows?.[0]?.supplier && <div>Нийлүүлэгч байгууллага</div>}
+              {rows?.[0]?.storageCondition && <div>Хадгалах нөхцөл</div>}
+              {rows?.[0]?.quantity && <div>Тоо хэмжээ</div>}
+              {rows?.[0]?.wholePrice && <div>Бөөний үнэ, ш</div>}
+              {rows?.[0]?.unitPrice && <div>Жижиглэн үнэ, ш</div>}
+              {rows?.[0]?.seriesNumber && <div>Серийн дугаар</div>}
+
+
             </div>
             {loading ? (
               <div
@@ -633,7 +659,7 @@ const MassImport = (props) => {
                   overflowY: "scroll",
                 }}
               >
-                {rows.map((row, index) => {
+                  {rows?.map((row, index) => {
                   console.log(row);
                   return (
                     <div
@@ -645,35 +671,36 @@ const MassImport = (props) => {
                         alignItems: "center",
                       }}
                     >
-                      <div>{row.name}</div>
-                      <div
+                      {row?.name && <div>{row?.name}</div>}
+                      {row?.barcode && <div
                         style={{
                           color: supProducts?.find(
-                            (e) => e.bar_code === row.barcode
+                            (e) => e.bar_code === row?.barcode
                           )
                             ? "red"
                             : "black",
                           fontWeight: supProducts?.find(
-                            (e) => e.bar_code === row.barcode
+                            (e) => e.bar_code === row?.barcode
                           )
                             ? "700"
                             : "normal",
                         }}
                       >
-                        {row.barcode}
+                        {row?.barcode}
+                      </div>}
+                      {row?.active && <div>{row?.active}</div>}
+                      {row?.sku && <div>{row?.sku}</div>}
+                      {row?.price && <div>{row?.price?.toLocaleString()}</div>}
+                      {row?.description && <div>{row?.description}</div>}
+                      {row?.incase && <div>{row?.incase}</div>}
+                      {row?.city_tax && row?.category && <div>
+                        {row?.category === "Алкоголь" ? 1 : row?.city_tax}
                       </div>
-                      <div>{row.active}</div>
-                      <div>{row.sku}</div>
-                      <div>{row.price?.toLocaleString()}</div>
-                      <div>{row.description}</div>
-                      <div>{row.incase}</div>
-                      <div>
-                        {row.category === "Алкоголь" ? 1 : row.city_tax}
-                      </div>
-                      <div>{row.priority}</div>
+                      }
+                      {row?.priority && <div>{row?.priority}</div>}
 
-                      <div>{row.stock?.toLocaleString()}</div>
-                      <div
+                      {row?.stock && <div>{row?.stock?.toLocaleString()}</div>}
+                      {row?.brand && <div
                         style={{
                           color: props?.pageData?.brands?.find(
                             (e) =>
@@ -684,9 +711,9 @@ const MassImport = (props) => {
                             : "red",
                         }}
                       >
-                        {row.brand}
-                      </div>
-                      <div
+                        {row?.brand}
+                      </div>}
+                      {row?.category && <div
                         style={{
                           color: props?.pageData?.categories?.find(
                             (e) =>
@@ -697,9 +724,11 @@ const MassImport = (props) => {
                             : "red",
                         }}
                       >
-                        {row.category}
-                      </div>
-                      <div
+                        {row?.category}
+                      </div>}
+
+
+                      {row?.shuurkhaicat && <div
                         style={{
                           color: props?.productGroup?.find(
                             (e) =>
@@ -710,13 +739,13 @@ const MassImport = (props) => {
                             : "red",
                         }}
                       >
-                        {row.shuurkhaicat}
-                      </div>
-                      <div>{row.category === "Алкоголь" ? 1 : row.alcohol}</div>
-                      <div>{row.product_measure}</div>
+                        {row?.shuurkhaicat}
+                      </div>}
+                      {row?.alcohol && <div>{row?.category === "Алкоголь" ? 1 : row?.alcohol}</div>}
+                      {row?.product_measure && <div>{row?.product_measure}</div>}
                       <div>
                         {supProducts?.find(
-                          (e) => e.bar_code === row.barcode
+                          (e) => e.bar_code === row?.barcode
                         ) ? (
                           <img
                             src={deleteIcon}
@@ -724,7 +753,7 @@ const MassImport = (props) => {
                             alt="delete"
                             onClick={() => {
                               setRows((prev) =>
-                                prev.filter((q) => q.barcode !== row.barcode)
+                                prev.filter((q) => q.barcode !== row?.barcode)
                               );
                             }}
                           />
@@ -732,7 +761,19 @@ const MassImport = (props) => {
                           ""
                         )}
                       </div>
-                      <div>{row.storage_day}</div>
+                      {row?.storage_day && <div>{row?.storage_day}</div>}
+                      {row?.subCategory && <div>{row?.subCategory}</div>}
+                      {row?.form && <div>{row?.form}</div>}
+                      {row?.packActual && <div>{row?.packActual}</div>}
+                      {row?.packSale && <div>{row?.packSale}</div>}
+                      {row?.region && <div>{row?.region}</div>}
+                      {row?.organization && <div>{row?.organization}</div>}
+                      {row?.supplier && <div>{row?.supplier}</div>}
+                      {row?.storageCondition && <div>{row?.storageCondition}</div>}
+                      {row?.quantity && <div>{row?.quantity}</div>}
+                      {row?.wholePrice && <div>{row?.wholePrice}</div>}
+                      {row?.unitPrice && <div>{row?.unitPrice}</div>}
+                      {row?.seriesNumber && <div>{row?.seriesNumber}</div>}
                     </div>
                   );
                 })}

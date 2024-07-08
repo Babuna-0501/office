@@ -10,6 +10,7 @@ import ProductReportHook from "../Hooks/ProductsReportHook";
 import checked from "../assets/Tick Square on 2.svg";
 import check from "../assets/Tick Square.svg";
 import { GlobalContext } from "../Hooks/GlobalContext";
+import { emHanganForm, storageData, subCategory } from "./data";
 
 const FormInputs = (props) => {
   const { loggedUser } = useContext(GlobalContext);
@@ -57,86 +58,13 @@ const FormInputs = (props) => {
     }
   }, [props.company_id]);
 
-  let emSubCategory = [
-    {
-      id: "ahuinKhereglee",
-      values: [
-        "Амны хөндийн арчилгаа",
-        "Арьс арчилгаа",
-        "Ахуйн хэрэглээ",
-        "Хувийн хэрэглээ",
-      ],
-    },
-    {
-      id: "gooSaikhan",
-      values: ["Амны хөндийн арчилгаа", "Арьс арчилгаа", "Үс арчилгаа"],
-    },
-    {
-      id: "nasandKhuregchded",
-      values: ["Насанд хүрэгчдэд"],
-    },
-    {
-      id: "tonogTokhooromj",
-      values: ["Тоног төхөөрөмж"],
-    },
-    {
-      id: "khuns",
-      values: ["Хүнс"],
-    },
-    {
-      id: "emiinButeegdekhuun",
-      values: [
-        "A",
-        "B",
-        "C",
-        "D",
-        "G",
-        "H",
-        "J",
-        "L",
-        "M",
-        "N",
-        "P",
-        "R",
-        "S",
-        "T",
-        "БИБ",
-        "Сэтгэц нөлөөт эм",
-      ],
-    },
-    {
-      id: "emnelgiinKheregsel",
-      values: [
-        "Асаргаа сувилгааны хэрэгсэл",
-        "Ахуйн хэрэглээ",
-        "Гэмтлийн үеийн хэрэгсэл",
-        "Нэг удаагийн хэрэгсэл",
-        "Хүүхдийн хэрэгсэл",
-        "Эмнэлэгт хэрэглэх хэрэгсэл",
-      ],
-    },
-    {
-      id: "ekhKhuukhdiinButeegdekhuun",
-      values: [
-        "Арьс арчилгаа",
-        "Жирэмсэн, хөхүүл эх",
-        "Хүүхдийн амны хөндийн арчилгаа",
-        "Хүүхдийн арьс арчилгаа",
-        "Хүүхдийн хооллох хэрэгсэл",
-        "Хүүхдийн хуурайлах хэрэгсэл",
-        "Хүүхдийн хүнс тэжээл",
-        "Хүүхдийн хэрэгсэл",
-      ],
-    },
-  ];
+
   const [emHangan, setEmHangan] = useState({
     condition: null,
     storageTemp: null,
     storageLocation: null,
-    subCategory: emSubCategory
-      .map((s) => s.values)
-      .join()
-      .split(","),
+    subCategory: null,
+    form: null
   });
   const CancelHandler = () => {
     if (page === 1) {
@@ -266,10 +194,10 @@ const FormInputs = (props) => {
       alert("Та бүтээгдэхүүний нөат сонгон уу");
       return;
     }
-    if (images.length === 0) {
-      alert("Та бүтээгдэхүүний зураг оруулна уу");
-      return;
-    }
+    // if (images.length === 0) {
+    //   alert("Та бүтээгдэхүүний зураг оруулна уу");
+    //   return;
+    // }
     if (productWeight === null) {
       alert("Та бүтээгдэхүүний жингээ оруулна уу");
       return;
@@ -319,7 +247,8 @@ const FormInputs = (props) => {
       include: [],
       exclude: [],
       attributes: isEmhangan
-        ? [{ boditSavlalt, storageCondition, form, isEmdCoupon }]
+        ? [{ boditSavlalt, storageCondition, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp }]
+        // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
         : [],
       locations: {
         "62f4aabe45a4e22552a3969f": {
@@ -369,18 +298,18 @@ const FormInputs = (props) => {
       redirect: "follow",
     };
     console.log("requestOptions", requestOptions);
-    fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.acknowledged === true) {
-          alert("Амжилттай бараа бүртгэлээ");
-          CancelHandler();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    // fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log(result);
+    //     if (result.acknowledged === true) {
+    //       alert("Амжилттай бараа бүртгэлээ");
+    //       CancelHandler();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("error", error);
+    //   });
     props.setProduct(false);
   };
 
@@ -406,6 +335,7 @@ const FormInputs = (props) => {
       .addEventListener("change", () => upload(id), false);
   };
   const upload = (form) => {
+    // console.log(form)
     const uploader = document.getElementById("uploader" + form);
     var fileField = document.getElementById("uploader" + form);
     let formData = new FormData();
@@ -469,7 +399,7 @@ const FormInputs = (props) => {
   let conditions = [
     {
       label: "Ж",
-      value: 1,
+      value: 0,
     },
     {
       label: "Ж*",
@@ -477,11 +407,11 @@ const FormInputs = (props) => {
     },
     {
       label: "ЖГ",
-      value: 2,
+      value: 1,
     },
     {
       label: "ЗБШ",
-      value: 3,
+      value: 2,
     },
   ];
   const handleChangeSupplier = (e) => {
@@ -543,27 +473,31 @@ const FormInputs = (props) => {
   ]);
 
   useEffect(() => {
-    // setIsEmhangan(loggedUser?.company_id.includes("1"));
-    setIsEmhangan(loggedUser?.company_id.includes("14142"));
+    setIsEmhangan(loggedUser?.company_id.includes("1"));
+    // setIsEmhangan(loggedUser?.company_id.includes("14142"));
   }, [loggedUser?.company_id]);
 
   useEffect(() => {
-    if (props.company_id === "|14010|") {
+    if (isEmhangan) {
       setDisplayFields([
         "Нийлүүлэгч нэр",
         "Бүтээгдэхүүний нэр",
+        "Бүтээгдэхүүний үнэ",
         "Үйлдвэрлэгч улс",
         "Нийлүүлэгч байгууллага",
         "Бүтээгдэхүүний barcode",
         "Сагслах тоо хамжээ /ш/",
+        "Алкохол төрөл",
         "Бүтээгдэхүүний категори",
         "Бүтээгдэхүүний дэлгэрэнгүй бичиглэл",
         "Бүтээгдэхүүний sku",
         "Бүтээгдэхүүний жин",
         "Бодит савлалт",
+        "Хотын татвар",
         "Хадгалах нөхцөл",
         "Хэлбэр",
-        "ЭМД хөнгөлөлт",
+        "Бүтээгдэхүүний үлдэгдэл тоо",
+        // "ЭМД хөнгөлөлт",
         "НӨАТ",
 
         "Олгох нөхцөл",
@@ -681,12 +615,12 @@ const FormInputs = (props) => {
           <div key="Бүтээгдэхүүний дэд категори" className={css.field}>
             <span>Бүтээгдэхүүний дэд категори</span>
             <select
-              onChange={handleChangeCategory}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, subCategory: e.target.value }))}
               name="categories"
               id="categories"
             >
               <option value="null">Бүтээгдэхүүний дэд категори</option>
-              {emHangan.subCategory.map((e, i) => {
+              {subCategory.map((e, i) => {
                 return <option value={i}>{e}</option>;
               })}
             </select>
@@ -894,18 +828,18 @@ const FormInputs = (props) => {
         content: (
           <div key="Хадгалах хэм " className={css.field}>
             <span>Хадгалах хэм </span>
-            <input
-              required
-              value={emHangan.storageTemp}
-              type="text"
-              placeholder="Хадгалах хэм "
-              onChange={(e) =>
-                setEmHangan((prev) => ({
-                  ...prev,
-                  storageTemp: e.target.value,
-                }))
-              }
-            />
+            <select
+              onChange={(e) => {
+                setEmHangan((prev) => ({ ...prev, storageTemp: e.target.value }));
+              }}
+              name="Хадгалах хэм"
+              id="Хадгалах хэм"
+            >
+              <option value="null">Хадгалах хэм</option>
+              {storageData.map((e, i) => {
+                return <option value={i}>{e}</option>;
+              })}
+            </select>
           </div>
         ),
       },
@@ -915,18 +849,18 @@ const FormInputs = (props) => {
         content: (
           <div key="Хадгалах байршил" className={css.field}>
             <span>Хадгалах байршил</span>
-            <input
-              required
-              value={emHangan.storageLocation}
-              type="text"
-              placeholder="Хадгалах байршил"
-              onChange={(e) =>
-                setEmHangan((prev) => ({
-                  ...prev,
-                  storageLocation: e.target.value,
-                }))
-              }
-            />
+            <select
+              onChange={(e) => {
+                setEmHangan((prev) => ({ ...prev, storageLocation: e.target.value }));
+              }}
+              name="Хадгалах байршил"
+              id="Хадгалах байршил"
+            >
+              <option value="null">Хадгалах байршил</option>
+              {storageData.map((e, i) => {
+                return <option value={i}>{e}</option>;
+              })}
+            </select>
           </div>
         ),
       },
@@ -938,14 +872,14 @@ const FormInputs = (props) => {
             <span>Хэлбэр</span>
             <select
               onChange={(e) => {
-                setForm(e.target.value);
+                setEmHangan((prev) => ({ ...prev, form: e.target.value }))
               }}
               name="Хэлбэр"
               id="Хэлбэр"
             >
               <option value="null">Хэлбэр</option>
-              {brandOpt.map((e) => {
-                return <option value={e.value}>{e.label}</option>;
+              {emHanganForm.map((e, i) => {
+                return <option value={i}>{e}</option>;
               })}
             </select>
           </div>
@@ -983,7 +917,7 @@ const FormInputs = (props) => {
         name: "Олгох нөхцөл",
         show: true,
         content: (
-          <div key="Нийлүүлэгч нэр" className={css.field}>
+          <div key="Олгох нөхцөл" className={css.field}>
             <span>Олгох нөхцөл</span>
             <select
               onChange={handleChangeSupplier}
@@ -1073,7 +1007,7 @@ const FormInputs = (props) => {
               channelPrice={channelPrice}
             />
           )} */}
-        </div>Can 
+        </div>Can
         <div className={css.btncontainer}>
           <Button variant="secondary">
             <span onClick={CancelHandler}>Цуцлах</span>

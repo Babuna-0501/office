@@ -246,6 +246,10 @@ const Index = (props) => {
             prop: "category",
             type: String,
           },
+          subCategory: {
+            prop: "subCategory",
+            type: String,
+          },
           alcohol: {
             prop: "alcohol",
             type: String,
@@ -273,6 +277,51 @@ const Index = (props) => {
           shuurhaicat: {
             prop: "shuurkhaicat",
             type: String,
+          },
+
+          form: {
+            prop: 'form',
+            type: String,
+          },
+          packActual: {
+            prop: 'packActual',
+            type: String,
+          },
+          packSale: {
+            prop: 'packSale',
+            type: String
+          },
+          region: {
+            prop: 'region',
+            type: String
+          },
+          organization: {
+            prop: 'organization',
+            type: String
+          },
+          supplier: {
+            prop: 'supplier',
+            type: String
+          },
+          storageCondition: {
+            prop: 'storageCondition',
+            type: String
+          },
+          quantity: {
+            prop: 'quantity',
+            type: String
+          },
+          unitPrice: {
+            prop: 'unitPrice',
+            type: String
+          },
+          seriesNumber: {
+            prop: 'seriesNumber',
+            type: String
+          },
+          wholePrice: {
+            prop: 'wholePrice',
+            type: String
           },
         };
         readXlsxFile(document.getElementById("read").files[0], {
@@ -368,7 +417,7 @@ const Index = (props) => {
           {massImportData ? (
             <MassImport
               data={massImportData}
-              // setImporter={setImporter}
+              setMassImportData={setMassImportData}
               suppliers={state.suppliers}
               pageData={props}
               productGroup={productGroup}

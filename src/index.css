@@ -87,12 +87,12 @@ background-position: 100% 100%;
 }
 
 #contents h1 {
-    //font-family: "Nunito";
-    //font-style: normal;
-    //font-weight: 600;
-    //font-size: 2rem;
-    //line-height: 42px;
-    //margin: 0.5rem 0 1rem 0;
+    /* //font-family: "Nunito"; */
+    /* //font-style: normal; */
+    /* //font-weight: 600; */
+    /* //font-size: 2rem; */
+    /* //line-height: 42px; */
+    /* //margin: 0.5rem 0 1rem 0; */
 }
 
 span.column-head {
@@ -231,7 +231,7 @@ p.note {
     right: 0;
     bottom: 0;
     left: 0;
-    background: url("https://ebazaar.mn/img/modal.png") repeat;
+    /* background: url("https://ebazaar.mn/img/modal.png") repeat; */
     z-index: 100;
 }
 
@@ -313,7 +313,7 @@ textarea {
     bottom: 0;
     left: 0;
     background-position: 50%;
-    background: url(https://ebazaar.mn/media/supplier2.jpg) no-repeat 50% #fff;
+    /* background: url(https://ebazaar.mn/media/supplier2.jpg) no-repeat 50% #fff; */
     background-size: cover;
 }
 
@@ -1263,7 +1263,7 @@ overflow-x: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url("https://ebazaar.mn/img/modal.png") repeat;
+    /* background: url("https://ebazaar.mn/img/modal.png") repeat; */
 }
 
 #overlaypage {
@@ -1300,7 +1300,7 @@ overflow-x: auto;
     bottom: 0;
     left: 0;
     z-index: 200000;
-    background: url("https://ebazaar.mn/img/modal.png") repeat;
+    /* background: url("https://ebazaar.mn/img/modal.png") repeat; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1444,11 +1444,11 @@ overflow-x: auto;
 }
 
 .width200px {
-    //width: 200px;
+    /* //width: 200px; */
 }
 
 .width180px {
-    //width: 180px;
+    /* //width: 180px; */
 }
 
 .closePage {
@@ -1876,7 +1876,7 @@ box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.02);
 }
 
 #overlaypage .left, #overlaypage .right {
-    //display: inline-flex;
+    /* display: inline-flex; */
     padding: 0 1rem;
 }
 
@@ -1931,16 +1931,16 @@ box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.02);
     width: 100%;
 }
 .custom-select:hover {
-    //border: 1px solid #999;
+    /* //border: 1px solid #999; */
 }
 .custom-select:focus {
     border: 1px solid #ddd;
-    //box-shadow: 0 3px 5px 0 rgba(0,0,0,.2);
+    /* //box-shadow: 0 3px 5px 0 rgba(0,0,0,.2); */
     outline: none;
 }
 /* remove default arrow in IE */
 select::-ms-expand {
-    //display:none;
+    /* //display:none; */
 }
 
 .box_header .product_name {
@@ -1968,7 +1968,7 @@ select::-ms-expand {
     bottom: 0;
     left: 0;
     z-index: 200000;
-    background: url("https://ebazaar.mn/img/modal.png") repeat;
+    /* background: url("https://ebazaar.mn/img/modal.png") repeat; */
 }
 
 #container_productselector {
@@ -2158,7 +2158,7 @@ select::-ms-expand {
     bottom: 0;
     left: 0;
     z-index: 200000;
-    background: url("https://ebazaar.mn/img/modal.png") repeat;
+    /* background: url("https://ebazaar.mn/img/modal.png") repeat; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2459,8 +2459,8 @@ label.filter {
 
 .entryHeader {
     width: 100%;
-    //height: 100%;
-    //display: block;
+    /* //height: 100%; */
+    /* //display: block; */
 }
 
 .entryBlock p {
@@ -3051,11 +3051,11 @@ input:disabled {
 }
 
 .flexcentered2 {
-    //display: flex;
-    //align-items: center;
-    //justify-content: center;
-    //height: 100%;
-    //width: 100%;
+    /* //display: flex; */
+    /* //align-items: center; */
+    /* //justify-content: center; */
+    /* //height: 100%; */
+    /* //width: 100%; */
 }
 
 .__row {
