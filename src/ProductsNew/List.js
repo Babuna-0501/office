@@ -151,7 +151,7 @@ const List = (props) => {
           <p>{product.brand}</p>
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.category}</p>
+          <p>{product.category_id}</p>
         </div>
         <div className="entryBlock" style={{ width: "120px" }}>
           <p>{product.sub_category}</p>
@@ -181,7 +181,7 @@ const List = (props) => {
           <p>{product.price}</p>
         </div>
         <div className="entryBlock" style={{ width: widths[4] }}>
-          <p>{manufacturer}</p>
+          <p>{product.manufacturer}</p>
         </div>
         {/* <div
           className="entryBlock"

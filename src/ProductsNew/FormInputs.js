@@ -27,13 +27,17 @@ const FormInputs = (props) => {
   const [country, setCountry] = useState("");
   // for nugan start
   const [boditSavlalt, setBoditSavlalt] = useState(null);
+  const [zardagSavlalt, setZardagSavlalt] = useState(null);
   const [storageCondition, setStorageCondition] = useState("");
   const [form, setForm] = useState("");
   const [isEmdCoupon, setIsEmdCoupon] = useState(false);
+  const [retailPrice, setRetailPrice] = useState(null);
+  const [wholePrice, setWholePrice] = useState(null);
   // for nugan end
   const [barcode, setBarcode] = useState(null);
   const [sku, setSku] = useState(null);
   const [price, setPrice] = useState(null);
+
   const [qty, setQty] = useState(null);
   const [incase, setIncase] = useState(null);
   const [citytax, setCitytax] = useState(null);
@@ -73,6 +77,8 @@ const FormInputs = (props) => {
       setBarcode(null);
       setSku(null);
       setPrice(null);
+      setRetailPrice(null);
+      setWholePrice(null);
       setQty(null);
       setIncase(null);
       setDescription();
@@ -194,10 +200,10 @@ const FormInputs = (props) => {
       alert("Та бүтээгдэхүүний нөат сонгон уу");
       return;
     }
-    // if (images.length === 0) {
-    //   alert("Та бүтээгдэхүүний зураг оруулна уу");
-    //   return;
-    // }
+    if (images.length === 0) {
+      alert("Та бүтээгдэхүүний зураг оруулна уу");
+      return;
+    }
     if (productWeight === null) {
       alert("Та бүтээгдэхүүний жингээ оруулна уу");
       return;
@@ -247,7 +253,7 @@ const FormInputs = (props) => {
       include: [],
       exclude: [],
       attributes: isEmhangan
-        ? [{ boditSavlalt, storageCondition, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp }]
+        ? [{ boditSavlalt, storageCondition, zardagSavlalt, retailPrice, wholePrice, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp }]
         // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
         : [],
       locations: {
@@ -298,18 +304,18 @@ const FormInputs = (props) => {
       redirect: "follow",
     };
     console.log("requestOptions", requestOptions);
-    // fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     console.log(result);
-    //     if (result.acknowledged === true) {
-    //       alert("Амжилттай бараа бүртгэлээ");
-    //       CancelHandler();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log("error", error);
-    //   });
+    fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        if (result.acknowledged === true) {
+          alert("Амжилттай бараа бүртгэлээ");
+          CancelHandler();
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
     props.setProduct(false);
   };
 
@@ -397,7 +403,7 @@ const FormInputs = (props) => {
     },
   ];
   let conditions = [
-    {
+    { 
       label: "Ж",
       value: 0,
     },
@@ -487,19 +493,20 @@ const FormInputs = (props) => {
         "Нийлүүлэгч байгууллага",
         "Бүтээгдэхүүний barcode",
         "Сагслах тоо хамжээ /ш/",
-        "Алкохол төрөл",
         "Бүтээгдэхүүний категори",
-        "Бүтээгдэхүүний дэлгэрэнгүй бичиглэл",
+        "Бүтээгдэхүүний дэлгэрэнгүй",
         "Бүтээгдэхүүний sku",
         "Бүтээгдэхүүний жин",
         "Бодит савлалт",
+        "Зардаг савлалт",
         "Хотын татвар",
-        "Хадгалах нөхцөл",
+        "Брэнд",
         "Хэлбэр",
         "Бүтээгдэхүүний үлдэгдэл тоо",
         // "ЭМД хөнгөлөлт",
         "НӨАТ",
-
+        "Жижиглэн үнэ",
+        "Бөөний үнэ",
         "Олгох нөхцөл",
         "Бүтээгдэхүүний дэд категори",
         "Хадгалах хэм",
@@ -802,19 +809,37 @@ const FormInputs = (props) => {
         ),
       },
       {
-        name: "Хадгалах нөхцөл",
+        name: "Зардаг савлалт",
         show: true,
         content: (
-          <div key="Хадгалах нөхцөл" className={css.field}>
-            <span>Хадгалах нөхцөл</span>
+          <div key="Зардаг савлалт" className={css.field}>
+            <span>Зардаг савлалт</span>
+            <input
+              placeholder="Зардаг савлалт"
+              value={zardagSavlalt}
+              type="number"
+              onChange={(e) => {
+                console.log("setZardagSavlalt", e.target.value);
+                setZardagSavlalt(e.target.value);
+              }}
+            />
+          </div>
+        ),
+      },
+      {
+        name: "Брэнд",
+        show: true,
+        content: (
+          <div key="Брэнд" className={css.field}>
+            <span>Брэнд</span>
             <select
               onChange={(e) => {
                 setStorageCondition(e.target.value);
               }}
-              name="Хадгалах нөхцөл"
-              id="Хадгалах нөхцөл"
+              name="Брэнд"
+              id="Брэнд"
             >
-              <option value="null">Хадгалах нөхцөл</option>
+              <option value="null">Брэнд</option>
               {brandOpt.map((e) => {
                 return <option value={e.value}>{e.label}</option>;
               })}
@@ -1007,7 +1032,7 @@ const FormInputs = (props) => {
               channelPrice={channelPrice}
             />
           )} */}
-        </div>Can
+        </div>
         <div className={css.btncontainer}>
           <Button variant="secondary">
             <span onClick={CancelHandler}>Цуцлах</span>
