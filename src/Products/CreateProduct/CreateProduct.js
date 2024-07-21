@@ -173,10 +173,10 @@ const CreateProduct = () => {
       alert("Та бүтээгдэхүүний нөат сонгон уу");
       return;
     }
-    if (images.length === 0) {
-      alert("Та бүтээгдэхүүний зураг оруулна уу");
-      return;
-    }
+    // if (images.length === 0) {
+    //   alert("Та бүтээгдэхүүний зураг оруулна уу");
+    //   return;
+    // }
     if (productWeight === null) {
       alert("Та бүтээгдэхүүний жингээ оруулна уу");
       return;
@@ -268,6 +268,7 @@ const CreateProduct = () => {
       "ebazaar_token",
       localStorage.getItem("ebazaar_admin_token")
     );
+
     myHeaders.append("Content-Type", "application/json");
     var requestOptions = {
       method: "POST",
@@ -276,18 +277,19 @@ const CreateProduct = () => {
       redirect: "follow",
     };
     console.log("requestOptions", requestOptions);
-    fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.acknowledged === true) {
-          alert("Амжилттай бараа бүртгэлээ");
-          CancelHandler();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    console.log(rawNew)
+    // fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log(result);
+    //     if (result.acknowledged === true) {
+    //       alert("Амжилттай бараа бүртгэлээ");
+    //       CancelHandler();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("error", error);
+    //   });
   };
 
   const up = () => {

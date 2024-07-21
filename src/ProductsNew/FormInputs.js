@@ -55,7 +55,7 @@ const FormInputs = (props) => {
 
 
   useEffect(() => {
-    if (props.company_id === "|14010|") {
+    if (loggedUser?.company_id.includes("|14010|")) {
       setIsEmhangan(true);
     } else {
       setIsEmhangan(false);
@@ -68,7 +68,11 @@ const FormInputs = (props) => {
     storageTemp: null,
     storageLocation: null,
     subCategory: null,
-    form: null
+    form: null,
+    unitPrice: null,
+    price: null,
+    seriesNumber: null,
+    endDate: null
   });
   const CancelHandler = () => {
     if (page === 1) {
@@ -154,10 +158,10 @@ const FormInputs = (props) => {
         alert("Та хотын татвар шалгана уу");
         return;
       }
-      if (alcohol === null) {
-        alert("Та алкохолын төрөлд орсон эсэхийг сонгоно уу");
-        return;
-      }
+      // if (alcohol === null) {
+      //   alert("Та алкохолын төрөлд орсон эсэхийг сонгоно уу");
+      //   return;
+      // }
       // if (brand === null) {
       //   alert("Та бүтээгдэхүүний брэнд сонгоно уу");
       //   return;
@@ -191,19 +195,19 @@ const FormInputs = (props) => {
       return;
     }
 
-    if (description === null || description.trim() === "") {
-      alert("Та бүтээгдэхүүний бичиглэлээ оруулна уу");
-      return;
-    }
+    // if (description === null || description.trim() === "") {
+    //   alert("Та бүтээгдэхүүний бичиглэлээ оруулна уу");
+    //   return;
+    // }
 
     if (noat === null) {
       alert("Та бүтээгдэхүүний нөат сонгон уу");
       return;
     }
-    if (images.length === 0) {
-      alert("Та бүтээгдэхүүний зураг оруулна уу");
-      return;
-    }
+    // if (images.length === 0) {
+    //   alert("Та бүтээгдэхүүний зураг оруулна уу");
+    //   return;
+    // }
     if (productWeight === null) {
       alert("Та бүтээгдэхүүний жингээ оруулна уу");
       return;
@@ -229,14 +233,15 @@ const FormInputs = (props) => {
         item.deliver_fee ? item.deliver_fee : 0
       );
     });
-
     let rawNew = {
-      name: name.trim().replaceAll("'", "\\'"),
+      name: name.replaceAll("'", "\\'"),
       bar_code: barcode,
-      image: images,
+      image: images.length == 0 ? [
+        "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg",
+      ] : images,
       sku: sku,
       supplier_id: supplier,
-      description: description.trim().replaceAll("'", "\\'"),
+      description: description ?? ''.trim().replaceAll("'", "\\'"),
       sector_id: null,
       country: country,
       manufacturer: manufacturer,
@@ -253,7 +258,7 @@ const FormInputs = (props) => {
       include: [],
       exclude: [],
       attributes: isEmhangan
-        ? [{ boditSavlalt, storageCondition, zardagSavlalt, retailPrice, wholePrice, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp }]
+        ? [{ boditSavlalt, storageCondition, zardagSavlalt, retailPrice, wholePrice, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp, seriesNumber: emHangan.seriesNumber, endDate: emHangan.endDate, unitPrice: emHangan.unitPrice, wholePrice: emHangan.price }]
         // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
         : [],
       locations: {
@@ -287,7 +292,7 @@ const FormInputs = (props) => {
       },
       brand: brand === "null" || brand === null ? 0 : Number(brand),
       category_id: Number(category),
-      alcohol: Number(alcohol),
+      alcohol: Number(alcohol ?? '0'),
       product_measure: false,
       product_weight: Number(productWeight),
     };
@@ -303,6 +308,7 @@ const FormInputs = (props) => {
       body: JSON.stringify(rawNew),
       redirect: "follow",
     };
+
     console.log("requestOptions", requestOptions);
     fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
       .then((response) => response.json())
@@ -403,7 +409,7 @@ const FormInputs = (props) => {
     },
   ];
   let conditions = [
-    { 
+    {
       label: "Ж",
       value: 0,
     },
@@ -488,11 +494,11 @@ const FormInputs = (props) => {
       setDisplayFields([
         "Нийлүүлэгч нэр",
         "Бүтээгдэхүүний нэр",
-        "Бүтээгдэхүүний үнэ",
+        // "Бүтээгдэхүүний үнэ",
         "Үйлдвэрлэгч улс",
         "Нийлүүлэгч байгууллага",
         "Бүтээгдэхүүний barcode",
-        "Сагслах тоо хамжээ /ш/",
+        // "Сагслах тоо хамжээ /ш/",
         "Бүтээгдэхүүний категори",
         "Бүтээгдэхүүний дэлгэрэнгүй",
         "Бүтээгдэхүүний sku",
@@ -505,8 +511,10 @@ const FormInputs = (props) => {
         "Бүтээгдэхүүний үлдэгдэл тоо",
         // "ЭМД хөнгөлөлт",
         "НӨАТ",
+        "Дуусах хугацаа",
         "Жижиглэн үнэ",
         "Бөөний үнэ",
+        "Сэри дугаар",
         "Олгох нөхцөл",
         "Бүтээгдэхүүний дэд категори",
         "Хадгалах хэм",
@@ -739,6 +747,66 @@ const FormInputs = (props) => {
               type="number"
               value={incase}
               onChange={(e) => setIncase(e.target.value)}
+            />
+          </div>
+        ),
+      },
+      {
+        name: "Дуусах хугацаа",
+        show: true,
+        content: (
+          <div key="Дуусах хугацаа" className={css.field}>
+            <span>Дуусах хугацаа</span>
+            <input
+              placeholder="Бүтээгдэхүүний дуусах хугацаа"
+              type="date"
+              value={emHangan.endDate}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, endDate: e.target.value }))}
+            />
+          </div>
+        ),
+      },
+      {
+        name: "Сери дугаар",
+        show: true,
+        content: (
+          <div key="Сери дугаар" className={css.field}>
+            <span>Сери дугаар</span>
+            <input
+              placeholder="Бүтээгдэхүүний сери дугаар"
+              // type="number"
+              value={emHangan.seriesNumber}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, seriesNumber: e.target.value }))}
+            />
+          </div>
+        ),
+      },
+      {
+        name: "Бөөний үнэ",
+        show: true,
+        content: (
+          <div key="Бөөний үнэ" className={css.field}>
+            <span>Бөөний үнэ</span>
+            <input
+              placeholder="Бүтээгдэхүүний бөөний үнэ"
+              type="number"
+              value={emHangan.unitPrice}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, price: e.target.value }))}
+            />
+          </div>
+        ),
+      },
+      {
+        name: "Жижиглэн үнэ",
+        show: true,
+        content: (
+          <div key="Жижиглэн үнэ" className={css.field}>
+            <span>Жижиглэн үнэ</span>
+            <input
+              placeholder="Бүтээгдэхүүний жижиглэн үнэ"
+              type="number"
+              value={emHangan.unitPrice}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, unitPrice: e.target.value }))}
             />
           </div>
         ),

@@ -7,8 +7,22 @@ import LoadingSpinner from "../components/Spinner/Spinner";
 import myHeaders from "../components/MyHeader/myHeader";
 import ProductReportHook from "../Hooks/ProductsReportHook";
 import { region } from "caniuse-lite";
+import { GlobalContext } from "../Hooks/GlobalContext";
 
 const MassImport = (props) => {
+
+  const { loggedUser } = useContext(GlobalContext);
+  const [isEmhangan, setIsEmhangan] = useState(false);
+
+
+  useEffect(() => {
+    if (loggedUser?.company_id.includes("|14010|")) {
+      setIsEmhangan(true);
+    } else {
+      setIsEmhangan(false);
+    }
+  }, [props.company_id]);
+
   //   const [saving, setSaving] = useState(false);
   //   //Барааны нэр   Баркод  Хэлбэр  Бодит савлалт   Зардаг савлалт  Ерөнхий ангилал Дэд ангилал Үйлдвэрлэгч улс Дуусах хугацаа Сери Үйлдвэрлэгч Үнэ Сагслах тоо Үлдэгдэл Эрэмбэ
   //   const [data, setData] = useState(null);
@@ -385,7 +399,7 @@ const MassImport = (props) => {
     }
     document.getElementById("read").remove();
     setSaving(true);
-
+    console.log(props.data)
     rows.map((product) => {
       const productPrice = parseInt(product.price, 10);
       const inCase = parseInt(product.incase, 10);
@@ -429,7 +443,12 @@ const MassImport = (props) => {
         city_tax: product?.category === "Алкоголь" || product.city_tax ? 1 : 0,
         include: [],
         exclude: [],
-        attributes: [],
+        attributes: isEmhangan
+          ? [{
+            boditSavlalt: product.boditSavlalt ?? null, zardagSavlalt: product.zardagSavlalt ?? null, subCategory: product.subCategory ?? null, storageLocation: product.storageLocation ?? null, storageTemp: product.storageTemp ?? null, endDate: product.endDate ?? null, wholePrice: product.wholePrice, storageCondition: product.storageCondition, unitPrice: product.unitPrice
+          }]
+          // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
+          : [],
         locations: {
           "62f4aabe45a4e22552a3969f": {
             in_case: {

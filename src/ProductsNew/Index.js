@@ -416,6 +416,7 @@ const Index = (props) => {
           </div>
           {massImportData ? (
             <MassImport
+
               data={massImportData}
               setMassImportData={setMassImportData}
               suppliers={state.suppliers}
