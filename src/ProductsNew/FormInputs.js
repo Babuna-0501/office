@@ -146,7 +146,7 @@ const FormInputs = (props) => {
         return;
       }
     } else {
-      if (price === null) {
+      if (price === null && !isEmhangan) {
         alert("Та барааны үнэ оруулна уу");
         return;
       }
@@ -181,7 +181,7 @@ const FormInputs = (props) => {
       return;
     }
 
-    if (incase === null) {
+    if (incase === null && !isEmhangan) {
       alert("Та сагслах тоогоо оруулна уу");
       return;
     }
@@ -240,7 +240,7 @@ const FormInputs = (props) => {
         "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg",
       ] : images,
       sku: sku,
-      supplier_id: supplier,
+      supplier_id: Number(supplier),
       description: description ?? ''.trim().replaceAll("'", "\\'"),
       sector_id: null,
       country: country,
@@ -296,6 +296,7 @@ const FormInputs = (props) => {
       product_measure: false,
       product_weight: Number(productWeight),
     };
+    console.log(rawNew)
     var myHeaders = new Headers();
     myHeaders.append(
       "ebazaar_token",
@@ -427,7 +428,7 @@ const FormInputs = (props) => {
     },
   ];
   const handleChangeSupplier = (e) => {
-    setSupplier(Number(e.target.value));
+    setSupplier(e.target.value);
   };
 
   const handleChangeCategory = (e) => {
