@@ -533,7 +533,7 @@ const FormInputs = (props) => {
           <div key="Нийлүүлэгч нэр" className={css.field}>
             <span>Нийлүүлэгч нэр</span>
             <select
-              onChange={handleChangeSupplier}
+              onChange={(e) => setSupplier(e.target.value)}
               name="suppliers"
               id="suppliers"
             >
