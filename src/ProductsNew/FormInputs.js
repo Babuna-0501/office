@@ -233,6 +233,7 @@ const FormInputs = (props) => {
         item.deliver_fee ? item.deliver_fee : 0
       );
     });
+    console.log(supplier)
     let rawNew = {
       name: name.replaceAll("'", "\\'"),
       bar_code: barcode,
@@ -258,7 +259,7 @@ const FormInputs = (props) => {
       include: [],
       exclude: [],
       attributes: isEmhangan
-        ? [{ boditSavlalt, storageCondition, zardagSavlalt, retailPrice, wholePrice, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp, seriesNumber: emHangan.seriesNumber, endDate: emHangan.endDate, unitPrice: emHangan.unitPrice, wholePrice: emHangan.price }]
+        ? [{ boditSavlalt, storageCondition, zardagSavlalt, retailPrice, wholePrice, form: emHangan.form, subCategory: emHangan.subCategory, storageLocation: emHangan.storageLocation, storageTemp: emHangan.storageTemp, seriesNumber: emHangan.seriesNumber, endDate: emHangan.endDate, unitPrice: emHangan.unitPrice, wholePrice: emHangan.price, condition: emHangan.condition }]
         // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
         : [],
       locations: {
@@ -515,7 +516,7 @@ const FormInputs = (props) => {
         "Дуусах хугацаа",
         "Жижиглэн үнэ",
         "Бөөний үнэ",
-        "Сэри дугаар",
+        "Сери дугаар",
         "Олгох нөхцөл",
         "Бүтээгдэхүүний дэд категори",
         "Хадгалах хэм",
@@ -533,7 +534,7 @@ const FormInputs = (props) => {
           <div key="Нийлүүлэгч нэр" className={css.field}>
             <span>Нийлүүлэгч нэр</span>
             <select
-              onChange={(e) => setSupplier(e.target.value)}
+              onChange={handleChangeSupplier}
               name="suppliers"
               id="suppliers"
             >
@@ -1014,7 +1015,7 @@ const FormInputs = (props) => {
           <div key="Олгох нөхцөл" className={css.field}>
             <span>Олгох нөхцөл</span>
             <select
-              onChange={handleChangeSupplier}
+              onChange={(e) => setEmHangan((prev) => ({ ...prev, condition: e.target.value }))}
               name="condition"
               id="condition"
             >
