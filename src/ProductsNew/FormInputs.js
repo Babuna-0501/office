@@ -619,6 +619,7 @@ const FormInputs = (props) => {
             >
               <option value="null">Бүтээгдэхүүний категори</option>
               {categoryOpt.map((e) => {
+                console.log(categoryOpt, "dgahdsghdsa")
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>

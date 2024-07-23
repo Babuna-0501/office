@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import myHeaders from "../components/MyHeader/myHeader";
+import { emHanganForm, storageData, subCategory } from "./data";
 import Img from "../assets/setting.png";
 
 const List = (props) => {
@@ -74,6 +75,28 @@ const List = (props) => {
         console.log("error", error);
       });
   };
+
+  const getSubCategoryName = (index) => {
+    const intIndex = parseInt(index, 10);
+    return subCategory[intIndex] || "Олдсонгүй";
+  };
+
+  const getStorageTemp = (index) => {
+    const intIndex = parseInt(index);
+    return storageData[intIndex] || "Олдсонгүй";
+  };
+
+  const getStorageLocation = (index) => {
+    const intIndex = parseInt(index);
+    return storageData[intIndex] || "Олдсонгүй";
+  };
+
+  const getForm = (index) => {
+    const intIndex = parseInt(index);
+    return emHanganForm[intIndex] || "Олдсонгүй";
+  };
+
+
 
   filteredData.map((product) => {
     let manufacturer = null;
@@ -153,42 +176,49 @@ const List = (props) => {
         <div className="entryBlock" style={{ width: "120px" }}>
           <p>{product.category_id}</p>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.sub_category}</p>
+        <div className="entryBlock" style={{ width: "200px" }}>
+          <p>{product.attributes && product.attributes[0] && getSubCategoryName(product.attributes[0].subCategory)}</p>
         </div>
+
         <div className="entryBlock" style={{ width: "150px" }}>
-          <p>{product.supplier_company}</p>
+          <p>{product.manufacturer}</p>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.temperature}</p>
+        <div className="entryBlock" style={{ width: "180px" }}>
+          <p>{product.attributes && product.attributes[0] && getStorageTemp(product.attributes[0].storageTemp)}</p>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.placement}</p>
+        <div className="entryBlock" style={{ width: "180px" }}>
+          <p>{product.attributes && product.attributes[0] && getStorageLocation(product.attributes[0].storageLocation)}</p>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.type}</p>
+        <div className="entryBlock" style={{ width: "200px" }}>
+          <p>{product.attributes && product.attributes[0] && getForm(product.attributes[0].form)}</p>
         </div>
         <div className="entryBlock" style={{ width: widths[9] }}>
           <p>{product.description}</p>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
-          <p>{product.bar_code}</p>
+        <div className="entryBlock" style={{ width: "110px" }}>
+          <p>{product.attributes && product.attributes[0] && product.attributes[0].wholePrice}</p>
         </div>
         <div className="entryBlock" style={{ width: "110px" }}>
+          <p>{product.attributes && product.attributes[0] && product.attributes[0].unitPrice}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "150px" }}>
+          <p>{product.bar_code}</p>
+        </div>
+        <div className="entryBlock" style={{ width: "125px" }}>
           <p>{product.sku}</p>
         </div>
         <div className="entryBlock" style={{ width: "110px" }}>
           <p>{product.price}</p>
         </div>
-        <div className="entryBlock" style={{ width: widths[4] }}>
+        <div className="entryBlock" style={{ width: "200px" }}>
           <p>{product.manufacturer}</p>
         </div>
-        {/* <div
+        <div
           className="entryBlock"
-          style={{ width: widths[8], marginLeft: "6px" }}
+          style={{ width: "140px" }}
         >
           <p>{product.created_date.substr(0, 10)}</p>
-        </div> */}
+        </div>
         {/* settings */}
         {/* <div
           className="entryBlock"
@@ -304,7 +334,7 @@ const List = (props) => {
             </select>
           </div>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
+        <div className="entryBlock" style={{ width: "200px" }}>
           <div className="entryHeader">
             <label>Дэд ангилал</label>
             <input type="text" />
@@ -316,19 +346,19 @@ const List = (props) => {
             <input type="text" />
           </div>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
+        <div className="entryBlock" style={{ width: "180px" }}>
           <div className="entryHeader">
             <label>Хадгалах хэм</label>
             <input type="text" />
           </div>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
+        <div className="entryBlock" style={{ width: "180px" }}>
           <div className="entryHeader">
             <label>Хадгалах байршил</label>
             <input type="text" />
           </div>
         </div>
-        <div className="entryBlock" style={{ width: "120px" }}>
+        <div className="entryBlock" style={{ width: "200px" }}>
           <div className="entryHeader">
             <label>Хэлбэр</label>
             <input type="text" />
@@ -341,6 +371,18 @@ const List = (props) => {
           </div>
         </div>
         <div className="entryBlock" style={{ width: "110px" }}>
+          <div className="entryHeader">
+            <label>Жижиглэн үнэ</label>
+            <input type="text" disabled />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "110px" }}>
+          <div className="entryHeader">
+            <label>Бөөний үнэ</label>
+            <input type="text" disabled />
+          </div>
+        </div>
+        <div className="entryBlock" style={{ width: "150px" }}>
           <div className="entryHeader">
             <label>Баркод</label>
             <input
@@ -361,13 +403,13 @@ const List = (props) => {
             <input type="text" />
           </div>
         </div>
-        <div className="entryBlock" style={{ width: widths[4] }}>
+        <div className="entryBlock" style={{ width: "200px" }}>
           <div className="entryHeader">
             <label>Үйлдвэрлэгч</label>
             <input type="text" />
           </div>
         </div>
-        <div className="entryBlock" style={{ width: "100px" }}>
+        <div className="entryBlock" style={{ width: "140px" }}>
           <div className="entryHeader">
             <label>Үүсгэсэн огноо</label>
             <input type="text" />
