@@ -15,6 +15,7 @@ const Warehouse = (wh) => {
 	const context = useContext(ModuleContext)
 	const [products, setProducts] = useState(null)
 	const [allProducts, setAllProducts] = useState(null)
+	console.log(allProducts, "allprod");
 	const tabs = {
 		'stocks': <Stocks wh={wh.props._id} />,
 		'in': <Orlogo wh={wh.props._id} />,

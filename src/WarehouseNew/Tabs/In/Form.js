@@ -60,88 +60,95 @@ const Form = (props) => {
 	}
 	useEffect(() => {
 		if (props.form[0] !== 'new') {
-			let foo = {}
+			let foo = {};
 			whcontext.allProducts.map(product => {
-				foo[product._id] = product
-			})
-			let bar = props.form.products
+				foo[product._id] = product;
+			});
+
+			let bar = props.form.products;
 			bar.map((product, index) => {
-				bar[index]['_id'] = bar[index]['productId']
-				bar[index]['name'] = foo[bar[index]['productId']]['name']
-				bar[index]['image'] = []
-				bar[index]['image'][0] = foo[bar[index]['productId']]['image'][0]
-				bar[index]['bar_code'] = foo[bar[index]['productId']]['bar_code']
-			})
-			addProducts(JSON.parse(JSON.stringify(bar)))
+				const productId = bar[index]['productId'];
+				if (foo[productId]) {
+					bar[index]['_id'] = productId;
+					bar[index]['name'] = foo[productId]['name'];
+					bar[index]['image'] = [];
+					bar[index]['image'][0] = foo[productId]['image'][0];
+					bar[index]['bar_code'] = foo[productId]['bar_code'];
+				} else {
+					console.warn(`Product with productId ${productId} not found in allProducts.`);
+				}
+			});
+			addProducts(JSON.parse(JSON.stringify(bar)));
 		}
-		document.addEventListener('click', clickHandler, false)
-		document.addEventListener('keydown', keyDownHandler, false)
+
+		document.addEventListener('click', clickHandler, false);
+		document.addEventListener('keydown', keyDownHandler, false);
+
 		// Орлогын төрөл
-		const renderHTMLInboundTypes = []
-		const inboundTypes = context.systemData.shipment.variety.inbound
-	
+		const renderHTMLInboundTypes = [];
+		const inboundTypes = context.systemData.shipment.variety.inbound;
+
 		for (const inboundType in inboundTypes) {
-			console.log(props.form.variety)
-			console.log(inboundType)
-			document.getElementById('inboundTypes').insertAdjacentHTML('beforeEnd', `<option ${props.form.variety === inboundType ? ' selected' : ''} value=${inboundType}>${inboundTypes[inboundType]}</option>`)
+			document.getElementById('inboundTypes').insertAdjacentHTML('beforeEnd', `<option ${props.form.variety === inboundType ? ' selected' : ''} value=${inboundType}>${inboundTypes[inboundType]}</option>`);
 		}
+
 		// Агуулах болох харилцагч
-		console.log(typeof props.form.from)
-		let fromSource = 'import'
-		console.log('props.form.from', props.form.from)
+		let fromSource = 'import';
 		if (props.form[1] === 'customer' || props.form[1] === 'warehouse' || props.form.from) {
 			document.getElementById('from').insertAdjacentHTML('beforeEnd', `
-				<div>
-					<div>
-						<h2>${type === 'warehouse' ? 'Зарлага гаргах агуулах:' : 'Зарлага гаргах агуулах харилцагч:'}</h2>
-					</div>
-					<div>
-						<select id="toSelect" class="custom-select" value="${props.form.from}">
-							<option value="">--сонгоно уу--</option>
-						</select>
-					</div>
-				</div>
-			`)
+            <div>
+                <div>
+                    <h2>${type === 'warehouse' ? 'Зарлага гаргах агуулах:' : 'Зарлага гаргах агуулах харилцагч:'}</h2>
+                </div>
+                <div>
+                    <select id="toSelect" class="custom-select" value="${props.form.from}">
+                        <option value="">--сонгоно уу--</option>
+                    </select>
+                </div>
+            </div>
+        `);
 			context.warehouseList.map((warehouse) => {
 				if (warehouse._id === props.form.from) {
-					fromSource = 'warehouse'
+					fromSource = 'warehouse';
 				}
-			})
+			});
 			customers.map(customer => {
 				if (parseInt(customer.tradeshop_id) === parseInt(props.form.from)) {
-					fromSource = 'purchase'
+					fromSource = 'purchase';
 				}
-			})
+			});
 		}
-		//  Агуулах болох харилцагч сонголт
-		let optionsFrom = ''
+
+		let optionsFrom = '';
 		if (props.form[1] === 'customer' || fromSource === 'purchase') {
 			customers.map(customer => {
-				optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from) ? ' selected' : ''}>${customer.customer_name}</option>`
-			})
+				optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from) ? ' selected' : ''}>${customer.customer_name}</option>`;
+			});
 		} else if (props.form[1] === 'warehouse' || fromSource === 'warehouse') {
 			context.warehouseList.map((warehouse) => {
-				optionsFrom += (context.activeWarehouse._id && context.activeWarehouse._id !== warehouse._id) ? `<option ${warehouse._id === props.form.from ? ' selected' : ''} value=${warehouse._id}>${warehouse.name}</option>` : ''
-			})
+				optionsFrom += (context.activeWarehouse._id && context.activeWarehouse._id !== warehouse._id) ? `<option ${warehouse._id === props.form.from ? ' selected' : ''} value=${warehouse._id}>${warehouse.name}</option>` : '';
+			});
 		}
-		//  Агуулах болох харилцагч сонголтыг нэмэх
+
 		if (props.form[1] === 'customer' || props.form[1] === 'warehouse' || fromSource === 'warehouse' || fromSource === 'purchase') {
-			document.getElementById('toSelect').insertAdjacentHTML('beforeEnd', optionsFrom)
+			document.getElementById('toSelect').insertAdjacentHTML('beforeEnd', optionsFrom);
 		}
+
 		return () => {
-			document.removeEventListener('click', clickHandler, false)
-			document.removeEventListener('keypress', keyDownHandler, false)
-		}
-		// Масс орлого импортлох
+			document.removeEventListener('click', clickHandler, false);
+			document.removeEventListener('keypress', keyDownHandler, false);
+		};
+
 		if (document.getElementById('massimport')) {
-			const input = document.getElementById('massimport')
+			const input = document.getElementById('massimport');
 			input.addEventListener('change', () => {
 				readXlsxFile(input.files[0]).then((rows) => {
-					console.log(rows)
-				})
-			})
+					console.log(rows);
+				});
+			});
 		}
-	}, [])
+	}, []);
+
 	const [type, setType] = useState(props.form[1])
 	const [from, setFrom] = useState(props.form.from ? props.form.from : '')
 	const [sender, setSender] = useState(null)

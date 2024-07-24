@@ -212,7 +212,7 @@ const Form = (props) => {
 			const category = product.category ? product.category : ''
 			const uid = Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
 			const productHTML = `
-				<div class="box_container productEntry" id="${uid}" data-id="${product._id}">
+				<div class="box_container box_warehouse_nugan productEntry" id="${uid}" data-id="${product._id}">
 					<div class="box_header width50px" >
 						<span>
 							<img src="https://admin.ebazaar.mn/images/remove.svg" alt="" class="width30px removeProduct" data-action="removeSelectedProduct" data-id="${uid}" />
@@ -242,10 +242,10 @@ const Form = (props) => {
 						<select id=${'series' + uid} data-id="${uid}"><option>--сонгоно уу--</option>${seriesHTML}</select>
 					</div>
 					<div class="box_header width120px">
-						<input type="number" value="${product.quantity}" id=${'quantity' + uid} data-id="${uid}" data-action="changeQuantity" />
+						<input type="number" value="0" id=${'quantity' + uid} data-id="${uid}" data-action="changeQuantity" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text"  id="${'cost' + uid}" value="${product.cost}" data-id="${uid}" data-action="changeCost" />
+						<input type="text"  id="${'cost' + uid}" value="0" data-id="${uid}" data-action="changeCost" />
 					</div>
 					<div class="box_header width120px">
 						<input type="text" id=${'totalCost' + uid} disabled />
