@@ -78,7 +78,7 @@ const Form = props => {
           document.getElementById('payingAmount' + uid).value =
             cost * quantity -
             ((parseFloat(cost) * parseFloat(quantity)) / 100) *
-              parseFloat(discountAmount);
+            parseFloat(discountAmount);
         } else if (parseFloat(e.target.value) > 100) {
           e.target.style.borderColor = 'red';
         }
@@ -122,8 +122,7 @@ const Form = props => {
         .getElementById('inboundTypes')
         .insertAdjacentHTML(
           'beforeEnd',
-          `<option ${
-            props.form.variety === inboundType ? ' selected' : ''
+          `<option ${props.form.variety === inboundType ? ' selected' : ''
           } value=${inboundType}>${inboundTypes[inboundType]}</option>`
         );
     }
@@ -140,16 +139,14 @@ const Form = props => {
         `
             <div>
                 <div>
-                    <h2>${
-                      type === 'warehouse'
-                        ? 'Зарлага гаргах агуулах:'
-                        : 'Зарлага гаргах агуулах харилцагч:'
-                    }</h2>
+                    <h2>${type === 'warehouse'
+          ? 'Зарлага гаргах агуулах:'
+          : 'Зарлага гаргах агуулах харилцагч:'
+        }</h2>
                 </div>
                 <div>
-                    <select id="toSelect" class="custom-select" value="${
-                      props.form.from
-                    }">
+                    <select id="toSelect" class="custom-select" value="${props.form.from
+        }">
                         <option value="">--сонгоно уу--</option>
                     </select>
                 </div>
@@ -171,20 +168,18 @@ const Form = props => {
     let optionsFrom = '';
     if (props.form[1] === 'customer' || fromSource === 'purchase') {
       customers.map(customer => {
-        optionsFrom += `<option value="${customer.tradeshop_id}" ${
-          parseInt(customer.tradeshop_id) === parseInt(props.form.from)
+        optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from)
             ? ' selected'
             : ''
-        }>${customer.customer_name}</option>`;
+          }>${customer.customer_name}</option>`;
       });
     } else if (props.form[1] === 'warehouse' || fromSource === 'warehouse') {
       context.warehouseList.map(warehouse => {
         optionsFrom +=
           context.activeWarehouse._id &&
-          context.activeWarehouse._id !== warehouse._id
-            ? `<option ${
-                warehouse._id === props.form.from ? ' selected' : ''
-              } value=${warehouse._id}>${warehouse.name}</option>`
+            context.activeWarehouse._id !== warehouse._id
+            ? `<option ${warehouse._id === props.form.from ? ' selected' : ''
+            } value=${warehouse._id}>${warehouse.name}</option>`
             : '';
       });
     }
@@ -269,11 +264,10 @@ const Form = props => {
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						${
-              product.image && product.image[0]
-                ? `<img src=${product.image[0]} class="width40px" />`
-                : ''
-            }
+						${product.image && product.image[0]
+          ? `<img src=${product.image[0]} class="width40px" />`
+          : ''
+        }
 					</div></div>
 					<div class="blahblah">
 						<div class="width300px">
@@ -296,15 +290,13 @@ const Form = props => {
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="number" value="${product.quantity}" id=${
-        'quantity' + uid
-      } data-id="${uid}" data-action="changeQuantity" />
+						<input type="number" value="${product.quantity}" id=${'quantity' + uid
+        } data-id="${uid}" data-action="changeQuantity" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="text"  id="${'cost' + uid}" value="${
-        product.cost
-      }" data-id="${uid}" data-action="changeCost" />
+						<input type="text"  id="${'cost' + uid}" value="${product.cost
+        }" data-id="${uid}" data-action="changeCost" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
@@ -312,33 +304,28 @@ const Form = props => {
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="number" id=${'discount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" data-action="setDiscount" data-id="${uid}" />
+						<input type="number" id=${'discount' + uid} value="${product.discount ? product.discount : ''
+        }" data-action="setDiscount" data-id="${uid}" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="text"  id=${'discountAmount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" disabled data-id="${uid}" />
+						<input type="text"  id=${'discountAmount' + uid} value="${product.discount ? product.discount : ''
+        }" disabled data-id="${uid}" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="text"  id=${'payingAmount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" disabled data-id="${uid}" />
+						<input type="text"  id=${'payingAmount' + uid} value="${product.discount ? product.discount : ''
+        }" disabled data-id="${uid}" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="text" value="${
-              product.sellPrice ? product.sellPrice.retail : ''
-            }" id="${'sellprice' + uid}" />
+						<input type="text" value="${product.sellPrice ? product.sellPrice.retail : ''
+        }" id="${'sellprice' + uid}" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
-						<input type="text"  value="${
-              product.seriesNumber ? product.seriesNumber : ''
-            }" id="${'series' + uid}" />
+						<input type="text"  value="${product.seriesNumber ? product.seriesNumber : ''
+        }" id="${'series' + uid}" />
 					</div></div>
 					<div class="blahblah">
 						<div class="width120px">
@@ -525,29 +512,29 @@ const Form = props => {
       );
     }
     /*if(props.warehouseId === props.form.owner) {
-			if(props.form.status === 1 && mode !== 'edit') {
-				renderButtons = (
-					<>
-						<button onClick={() => edit()} className="pageButton secondary" style={{margin: '0 1rem 0 0!important'}}>Орлогын хүсэлт засах</button>
-						<button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Орлогын хүсэлтийг батлах</button>
-					</>
-				)
-			} else if(props.form.status === 1 && mode === 'edit') {
-				renderButtons = (
-					<>
-						<button onClick={() => saveUpdate()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Засварыг хадгалах</button>
-					</>
-				)
-			}
-		} else {
-			if(props.form.status === 2) {
-				renderButtons = (
-					<>
-						<button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Орлогын хүсэлтийг батлах</button>
-					</>
-				)
-			}
-		}*/
+      if(props.form.status === 1 && mode !== 'edit') {
+        renderButtons = (
+          <>
+            <button onClick={() => edit()} className="pageButton secondary" style={{margin: '0 1rem 0 0!important'}}>Орлогын хүсэлт засах</button>
+            <button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Орлогын хүсэлтийг батлах</button>
+          </>
+        )
+      } else if(props.form.status === 1 && mode === 'edit') {
+        renderButtons = (
+          <>
+            <button onClick={() => saveUpdate()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Засварыг хадгалах</button>
+          </>
+        )
+      }
+    } else {
+      if(props.form.status === 2) {
+        renderButtons = (
+          <>
+            <button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Орлогын хүсэлтийг батлах</button>
+          </>
+        )
+      }
+    }*/
   }
   const edit = () => {
     document
@@ -557,14 +544,14 @@ const Form = props => {
   };
   const foobar = e => {
     /*
-		let bar = props.form.products
-		bar.map((product, index) => {
-			bar[index]['_id'] = bar[index]['productId']
-			bar[index]['name'] = foo[bar[index]['productId']]['name']
-			bar[index]['image'] = []
-			bar[index]['image'][0] = foo[bar[index]['productId']]['image'][0]
-			bar[index]['bar_code'] = foo[bar[index]['productId']]['bar_code']
-		})*/
+    let bar = props.form.products
+    bar.map((product, index) => {
+      bar[index]['_id'] = bar[index]['productId']
+      bar[index]['name'] = foo[bar[index]['productId']]['name']
+      bar[index]['image'] = []
+      bar[index]['image'][0] = foo[bar[index]['productId']]['image'][0]
+      bar[index]['bar_code'] = foo[bar[index]['productId']]['bar_code']
+    })*/
     let foo = {};
     whcontext.allProducts.map(product => {
       foo[product._id] = product;

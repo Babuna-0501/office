@@ -142,21 +142,21 @@ const MassImport = props => {
         exclude: [],
         attributes: isEmhangan
           ? [
-              {
-                boditSavlalt: product.boditSavlalt,
-                zardagSavlalt: product.zardagSavlalt,
-                subCategory: product.subCategory ?? null,
-                storageLocation: product.storageLocation ?? null,
-                storageTemp: product.storageTemp ?? null,
-                endDate: product.endDate ?? null,
-                wholePrice: product.wholePrice,
-                storageCondition: product.storageCondition,
-                unitPrice: product.unitPrice,
-                seriesNumber: product.seriesNumber,
-                form: product.form,
-                condition: product.condition ?? null
-              }
-            ]
+            {
+              boditSavlalt: product.boditSavlalt,
+              zardagSavlalt: product.zardagSavlalt,
+              subCategory: product.subCategory ?? null,
+              storageLocation: product.storageLocation ?? null,
+              storageTemp: product.storageTemp ?? null,
+              endDate: product.endDate ?? null,
+              wholePrice: product.wholePrice,
+              storageCondition: product.storageCondition,
+              unitPrice: product.unitPrice,
+              seriesNumber: product.seriesNumber,
+              form: product.form,
+              condition: product.condition ?? null
+            }
+          ]
           : [],
         locations: {
           '62f4aabe45a4e22552a3969f': {
@@ -351,16 +351,16 @@ const MassImport = props => {
                           style={{
                             color:
                               field === 'barcode' &&
-                              supProducts?.find(
-                                e => e.bar_code === row?.barcode
-                              )
+                                supProducts?.find(
+                                  e => e.bar_code === row?.barcode
+                                )
                                 ? 'red'
                                 : 'black',
                             fontWeight:
                               field === 'barcode' &&
-                              supProducts?.find(
-                                e => e.bar_code === row?.barcode
-                              )
+                                supProducts?.find(
+                                  e => e.bar_code === row?.barcode
+                                )
                                 ? '700'
                                 : 'normal'
                           }}
@@ -369,9 +369,9 @@ const MassImport = props => {
                             ? 1
                             : row?.[field]}
                           {field === 'stock' ||
-                          field === 'price' ||
-                          field === 'wholePrice' ||
-                          field === 'unitPrice'
+                            field === 'price' ||
+                            field === 'wholePrice' ||
+                            field === 'unitPrice'
                             ? row?.[field]?.toLocaleString()
                             : row?.[field]}
                         </div>

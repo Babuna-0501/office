@@ -102,7 +102,7 @@ const List = props => {
 
   const getCategory = index => {
     const getIndex = parseInt(index);
-    return angilal[getIndex] ||  '';
+    return angilal[getIndex] || '';
   }
 
   filteredData.map(product => {
@@ -223,7 +223,7 @@ const List = props => {
         <div className='entryBlock' style={{ width: widths[9] }}>
           <p>{product.description}</p>
         </div>
-        <div className='entryBlock' style={{ width: "110px"}}>
+        <div className='entryBlock' style={{ width: "110px" }}>
           <p>{product.stock}</p>
         </div>
         <div className='entryBlock' style={{ width: '110px' }}>
@@ -315,7 +315,7 @@ const List = props => {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+      (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }

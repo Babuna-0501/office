@@ -238,8 +238,8 @@ const FormInputs = props => {
       image:
         images.length == 0
           ? [
-              `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
-            ]
+            `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
+          ]
           : images,
       sku: sku,
       supplier_id: Number(supplier),
@@ -261,23 +261,23 @@ const FormInputs = props => {
       exclude: [],
       attributes: isEmhangan
         ? [
-            {
-              boditSavlalt,
-              storageCondition,
-              zardagSavlalt,
-              form: emHangan.form,
-              subCategory: emHangan.subCategory,
-              storageLocation: emHangan.storageLocation,
-              storageTemp: emHangan.storageTemp,
-              seriesNumber: emHangan.seriesNumber,
-              endDate: emHangan.endDate,
-              unitPrice: emHangan.unitPrice,
-              wholePrice: emHangan.price,
-              condition: emHangan.condition
-            }
-          ]
+          {
+            boditSavlalt,
+            storageCondition,
+            zardagSavlalt,
+            form: emHangan.form,
+            subCategory: emHangan.subCategory,
+            storageLocation: emHangan.storageLocation,
+            storageTemp: emHangan.storageTemp,
+            seriesNumber: emHangan.seriesNumber,
+            endDate: emHangan.endDate,
+            unitPrice: emHangan.unitPrice,
+            wholePrice: emHangan.price,
+            condition: emHangan.condition
+          }
+        ]
         : // ? [{ boditSavlalt, storageCondition,  isEmdCoupon, form: emHangan.form, subCategory: emHangan.subCategory,  }]
-          [],
+        [],
       locations: {
         '62f4aabe45a4e22552a3969f': {
           in_case: {
@@ -352,12 +352,12 @@ const FormInputs = props => {
       .insertAdjacentHTML(
         'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
-          id +
-          '" name=' +
-          id +
-          '><input type="file" id="uploader' +
-          id +
-          '" multiple /></form>'
+        id +
+        '" name=' +
+        id +
+        '><input type="file" id="uploader' +
+        id +
+        '" multiple /></form>'
       );
     document.getElementById('uploader' + id).click();
     document
@@ -374,7 +374,7 @@ const FormInputs = props => {
     }
     fetch(
       `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
-        localStorage.getItem('ebazaar_admin_token'),
+      localStorage.getItem('ebazaar_admin_token'),
       { method: 'POST', body: formData }
     )
       .then(r => r.json())

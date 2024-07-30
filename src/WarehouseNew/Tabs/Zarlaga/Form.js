@@ -36,7 +36,7 @@ const Form = props => {
 
   useEffect(() => {
     fetchData();
-  }, [props.wh]); 
+  }, [props.wh]);
 
 
 
@@ -101,7 +101,7 @@ const Form = props => {
           document.getElementById('payingAmount' + uid).value =
             cost * quantity -
             ((parseFloat(cost) * parseFloat(quantity)) / 100) *
-              parseFloat(discountAmount);
+            parseFloat(discountAmount);
         } else if (parseFloat(e.target.value) > 100) {
           e.target.style.borderColor = 'red';
         }
@@ -138,8 +138,7 @@ const Form = props => {
         .getElementById('outboundTypes')
         .insertAdjacentHTML(
           'beforeEnd',
-          `<option ${
-            props.form.variety === outboundType ? ' selected' : ''
+          `<option ${props.form.variety === outboundType ? ' selected' : ''
           } value=${outboundType}>${outboundTypes[outboundType]}</option>`
         );
     }
@@ -156,11 +155,10 @@ const Form = props => {
         `
 				<div>
 					<div>
-						<h2>${
-              type === 'warehouse'
-                ? 'Зарлага гаргах агуулах:'
-                : 'Зарлага гаргах харилцагч:'
-            }</h2>
+						<h2>${type === 'warehouse'
+          ? 'Зарлага гаргах агуулах:'
+          : 'Зарлага гаргах харилцагч:'
+        }</h2>
 					</div>
 					<div>
 						<select id="fromSelect" class="custom-select" value="${props.form.from}">
@@ -185,20 +183,18 @@ const Form = props => {
     let optionsFrom = '';
     if (props.form[1] === 'customer' || fromSource === 'purchase') {
       customers.map(customer => {
-        optionsFrom += `<option value="${customer.tradeshop_id}" ${
-          parseInt(customer.tradeshop_id) === parseInt(props.form.from)
+        optionsFrom += `<option value="${customer.tradeshop_id}" ${parseInt(customer.tradeshop_id) === parseInt(props.form.from)
             ? ' selected'
             : ''
-        }>${customer.customer_name}</option>`;
+          }>${customer.customer_name}</option>`;
       });
     } else if (props.form[1] === 'warehouse' || fromSource === 'warehouse') {
       context.warehouseList.map(warehouse => {
         optionsFrom +=
           context.activeWarehouse._id &&
-          context.activeWarehouse._id !== warehouse._id
-            ? `<option ${
-                warehouse._id === props.form.from ? ' selected' : ''
-              } value=${warehouse._id}>${warehouse.name}</option>`
+            context.activeWarehouse._id !== warehouse._id
+            ? `<option ${warehouse._id === props.form.from ? ' selected' : ''
+            } value=${warehouse._id}>${warehouse.name}</option>`
             : '';
       });
     }
@@ -261,11 +257,10 @@ const Form = props => {
     console.log(JSON.stringify(productIDs));
     selectedProducts.map(selectedProduct => {
       console.log(selectedProduct);
-      let url = `${
-        process.env.REACT_APP_API_URL2
-      }/api/warehouse_series/get?productIds=${JSON.stringify(
-        productIDs
-      )}&warehouseId=${context.activeWarehouse._id}`;
+      let url = `${process.env.REACT_APP_API_URL2
+        }/api/warehouse_series/get?productIds=${JSON.stringify(
+          productIDs
+        )}&warehouseId=${context.activeWarehouse._id}`;
       fetch(url, requestOptions)
         .then(r => r.json())
         .then(response => {
@@ -286,11 +281,10 @@ const Form = props => {
     const productIDs = selectedProducts.map(
       selectedProduct => selectedProduct._id
     );
-    let url = `${
-      process.env.REACT_APP_API_URL2
-    }/api/warehouse_series/get?productIds=${JSON.stringify(
-      productIDs
-    )}&warehouseId=${context.activeWarehouse._id}`;
+    let url = `${process.env.REACT_APP_API_URL2
+      }/api/warehouse_series/get?productIds=${JSON.stringify(
+        productIDs
+      )}&warehouseId=${context.activeWarehouse._id}`;
     let productSeriesData = await fetch(url, requestOptions)
       .then(r => r.json())
       .then(response => {
@@ -311,11 +305,9 @@ const Form = props => {
       console.log(availableSeries);
       let seriesHTML = '';
       availableSeries.map(seriesInfo => {
-        seriesHTML += `<option value="${seriesInfo.seriesNumber}" ${
-          product.seriesNumber === seriesInfo.seriesNumber ? ' selected' : ''
-        }>${
-          seriesInfo.seriesQuantity + ' - ' + seriesInfo.seriesNumber
-        }</option>`;
+        seriesHTML += `<option value="${seriesInfo.seriesNumber}" ${product.seriesNumber === seriesInfo.seriesNumber ? ' selected' : ''
+          }>${seriesInfo.seriesQuantity + ' - ' + seriesInfo.seriesNumber
+          }</option>`;
       });
       console.log(seriesHTML);
       const category = product.category ? product.category : '';
@@ -323,9 +315,8 @@ const Form = props => {
       const uid =
         Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
       const productHTML = `
-				<div class="box_container box_warehouse_nugan productEntry" id="${uid}" data-id="${
-        product._id
-      }">
+				<div class="box_container box_warehouse_nugan productEntry" id="${uid}" data-id="${product._id
+        }">
 					<div class="box_header width50px" >
 						<span>
 							<img src="https://admin.ebazaar.mn/images/remove.svg" alt="" class="width30px removeProduct" data-action="removeSelectedProduct" data-id="${uid}" />
@@ -335,11 +326,10 @@ const Form = props => {
 						<p>${product._id}</p>
 					</div>
 					<div class="box_header width120px">
-						${
-              product.image && product.image[0]
-                ? `<img src=${product.image[0]} class="width40px" />`
-                : ''
-            }
+						${product.image && product.image[0]
+          ? `<img src=${product.image[0]} class="width40px" />`
+          : ''
+        }
 					</div>
 					<div class="box_header width300px">
 						<p className="product_name">${product.name}</p>
@@ -356,47 +346,39 @@ const Form = props => {
 						<p>${product.sku ? product.sku : ''}</p>
 					</div>
 					<div class="box_header width120px">
-						<select id=${
-              'series' + uid
-            } data-id="${uid}"><option>--сонгоно уу--</option>${seriesHTML}</select>
+						<select id=${'series' + uid
+        } data-id="${uid}"><option>--сонгоно уу--</option>${seriesHTML}</select>
 					</div>
 					<div class="box_header width120px">
-						<input type="number" value="${product.quantity}" id=${
-        'quantity' + uid
-      } data-id="${uid}" data-action="changeQuantity" />
+						<input type="number" value="${product.quantity}" id=${'quantity' + uid
+        } data-id="${uid}" data-action="changeQuantity" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text"  id="${'cost' + uid}" value="${
-        product.cost
-      }" data-id="${uid}" data-action="changeCost" />
+						<input type="text"  id="${'cost' + uid}" value="${product.cost
+        }" data-id="${uid}" data-action="changeCost" />
 					</div>
 					<div class="box_header width120px">
 						<input type="text" id=${'totalCost' + uid} disabled />
 					</div>
 					<div class="box_header width120px">
-						<input type="number" id=${'discount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" data-action="setDiscount" data-id="${uid}" />
+						<input type="number" id=${'discount' + uid} value="${product.discount ? product.discount : ''
+        }" data-action="setDiscount" data-id="${uid}" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text"  id=${'discountAmount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" disabled data-id="${uid}" />
+						<input type="text"  id=${'discountAmount' + uid} value="${product.discount ? product.discount : ''
+        }" disabled data-id="${uid}" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text"  id=${'payingAmount' + uid} value="${
-        product.discount ? product.discount : ''
-      }" disabled data-id="${uid}" />
+						<input type="text"  id=${'payingAmount' + uid} value="${product.discount ? product.discount : ''
+        }" disabled data-id="${uid}" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text" value="${
-              product.sellPrice ? product.sellPrice.retail : ''
-            }" id="${'sellprice' + uid}" />
+						<input type="text" value="${product.sellPrice ? product.sellPrice.retail : ''
+        }" id="${'sellprice' + uid}" />
 					</div>
 					<div class="box_header width120px">
-						<input type="text"  value="${
-              product.seriesNumber ? product.seriesNumber : ''
-            }" id="${'series' + uid}" />
+						<input type="text"  value="${product.seriesNumber ? product.seriesNumber : ''
+        }" id="${'series' + uid}" />
 					</div>
 					<div class="box_header width120px">
 						<button class="pageButton small addSeries" data-action="addSeries" data-id="${uid}">+ Сери</button>
@@ -487,28 +469,28 @@ const Form = props => {
       sendData['to'] = document.getElementById('fromSelect').value;
     }
     /*
-			let sendData = {
-			"supplierId": activeWarehouseID,
-		    "documentId": "Кассын борлуулалт",
-		    "type": 2,
-		    "variety": 1,
-		    "note": "Кассын борлуулалт",
-		    "from": props.warehouse,
-		    "products": foo
-		}
-		*/
+      let sendData = {
+      "supplierId": activeWarehouseID,
+        "documentId": "Кассын борлуулалт",
+        "type": 2,
+        "variety": 1,
+        "note": "Кассын борлуулалт",
+        "from": props.warehouse,
+        "products": foo
+    }
+    */
     console.log(sendData);
     /*
-		let sendData = {
-			"supplierId": activeWarehouseID,
-		    "documentId": "Кассын борлуулалт",
-		    "type": 2,
-		    "variety": 1,
-		    "note": "Кассын борлуулалт",
-		    "from": props.warehouse,
-		    "products": foo
-		}
-		*/
+    let sendData = {
+      "supplierId": activeWarehouseID,
+        "documentId": "Кассын борлуулалт",
+        "type": 2,
+        "variety": 1,
+        "note": "Кассын борлуулалт",
+        "from": props.warehouse,
+        "products": foo
+    }
+    */
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -589,24 +571,24 @@ const Form = props => {
     } else {
     }
     /*if(props.form.status === 1 && mode !== 'edit') {
-			renderButtons = (
-				<>
-					<button onClick={() => edit()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Зарлагын хүсэлт засах</button>
-				</>
-			)
-		} else if(props.form.status === 1 && mode === 'edit') {
-			renderButtons = (
-				<>
-					<button onClick={() => saveUpdate()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Засварыг хадгалах</button>
-				</>
-			)
-		} else if(props.form.status === 2) {
-			renderButtons = (
-				<>
-					<button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Зарлагын хүсэлтийг батлах</button>
-				</>
-			)
-		}*/
+      renderButtons = (
+        <>
+          <button onClick={() => edit()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Зарлагын хүсэлт засах</button>
+        </>
+      )
+    } else if(props.form.status === 1 && mode === 'edit') {
+      renderButtons = (
+        <>
+          <button onClick={() => saveUpdate()} className="pageButton" style={{margin: '0 1rem 0 0!important'}}>Засварыг хадгалах</button>
+        </>
+      )
+    } else if(props.form.status === 2) {
+      renderButtons = (
+        <>
+          <button onClick={() => confirmRequest()} disabled={saving} className="pageButton">Зарлагын хүсэлтийг батлах</button>
+        </>
+      )
+    }*/
   }
   const edit = () => {
     document

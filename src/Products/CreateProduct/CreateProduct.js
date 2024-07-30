@@ -301,12 +301,12 @@ const CreateProduct = () => {
       .insertAdjacentHTML(
         'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
-          id +
-          '" name=' +
-          id +
-          '><input type="file" id="uploader' +
-          id +
-          '" multiple /></form>'
+        id +
+        '" name=' +
+        id +
+        '><input type="file" id="uploader' +
+        id +
+        '" multiple /></form>'
       );
     document.getElementById('uploader' + id).click();
     document
@@ -322,7 +322,7 @@ const CreateProduct = () => {
     }
     fetch(
       `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
-        localStorage.getItem('ebazaar_admin_token'),
+      localStorage.getItem('ebazaar_admin_token'),
       { method: 'POST', body: formData }
     )
       .then(r => r.json())
