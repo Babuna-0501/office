@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import closeBlack from "../../../assets/close.svg";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import tamgaSrc from "../../../assets/tamgaNerstTal.jpg";
-import "./Barimt.css";
-import html2pdf from "html2pdf.js";
-import logo from "./logo.png";
-import Shipdate from "./Shipdate";
+import React, { useEffect, useState } from 'react';
+import closeBlack from '../../../assets/close.svg';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import tamgaSrc from '../../../assets/tamgaNerstTal.jpg';
+import './Barimt.css';
+import html2pdf from 'html2pdf.js';
+import logo from './logo.png';
+import Shipdate from './Shipdate';
 
-const Barimt = (props) => {
-  let totalDiscountAmount = 0
-  let totalOriginalAmount = 0
-  let totalQuantity = 0
+const Barimt = props => {
+  let totalDiscountAmount = 0;
+  let totalOriginalAmount = 0;
+  let totalQuantity = 0;
   console.log(props);
   if (props.order.supplier_id === 14233) {
     //alert('will print box')
@@ -28,70 +28,70 @@ const Barimt = (props) => {
 
   useEffect(() => {
     fetch(
-      `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${props.order.supplier_id}`,
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${props.order.supplier_id}`,
       {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       }
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setSupplier(res.data);
         console.log(suppler[0].id);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [props.order]);
   useEffect(() => {
     if (boUserId) {
       fetch(
-        `https://api2.ebazaar.mn/api/backoffice/users?id=${
-          boUserId.split(",").map(Number)[0]
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/users?id=${
+          boUserId.split(',').map(Number)[0]
         }`,
         {
-          method: "GET",
-          headers: myHeaders,
+          method: 'GET',
+          headers: myHeaders
         }
       )
-        .then((res) => res.json())
-        .then((res) => {
-          boUserId.split(",").map(Number)?.length === 2
+        .then(res => res.json())
+        .then(res => {
+          boUserId.split(',').map(Number)?.length === 2
             ? setTugeegchData({
                 name: res?.data?.[0]?.first_name,
-                phone_number: res?.data?.[0]?.phone_number,
+                phone_number: res?.data?.[0]?.phone_number
               })
             : setTugeegchData({
-                name: "",
-                phone_number: "",
+                name: '',
+                phone_number: ''
               });
 
           //  setSupplier(res.data);
         })
-        .catch((error) => {
-          alert("Алдаа гарлаа");
-          console.log("Бо дата авахад алдаа гарлаа", error);
+        .catch(error => {
+          alert('Алдаа гарлаа');
+          console.log('Бо дата авахад алдаа гарлаа', error);
         });
     }
   }, []);
 
   const handlePrint = () => {
-    const rep = document.getElementById("orderReport");
-    const print = document.getElementById("printBtn");
-    const close = document.getElementById("closeBtn");
-    print.style.display = "none";
-    close.style.display = "none";
+    const rep = document.getElementById('orderReport');
+    const print = document.getElementById('printBtn');
+    const close = document.getElementById('closeBtn');
+    print.style.display = 'none';
+    close.style.display = 'none';
     var opt = {
       margin: [10, 0, 22, 0],
       filename: `Зарлагын баримт.pdf`,
-      image: { type: "jpeg", quality: 1 },
+      image: { type: 'jpeg', quality: 1 },
       html2canvas: {
         dpi: 300,
         scale: 2,
         letterRendering: true,
-        useCORS: true,
+        useCORS: true
       },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(rep).save();
     // window.print(rep);
@@ -102,21 +102,21 @@ const Barimt = (props) => {
     boxHeader = (
       <th
         style={{
-          fontSize: "10px",
-          height: "1px",
-          textAlign: "center",
-          border: "1px solid black",
+          fontSize: '10px',
+          height: '1px',
+          textAlign: 'center',
+          border: '1px solid black'
         }}
       >
         Хайрцаг
       </th>
     );
   }
-  console.log(boxHeader)
+  console.log(boxHeader);
   let bank = {
     name: suppler?.[0]?.bank_accounts?.[0]?.accountHolder,
     bank: suppler?.[0]?.bank_accounts?.[0]?.bankName,
-    account: suppler?.[0]?.bank_accounts?.[0]?.accountNumber,
+    account: suppler?.[0]?.bank_accounts?.[0]?.accountNumber
   };
   console.log(bank);
   console.log(suppler);
@@ -126,45 +126,43 @@ const Barimt = (props) => {
       <>
         {suppler?.[0]?.bank_accounts.length > 0 && (
           <div>
-            <p style={{fontWeight: 'bold', margin: '0 !important'}}>Данс:</p>
+            <p style={{ fontWeight: 'bold', margin: '0 !important' }}>Данс:</p>
             <p>
-
-                <span>
-                  {suppler?.[0]?.bank_accounts &&
-                    suppler?.[0]?.bank_accounts.map((bankAccount) => {
-                      return (
-                        bankAccount.bankName +
-                        ": " +
-                        bankAccount.accountNumber +
-                        
-                        (props.order.supplier_id !== 14246 ? ' /' + bankAccount.accountHolder + '/ ': '') +
-                        
-                        " , "
-                      );
-                    })}
-                </span>
-
+              <span>
+                {suppler?.[0]?.bank_accounts &&
+                  suppler?.[0]?.bank_accounts.map(bankAccount => {
+                    return (
+                      bankAccount.bankName +
+                      ': ' +
+                      bankAccount.accountNumber +
+                      (props.order.supplier_id !== 14246
+                        ? ' /' + bankAccount.accountHolder + '/ '
+                        : '') +
+                      ' , '
+                    );
+                  })}
+              </span>
             </p>
           </div>
         )}
         <div
           style={{
-            display: "none",
+            display: 'none'
           }}
         >
           <p>Нэр:</p>
           <p
             style={{
-              display: "flex",
-              flexDirection: "column",
-              maxWidth: "100px",
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '100px'
             }}
           >
-            <span style={{ marginLeft: "0.125rem" }}>
-              <span style={{ marginLeft: "0.125rem" }}>
+            <span style={{ marginLeft: '0.125rem' }}>
+              <span style={{ marginLeft: '0.125rem' }}>
                 {suppler?.[0]?.bank_accounts
-                  ?.map((account) => account.accountHolder)
-                  .join(", ")}
+                  ?.map(account => account.accountHolder)
+                  .join(', ')}
               </span>
             </span>
           </p>
@@ -172,14 +170,19 @@ const Barimt = (props) => {
       </>
     );
   } else {
-    if (myData && myData.orderXT && myData.orderXT.bankAccounts && myData.orderXT.bankAccounts.length > 0) {
+    if (
+      myData &&
+      myData.orderXT &&
+      myData.orderXT.bankAccounts &&
+      myData.orderXT.bankAccounts.length > 0
+    ) {
       bankInfo = (
         <>
           <p>
             Данс:
             <span>
               {myData.orderXT.bankAccounts[0].bankName +
-                " - " +
+                ' - ' +
                 myData.orderXT.bankAccounts[0].account}
             </span>
           </p>
@@ -190,33 +193,31 @@ const Barimt = (props) => {
         </>
       );
     } else {
-      bankInfo = (
-        <p>Банкны данс мэдээлэл байхгүй</p>
-      );
+      bankInfo = <p>Банкны данс мэдээлэл байхгүй</p>;
     }
   }
-  
-  let totalBoxes = 0
-  console.log(props.order.supplier_id)
+
+  let totalBoxes = 0;
+  console.log(props.order.supplier_id);
   return (
-    <div className="container" id="orderReport">
-      <div className="closeBtn">
+    <div className='container' id='orderReport'>
+      <div className='closeBtn'>
         <img
           src={closeBlack}
-          id="closeBtn"
-          alt="closeBtn"
+          id='closeBtn'
+          alt='closeBtn'
           onClick={() => {
             props.setReportShow(false);
           }}
           width={40}
           height={40}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         />
       </div>
 
-      <div className="header">
+      <div className='header'>
         {props.order?.supplier_id === 14191 && (
-          <div className="headTop">
+          <div className='headTop'>
             <p>НХМаягт БМ-З Зарлагын баримт</p>
             <p>
               Сангийн сайдын 2017 оны 12 дугаар сарын 5 өдрийн 347 тоот тушаалын
@@ -224,86 +225,132 @@ const Barimt = (props) => {
             </p>
           </div>
         )}
-        <div style={{height: '90px', position: 'relative'}}>
-          <div style={{position: 'absolute', top: '0px', left: '0px', width: '80px'}}>
+        <div style={{ height: '90px', position: 'relative' }}>
+          <div
+            style={{
+              position: 'absolute',
+              top: '0px',
+              left: '0px',
+              width: '80px'
+            }}
+          >
             <img
               src={logo}
-              alt="logo"
-              className="logoImg"
+              alt='logo'
+              className='logoImg'
               width={60}
               height={60}
             />
           </div>
-          <div style={{position: 'absolute', top: '0px', left: '80px', right: '0px'}} class="containerSlippery">
-            <div style={{position: 'absolute', top: '0px', left: '0px', width: '40%'}}>
-                          <h1 className="compName" style={{ margin: "0", fontSize: '.0.688rem' }}>
-              {suppler && suppler[0]?.name}
-            </h1>
-            <p style={{fontSize: '.688rem', margin: '0', padding: '0'}}>{suppler && suppler[0]?.address}</p>
-                          <p style={{fontSize: '.0.688rem', margin: '0', padding: '0'}}>
-                Утас: <span style={{fontSize: '.0.688rem', margin: '0', padding: '0'}}>{suppler && suppler[0]?.phone}</span>
+          <div
+            style={{
+              position: 'absolute',
+              top: '0px',
+              left: '80px',
+              right: '0px'
+            }}
+            class='containerSlippery'
+          >
+            <div
+              style={{
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                width: '40%'
+              }}
+            >
+              <h1
+                className='compName'
+                style={{ margin: '0', fontSize: '.0.688rem' }}
+              >
+                {suppler && suppler[0]?.name}
+              </h1>
+              <p style={{ fontSize: '.688rem', margin: '0', padding: '0' }}>
+                {suppler && suppler[0]?.address}
               </p>
-              <p style={{fontSize: '.0.688rem', margin: '0', padding: '0'}}>
-                И-мэйл: <span style={{fontSize: '.0.688rem', margin: '0', padding: '0'}}>{suppler && suppler[0]?.email}</span>
+              <p style={{ fontSize: '.0.688rem', margin: '0', padding: '0' }}>
+                Утас:{' '}
+                <span
+                  style={{ fontSize: '.0.688rem', margin: '0', padding: '0' }}
+                >
+                  {suppler && suppler[0]?.phone}
+                </span>
+              </p>
+              <p style={{ fontSize: '.0.688rem', margin: '0', padding: '0' }}>
+                И-мэйл:{' '}
+                <span
+                  style={{ fontSize: '.0.688rem', margin: '0', padding: '0' }}
+                >
+                  {suppler && suppler[0]?.email}
+                </span>
               </p>
             </div>
-            <div style={{position: 'absolute', top: '0px', width: '60%', right: '0px'}}>
+            <div
+              style={{
+                position: 'absolute',
+                top: '0px',
+                width: '60%',
+                right: '0px'
+              }}
+            >
               {bankInfo}
-              <p style={{textAlign: 'right', fontWeight: 'bold'}}>Данс / Бэлэн</p>
+              <p style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                Данс / Бэлэн
+              </p>
             </div>
           </div>
         </div>
-        <div className="headReport">
-          <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
+        <div className='headReport'>
+          <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
             Зарлагын баримт
           </p>
-          <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
-            <span style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
+          <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
+            <span style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
               Захиалагч: {props.order.tradeshop_name}
             </span>
           </p>
         </div>
-        <div className="headInformation">
-          <div className="infoLeft">
-            <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
-              Хүргэлтийн хаяг:{" "}
-              <span style={{ fontSize: "10px" }}>{props.order.address}</span>
+        <div className='headInformation'>
+          <div className='infoLeft'>
+            <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
+              Хүргэлтийн хаяг:{' '}
+              <span style={{ fontSize: '10px' }}>{props.order.address}</span>
             </p>
-            <div className="regPhone">
+            <div className='regPhone'>
               <p
                 style={{
-                  marginRight: "10px",
-                  fontWeight: "bold",
-                  fontSize: "10px",
+                  marginRight: '10px',
+                  fontWeight: 'bold',
+                  fontSize: '10px'
                 }}
               >
-                Регистер:{" "}
-                <span style={{ fontSize: "10px" }}>
+                Регистер:{' '}
+                <span style={{ fontSize: '10px' }}>
                   {props.order && props.order.register}
                 </span>
               </p>
-              <p style={{ fontWeight: "bold", fontSize: "10px" }}>
-                Утас:{" "}
-                <span style={{ fontSize: "10px" }}>
+              <p style={{ fontWeight: 'bold', fontSize: '10px' }}>
+                Утас:{' '}
+                <span style={{ fontSize: '10px' }}>
                   {props.order && props.order.phone}
                 </span>
               </p>
             </div>
           </div>
-          <div className="infoRight">
-            <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
-              ХТ Нэр:{" "}
+          <div className='infoRight'>
+            <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
+              ХТ Нэр:{' '}
               {props?.orderXT?.first_name && (
-                <span style={{ fontSize: "10px" }}>
+                <span style={{ fontSize: '10px' }}>
                   {props?.orderXT?.first_name}
                 </span>
               )}
             </p>
 
-            <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
-              ХТ утас:{" "}
+            <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
+              ХТ утас:{' '}
               {props?.orderXT?.phone_number && (
-                <span style={{ fontSize: "10px" }}>
+                <span style={{ fontSize: '10px' }}>
                   {props?.orderXT?.phone_number}
                 </span>
               )}
@@ -312,54 +359,58 @@ const Barimt = (props) => {
         </div>
       </div>
       <Shipdate data={props.order} />
-      <div className="List">
+      <div className='List'>
         <table style={{}}>
           <thead>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
               }}
             >
               №
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                border: '1px solid black'
               }}
             >
               Баркод:
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                border: '1px solid black'
               }}
             >
               Бүтээгдэхүүний нэр
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
               }}
             >
               Тоо ширхэг
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
-                display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black',
+                display:
+                  props.order?.supplier_id === 14246 ||
+                  props.order?.supplier_id === 14233
+                    ? null
+                    : 'none'
               }}
             >
               {props.order?.supplier_id === 14246 ? 'Хэмжих нэгж' : 'Хайрцаг'}
@@ -367,20 +418,20 @@ const Barimt = (props) => {
 
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
               }}
             >
               Үнэ
             </th>
-                        <th
+            <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
                 // margin: "15px",
               }}
             >
@@ -388,20 +439,20 @@ const Barimt = (props) => {
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
               }}
             >
               % хөнгөлөлт
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
                 // margin: "15px",
               }}
             >
@@ -409,48 +460,61 @@ const Barimt = (props) => {
             </th>
             <th
               style={{
-                fontSize: "10px",
-                height: "1px",
-                textAlign: "center",
-                border: "1px solid black",
+                fontSize: '10px',
+                height: '1px',
+                textAlign: 'center',
+                border: '1px solid black'
                 // margin: "15px",
               }}
             >
               төлөх дүн
             </th>
-
           </thead>
-          <tbody style={{ lineHeight: "12px" }}>
+          <tbody style={{ lineHeight: '12px' }}>
             {myData.order.line.map((item, ind) => {
-              const discount = item.base_price !== item.price ? ((item.base_price - item.price) / item.base_price) * 100 + '%' : ''
-              const discountAmount = item.base_price !== item.price ? (item.base_price * item.quantity) - (item.price * item.quantity)  : 0
-              totalOriginalAmount += (item.base_price * item.quantity)
-              if(item.base_price !== item.price) {
-                totalDiscountAmount += discountAmount
+              const discount =
+                item.base_price !== item.price
+                  ? ((item.base_price - item.price) / item.base_price) * 100 +
+                    '%'
+                  : '';
+              const discountAmount =
+                item.base_price !== item.price
+                  ? item.base_price * item.quantity - item.price * item.quantity
+                  : 0;
+              totalOriginalAmount += item.base_price * item.quantity;
+              if (item.base_price !== item.price) {
+                totalDiscountAmount += discountAmount;
               }
-              let foo = item.isBox ? 'хайрцаг ' + item.quantity / item.product_in_case : 'шт'
-              if(props.order.supplier_id === 14233) {
-                let foobarblah = item.quantity / item.product_in_case
+              let foo = item.isBox
+                ? 'хайрцаг ' + item.quantity / item.product_in_case
+                : 'шт';
+              if (props.order.supplier_id === 14233) {
+                let foobarblah = item.quantity / item.product_in_case;
 
-                foo = (Number.isInteger(foobarblah) ? foobarblah : foobarblah.toFixed(2)) + ' хайрцаг'
+                foo =
+                  (Number.isInteger(foobarblah)
+                    ? foobarblah
+                    : foobarblah.toFixed(2)) + ' хайрцаг';
               }
-              console.log()
+              console.log();
               const totalPrice = item.quantity * item.price;
-              totalQuantity += item.quantity
+              totalQuantity += item.quantity;
               let boxInfo = null;
-              
-              if (props.order.supplier_id === 14233 || props.order.supplier_id === 14246) {
-                const boxNum = item.quantity / item.product_in_case
-                console.log(boxNum)
-                totalBoxes += boxNum
-                boxInfo = (
 
+              if (
+                props.order.supplier_id === 14233 ||
+                props.order.supplier_id === 14246
+              ) {
+                const boxNum = item.quantity / item.product_in_case;
+                console.log(boxNum);
+                totalBoxes += boxNum;
+                boxInfo = (
                   <td
                     style={{
-                      width: "10%",
-                      fontSize: "10px",
-                      textAlign: "center",
-                      border: "1px solid black",
+                      width: '10%',
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      border: '1px solid black'
                     }}
                   >
                     {boxNum.toFixed(2) * 1}
@@ -461,107 +525,111 @@ const Barimt = (props) => {
                 <tr>
                   <td
                     style={{
-                      width: "1%",
-                      fontSize: "10px",
+                      width: '1%',
+                      fontSize: '10px',
                       // height: "6px",
-                      textAlign: "center",
-                      border: "1px solid black",
+                      textAlign: 'center',
+                      border: '1px solid black'
                     }}
                   >
                     {ind + 1}
                   </td>
                   <td
                     style={{
-                      width: "15%",
-                      fontSize: "10px",
-                      border: "1px solid black",
+                      width: '15%',
+                      fontSize: '10px',
+                      border: '1px solid black'
                     }}
                   >
                     {item.product_bar_code}
                   </td>
                   <td
                     style={{
-                      width: "59%",
-                      fontSize: "10px",
-                      border: "1px solid black",
+                      width: '59%',
+                      fontSize: '10px',
+                      border: '1px solid black',
                       padding: '0 .25rem'
                     }}
                   >
-                    <div className="container_tworowtext">
-                      <p className="tworowtext">{item.product_name}</p>
-                      </div>
+                    <div className='container_tworowtext'>
+                      <p className='tworowtext'>{item.product_name}</p>
+                    </div>
                   </td>
                   <td
                     style={{
-                      width: "5%",
-                      fontSize: "10px",
-                      textAlign: "center",
-                      border: "1px solid black",
+                      width: '5%',
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      border: '1px solid black'
                     }}
                   >
                     {item.quantity}
                   </td>
                   <td
                     style={{
-                      width: "5%",
-                      fontSize: "10px",
-                      textAlign: "center",
-                      border: "1px solid black",
-                      display: props.order?.supplier_id === 14246 || props.order?.supplier_id === 14233 ? null : 'none'
+                      width: '5%',
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      border: '1px solid black',
+                      display:
+                        props.order?.supplier_id === 14246 ||
+                        props.order?.supplier_id === 14233
+                          ? null
+                          : 'none'
                     }}
                   >
                     {foo}
                   </td>
 
-
-
                   <td
                     style={{
-                      width: "10%",
-                      fontSize: "10px",
-                      textAlign: "center",
-                      border: "1px solid black",
+                      width: '10%',
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      border: '1px solid black'
                     }}
                   >
-                    {item.base_price.toLocaleString() + "₮"}
+                    {item.base_price.toLocaleString() + '₮'}
                   </td>
-                                    <td
+                  <td
                     style={{
-                      width: "10%",
-                      fontSize: "10px",
-                      textAlign: "right",
-                      border: "1px solid black"
+                      width: '10%',
+                      fontSize: '10px',
+                      textAlign: 'right',
+                      border: '1px solid black'
                     }}
                   >
-                    {(item.base_price * item.quantity).toLocaleString() + "₮"}
+                    {(item.base_price * item.quantity).toLocaleString() + '₮'}
                   </td>
-                                                      <td
+                  <td
                     style={{
-                      width: "5%",
-                      fontSize: "10px",
-                      textAlign: "center",
-                      border: "1px solid black",
+                      width: '5%',
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      border: '1px solid black'
                     }}
                   >
                     {discount}
                   </td>
-                   <td
+                  <td
                     style={{
-                      width: "10%",
-                      fontSize: "10px",
-                      textAlign: "right",
-                      border: "1px solid black",
+                      width: '10%',
+                      fontSize: '10px',
+                      textAlign: 'right',
+                      border: '1px solid black'
                     }}
                   >
-                    {discountAmount > 0 ? discountAmount.toLocaleString() + '₮' : null}
+                    {discountAmount > 0
+                      ? discountAmount.toLocaleString() + '₮'
+                      : null}
                   </td>
                   <td
                     style={{
-                      width: "10%",
-                      fontSize: "10px",
-                      textAlign: "right",
-                      border: "1px solid black",
-                      fontWeight: "bold",
+                      width: '10%',
+                      fontSize: '10px',
+                      textAlign: 'right',
+                      border: '1px solid black',
+                      fontWeight: 'bold'
                     }}
                   >
                     {(item.price * item.quantity).toLocaleString()}₮
@@ -570,85 +638,191 @@ const Barimt = (props) => {
               );
             })}
           </tbody>
-          <tr style={{ lineHeight: "12px" }}>
+          <tr style={{ lineHeight: '12px' }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black" }}
-              colspan={props.order.supplier_id === 14233 || props.order.supplier_id === 14246 ? 3 : 3}
+              style={{ fontWeight: 'bold', border: '1px solid black' }}
+              colspan={
+                props.order.supplier_id === 14233 ||
+                props.order.supplier_id === 14246
+                  ? 3
+                  : 3
+              }
             >
               Нийт дүн
             </td>
 
-            <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalQuantity.toLocaleString()}</td>
-            <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold', display: props.order.supplier_id !== 14246 ? 'none' : null}}></td>
-            <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalBoxes}</td>
-             <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalOriginalAmount.toLocaleString()}₮</td>
-              <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}></td>
-              
-               <td style={{border: "1px solid black", textAlign: 'center', fontWeight: 'bold'}}>{totalDiscountAmount.toLocaleString()}₮</td>
-            <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan="2">
-             {props.total ? props.total.toLocaleString() + "₮" : "N/A"}
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              {totalQuantity.toLocaleString()}
+            </td>
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                display: props.order.supplier_id !== 14246 ? 'none' : null
+              }}
+            ></td>
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              {totalBoxes}
+            </td>
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              {totalOriginalAmount.toLocaleString()}₮
+            </td>
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            ></td>
+
+            <td
+              style={{
+                border: '1px solid black',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              {totalDiscountAmount.toLocaleString()}₮
+            </td>
+            <td
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+              colspan='2'
+            >
+              {props.total ? props.total.toLocaleString() + '₮' : 'N/A'}
             </td>
           </tr>
-          <tr style={{ lineHeight: "12px" }}>
+          <tr style={{ lineHeight: '12px' }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233? 9 : 8}
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+              colspan={
+                props.order.supplier_id === 14246 ||
+                props.order.supplier_id === 14233
+                  ? 9
+                  : 8
+              }
             >
               НӨАТгүй дүн
             </td>
-            <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }}>
-              {parseFloat((props.total - (props.total / 11)).toFixed(2)).toLocaleString()}₮
+            <td
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+            >
+              {parseFloat(
+                (props.total - props.total / 11).toFixed(2)
+              ).toLocaleString()}
+              ₮
             </td>
           </tr>
-          <tr style={{ lineHeight: "12px" }}>
+          <tr style={{ lineHeight: '12px' }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+              colspan={
+                props.order.supplier_id === 14246 ||
+                props.order.supplier_id === 14233
+                  ? 9
+                  : 8
+              }
             >
               НӨАТ
             </td>
-            <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }}>
+            <td
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+            >
               {parseFloat((props.total / 11).toFixed(2)).toLocaleString()}₮
             </td>
           </tr>
-          <tr style={{ lineHeight: "12px" }}>
+          <tr style={{ lineHeight: '12px' }}>
             <td
-              style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }} colspan={props.order.supplier_id === 14246 || props.order.supplier_id === 14233 ?  9 : 8}
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+              colspan={
+                props.order.supplier_id === 14246 ||
+                props.order.supplier_id === 14233
+                  ? 9
+                  : 8
+              }
             >
               Нийт дүн
             </td>
-            <td style={{ fontWeight: "bold", border: "1px solid black", textAlign: 'right' }}>
-               {props.total ? props.total.toLocaleString() + "₮" : "N/A"}
+            <td
+              style={{
+                fontWeight: 'bold',
+                border: '1px solid black',
+                textAlign: 'right'
+              }}
+            >
+              {props.total ? props.total.toLocaleString() + '₮' : 'N/A'}
             </td>
           </tr>
-
-
         </table>
       </div>
       <div
-        className="footer"
-        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
+        className='footer'
+        style={{ paddingTop: '1rem', paddingBottom: '1rem' }}
       >
-        <div className="signature">
-          <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
+        <div className='signature'>
+          <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
             Хүлээн авсан:
             ................................................................
           </p>
           <div
-            className="confirmOrder"
-            style={{ paddingTop: "0.25rem", paddingBottom: "0.25rem" }}
+            className='confirmOrder'
+            style={{ paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
           >
-            <p style={{ fontWeight: "bold", fontSize: "10px", margin: "0" }}>
+            <p style={{ fontWeight: 'bold', fontSize: '10px', margin: '0' }}>
               Хүлээлгэн өгсөн:
               ................................................................
             </p>
-            {tugeegchData?.name !== "" && (
+            {tugeegchData?.name !== '' && (
               <div>
-                <p style={{ fontWeight: "bold", fontSize: "10px" }}>
-                  Түгээгчийн нэр:{" "}
-                  <span style={{ fontSize: "10px" }}>{tugeegchData?.name}</span>
+                <p style={{ fontWeight: 'bold', fontSize: '10px' }}>
+                  Түгээгчийн нэр:{' '}
+                  <span style={{ fontSize: '10px' }}>{tugeegchData?.name}</span>
                 </p>
-                <p style={{ fontWeight: "bold", fontSize: "10px" }}>
-                  Түгээгчийн утас:{" "}
-                  <span style={{ fontSize: "10px" }}>
+                <p style={{ fontWeight: 'bold', fontSize: '10px' }}>
+                  Түгээгчийн утас:{' '}
+                  <span style={{ fontSize: '10px' }}>
                     {tugeegchData?.phone_number}
                   </span>
                 </p>
@@ -657,19 +831,19 @@ const Barimt = (props) => {
           </div>
         </div>
         {props.order?.supplier_id === 14191 && (
-          <div className="warning">
+          <div className='warning'>
             <div>
-              <img src={tamgaSrc} width={180} height={100} alt="tamga" />
+              <img src={tamgaSrc} width={180} height={100} alt='tamga' />
             </div>
-            <div style={{ width: "400px" }}>
+            <div style={{ width: '400px' }}>
               <p>
                 Анхааруулга: <br></br>
-                Харилцагч та барааны төлбөрийг{" "}
+                Харилцагч та барааны төлбөрийг{' '}
                 {suppler?.[0]?.bank_accounts &&
                   suppler[0].bank_accounts.map(
                     (bankAccount, index) =>
                       `${bankAccount.bankName}:${bankAccount.accountNumber}${
-                        index < suppler[0].bank_accounts.length - 1 ? " " : ""
+                        index < suppler[0].bank_accounts.length - 1 ? ' ' : ''
                       }`
                   )}
                 &nbsp; &nbsp; &nbsp; / {suppler && suppler[0]?.english_name} /
@@ -681,7 +855,7 @@ const Barimt = (props) => {
           </div>
         )}
       </div>
-      <div className="printBtn" id="printBtn" onClick={handlePrint}>
+      <div className='printBtn' id='printBtn' onClick={handlePrint}>
         Хэвлэх
       </div>
     </div>

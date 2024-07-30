@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./createproduct.module.css";
-import closeIcon from "../../assets/close.svg";
-import { Button } from "../../components/common/Button";
-import ProductHook from "../../Hooks/ProductHook";
-import BackOfficeHook from "../../Hooks/BackOfficeHook";
-import Select from "react-select";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import ChannelPrice from "./ChannelPrice";
-import checked from "../../assets/Tick Square on 2.svg";
-import check from "../../assets/Tick Square.svg";
-import { GlobalContext } from "../../Hooks/GlobalContext";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './createproduct.module.css';
+import closeIcon from '../../assets/close.svg';
+import { Button } from '../../components/common/Button';
+import ProductHook from '../../Hooks/ProductHook';
+import BackOfficeHook from '../../Hooks/BackOfficeHook';
+import Select from 'react-select';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import ChannelPrice from './ChannelPrice';
+import checked from '../../assets/Tick Square on 2.svg';
+import check from '../../assets/Tick Square.svg';
+import { GlobalContext } from '../../Hooks/GlobalContext';
 
 const CreateProduct = () => {
   const { loggedUser } = useContext(GlobalContext);
@@ -22,12 +22,12 @@ const CreateProduct = () => {
   const [category, setCategory] = useState(null);
   const [alcohol, setAlcohol] = useState(null);
   const [name, setName] = useState(null);
-  const [manufacturer, setManufacturer] = useState("");
-  const [country, setCountry] = useState("");
+  const [manufacturer, setManufacturer] = useState('');
+  const [country, setCountry] = useState('');
   // for nugan start
   const [boditSavlalt, setBoditSavlalt] = useState(null);
-  const [storageCondition, setStorageCondition] = useState("");
-  const [form, setForm] = useState("");
+  const [storageCondition, setStorageCondition] = useState('');
+  const [form, setForm] = useState('');
   const [isEmdCoupon, setIsEmdCoupon] = useState(false);
   // for nugan end
   const [barcode, setBarcode] = useState(null);
@@ -57,8 +57,8 @@ const CreateProduct = () => {
       setQty(null);
       setIncase(null);
       setDescription();
-      setCountry("");
-      setManufacturer("");
+      setCountry('');
+      setManufacturer('');
       setCategoryOpt([]);
       setImages([]);
       setSupplier(null);
@@ -71,13 +71,13 @@ const CreateProduct = () => {
       setBrandOpt([]);
       setProductWeight(null);
       prodctx.setCreateProd(false);
-      let aa = prodReportCtx.bustype.map((item) => {
+      let aa = prodReportCtx.bustype.map(item => {
         return {
           ...item,
           price: 0,
           chosed: true,
           priority: 0,
-          deliver_fee: 0,
+          deliver_fee: 0
         };
       });
       prodReportCtx.setBustype([...aa]);
@@ -88,47 +88,47 @@ const CreateProduct = () => {
   };
 
   useEffect(() => {
-    console.log("brand == null", !brand);
-    console.log("brand", brand);
+    console.log('brand == null', !brand);
+    console.log('brand', brand);
   }, [brand]);
 
   const ConfirmHandler = () => {
     if (isEmhangan) {
       if (!boditSavlalt) {
-        alert("Та бодит савлалт оруулна уу");
+        alert('Та бодит савлалт оруулна уу');
         return;
       }
       if (storageCondition === null) {
-        alert("Та хадгалах нөхцөл оруулна уу");
+        alert('Та хадгалах нөхцөл оруулна уу');
         return;
       }
       if (form === null) {
-        alert("Та хэлбэр оруулна уу");
+        alert('Та хэлбэр оруулна уу');
         return;
       }
       if (country === null) {
-        alert("Та Үйлдвэрлэгч улс оруулна уу");
+        alert('Та Үйлдвэрлэгч улс оруулна уу');
         return;
       }
-      if (manufacturer === "") {
-        alert("Та Нийлүүлэгч байгууллага оруулна уу");
+      if (manufacturer === '') {
+        alert('Та Нийлүүлэгч байгууллага оруулна уу');
         return;
       }
     } else {
       if (price === null) {
-        alert("Та барааны үнэ оруулна уу");
+        alert('Та барааны үнэ оруулна уу');
         return;
       }
       if (qty === null) {
-        alert("Та барааны үлдэгдэл тоо хэмжээг оруулна уу");
+        alert('Та барааны үлдэгдэл тоо хэмжээг оруулна уу');
         return;
       }
       if (citytax === null) {
-        alert("Та хотын татвар шалгана уу");
+        alert('Та хотын татвар шалгана уу');
         return;
       }
       if (alcohol === null) {
-        alert("Та алкохолын төрөлд орсон эсэхийг сонгоно уу");
+        alert('Та алкохолын төрөлд орсон эсэхийг сонгоно уу');
         return;
       }
       // if (brand === null) {
@@ -137,48 +137,48 @@ const CreateProduct = () => {
       // }
     }
     if (barcode === null) {
-      alert("Та баркодоо оруулна уу");
+      alert('Та баркодоо оруулна уу');
       return;
     }
     if (sku === null) {
-      alert("Та sku оруулна уу");
+      alert('Та sku оруулна уу');
       return;
     }
 
-    if (name === null || name.trim() === "") {
-      alert("Та барааны нэрээ оруулна уу");
+    if (name === null || name.trim() === '') {
+      alert('Та барааны нэрээ оруулна уу');
       return;
     }
 
     if (incase === null) {
-      alert("Та сагслах тоогоо оруулна уу");
+      alert('Та сагслах тоогоо оруулна уу');
       return;
     }
 
     if (supplier === null) {
-      alert("Та нийлүүлэгчээ сонгон уу");
+      alert('Та нийлүүлэгчээ сонгон уу');
       return;
     }
     if (category === null) {
-      alert("Та барааны категороо сонгоно уу");
+      alert('Та барааны категороо сонгоно уу');
       return;
     }
 
-    if (description === null || description.trim() === "") {
-      alert("Та бүтээгдэхүүний бичиглэлээ оруулна уу");
+    if (description === null || description.trim() === '') {
+      alert('Та бүтээгдэхүүний бичиглэлээ оруулна уу');
       return;
     }
 
     if (noat === null) {
-      alert("Та бүтээгдэхүүний нөат сонгон уу");
+      alert('Та бүтээгдэхүүний нөат сонгон уу');
       return;
     }
-    if (images.length === 0) {
-      alert("Та бүтээгдэхүүний зураг оруулна уу");
-      return;
-    }
+    // if (images.length === 0) {
+    //   alert("Та бүтээгдэхүүний зураг оруулна уу");
+    //   return;
+    // }
     if (productWeight === null) {
-      alert("Та бүтээгдэхүүний жингээ оруулна уу");
+      alert('Та бүтээгдэхүүний жингээ оруулна уу');
       return;
     }
 
@@ -188,7 +188,7 @@ const CreateProduct = () => {
     let channelPriority = {};
     let channelUpoint = {};
     let channelDeliveryPay = {};
-    prodReportCtx.bustype.map((item) => {
+    prodReportCtx.bustype.map(item => {
       channelPrice[item.business_type_id] = Number(
         item.price === 0 ? price : item.price
       );
@@ -218,7 +218,7 @@ const CreateProduct = () => {
       supplier_productgroup_id: 0,
       created_date: new Date(),
       updated_date: new Date(),
-      slug: "test",
+      slug: 'test',
       stock: Number(qty),
       // city_tax: product.city_tax ? product.city_tax : false,
       noat: noat === 1 ? true : false,
@@ -229,65 +229,67 @@ const CreateProduct = () => {
         ? [{ boditSavlalt, storageCondition, form, isEmdCoupon }]
         : [],
       locations: {
-        "62f4aabe45a4e22552a3969f": {
+        '62f4aabe45a4e22552a3969f': {
           in_case: {
-            channel: channelIncase,
+            channel: channelIncase
           },
           price: {
-            channel: channelPrice,
+            channel: channelPrice
           },
 
           is_active: {
-            channel: channelActive,
+            channel: channelActive
           },
           priority: {
-            channel: channelPriority,
+            channel: channelPriority
           },
           upoint: {
-            channel: channelUpoint,
+            channel: channelUpoint
           },
           deliver_fee: {
-            channel: channelDeliveryPay,
-          },
-        },
+            channel: channelDeliveryPay
+          }
+        }
       },
       thirdparty_data: {
         pickpack: {
           sync: false,
-          sku: "",
-        },
+          sku: ''
+        }
       },
-      brand: brand === "null" || brand === null ? 0 : Number(brand),
+      brand: brand === 'null' || brand === null ? 0 : Number(brand),
       category_id: Number(category),
       alcohol: Number(alcohol),
       product_measure: false,
-      product_weight: Number(productWeight),
+      product_weight: Number(productWeight)
     };
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(rawNew),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("requestOptions", requestOptions);
-    fetch("https://api2.ebazaar.mn/api/product/add1", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.acknowledged === true) {
-          alert("Амжилттай бараа бүртгэлээ");
-          CancelHandler();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+    console.log('requestOptions', requestOptions);
+    console.log(rawNew);
+    // fetch(`${process.env.REACT_APP_API_URL2}/api/product/add1`, requestOptions)
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log(result);
+    //     if (result.acknowledged === true) {
+    //       alert("Амжилттай бараа бүртгэлээ");
+    //       CancelHandler();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("error", error);
+    //   });
   };
 
   const up = () => {
@@ -295,9 +297,9 @@ const CreateProduct = () => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -306,32 +308,34 @@ const CreateProduct = () => {
           id +
           '" multiple /></form>'
       );
-    document.getElementById("uploader" + id).click();
+    document.getElementById('uploader' + id).click();
     document
-      .getElementById("uploader" + id)
-      .addEventListener("change", () => upload(id), false);
+      .getElementById('uploader' + id)
+      .addEventListener('change', () => upload(id), false);
   };
-  const upload = (form) => {
-    const uploader = document.getElementById("uploader" + form);
-    var fileField = document.getElementById("uploader" + form);
+  const upload = form => {
+    const uploader = document.getElementById('uploader' + form);
+    var fileField = document.getElementById('uploader' + form);
     let formData = new FormData();
     for (let i = 0; i < uploader.files.length; i++) {
-      formData.append(i, fileField.files[i]);
+      formData.append('files', fileField.files[i]);
     }
     fetch(
-      "https://ebazaar.mn/media/ehlo.php?preset=product&ebazaar_admin_token=" +
-        localStorage.getItem("ebazaar_admin_token"),
-      { method: "POST", body: formData }
+      `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
+        localStorage.getItem('ebazaar_admin_token'),
+      { method: 'POST', body: formData }
     )
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         let temp = [];
         if (response.status === 200) {
-          response.data.map((img) => {
-            temp.push("https://ebazaar.mn/media/original/" + img.image);
+          response.data.map(img => {
+            temp.push(
+              `${process.env.REACT_APP_MEDIA_URL}/original/` + img.image
+            );
           });
         }
-        setImages((prev) => [...temp]);
+        setImages(prev => [...temp]);
       });
   };
 
@@ -339,22 +343,22 @@ const CreateProduct = () => {
     let aa = [];
     let sitedata = [];
     let brands = [];
-    prodReportCtx.sitedata.categories.map((item) => {
+    prodReportCtx.sitedata.categories.map(item => {
       sitedata.push({
         label: item.name,
-        value: item.id,
+        value: item.id
       });
     });
-    prodReportCtx.sitedata.brands.map((item) => {
+    prodReportCtx.sitedata.brands.map(item => {
       brands.push({
         label: item.BrandName,
-        value: item.BrandID,
+        value: item.BrandID
       });
     });
-    backCtx.suppliers.map((item) => {
+    backCtx.suppliers.map(item => {
       aa.push({
         label: item.name,
-        value: item.id,
+        value: item.id
       });
     });
     setOption(aa);
@@ -364,38 +368,38 @@ const CreateProduct = () => {
   }, []);
   let optionalcohol = [
     {
-      label: "Тийм",
-      value: 1,
+      label: 'Тийм',
+      value: 1
     },
     {
-      label: "Үгүй",
-      value: 0,
-    },
+      label: 'Үгүй',
+      value: 0
+    }
   ];
-  const handleChangeSupplier = (e) => {
+  const handleChangeSupplier = e => {
     setSupplier(Number(e.target.value));
   };
 
-  const handleChangeCategory = (e) => {
+  const handleChangeCategory = e => {
     setCategory(e.target.value);
   };
-  const handleChangeAlcohol = (e) => {
+  const handleChangeAlcohol = e => {
     setAlcohol(e.target.value);
   };
 
-  const handleChangeBrand = (e) => {
+  const handleChangeBrand = e => {
     setBrand(e.target.value);
   };
-  const handleChangeCitytax = (e) => {
+  const handleChangeCitytax = e => {
     setCitytax(e.target.value);
   };
-  const handleChangeNoat = (e) => {
+  const handleChangeNoat = e => {
     setNoat(e.target.value);
   };
 
   const ConfirmPriceHandler = () => {
     setPage(1);
-    console.log("prodctx", prodReportCtx.bustype);
+    console.log('prodctx', prodReportCtx.bustype);
   };
 
   const SubmitHandler = () => {
@@ -409,44 +413,44 @@ const CreateProduct = () => {
   const [productFields, setProducctsFields] = useState([]);
 
   const [displayFields, setDisplayFields] = useState([
-    "Нийлүүлэгч нэр",
-    "Бүтээгдэхүүний үнэ",
-    "Бүтээгдэхүүний нэр",
-    "Бүтээгдэхүүний категори",
-    "Бүтээгдэхүүний дэлгэрэнгүй бичиглэл",
-    "Бүтээгдэхүүний брэнд",
-    "Бүтээгдэхүүний sku",
-    "Бүтээгдэхүүний үлдэгдэл тоо",
-    "Бүтээгдэхүүний barcode",
-    "Алкохол төрөл",
-    "Сагслах тоо хамжээ /ш/",
-    "Хотын татвар",
-    "Бүтээгдэхүүний жин",
-    "НӨАТ",
+    'Нийлүүлэгч нэр',
+    'Бүтээгдэхүүний үнэ',
+    'Бүтээгдэхүүний нэр',
+    'Бүтээгдэхүүний категори',
+    'Бүтээгдэхүүний дэлгэрэнгүй бичиглэл',
+    'Бүтээгдэхүүний брэнд',
+    'Бүтээгдэхүүний sku',
+    'Бүтээгдэхүүний үлдэгдэл тоо',
+    'Бүтээгдэхүүний barcode',
+    'Алкохол төрөл',
+    'Сагслах тоо хамжээ /ш/',
+    'Хотын татвар',
+    'Бүтээгдэхүүний жин',
+    'НӨАТ'
   ]);
 
   useEffect(() => {
-    setIsEmhangan(loggedUser?.company_id.includes("14142"));
+    setIsEmhangan(loggedUser?.company_id.includes('14142'));
   }, [loggedUser?.company_id]);
 
   useEffect(() => {
     if (isEmhangan) {
       setDisplayFields([
-        "Нийлүүлэгч нэр",
-        "Бүтээгдэхүүний нэр",
-        "Үйлдвэрлэгч улс",
-        "Нийлүүлэгч байгууллага",
-        "Бүтээгдэхүүний barcode",
-        "Сагслах тоо хамжээ /ш/",
-        "Бүтээгдэхүүний категори",
-        "Бүтээгдэхүүний дэлгэрэнгүй бичиглэл",
-        "Бүтээгдэхүүний sku",
-        "Бүтээгдэхүүний жин",
-        "Бодит савлалт",
-        "Хадгалах нөхцөл",
-        "Хэлбэр",
-        "ЭМД хөнгөлөлт",
-        "НӨАТ",
+        'Нийлүүлэгч нэр',
+        'Бүтээгдэхүүний нэр',
+        'Үйлдвэрлэгч улс',
+        'Нийлүүлэгч байгууллага',
+        'Бүтээгдэхүүний barcode',
+        'Сагслах тоо хамжээ /ш/',
+        'Бүтээгдэхүүний категори',
+        'Бүтээгдэхүүний дэлгэрэнгүй бичиглэл',
+        'Бүтээгдэхүүний sku',
+        'Бүтээгдэхүүний жин',
+        'Бодит савлалт',
+        'Хадгалах нөхцөл',
+        'Хэлбэр',
+        'ЭМД хөнгөлөлт',
+        'НӨАТ'
       ]);
     }
   }, [isEmhangan]);
@@ -454,329 +458,329 @@ const CreateProduct = () => {
   useEffect(() => {
     setProducctsFields([
       {
-        name: "Нийлүүлэгч нэр",
+        name: 'Нийлүүлэгч нэр',
         show: true,
         content: (
-          <div key="Нийлүүлэгч нэр" className={css.field}>
+          <div key='Нийлүүлэгч нэр' className={css.field}>
             <span>Нийлүүлэгч нэр</span>
             <select
               onChange={handleChangeSupplier}
-              name="suppliers"
-              id="suppliers"
+              name='suppliers'
+              id='suppliers'
             >
-              <option value="null">Нийлүүлэгч нэр</option>
-              {option.map((e) => {
+              <option value='null'>Нийлүүлэгч нэр</option>
+              {option.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний үнэ",
+        name: 'Бүтээгдэхүүний үнэ',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний үнэ" className={css.field}>
+          <div key='Бүтээгдэхүүний үнэ' className={css.field}>
             <span>Бүтээгдэхүүний үнэ</span>
             <input
-              placeholder="Бүтээгдэхүүний үнэ"
-              type="number"
+              placeholder='Бүтээгдэхүүний үнэ'
+              type='number'
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={e => setPrice(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний нэр",
+        name: 'Бүтээгдэхүүний нэр',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний нэр" className={css.field}>
+          <div key='Бүтээгдэхүүний нэр' className={css.field}>
             <span>Бүтээгдэхүүний нэр</span>
             <input
               required
               value={name}
-              type="text"
-              placeholder="Бүтээгдэхүүний нэр"
-              onChange={(e) => setName(e.target.value)}
+              type='text'
+              placeholder='Бүтээгдэхүүний нэр'
+              onChange={e => setName(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Үйлдвэрлэгч улс",
+        name: 'Үйлдвэрлэгч улс',
         show: true,
         content: (
-          <div key="Үйлдвэрлэгч улс" className={css.field}>
+          <div key='Үйлдвэрлэгч улс' className={css.field}>
             <span>Үйлдвэрлэгч улс</span>
             <input
-              placeholder="Үйлдвэрлэгч улс"
-              type="text"
-              onChange={(e) => setCountry(e.target.value)}
+              placeholder='Үйлдвэрлэгч улс'
+              type='text'
+              onChange={e => setCountry(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Нийлүүлэгч байгууллага",
+        name: 'Нийлүүлэгч байгууллага',
         show: true,
         content: (
-          <div key="Нийлүүлэгч байгууллага" className={css.field}>
+          <div key='Нийлүүлэгч байгууллага' className={css.field}>
             <span>Нийлүүлэгч байгууллага</span>
             <input
-              placeholder="Нийлүүлэгч байгууллага"
-              type="text"
-              onChange={(e) => setManufacturer(e.target.value)}
+              placeholder='Нийлүүлэгч байгууллага'
+              type='text'
+              onChange={e => setManufacturer(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний категори",
+        name: 'Бүтээгдэхүүний категори',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний категори" className={css.field}>
+          <div key='Бүтээгдэхүүний категори' className={css.field}>
             <span>Бүтээгдэхүүний категори</span>
             <select
               onChange={handleChangeCategory}
-              name="categories"
-              id="categories"
+              name='categories'
+              id='categories'
             >
-              <option value="null">Бүтээгдэхүүний категори</option>
-              {categoryOpt.map((e) => {
+              <option value='null'>Бүтээгдэхүүний категори</option>
+              {categoryOpt.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний дэлгэрэнгүй бичиглэл",
+        name: 'Бүтээгдэхүүний дэлгэрэнгүй бичиглэл',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний дэлгэрэнгүй бичиглэл" className={css.field}>
+          <div key='Бүтээгдэхүүний дэлгэрэнгүй бичиглэл' className={css.field}>
             <span>Бүтээгдэхүүний дэлгэрэнгүй бичиглэл</span>
             <input
-              placeholder="Бүтээгдэхүүний дэлгэрэнгүй"
-              type="text"
+              placeholder='Бүтээгдэхүүний дэлгэрэнгүй'
+              type='text'
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний брэнд",
+        name: 'Бүтээгдэхүүний брэнд',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний брэнд" className={css.field}>
+          <div key='Бүтээгдэхүүний брэнд' className={css.field}>
             <span>Бүтээгдэхүүний брэнд</span>
-            <select onChange={handleChangeBrand} name="brands" id="brands">
-              <option value="null">Бүтээгдэхүүний брэнд</option>
-              {brandOpt.map((e) => {
+            <select onChange={handleChangeBrand} name='brands' id='brands'>
+              <option value='null'>Бүтээгдэхүүний брэнд</option>
+              {brandOpt.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний sku",
+        name: 'Бүтээгдэхүүний sku',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний sku" className={css.field}>
+          <div key='Бүтээгдэхүүний sku' className={css.field}>
             <span>Бүтээгдэхүүний sku</span>
             <input
-              placeholder="Бүтээгдэхүүний sku"
-              type="text"
+              placeholder='Бүтээгдэхүүний sku'
+              type='text'
               value={sku}
-              onChange={(e) => setSku(e.target.value)}
+              onChange={e => setSku(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний үлдэгдэл тоо",
+        name: 'Бүтээгдэхүүний үлдэгдэл тоо',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний үлдэгдэл тоо" className={css.field}>
+          <div key='Бүтээгдэхүүний үлдэгдэл тоо' className={css.field}>
             <span>Бүтээгдэхүүний үлдэгдэл тоо</span>
             <input
-              placeholder="Бүтээгдэхүүний үлдэгдэл тоо"
-              type="number"
+              placeholder='Бүтээгдэхүүний үлдэгдэл тоо'
+              type='number'
               value={qty}
-              onChange={(e) => setQty(e.target.value)}
+              onChange={e => setQty(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний barcode",
+        name: 'Бүтээгдэхүүний barcode',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний barcode" className={css.field}>
+          <div key='Бүтээгдэхүүний barcode' className={css.field}>
             <span>Бүтээгдэхүүний barcode</span>
             <input
-              placeholder="Бүтээгдэхүүний barcode"
-              type="text"
+              placeholder='Бүтээгдэхүүний barcode'
+              type='text'
               value={barcode}
-              onChange={(e) => setBarcode(e.target.value)}
+              onChange={e => setBarcode(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Алкохол төрөл",
+        name: 'Алкохол төрөл',
         show: true,
         content: (
-          <div key="Алкохол төрөл" className={css.field}>
+          <div key='Алкохол төрөл' className={css.field}>
             <span>Алкохол төрөл</span>
             <select
               onChange={handleChangeAlcohol}
-              name="Алкохол төрөл"
-              id="brands"
+              name='Алкохол төрөл'
+              id='brands'
             >
-              <option value="null">Бүтээгдэхүүний алкохол</option>
-              {optionalcohol.map((e) => {
+              <option value='null'>Бүтээгдэхүүний алкохол</option>
+              {optionalcohol.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Сагслах тоо хамжээ /ш/",
+        name: 'Сагслах тоо хамжээ /ш/',
         show: true,
         content: (
-          <div key="Сагслах тоо хамжээ /ш/" className={css.field}>
+          <div key='Сагслах тоо хамжээ /ш/' className={css.field}>
             <span>Сагслах тоо хамжээ /ш/</span>
             <input
-              placeholder="Бүтээгдэхүүний сагслах тоо"
-              type="number"
+              placeholder='Бүтээгдэхүүний сагслах тоо'
+              type='number'
               value={incase}
-              onChange={(e) => setIncase(e.target.value)}
+              onChange={e => setIncase(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Хотын татвар",
+        name: 'Хотын татвар',
         show: true,
         content: (
-          <div key="Хотын татвар" className={css.field}>
+          <div key='Хотын татвар' className={css.field}>
             <span>Хотын татвар</span>
             <select
               onChange={handleChangeCitytax}
-              name="Хотын татвар"
-              id="brands"
+              name='Хотын татвар'
+              id='brands'
             >
-              <option value="null">Хотын татвар</option>
-              <option value="1">Тийм</option>
-              <option value="0">Үгүй</option>
+              <option value='null'>Хотын татвар</option>
+              <option value='1'>Тийм</option>
+              <option value='0'>Үгүй</option>
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Бүтээгдэхүүний жин",
+        name: 'Бүтээгдэхүүний жин',
         show: true,
         content: (
-          <div key="Бүтээгдэхүүний жин" className={css.field}>
+          <div key='Бүтээгдэхүүний жин' className={css.field}>
             <span>Бүтээгдэхүүний жин</span>
             <input
-              placeholder="Бүтээгдэхүүний жин"
-              type="number"
+              placeholder='Бүтээгдэхүүний жин'
+              type='number'
               value={productWeight}
-              onChange={(e) => setProductWeight(e.target.value)}
+              onChange={e => setProductWeight(e.target.value)}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "НӨАТ",
+        name: 'НӨАТ',
         show: true,
         content: (
-          <div key="НӨАТ" className={css.field}>
+          <div key='НӨАТ' className={css.field}>
             <span>НӨАТ</span>
-            <select onChange={handleChangeNoat} name="НӨАТ" id="brands">
-              <option value="null">НӨАТ</option>
-              <option value="1">Тийм</option>
-              <option value="0">Үгүй</option>
+            <select onChange={handleChangeNoat} name='НӨАТ' id='brands'>
+              <option value='null'>НӨАТ</option>
+              <option value='1'>Тийм</option>
+              <option value='0'>Үгүй</option>
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Бодит савлалт",
+        name: 'Бодит савлалт',
         show: true,
         content: (
-          <div key="Бодит савлалт" className={css.field}>
+          <div key='Бодит савлалт' className={css.field}>
             <span>Бодит савлалт</span>
             <input
-              placeholder="Бодит савлалт"
+              placeholder='Бодит савлалт'
               value={boditSavlalt}
-              type="number"
-              onChange={(e) => {
-                console.log("setBoditSavlalt", e.target.value);
+              type='number'
+              onChange={e => {
+                console.log('setBoditSavlalt', e.target.value);
                 setBoditSavlalt(e.target.value);
               }}
             />
           </div>
-        ),
+        )
       },
       {
-        name: "Хадгалах нөхцөл",
+        name: 'Хадгалах нөхцөл',
         show: true,
         content: (
-          <div key="Хадгалах нөхцөл" className={css.field}>
+          <div key='Хадгалах нөхцөл' className={css.field}>
             <span>Хадгалах нөхцөл</span>
             <select
-              onChange={(e) => {
+              onChange={e => {
                 setStorageCondition(e.target.value);
               }}
-              name="Хадгалах нөхцөл"
-              id="Хадгалах нөхцөл"
+              name='Хадгалах нөхцөл'
+              id='Хадгалах нөхцөл'
             >
-              <option value="null">Хадгалах нөхцөл</option>
-              {brandOpt.map((e) => {
+              <option value='null'>Хадгалах нөхцөл</option>
+              {brandOpt.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "Хэлбэр",
+        name: 'Хэлбэр',
         show: true,
         content: (
-          <div key="Хэлбэр" className={css.field}>
+          <div key='Хэлбэр' className={css.field}>
             <span>Хэлбэр</span>
             <select
-              onChange={(e) => {
+              onChange={e => {
                 setForm(e.target.value);
               }}
-              name="Хэлбэр"
-              id="Хэлбэр"
+              name='Хэлбэр'
+              id='Хэлбэр'
             >
-              <option value="null">Хэлбэр</option>
-              {brandOpt.map((e) => {
+              <option value='null'>Хэлбэр</option>
+              {brandOpt.map(e => {
                 return <option value={e.value}>{e.label}</option>;
               })}
             </select>
           </div>
-        ),
+        )
       },
       {
-        name: "ЭМД хөнгөлөлт",
+        name: 'ЭМД хөнгөлөлт',
         show: true,
         content: (
-          <div key="ЭМД хөнгөлөлт" className={css.field}>
+          <div key='ЭМД хөнгөлөлт' className={css.field}>
             <span>ЭМД хөнгөлөлт</span>
             {isEmdCoupon ? (
               <img
                 src={checked}
-                alt="checkbox"
-                style={{ width: "40px" }}
+                alt='checkbox'
+                style={{ width: '40px' }}
                 onClick={() => {
                   setIsEmdCoupon(!isEmdCoupon);
                 }}
@@ -784,32 +788,32 @@ const CreateProduct = () => {
             ) : (
               <img
                 src={check}
-                alt="checkbox"
-                style={{ width: "40px" }}
+                alt='checkbox'
+                style={{ width: '40px' }}
                 onClick={() => {
                   setIsEmdCoupon(!isEmdCoupon);
                 }}
               />
             )}
           </div>
-        ),
-      },
+        )
+      }
     ]);
   }, [option, categoryOpt, brandOpt, isEmdCoupon, displayFields]);
 
   return (
     <div className={css.container}>
       <div className={css.wrapper2}>
-        <div style={page === 1 ? { height: "90%" } : {}}>
+        <div style={page === 1 ? { height: '90%' } : {}}>
           <div className={css.header}>
             <span>Бүтээгдэхүүн бүртгэх</span>
-            <img src={closeIcon} alt="baraa nemeh" onClick={CancelHandler} />
+            <img src={closeIcon} alt='baraa nemeh' onClick={CancelHandler} />
           </div>
 
           {page === 1 && (
             <div className={css.body}>
               <div className={css.fields}>
-                {productFields.map((field) => {
+                {productFields.map(field => {
                   if (displayFields.includes(field.name)) {
                     return field.content;
                   } else {
@@ -822,10 +826,10 @@ const CreateProduct = () => {
                 <div className={css.imgContainer}>
                   <div className={css.uploadImg}>
                     <img
-                      style={{ cursor: "pointer" }}
-                      src="https://ebazaar.mn/icon/photo-add.svg"
+                      style={{ cursor: 'pointer' }}
+                      src='https://ebazaar.mn/icon/photo-add.svg'
                       onClick={() => up()}
-                      alt="https://ebazaar.mn/icon/photo-add.svg"
+                      alt='https://ebazaar.mn/icon/photo-add.svg'
                     />
                   </div>
                   <div className={css.uploadImg}>
@@ -834,25 +838,25 @@ const CreateProduct = () => {
                         <>
                           <img
                             src={closeIcon}
-                            alt="closeIcon"
+                            alt='closeIcon'
                             onClick={() => {
                               setImages([]);
                             }}
                             style={{
-                              position: "absolute",
-                              right: "5px",
-                              top: "5px",
-                              width: "20px",
-                              height: "20px",
-                              backgroundColor: "white",
-                              borderRadius: "50%",
-                              cursor: "pointer",
+                              position: 'absolute',
+                              right: '5px',
+                              top: '5px',
+                              width: '20px',
+                              height: '20px',
+                              backgroundColor: 'white',
+                              borderRadius: '50%',
+                              cursor: 'pointer'
                             }}
                           />
                           <img
                             key={index}
-                            src={img.replace("original", "product")}
-                            alt="img"
+                            src={img.replace('original', 'product')}
+                            alt='img'
                             className={css.prodImage}
                           />
                         </>
@@ -871,29 +875,29 @@ const CreateProduct = () => {
           )}
         </div>
         <div className={css.btncontainer}>
-          <Button variant="secondary">
+          <Button variant='secondary'>
             <span onClick={CancelHandler}>Цуцлах</span>
           </Button>
-          <div style={{ display: "flex", gap: "20px", color: "white" }}>
+          <div style={{ display: 'flex', gap: '20px', color: 'white' }}>
             <Button
-              variant="primary"
+              variant='primary'
               onClick={() => {
                 setPage(2);
               }}
             >
               <span
                 style={{
-                  color: "#fff",
+                  color: '#fff'
                 }}
               >
                 Сувгийн үнэ тохиргоо
               </span>
             </Button>
 
-            <Button variant="primary">
+            <Button variant='primary'>
               <span
                 style={{
-                  color: "#fff",
+                  color: '#fff'
                 }}
                 onClick={SubmitHandler}
               >

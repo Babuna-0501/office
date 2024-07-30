@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import css from "./warehouse.module.css";
-import closeicon from "../assets/close.svg";
-import checkedsvg from "../assets/Tick Square on 2.svg";
-import uncheckedsvg from "../assets/Tick Square.svg";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import css from './warehouse.module.css';
+import closeicon from '../assets/close.svg';
+import checkedsvg from '../assets/Tick Square on 2.svg';
+import uncheckedsvg from '../assets/Tick Square.svg';
+import myHeaders from '../components/MyHeader/myHeader';
 
-const Warehouse = (props) => {
+const Warehouse = props => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(2);
   const [userData, setUserData] = useState([]);
@@ -15,36 +15,36 @@ const Warehouse = (props) => {
   useEffect(() => {
     const getInventories = async () => {
       try {
-        const url = `https://api2.ebazaar.mn/api/warehouse/get/new?limit=100`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new?limit=100`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
         const resData = await res.json();
-        console.log(resData, "dsdsadsadsa")
+        console.log(resData, 'dsdsadsadsa');
         setInventorydata(resData.data);
       } catch (error) {
         console.log(error);
       }
     };
-   
+
     getInventories();
   }, []);
 
   useEffect(() => {
     setData(inventorydata);
     let dd = [];
-    inventorydata.map((item) => {
+    inventorydata.map(item => {
       dd.push(false);
     });
 
     let data = [];
     if (props.data.inventory) {
       if (props.data.inventory.length > 25) {
-        let aa = props.data.inventory.split(",");
+        let aa = props.data.inventory.split(',');
         data = aa;
       } else {
         data = props.data.inventory;
@@ -57,48 +57,48 @@ const Warehouse = (props) => {
     ////// Checked - busad code
 
     if (userData.includes(item._id)) {
-      let aa = userData.filter((x) => x !== item._id);
+      let aa = userData.filter(x => x !== item._id);
       setUserData(aa);
     } else {
-      console.log("hi", typeof userData);
+      console.log('hi', typeof userData);
       let aa = [];
 
-      if (typeof userData == "string") {
+      if (typeof userData == 'string') {
         aa.push(userData);
       } else {
         aa = [...userData];
       }
 
-      console.log("aa", aa);
-      setUserData((prev) => [...aa, item._id]);
+      console.log('aa', aa);
+      setUserData(prev => [...aa, item._id]);
     }
   };
   const SaveHandler = () => {
     let rawData = JSON.stringify({
       user_id: props.data.user_id,
-      inventory: userData ? userData.toString() : null,
+      inventory: userData ? userData.toString() : null
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: rawData,
+      redirect: 'follow',
+      body: rawData
     };
-    console.log("requestOptions", requestOptions);
-    let url = `https://api2.ebazaar.mn/api/backoffice/update_users`;
+    console.log('requestOptions', requestOptions);
+    let url = `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`;
 
     fetch(url, requestOptions)
-      .then((rs) => rs.json())
-      .then((res) => {
+      .then(rs => rs.json())
+      .then(res => {
         // console.log("res", res);
 
         if (res.code === 200) {
           let data = props.worksdata;
-          data = data.map((item) => {
+          data = data.map(item => {
             if (item.user_id === props.data.user_id) {
               return {
                 ...item,
-                inventory: userData ? userData.toString() : null,
+                inventory: userData ? userData.toString() : null
               };
             }
             return item;
@@ -107,8 +107,8 @@ const Warehouse = (props) => {
           props.setAguulahOpen(false);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
   return (
@@ -122,7 +122,7 @@ const Warehouse = (props) => {
               </span>
               <img
                 src={closeicon}
-                alt="close icon"
+                alt='close icon'
                 onClick={() => {
                   props.setAguulahOpen(false);
                 }}
@@ -132,14 +132,14 @@ const Warehouse = (props) => {
               <div className={css.subheader}>
                 <div
                   style={{
-                    width: "50px",
+                    width: '50px'
                   }}
                 >
                   ID
                 </div>
                 <div
                   style={{
-                    width: "150px",
+                    width: '150px'
                   }}
                 >
                   ХТ нэр
@@ -151,7 +151,7 @@ const Warehouse = (props) => {
                     <div className={css.subaguulah}>
                       <div
                         style={{
-                          width: "50px",
+                          width: '50px'
                         }}
                       >
                         <img
@@ -161,15 +161,15 @@ const Warehouse = (props) => {
                               : uncheckedsvg
                           }
                           style={{
-                            width: "25px",
-                            height: "25px",
+                            width: '25px',
+                            height: '25px'
                           }}
                           onClick={() => Checkhandler(item, index)}
                         />
                       </div>
                       <div
                         style={{
-                          width: "150px",
+                          width: '150px'
                         }}
                       >
                         {item.name}
@@ -189,7 +189,7 @@ const Warehouse = (props) => {
               </span>
               <img
                 src={closeicon}
-                alt="close icon"
+                alt='close icon'
                 onClick={() => {
                   props.setAguulahOpen(false);
                 }}
@@ -199,14 +199,14 @@ const Warehouse = (props) => {
               <div className={css.subheader}>
                 <div
                   style={{
-                    width: "50px",
+                    width: '50px'
                   }}
                 >
                   ID
                 </div>
                 <div
                   style={{
-                    width: "150px",
+                    width: '150px'
                   }}
                 >
                   Агуулахын нэр
@@ -219,7 +219,7 @@ const Warehouse = (props) => {
                       <div className={css.subaguulah}>
                         <div
                           style={{
-                            width: "50px",
+                            width: '50px'
                           }}
                         >
                           <img
@@ -229,15 +229,15 @@ const Warehouse = (props) => {
                                 : uncheckedsvg
                             }
                             style={{
-                              width: "25px",
-                              height: "25px",
+                              width: '25px',
+                              height: '25px'
                             }}
                             onClick={() => Checkhandler(item, index)}
                           />
                         </div>
                         <div
                           style={{
-                            width: "150px",
+                            width: '150px'
                           }}
                         >
                           {item.name}
@@ -260,7 +260,7 @@ const Warehouse = (props) => {
             Цуцлах
           </button>
           <button className={css.confirm} onClick={SaveHandler}>
-            {" "}
+            {' '}
             Хадгалах
           </button>
         </div>

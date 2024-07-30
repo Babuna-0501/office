@@ -1,55 +1,55 @@
-import css from "./shipment.module.css";
-import { Button, Modal } from "./components/common";
+import css from './shipment.module.css';
+import { Button, Modal } from './components/common';
 
-import uploadWhite from "../assets/shipment/upload-shipment.svg";
-import uploadDark from "../assets/shipment/uploadDark.svg";
-import { useState, useEffect, useRef } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
-import MovementList from "./MovementList";
-import Inventories from "./Inventories";
-import LoadingSpinner from "../components/Spinner/Spinner";
-import { useContext } from "react";
-import { ShipmentContext } from "../Hooks/ShipmentHook";
-import AddInventory from "./components/AddInventory";
-import Solio from "./components/solio";
-import arrowDown from "../assets/shipment/arrow-down-shipment.svg";
-import calendar from "../assets/shipment/Calendar.svg";
-import chevronRight from "../assets/shipment/chevron-right.svg";
-import searchIcon from "../assets/shipment/searchIcon.svg";
-import chevronDown from "../assets/shipment/chevron-down.svg";
-import ErrorPopup from "./components/common/ErrorPopup";
+import uploadWhite from '../assets/shipment/upload-shipment.svg';
+import uploadDark from '../assets/shipment/uploadDark.svg';
+import { useState, useEffect, useRef } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
+import MovementList from './MovementList';
+import Inventories from './Inventories';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import { useContext } from 'react';
+import { ShipmentContext } from '../Hooks/ShipmentHook';
+import AddInventory from './components/AddInventory';
+import Solio from './components/solio';
+import arrowDown from '../assets/shipment/arrow-down-shipment.svg';
+import calendar from '../assets/shipment/Calendar.svg';
+import chevronRight from '../assets/shipment/chevron-right.svg';
+import searchIcon from '../assets/shipment/searchIcon.svg';
+import chevronDown from '../assets/shipment/chevron-down.svg';
+import ErrorPopup from './components/common/ErrorPopup';
 
-import { ShipmentReport } from "./components/ShipmentReport";
-import { DetailedShipmentReport } from "./components/DetailedShipmentReport";
-import { CombinedProducts } from "./components/CombinedProducts";
-import { HeaderContext } from "../Hooks/HeaderHook";
+import { ShipmentReport } from './components/ShipmentReport';
+import { DetailedShipmentReport } from './components/DetailedShipmentReport';
+import { CombinedProducts } from './components/CombinedProducts';
+import { HeaderContext } from '../Hooks/HeaderHook';
 
-import { HeaderContent } from "./HeaderContent";
-import CollectionHook from "../Hooks/CollectionHook";
+import { HeaderContent } from './HeaderContent';
+import CollectionHook from '../Hooks/CollectionHook';
 
-import Modala from "../Warehouse/AddWarehouse/Modal";
-import Background from "../components/Background/Background";
-import Baraatatah from "../Warehouse/AddWarehouse/Baraatatah";
-import SideMenu from "../components/common/SideMenu/index";
-import SidemenuContent from "./components/MovementList/sidemenuContent";
-import ChooseProducts from "./components/chooseProducts/chooseProducts";
+import Modala from '../Warehouse/AddWarehouse/Modal';
+import Background from '../components/Background/Background';
+import Baraatatah from '../Warehouse/AddWarehouse/Baraatatah';
+import SideMenu from '../components/common/SideMenu/index';
+import SidemenuContent from './components/MovementList/sidemenuContent';
+import ChooseProducts from './components/chooseProducts/chooseProducts';
 
-const Shipment = (props) => {
+const Shipment = props => {
   const statuses = [
-    { title: "Бүх төлөв", color: "#fff", value: "" },
-    { title: "Хүлээгдэж буй", color: "#D9D9D9", value: "1" },
-    { title: "Баталгаажсан", color: "#00ADD0", value: "2" },
-    { title: "Цуцлагдсан", color: "#EB5E43", value: "3" },
+    { title: 'Бүх төлөв', color: '#fff', value: '' },
+    { title: 'Хүлээгдэж буй', color: '#D9D9D9', value: '1' },
+    { title: 'Баталгаажсан', color: '#00ADD0', value: '2' },
+    { title: 'Цуцлагдсан', color: '#EB5E43', value: '3' }
   ];
 
   const dates = [
-    { title: "Өнөөдөр+Өчигдөр", value: "today+yesterday" },
-    { title: "Өнөөдөр", value: "today" },
-    { title: "Өчигдөр", value: "yesterday" },
-    { title: "Сүүлийн 3 хоног", value: "3 days" },
-    { title: "Сүүлийн 7 хоног", value: "7 days" },
-    { title: "Сүүлийн 1 сар", value: "1 month" },
-    { title: "Огноогоор шүүх", value: "custom" },
+    { title: 'Өнөөдөр+Өчигдөр', value: 'today+yesterday' },
+    { title: 'Өнөөдөр', value: 'today' },
+    { title: 'Өчигдөр', value: 'yesterday' },
+    { title: 'Сүүлийн 3 хоног', value: '3 days' },
+    { title: 'Сүүлийн 7 хоног', value: '7 days' },
+    { title: 'Сүүлийн 1 сар', value: '1 month' },
+    { title: 'Огноогоор шүүх', value: 'custom' }
   ];
 
   const { userData } = props;
@@ -76,21 +76,21 @@ const Shipment = (props) => {
   const dateFilterRef = useRef(null);
 
   // Filter States
-  const [filterUrl, setFilterUrl] = useState("");
-  const [number, setNumber] = useState("");
-  const [outInventory, setOutInventory] = useState("");
-  const [inInventory, setInInventory] = useState("");
-  const [createdDate, setCreatedDate] = useState("");
-  const [createdUser, setCreatedUser] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [filterUrl, setFilterUrl] = useState('');
+  const [number, setNumber] = useState('');
+  const [outInventory, setOutInventory] = useState('');
+  const [inInventory, setInInventory] = useState('');
+  const [createdDate, setCreatedDate] = useState('');
+  const [createdUser, setCreatedUser] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
 
-  const [selectedShipmentStatus, setSelectedShipmentStatus] = useState("");
+  const [selectedShipmentStatus, setSelectedShipmentStatus] = useState('');
   const [selectedShipmentDate, setSelectedShipmentDate] = useState(
     dates[0].value
   );
-  const [customStartDate, setCustomStarDate] = useState("");
-  const [customEndDate, setCustomEndDate] = useState("");
+  const [customStartDate, setCustomStarDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
 
   const [startDate, setStartDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
@@ -103,8 +103,8 @@ const Shipment = (props) => {
     }-${new Date().getDate()}`
   );
 
-  const [inventorySearch, setInventorySearch] = useState("");
-  const [selectedInventoryType, setSelectedInventoryType] = useState("");
+  const [inventorySearch, setInventorySearch] = useState('');
+  const [selectedInventoryType, setSelectedInventoryType] = useState('');
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState(false);
@@ -138,9 +138,9 @@ const Shipment = (props) => {
     const sevenDays = new Date(new Date().setDate(new Date().getDate() - 7));
     const oneMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
-    setCreatedDate("");
+    setCreatedDate('');
 
-    if (selectedShipmentDate === "today+yesterday") {
+    if (selectedShipmentDate === 'today+yesterday') {
       setStartDate(
         `${yesterday.getFullYear()}-${
           yesterday.getMonth() + 1
@@ -151,7 +151,7 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "today") {
+    if (selectedShipmentDate === 'today') {
       setStartDate(
         `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
       );
@@ -160,7 +160,7 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "yesterday") {
+    if (selectedShipmentDate === 'yesterday') {
       setStartDate(
         `${yesterday.getFullYear()}-${
           yesterday.getMonth() + 1
@@ -173,7 +173,7 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "3 days") {
+    if (selectedShipmentDate === '3 days') {
       setStartDate(
         `${threeDays.getFullYear()}-${
           threeDays.getMonth() + 1
@@ -184,7 +184,7 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "7 days") {
+    if (selectedShipmentDate === '7 days') {
       setStartDate(
         `${sevenDays.getFullYear()}-${
           sevenDays.getMonth() + 1
@@ -195,7 +195,7 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "1 month") {
+    if (selectedShipmentDate === '1 month') {
       setStartDate(
         `${oneMonth.getFullYear()}-${
           oneMonth.getMonth() + 1
@@ -206,21 +206,21 @@ const Shipment = (props) => {
       );
     }
 
-    if (selectedShipmentDate === "custom") {
-      if (customStartDate === "") {
-        setAlertMsg("Эхлэх огноог сонгоно уу!");
+    if (selectedShipmentDate === 'custom') {
+      if (customStartDate === '') {
+        setAlertMsg('Эхлэх огноог сонгоно уу!');
         setShowAlert(true);
         return;
       }
 
-      if (customEndDate === "") {
-        setAlertMsg("Дуусах огноог сонгоно уу!");
+      if (customEndDate === '') {
+        setAlertMsg('Дуусах огноог сонгоно уу!');
         setShowAlert(true);
         return;
       }
 
       if (customStartDate > customEndDate) {
-        setAlertMsg("Эхлэх болон Дуусах огноог буруу сонгосон байна!");
+        setAlertMsg('Эхлэх болон Дуусах огноог буруу сонгосон байна!');
         setShowAlert(true);
         return;
       }
@@ -240,11 +240,11 @@ const Shipment = (props) => {
 
         setInventoriesLoading(true);
 
-        const url = `https://api2.ebazaar.mn/api/warehouse/get/new`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
@@ -280,8 +280,8 @@ const Shipment = (props) => {
         }-${new Date().getDate()}`
       );
       setSelectedShipmentDate(dates[0].value);
-      setCustomStarDate("");
-      setCustomEndDate("");
+      setCustomStarDate('');
+      setCustomEndDate('');
     }
   }, [createdDate]);
 
@@ -300,7 +300,7 @@ const Shipment = (props) => {
       } else {
         setShipmentCallAgain(false);
       }
-      setCount((prev) => prev + 1);
+      setCount(prev => prev + 1);
 
       let params = `page=${shipmentCurrentPage}&`;
 
@@ -308,32 +308,32 @@ const Shipment = (props) => {
         params += `id=${number}&`;
       }
 
-      if (outInventory !== "") {
+      if (outInventory !== '') {
         params += `from=${outInventory}&`;
       }
 
-      if (inInventory !== "") {
+      if (inInventory !== '') {
         params += `to=${inInventory}&`;
       }
 
-      if (selectedStatus !== "") {
+      if (selectedStatus !== '') {
         params += `status=${selectedStatus}`;
       }
 
-      if (createdUser !== "") {
+      if (createdUser !== '') {
         params += `tugeegchID=${createdUser}`;
       }
 
       const companyId =
-        Number(userData.company_id.replaceAll("|", "")) === 1
+        Number(userData.company_id.replaceAll('|', '')) === 1
           ? 13884
-          : Number(userData.company_id.replaceAll("|", ""));
+          : Number(userData.company_id.replaceAll('|', ''));
 
-      const url = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}&${params}&startDate=${startDate}&endDate=${endDate}`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}&${params}&startDate=${startDate}&endDate=${endDate}`;
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -350,9 +350,9 @@ const Shipment = (props) => {
 
       productsIds = [...new Set(productsIds)];
 
-      const productUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIds.join(
-        ","
-      )}]`;
+      const productUrl = `${
+        process.env.REACT_API_URL2
+      }/products/get1?ids=[${productsIds.join(',')}]`;
 
       const productRes = await fetch(productUrl, requestOptions);
       const productData = await productRes.json();
@@ -380,10 +380,10 @@ const Shipment = (props) => {
     outInventory,
     inInventory,
     selectedStatus,
-    createdUser,
+    createdUser
   ]);
 
-  console.log("shipmentaaaaaaa", userData);
+  console.log('shipmentaaaaaaa', userData);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -392,13 +392,13 @@ const Shipment = (props) => {
 
         setUsersLoading(true);
 
-        const companyId = Number(userData.company_id.replaceAll("|", ""));
+        const companyId = Number(userData.company_id.replaceAll('|', ''));
 
-        const url = `https://api2.ebazaar.mn/api/backoffice/users?company=${companyId}`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/users?company=${companyId}`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
@@ -407,7 +407,7 @@ const Shipment = (props) => {
         setUsers(resData.data);
         // console.log("USER", resData.data);
       } catch (error) {
-        console.log("error while fetching users: ", error);
+        console.log('error while fetching users: ', error);
       } finally {
         setUsersLoading(false);
       }
@@ -427,7 +427,7 @@ const Shipment = (props) => {
   const tabs = [
     {
       id: 1,
-      header: "Ачилтын жагсаалт",
+      header: 'Ачилтын жагсаалт',
       content: (
         <MovementList
           key={`shipment-movement-list`}
@@ -441,11 +441,11 @@ const Shipment = (props) => {
           startDate={startDate}
           endDate={endDate}
         />
-      ),
+      )
     },
     {
       id: 2,
-      header: "Агуулах",
+      header: 'Агуулах',
       content: (
         <Inventories
           inventories={inventories}
@@ -455,19 +455,19 @@ const Shipment = (props) => {
           selectedInventoryType={selectedInventoryType}
           key={`shipment-inventories-list`}
         />
-      ),
+      )
     },
     {
       id: 3,
-      header: "Солио",
-      content: <Solio key={`solio`} />,
-    },
+      header: 'Солио',
+      content: <Solio key={`solio`} />
+    }
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   useEffect(() => {
-    const closeDropdowns = (e) => {
+    const closeDropdowns = e => {
       if (
         statusFilterRef.current &&
         showStatusFilter &&
@@ -485,10 +485,10 @@ const Shipment = (props) => {
       }
     };
 
-    document.addEventListener("mousedown", closeDropdowns);
+    document.addEventListener('mousedown', closeDropdowns);
 
     return () => {
-      document.removeEventListener("mousedown", closeDropdowns);
+      document.removeEventListener('mousedown', closeDropdowns);
     };
   }, [showStatusFilter, showDateFilter]);
 
@@ -503,7 +503,7 @@ const Shipment = (props) => {
                   return (
                     <button
                       key={`shipment-tab-button-${index}`}
-                      type="button"
+                      type='button'
                       onClick={() => setActiveTab(tab.id)}
                       className={`${css.singleTabHeader} ${
                         activeTab === tab.id && css.active
@@ -521,21 +521,21 @@ const Shipment = (props) => {
                     <div className={css.filters}>
                       <div className={css.dateFilterWrapper}>
                         <button
-                          type="button"
+                          type='button'
                           onClick={() => setShowDateFilter(true)}
                           className={css.dateFilterBtn}
                         >
                           <div>
-                            <img src={calendar} alt="Calendar" />
+                            <img src={calendar} alt='Calendar' />
                             <span>
                               {
                                 dates.find(
-                                  (date) => date.value === selectedShipmentDate
+                                  date => date.value === selectedShipmentDate
                                 ).title
                               }
                             </span>
                           </div>
-                          <img src={arrowDown} alt="Arrow Down" />
+                          <img src={arrowDown} alt='Arrow Down' />
                         </button>
 
                         {showDateFilter && (
@@ -555,8 +555,8 @@ const Shipment = (props) => {
                                     >
                                       <input
                                         id={date.title}
-                                        type="radio"
-                                        name="date"
+                                        type='radio'
+                                        name='date'
                                         checked={
                                           selectedShipmentDate === date.value
                                         }
@@ -572,20 +572,20 @@ const Shipment = (props) => {
                                 })}
                               </div>
 
-                              {selectedShipmentDate === "custom" && (
+                              {selectedShipmentDate === 'custom' && (
                                 <div className={css.subDateFilters}>
                                   <input
-                                    type="date"
+                                    type='date'
                                     value={customStartDate}
-                                    onChange={(e) =>
+                                    onChange={e =>
                                       setCustomStarDate(e.target.value)
                                     }
                                   />
-                                  <img src={chevronRight} alt="Chevron Right" />
+                                  <img src={chevronRight} alt='Chevron Right' />
                                   <input
-                                    type="date"
+                                    type='date'
                                     value={customEndDate}
-                                    onChange={(e) =>
+                                    onChange={e =>
                                       setCustomEndDate(e.target.value)
                                     }
                                   />
@@ -594,8 +594,8 @@ const Shipment = (props) => {
 
                               <div className={css.dateFilterBtns}>
                                 <Button
-                                  variant="secondary"
-                                  size="medium"
+                                  variant='secondary'
+                                  size='medium'
                                   width={80}
                                   onClick={() => setShowDateFilter(false)}
                                 >
@@ -603,8 +603,8 @@ const Shipment = (props) => {
                                 </Button>
                                 <Button
                                   onClick={changeDate}
-                                  variant="primary"
-                                  size="medium"
+                                  variant='primary'
+                                  size='medium'
                                   width={100}
                                 >
                                   Шүүх
@@ -617,18 +617,18 @@ const Shipment = (props) => {
 
                       <div className={css.statusFilterWrapper}>
                         <button
-                          type="button"
+                          type='button'
                           onClick={() => setShowStatusFilter(true)}
                           className={css.statusFilterBtn}
                         >
                           <span>
                             {
                               statuses.find(
-                                (stat) => stat.value === selectedShipmentStatus
+                                stat => stat.value === selectedShipmentStatus
                               ).title
                             }
                           </span>
-                          <img src={arrowDown} alt="Arrow Down" />
+                          <img src={arrowDown} alt='Arrow Down' />
                         </button>
 
                         {showStatusFilter && (
@@ -645,10 +645,10 @@ const Shipment = (props) => {
                                     className={css.singleStatusBtn}
                                     style={{
                                       boxShadow:
-                                        index === statuses.length - 1 && "none",
-                                      zIndex: statuses.length - index,
+                                        index === statuses.length - 1 && 'none',
+                                      zIndex: statuses.length - index
                                     }}
-                                    type="button"
+                                    type='button'
                                     onClick={() => {
                                       setSelectedShipmentStatus(status.value);
                                       setShowStatusFilter(false);
@@ -670,29 +670,29 @@ const Shipment = (props) => {
                     <div className={css.reportBtns}>
                       <Button
                         onClick={() => setShowCombinedProducts(true)}
-                        variant="primary"
-                        size="medium"
+                        variant='primary'
+                        size='medium'
                       >
                         Нэгтгэл
                       </Button>
 
                       <Button
                         onClick={() => setShowReport(true)}
-                        variant="primary"
-                        size="medium"
+                        variant='primary'
+                        size='medium'
                         icon
                       >
-                        <img src={uploadWhite} alt="Report" />
+                        <img src={uploadWhite} alt='Report' />
                         Тайлан
                       </Button>
 
                       <Button
                         onClick={() => setShowDetailedReport(true)}
-                        variant="secondary"
-                        size="medium"
+                        variant='secondary'
+                        size='medium'
                         icon
                       >
-                        <img src={uploadDark} alt="Shipment" />
+                        <img src={uploadDark} alt='Shipment' />
                         Дэлгэрэнгүй тайлан
                       </Button>
                     </div>
@@ -701,15 +701,15 @@ const Shipment = (props) => {
                 {activeTab === 2 && (
                   <div className={css.inventoryFiltersWrapper}>
                     <div className={css.inventorySearch}>
-                      <label htmlFor="inventorySearch">
-                        <img src={searchIcon} alt="Search Icon" />
+                      <label htmlFor='inventorySearch'>
+                        <img src={searchIcon} alt='Search Icon' />
                       </label>
                       <input
-                        id="inventorySearch"
-                        type="text"
-                        placeholder="Хайх..."
+                        id='inventorySearch'
+                        type='text'
+                        placeholder='Хайх...'
                         value={inventorySearch}
-                        onChange={(e) => setInventorySearch(e.target.value)}
+                        onChange={e => setInventorySearch(e.target.value)}
                       />
                     </div>
 
@@ -717,14 +717,14 @@ const Shipment = (props) => {
                       className={css.inventoryTypeFilter}
                       style={{ background: `url(${chevronDown})` }}
                       value={selectedInventoryType}
-                      onChange={(e) => setSelectedInventoryType(e.target.value)}
+                      onChange={e => setSelectedInventoryType(e.target.value)}
                     >
-                      <option value={""}>Бүгд</option>
-                      <option value={"1"}>Үндсэн агуулах</option>
-                      <option value={"2"}>Салбар агуулах</option>
-                      <option value={"3"}>Шууд борлуулалт (van)</option>
-                      <option value={"4"}>Түгээлтийн машин</option>
-                      <option value={"5"}>Үйлдвэр</option>
+                      <option value={''}>Бүгд</option>
+                      <option value={'1'}>Үндсэн агуулах</option>
+                      <option value={'2'}>Салбар агуулах</option>
+                      <option value={'3'}>Шууд борлуулалт (van)</option>
+                      <option value={'4'}>Түгээлтийн машин</option>
+                      <option value={'5'}>Үйлдвэр</option>
                     </select>
                   </div>
                 )}
@@ -734,10 +734,10 @@ const Shipment = (props) => {
             <div
               className={css.contentWrapper}
               style={{
-                bottom: activeTab === 1 && shipmentTotalPage > 0 ? 40 : 0,
+                bottom: activeTab === 1 && shipmentTotalPage > 0 ? 40 : 0
               }}
             >
-              {tabs.find((tab) => tab.id === activeTab).content}
+              {tabs.find(tab => tab.id === activeTab).content}
             </div>
           </div>
         )}
@@ -812,8 +812,8 @@ const Shipment = (props) => {
       {warectx.orlogoType && (
         <Modal
           closeHandler={() => warectx.setOrlogoType(false)}
-          width={"max-content"}
-          height={"90vh"}
+          width={'max-content'}
+          height={'90vh'}
         >
           <ChooseProducts closeHandler={() => warectx.setOrlogoType(false)} />
         </Modal>

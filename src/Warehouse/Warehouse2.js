@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
-import ListWarehouse2 from "./ListWarehouse2";
-import ListProduct from "./ListProduct";
-import AppHook from "../Hooks/AppHook";
-import LoadingSpinner from "../components/Spinner/Spinner";
-import css from "./list.module.css";
-import myHeaders from "../components/MyHeader/myHeader";
-import AddWarehouse from "./AddWarehouse/AddWarehouse";
-import CollectionHook from "../Hooks/CollectionHook";
-import Baraatatah from "./AddWarehouse/Baraatatah";
-import Background from "../components/Background/Background";
-import Modal from "./AddWarehouse/Modal";
-import { styles } from "./style";
-import Tabopen2 from "./TabOpen/Tabopen2";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import ListWarehouse2 from './ListWarehouse2';
+import ListProduct from './ListProduct';
+import AppHook from '../Hooks/AppHook';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import css from './list.module.css';
+import myHeaders from '../components/MyHeader/myHeader';
+import AddWarehouse from './AddWarehouse/AddWarehouse';
+import CollectionHook from '../Hooks/CollectionHook';
+import Baraatatah from './AddWarehouse/Baraatatah';
+import Background from '../components/Background/Background';
+import Modal from './AddWarehouse/Modal';
+import { styles } from './style';
+import Tabopen2 from './TabOpen/Tabopen2';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const Warehouse = (props) => {
+const Warehouse = props => {
   const appctx = useContext(AppHook);
   const [warehouse, setWarehouse] = useState();
   const [loading, setLoading] = useState(false);
@@ -30,26 +30,26 @@ const Warehouse = (props) => {
   const [searchcategory, setSearchcategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedWarehouse, setSelectedWarehouse] = useState([]);
-  const [warehouseId, setWarehouseId] = useState("");
+  const [warehouseId, setWarehouseId] = useState('');
   const [page, setPage] = useState(1);
 
   const { setHeaderContent } = useContext(HeaderContext);
 
   useEffect(() => {
-    if (window.location.pathname === "/ware-house") {
-			setHeaderContent(
-				<HeaderContent
-					setSubPage={props.setSubPage}
-					setSelectedWareHouse={props.setSelectedWareHouse}
-					subPage={props.subPage}
-					userData={props.userData}
-				/>
-			);
+    if (window.location.pathname === '/ware-house') {
+      setHeaderContent(
+        <HeaderContent
+          setSubPage={props.setSubPage}
+          setSelectedWareHouse={props.setSelectedWareHouse}
+          subPage={props.subPage}
+          userData={props.userData}
+        />
+      );
 
-			return () => {
-				setHeaderContent(<></>);
-			};
-		}
+      return () => {
+        setHeaderContent(<></>);
+      };
+    }
   }, []);
 
   const warectx = useContext(CollectionHook);
@@ -58,12 +58,12 @@ const Warehouse = (props) => {
     setLoading(true);
 
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/warehouse/get/new`;
-    let params = "";
+    let url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
+    let params = '';
     if (supplerName) {
       params += `supplier_name=${supplerName}&`;
     }
@@ -74,25 +74,25 @@ const Warehouse = (props) => {
       params += `manager=${workerName}&`;
     }
     if (params) {
-      url = `https://api2.ebazaar.mn/api/warehouse/get/new?${params}`;
+      url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new?${params}`;
     }
 
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         setWarehouse(res?.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
-        alert("Алдаа гарлаа");
+        alert('Алдаа гарлаа');
       });
   };
   useEffect(() => {
     try {
       Fetchdata();
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   }, [warehouseName, supplerName, workerName]);
 
@@ -104,11 +104,11 @@ const Warehouse = (props) => {
       searchcategory?.length >= 2
     ) {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      let params = "";
+      let params = '';
       if (nameSearch !== null) {
         params += `search=${nameSearch}&`;
       }
@@ -121,19 +121,19 @@ const Warehouse = (props) => {
       if (searchcategory) {
         params += `category=${Number(searchcategory)}&`;
       }
-      let urlNew = `https://api2.ebazaar.mn/api/products/get1?${params}`;
+      let urlNew = `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}`;
 
       setLoading(true);
       fetch(urlNew, requestOptions)
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           // console.log("response/data", response.data);
           setSearchProducts(response.data);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           setLoading(false);
-          console.log("error", error);
+          console.log('error', error);
         });
     } else {
       setSearchProducts();
@@ -143,19 +143,19 @@ const Warehouse = (props) => {
   return (
     <div className={css.wrappermain}>
       <div style={{ ...styles.allWidthContainer }}>
-        <div className="row header">
+        <div className='row header'>
           <div style={{ ...styles.companyContainer }}>
-            <input type="checkbox" style={{ height: "20px" }} />
+            <input type='checkbox' style={{ height: '20px' }} />
           </div>
           <div style={{ ...styles.numberContainer }}>
             <div>Агуулахын нэр</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
                 value={warehouseName}
-                onChange={(e) => {
+                onChange={e => {
                   setWarehouseName(e.target.value);
                 }}
               />
@@ -166,9 +166,9 @@ const Warehouse = (props) => {
             <div>Төрөл</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -176,9 +176,9 @@ const Warehouse = (props) => {
             <div>Show</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
                 disabled
               />
             </div>
@@ -187,11 +187,11 @@ const Warehouse = (props) => {
             <div>Үүсгэсэн ажилтан</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
                 value={workerName}
-                onChange={(e) => setWorkerName(e.target.value)}
+                onChange={e => setWorkerName(e.target.value)}
               />
             </div>
           </div>
@@ -199,27 +199,27 @@ const Warehouse = (props) => {
             <div>Нийлүүлэгч</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
                 value={supplerName}
-                onChange={(e) => {
+                onChange={e => {
                   setSupplerName(e.target.value);
                 }}
               />
             </div>
           </div>
-          <div style={{ ...styles.serviceContainer, display: "none" }}>
+          <div style={{ ...styles.serviceContainer, display: 'none' }}>
             <div>Үүсгэсэн огноо</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "100px" }}></div>
+          <div style={{ width: '100px' }}></div>
         </div>
         {loading ? (
           <div className={css.loading}>
@@ -249,12 +249,12 @@ const Warehouse = (props) => {
       {warectx.newWarehouseOpen && <AddWarehouse data={props} />}
       {warectx.baraaTatah && (
         <Background className={css.newBACK}>
-          <Baraatatah baraa="tatah" />
+          <Baraatatah baraa='tatah' />
         </Background>
       )}
       {warectx.baraaOrlogo && (
         <Background className={css.newBACK}>
-          <Baraatatah baraa="oruulah" />
+          <Baraatatah baraa='oruulah' />
         </Background>
       )}
       {warectx.orlogoType && (

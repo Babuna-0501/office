@@ -1,94 +1,94 @@
 // CSS
-import css from "./shipmentReport.module.css";
+import css from './shipmentReport.module.css';
 
 // Components
-import { Button, Input } from "./common";
-import LoadingSpinner from "../../components/Spinner/Spinner";
-import ErrorPopup from "./common/ErrorPopup";
+import { Button, Input } from './common';
+import LoadingSpinner from '../../components/Spinner/Spinner';
+import ErrorPopup from './common/ErrorPopup';
 
 // Packages
-import { useState } from "react";
-import writeXlsxFile from "write-excel-file";
-import myHeaders from "../../components/MyHeader/myHeader";
+import { useState } from 'react';
+import writeXlsxFile from 'write-excel-file';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const initialSchema = [
   {
-    column: "Дугаар",
+    column: 'Дугаар',
     type: Number,
-    value: (s) => s.id,
+    value: s => s.id,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Төлөв",
+    column: 'Төлөв',
     type: String,
-    value: (s) => s.status,
+    value: s => s.status,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Нийт үнэ",
+    column: 'Нийт үнэ',
     type: Number,
-    value: (s) => s.totalPrice,
+    value: s => s.totalPrice,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Гарсан агуулах",
+    column: 'Гарсан агуулах',
     type: String,
-    value: (s) => s.outInventory,
+    value: s => s.outInventory,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Авах агуулах",
+    column: 'Авах агуулах',
     type: String,
-    value: (s) => s.inInventory,
+    value: s => s.inInventory,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Үүссэн огноо",
+    column: 'Үүссэн огноо',
     type: Date,
-    value: (s) => s.createDate,
+    value: s => s.createDate,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Хариуцагч",
+    column: 'Хариуцагч',
     type: String,
-    value: (s) => s.owner,
+    value: s => s.owner,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Төрөл",
+    column: 'Төрөл',
     type: String,
-    value: (s) => s.type,
+    value: s => s.type,
     width: 20,
-    align: "center",
-    alignVertical: "center",
-  },
+    align: 'center',
+    alignVertical: 'center'
+  }
 ];
 
-export const ShipmentReport = (props) => {
+export const ShipmentReport = props => {
   const { closeHandler, users, inventories, userData } = props;
 
   const [loading, setLoading] = useState(false);
   const [doneGenerate, setDoneGenerate] = useState(false);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [schema, setSchema] = useState(initialSchema);
 
@@ -96,29 +96,29 @@ export const ShipmentReport = (props) => {
 
   const generateReport = async () => {
     try {
-      if (startDate === "") {
-        throw new Error("Эхлэх огноогоо сонгоно уу!");
+      if (startDate === '') {
+        throw new Error('Эхлэх огноогоо сонгоно уу!');
       }
-      if (endDate === "") {
-        throw new Error("Дуусах огноогоо сонгоно уу!");
+      if (endDate === '') {
+        throw new Error('Дуусах огноогоо сонгоно уу!');
       }
 
       if (startDate > endDate) {
-        throw new Error("Эхлэх болон Дуусах огноо буруу байна!");
+        throw new Error('Эхлэх болон Дуусах огноо буруу байна!');
       }
 
       setLoading(true);
 
       const companyId =
-        Number(userData.company_id.replaceAll("|", "")) === 1
+        Number(userData.company_id.replaceAll('|', '')) === 1
           ? 1
-          : Number(userData.company_id.replaceAll("|", ""));
+          : Number(userData.company_id.replaceAll('|', ''));
 
-      const url = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -134,9 +134,9 @@ export const ShipmentReport = (props) => {
 
       productsIds = [...new Set(productsIds)];
 
-      const productUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIds.join(
-        ","
-      )}]`;
+      const productUrl = `${
+        process.env.REACT_API_URL2
+      }/products/get1?ids=[${productsIds.join(',')}]`;
 
       const productRes = await fetch(productUrl, requestOptions);
       const productData = await productRes.json();
@@ -157,12 +157,12 @@ export const ShipmentReport = (props) => {
 
       for (const shipment of resData.data) {
         const ownr = shipment.tugeegchID ?? shipment.createUser;
-        const date = shipment.createDate.split("T")[0].split("-");
+        const date = shipment.createDate.split('T')[0].split('-');
 
         const fromInven = inventories.find(
-          (inven) => inven._id === shipment.from
+          inven => inven._id === shipment.from
         );
-        const toInven = inventories.find((inven) => inven._id === shipment.to);
+        const toInven = inventories.find(inven => inven._id === shipment.to);
 
         let shipmentType;
 
@@ -209,46 +209,46 @@ export const ShipmentReport = (props) => {
           id: shipment.id,
           status:
             shipment.status === 1
-              ? "Хүлээгдэж буй"
+              ? 'Хүлээгдэж буй'
               : shipment.status === 2
-              ? "Баталгаажсан"
+              ? 'Баталгаажсан'
               : shipment.status === 3
-              ? "Цуцлагдсан"
-              : "",
+              ? 'Цуцлагдсан'
+              : '',
           totalPrice: 0,
-          outInventory: inventories.find((inven) => inven._id === shipment.from)
-            ? inventories.find((inven) => inven._id === shipment.from).name
-            : "",
-          inInventory: inventories.find((inven) => inven._id === shipment.to)
-            ? inventories.find((inven) => inven._id === shipment.to).name
-            : "",
+          outInventory: inventories.find(inven => inven._id === shipment.from)
+            ? inventories.find(inven => inven._id === shipment.from).name
+            : '',
+          inInventory: inventories.find(inven => inven._id === shipment.to)
+            ? inventories.find(inven => inven._id === shipment.to).name
+            : '',
           createDate: new Date(
             new Date(`${date[0]}-${date[1]}-${date[2]}`).toISOString()
           ),
-          owner: users.find((usr) => usr.user_id === ownr).first_name,
+          owner: users.find(usr => usr.user_id === ownr).first_name,
           type:
             shipmentType === 1
-              ? "Ачилт"
+              ? 'Ачилт'
               : shipmentType === 2
-              ? "Хөдөлгөөн"
+              ? 'Хөдөлгөөн'
               : shipmentType === 3
-              ? "Буцаалт"
-              : "",
+              ? 'Буцаалт'
+              : ''
         };
 
         for (const product of shipment.products) {
           const prod = productData.data.find(
-            (pr) => pr._id === product.productId
+            pr => pr._id === product.productId
           );
           data.totalPrice +=
             product.count *
-            prod?.locations?.["62f4aabe45a4e22552a3969f"]?.price?.channel?.[1];
+            prod?.locations?.['62f4aabe45a4e22552a3969f']?.price?.channel?.[1];
         }
 
         reportDataCopy.push({ ...data });
       }
 
-      console.log("reportDataCopy", reportDataCopy);
+      console.log('reportDataCopy', reportDataCopy);
 
       setReportData([...reportDataCopy]);
       setSchema([...schemaCopy]);
@@ -266,23 +266,23 @@ export const ShipmentReport = (props) => {
       schema,
       fileName: `shipment-report-/${startDate}/-/${endDate}/.xlsx`,
       headerStyle: {
-        backgroundColor: "#d3d3d3",
-        align: "center",
-        alignVertical: "center",
-        borderColor: "#000000",
+        backgroundColor: '#d3d3d3',
+        align: 'center',
+        alignVertical: 'center',
+        borderColor: '#000000'
       },
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 11,
-      alignVertical: "center",
-      align: "center",
-      dateFormat: "mm/dd/yyyy",
-      stickyRowsCount: 1,
+      alignVertical: 'center',
+      align: 'center',
+      dateFormat: 'mm/dd/yyyy',
+      stickyRowsCount: 1
     });
   };
 
   const restart = () => {
-    setStartDate("");
-    setEndDate("");
+    setStartDate('');
+    setEndDate('');
     setReportData([]);
     setSchema(initialSchema);
     setDoneGenerate(false);
@@ -293,7 +293,7 @@ export const ShipmentReport = (props) => {
       <div className={css.container}>
         <div className={css.header}>
           <h1>Тайлан</h1>
-          <button disabled={loading} onClick={closeHandler} type="button">
+          <button disabled={loading} onClick={closeHandler} type='button'>
             Хаах
           </button>
         </div>
@@ -301,24 +301,24 @@ export const ShipmentReport = (props) => {
         {!loading && !doneGenerate && (
           <div className={css.content}>
             <div className={css.dateContainer}>
-              <label htmlFor="startDate">Эхлэх огноо</label>
+              <label htmlFor='startDate'>Эхлэх огноо</label>
               <Input
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                id="startDate"
-                type="date"
-                size="medium"
+                onChange={e => setStartDate(e.target.value)}
+                id='startDate'
+                type='date'
+                size='medium'
               />
             </div>
 
             <div className={css.dateContainer}>
-              <label htmlFor="endDate">Дуусах огноо</label>
+              <label htmlFor='endDate'>Дуусах огноо</label>
               <Input
                 value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                id="endDate"
-                type="date"
-                size="medium"
+                onChange={e => setEndDate(e.target.value)}
+                id='endDate'
+                type='date'
+                size='medium'
               />
             </div>
           </div>
@@ -328,10 +328,10 @@ export const ShipmentReport = (props) => {
           <div
             style={{
               flex: 1,
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <span>Тайлан амжилттай үүслээ...</span>
@@ -350,16 +350,16 @@ export const ShipmentReport = (props) => {
               <Button
                 disabled={loading}
                 onClick={closeHandler}
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
               >
                 Цуцлах
               </Button>
               <Button
                 onClick={generateReport}
                 disabled={loading}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
               >
                 Тайлан бэлтгэх
               </Button>
@@ -370,16 +370,16 @@ export const ShipmentReport = (props) => {
               <Button
                 disabled={loading}
                 onClick={restart}
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
               >
                 Дахин бэлтгэх
               </Button>
               <Button
                 onClick={downloadReport}
                 disabled={loading}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
               >
                 Тайлан татах
               </Button>

@@ -1,7 +1,7 @@
 {
     "City" :[
       {
-        "location_id": 0,
+        "location_id": "",
         "parent_id": 0,
         "location_name": "Бүгд",
         "latitude": 47.92123,
@@ -13,20 +13,6 @@
         "location_name": "Улаанбаатар хот",
         "latitude": 47.92123,
         "longitude": 106.918556
-      },
-      {
-        "location_id": 2,
-        "parent_id": 1,
-        "location_name": "Багануур",
-        "latitude": null,
-        "longitude": null
-      },
-      {
-        "location_id": 3,
-        "parent_id": 1,
-        "location_name": "Багахангай",
-        "latitude": null,
-        "longitude": null
       },
       {
         "location_id": 11,

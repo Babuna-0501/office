@@ -1,9 +1,9 @@
-import { Checkbox } from "../common";
-import css from "./singleInventoryProduct.module.css";
+import { Checkbox } from '../common';
+import css from './singleInventoryProduct.module.css';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-const SingleInventoryProduct = (props) => {
+const SingleInventoryProduct = props => {
   const {
     zIndex,
     product,
@@ -11,7 +11,7 @@ const SingleInventoryProduct = (props) => {
     checked,
     checkHandler,
     index,
-    setProductData,
+    setProductData
   } = props;
 
   return (
@@ -29,9 +29,9 @@ const SingleInventoryProduct = (props) => {
         className={css.fieldStyle}
         style={{
           width: 34,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
         <Checkbox onChange={checkHandler} checked={checked} />
@@ -41,11 +41,11 @@ const SingleInventoryProduct = (props) => {
       <div className={css.fieldStyle} style={{ width: 78 }}>
         <img
           src={
-            product.image[0] !== " "
+            product.image[0] !== ' '
               ? product.image[0]
-              : "https://ebazaar.mn/media/product/9989646044764598603108547708202205130611436585188195547456197872435120.png"
+              : `${process.env.REACT_APP_MEDIA_URL}/product/9989646044764598603108547708202205130611436585188195547456197872435120.png`
           }
-          alt="img"
+          alt='img'
         />
       </div>
 

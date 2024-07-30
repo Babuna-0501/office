@@ -1,34 +1,59 @@
 // CSS
-import css from "./singleTarget.module.css";
+import css from './singleTarget.module.css';
 
 // Packages
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from 'react';
 
 // Hooks
-import { HeaderContext } from "../../Hooks/HeaderHook";
-import { GlobalContext } from "../../Hooks/GlobalContext";
+import { HeaderContext } from '../../Hooks/HeaderHook';
+import { GlobalContext } from '../../Hooks/GlobalContext';
 
 // Images
-import { ProfileGray, TugrugGray, ArrowRightGray, CalendarGray } from "../../assets/icons";
+import {
+  ProfileGray,
+  TugrugGray,
+  ArrowRightGray,
+  CalendarGray
+} from '../../assets/icons';
 
 // Components
-import { ProductTargetAdd, SingleTargetBrand, SingleTargetCategory, SingleTargetHeader, SingleTargetProducts, CategoryTargetAdd, BrandTargetAdd } from "./components/";
-import { Button, Input, LoadingSpinner, Modal, SuccessPopup } from "../../components/common";
-import myHeaders from "../../components/MyHeader/myHeader";
-import ErrorPopup from "../../components/common/ErrorPopup";
-import { navigate } from "../../utils/navigate";
+import {
+  ProductTargetAdd,
+  SingleTargetBrand,
+  SingleTargetCategory,
+  SingleTargetHeader,
+  SingleTargetProducts,
+  CategoryTargetAdd,
+  BrandTargetAdd
+} from './components/';
+import {
+  Button,
+  Input,
+  LoadingSpinner,
+  Modal,
+  SuccessPopup
+} from '../../components/common';
+import myHeaders from '../../components/MyHeader/myHeader';
+import ErrorPopup from '../../components/common/ErrorPopup';
+import { navigate } from '../../utils/navigate';
 
 const SingleTarget = () => {
-  const { brands: initBrands, loggedUser, categories: initCategories, userRoles, globalDataReady } = useContext(GlobalContext);
-  const [targetId] = useState(window.location.pathname.split("/")[2]);
+  const {
+    brands: initBrands,
+    loggedUser,
+    categories: initCategories,
+    userRoles,
+    globalDataReady
+  } = useContext(GlobalContext);
+  const [targetId] = useState(window.location.pathname.split('/')[2]);
 
   const [target, setTarget] = useState(null);
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalSucceeded, setTotalSucceeded] = useState(0);
@@ -39,10 +64,10 @@ const SingleTarget = () => {
   const [showBrandTargetAdd, setShowBrandTargetAdd] = useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [errorWhileFetching, setErrorWhileFetching] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [notFoundError, setNotFoundError] = useState(false);
 
@@ -58,10 +83,10 @@ const SingleTarget = () => {
     try {
       setLoading(true);
 
-      const targetUrl = `https://api2.ebazaar.mn/api/backoffice/users/target?_id=${targetId}`;
+      const targetUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/users/target?_id=${targetId}`;
       const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       };
 
       const targetRes = await fetch(targetUrl, requestOptions);
@@ -87,7 +112,10 @@ const SingleTarget = () => {
           }
         }
 
-        if (targetData.data.categories && targetData.data.categories.length > 0) {
+        if (
+          targetData.data.categories &&
+          targetData.data.categories.length > 0
+        ) {
           setCategoryTargetExist(true);
         }
 
@@ -98,10 +126,15 @@ const SingleTarget = () => {
 
       const targetUserId = targetData.data?.user;
 
-      const productsUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${targetProductIds.join(",")}]`;
-      const userUrl = `https://api2.ebazaar.mn/api/backoffice/users?id=${targetUserId}`;
+      const productsUrl = `${
+        process.env.REACT_API_URL2
+      }/products/get1?ids=[${targetProductIds.join(',')}]`;
+      const userUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/users?id=${targetUserId}`;
 
-      const [userRes, productsRes] = await Promise.all([fetch(userUrl, requestOptions), fetch(productsUrl, requestOptions)]);
+      const [userRes, productsRes] = await Promise.all([
+        fetch(userUrl, requestOptions),
+        fetch(productsUrl, requestOptions)
+      ]);
       const userData = await userRes.json();
       const productsData = await productsRes.json();
 
@@ -113,16 +146,20 @@ const SingleTarget = () => {
 
       suppliersId = [...new Set(suppliersId)];
 
-      const suppliersUrl = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${suppliersId.join(",")}`;
+      const suppliersUrl = `${
+        process.env.REACT_API_URL2
+      }/backoffice/suppliers?id=${suppliersId.join(',')}`;
 
       const suppliersRes = await fetch(suppliersUrl, requestOptions);
       const supplierData = await suppliersRes.json();
 
       setSuppliers(supplierData.data);
       setProducts(
-        productsData.data.map((product) => ({
+        productsData.data.map(product => ({
           ...product,
-          singlePrice: product.locations?.["62f4aabe45a4e22552a3969f"]?.price?.channel?.[1] ?? 0,
+          singlePrice:
+            product.locations?.['62f4aabe45a4e22552a3969f']?.price
+              ?.channel?.[1] ?? 0
         }))
       );
       setUser(userData.data[0]);
@@ -134,7 +171,7 @@ const SingleTarget = () => {
         setShowErrorMsg(true);
       } else {
         setErrorWhileFetching(true);
-        setErrorMsg("Алдаа гарлаа. Та дахин оролдоно уу!");
+        setErrorMsg('Алдаа гарлаа. Та дахин оролдоно уу!');
         setShowErrorMsg(true);
       }
     } finally {
@@ -159,7 +196,7 @@ const SingleTarget = () => {
           brandTargetExist,
           categoryTargetExist,
           loading,
-          totalProductTargetExist,
+          totalProductTargetExist
         }}
       />
     );
@@ -167,16 +204,24 @@ const SingleTarget = () => {
     return () => {
       setHeaderContent(<></>);
     };
-  }, [setHeaderContent, user, productTargetExist, categoryTargetExist, brandTargetExist, loading, totalProductTargetExist]);
+  }, [
+    setHeaderContent,
+    user,
+    productTargetExist,
+    categoryTargetExist,
+    brandTargetExist,
+    loading,
+    totalProductTargetExist
+  ]);
 
   useEffect(() => {
     try {
       if (target) {
-        setStartDate(target.startDate ? target.startDate.split("T")[0] : "");
-        setEndDate(target.endDate ? target.endDate.split("T")[0] : "");
+        setStartDate(target.startDate ? target.startDate.split('T')[0] : '');
+        setEndDate(target.endDate ? target.endDate.split('T')[0] : '');
       }
     } catch (error) {
-      setErrorMsg("Алдаа гарлаа та дахин оролдоно уу!");
+      setErrorMsg('Алдаа гарлаа та дахин оролдоно уу!');
       setShowErrorMsg(true);
     }
   }, [target]);
@@ -198,7 +243,9 @@ const SingleTarget = () => {
                 totalSucceededCopy += targetProd.succeeded.amount;
                 totalWaitingCopy += targetProd.waiting.amount;
               } else if (targetProd.target.quantity) {
-                const currentProduct = products.find((product) => product._id === targetProd._id);
+                const currentProduct = products.find(
+                  product => product._id === targetProd._id
+                );
                 const price = currentProduct?.singlePrice ?? 0;
                 totalAmountCopy += price * targetProd.target.quantity;
                 totalSucceededCopy += price * targetProd.succeeded.quantity;
@@ -239,37 +286,39 @@ const SingleTarget = () => {
         setTotalWaiting(totalWaitingCopy);
       }
     } catch (error) {
-      setErrorMsg("Алдаа гарлаа та дахин оролдоно уу!");
+      setErrorMsg('Алдаа гарлаа та дахин оролдоно уу!');
       setShowErrorMsg(true);
     }
   }, [target, targetExist, products]);
 
   useEffect(() => {
     if (startDate) {
-      setTarget((prev) => ({ ...prev, startDate }));
+      setTarget(prev => ({ ...prev, startDate }));
     }
 
     if (endDate) {
-      setTarget((prev) => ({ ...prev, endDate }));
+      setTarget(prev => ({ ...prev, endDate }));
     }
   }, [startDate, endDate]);
 
   useEffect(() => {
     const getAllProducts = async () => {
       try {
-        const url = `https://api2.ebazaar.mn/api/products/get1?supplier=${loggedUser.company_id}&page=1`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/products/get1?supplier=${loggedUser.company_id}&page=1`;
         const requestOptions = {
-          method: "GET",
-          headers: myHeaders,
+          method: 'GET',
+          headers: myHeaders
         };
 
         const res = await fetch(url, requestOptions);
         const resData = await res.json();
 
         setProducts(
-          resData.data.map((product) => ({
+          resData.data.map(product => ({
             ...product,
-            singlePrice: product.locations?.["62f4aabe45a4e22552a3969f"]?.price?.channel?.[1] ?? 0,
+            singlePrice:
+              product.locations?.['62f4aabe45a4e22552a3969f']?.price
+                ?.channel?.[1] ?? 0
           }))
         );
       } catch (error) {
@@ -284,9 +333,10 @@ const SingleTarget = () => {
 
   const saveHandler = async () => {
     try {
-      if (!startDate) throw new Error("Төлөвлөгөө эхлэх огноог оруулна уу!");
-      if (!endDate) throw new Error("Төлөвлөгөө дуусах огноог оруулна уу!");
-      if (startDate > endDate) throw new Error("Эхлэх огноо дуусах огнооноос хойш байж болохгүй!");
+      if (!startDate) throw new Error('Төлөвлөгөө эхлэх огноог оруулна уу!');
+      if (!endDate) throw new Error('Төлөвлөгөө дуусах огноог оруулна уу!');
+      if (startDate > endDate)
+        throw new Error('Эхлэх огноо дуусах огнооноос хойш байж болохгүй!');
 
       setLoading(true);
 
@@ -310,11 +360,11 @@ const SingleTarget = () => {
         delete targetCopy.brands;
       }
 
-      const url = `https://api2.ebazaar.mn/api/backoffice/users/target`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/users/target`;
       const requestOptions = {
-        method: "PUT",
+        method: 'PUT',
         headers: myHeaders,
-        body: JSON.stringify(targetCopy),
+        body: JSON.stringify(targetCopy)
       };
 
       const res = await fetch(url, requestOptions);
@@ -347,7 +397,7 @@ const SingleTarget = () => {
                   {user.profile_picture ? (
                     <img
                       src={user.profile_picture}
-                      alt={user.first_name ?? user.email ?? "Нэргүй"}
+                      alt={user.first_name ?? user.email ?? 'Нэргүй'}
                     />
                   ) : (
                     <ProfileGray width={22} height={22} />
@@ -356,12 +406,12 @@ const SingleTarget = () => {
 
                 <div>
                   <h2 className={css.firstName}>
-                    {user?.first_name ?? user?.email ?? "Нэргүй"}
+                    {user?.first_name ?? user?.email ?? 'Нэргүй'}
                   </h2>
                   <span className={css.userRole}>
                     {
                       userRoles.find(
-                        (role) => role.BackofficeRoleID === user.role
+                        role => role.BackofficeRoleID === user.role
                       )?.Role
                     }
                   </span>
@@ -370,38 +420,38 @@ const SingleTarget = () => {
 
               <Input
                 disabled
-                size="medium"
+                size='medium'
                 width={215}
                 icon={<TugrugGray />}
-                iconposition="right"
-                placeholder="Төлөвлөгөө"
-                name="targetAmount"
-                value={(totalAmount === 0 ? "" : totalAmount).toLocaleString()}
+                iconposition='right'
+                placeholder='Төлөвлөгөө'
+                name='targetAmount'
+                value={(totalAmount === 0 ? '' : totalAmount).toLocaleString()}
               />
 
               <div className={css.dates}>
                 <Input
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  onChange={e => setStartDate(e.target.value)}
                   icon={<CalendarGray />}
-                  iconposition="left"
-                  size="medium"
+                  iconposition='left'
+                  size='medium'
                   width={147}
-                  type="date"
-                  name="startDate"
+                  type='date'
+                  name='startDate'
                 />
                 <div className={css.arrowRight}>
                   <ArrowRightGray />
                 </div>
                 <Input
                   value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  onChange={e => setEndDate(e.target.value)}
                   icon={<CalendarGray />}
-                  iconposition="left"
-                  size="medium"
+                  iconposition='left'
+                  size='medium'
                   width={147}
-                  type="date"
-                  name="endDate"
+                  type='date'
+                  name='endDate'
                 />
               </div>
             </div>
@@ -418,7 +468,7 @@ const SingleTarget = () => {
                           (totalSucceeded === 0
                             ? 0
                             : Math.round((totalSucceeded * 100) / totalAmount))
-                        }deg, #d6df2a 0deg)`,
+                        }deg, #d6df2a 0deg)`
                       }}
                     >
                       <div
@@ -432,7 +482,7 @@ const SingleTarget = () => {
                                   (totalWaiting * 100) / totalAmount +
                                     (totalSucceeded * 100) / totalAmount
                                 ))
-                          }deg, #F1F1F1 0deg)`,
+                          }deg, #F1F1F1 0deg)`
                         }}
                       />
 
@@ -455,7 +505,7 @@ const SingleTarget = () => {
                     <div className={css.targetGraphDetails}>
                       <div>
                         <span className={css.graphDetailsTitle}>
-                          Биелэлт:{" "}
+                          Биелэлт:{' '}
                           {totalSucceeded === 0
                             ? 0
                             : Math.round((totalSucceeded * 100) / totalAmount)}
@@ -469,7 +519,7 @@ const SingleTarget = () => {
 
                       <div>
                         <span className={css.graphDetailsTitle}>
-                          Хүлээгдэж буй:{" "}
+                          Хүлээгдэж буй:{' '}
                           {totalWaiting === 0
                             ? 0
                             : Math.round((totalWaiting * 100) / totalAmount)}
@@ -528,16 +578,16 @@ const SingleTarget = () => {
 
           <div className={css.footer}>
             <Button
-              onClick={(e) => navigate({ e, href: "/target" })}
-              variant="secondary"
-              size="medium"
+              onClick={e => navigate({ e, href: '/target' })}
+              variant='secondary'
+              size='medium'
             >
               Цуцлах
             </Button>
             <Button
               onClick={saveHandler}
-              variant="primary"
-              size="medium"
+              variant='primary'
+              size='medium'
               width={154}
             >
               Хадгалах
@@ -610,9 +660,9 @@ const SingleTarget = () => {
         message={errorMsg}
         closeHandler={() => {
           setShowErrorMsg(false);
-          setErrorMsg("");
+          setErrorMsg('');
           errorWhileFetching && getData();
-          notFoundError && navigate({ href: "/target" });
+          notFoundError && navigate({ href: '/target' });
         }}
       />
 
@@ -621,7 +671,7 @@ const SingleTarget = () => {
         message={successMsg}
         closeHandler={() => {
           setShowSuccessMsg(false);
-          setSuccessMsg("");
+          setSuccessMsg('');
         }}
       />
     </>

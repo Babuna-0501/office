@@ -1,0 +1,14 @@
+.reportBtn {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    height: 35px;
+    border: none;
+    gap: 8px;
+    justify-content: center;
+    background-color: #F2F2F2;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px;
+}

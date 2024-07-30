@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import css from "./productcomponent.module.css";
-import { styles } from "./style";
-import SMSHook from "../../Hooks/SMSHook";
-import Product from "./Product";
-import editIcon from "../../assets/Edit_icon.svg";
-import Header from "./Header";
-import MultiProducts from "./MultiProducts";
+import React, { useEffect, useState, useContext } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import css from './productcomponent.module.css';
+import { styles } from './style';
+import SMSHook from '../../Hooks/SMSHook';
+import Product from './Product';
+import editIcon from '../../assets/Edit_icon.svg';
+import Header from './Header';
+import MultiProducts from './MultiProducts';
 
-const Productcomponent = (props) => {
+const Productcomponent = props => {
   // const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [supplier, setSupplier] = useState(null);
@@ -32,11 +32,11 @@ const Productcomponent = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
     if (supplier !== null) {
       params += `supplier=${supplier}&`;
     }
@@ -56,17 +56,17 @@ const Productcomponent = (props) => {
       params += `category=${category}&`;
     }
 
-    let url = `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`;
-    let newUrl = `https://api2.ebazaar.mn/api/products/get1?${params}ids=[${smsctx.chosedProdIDS}]`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}page=${page}&limit=50`;
+    let newUrl = `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}ids=[${smsctx.chosedProdIDS}]`;
     fetch(newUrl, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res+++++++++", res);
         let supIDS = [];
         let categoryids = [];
         let brandids = [];
 
-        let update = res.data.map((item) => {
+        let update = res.data.map(item => {
           supIDS.push(item.supplier_id);
           categoryids.push(item.category_id);
           brandids.push(item.brand);
@@ -76,7 +76,7 @@ const Productcomponent = (props) => {
               chosed: true,
               totalMoney: 0,
               totalAmount: 0,
-              totalQuantity: 0,
+              totalQuantity: 0
             };
           } else {
             return {
@@ -84,7 +84,7 @@ const Productcomponent = (props) => {
               chosed: false,
               totalMoney: 0,
               totalAmount: 0,
-              totalQuantity: 0,
+              totalQuantity: 0
             };
           }
         });
@@ -95,8 +95,8 @@ const Productcomponent = (props) => {
         setCatIDS([...new Set(categoryids)]);
         setBrandIDS([...new Set(brandids)]);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [smsctx.chosedProdIDS]);
 
@@ -110,19 +110,19 @@ const Productcomponent = (props) => {
     <div className={css.background}>
       <div
         style={{
-          overflowY: "scroll",
-          height: "60vh",
+          overflowY: 'scroll',
+          height: '60vh'
         }}
       >
         <div className={css.wrapper}>
           <div>
-            <Header title="Дан бүтээгдэхүүний төлөвлөгөө" />
+            <Header title='Дан бүтээгдэхүүний төлөвлөгөө' />
             <div className={css.body}>
               <div className={css.header}>
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.imageContainer,
+                    ...styles.imageContainer
                   }}
                 >
                   <span>IMG </span>
@@ -131,22 +131,22 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.productContainer,
+                    ...styles.productContainer
                   }}
                 >
                   <span>Бүтээгдэхүүн нэр </span>
                   <input
                     value={search}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearch(e.target.value);
                     }}
-                    placeholder="Хайх"
+                    placeholder='Хайх'
                   />
                 </div>
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.angilalContainer,
+                    ...styles.angilalContainer
                   }}
                 >
                   <span>Ангилал </span>
@@ -158,7 +158,7 @@ const Productcomponent = (props) => {
                 /> */}
                   <select
                     value={category}
-                    onChange={(e) => {
+                    onChange={e => {
                       setCategory(e.target.value);
                     }}
                   >
@@ -172,8 +172,8 @@ const Productcomponent = (props) => {
                             style={{
                               display:
                                 catIDS && catIDS.includes(item.id)
-                                  ? "block"
-                                  : "none",
+                                  ? 'block'
+                                  : 'none'
                             }}
                           >
                             {item.name}
@@ -185,14 +185,14 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.brandContainer,
+                    ...styles.brandContainer
                   }}
                 >
                   <span>Брэнд</span>
 
                   <select
                     value={brand}
-                    onChange={(e) => {
+                    onChange={e => {
                       setBrand(e.target.value);
                     }}
                   >
@@ -206,8 +206,8 @@ const Productcomponent = (props) => {
                             style={{
                               display:
                                 brandIDS && brandIDS.includes(x.BrandID)
-                                  ? "block"
-                                  : "none",
+                                  ? 'block'
+                                  : 'none'
                             }}
                           >
                             {x.BrandName}
@@ -220,13 +220,13 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.skuContainer,
+                    ...styles.skuContainer
                   }}
                 >
                   <span>SKU</span>
                   <input
                     value={sku}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSku(e.target.value);
                     }}
                   />
@@ -234,13 +234,13 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.barcodeContainer,
+                    ...styles.barcodeContainer
                   }}
                 >
                   <span>Баркод</span>
                   <input
                     value={barcode}
-                    onChange={(e) => {
+                    onChange={e => {
                       setBarcode(e.target.value);
                     }}
                   />
@@ -248,7 +248,7 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.barcodeContainer,
+                    ...styles.barcodeContainer
                   }}
                 >
                   <span>Үнийн дүн төлөвлөгөө</span>
@@ -256,7 +256,7 @@ const Productcomponent = (props) => {
                 <div
                   className={css.idcontainer}
                   style={{
-                    ...styles.barcodeContainer,
+                    ...styles.barcodeContainer
                   }}
                 >
                   <span>Тоо ширхэг төлөвлөгөө</span>
@@ -266,7 +266,7 @@ const Productcomponent = (props) => {
                   className={css.idcontainer}
                   style={{
                     ...styles.barcodeContainer,
-                    display: smsctx.barOpen ? "block" : "none",
+                    display: smsctx.barOpen ? 'block' : 'none'
                   }}
                 >
                   <span>Биелэлт</span>
@@ -288,10 +288,10 @@ const Productcomponent = (props) => {
                   smsctx.data &&
                   smsctx.data.map((item, index) => {
                     let catname = smsctx.sitedata.categories.filter(
-                      (x) => x.id === item.category_id
+                      x => x.id === item.category_id
                     )[0];
                     let brandname = smsctx.sitedata.brands.filter(
-                      (x) => x.BrandID === item.brand
+                      x => x.BrandID === item.brand
                     )[0];
 
                     return (
@@ -314,12 +314,12 @@ const Productcomponent = (props) => {
         {smsctx.collectTitle !== null && (
           <div
             style={{
-              width: "1500px",
-              border: "1px solid rgba(0, 0, 0, 0.02)",
-              overflow: "hidden",
+              width: '1500px',
+              border: '1px solid rgba(0, 0, 0, 0.02)',
+              overflow: 'hidden'
             }}
           >
-            <Header title="Багц бүтээгдэхүүний төлөвлөгөө" />
+            <Header title='Багц бүтээгдэхүүний төлөвлөгөө' />
 
             <MultiProducts
               data={smsctx.multiProducts}
@@ -332,18 +332,18 @@ const Productcomponent = (props) => {
 
       <div
         style={{
-          paddingTop: "10px",
+          paddingTop: '10px'
         }}
       >
         {btnmodified ? (
           <div className={css.btncontainerTwo}>
             <button
               className={css.editwrapper}
-              onClick={(e) => {
+              onClick={e => {
                 setBtnmodified(false);
               }}
             >
-              <img src={editIcon} alt="edit icon" className={css.editbtn} />
+              <img src={editIcon} alt='edit icon' className={css.editbtn} />
               <span> Засварлах</span>
             </button>
           </div>

@@ -1,37 +1,40 @@
-import React, { useState } from "react";
-import css from "./promo.module.css";
-import { styles } from "../Headermain/style";
-import DeleteIcon from "../../assets/delete_red_small.svg";
-import myHeaders from "../../components/MyHeader/myHeader";
-import NewForm from "../NewForm/NewForm";
+import React, { useState } from 'react';
+import css from './promo.module.css';
+import { styles } from '../Headermain/style';
+import DeleteIcon from '../../assets/delete_red_small.svg';
+import myHeaders from '../../components/MyHeader/myHeader';
+import NewForm from '../NewForm/NewForm';
 
-const Promo = (props) => {
+const Promo = props => {
   // console.log("props", props);
 
   const [openForm, setOpenForm] = useState(false);
   const DeleteHandler = () => {
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
       body: JSON.stringify({
         discount_id: props.item._id,
-        is_active: 0,
-      }),
+        is_active: 0
+      })
     };
 
-    fetch(`https://api2.ebazaar.mn/api/discount/delete`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("Res delete", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/discount/delete`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('Res delete', res);
         if (res.code === 200) {
           let data = [...props.data];
-          data = data.filter((x) => x._id !== props.item._id);
+          data = data.filter(x => x._id !== props.item._id);
           props.setData(data);
           alert(res.message);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(`Устгахад алдаа гарлаа. ${error}`);
       });
   };
@@ -39,7 +42,7 @@ const Promo = (props) => {
     if (props.item.supplierID === 10 || props.item.supplierID === 4766) {
       return;
     }
-    console.log("open");
+    console.log('open');
     setOpenForm(true);
   };
   return (
@@ -47,7 +50,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
       >
         {props.item && props.item?.supplierName}
@@ -55,7 +58,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.discount_data?.title?.toString()}
@@ -65,7 +68,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.productName?.toString()}
@@ -75,7 +78,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.products?.toString()}
@@ -85,7 +88,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.productBarcode?.toString()}
@@ -95,7 +98,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.catName?.toString()}
@@ -105,7 +108,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
         className={css.productname}
         title={props.item && props.item?.location?.toString()}
@@ -115,7 +118,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
       >
         {props.item && props.item?.start_date}
@@ -123,7 +126,7 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.one,
-          overflow: "hidden",
+          overflow: 'hidden'
         }}
       >
         {props.item && props.item?.end_date}
@@ -131,19 +134,19 @@ const Promo = (props) => {
       <div
         style={{
           ...styles.ten,
-          overflow: "hidden",
+          overflow: 'hidden',
           display:
             props.item.supplierID === 10 || props.item.supplierID === 4766
-              ? "none"
-              : "block",
+              ? 'none'
+              : 'block'
         }}
       >
         <img
           src={DeleteIcon}
-          alt="delete icon"
+          alt='delete icon'
           style={{
-            width: "25px",
-            height: "25px",
+            width: '25px',
+            height: '25px'
           }}
           onClick={DeleteHandler}
         />

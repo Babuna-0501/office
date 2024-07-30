@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Select } from "antd";
+import { Select } from 'antd';
 import myHeaders from '../MyHeader/myHeader';
 
 import './supp.css';
@@ -11,11 +11,11 @@ const SuppliersSelect = ({ setSuppValue }) => {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const url3 = `https://api2.ebazaar.mn/api/backoffice/suppliers`;
+        const url3 = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`;
         const requestOptions3 = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
         const response = await fetch(url3, requestOptions3);
         const data = await response.json();
@@ -24,7 +24,7 @@ const SuppliersSelect = ({ setSuppValue }) => {
           label: item.name
         }));
         setOtherSuppliers(supplierList);
-        console.log("LIISSTTT",supplierList)
+        console.log('LIISSTTT', supplierList);
       } catch (error) {
         console.error('Failed to fetch suppliers:', error);
       }
@@ -33,11 +33,10 @@ const SuppliersSelect = ({ setSuppValue }) => {
     fetchSuppliers();
   }, []);
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = value => {
     if (value === 'all') {
       window.location.reload();
     } else {
-     
       setSuppValue(value);
     }
   };
@@ -45,16 +44,16 @@ const SuppliersSelect = ({ setSuppValue }) => {
   return (
     <div className='otherWrapper'>
       <Select
-        showSearch 
+        showSearch
         style={{ width: 150 }}
-        optionFilterProp="children" 
+        optionFilterProp='children'
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        } 
-        onChange={handleSelectChange} 
-      > 
-        <Option value="all">Бүх нийлүүлэгчид</Option>
-        {otherSuppliers.map((supplier) => (
+        }
+        onChange={handleSelectChange}
+      >
+        <Option value='all'>Бүх нийлүүлэгчид</Option>
+        {otherSuppliers.map(supplier => (
           <Option key={supplier.value} value={supplier.value}>
             {supplier.label}
           </Option>

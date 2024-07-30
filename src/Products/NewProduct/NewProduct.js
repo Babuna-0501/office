@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./newproduct.module.css";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import ImageUpload from "./ImageUpload";
-import ProductCat from "./ProductCat";
-import Select from "react-select";
-import closeBtn from "../../assets/close.svg";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './newproduct.module.css';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import ImageUpload from './ImageUpload';
+import ProductCat from './ProductCat';
+import Select from 'react-select';
+import closeBtn from '../../assets/close.svg';
 
 //////
-const NewProduct = (props) => {
+const NewProduct = props => {
   const ctx = useContext(ProductReportHook);
   const [category, setCategory] = useState(27125);
   const [categoryCode, setCategoryCode] = useState(null);
@@ -23,14 +23,14 @@ const NewProduct = (props) => {
   const [desc, setDesc] = useState(null);
   const [categoryShow, setCategoryShow] = useState(false);
   const [productPriority, setProductPriority] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [updatedbyState, setUpdatedbyState] = useState(null);
   const [sectorIDstate, setSectorIDstate] = useState(null);
 
   const options = [];
   let defaultValueLabel = null;
   if (ctx.sitedata.categories) {
-    ctx.sitedata.categories.map((category) => {
+    ctx.sitedata.categories.map(category => {
       options.push({ value: category.id, label: category.name });
       if (category.id === 27125) {
         defaultValueLabel = category.name;
@@ -39,13 +39,13 @@ const NewProduct = (props) => {
   }
   const brandoptions = [];
   if (ctx.sitedata.brands) {
-    ctx.sitedata.brands.map((brand) => {
+    ctx.sitedata.brands.map(brand => {
       brandoptions.push({ value: brand.BrandID, label: brand.BrandName });
     });
   }
 
   useEffect(() => {
-    let catID = ctx.sitedata.categories.filter((item) => {
+    let catID = ctx.sitedata.categories.filter(item => {
       return item.id === categoryCode;
     });
 
@@ -53,51 +53,51 @@ const NewProduct = (props) => {
   }, [categoryCode]);
   const ProductSave = () => {
     if (productCode?.length === 0) {
-      alert("Таны бүтээгдэхүүний ID байхгүй байна.");
+      alert('Таны бүтээгдэхүүний ID байхгүй байна.');
       return;
     } else if (productName?.length === 0) {
-      alert("Таны бүтээгдэхүүний нэр байхгүй байна.");
+      alert('Таны бүтээгдэхүүний нэр байхгүй байна.');
 
       return;
     } else if (barCode?.length === 0) {
-      alert("Таны бүтээгдэхүүний нэр байхгүй байна.");
+      alert('Таны бүтээгдэхүүний нэр байхгүй байна.');
 
       return;
     } else if (images.length === 0) {
-      alert("Таны бүтээгдэхүүний зураг байхгүй байна.");
+      alert('Таны бүтээгдэхүүний зураг байхгүй байна.');
       return;
     } else if (skuCode.length === 0) {
-      alert("Таны бүтээгдэхүүний SKU код байхгүй байна.");
+      alert('Таны бүтээгдэхүүний SKU код байхгүй байна.');
       return;
     } else if (desc.length === 0) {
-      alert("Таны бүтээгдэхүүний дэлгэрэнгүй мэдээлэл байхгүй байна.");
+      alert('Таны бүтээгдэхүүний дэлгэрэнгүй мэдээлэл байхгүй байна.');
       return;
     } else if (productPriority === null) {
       alert(
-        "Таны бүтээгдэхүүний дэлгэрэнгүй productPriority мэдээлэл байхгүй байна."
+        'Таны бүтээгдэхүүний дэлгэрэнгүй productPriority мэдээлэл байхгүй байна.'
       );
       return;
     } else if (updatedbyState !== null) {
       alert(
-        "Таны бүтээгдэхүүний дэлгэрэнгүй updatedbyState мэдээлэл байхгүй байна."
+        'Таны бүтээгдэхүүний дэлгэрэнгүй updatedbyState мэдээлэл байхгүй байна.'
       );
       return;
     } else if (brand.length === 0) {
-      alert("Таны бүтээгдэхүүний брэндийн мэдээлэл байхгүй байна.");
+      alert('Таны бүтээгдэхүүний брэндийн мэдээлэл байхгүй байна.');
       return;
     } else if (sectorIDstate !== null) {
-      alert("Таны бүтээгдэхүүний sectorIDstate мэдээлэл байхгүй байна.");
+      alert('Таны бүтээгдэхүүний sectorIDstate мэдээлэл байхгүй байна.');
       return;
     } else if (price.length === 0) {
-      alert("Таны бүтээгдэхүүний үнийн мэдээлэл байхгүй байна.");
+      alert('Таны бүтээгдэхүүний үнийн мэдээлэл байхгүй байна.');
       return;
     }
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var raw = JSON.stringify({
       ProductGroupID: productCode,
       ProductName: productName,
@@ -110,33 +110,33 @@ const NewProduct = (props) => {
       ProductPriority: productPriority,
       Updatedby: updatedbyState,
       BrandID: brand,
-      Slug: "maggi-100-6917878015064",
+      Slug: 'maggi-100-6917878015064',
       SectorID: sectorIDstate,
-      DefaultPrice: price,
+      DefaultPrice: price
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: raw
     };
     console.log(raw);
-    fetch(`https://api2.ebazaar.mn/api/product/add`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/product/add`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         if (response.code === 200) {
-          alert("Амжилттай бүтээгдэхүүн нэмэгдлээ");
+          alert('Амжилттай бүтээгдэхүүн нэмэгдлээ');
         } else {
           alert(`Алдаа гарлаа. ${response.error}`);
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch(error => console.log(error.message));
   };
-  const handleChange = (selectedOptions) => {
+  const handleChange = selectedOptions => {
     // console.log(selectedOptions.value);
     setCategory(selectedOptions.value);
   };
-  const handleChangeBrand = (selectedOptions) => {
+  const handleChangeBrand = selectedOptions => {
     setBrand(selectedOptions.value);
   };
   /////////
@@ -148,37 +148,37 @@ const NewProduct = (props) => {
       paddingBottom: 8,
       paddingLeft: 20,
       paddingRight: 20,
-      cursor: "pointer",
-      width: "100%",
+      cursor: 'pointer',
+      width: '100%'
     }),
 
     control: () => ({
-      alignItems: "center",
-      display: "flex",
+      alignItems: 'center',
+      display: 'flex',
       width: 428,
       paddingTop: 16,
       paddingBottom: 16,
       paddingLeft: 20,
       paddingRight: 20,
-      border: "1px solid #cfd8dc",
+      border: '1px solid #cfd8dc',
       height: 52,
-      borderRadius: 12,
-    }),
+      borderRadius: 12
+    })
   };
 
   return (
     <div className={css.container}>
-      <div style={{ width: "100%" }}></div>
+      <div style={{ width: '100%' }}></div>
       <div className={css.wrapper}>
         <div className={css.wrapperSub}>
           <div>
             <div className={css.closeContainer}>
-              <span className={css.header}>Бүтээгдэхүүн</span>{" "}
+              <span className={css.header}>Бүтээгдэхүүн</span>{' '}
               <span onClick={() => ctx.setNewProduct(false)}>
                 <img
                   src={closeBtn}
-                  alt="close button "
-                  style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                  alt='close button '
+                  style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                 />
               </span>
             </div>
@@ -189,11 +189,11 @@ const NewProduct = (props) => {
               <Select
                 styles={customStyles}
                 options={options}
-                id="category"
+                id='category'
                 onChange={handleChange}
                 defaultValue={{
                   label: defaultValueLabel,
-                  value: 27125,
+                  value: 27125
                 }}
               />
 
@@ -211,7 +211,7 @@ const NewProduct = (props) => {
                 <input
                   className={css.inputwrapper}
                   value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
+                  onChange={e => setProductName(e.target.value)}
                 />
               </div>
             </div>
@@ -222,11 +222,11 @@ const NewProduct = (props) => {
               <Select
                 styles={customStyles}
                 options={brandoptions}
-                id="brand"
+                id='brand'
                 onChange={handleChangeBrand}
                 defaultValue={{
                   label: `Coca Cola`,
-                  value: 1914,
+                  value: 1914
                 }}
               />
               {/* <div className={css.secondWrapper}>
@@ -245,7 +245,7 @@ const NewProduct = (props) => {
                 <input
                   className={css.inputwrapper}
                   value={productCode}
-                  onChange={(e) => setProductCode(e.target.value)}
+                  onChange={e => setProductCode(e.target.value)}
                 />
               </div>
             </div>
@@ -257,7 +257,7 @@ const NewProduct = (props) => {
                 <input
                   className={css.inputwrapper}
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={e => setPrice(e.target.value)}
                 />
               </div>
             </div>
@@ -269,7 +269,7 @@ const NewProduct = (props) => {
                 <input
                   className={css.inputwrapper}
                   value={skuCode}
-                  onChange={(e) => setSkuCode(e.target.value)}
+                  onChange={e => setSkuCode(e.target.value)}
                 />
               </div>
             </div>
@@ -281,7 +281,7 @@ const NewProduct = (props) => {
                 <input
                   className={css.inputwrapper}
                   value={barCode}
-                  onChange={(e) => setBarCode(e.target.value)}
+                  onChange={e => setBarCode(e.target.value)}
                 />
               </div>
             </div>
@@ -300,9 +300,9 @@ const NewProduct = (props) => {
               <div className={css.thirdWrapper}>
                 <textarea
                   className={css.inputwrapper}
-                  placeholder="Бүтээгдэхүүний тайлбар оруулах"
+                  placeholder='Бүтээгдэхүүний тайлбар оруулах'
                   value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
+                  onChange={e => setDesc(e.target.value)}
                 ></textarea>
               </div>
             </div>

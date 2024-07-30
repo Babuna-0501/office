@@ -1,18 +1,18 @@
-import css from "./addInventory.module.css";
-import LoadingSpinner from "../../components/Spinner/Spinner";
+import css from './addInventory.module.css';
+import LoadingSpinner from '../../components/Spinner/Spinner';
 
-import closeIcon from "../../assets/shipment/closeIcon.svg";
-import { Button, Dropdown, Input, Modal } from "./common";
-import { useState } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import okIcon from "../../assets/shipment/ok.svg";
+import closeIcon from '../../assets/shipment/closeIcon.svg';
+import { Button, Dropdown, Input, Modal } from './common';
+import { useState } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import okIcon from '../../assets/shipment/ok.svg';
 
-const AddInventory = (props) => {
+const AddInventory = props => {
   const { inventoriesLoading, closeHandler, userData, setInventories } = props;
 
-  const [invenName, setInvenName] = useState("");
-  const [locationName, setLocationName] = useState("");
-  const [selectedType, setSelectedType] = useState("");
+  const [invenName, setInvenName] = useState('');
+  const [locationName, setLocationName] = useState('');
+  const [selectedType, setSelectedType] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
   const [submitDone, setSubmitDone] = useState(false);
@@ -21,52 +21,52 @@ const AddInventory = (props) => {
     try {
       if (submitting) return;
 
-      if (invenName === "") {
-        alert("Агуулхын нэрээ оруулна уу!");
+      if (invenName === '') {
+        alert('Агуулхын нэрээ оруулна уу!');
         return;
       }
 
-      if (locationName === "") {
-        alert("Байршлын нэрээ оруулна уу!");
+      if (locationName === '') {
+        alert('Байршлын нэрээ оруулна уу!');
         return;
       }
 
-      if (selectedType === "") {
-        alert("Агуулхын төрлөө сонгоно уу!");
+      if (selectedType === '') {
+        alert('Агуулхын төрлөө сонгоно уу!');
         return;
       }
 
       setSubmitting(true);
 
-      const url = `https://api2.ebazaar.mn/api/warehouse/create`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/warehouse/create`;
       const body = {
         supplier:
-          Number(userData.company_id.replaceAll("|", "")) === 1
+          Number(userData.company_id.replaceAll('|', '')) === 1
             ? 13884
-            : Number(userData.company_id.replaceAll("|", "")),
+            : Number(userData.company_id.replaceAll('|', '')),
         name: invenName,
         location: locationName,
         type: Number(selectedType),
         origin: 2,
-        manager: userData.first_name ?? userData.email,
+        manager: userData.first_name ?? userData.email
       };
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(body),
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
       const resData = await res.json();
 
       if (resData.code === 200) {
-        setInventories((prev) => [...prev, { ...body, products: [] }]);
+        setInventories(prev => [...prev, { ...body, products: [] }]);
         setSubmitDone(true);
       }
     } catch (error) {
       console.log(error);
-      alert("Агуулга нэмэхэд алдаа гарлаа");
+      alert('Агуулга нэмэхэд алдаа гарлаа');
     } finally {
       setSubmitting(false);
       closeHandler();
@@ -81,7 +81,7 @@ const AddInventory = (props) => {
             <span className={css.title}>Агуулах нэмэх</span>
 
             <button onClick={closeHandler} className={css.closeBtn}>
-              <img src={closeIcon} alt="Close" />
+              <img src={closeIcon} alt='Close' />
             </button>
           </div>
 
@@ -90,10 +90,10 @@ const AddInventory = (props) => {
               <span>Агуулахын нэр</span>
               <Input
                 value={invenName}
-                onChange={(e) => setInvenName(e.target.value)}
-                type="text"
-                size="small"
-                placeholder="Агуулхын нэр"
+                onChange={e => setInvenName(e.target.value)}
+                type='text'
+                size='small'
+                placeholder='Агуулхын нэр'
               />
             </div>
 
@@ -101,10 +101,10 @@ const AddInventory = (props) => {
               <span>Байршлын нэр</span>
               <Input
                 value={locationName}
-                onChange={(e) => setLocationName(e.target.value)}
-                type="text"
-                size="small"
-                placeholder="Байршлын нэр"
+                onChange={e => setLocationName(e.target.value)}
+                type='text'
+                size='small'
+                placeholder='Байршлын нэр'
               />
             </div>
 
@@ -114,8 +114,8 @@ const AddInventory = (props) => {
                 value={selectedType}
                 onChangeHandler={setSelectedType}
                 datas={[
-                  { label: "Үндсэн агуулах", value: 2 },
-                  { label: "Машин агуулах", value: 3 },
+                  { label: 'Үндсэн агуулах', value: 2 },
+                  { label: 'Машин агуулах', value: 3 }
                 ]}
               />
             </div>
@@ -124,16 +124,16 @@ const AddInventory = (props) => {
           <div className={css.btnWrapper}>
             <Button
               onClick={closeHandler}
-              variant="secondary"
-              size="medium"
+              variant='secondary'
+              size='medium'
               width={80}
             >
               Цуцлах
             </Button>
             <Button
               onClick={submitHandler}
-              variant="primary"
-              size="medium"
+              variant='primary'
+              size='medium'
               width={116}
             >
               Нэмэх
@@ -152,35 +152,35 @@ const AddInventory = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Агуулах амжилттай нэмэгдлээ
@@ -190,9 +190,9 @@ const AddInventory = (props) => {
                 setSubmitDone(false);
                 closeHandler();
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>

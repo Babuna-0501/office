@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import css from "./avatar.module.css";
+import React, { useState, useEffect } from 'react';
+import css from './avatar.module.css';
 
-const Avatar = (props) => {
+const Avatar = props => {
   const [data, setData] = useState([]);
   // console.log("props avatar", props);
   useEffect(() => {
     let aa = [];
     props.ids &&
-      props.ids.map((x) => {
-        let bbb = props.users.filter((item) => item.user_id === x);
+      props.ids.map(x => {
+        let bbb = props.users.filter(item => item.user_id === x);
         aa.push(bbb[0]);
       });
     setData(aa);
@@ -19,17 +19,17 @@ const Avatar = (props) => {
       <div
         className={css.avatar}
         style={{
-          zIndex: index + 1,
+          zIndex: index + 1
         }}
         key={index}
       >
         <img
           src={
             item && item.profile_picture
-              ? item.profile_picture.replace("original", "small")
-              : "https://ebazaar.mn/media/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg"
+              ? item.profile_picture.replace('original', 'small')
+              : `${process.env.REACT_APP_MEDIA_URL}/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg`
           }
-          alt="avatar image"
+          alt='avatar image'
         />
       </div>
     );
@@ -41,25 +41,25 @@ const Avatar = (props) => {
       let too = data.length - 4;
       if (too > 0) {
       } else {
-        too = "";
+        too = '';
       }
       return (
         <div
           className={css.avatar}
           style={{
             zIndex: 4 + 1,
-            background: "#E6E6E6",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            background: '#E6E6E6',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           key={i}
         >
           <span
             style={{
-              fontSize: "12px",
-              fontWeight: "700",
-              color: "#b3b3b3",
+              fontSize: '12px',
+              fontWeight: '700',
+              color: '#b3b3b3'
             }}
           >
             +{too}

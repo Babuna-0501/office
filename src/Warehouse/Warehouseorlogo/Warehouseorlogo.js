@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./warehouseorlogo.module.css";
-import AppHook from "../../Hooks/AppHook";
-import myHeaders from "../../components/MyHeader/myHeader";
-import { styles } from "./style";
-import Delgerengui from "./Delgerengui";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './warehouseorlogo.module.css';
+import AppHook from '../../Hooks/AppHook';
+import myHeaders from '../../components/MyHeader/myHeader';
+import { styles } from './style';
+import Delgerengui from './Delgerengui';
 
 const Warehouseorlogo = () => {
   const [data, setData] = useState([]);
@@ -14,55 +14,57 @@ const Warehouseorlogo = () => {
   const warectx = useContext(AppHook);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     fetch(
-      `https://api2.ebazaar.mn/api/inventory/get?warehouse=${warectx.selectedWareHouse._id}`,
+      `${process.env.REACT_APP_API_URL2}/api/inventory/get?warehouse=${warectx.selectedWareHouse._id}`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         let productids = [];
         setData(res.message.reverse());
-        res.message.map((item) => {
+        res.message.map(item => {
           productids.push(item.product_id);
         });
         if (productids.length !== 0) {
           fetch(
-            `https://api2.ebazaar.mn/api/products/get1?ids=${productids}`,
+            `${process.env.REACT_APP_API_URL2}/api/products/get1?ids=${productids}`,
             requestOptions
           )
-            .then((res) => res.json())
-            .then((res) => {
+            .then(res => res.json())
+            .then(res => {
               setProducts(res.data);
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         }
 
         fetch(
-          `https://api2.ebazaar.mn/api/backoffice/users?company=${warectx.userData.company_id.replaceAll(
-            "|",
-            ""
+          `${
+            process.env.REACT_API_URL2
+          }/backoffice/users?company=${warectx.userData.company_id.replaceAll(
+            '|',
+            ''
           )}`,
           requestOptions
         )
-          .then((res) => res.json())
-          .then((res) => {
+          .then(res => res.json())
+          .then(res => {
             setWorkers(res.data);
           })
-          .catch((error) => {
-            console.log("company users fetch error", error);
+          .catch(error => {
+            console.log('company users fetch error', error);
           });
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [warectx.selectedWareHouse]);
-  const openHandler = (item) => {
+  const openHandler = item => {
     setOpen(true);
     setOnedata(item);
   };
@@ -87,10 +89,10 @@ const Warehouseorlogo = () => {
         </div>
       </div>
       <div className={css.bodywrapper}>
-        {data.map((item) => {
-          let user = "";
+        {data.map(item => {
+          let user = '';
           workers &&
-            workers.map((item) => {
+            workers.map(item => {
               return (user = item.first_name);
             });
           return (

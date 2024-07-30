@@ -1,30 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./productadd.module.css";
-import Product from "./Product";
-import myHeaders from "../../components/MyHeader/myHeader";
-import checkboxicon from "../../assets/check box.svg";
-import { styles } from "./style";
-import PromoHook from "../../Hooks/PromoHook";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './productadd.module.css';
+import Product from './Product';
+import myHeaders from '../../components/MyHeader/myHeader';
+import checkboxicon from '../../assets/check box.svg';
+import { styles } from './style';
+import PromoHook from '../../Hooks/PromoHook';
 
-const ProductAdd = (props) => {
+const ProductAdd = props => {
   const [search, setSearch] = useState(null);
   const [category, setCategory] = useState(null);
   const [sku, setSku] = useState(null);
   const [barcode, setBarcode] = useState(null);
   const [id, setId] = useState(null);
   const [brand, setBrand] = useState(null);
-  console.log("props product", props);
+  console.log('props product', props);
 
   const [data, setData] = useState([]);
   const promoctx = useContext(PromoHook);
 
   useEffect(() => {
     let requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
     if (search !== null && search.length >= 3) {
       params += `search=${search}&`;
     }
@@ -47,14 +47,14 @@ const ProductAdd = (props) => {
       params += `brand=${brand}&`;
     }
 
-    let url = `https://api2.ebazaar.mn/api/products/get1?${params}page=0&limit=50`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}page=0&limit=50`;
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setData(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [search, category, sku, barcode, id, promoctx.supplierID, brand]);
 
@@ -64,24 +64,24 @@ const ProductAdd = (props) => {
         <div
           className={css.wrapper}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <div className={css.imagewrapper}>
-            <img src={checkboxicon} alt="checkbox" />
+            <img src={checkboxicon} alt='checkbox' />
           </div>
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.idcontainer,
+            ...styles.idcontainer
           }}
         >
           <span>ID</span>
           <input
-            placeholder="Хайх"
+            placeholder='Хайх'
             value={id}
-            onChange={(e) => setId(e.target.value)}
+            onChange={e => setId(e.target.value)}
           />
         </div>
         {/* <div
@@ -96,7 +96,7 @@ const ProductAdd = (props) => {
         <div
           className={css.wrapper}
           style={{
-            width: "80px",
+            width: '80px'
           }}
         >
           <span>IMG</span>
@@ -104,83 +104,83 @@ const ProductAdd = (props) => {
         <div
           className={css.wrapper}
           style={{
-            ...styles.productName,
+            ...styles.productName
           }}
         >
           <span>Бүтээгдэхүүн нэр</span>
           <input
-            placeholder="Хайх"
+            placeholder='Хайх'
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={e => setSearch(e.target.value)}
           />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.barCode,
+            ...styles.barCode
           }}
         >
           <span>Ангилал</span>
           <input
-            placeholder="Хайх"
+            placeholder='Хайх'
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={e => setCategory(e.target.value)}
           />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.barCode,
+            ...styles.barCode
           }}
         >
           <span>Брэнд</span>
           <input
-            placeholder="Хайх"
+            placeholder='Хайх'
             value={brand}
-            onChange={(e) => setBrand(e.target.value)}
+            onChange={e => setBrand(e.target.value)}
           />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.barCode,
+            ...styles.barCode
           }}
         >
           <span>Үнэ</span>
-          <input placeholder="Хайх" />
+          <input placeholder='Хайх' />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.barCode,
+            ...styles.barCode
           }}
         >
           <span>Үүссэн огноо</span>
-          <input placeholder="Хайх" />
+          <input placeholder='Хайх' />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.SKU,
+            ...styles.SKU
           }}
         >
           <span>SKU</span>
           <input
-            placeholder="Хайх"
-            onChange={(e) => setSku(e.target.value)}
+            placeholder='Хайх'
+            onChange={e => setSku(e.target.value)}
             value={sku}
           />
         </div>
         <div
           className={css.wrapper}
           style={{
-            ...styles.barCode,
+            ...styles.barCode
           }}
         >
           <span>Баркод</span>
           <input
-            placeholder="Хайх"
-            onChange={(e) => setBarcode(e.target.value)}
+            placeholder='Хайх'
+            onChange={e => setBarcode(e.target.value)}
             value={barcode}
           />
         </div>

@@ -1,81 +1,75 @@
 import React, { useState } from 'react';
 import './date.css';
+import { options } from './constants';
+import { getDates } from '../../data/info';
 
-const Date = ({ handleFilterChange, selectedFilter }) => {
+const DateFilter = ({ filterByDate, selectedFilter, setParams }) => {
   const [showDatepicker, setShowDatepicker] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
-  const handleDateRange = (e) => {
-    const value = e.target.value;
+  const filterClick = () => {
+    filterByDate(date);
+  };
+
+  const closeClick = () => {
+    setShowDatepicker(false);
+  };
+
+  const selectOnChange = ({ target: { value } }) => {
     if (value === 'date') {
       setShowDatepicker(true);
     } else {
       setShowDatepicker(false);
-      handleFilterChange(value);
     }
-  };
 
-  const handleStartDateChange = (e) => {
-    setStartDate(e.target.value);
-  };
-
-  const handleEndDateChange = (e) => {
-    setEndDate(e.target.value);
-  };
-
-  const handleApplyDateRange = () => {
-    if (startDate && endDate) {
-      handleFilterChange(`${startDate} - ${endDate}`, startDate, endDate);
-      setShowDatepicker(false);
+    if (value === 'all') {
+      setParams('');
     } else {
-      alert("Эхлэх болон дуусах өдрийг хамтад нь сонгоно уу!.");
-    }
-  };
-  
-  
-  
+      const filteredDate = getDates(value);
 
-  const handleCloseDatepicker = () => {
-    setShowDatepicker(false);
+      filterByDate(filteredDate);
+    }
   };
 
   return (
-    <div className="date-filter">
+    <div className='date-filter'>
       <select
+        defaultValue='all'
         value={selectedFilter}
-        onChange={(e) => handleFilterChange(e.target.value)}
-        onClick={handleDateRange}
+        onChange={selectOnChange}
       >
-        <option value="all">Бүгд</option>
-        <option value="date">Огноогоор шүүх</option>
-        <option value="today">Өнөөдөр</option>
-        <option value="yesterday">Өчигдөр</option>
-        <option value="yesterday+today">Өчигдөр + Өнөөдөр</option>
-        <option value="last3days">Сүүлийн 3 хоног</option>
-        <option value="lastweek">Сүүлийн 7 хоног</option>
-        <option value="lastmonth">Сүүлийн 1 сар</option>
+        {options.map((item, index) => {
+          return (
+            <option value={item.value} key={index}>
+              {item.label}
+            </option>
+          );
+        })}
       </select>
+
       {showDatepicker && (
-        <div className="date-range-container">
-          
+        <div className='date-range-container'>
           <input
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-            className="date-range-input"
-            placeholder="Эхлэх огноо"
+            type='date'
+            name='startDate'
+            value={date.startDate}
+            className='date-range-input'
+            placeholder='Эхлэх огноо'
+            onChange={e => setDate({ ...date, startDate: e.target.value })}
           />
+
           <input
-            type="date"
-            value={endDate}
-            onChange={handleEndDateChange}
-            className="date-range-input"
-            placeholder="Дуусах огноо"
+            type='date'
+            name='endDate'
+            value={date.endDate}
+            className='date-range-input'
+            placeholder='Дуусах огноо'
+            onChange={e => setDate({ ...date, endDate: e.target.value })}
           />
-          <div className='btn_wrapper'>      
-            <button onClick={handleApplyDateRange}>Шүүх</button>
-            <button onClick={handleCloseDatepicker}>Хаах</button>
+
+          <div className='btn_wrapper'>
+            <button onClick={filterClick}>Шүүх</button>
+            <button onClick={closeClick}>Хаах</button>
           </div>
         </div>
       )}
@@ -83,4 +77,4 @@ const Date = ({ handleFilterChange, selectedFilter }) => {
   );
 };
 
-export default Date;
+export default DateFilter;

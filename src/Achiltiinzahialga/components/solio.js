@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import css from "./solio.module.css";
-import { Button } from "../../components/common";
-import myHeaders from "../../components/MyHeader/myHeader";
-import AddProduct from "./chooseProducts/addProduct";
-import { Modal } from "./common";
+import React, { useEffect, useState } from 'react';
+import css from './solio.module.css';
+import { Button } from '../../components/common';
+import myHeaders from '../../components/MyHeader/myHeader';
+import AddProduct from './chooseProducts/addProduct';
+import { Modal } from './common';
 
 const Solio = () => {
   const [warehouses, setWarehouses] = useState([]);
-  const [chosenWareouse, setChosenWarehouse] = useState("");
+  const [chosenWareouse, setChosenWarehouse] = useState('');
   const [isAddProduct, setIsProduct] = useState(false);
   const [checkedProducts1, setCheckedProducts1] = useState([]);
   const [checkedProducts2, setCheckedProducts2] = useState([]);
@@ -15,7 +15,7 @@ const Solio = () => {
 
   const truncater = (text, maxLength) => {
     if (text.length > maxLength) {
-      return text.slice(0, maxLength - 3) + "...";
+      return text.slice(0, maxLength - 3) + '...';
     } else {
       return text;
     }
@@ -23,11 +23,11 @@ const Solio = () => {
 
   const getWarehouses = async () => {
     try {
-      const url = `https://api2.ebazaar.mn/api/warehouse/get/new`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -35,7 +35,7 @@ const Solio = () => {
 
       setWarehouses(resData.data);
     } catch (error) {
-      console.log("error while fetching users: ", error);
+      console.log('error while fetching users: ', error);
     }
   };
   useEffect(() => {
@@ -47,27 +47,27 @@ const Solio = () => {
       <div className={css.header}>
         <div className={css.left}>
           <select
-            onChange={(e) => {
+            onChange={e => {
               setChosenWarehouse(e.target.value);
             }}
           >
-            <option value="">Агуулах</option>
-            {warehouses.map((warehouse) => {
+            <option value=''>Агуулах</option>
+            {warehouses.map(warehouse => {
               return <option value={warehouse?._id}>{warehouse?.name}</option>;
             })}
           </select>
           <select>
             <option>Нийлүүлэгч</option>
-            <option value="1">A Нийлүүлэгч</option>
-            <option value="2">B Нийлүүлэгч</option>
+            <option value='1'>A Нийлүүлэгч</option>
+            <option value='2'>B Нийлүүлэгч</option>
           </select>
         </div>
         <div className={css.right}>
           <Button
-            style={{ padding: "5px 10px", fontSize: "14px" }}
+            style={{ padding: '5px 10px', fontSize: '14px' }}
             onClick={() => {
-              if (chosenWareouse === "") {
-                alert("Агуулах эсвэл Нийлүүлэгч сонгоно уу!");
+              if (chosenWareouse === '') {
+                alert('Агуулах эсвэл Нийлүүлэгч сонгоно уу!');
               } else {
                 setIsProduct(true);
                 setIsAguulah(true);
@@ -77,10 +77,10 @@ const Solio = () => {
             Бараа сонгох1
           </Button>
           <Button
-            style={{ padding: "5px 10px", fontSize: "14px" }}
+            style={{ padding: '5px 10px', fontSize: '14px' }}
             onClick={() => {
-              if (chosenWareouse === "") {
-                alert("Агуулах эсвэл Нийлүүлэгч сонгоно уу!");
+              if (chosenWareouse === '') {
+                alert('Агуулах эсвэл Нийлүүлэгч сонгоно уу!');
               } else {
                 setIsProduct(true);
                 setIsAguulah(false);
@@ -135,7 +135,7 @@ const Solio = () => {
             </div>
           </div>
           <div className={css.productsContainer}>
-            {checkedProducts1.map((product) => {
+            {checkedProducts1.map(product => {
               return (
                 <div className={css.product}>
                   <div className={css.field}>
@@ -225,7 +225,7 @@ const Solio = () => {
             </div>
           </div>
           <div className={css.productsContainer}>
-            {checkedProducts2.map((product) => {
+            {checkedProducts2.map(product => {
               return (
                 <div className={css.product}>
                   <div className={css.field}>
@@ -275,14 +275,14 @@ const Solio = () => {
       </div>
       {isAddProduct && (
         <Modal
-          width="max-content"
-          height="80%"
+          width='max-content'
+          height='80%'
           closeHandler={() => {
             setIsProduct(false);
           }}
         >
           <AddProduct
-            supplier=""
+            supplier=''
             checkedProducts={isAguulah ? checkedProducts1 : checkedProducts2}
             setCheckedProducts={
               isAguulah ? setCheckedProducts1 : setCheckedProducts2
@@ -290,7 +290,7 @@ const Solio = () => {
             setIsProduct={setIsProduct}
             truncater={truncater}
             fromAguulah={chosenWareouse}
-            toAguulah=""
+            toAguulah=''
           />
         </Modal>
       )}

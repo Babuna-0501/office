@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./list.module.css";
-import ReturnSidebar from "./ReturnSidebar";
-import Tailbar from "./Tailbar";
-import InfiniteScroll from "react-infinite-scroll-component";
-import LoadingSpinner from "../components/Spinner/Spinner";
-import myHeaders from "../components/MyHeader/myHeader";
-import { styles } from "./style";
-const List = (props) => {
+import React, { useState, useEffect, useContext } from 'react';
+import css from './list.module.css';
+import ReturnSidebar from './ReturnSidebar';
+import Tailbar from './Tailbar';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import myHeaders from '../components/MyHeader/myHeader';
+import { styles } from './style';
+const List = props => {
   const [requests, setRequests] = useState([]);
   const [tailbar, setTailbar] = useState(false);
   const [returnShow, setReturnShow] = useState(false);
@@ -18,29 +18,29 @@ const List = (props) => {
   useEffect(() => {
     let controller = new AbortController();
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
-      signal: controller.signal,
+      redirect: 'follow',
+      signal: controller.signal
     };
-    let url = `https://api2.ebazaar.mn/api/returnproduct/get`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/returnproduct/get`;
 
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setRequests(response.data);
         controller = null;
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
     return () => controller?.abort();
   }, [returnShow, tailbar, page]);
   const tailbarFunc = (id, index) => {
     setTailbar(true);
     setActive(index);
   };
-  const sideBarHandler = (id) => {
-    console.log("id", id);
-    let content = requests.filter((item) => {
+  const sideBarHandler = id => {
+    console.log('id', id);
+    let content = requests.filter(item => {
       return item.receipt_id === id;
     });
     setOneProduct(content);
@@ -57,11 +57,11 @@ const List = (props) => {
         // }
         let imageProduct = (
           <image
-            src="https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+            src={`${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`}
             style={{
-              width: "50px",
-              height: "50px",
-              objectFit: "cover",
+              width: '50px',
+              height: '50px',
+              objectFit: 'cover'
             }}
           />
         );
@@ -70,9 +70,9 @@ const List = (props) => {
             <img
               src={tx?.image}
               style={{
-                width: "50px",
-                height: "50px",
-                objectFit: "cover",
+                width: '50px',
+                height: '50px',
+                objectFit: 'cover'
               }}
             />
           );
@@ -80,9 +80,9 @@ const List = (props) => {
 
         let dataCreate;
         if (tx.created_date) {
-          let OnDate = tx.created_date.split("T")[0];
-          let OnHours = tx.created_date.split("T")[1];
-          let onHours1 = OnHours.split(".")[0];
+          let OnDate = tx.created_date.split('T')[0];
+          let OnHours = tx.created_date.split('T')[1];
+          let onHours1 = OnHours.split('.')[0];
           dataCreate = `${OnDate} ${onHours1}`;
         } else {
           dataCreate = tx.created_date;
@@ -93,17 +93,17 @@ const List = (props) => {
             style={{
               display:
                 [803070, 803071].indexOf(requests.user_id) !== -1
-                  ? "none"
-                  : "display",
+                  ? 'none'
+                  : 'display'
             }}
             key={index}
           >
             <div style={styles.checkboxcontainer}>
               <input
-                type="checkbox"
+                type='checkbox'
                 // id={requests.id}
                 className={css.inputWrapper}
-              />{" "}
+              />{' '}
             </div>
             <div
               // style={{ width: "155px" }}
@@ -128,8 +128,8 @@ const List = (props) => {
             <div style={styles.statusContainer}>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
               >
                 {tx.status === 1 && (
@@ -161,9 +161,9 @@ const List = (props) => {
             <div style={styles.countContainer}>
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <span className={css.textwrapper}>{tx.product_quantity}ш</span>
@@ -202,12 +202,12 @@ const List = (props) => {
   );
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
-      <div id="scrollableDiv" style={{ width: "100%" }}>
+    <div style={{ position: 'relative', width: '100%' }}>
+      <div id='scrollableDiv' style={{ width: '100%' }}>
         {/* <div id="scrollableDiv" style={{ height: "100vh", overflow: "auto" }}> */}
         <InfiniteScroll
           dataLength={requests?.length}
-          next={() => setPage((prev) => prev + 1)}
+          next={() => setPage(prev => prev + 1)}
           hasMore={true}
           useWindow={false}
           loader={
@@ -217,7 +217,7 @@ const List = (props) => {
               </div>
             )
           }
-          scrollableTarget="scrollableDiv"
+          scrollableTarget='scrollableDiv'
         >
           {content}
         </InfiniteScroll>

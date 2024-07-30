@@ -1,41 +1,41 @@
-import React, { useState, useEffect, useContext } from "react";
-import Product from "./Product";
-import Foo from "./Foo";
-import MassImport from "./MassImport";
-import readXlsxFile from "read-excel-file";
+import React, { useState, useEffect, useContext } from 'react';
+import Product from './Product';
+import Foo from './Foo';
+import MassImport from './MassImport';
+import readXlsxFile from 'read-excel-file';
 
 const areEqual = (prevProps, nextProps) => true;
 
-const Index = React.memo((props) => {
+const Index = React.memo(props => {
   let [state, setState] = useState({
     supplier: null,
-    suppliers: [],
+    suppliers: []
   });
   let sup = 0;
   let [mass, setMass] = useState(false);
   useEffect(() => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/suppliers/get`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/suppliers/get`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         setState({ ...state, suppliers: response.data });
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
   }, []);
   let [scrolled, setScrolled] = useState(false);
   let [loading, setLoading] = useState(false);
   let [data, setData] = useState([]);
-  const isInViewport = (elem) => {
+  const isInViewport = elem => {
     var bounding = elem.getBoundingClientRect();
     return (
       bounding.top >= 0 &&
@@ -50,17 +50,17 @@ const Index = React.memo((props) => {
     getProducts(0, sup);
   }, []);
   useEffect(() => {
-    document.getElementById("contents").addEventListener("scroll", loadMore);
+    document.getElementById('contents').addEventListener('scroll', loadMore);
     return () => {
       document
-        .getElementById("contents")
-        .removeEventListener("scroll", loadMore);
+        .getElementById('contents')
+        .removeEventListener('scroll', loadMore);
     };
   }, []);
   let foo = false;
   let bar = 0;
   const loadMore = () => {
-    if (isInViewport(document.getElementById("blahblah"))) {
+    if (isInViewport(document.getElementById('blahblah'))) {
       if (foo === false) {
         foo = true;
         // console.log(state.supplier)
@@ -71,31 +71,31 @@ const Index = React.memo((props) => {
   const getProducts = (page = bar, supplier = null) => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log(supplier);
-    const url = `https://api2.ebazaar.mn/api/products/get1?page=${
-      page + (supplier ? `&supplier=${supplier}` : "")
+    const url = `${process.env.REACT_APP_API_URL2}/api/products/get1?page=${
+      page + (supplier ? `&supplier=${supplier}` : '')
     }`;
     // console.log(url);
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
-        setData((data) => data.concat(response.data));
+      .then(r => r.json())
+      .then(response => {
+        setData(data => data.concat(response.data));
         // console.log(response.data);
         foo = false;
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
     bar = bar + 1;
   };
-  const setSup = (supplierId) => {
+  const setSup = supplierId => {
     // console.log(supplierId);
     sup = supplierId;
     setState({ ...state, supplier: supplierId });
@@ -103,34 +103,34 @@ const Index = React.memo((props) => {
     getProducts(0, sup);
   };
   let [massImportData, setMassImportData] = useState([]);
-  const input = document.getElementById("input")
-    ? document.getElementById("input")
+  const input = document.getElementById('input')
+    ? document.getElementById('input')
     : null;
   if (input) {
     const schema = {
       price: {
-        prop: "price",
-        type: Number,
+        prop: 'price',
+        type: Number
       },
       barcode: {
-        prop: "barcode",
-        type: String,
+        prop: 'barcode',
+        type: String
       },
       sku: {
-        prop: "sku",
-        type: String,
+        prop: 'sku',
+        type: String
       },
       name: {
-        prop: "name",
-        type: String,
+        prop: 'name',
+        type: String
       },
       description: {
-        prop: "description",
-        type: String,
-      },
+        prop: 'description',
+        type: String
+      }
     };
-    input.addEventListener("change", () => {
-      readXlsxFile(input.files[0], { schema }).then((rows) => {
+    input.addEventListener('change', () => {
+      readXlsxFile(input.files[0], { schema }).then(rows => {
         setMassImportData(rows);
         // console.log(massImportData);
         //setMass(true)
@@ -143,33 +143,33 @@ const Index = React.memo((props) => {
       {mass ? (
         <MassImport data={massImportData} suppliers={state.suppliers} />
       ) : null}
-      <div className="displayflex alignitemscenter">
+      <div className='displayflex alignitemscenter'>
         <h1>Бүтээгдэхүүн</h1>
-        <span className="rightaligned">
-          <input type="file" id="input" />
+        <span className='rightaligned'>
+          <input type='file' id='input' />
         </span>
       </div>
-      <table id="orders">
+      <table id='orders'>
         <thead>
           <tr>
             <th>
-              <span className="column-head">ID</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>ID</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Visibility</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Visibility</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Нийлүүлэгч</span>
-              <span className="sf">
-                <select onChange={(e) => setSup(e.target.value)}>
+              <span className='column-head'>Нийлүүлэгч</span>
+              <span className='sf'>
+                <select onChange={e => setSup(e.target.value)}>
                   <option>Бүх нийлүүлэгч</option>
                   {state.suppliers.map((sup, index) => {
                     return (
@@ -182,48 +182,48 @@ const Index = React.memo((props) => {
               </span>
             </th>
             <th>
-              <span className="column-head">IMG</span>
-              <span className="sf"></span>
+              <span className='column-head'>IMG</span>
+              <span className='sf'></span>
             </th>
-            <th className="products">
-              <span className="column-head">SKU</span>
-              <span className="sf">
-                <input type="text" />
+            <th className='products'>
+              <span className='column-head'>SKU</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Barcode</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Barcode</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Product name</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Product name</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Category</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Category</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Brand</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Brand</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
             <th>
-              <span className="column-head">Price</span>
-              <span className="sf">
-                <input type="text" />
+              <span className='column-head'>Price</span>
+              <span className='sf'>
+                <input type='text' />
                 <span></span>
               </span>
             </th>
@@ -236,7 +236,7 @@ const Index = React.memo((props) => {
             return <Product data={product} key={index} />;
           })}
 
-          <tr id="blahblah"></tr>
+          <tr id='blahblah'></tr>
         </tbody>
       </table>
     </div>

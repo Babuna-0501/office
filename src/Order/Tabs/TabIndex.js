@@ -1,38 +1,38 @@
-import React, { useState, useContext } from "react";
-import css from "./tabindex.module.css";
-import Background from "../Othercomponents/Background";
-import OrderTab from "./Tabcomponents/OrderTab";
-import LogTab from "./Tabcomponents/LogTab";
-import NotifTab from "./Tabcomponents/NotifTab";
-import closeBlack from "../../assets/close.svg";
-import Modal from "./Modal/Modal";
-import OrderButton from "./Buttons/OrderButton";
-import NotifButtons from "./Buttons/NotifButtons";
-import OrderReportHook from "../../Hooks/OrderReportHook";
-import OrderCancel from "../OrderCancel/OrderCancel";
-import myHeaders from "../../components/MyHeader/myHeader";
-import closeIcon from "../../assets/close.svg";
-import Button from "./Buttons/Button";
-import prinfIcon from "../../assets/Upload.svg";
-import LinesCopy from "../LinesCopy";
-import { NoteTab } from "./Tabcomponents/NoteTab";
-import Barimt from "./OrderReport/Barimt";
-import ZarlagaBarimt from './ZarlagaBarimt'
+import React, { useState, useContext } from 'react';
+import css from './tabindex.module.css';
+import Background from '../Othercomponents/Background';
+import OrderTab from './Tabcomponents/OrderTab';
+import LogTab from './Tabcomponents/LogTab';
+import NotifTab from './Tabcomponents/NotifTab';
+import closeBlack from '../../assets/close.svg';
+import Modal from './Modal/Modal';
+import OrderButton from './Buttons/OrderButton';
+import NotifButtons from './Buttons/NotifButtons';
+import OrderReportHook from '../../Hooks/OrderReportHook';
+import OrderCancel from '../OrderCancel/OrderCancel';
+import myHeaders from '../../components/MyHeader/myHeader';
+import closeIcon from '../../assets/close.svg';
+import Button from './Buttons/Button';
+import prinfIcon from '../../assets/Upload.svg';
+import LinesCopy from '../LinesCopy';
+import { NoteTab } from './Tabcomponents/NoteTab';
+import Barimt from './OrderReport/Barimt';
+import ZarlagaBarimt from './ZarlagaBarimt';
 
 const dataTabs = [
-  { id: 0, name: "Order" },
-  { id: 1, name: "Notif" },
-  { id: 2, name: "Log" },
-  { id: 3, name: "Тэмдэглэл" },
+  { id: 0, name: 'Order' },
+  { id: 1, name: 'Notif' },
+  { id: 2, name: 'Log' },
+  { id: 3, name: 'Тэмдэглэл' }
 ];
-const TabIndex = (props) => {
+const TabIndex = props => {
   const [active, setActive] = useState(props.active || 0);
   const [order, setOrder] = useState(props.data);
-  const [pushNotifMessage, setPushNotifMessage] = useState("");
+  const [pushNotifMessage, setPushNotifMessage] = useState('');
   const [orderCancelFromConfirm, setOrderCancelFromConfirm] = useState(false);
   const [orderCancelState, setOrderCancelState] = useState(false);
   const [reportShow, setReportShow] = useState(false);
-  const [zarlagaBarimt, setZarlagaBarimt] = useState(false)
+  const [zarlagaBarimt, setZarlagaBarimt] = useState(false);
 
   const [lines, setLines] = useState(null);
 
@@ -40,15 +40,15 @@ const TabIndex = (props) => {
   // console.log("props tabindex", props);
   const orderCtx = useContext(OrderReportHook);
   //   console.log("orders hook++++", orderCtx);
-  console.log("USER", props);
+  console.log('USER', props);
 
   let total = 0;
-  order.line.map((l) => {
+  order.line.map(l => {
     total += parseFloat(l.price.toFixed(2)) * l.quantity;
   });
 
-  const tabHandler = (i) => {
-    console.log("i----i", i);
+  const tabHandler = i => {
+    console.log('i----i', i);
     setActive(i);
   };
   const closeHandler = () => {
@@ -57,34 +57,37 @@ const TabIndex = (props) => {
 
     props.setNotes(false);
   };
-  const OrderCancelHandler = (id) => {
+  const OrderCancelHandler = id => {
     // console.log("order cancel id", id);
-    if (window.confirm("Та захиалгыг цуцлахдаа итгэлтэй байна уу?")) {
+    if (window.confirm('Та захиалгыг цуцлахдаа итгэлтэй байна уу?')) {
       var raw = JSON.stringify({
         order_id: order.order_id,
         order_status: 5,
-        cancel_reason: Number(id),
+        cancel_reason: Number(id)
       });
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      console.log("order cancel status", requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log("order status", result);
+      console.log('order cancel status', requestOptions);
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/status`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
+          console.log('order status', result);
           if (result.code === 200) {
-            alert("Захиалгыг цуцаллаа!");
+            alert('Захиалгыг цуцаллаа!');
             let aa = order;
             aa.status = 5;
             // console.log("aa.status", aa);
             setOrder(aa);
             setOrderCancelState(false);
           } else {
-            alert("Алдаа гарлаа");
+            alert('Алдаа гарлаа');
           }
         });
     }
@@ -94,18 +97,18 @@ const TabIndex = (props) => {
   };
   const ConfirmOrderCancelApprove = () => {
     var raw = JSON.stringify({
-      order_id: parseInt(order.order_id),
+      order_id: parseInt(order.order_id)
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("confirm order undo", requestOptions);
-    fetch("https://api2.ebazaar.mn/api/order/undo", requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
+    console.log('confirm order undo', requestOptions);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/order/undo`, requestOptions)
+      .then(response => response.json())
+      .then(res => {
         if (res.code === 200) {
           setOrderCancelFromConfirm(false);
           let bb = order;
@@ -113,15 +116,17 @@ const TabIndex = (props) => {
           setOrder(bb);
         }
       })
-      .catch((error) => {
-        console.log("confirm order cancel error", error);
+      .catch(error => {
+        console.log('confirm order cancel error', error);
       });
   };
-  console.log("props.porps", props);
+  console.log('props.porps', props);
   let locations = props.locations;
   return (
     <Background className={css.wrapper}>
-      {zarlagaBarimt ? <ZarlagaBarimt setZarlagaBarimt={setZarlagaBarimt} order={order} /> : null}
+      {zarlagaBarimt ? (
+        <ZarlagaBarimt setZarlagaBarimt={setZarlagaBarimt} order={order} />
+      ) : null}
       <div className={css.firstcontainer}></div>
       <div className={css.secondcontainer}>
         <div className={css.closecontainer}>
@@ -129,24 +134,24 @@ const TabIndex = (props) => {
             <span>Захиалгын дугаар : {order.order_id}</span>
             <img
               src={prinfIcon}
-              alt="Print"
+              alt='Print'
               onClick={() => setReportShow(true)}
               style={{
-                height: "20px",
-                marginLeft: "15px",
+                height: '20px',
+                marginLeft: '15px'
               }}
             />
             <img
               src={prinfIcon}
-              alt="Print"
+              alt='Print'
               onClick={() => setZarlagaBarimt(true)}
               style={{
-                height: "20px",
-                marginLeft: "15px",
+                height: '20px',
+                marginLeft: '15px'
               }}
             />
           </div>
-          <img alt="Close" src={closeBlack} onClick={closeHandler} />
+          <img alt='Close' src={closeBlack} onClick={closeHandler} />
         </div>
 
         <div className={css.secondwrapper}>
@@ -170,17 +175,17 @@ const TabIndex = (props) => {
         </div>
         <div
           style={{
-            overflowY: "scroll",
-            height: "60vh",
+            overflowY: 'scroll',
+            height: '60vh'
           }}
         >
           {active === 0 && (
             <div
               style={{
-                paddingLeft: "22px",
-                paddingRight: "22px",
-                overflowY: "scroll",
-                height: "60vh",
+                paddingLeft: '22px',
+                paddingRight: '22px',
+                overflowY: 'scroll',
+                height: '60vh'
               }}
             >
               <LinesCopy
@@ -220,7 +225,7 @@ const TabIndex = (props) => {
         <div
           className={css.buttoncontainer}
           style={{
-            display: active === 0 || active === 3 ? "none" : "block",
+            display: active === 0 || active === 3 ? 'none' : 'block'
           }}
         >
           {active === 1 && (
@@ -250,12 +255,12 @@ const TabIndex = (props) => {
             <div className={css.btnwrapper}>
               <Button
                 className={css.cancelbtn}
-                name="Цуцлах"
+                name='Цуцлах'
                 clickHandler={ConfirmOrderCancel}
               />
               <Button
                 className={css.approvebtn}
-                name="Тийм"
+                name='Тийм'
                 clickHandler={ConfirmOrderCancelApprove}
               />
             </div>
@@ -266,18 +271,18 @@ const TabIndex = (props) => {
       {reportShow && (
         <div
           style={{
-            position: "fixed",
+            position: 'fixed',
             top: 0,
             bottom: 0,
             right: 0,
             left: 0,
-            width: "100vw",
-            height: "100vh",
+            width: '100vw',
+            height: '100vh',
             zIndex: 160,
-            background: "rgba(0, 0, 0, 0.6)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            background: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
           {/* {props.userData.id === 351 ? (

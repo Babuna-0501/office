@@ -1,25 +1,25 @@
-import React, { useContext, useState } from "react";
-import css from "./channelsetup.module.css";
-import { Button } from "../../components/common/Button";
-import closeIcon from "../../assets/close.svg";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import Channels from "../../Products/Channels/Channels";
-import Oronnutag from "../../components/Oronnutag/Oronnutag";
-import TradeShops from "./TradeShops";
-import Categories from "./Categories";
-import Order from "./order";
-import OrdersHook from "../../Hooks/OrdersHook";
-import myHeaders from "../../components/MyHeader/myHeader";
+import React, { useContext, useState } from 'react';
+import css from './channelsetup.module.css';
+import { Button } from '../../components/common/Button';
+import closeIcon from '../../assets/close.svg';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import Channels from '../../Products/Channels/Channels';
+import Oronnutag from '../../components/Oronnutag/Oronnutag';
+import TradeShops from './TradeShops';
+import Categories from './Categories';
+import Order from './order';
+import OrdersHook from '../../Hooks/OrdersHook';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const basedata = [
-  { id: 1, name: "Суваг" },
+  { id: 1, name: 'Суваг' },
   {
     id: 2,
-    name: "Бүсчлэл",
+    name: 'Бүсчлэл'
   },
   {
     id: 3,
-    name: "Дэлгүүр",
+    name: 'Дэлгүүр'
   },
   // {
   //   id: 4,
@@ -27,11 +27,11 @@ const basedata = [
   // },
   {
     id: 5,
-    name: "Захиалга",
-  },
+    name: 'Захиалга'
+  }
 ];
 
-const ChannelSetup = (props) => {
+const ChannelSetup = props => {
   const [active, setActive] = useState(1);
   const prodctx = useContext(ProductReportHook);
   const ordersCtx = useContext(OrdersHook);
@@ -41,228 +41,227 @@ const ChannelSetup = (props) => {
     {
       id: 1,
       position: 1,
-      title: "Дугаар",
+      title: 'Дугаар',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 2,
       position: 2,
-      title: "Logo",
+      title: 'Logo',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 3,
       position: 3,
-      title: "Нийлүүлэгч",
+      title: 'Нийлүүлэгч',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 4,
       position: 4,
-      title: "Notification",
+      title: 'Notification',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 5,
       position: 5,
-      title: "Захиалга",
+      title: 'Захиалга',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 6,
       position: 6,
-      title: "DeliveryManOne",
+      title: 'DeliveryManOne',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 7,
       position: 7,
-      title: "Захиалсан",
+      title: 'Захиалсан',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 8,
       position: 8,
-      title: "Хүргүүлэх",
+      title: 'Хүргүүлэх',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 9,
       position: 9,
-      title: "Дүн",
+      title: 'Дүн',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 10,
       position: 10,
-      title: "Анхны дүн",
+      title: 'Анхны дүн',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 11,
       position: 11,
-      title: "Coupon",
+      title: 'Coupon',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 12,
       position: 12,
-      title: "Тэмдэглэл",
+      title: 'Тэмдэглэл',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 13,
       position: 13,
-      title: "Утас",
+      title: 'Утас',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 14,
       position: 14,
-      title: "Захиалсан",
+      title: 'Захиалсан',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 15,
       position: 15,
-      title: "Суваг",
+      title: 'Суваг',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 16,
       position: 16,
-      title: "Хот/аймаг",
+      title: 'Хот/аймаг',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 17,
       position: 17,
-      title: "Дүүрэг/сум",
+      title: 'Дүүрэг/сум',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 18,
       position: 18,
-      title: "Хороо",
+      title: 'Хороо',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 19,
       position: 19,
-      title: "Хаяг",
+      title: 'Хаяг',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 20,
       position: 20,
-      title: "Төлбөрийн хэлбэр",
+      title: 'Төлбөрийн хэлбэр',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 21,
       position: 21,
-      title: "PickPack",
+      title: 'PickPack',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 22,
       position: 22,
-      title: "Origin",
+      title: 'Origin',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 23,
       position: 23,
-      title: "VAT",
+      title: 'VAT',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 24,
       position: 24,
-      title: "user_date",
+      title: 'user_date',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 25,
       position: 25,
-      title: "Хариуцагч",
+      title: 'Хариуцагч',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 26,
       position: 26,
-      title: "Хариуцагч нэр",
+      title: 'Хариуцагч нэр',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 27,
       position: 27,
-      title: " Утасны дугаар",
+      title: ' Утасны дугаар',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 28,
       position: 28,
-      title: "Түгээгч",
+      title: 'Түгээгч',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 29,
       position: 29,
-      title: "Ачилт",
+      title: 'Ачилт',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 30,
       position: 30,
-      title: "Захиалга устгах",
+      title: 'Захиалга устгах',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 31,
       position: 31,
-      title: "Утасны захиалга",
+      title: 'Утасны захиалга',
       permission: true,
-      show: true,
+      show: true
     },
     {
       id: 33,
       position: 33,
-      title: "ХТ Код",
+      title: 'ХТ Код',
       permission: true,
-      show: true,
-    },
-
+      show: true
+    }
   ]);
 
   const updateUser = () => {
@@ -275,30 +274,33 @@ const ChannelSetup = (props) => {
         order: {
           field: fieldsDataCopy.map(({ content, ...rest }) => rest),
           report:
-            fieldsDataReport === "restart"
+            fieldsDataReport === 'restart'
               ? []
-              : fieldsDataReport || tablePosition.order?.report || [],
+              : fieldsDataReport || tablePosition.order?.report || []
         },
         product: {
           field: [],
-          report: [],
-        },
-      },
+          report: []
+        }
+      }
     };
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: JSON.stringify(data),
+      redirect: 'follow',
+      body: JSON.stringify(data)
     };
-    fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("Res", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('Res', res);
         if (res.code === 200) {
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(`Алдаа гарлаа. ${error}`);
       });
   };
@@ -309,15 +311,15 @@ const ChannelSetup = (props) => {
   const SubmitHandler = () => {
     prodctx.setChannelSet(!prodctx.channelSet);
     let ids = [];
-    prodctx.bustype.map((item) =>
+    prodctx.bustype.map(item =>
       item.chosed ? ids.push(item.business_type_id) : null
     );
     props.setChosedChannel(ids);
-    console.log("IDS:  ", ids);
-    console.log("BUSTYPE:  ", prodctx.bustype);
-    let aa = prodctx.bustype.map((item) => {
+    console.log('IDS:  ', ids);
+    console.log('BUSTYPE:  ', prodctx.bustype);
+    let aa = prodctx.bustype.map(item => {
       return {
-        ...item,
+        ...item
         // chosed: true,
       };
     });
@@ -332,18 +334,18 @@ const ChannelSetup = (props) => {
         <div>
           <div className={css.header}>
             <span>Тохиргоо</span>
-            <img src={closeIcon} alt="close" onClick={CancelHandler} />
+            <img src={closeIcon} alt='close' onClick={CancelHandler} />
           </div>
           <div className={css.subheader}>
-            {basedata.map((item) => {
+            {basedata.map(item => {
               return (
                 <span
                   key={item.id}
                   style={{
                     borderBottom:
                       active === item.id
-                        ? "3px solid #2AB674"
-                        : "3px solid #F2F2F2",
+                        ? '3px solid #2AB674'
+                        : '3px solid #F2F2F2'
                   }}
                   onClick={() => {
                     setActive(item.id);
@@ -372,13 +374,13 @@ const ChannelSetup = (props) => {
           </div>
         </div>
         <div className={css.btncontainer}>
-          <Button variant="secondary">
+          <Button variant='secondary'>
             <span onClick={CancelHandler}>Цуцлах</span>
           </Button>
-          <Button variant="primary">
+          <Button variant='primary'>
             <span
               style={{
-                color: "#fff",
+                color: '#fff'
               }}
               onClick={() => {
                 SubmitHandler();

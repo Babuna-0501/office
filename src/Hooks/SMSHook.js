@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
 
 const Ctx = React.createContext();
 
-export const SMSHook = (props) => {
+export const SMSHook = props => {
   const [create, setCreate] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [uramshuulalOpen, setUramshuulalOpen] = useState(false);
@@ -38,145 +38,148 @@ export const SMSHook = (props) => {
   const [updateID, setUpdateID] = useState(null);
   const [brandsdata, setBrandsdata] = useState([]);
   const [categoriesdata, setCategoriesdata] = useState([]);
-  const [multiProductIDS ,setMultiProductIDS]=useState([])
+  const [multiProductIDS, setMultiProductIDS] = useState([]);
   const [multiProducts, setMultiProducts] = useState([]);
   const [multiProductsTitle, setMultiProductsTitle] = useState(null);
   const [prizeImage, setPrizeImage] = useState(null);
   const [data, setData] = useState([]);
   const [supplierInfo, setSupplierInfo] = useState(null);
   const [reportOpen, setReportOpen] = useState(false);
-	const [barOpen, setBarOpen] = useState(false);
+  const [barOpen, setBarOpen] = useState(false);
 
-	useEffect(() => {
-		var requestOptions = {
-			method: "GET",
-			headers: myHeaders,
-			redirect: "follow",
-		};
-		fetch(`https://api2.ebazaar.mn/api/backoffice/role`, requestOptions)
-			.then(res => res.json())
-			.then(res => {
-				setRole(res.roles);
-			})
-			.catch(error => {
-				console.log("error", error);
-			});
-		fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-			.then(res => res.json())
-			.then(res => {
-				setSitedata(res);
-			})
-			.catch(error => {
-				console.log("error", error);
-			});
+  useEffect(() => {
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/role`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
+        setRole(res.roles);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        setSitedata(res);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
 
-		fetch(`https://api2.ebazaar.mn/api/zones`, requestOptions)
-			.then(res => res.json())
-			.then(res => {
-				// console.log("res", res);
-				let update = res.data.map(item => {
-					return {
-						...item,
-						chosed: false,
-					};
-				});
-				setZoneData(update);
-			})
-			.catch(error => {
-				console.log("error", error);
-			});
-	}, []);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        // console.log("res", res);
+        let update = res.data.map(item => {
+          return {
+            ...item,
+            chosed: false
+          };
+        });
+        setZoneData(update);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }, []);
 
-	return (
-		<Ctx.Provider
-			value={{
-				create,
-				setCreate,
-				modalOpen,
-				setModalOpen,
-				ids,
-				setIds,
-				role,
-				uramshuulalOpen,
-				setUramshuulalOpen,
-				filteredXT,
-				setFilteredXT,
-				prodIDS,
-				setProdIDS,
-				productModal,
-				setProductModal,
-				chosedProdIDS,
-				setChosedProdIDS,
-				sitedata,
-				chosedChannel,
-				setChosedChannel,
-				zoneids,
-				setZoneids,
-				totalAmount,
-				setTotalAmount,
-				productData,
-				setProductData,
-				zoneData,
-				setZoneData,
-				brandModal,
-				setBrandModal,
-				angilalModal,
-				setAngilalModal,
-				priceModal,
-				setPriceModal,
-				chosedBrands,
-				setChosedBrands,
-				Angilaldata,
-				setAngilaldata,
-				collecttrue,
-				setCollecttrue,
-				collectTitle,
-				setCollectTitle,
-				multiProductQTY,
-				setMultiProductQTY,
-				multiProductTotal,
-				setMultiProductTotal,
-				inputDisabled,
-				setInputDisabled,
-				xt,
-				setXt,
-				bname,
-				setBname,
-				shagnalname,
-				setShagnalname,
-				startdate,
-				setStartdate,
-				enddate,
-				setEnddate,
-				updateTrue,
-				setUpdateTrue,
-				updateID,
-				setUpdateID,
-				brandsdata,
-				setBrandsdata,
-				categoriesdata,
-				setCategoriesdata,
-				multiProductIDS,
-				setMultiProductIDS,
-				multiProducts,
-				setMultiProducts,
-				multiProductsTitle,
-				setMultiProductsTitle,
-				data,
-				setData,
-				prizeImage,
-				setPrizeImage,
-				supplierInfo,
-				setSupplierInfo,
-				barOpen,
-				setBarOpen,
-				reportOpen,
-				setReportOpen,
-			}}
-		>
-			{props.children}
-		</Ctx.Provider>
-	);
+  return (
+    <Ctx.Provider
+      value={{
+        create,
+        setCreate,
+        modalOpen,
+        setModalOpen,
+        ids,
+        setIds,
+        role,
+        uramshuulalOpen,
+        setUramshuulalOpen,
+        filteredXT,
+        setFilteredXT,
+        prodIDS,
+        setProdIDS,
+        productModal,
+        setProductModal,
+        chosedProdIDS,
+        setChosedProdIDS,
+        sitedata,
+        chosedChannel,
+        setChosedChannel,
+        zoneids,
+        setZoneids,
+        totalAmount,
+        setTotalAmount,
+        productData,
+        setProductData,
+        zoneData,
+        setZoneData,
+        brandModal,
+        setBrandModal,
+        angilalModal,
+        setAngilalModal,
+        priceModal,
+        setPriceModal,
+        chosedBrands,
+        setChosedBrands,
+        Angilaldata,
+        setAngilaldata,
+        collecttrue,
+        setCollecttrue,
+        collectTitle,
+        setCollectTitle,
+        multiProductQTY,
+        setMultiProductQTY,
+        multiProductTotal,
+        setMultiProductTotal,
+        inputDisabled,
+        setInputDisabled,
+        xt,
+        setXt,
+        bname,
+        setBname,
+        shagnalname,
+        setShagnalname,
+        startdate,
+        setStartdate,
+        enddate,
+        setEnddate,
+        updateTrue,
+        setUpdateTrue,
+        updateID,
+        setUpdateID,
+        brandsdata,
+        setBrandsdata,
+        categoriesdata,
+        setCategoriesdata,
+        multiProductIDS,
+        setMultiProductIDS,
+        multiProducts,
+        setMultiProducts,
+        multiProductsTitle,
+        setMultiProductsTitle,
+        data,
+        setData,
+        prizeImage,
+        setPrizeImage,
+        supplierInfo,
+        setSupplierInfo,
+        barOpen,
+        setBarOpen,
+        reportOpen,
+        setReportOpen
+      }}
+    >
+      {props.children}
+    </Ctx.Provider>
+  );
 };
 
 export default Ctx;

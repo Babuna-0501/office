@@ -1,73 +1,73 @@
-import { useState, useEffect, useRef, useCallback, useContext } from "react";
-import css from "./orderNegtgelOld.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import { Button, Input, LoadingSpinner } from "../../components/common";
-import { CalendarGray } from "../../assets/icons";
-import ErrorPopup from "../../Achiltiinzahialga/components/common/ErrorPopup";
+import { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import css from './orderNegtgelOld.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import { Button, Input, LoadingSpinner } from '../../components/common';
+import { CalendarGray } from '../../assets/icons';
+import ErrorPopup from '../../Achiltiinzahialga/components/common/ErrorPopup';
 
-import { GlobalContext } from "../../Hooks/GlobalContext";
-import OrdersHook from "../../Hooks/OrdersHook";
+import { GlobalContext } from '../../Hooks/GlobalContext';
+import OrdersHook from '../../Hooks/OrdersHook';
 
-import * as htmlToImage from "html-to-image";
-import writeXlsxFile from "write-excel-file";
+import * as htmlToImage from 'html-to-image';
+import writeXlsxFile from 'write-excel-file';
 
 const initSchema = [
   {
-    column: "№",
+    column: '№',
     type: Number,
-    value: (p) => p.number,
+    value: p => p.number,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Бүтээгдэхүүн",
+    column: 'Бүтээгдэхүүн',
     type: String,
-    value: (p) => p.name,
+    value: p => p.name,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "SKU",
+    column: 'SKU',
     type: String,
-    value: (p) => p.sku,
+    value: p => p.sku,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Barcode",
+    column: 'Barcode',
     type: String,
-    value: (p) => p.barcode,
+    value: p => p.barcode,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Нэгж үнэ",
+    column: 'Нэгж үнэ',
     type: Number,
-    value: (p) => p.price,
+    value: p => p.price,
     width: 10,
-    align: "right",
-    alignVertical: "center",
+    align: 'right',
+    alignVertical: 'center'
   },
   {
-    column: "Тоо ширхэг",
+    column: 'Тоо ширхэг',
     type: Number,
-    value: (p) => p.quantity,
+    value: p => p.quantity,
     width: 10,
-    align: "right",
-    alignVertical: "center",
+    align: 'right',
+    alignVertical: 'center'
   },
   {
-    column: "Нийт үнэ",
+    column: 'Нийт үнэ',
     type: Number,
-    value: (p) => p.totalPrice,
+    value: p => p.totalPrice,
     width: 10,
-    align: "right",
-    alignVertical: "center",
-  },
+    align: 'right',
+    alignVertical: 'center'
+  }
 ];
 
 export const OrderNegtgelOld = ({ closeHandler }) => {
@@ -77,19 +77,19 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
 
   const [reportReady, setReportReady] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deliveryDate, setDeliveryDate] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState('');
   const [products, setProducts] = useState([]);
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [schema, setSchema] = useState(initSchema);
   const [reportData, setReportData] = useState([]);
   const [usersXt, setUsersXt] = useState([]);
-  const [chosenXt, setChosenXt] = useState("");
+  const [chosenXt, setChosenXt] = useState('');
 
   const receiptRef = useRef(null);
 
@@ -101,19 +101,19 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
   }, [loading]);
 
   useEffect(() => {
-    console.log("checkedOrderscheckedOrders", checkedOrders);
+    console.log('checkedOrderscheckedOrders', checkedOrders);
   }, [checkedOrders]);
 
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const companyId = Number(loggedUser.company_id.replaceAll("|", ""));
+        const companyId = Number(loggedUser.company_id.replaceAll('|', ''));
 
-        const url = `https://api2.ebazaar.mn/api/backoffice/users?role=1&company=${companyId}`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/users?role=1&company=${companyId}`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
@@ -121,7 +121,7 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
 
         setUsersXt(resData.data);
       } catch (error) {
-        console.log("error while fetching users: ", error);
+        console.log('error while fetching users: ', error);
       }
     };
 
@@ -134,30 +134,30 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
 
       const ordersId = [];
 
-      checkedOrders.map((order) => {
+      checkedOrders.map(order => {
         ordersId.push(order.order_id);
       });
 
-      if (deliveryDate === "" && chosenXt === "" && ordersId.length === 0) {
+      if (deliveryDate === '' && chosenXt === '' && ordersId.length === 0) {
         throw new Error(
-          "Хүргүүлэх огноо худалдааны төлөөлөгч аль нэгийг сонгоно уу!"
+          'Хүргүүлэх огноо худалдааны төлөөлөгч аль нэгийг сонгоно уу!'
         );
       }
 
-      const url = `https://api2.ebazaar.mn/api/orders?delivery_start=${deliveryDate}&delivery_end=${deliveryDate}&sales_man=${chosenXt}&ids=${ordersId}&page=all&order_type=1`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/orders?delivery_start=${deliveryDate}&delivery_end=${deliveryDate}&sales_man=${chosenXt}&ids=${ordersId}&page=all&order_type=1`;
       const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       };
 
       console.log(url);
 
       const res = await fetch(url, requestOptions);
       const resData = await res.json();
-      console.log(resData)
+      console.log(resData);
 
       if (resData.data.length === 0) {
-        throw new Error("Сонгосон өдөр хүргүүлэх захиалга олдсонгүй!");
+        throw new Error('Сонгосон өдөр хүргүүлэх захиалга олдсонгүй!');
       }
 
       let productIds = [];
@@ -200,11 +200,11 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
         const data = {
           number: i + 1,
           name: product.product_name,
-          sku: product.product_sku ? product.product_sku : "",
-          barcode: product.product_bar_code ? product.product_bar_code : "",
+          sku: product.product_sku ? product.product_sku : '',
+          barcode: product.product_bar_code ? product.product_bar_code : '',
           price: product.price,
           quantity: product.totalCount,
-          totalPrice: product.price * product.totalCount,
+          totalPrice: product.price * product.totalCount
         };
 
         if (data.name.length + 5 > schemaCopy[1].width) {
@@ -216,21 +216,25 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
         if (data.barcode.length + 5 > schemaCopy[3].width) {
           schemaCopy[3].width = data.barcode.length + 5;
         }
-        if ((data.price + "").length + 5 > schemaCopy[4].width) {
-          schemaCopy[4].width = (data.price + "").length + 5;
+        if ((data.price + '').length + 5 > schemaCopy[4].width) {
+          schemaCopy[4].width = (data.price + '').length + 5;
         }
-        if ((data.quantity + "").length + 5 > schemaCopy[5].width) {
-          schemaCopy[5].width = (data.quantity + "").length + 5;
+        if ((data.quantity + '').length + 5 > schemaCopy[5].width) {
+          schemaCopy[5].width = (data.quantity + '').length + 5;
         }
-        if ((data.totalPrice + "").length + 5 > schemaCopy[6].width) {
-          schemaCopy[6].width = (data.totalPrice + "").length + 5;
+        if ((data.totalPrice + '').length + 5 > schemaCopy[6].width) {
+          schemaCopy[6].width = (data.totalPrice + '').length + 5;
         }
 
         reportDataCopy.push({ ...data });
       }
-      console.log('-----------------------------------------------------------------')
-      console.log(reportDataCopy)
-      console.log('----------------------------------------------------------------------------------------')
+      console.log(
+        '-----------------------------------------------------------------'
+      );
+      console.log(reportDataCopy);
+      console.log(
+        '----------------------------------------------------------------------------------------'
+      );
       setProducts(productsCopy);
       setReportData(reportDataCopy);
       setSchema(schemaCopy);
@@ -250,44 +254,44 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
       .toPng(receiptRef.current, {
         cacheBust: true,
         canvasWidth: width * 3,
-        canvasHeight: height * 3,
+        canvasHeight: height * 3
       })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
+      .then(dataUrl => {
+        const link = document.createElement('a');
         link.download = `Захиалгын-нэгтгэл-${deliveryDate}.png`;
         link.href = dataUrl;
         link.click();
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }, [receiptRef, height, width, deliveryDate]);
 
   const downloadReport = () => {
-    console.log(reportData)
+    console.log(reportData);
     writeXlsxFile(reportData, {
       schema,
       sheet: `Захиалгын нэгтгэл ${deliveryDate}`,
       fileName: `Захиалгын-нэгтгэл-/${deliveryDate}/.xlsx`,
       headerStyle: {
-        backgroundColor: "#d3d3d3",
-        align: "center",
-        alignVertical: "center",
-        borderColor: "#000000",
+        backgroundColor: '#d3d3d3',
+        align: 'center',
+        alignVertical: 'center',
+        borderColor: '#000000'
       },
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 11,
-      alignVertical: "center",
-      align: "center",
-      dateFormat: "mm/dd/yyyy",
-      stickyRowsCount: 1,
+      alignVertical: 'center',
+      align: 'center',
+      dateFormat: 'mm/dd/yyyy',
+      stickyRowsCount: 1
     });
   };
 
   return (
     <>
       <div onClick={closeHandler} className={css.printRecieptContainer}>
-        <div id="scrollableDiv" className={css.scrollcontainer}>
+        <div id='scrollableDiv' className={css.scrollcontainer}>
           <div
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
             ref={receiptRef}
             className={css.receiptContainer}
           >
@@ -303,7 +307,7 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
                   <table className={css.productTables}>
                     <thead>
                       <tr>
-                        <th style={{ width: "1%" }}>№</th>
+                        <th style={{ width: '1%' }}>№</th>
                         <th>Бүтээгдэхүүн</th>
                         <th>SKU</th>
                         <th>Barcode</th>
@@ -338,14 +342,14 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
                     <div className={css.productsDetail}>
                       <span>Нийт барааны төрөл: {products.length}</span>
                       <span>
-                        Нийт бүтээгдэхүүн:{" "}
+                        Нийт бүтээгдэхүүн:{' '}
                         {products
                           .reduce((acc, cur) => acc + cur.totalCount, 0)
                           .toLocaleString()}
                         ш
                       </span>
                       <div>
-                        Нийт үнийн дүн:{" "}
+                        Нийт үнийн дүн:{' '}
                         {products
                           .reduce(
                             (acc, cur) => acc + cur.totalCount * cur.price,
@@ -385,43 +389,43 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
                     <label>Хүргүүлэх огноо</label>
                     <Input
                       icon={<CalendarGray />}
-                      iconposition="left"
-                      type="date"
-                      size="medium"
+                      iconposition='left'
+                      type='date'
+                      size='medium'
                       value={deliveryDate}
-                      onChange={(e) => setDeliveryDate(e.target.value)}
-                      name="deliveryDate"
+                      onChange={e => setDeliveryDate(e.target.value)}
+                      name='deliveryDate'
                     />
                   </div>
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginTop: "10px",
+                      display: 'flex',
+                      flexDirection: 'column',
+                      marginTop: '10px'
                     }}
                   >
                     <label>Худалдааны төлөөлөгч сонгох</label>
                     <select
                       style={{
-                        width: "max-content",
-                        fontSize: "13px",
-                        borderRadius: "8px",
-                        padding: "4px 8px",
-                        borderColor: "#cccccc",
+                        width: 'max-content',
+                        fontSize: '13px',
+                        borderRadius: '8px',
+                        padding: '4px 8px',
+                        borderColor: '#cccccc'
                       }}
-                      onChange={(e) => {
+                      onChange={e => {
                         console.log(e.target.value);
                         setChosenXt(e.target.value);
                       }}
                     >
-                      <option style={{ fontSize: "13px" }} value="">
+                      <option style={{ fontSize: '13px' }} value=''>
                         Сонгох
                       </option>
-                      {usersXt.map((xt) => {
+                      {usersXt.map(xt => {
                         return (
                           <option
                             value={xt.user_id}
-                            style={{ fontSize: "13px" }}
+                            style={{ fontSize: '13px' }}
                           >
                             {xt?.first_name || xt?.last_name}
                           </option>
@@ -433,8 +437,8 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
                   <div className={css.dateSelectBtns}>
                     <Button
                       onClick={generateReport}
-                      variant="primary"
-                      size="large"
+                      variant='primary'
+                      size='large'
                     >
                       Нэгтгэл бэлтгэх
                     </Button>
@@ -452,30 +456,30 @@ export const OrderNegtgelOld = ({ closeHandler }) => {
         </div>
 
         <div className={css.printBtn}>
-          <Button onClick={closeHandler} variant="secondary" size="medium">
+          <Button onClick={closeHandler} variant='secondary' size='medium'>
             Болих
           </Button>
 
           <Button
             disabled={loading || !reportReady}
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               downloadHandler();
             }}
-            variant="primary"
-            size="medium"
+            variant='primary'
+            size='medium'
           >
             Татах
           </Button>
 
           <Button
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               downloadReport();
             }}
             disabled={loading || !reportReady}
-            variant="primary"
-            size="medium"
+            variant='primary'
+            size='medium'
           >
             Excel татах
           </Button>

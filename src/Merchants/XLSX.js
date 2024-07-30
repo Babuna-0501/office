@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
-import CSV from "./CSV";
-import MerchantReportHook from "../Hooks/MerchantReportHook";
-import myHeaders from "../components/MyHeader/myHeader";
-import css from "./xlsx.module.css";
+import React, { useState, useEffect, useContext } from 'react';
+import CSV from './CSV';
+import MerchantReportHook from '../Hooks/MerchantReportHook';
+import myHeaders from '../components/MyHeader/myHeader';
+import css from './xlsx.module.css';
 
 function XLSX(props) {
   let csv = [
     [
-      "Дугаар",
-      "Created date",
-      "Компанийн нэр",
-      "Регистр",
-      "Үйл ажиллагааны чиглэл",
-      "Суваг",
-      "Нэр",
-      "Утас",
-      "Хот",
-      "Дүүрэг",
-      "Хороо",
-      "Хаяг",
-    ],
+      'Дугаар',
+      'Created date',
+      'Компанийн нэр',
+      'Регистр',
+      'Үйл ажиллагааны чиглэл',
+      'Суваг',
+      'Нэр',
+      'Утас',
+      'Хот',
+      'Дүүрэг',
+      'Хороо',
+      'Хаяг'
+    ]
   ];
   let [blah, setBlah] = useState(csv);
   const [startdate, setStartdate] = useState(null);
@@ -32,34 +32,34 @@ function XLSX(props) {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
     if (alltatah) {
-      console.log("all tatah");
+      console.log('all tatah');
       setLoading(true);
-      let url = `https://api2.ebazaar.mn/api/merchants?page=all`;
-      console.log("url merchant report", url);
+      let url = `${process.env.REACT_APP_API_URL2}/api/merchants?page=all`;
+      console.log('url merchant report', url);
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           setData(res.data);
           setReportOk(false);
           setLoading(false);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     } else {
-      console.log("end orj irlee");
+      console.log('end orj irlee');
       if ((startdate === null || enddate === null) && supplierID === null) {
         setData([]);
         return;
       }
 
-      let params = "";
+      let params = '';
       if (startdate && enddate) {
         params += `start=${startdate}&end=${enddate}&`;
       }
@@ -67,22 +67,22 @@ function XLSX(props) {
         params += `id=${supplierID}&`;
       }
 
-      let url = `https://api2.ebazaar.mn/api/merchants?page=all`;
-      console.log("url merchant report", url);
+      let url = `${process.env.REACT_APP_API_URL2}/api/merchants?page=all`;
+      console.log('url merchant report', url);
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           setData(res.data);
           setReportOk(false);
           setLoading(false);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   }, [startdate, enddate, supplierID, alltatah]);
 
-  data.map((data) => {
+  data.map(data => {
     // console.log("merchant data", data);
     let city = data.city;
     let district = data.district;
@@ -91,24 +91,24 @@ function XLSX(props) {
     let businessType = null;
     let channel = null;
     if (locations) {
-      locations.map((location) => {
+      locations.map(location => {
         if (location.location_id === parseInt(district, 10)) {
           district = location.location_name;
         }
       });
-      locations.map((location) => {
+      locations.map(location => {
         if (location.location_id === parseInt(khoroo, 10)) {
           khoroo = location.location_name;
         }
       });
-      locations.map((location) => {
+      locations.map(location => {
         if (location.location_id === parseInt(city, 10)) {
           city = location.location_name;
         }
       });
     }
     if (props.businessType) {
-      props.businessType.map((type) => {
+      props.businessType.map(type => {
         if (type.business_type_id === parseInt(data.business_type_id)) {
           businessType = type.business_type_name;
           channel = type.channel_name;
@@ -128,7 +128,7 @@ function XLSX(props) {
       city,
       district,
       khoroo,
-      data.address,
+      data.address
     ];
     csv.push(temp);
   });
@@ -139,14 +139,14 @@ function XLSX(props) {
     props.close(false);
   };
   const tatahHandler = () => {
-    console.log("daragdsan all");
+    console.log('daragdsan all');
     setLoading(true);
     setAlltatah(true);
   };
   return (
-    <div id="formwithtransparentbackground">
-      <div id="form">
-        <span id="close" onClick={closeHandler}>
+    <div id='formwithtransparentbackground'>
+      <div id='form'>
+        <span id='close' onClick={closeHandler}>
           Close
         </span>
 
@@ -155,9 +155,9 @@ function XLSX(props) {
             <div className={css.supwrapper}>
               <label>Нийлүүлэгчийн дугаар </label>
               <input
-                placeholder="Нийлүүлэгчийн дугаарыг оруулна уу"
+                placeholder='Нийлүүлэгчийн дугаарыг оруулна уу'
                 value={supplierID}
-                onChange={(e) => {
+                onChange={e => {
                   setSupplierID(e.target.value);
                 }}
               />
@@ -165,19 +165,19 @@ function XLSX(props) {
             <span>Эхлэх он сар өдөр</span>
             <div className={css.inputwrapper}>
               <input
-                placeholder="Эхлэх он сар өдөр"
+                placeholder='Эхлэх он сар өдөр'
                 value={startdate}
-                onChange={(e) => setStartdate(e.target.value)}
-                type="date"
+                onChange={e => setStartdate(e.target.value)}
+                type='date'
               />
             </div>
             <span>Дуусах он сар өдөр</span>
             <div className={css.inputwrapper}>
               <input
-                placeholder="Дуусах он сар өдөр"
+                placeholder='Дуусах он сар өдөр'
                 value={enddate}
-                onChange={(e) => setEnddate(e.target.value)}
-                type="date"
+                onChange={e => setEnddate(e.target.value)}
+                type='date'
               />
             </div>
             <div className={css.btnwrapper}>
@@ -192,7 +192,7 @@ function XLSX(props) {
 
         {!reportOk && <CSV data={csv} />}
       </div>
-      <div id="transparentbackground"></div>
+      <div id='transparentbackground'></div>
     </div>
   );
 }

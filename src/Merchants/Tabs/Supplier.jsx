@@ -1,12 +1,12 @@
-import React from "react";
-import css from "./supplier.module.css";
-import { useEffect } from "react";
-import { useState } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import InfiniteScroll from "react-infinite-scroll-component";
-import SupplierConfig from "./components/SupplierConfig";
-import { Modal } from "../../components/common/Modal";
-import SupplierList from "./components/SupplierList";
+import React from 'react';
+import css from './supplier.module.css';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import SupplierConfig from './components/SupplierConfig';
+import { Modal } from '../../components/common/Modal';
+import SupplierList from './components/SupplierList';
 
 const Supplier = props => {
   const { orderEditPermission, userId, getNewData } = props;
@@ -27,7 +27,7 @@ const Supplier = props => {
 
   useEffect(() => {
     let permissionSup = [];
-    supplierIds.map((sup) => {
+    supplierIds.map(sup => {
       permissionSup.push({ [sup]: true });
     });
 
@@ -39,78 +39,89 @@ const Supplier = props => {
 
   const handleSave = () => {
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify({
         tradeshop: {
           TradeshopID: props.result.t_id,
           IncludeSupplierList: props.includedConfig.toString(),
-          ExcludeSupplierList: props.excludedConfig.toString(),
+          ExcludeSupplierList: props.excludedConfig.toString()
         },
         business: {
           CustomerID: props.result.c_id,
-          RegisterNo: props.result.c_register,
-        },
+          RegisterNo: props.result.c_register
+        }
       }),
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch("https://api2.ebazaar.mn/api/merchant/update", requestOptions)
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/merchant/update`,
+      requestOptions
+    )
+      .then(res => {
         if (res.status === 200) {
-          alert("Success");
+          alert('Success');
           setSave(!save);
           setModal(false);
-          const url = "https://api2.ebazaar.mn/user";
+          const url = `${process.env.REACT_APP_API_URL2}/user`;
           const requestOptions = {
-            method: "PUT",
+            method: 'PUT',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow',
             body: JSON.stringify({
               userId: userId,
-              editPermission: Object.assign({}, newRaw, JSON.parse(orderEditPermission)),
-            }),
+              editPermission: Object.assign(
+                {},
+                newRaw,
+                JSON.parse(orderEditPermission)
+              )
+            })
           };
 
           fetch(url, requestOptions)
-            .then((res) => res.json())
-            .then((response) => {
-              if (response.message === "success") {
-                alert(response.message, "permission");
+            .then(res => res.json())
+            .then(response => {
+              if (response.message === 'success') {
+                alert(response.message, 'permission');
                 getNewData();
               } else {
-                alert("error", response.message);
+                alert('error', response.message);
               }
             });
         } else {
-          alert("Алдаа гарлаа");
+          alert('Алдаа гарлаа');
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
-  const handleDelete = (id) => {
-    let deleteIncluded = props.includedConfig.filter((item) => item !== String(id));
-    let deleteExcluded = props.excludedConfig.filter((item) => item !== String(id));
+  const handleDelete = id => {
+    let deleteIncluded = props.includedConfig.filter(
+      item => item !== String(id)
+    );
+    let deleteExcluded = props.excludedConfig.filter(
+      item => item !== String(id)
+    );
 
-    if (props.optionValue === "included") {
+    if (props.optionValue === 'included') {
       props.setIncludedConfig(deleteIncluded);
       setIsDelete(!isDelete);
-    } else if (props.optionValue === "excluded") {
+    } else if (props.optionValue === 'excluded') {
       props.setExcludedConfig(deleteExcluded);
       setIsDelete(!isDelete);
     }
 
     if (isDelete) {
-      if (props.optionValue === "included") {
-        if (window.confirm("Устгахдаа итгэлтэй байна уу?")) {
+      if (props.optionValue === 'included') {
+        if (window.confirm('Устгахдаа итгэлтэй байна уу?')) {
           handleSave();
           props.setIncludedSuppId(deleteIncluded.toString());
         }
-      } else if (props.optionValue === "excluded") {
-        if (window.confirm("Устгахдаа итгэлтэй байна уу?")) {
+      } else if (props.optionValue === 'excluded') {
+        if (window.confirm('Устгахдаа итгэлтэй байна уу?')) {
           handleSave();
           props.setExcludedSuppId(deleteExcluded.toString());
         }
@@ -118,7 +129,7 @@ const Supplier = props => {
     }
   };
 
-  const handleOption = (e) => {
+  const handleOption = e => {
     props.setOptionValue(e.target.value);
     console.log(e.target.value);
   };
@@ -126,79 +137,85 @@ const Supplier = props => {
   useEffect(() => {
     props.getSupplier();
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/backoffice/suppliers`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("FETCH ALL: ", res.data);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('FETCH ALL: ', res.data);
         setAllSuppliers(res.data);
       });
   }, [props?.result?.t_id, save]);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    let fetchUrl = "";
-    if (props.optionValue === "included" && props.includedSuppId.length > 0) {
-      fetchUrl = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${props.includedSuppId}`;
-    } else if (props.optionValue === "excluded") {
-      fetchUrl = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${props.excludedSuppId}`;
+    let fetchUrl = '';
+    if (props.optionValue === 'included' && props.includedSuppId.length > 0) {
+      fetchUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${props.includedSuppId}`;
+    } else if (props.optionValue === 'excluded') {
+      fetchUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${props.excludedSuppId}`;
     } else if (
-      (props.includedSuppId === "" || props.includedSuppId === null) &&
-      (props.excludedSuppId === "" || props.excludedSuppId === null) &&
-      props.optionValue === "all"
+      (props.includedSuppId === '' || props.includedSuppId === null) &&
+      (props.excludedSuppId === '' || props.excludedSuppId === null) &&
+      props.optionValue === 'all'
     ) {
-      fetchUrl = "https://api2.ebazaar.mn/api/backoffice/suppliers";
+      fetchUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`;
     }
 
-    if (fetchUrl !== "") {
+    if (fetchUrl !== '') {
       fetch(fetchUrl, requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          if (props.optionValue === "excluded") {
+        .then(response => response.json())
+        .then(data => {
+          if (props.optionValue === 'excluded') {
             const filteredSuppliers = data.data.filter(
-              (supplier) => !props.excludedSuppId.includes(supplier.id)
+              supplier => !props.excludedSuppId.includes(supplier.id)
             );
             setSuppliers(data.data);
-          } else if (props.optionValue === "all" || props.optionValue === "included") {
-            console.log("ELSSE");
+          } else if (
+            props.optionValue === 'all' ||
+            props.optionValue === 'included'
+          ) {
+            console.log('ELSSE');
             setSuppliers(data.data);
           }
         })
-        .catch((error) => console.error("ERROR: ", error));
+        .catch(error => console.error('ERROR: ', error));
     }
   }, [
     props.optionValue,
     props.includedSuppId,
     props.excludedSuppId,
     props.includedConfig,
-    props.excludedConfig,
+    props.excludedConfig
   ]);
 
   return (
     <div className={css.container}>
       <div className={css.optionContainer}>
         <select value={props.optionValue} onChange={handleOption}>
-          <option value="all">Бүх нийлүүлэгч</option>
-          <option value="included">Зөвшөөрөгдсөн нийлүүлэгчид</option>
-          <option value="excluded">Зөвшөөрөгдөөгүй нийлүүлэгчид</option>
+          <option value='all'>Бүх нийлүүлэгч</option>
+          <option value='included'>Зөвшөөрөгдсөн нийлүүлэгчид</option>
+          <option value='excluded'>Зөвшөөрөгдөөгүй нийлүүлэгчид</option>
         </select>
       </div>
 
-      {props.optionValue !== "all" ? (
+      {props.optionValue !== 'all' ? (
         <button
           className={css.addBtn}
           onClick={() => {
             setModal(true);
-            console.log("BUTTON");
+            console.log('BUTTON');
           }}
         >
           Нэмэх +
@@ -206,12 +223,12 @@ const Supplier = props => {
       ) : null}
 
       <div className={css.suppsContainer}>
-        {props.optionValue === "all" ? (
+        {props.optionValue === 'all' ? (
           <InfiniteScroll
             dataLength={suppliers.length}
             hasMore={true}
             loader={
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: 'center' }}>
                 <b>Уншиж байна...</b>
               </p>
             }
@@ -226,11 +243,11 @@ const Supplier = props => {
               />
             ))}
           </InfiniteScroll>
-        ) : props.includedSuppId !== "" &&
+        ) : props.includedSuppId !== '' &&
           suppliers.length > 0 &&
-          props.optionValue === "included" ? (
+          props.optionValue === 'included' ? (
           <InfiniteScroll dataLength={suppliers.length} hasMore={true}>
-            {props.includedSuppId !== "" &&
+            {props.includedSuppId !== '' &&
               suppliers?.map((e, idx) => (
                 <SupplierList
                   data={e}
@@ -241,19 +258,19 @@ const Supplier = props => {
                 />
               ))}
           </InfiniteScroll>
-        ) : props.excludedSuppId !== "" &&
+        ) : props.excludedSuppId !== '' &&
           suppliers.length > 0 &&
-          props.optionValue === "excluded" ? (
+          props.optionValue === 'excluded' ? (
           <InfiniteScroll
             dataLength={suppliers.length}
             hasMore={true}
             loader={
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: 'center' }}>
                 <b>Уншиж байна...</b>
               </p>
             }
           >
-            {props.excludedSuppId !== "" &&
+            {props.excludedSuppId !== '' &&
               suppliers?.map((e, idx) => (
                 <SupplierList
                   data={e}

@@ -1,18 +1,18 @@
-import css from "./createShipmentModal.module.css";
-import closeIcon from "../../../assets/shipment/closeIcon.svg";
-import { Button, Checkbox, Dropdown, Input, Modal } from "../common";
-import { useEffect, useState } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import notFound from "../../../assets/shipment/package.svg";
-import arrowRight from "../../../assets/shipment/arrow-right.svg";
-import okIcon from "../../../assets/shipment/ok.svg";
-import ErrorPopup from "../common/ErrorPopup";
+import css from './createShipmentModal.module.css';
+import closeIcon from '../../../assets/shipment/closeIcon.svg';
+import { Button, Checkbox, Dropdown, Input, Modal } from '../common';
+import { useEffect, useState } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import LoadingSpinner from '../../../components/Spinner/Spinner';
+import notFound from '../../../assets/shipment/package.svg';
+import arrowRight from '../../../assets/shipment/arrow-right.svg';
+import okIcon from '../../../assets/shipment/ok.svg';
+import ErrorPopup from '../common/ErrorPopup';
 
-const CreateShipmentModal = (props) => {
+const CreateShipmentModal = props => {
   const { inventory, allInventories, closeHandler, userData, users } = props;
 
-  const [selectedInventory, setSelectedInventory] = useState("");
+  const [selectedInventory, setSelectedInventory] = useState('');
   const [products, setProducts] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const CreateShipmentModal = (props) => {
 
   const [submit, setSubmit] = useState(false);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const CreateShipmentModal = (props) => {
         if (loading) return;
         setLoading(true);
         const currentInventory = allInventories.find(
-          (inv) => inv._id === selectedInventory
+          inv => inv._id === selectedInventory
         );
 
         const prodIds = [];
@@ -40,13 +40,13 @@ const CreateShipmentModal = (props) => {
           prodIds.push(Object.keys(prod)[0]);
         }
 
-        const url = `https://api2.ebazaar.mn/api/products/get1?ids=[${prodIds.join(
-          ","
-        )}]`;
+        const url = `${
+          process.env.REACT_APP_API_URL2
+        }/products/get1?ids=[${prodIds.join(',')}]`;
         const requestOption = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOption);
@@ -56,12 +56,12 @@ const CreateShipmentModal = (props) => {
 
         for (const product of currentInventory.products) {
           const curProduct = resData.data.find(
-            (prod) => Number(Object.keys(product)[0]) === prod._id
+            prod => Number(Object.keys(product)[0]) === prod._id
           );
           if (curProduct) {
             productsCopy.push({
               ...curProduct,
-              myStock: product[Object.keys(product)[0]],
+              myStock: product[Object.keys(product)[0]]
             });
           }
         }
@@ -75,46 +75,46 @@ const CreateShipmentModal = (props) => {
       }
     };
 
-    if (selectedInventory !== "") {
+    if (selectedInventory !== '') {
       getProducts();
     }
   }, [selectedInventory, allInventories]);
 
   const checkHandler = (index, val) => {
-    setProductChecks((prev) =>
+    setProductChecks(prev =>
       prev.map((value, ind) => (ind === index ? val : value))
     );
 
     if (val) {
-      setCheckedProducts((prev) => [...prev, products[index]]);
+      setCheckedProducts(prev => [...prev, products[index]]);
     } else {
-      setCheckedProducts((prev) =>
-        prev.filter((product) => product._id !== products[index]._id)
+      setCheckedProducts(prev =>
+        prev.filter(product => product._id !== products[index]._id)
       );
     }
   };
 
   const allCheckHandler = () => {
-    if (productChecks.filter((val) => val).length === productChecks.length) {
-      setProductChecks((prev) => prev.map(() => false));
+    if (productChecks.filter(val => val).length === productChecks.length) {
+      setProductChecks(prev => prev.map(() => false));
       setCheckedProducts([]);
     } else {
-      setProductChecks((prev) => prev.map(() => true));
+      setProductChecks(prev => prev.map(() => true));
       setCheckedProducts([...products]);
     }
   };
 
   const submitHandler = () => {
     if (submit) return;
-    setErrorMsg("");
+    setErrorMsg('');
 
-    if (selectedInventory === "") {
-      setErrorMsg("Агуулах сонгоно уу!");
+    if (selectedInventory === '') {
+      setErrorMsg('Агуулах сонгоно уу!');
       setShowError(true);
       return;
     }
     if (checkedProducts.length === 0) {
-      setErrorMsg("Бараа сонгоно уу!");
+      setErrorMsg('Бараа сонгоно уу!');
       setShowError(true);
       return;
     }
@@ -128,7 +128,7 @@ const CreateShipmentModal = (props) => {
         <div className={css.headerContainer}>
           <span>Ачилтын захиалга үүсгэх</span>
           <button onClick={closeHandler}>
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
@@ -138,9 +138,9 @@ const CreateShipmentModal = (props) => {
             value={selectedInventory}
             onChangeHandler={setSelectedInventory}
             datas={allInventories
-              .filter((inv) => inv._id !== inventory._id && inv.type === 2)
-              .map((inv) => ({ label: inv.name, value: inv._id }))}
-            name="inventory-create-shipment-selected-inventory"
+              .filter(inv => inv._id !== inventory._id && inv.type === 2)
+              .map(inv => ({ label: inv.name, value: inv._id }))}
+            name='inventory-create-shipment-selected-inventory'
           />
         </div>
 
@@ -153,14 +153,14 @@ const CreateShipmentModal = (props) => {
               className={css.fieldWrapper}
               style={{
                 width: 30,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
               <Checkbox
                 checked={
-                  productChecks.filter((val) => val).length ===
+                  productChecks.filter(val => val).length ===
                   productChecks.length
                 }
                 onChange={allCheckHandler}
@@ -169,37 +169,37 @@ const CreateShipmentModal = (props) => {
 
             <div className={css.fieldWrapper} style={{ width: 70 }}>
               <span className={css.fieldTitle}>Зураг</span>
-              <Input type="text" size="small" disabled />
+              <Input type='text' size='small' disabled />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 140 }}>
               <span className={css.fieldTitle}>Бүтээгдэхүүний нэр</span>
-              <Input type="text" size="small" placeholder="Хайх" />
+              <Input type='text' size='small' placeholder='Хайх' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 100 }}>
               <span className={css.fieldTitle}>Брэнд</span>
-              <Dropdown name="inventory-create-shipment-brand" />
+              <Dropdown name='inventory-create-shipment-brand' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>Баркод</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>SKU</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 90 }}>
               <span className={css.fieldTitle}>Үлдэгдэл</span>
-              <Dropdown name="inventory-create-shipment-remaining" />
+              <Dropdown name='inventory-create-shipment-remaining' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 116 }}>
               <span className={css.fieldTitle}>Нэгж үнэ</span>
-              <Input type="text" disabled size="small" />
+              <Input type='text' disabled size='small' />
             </div>
           </div>
 
@@ -222,7 +222,7 @@ const CreateShipmentModal = (props) => {
 
           {!loading && products.length === 0 && (
             <div className={css.notFoundContainer}>
-              <img src={notFound} alt="Not Found" />
+              <img src={notFound} alt='Not Found' />
               <span>Илэрц олдсонгүй</span>
             </div>
           )}
@@ -236,10 +236,10 @@ const CreateShipmentModal = (props) => {
 
         <div className={css.footerWrapper}>
           <div className={css.buttons}>
-            <Button onClick={closeHandler} variant="secondary" size="medium">
+            <Button onClick={closeHandler} variant='secondary' size='medium'>
               Цуцлах
             </Button>
-            <Button onClick={submitHandler} variant="primary" size="medium">
+            <Button onClick={submitHandler} variant='primary' size='medium'>
               Үргэлжлүүлэх
             </Button>
           </div>
@@ -247,11 +247,11 @@ const CreateShipmentModal = (props) => {
       </div>
 
       {submit && (
-        <Modal width={770} height={770} backdrop="transparent">
+        <Modal width={770} height={770} backdrop='transparent'>
           <CountScreen
             inventory={inventory}
             selectedInventory={allInventories.find(
-              (inv) => inv._id === selectedInventory
+              inv => inv._id === selectedInventory
             )}
             products={checkedProducts}
             closeHandler={() => setSubmit(false)}
@@ -274,26 +274,26 @@ const CreateShipmentModal = (props) => {
 
 export default CreateShipmentModal;
 
-const SingleItem = (props) => {
+const SingleItem = props => {
   const { product, zIndex, checked, checkHandler, index } = props;
 
   return (
     <div
-      className={`${css.singleItemWrapper} ${checked ? css.checked : ""}`}
+      className={`${css.singleItemWrapper} ${checked ? css.checked : ''}`}
       style={{ zIndex }}
     >
       <div
         className={css.singleFieldWrapper}
         style={{
           width: 30,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
         <Checkbox
           checked={checked}
-          onChange={(e) => checkHandler(index, e.target.checked)}
+          onChange={e => checkHandler(index, e.target.checked)}
         />
       </div>
 
@@ -328,7 +328,7 @@ const SingleItem = (props) => {
       <div className={css.singleFieldWrapper} style={{ width: 116 }}>
         <span className={css.contentText}>
           {product.locations?.[
-            "62f4aabe45a4e22552a3969f"
+            '62f4aabe45a4e22552a3969f'
           ]?.price?.channel?.[1].toLocaleString()}
           ₮
         </span>
@@ -337,7 +337,7 @@ const SingleItem = (props) => {
   );
 };
 
-const CountScreen = (props) => {
+const CountScreen = props => {
   const {
     inventory,
     selectedInventory,
@@ -345,21 +345,21 @@ const CountScreen = (props) => {
     closeHandler,
     userData,
     closeShipment,
-    users,
+    users
   } = props;
 
   const [products, setProducts] = useState([]);
   const [submit, setSubmit] = useState(false);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    setProducts(initProducts.map((prod) => ({ ...prod, myCount: 0 })));
+    setProducts(initProducts.map(prod => ({ ...prod, myCount: 0 })));
   }, [initProducts]);
 
   const submitHandler = () => {
-    setErrorMsg("");
+    setErrorMsg('');
 
     for (const product of products) {
       if (product.myCount < 0) {
@@ -384,21 +384,21 @@ const CountScreen = (props) => {
         <div className={css.headerContainer}>
           <span>Ачилтын захиалга үүсгэх /Тоо ширхэг/</span>
           <button onClick={closeHandler}>
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
         <div className={css.inventoryNamesContainer}>
           <Input
-            type="text"
+            type='text'
             value={selectedInventory?.name}
-            size="medium"
+            size='medium'
             disabled
           />
           <div className={css.arrowWrapper}>
-            <img src={arrowRight} alt="Arrow Right" />
+            <img src={arrowRight} alt='Arrow Right' />
           </div>
-          <Input type="text" value={inventory?.name} size="medium" disabled />
+          <Input type='text' value={inventory?.name} size='medium' disabled />
         </div>
 
         <div className={css.contentContainer}>
@@ -408,37 +408,37 @@ const CountScreen = (props) => {
           >
             <div className={css.fieldWrapper} style={{ width: 70 }}>
               <span className={css.fieldTitle}>Зураг</span>
-              <Input type="text" size="small" disabled />
+              <Input type='text' size='small' disabled />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 140 }}>
               <span className={css.fieldTitle}>Бүтээгдэхүүний нэр</span>
-              <Input type="text" size="small" placeholder="Хайх" />
+              <Input type='text' size='small' placeholder='Хайх' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 100 }}>
               <span className={css.fieldTitle}>Брэнд</span>
-              <Dropdown name="inventory-shipment-create-count-brand" />
+              <Dropdown name='inventory-shipment-create-count-brand' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>Баркод</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>SKU</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 90 }}>
               <span className={css.fieldTitle}>Тоо ширхэг</span>
-              <Input type="text" disabled size="small" />
+              <Input type='text' disabled size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 116 }}>
               <span className={css.fieldTitle}>Нийт үнэ</span>
-              <Input type="text" disabled size="small" />
+              <Input type='text' disabled size='small' />
             </div>
           </div>
 
@@ -459,10 +459,10 @@ const CountScreen = (props) => {
 
         <div className={css.footerWrapper}>
           <div className={css.buttons}>
-            <Button onClick={closeHandler} variant="secondary" size="medium">
+            <Button onClick={closeHandler} variant='secondary' size='medium'>
               Буцах
             </Button>
-            <Button onClick={submitHandler} variant="primary" size="medium">
+            <Button onClick={submitHandler} variant='primary' size='medium'>
               Илгээх
             </Button>
           </div>
@@ -470,11 +470,11 @@ const CountScreen = (props) => {
       </div>
 
       {submit && (
-        <Modal width={770} height={770} backdrop="transparent">
+        <Modal width={770} height={770} backdrop='transparent'>
           <SubmitScreen
             inventory={inventory}
             selectedInventory={selectedInventory}
-            products={products.filter((product) => product.myCount > 0)}
+            products={products.filter(product => product.myCount > 0)}
             closeHandler={() => setSubmit(false)}
             userData={userData}
             closeShipment={closeShipment}
@@ -494,33 +494,33 @@ const CountScreen = (props) => {
   );
 };
 
-const CountSingleItem = (props) => {
+const CountSingleItem = props => {
   const { product, zIndex, setProducts } = props;
 
   const [count, setCount] = useState(product.myCount);
 
   const minusHandler = () => {
     if (count - 1 < 0) {
-      alert("Барааны тоо 0-ээс бага байж болохгүй!");
+      alert('Барааны тоо 0-ээс бага байж болохгүй!');
       return;
     }
 
-    setCount((prev) => prev - 1);
+    setCount(prev => prev - 1);
   };
 
   const addHandler = () => {
     if (count + 1 > product.myStock) {
-      alert("Барааны үлдэгдэл хүрэлцэхгүй байна");
+      alert('Барааны үлдэгдэл хүрэлцэхгүй байна');
       return;
     }
 
-    setCount((prev) => prev + 1);
+    setCount(prev => prev + 1);
   };
 
   useEffect(() => {
     const myProd = { ...product, myCount: count };
-    setProducts((prev) =>
-      prev.map((prod) => (prod._id === product._id ? myProd : prod))
+    setProducts(prev =>
+      prev.map(prod => (prod._id === product._id ? myProd : prod))
     );
   }, [count]);
 
@@ -554,17 +554,17 @@ const CountSingleItem = (props) => {
         className={css.singleFieldWrapper}
         style={{
           width: 90,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
         <div className={css.productCountBtn}>
           <button onClick={minusHandler}>-</button>
           <input
-            type="number"
+            type='number'
             value={count}
-            onChange={(e) => setCount(Number(e.target.value))}
+            onChange={e => setCount(Number(e.target.value))}
           />
           <button onClick={addHandler}>+</button>
         </div>
@@ -573,7 +573,7 @@ const CountSingleItem = (props) => {
       <div className={css.singleFieldWrapper} style={{ width: 116 }}>
         <span className={css.contentText}>
           {product.locations?.[
-            "62f4aabe45a4e22552a3969f"
+            '62f4aabe45a4e22552a3969f'
           ]?.price?.channel?.[1].toLocaleString()}
           ₮
         </span>
@@ -582,7 +582,7 @@ const CountSingleItem = (props) => {
   );
 };
 
-const SubmitScreen = (props) => {
+const SubmitScreen = props => {
   const {
     inventory,
     selectedInventory,
@@ -591,48 +591,48 @@ const SubmitScreen = (props) => {
     userData,
     closeShipment,
     closeCount,
-    users,
+    users
   } = props;
 
   const [loading, setLoading] = useState(false);
   const [submitDone, setSubmitDone] = useState(false);
 
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState('');
 
   const [showError, setShowError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const submitHandler = async () => {
     try {
       if (loading) return;
 
-      setErrorMsg("");
+      setErrorMsg('');
 
-      if (selectedUser === "") {
-        setErrorMsg("Түгээгч сонгоно уу!");
+      if (selectedUser === '') {
+        setErrorMsg('Түгээгч сонгоно уу!');
         setShowError(true);
         return;
       }
 
       setLoading(true);
 
-      const url = `https://api2.ebazaar.mn/api/shipment`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment`;
       const body = JSON.stringify({
-        supplierId: Number(userData.company_id.replaceAll("|", "")),
+        supplierId: Number(userData.company_id.replaceAll('|', '')),
         from: selectedInventory._id,
         to: inventory._id,
         status: 1,
         tugeegchID: Number(selectedUser),
-        products: products.map((prod) => ({
+        products: products.map(prod => ({
           productId: prod._id,
-          count: prod.myCount,
-        })),
+          count: prod.myCount
+        }))
       });
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         body,
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -644,7 +644,7 @@ const SubmitScreen = (props) => {
         throw Error();
       }
     } catch (error) {
-      setErrorMsg("Ачилтын захиалга үүсгэхэд алдаа гарлаа!");
+      setErrorMsg('Ачилтын захиалга үүсгэхэд алдаа гарлаа!');
       setShowError(true);
       console.log(error);
     } finally {
@@ -658,7 +658,7 @@ const SubmitScreen = (props) => {
         <div className={css.headerContainer}>
           <span>Ачилтын захиалга үүсгэх /Баталгаажуулах/</span>
           <button disabled={loading} onClick={closeHandler}>
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
@@ -668,23 +668,23 @@ const SubmitScreen = (props) => {
             value={selectedUser}
             onChangeHandler={setSelectedUser}
             datas={users
-              .filter((user) => user.role === 2 || user.role === 4)
-              .map((user) => ({ label: user.first_name, value: user.user_id }))}
-            name="inventory-create-shipment-submit-tugeegch"
+              .filter(user => user.role === 2 || user.role === 4)
+              .map(user => ({ label: user.first_name, value: user.user_id }))}
+            name='inventory-create-shipment-submit-tugeegch'
           />
         </div>
 
         <div className={css.inventoryNamesContainer}>
           <Input
-            type="text"
+            type='text'
             value={selectedInventory?.name}
-            size="medium"
+            size='medium'
             disabled
           />
           <div className={css.arrowWrapper}>
-            <img src={arrowRight} alt="Arrow Right" />
+            <img src={arrowRight} alt='Arrow Right' />
           </div>
-          <Input type="text" value={inventory?.name} size="medium" disabled />
+          <Input type='text' value={inventory?.name} size='medium' disabled />
         </div>
 
         {!loading && (
@@ -698,19 +698,19 @@ const SubmitScreen = (props) => {
                 <div
                   key={`inventory-shipment-create-product-detail-${index}`}
                   style={{
-                    padding: "10px 16px",
-                    boxShadow: "0px 0.800000011920929px 0px 0px #0000001A",
+                    padding: '10px 16px',
+                    boxShadow: '0px 0.800000011920929px 0px 0px #0000001A'
                   }}
                 >
                   <div
-                    style={{ display: "flex", alignItems: "center", gap: 16 }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 16 }}
                   >
                     <span
                       style={{
                         flex: 1,
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
+                        lineHeight: '15px'
                       }}
                     >
                       {prod.name}
@@ -718,10 +718,10 @@ const SubmitScreen = (props) => {
 
                     <span
                       style={{
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
-                        textAlign: "center",
+                        lineHeight: '15px',
+                        textAlign: 'center'
                       }}
                     >
                       {prod.myCount.toLocaleString()}ш
@@ -729,9 +729,9 @@ const SubmitScreen = (props) => {
 
                     <span
                       style={{
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
+                        lineHeight: '15px'
                       }}
                     >
                       {totalPrice.toLocaleString()}₮
@@ -742,32 +742,32 @@ const SubmitScreen = (props) => {
             })}
             <div
               style={{
-                padding: "10px 16px",
+                padding: '10px 16px'
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span
                   style={{
                     flex: 1,
-                    color: "#1A1A1A",
+                    color: '#1A1A1A',
                     fontSize: 15,
-                    lineHeight: "18px",
-                    fontWeight: 600,
+                    lineHeight: '18px',
+                    fontWeight: 600
                   }}
                 >
-                  {products.length.toLocaleString()} төрөл /{" "}
+                  {products.length.toLocaleString()} төрөл /{' '}
                   {products
                     .reduce((acc, cur) => acc + cur.myCount, 0)
-                    .toLocaleString()}{" "}
+                    .toLocaleString()}{' '}
                   бүтээгдэхүүн
                 </span>
 
                 <span
                   style={{
-                    color: "#1A1A1A",
+                    color: '#1A1A1A',
                     fontSize: 15,
-                    lineHeight: "18px",
-                    fontWeight: 600,
+                    lineHeight: '18px',
+                    fontWeight: 600
                   }}
                 >
                   {products
@@ -798,16 +798,16 @@ const SubmitScreen = (props) => {
             <Button
               disabled={loading}
               onClick={closeHandler}
-              variant="secondary"
-              size="medium"
+              variant='secondary'
+              size='medium'
             >
               Буцах
             </Button>
             <Button
               disabled={loading}
               onClick={submitHandler}
-              variant="primary"
-              size="medium"
+              variant='primary'
+              size='medium'
             >
               Баталгаажуулах
             </Button>
@@ -819,35 +819,35 @@ const SubmitScreen = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Ачилтын захиалга илгээгдлээ
@@ -859,9 +859,9 @@ const SubmitScreen = (props) => {
                 closeCount();
                 closeShipment();
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>

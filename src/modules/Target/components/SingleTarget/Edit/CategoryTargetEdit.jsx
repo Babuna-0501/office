@@ -1,14 +1,25 @@
-import css from "./categoryTargetEdit.module.css";
+import css from './categoryTargetEdit.module.css';
 
-import { Button, Checkbox, Input, LoadingSpinner, SuccessPopup } from "../../../../../components/common";
+import {
+  Button,
+  Checkbox,
+  Input,
+  LoadingSpinner,
+  SuccessPopup
+} from '../../../../../components/common';
 
-import { CloseDark, TugrugGray, TugrugGreen, TargetWhite } from "../../../../../assets/icons";
+import {
+  CloseDark,
+  TugrugGray,
+  TugrugGreen,
+  TargetWhite
+} from '../../../../../assets/icons';
 
-import { useEffect, useState } from "react";
-import ErrorPopup from "../../../../../components/common/ErrorPopup";
-import myHeaders from "../../../../../components/MyHeader/myHeader";
-import UserDataHook from "../../../../../Hooks/userHook";
-import { useContext } from "react";
+import { useEffect, useState } from 'react';
+import ErrorPopup from '../../../../../components/common/ErrorPopup';
+import myHeaders from '../../../../../components/MyHeader/myHeader';
+import UserDataHook from '../../../../../Hooks/userHook';
+import { useContext } from 'react';
 
 export const CategoryTargetEdit = ({
   initCategories,
@@ -16,7 +27,7 @@ export const CategoryTargetEdit = ({
   closeHandler,
   loggedUser,
   setTarget,
-  setCategoryTargetExist,
+  setCategoryTargetExist
 }) => {
   const { categories } = useContext(UserDataHook);
 
@@ -25,34 +36,36 @@ export const CategoryTargetEdit = ({
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [errorWhileFetching, setErrorWhileFetching] = useState(false);
 
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryName, setCategoryName] = useState('');
 
   const getData = async () => {
     try {
       setLoading(true);
 
-      const url = `https://api2.ebazaar.mn/api/supplier/extra/data?supplierId=${loggedUser.company_id.replaceAll(
-        "|",
-        ""
+      const url = `${
+        process.env.REACT_API_URL2
+      }/supplier/extra/data?supplierId=${loggedUser.company_id.replaceAll(
+        '|',
+        ''
       )}`;
       const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       };
 
       const res = await fetch(url, requestOptions);
       const resData = await res.json();
 
       const categoriesCopy = initCategories
-        .filter((cat) => resData.data.categoryIds.includes(cat.id))
-        .map((cat) => {
-          const target = categoryTarget.find((tar) => tar._id === cat.id);
+        .filter(cat => resData.data.categoryIds.includes(cat.id))
+        .map(cat => {
+          const target = categoryTarget.find(tar => tar._id === cat.id);
           if (target) {
             return { ...cat, target: { ...target.target } };
           }
@@ -61,12 +74,10 @@ export const CategoryTargetEdit = ({
 
       // setCategories(categoriesCopy);
       setOriginalCategories(categoriesCopy);
-      setSelectedCategories(
-        categoriesCopy.filter((category) => category.target)
-      );
+      setSelectedCategories(categoriesCopy.filter(category => category.target));
     } catch (error) {
       setErrorWhileFetching(true);
-      setErrorMsg("Алдаа гарлаа та дахин оролдоно уу!");
+      setErrorMsg('Алдаа гарлаа та дахин оролдоно уу!');
       setShowErrorMsg(true);
     } finally {
       setLoading(false);
@@ -81,7 +92,7 @@ export const CategoryTargetEdit = ({
     let categoriesCopy = [...originalCategories];
 
     if (categoryName) {
-      categoriesCopy = categoriesCopy.filter((category) =>
+      categoriesCopy = categoriesCopy.filter(category =>
         category.name.toLowerCase().includes(categoryName.toLowerCase())
       );
     }
@@ -92,28 +103,28 @@ export const CategoryTargetEdit = ({
   const saveHandler = () => {
     try {
       if (
-        selectedCategories.filter((curCat) => curCat.target).length !==
+        selectedCategories.filter(curCat => curCat.target).length !==
           selectedCategories.length &&
         selectedCategories.length !== categories.length
       )
-        throw new Error("Сонгосон ангилалд төлөвлөгөө оруулна уу!");
+        throw new Error('Сонгосон ангилалд төлөвлөгөө оруулна уу!');
 
       setLoading(true);
 
-      setTarget((prev) => ({
+      setTarget(prev => ({
         ...prev,
         categories:
           selectedCategories.length === 0
             ? []
             : [
-                ...prev.categories.map((curTarget) => {
+                ...prev.categories.map(curTarget => {
                   if (
                     selectedCategories
-                      .map((curCategory) => curCategory.id)
+                      .map(curCategory => curCategory.id)
                       .includes(curTarget._id)
                   ) {
                     const current = selectedCategories.find(
-                      (curCategory) => curCategory.id === curTarget._id
+                      curCategory => curCategory.id === curTarget._id
                     );
 
                     return { ...curTarget, target: { ...current.target } };
@@ -122,24 +133,24 @@ export const CategoryTargetEdit = ({
                 }),
                 ...selectedCategories
                   .filter(
-                    (curCat) =>
+                    curCat =>
                       !prev.categories
-                        .map((target) => target._id)
+                        .map(target => target._id)
                         .includes(curCat.id)
                   )
-                  .map((curCat) => ({
+                  .map(curCat => ({
                     _id: curCat.id,
                     target: { ...curCat.target },
                     succeeded: { amount: 0, quantity: 0 },
-                    waiting: { amount: 0, quantity: 0 },
-                  })),
-              ],
+                    waiting: { amount: 0, quantity: 0 }
+                  }))
+              ]
       }));
 
-      setSuccessMsg("Ангилал төлөвлөгөө амжилттай шинэчлгэдлээ!");
+      setSuccessMsg('Ангилал төлөвлөгөө амжилттай шинэчлгэдлээ!');
       setShowSuccessMsg(true);
     } catch (error) {
-      setErrorMsg(error.message ?? "Алдаа гарлаа. Та дахин оролдоно уу!");
+      setErrorMsg(error.message ?? 'Алдаа гарлаа. Та дахин оролдоно уу!');
       setShowErrorMsg(true);
     } finally {
       setLoading(false);
@@ -151,7 +162,7 @@ export const CategoryTargetEdit = ({
       <div className={css.container}>
         <div className={css.header}>
           <h1 className={css.title}>Ангилал төлөвлөгөө</h1>
-          <button onClick={closeHandler} className={css.closeBtn} type="button">
+          <button onClick={closeHandler} className={css.closeBtn} type='button'>
             <CloseDark />
           </button>
         </div>
@@ -165,31 +176,31 @@ export const CategoryTargetEdit = ({
               className={css.headerItem}
               style={{
                 width: 34,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center'
               }}
             >
               <Checkbox
                 checked={
                   selectedCategories
-                    .map((cat) => cat.id)
+                    .map(cat => cat.id)
                     .sort()
-                    .join(",") ===
+                    .join(',') ===
                   categories
-                    .map((cat) => cat.id)
+                    .map(cat => cat.id)
                     .sort()
-                    .join(",")
+                    .join(',')
                 }
                 onChange={() => {
                   if (
                     selectedCategories
-                      .map((cat) => cat.id)
+                      .map(cat => cat.id)
                       .sort()
-                      .join(",") ===
+                      .join(',') ===
                     categories
-                      .map((cat) => cat.id)
+                      .map(cat => cat.id)
                       .sort()
-                      .join(",")
+                      .join(',')
                   ) {
                     setSelectedCategories([]);
                   } else {
@@ -203,9 +214,9 @@ export const CategoryTargetEdit = ({
               <span className={css.headerText}>Ангилал</span>
               <Input
                 value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                size="small"
-                placeholder="Хайх"
+                onChange={e => setCategoryName(e.target.value)}
+                size='small'
+                placeholder='Хайх'
               />
             </div>
 
@@ -249,10 +260,10 @@ export const CategoryTargetEdit = ({
         </div>
 
         <div className={css.footer}>
-          <Button variant="secondary" size="medium">
+          <Button variant='secondary' size='medium'>
             Цуцлах
           </Button>
-          <Button onClick={saveHandler} size="medium" width={116}>
+          <Button onClick={saveHandler} size='medium' width={116}>
             Хадгалах
           </Button>
         </div>
@@ -263,7 +274,7 @@ export const CategoryTargetEdit = ({
         message={errorMsg}
         closeHandler={() => {
           setShowErrorMsg(false);
-          setErrorMsg("");
+          setErrorMsg('');
           errorWhileFetching && getData();
         }}
       />
@@ -273,7 +284,7 @@ export const CategoryTargetEdit = ({
         message={successMsg}
         closeHandler={() => {
           setShowSuccessMsg(false);
-          setSuccessMsg("");
+          setSuccessMsg('');
           if (selectedCategories.length === 0) setCategoryTargetExist(false);
           closeHandler();
         }}
@@ -286,17 +297,17 @@ const SingleCategory = ({
   category,
   zIndex,
   selectedCategories,
-  setSelectedCategories,
+  setSelectedCategories
 }) => {
   const checked = selectedCategories
-    .map((currentCat) => currentCat.id)
+    .map(currentCat => currentCat.id)
     .includes(category.id);
 
   const [amount, setAmount] = useState(
-    category.target && category.target.amount ? category.target.amount : ""
+    category.target && category.target.amount ? category.target.amount : ''
   );
   const [quantity, setQuantity] = useState(
-    category.target && category.target.quantity ? category.target.quantity : ""
+    category.target && category.target.quantity ? category.target.quantity : ''
   );
 
   useEffect(() => {
@@ -306,23 +317,23 @@ const SingleCategory = ({
     }
 
     if (!checked) {
-      setAmount("");
-      setQuantity("");
+      setAmount('');
+      setQuantity('');
     }
   }, [checked, category]);
 
-  const amountChangeHandler = (value) => {
+  const amountChangeHandler = value => {
     if (value) {
-      setSelectedCategories((prev) =>
-        prev.map((curCat) =>
+      setSelectedCategories(prev =>
+        prev.map(curCat =>
           curCat.id === category.id
             ? { ...curCat, target: { amount: Number(value), quantity: null } }
             : curCat
         )
       );
     } else {
-      setSelectedCategories((prev) =>
-        prev.map((curCat) => {
+      setSelectedCategories(prev =>
+        prev.map(curCat => {
           if (curCat.id === category.id) {
             delete curCat.target;
             return curCat;
@@ -333,18 +344,18 @@ const SingleCategory = ({
     }
   };
 
-  const quantityChangeHandler = (value) => {
+  const quantityChangeHandler = value => {
     if (value) {
-      setSelectedCategories((prev) =>
-        prev.map((curCat) =>
+      setSelectedCategories(prev =>
+        prev.map(curCat =>
           curCat.id === category.id
             ? { ...curCat, target: { amount: null, quantity: Number(value) } }
             : curCat
         )
       );
     } else {
-      setSelectedCategories((prev) =>
-        prev.map((curCat) => {
+      setSelectedCategories(prev =>
+        prev.map(curCat => {
           if (curCat.id === category.id) {
             delete curCat.target;
             return curCat;
@@ -362,19 +373,19 @@ const SingleCategory = ({
     >
       <div
         className={css.contentItem}
-        style={{ width: 34, justifyContent: "center" }}
+        style={{ width: 34, justifyContent: 'center' }}
       >
         <Checkbox
           checked={checked}
           onChange={() => {
             if (checked) {
-              setSelectedCategories((prev) =>
-                prev.filter((cat) => cat.id !== category.id)
+              setSelectedCategories(prev =>
+                prev.filter(cat => cat.id !== category.id)
               );
-              setAmount("");
-              setQuantity("");
+              setAmount('');
+              setQuantity('');
             } else {
-              setSelectedCategories((prev) => [...prev, category]);
+              setSelectedCategories(prev => [...prev, category]);
             }
           }}
         />
@@ -386,17 +397,17 @@ const SingleCategory = ({
 
       <div className={css.contentItem} style={{ width: 120 }}>
         <Input
-          type="number"
+          type='number'
           value={amount}
-          onChange={(e) => {
+          onChange={e => {
             setAmount(e.target.value);
             amountChangeHandler(e.target.value);
           }}
           disabled={!checked || quantity}
-          size="small"
-          placeholder="0"
+          size='small'
+          placeholder='0'
           icon={amount ? <TugrugGreen /> : <TugrugGray />}
-          iconposition="right"
+          iconposition='right'
         />
       </div>
 

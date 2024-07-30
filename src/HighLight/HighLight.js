@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./list.module.css";
-import { Select } from "antd";
-import arrowdown from "../assets/Arrow - Down.svg";
-import Button from "../components/Button/Button";
-import checkboxicon from "../assets/check box.svg";
-import chechboxchecked from "../assets/Tick Square on 2.svg";
-import ProductHeader from "./ProductHeader";
-import SearchedInput from "./SearchedInput";
-import AppHook from "../Hooks/AppHook";
-import myHeaders from "../components/MyHeader/myHeader";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './list.module.css';
+import { Select } from 'antd';
+import arrowdown from '../assets/Arrow - Down.svg';
+import Button from '../components/Button/Button';
+import checkboxicon from '../assets/check box.svg';
+import chechboxchecked from '../assets/Tick Square on 2.svg';
+import ProductHeader from './ProductHeader';
+import SearchedInput from './SearchedInput';
+import AppHook from '../Hooks/AppHook';
+import myHeaders from '../components/MyHeader/myHeader';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const HighLight = (props) => {
+const HighLight = props => {
   // console.log(props);
   const [data, setData] = useState();
 
@@ -43,69 +43,69 @@ const HighLight = (props) => {
 
   useEffect(() => {
     let data = [];
-    newproducts.map((item) => {
+    newproducts.map(item => {
       data.push(false);
     });
     setNewproductsfalse(data);
   }, [newproducts]);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
         // console.log("res highlighst", res);
         let data = [];
-        res.business_types.map((item) => {
+        res.business_types.map(item => {
           data.push(item.business_type_id);
         });
         // console.log("data business type", data);
         setBusinessType(data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api.ebazaar.mn/api/pages/?page_id=1`;
+    let url = `${process.env.REACT_APP_API_URL}/api/pages/?page_id=1`;
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        const data = res?.data?.find((a) => a.type === "Product Grid")?.new_data
-          ?.id["1"];
+      .then(r => r.json())
+      .then(res => {
+        const data = res?.data?.find(a => a.type === 'Product Grid')?.new_data
+          ?.id['1'];
         setData(
-          res?.data?.find((a) => a.type === "Product Grid")?.new_data?.id["1"]
+          res?.data?.find(a => a.type === 'Product Grid')?.new_data?.id['1']
         );
 
         fetch(
-          `https://api2.ebazaar.mn/api/products/get1?ids=[${
-            res?.data?.find((a) => a.type === "Product Grid")?.new_data?.id["1"]
+          `${process.env.REACT_APP_API_URL2}/api/products/get1?ids=[${
+            res?.data?.find(a => a.type === 'Product Grid')?.new_data?.id['1']
           }]`,
           requestOptions
         )
-          .then((res) => res.json())
-          .then((res) => {
+          .then(res => res.json())
+          .then(res => {
             let dataaa = [];
             // console.log("product", res.data);
-            let aa = res.data.map((e) => ({
+            let aa = res.data.map(e => ({
               value: e._id,
-              label: `${e._id} - ${e.name}`,
+              label: `${e._id} - ${e.name}`
             }));
-            res.data.map((item) => {
+            res.data.map(item => {
               dataaa.push(true);
             });
             let sortedProduct = [];
-            data?.map((e) => {
-              res.data?.map((product) => {
+            data?.map(e => {
+              res.data?.map(product => {
                 if (e == product._id) {
                   sortedProduct.push(product);
                 }
@@ -114,24 +114,24 @@ const HighLight = (props) => {
             setOldProducts(sortedProduct);
             setChosedProducts(dataaa);
           })
-          .catch((error) => {
-            console.log("aldaa garlaa", error);
+          .catch(error => {
+            console.log('aldaa garlaa', error);
           });
       })
-      .catch((error) => {
-        alert("Алдаа гарлаа");
+      .catch(error => {
+        alert('Алдаа гарлаа');
       });
   }, []);
 
-  const businessTypeList = props.businessType.map((e) => ({
+  const businessTypeList = props.businessType.map(e => ({
     value: e.business_type_id,
-    label: `${e.business_type_id} - ${e.business_type_name}`,
+    label: `${e.business_type_id} - ${e.business_type_name}`
   }));
 
   const save = () => {
     // console.log("newproducts", newproducts);
     let newIDS = [];
-    newproducts.map((item) => {
+    newproducts.map(item => {
       newIDS.push(item._id);
     });
     // console.log("chosedProducts", chosedProducts);
@@ -146,43 +146,43 @@ const HighLight = (props) => {
     });
 
     let ids = {};
-    businessType.forEach((item) => {
+    businessType.forEach(item => {
       ids[`${item}`] = [...newIDS];
     });
 
     let aa = {
       id: ids,
       link: {
-        link_title: "Бүгдийг үзэх",
-        title: "Бүтээгдэхүүний жагсаалт",
-        applink: "product_list",
-        link: "",
-      },
+        link_title: 'Бүгдийг үзэх',
+        title: 'Бүтээгдэхүүний жагсаалт',
+        applink: 'product_list',
+        link: ''
+      }
     };
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: JSON.stringify(aa),
+      redirect: 'follow',
+      body: JSON.stringify(aa)
     };
     // console.log("requestOptions", requestOptions);
 
     fetch(
-      `https://api2.ebazaar.mn/api/component/updateFeaturedProducts`,
+      `${process.env.REACT_APP_API_URL2}/api/component/updateFeaturedProducts`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         if (res.code === 200) {
           alert(res.message);
-          window.location.replace("/");
+          window.location.replace('/');
         }
         // appctx.setPage(["dashboard"]);
       })
-      .catch((error) => {
-        console.log("ontsloh buteegdehuun", error);
+      .catch(error => {
+        console.log('ontsloh buteegdehuun', error);
       });
   };
 
@@ -205,27 +205,27 @@ const HighLight = (props) => {
   };
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
     if (searchvalue?.length > 2) {
       params += `?search=${searchvalue}`;
-      let urlNew = `https://api2.ebazaar.mn/api/products/get1${params}`;
+      let urlNew = `${process.env.REACT_APP_API_URL2}/api/products/get1${params}`;
       // console.log("urlnew", urlNew);
       fetch(urlNew, requestOptions)
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           let data = [];
-          response.data.map((item) => {
+          response.data.map(item => {
             data.push(false);
           });
           setSearchSelectedProductsFalse(data);
           setSearchedProducts(response.data);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   }, [searchvalue]);
@@ -266,7 +266,7 @@ const HighLight = (props) => {
       // console.log("index", index);
       searchedProducts.map((x, y) => {
         if (item && index === y) {
-          setNewproducts((prev) => [...prev, x]);
+          setNewproducts(prev => [...prev, x]);
           setSearchvalue(null);
         }
       });
@@ -274,7 +274,7 @@ const HighLight = (props) => {
   };
   const cancel = () => {
     // appctx.setPage(["dashboard"]);
-    window.location.replace("/");
+    window.location.replace('/');
   };
 
   const sortHandler = () => {
@@ -311,7 +311,7 @@ const HighLight = (props) => {
               <div
                 className={css.onewrapper}
                 style={{
-                  width: "100px",
+                  width: '100px'
                 }}
               >
                 <span>Product id</span>
@@ -320,7 +320,7 @@ const HighLight = (props) => {
               <div
                 className={css.onewrapper}
                 style={{
-                  width: "250px",
+                  width: '250px'
                 }}
               >
                 <span>Бүтээгдэхүүний нэр</span>
@@ -329,7 +329,7 @@ const HighLight = (props) => {
               <div
                 className={css.onewrapper}
                 style={{
-                  width: "100px",
+                  width: '100px'
                 }}
               >
                 <span>Зураг</span>
@@ -339,22 +339,22 @@ const HighLight = (props) => {
             <div className={css.bodywrapper1}>
               {oldProducts
                 ? oldProducts.map((item, index) => {
-                  console.log("oldProducts", oldProducts);
+                    console.log('oldProducts', oldProducts);
                     return (
                       <div
                         className={css.oneproduct}
                         key={index}
                         draggable
-                        onDragStart={(e) => (dragItem.current = index)}
-                        onDragEnter={(e) => (dragOverItem.current = index)}
+                        onDragStart={e => (dragItem.current = index)}
+                        onDragEnter={e => (dragOverItem.current = index)}
                         onDragEnd={sortHandler}
-                        onDragOver={(e) => e.preventDefault()}
+                        onDragOver={e => e.preventDefault()}
                       >
                         <div
                           style={{
-                            width: "100px",
-                            display: "flex",
-                            alignItems: "center",
+                            width: '100px',
+                            display: 'flex',
+                            alignItems: 'center'
                           }}
                           onClick={() => checkedHandler(item, index)}
                         >
@@ -364,23 +364,23 @@ const HighLight = (props) => {
                                 ? checkboxicon
                                 : chechboxchecked
                             }
-                            alt="check box "
+                            alt='check box '
                           />
                           <span className={css.productid}>{item._id}</span>
                         </div>
                         <div
                           style={{
-                            width: "250px",
-                            marginLeft: "20px",
+                            width: '250px',
+                            marginLeft: '20px'
                           }}
                         >
                           <span className={css.productname}>{item.name}</span>
                         </div>
                         <div
                           style={{
-                            width: "100px",
-                            display: "flex",
-                            justifyContent: "center",
+                            width: '100px',
+                            display: 'flex',
+                            justifyContent: 'center'
                           }}
                         >
                           <img
@@ -400,7 +400,7 @@ const HighLight = (props) => {
       <div className={css.ehniiserachaaa}>
         <div className={css.searchedwrappercontainer}>
           <SearchedInput
-            title="Шинэ бүтээгдэхүүн нэмэх"
+            title='Шинэ бүтээгдэхүүн нэмэх'
             setSearch={setSearchvalue}
           />
         </div>
@@ -413,16 +413,16 @@ const HighLight = (props) => {
                   <div className={css.twocontainer} key={index}>
                     <div
                       style={{
-                        display: "flex",
-                        alignItems: "center",
+                        display: 'flex',
+                        alignItems: 'center'
                       }}
                     >
-                      {" "}
+                      {' '}
                       <div
                         style={{
-                          width: "100px",
-                          display: "flex",
-                          alignItems: "center",
+                          width: '100px',
+                          display: 'flex',
+                          alignItems: 'center'
                         }}
                         onClick={() => checkedHandlerOne(item, index)}
                       >
@@ -432,7 +432,7 @@ const HighLight = (props) => {
                               ? chechboxchecked
                               : checkboxicon
                           }
-                          alt="check box "
+                          alt='check box '
                         />
                         <span className={css.productid}>{item._id}</span>
                       </div>
@@ -458,9 +458,9 @@ const HighLight = (props) => {
       <div className={css.ehniiserach}>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
           }}
         >
           <span className={css.tableheader}>
@@ -476,7 +476,7 @@ const HighLight = (props) => {
                   <div
                     className={css.onewrapper_wrpaper}
                     style={{
-                      width: "100px",
+                      width: '100px'
                     }}
                     onClick={() => newProductSelectHandler(item, index)}
                   >
@@ -486,15 +486,15 @@ const HighLight = (props) => {
                           ? chechboxchecked
                           : checkboxicon
                       }
-                      alt="check box "
+                      alt='check box '
                     />
                     <span>{item._id}</span>
                   </div>
                   <div
                     className={css.onewrapper_wrpaper}
                     style={{
-                      width: "200px",
-                      marginLeft: "20px",
+                      width: '200px',
+                      marginLeft: '20px'
                     }}
                   >
                     <span>{item.name}</span>
@@ -502,10 +502,10 @@ const HighLight = (props) => {
                   <div
                     className={css.onewrapper_wrpaper}
                     style={{
-                      width: "200px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      width: '200px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
                     }}
                   >
                     <img src={item.image[0]} className={css.productimage} />
@@ -528,12 +528,12 @@ const HighLight = (props) => {
       <div className={css.tableheader}>Суваг сонгох</div>
       <Select
         allowClear
-        mode="multiple"
-        placeholder="Суваг"
-        style={{ width: "100%" }}
+        mode='multiple'
+        placeholder='Суваг'
+        style={{ width: '100%' }}
         value={businessType}
         options={businessTypeList}
-        onChange={(value) => {
+        onChange={value => {
           setBusinessType(value);
         }}
       />

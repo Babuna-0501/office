@@ -1,344 +1,466 @@
-import { useState, useEffect } from "react"
-import myHeaders from "../../components/MyHeader/myHeader"
-import QRCode from "react-qr-code"
-import "./sales.css";
+import { useState, useEffect, useMemo } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import QRCode from 'react-qr-code';
+import './sales.css';
+import { format } from 'date-fns';
 
-const Print = (props) => {
-	useEffect(() => {
-		foobar()
-	}, [])
-	const [ready, setReady] = useState(false)
-	const [saved, setSaved] = useState(false)
-	const [qr, setQr] = useState('')
-	const [lotteryNumber, setLotteryNumber] = useState(null)
-	const [lotteryAmount, setLotteryAmount] = useState(null)
-	const [billId, setBillId] = useState('')
-	const [taxPayerType, setTaxPayerType] = useState(props.taxPayerType)
-	const [businessName, setBusinessName] = useState(null)
-	const [businessRegister, setBusinessRegister] = useState(null)
-	const printSlippery = () => {
-		var div = document.getElementById('printcontent');
-        var win = window.open('', '', 'height=680,width=480')
-        win.document.write(div.outerHTML)
-        win.document.write('<script>window.addEventListener("afterprint", (event) => {window.close();})</script>')
-        win.print()
-        win.document.close()
-        if(!saved) {
-        	props.save(props)
-        	setSaved(true)
-        } else {
-        	console.log('already saved')
+const Print = props => {
+  const {
+    data,
+    taxPayerType,
+    warehouses,
+    products,
+    businessRegister,
+    businessName,
+    receiptData
+  } = props;
+
+  const [ready, setReady] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [qr, setQr] = useState('');
+  const [lotteryNumber, setLotteryNumber] = useState(null);
+  const [lotteryAmount, setLotteryAmount] = useState(null);
+  const [billId, setBillId] = useState('');
+
+  async function foobar() {
+    let vatStocks = [];
+    let totalVat = 0;
+    let totalAmount = 0;
+
+    data.map(product => {
+      const vatAmount = (
+        (parseInt(product.sellPrice.retail) * parseInt(product.quantity)) /
+        11
+      ).toFixed(2);
+
+      const lineTotalAmount = product.sellPrice.retail * product.quantity;
+
+      vatStocks.push({
+        name: product.name,
+        barCode: product.bar_code,
+        barCodeType: 'UNDEFINED',
+        classificationCode: '0001001',
+        taxProducCode: '',
+        measureUnit: 'ш',
+        qty: product.quantity,
+        unitPrice: product.sellPrice.retail,
+        totalBonus: 0,
+        totalVAT: vatAmount,
+        totalCityTax: 0,
+        totalAmount: lineTotalAmount,
+        data: {}
+      });
+      totalVat += parseFloat(vatAmount);
+      totalAmount += parseFloat(
+        parseInt(product.quantity) * parseInt(product.sellPrice.retail)
+      );
+    });
+
+    totalVat = totalAmount / 11;
+    totalVat = totalVat.toFixed(2);
+
+    const raw = {
+      supplierId: props.supplierId,
+      totalAmount: totalAmount,
+      totalVAT: totalVat,
+      totalCityTax: 0,
+      branchNo: '1',
+      districtCode: '0001',
+      merchantTin: '37900846788',
+      posNo: '10002623',
+      consumerNo: '',
+      type: taxPayerType === 'business' ? 'B2B_RECEIPT' : 'B2C_RECEIPT',
+      inactiveId: '',
+      receipts: [
+        {
+          totalAmount: totalAmount,
+          totalVAT: totalVat,
+          totalCityTax: 0,
+          taxType: 'VAT_ABLE',
+          merchantTin: '37900846788',
+          type: taxPayerType === 'business' ? 'B2B_RECEIPT' : 'B2C_RECEIPT',
+          data: {},
+          items: vatStocks
         }
-        
-        win.close()
-	}
-	const searchBusinessInfo = (reg) => {
-		if(reg.length >= 7) {
-			var requestOptions = {
-				method: "GET",
-				headers: myHeaders,
-				redirect: "follow",
-		    }
-			let url = `https://api2.ebazaar.mn/pos-api/vatpayer?regNo=${reg}`;
-			fetch(url, requestOptions).
-			then(r => r.json()).
-			then(response => {
-				if(response.message === 201) {
-					setBusinessName(response.data.name)
-					setBusinessRegister(reg)
-					document.getElementById('businessorganizationname').value = response.data.name
-				}
-			})
-		}
-	}
-	let warehouseName = ''
-	props.warehouses.map(warehouse => {
-		if(warehouse._id === props.warehouse) {
-			warehouseName = warehouse.name
-			return
-		}
-	})
-	let restructuredProducts = {}
-	props.products.map(prod => {
-		restructuredProducts[prod._id] = prod
-	})
-	let total = 0
-	props.data.map(product => {
-		total += product.quantity * product.sellPrice.retail
-	})
-	async function getCustomerTin() {
-		const requestOptions = {
-			method: "GET",
-			headers: myHeaders,
-			redirect: "follow"
-		}
-		const url = "https://api2.ebazaar.mn/pos-api/tin?regNo=" + props.businessRegister
-		const tin = await fetch(url, requestOptions)
-		.then((response) => response.json())
-		.then((result) => {
-			console.log(result)
-			return result
-		})
-		.catch((error) => console.error(error))
-		return tin.data
-	}
-	async function foobar() {
-		let vatStocks = []
-		let totalVat = 0
-		let totalAmount = 0
-		let taxBillId = 0
-		props.data.map(product => {
-			const vatAmount = (parseInt(product.sellPrice.retail) * parseInt(product.quantity)/11).toFixed(2)
-			const lineTotalAmount = product.sellPrice.retail * product.quantity
-			vatStocks.push({
-				"name": product.name,
-				"barCode": product.bar_code,
-				"barCodeType": "UNDEFINED",
-				"classificationCode": "0001001",
-				"taxProducCode": "",
-				"measureUnit": "ш",
-				"qty": product.quantity,
-				"unitPrice": product.sellPrice.retail,
-				"totalBonus": 0,
-				"totalVAT": vatAmount,
-				"totalCityTax": 0,
-				"totalAmount": lineTotalAmount,
-				"data": {}
-			})
-			totalVat += parseFloat(vatAmount)
-			totalAmount += parseFloat(parseInt(product.quantity) * parseInt(product.sellPrice.retail))
-		})
-		totalVat = totalAmount/11
-		totalVat = totalVat.toFixed(2)
-		const raw = {
-			"supplierId": props.supplierId,
-			"totalAmount": totalAmount,
-			"totalVAT": totalVat,
-			"totalCityTax": 0,
-			"branchNo": "1",
-			"districtCode": "0001",
-			"merchantTin": "37900846788",
-			"posNo": "10002623",
-			"consumerNo": "",
-			"type": taxPayerType === "business" ? "B2B_RECEIPT" : "B2C_RECEIPT",
-			"inactiveId": "",
-			"receipts": [
-			{
-				"totalAmount": totalAmount,
-				"totalVAT": totalVat,
-				"totalCityTax": 0,
-				"taxType": "VAT_ABLE",
-				"merchantTin": "37900846788",
-				"type": taxPayerType === "business" ? "B2B_RECEIPT" : "B2C_RECEIPT",
-				"data": {},
-				"items": vatStocks
-			}
-			],
-			"payments": [
-				{
-					"code": "CASH",
-					"status": "PAID",
-					"paidAmount": totalAmount,
-					"data": {}
-				}
-			]
-		}
-		if(taxPayerType === "business") {
-			console.log('waiting tin code')
-			raw['customerTin'] = await getCustomerTin()
-			console.log('fetch tin' + raw['customerTin'])
-		}
-		var requestOptions = {
-			method: "POST",
-			headers: myHeaders,
-			body: JSON.stringify(raw)
-	    }
-		fetch("https://api2.ebazaar.mn/pos-api/receipt/create", requestOptions)
-		.then((response) => response.json())
-		.then((result) => {
-			console.log('vat---------------')
-			console.log(result)
-			console.log('vat---------------')
-			if(result.message === 201) {
-				console.log('before calling save');
-				const configData = {
-					sale: {
-						vat: {
-							taxPayerType: taxPayerType,
-							totalVat: totalVat,
-							totalAmount: totalAmount,
-							businessRegister: props.businessRegister,
-							billId: result.data.id
-						}
-					}
-				}
-				props.save(props, configData)
-				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!before calling save');
-				setQr(result.data.qrData)
-				setBillId(result.data.id)
-				setLotteryNumber(result.data.lottery)
-				setReady(true)
-				setLotteryAmount(totalAmount)
-			} else {
-				alert('Ибаримт үүсгэхэд алдаа гарлаа.')
-			}
-		})
-		.catch((error) => console.error(error))
-	}
-	/*useEffect(() => {
-		console.log('vatttttttttttttting')
-		console.log(taxPayerType + ' and ' + businessRegister)
-		//noatAmountOrig += (x.price.toFixed(2) * x.quantity.toFixed(2)) / 11.2;
-		let vatStocks = []
-		let totalVat = 0
-		let totalAmount = 0
-		let taxBillId
-		props.data.map(product => {
-			const vatAmount = (parseInt(product.sellPrice.retail) * parseInt(product.quantity)/11).toFixed(2)
-			vatStocks.push({
-				"code": String(product._id),
-                "name": "foobar",
-                "measureUnit": "ш",
-                "qty": String(product.quantity.toFixed(2)),
-                "unitPrice": String(parseInt(product.sellPrice.retail).toFixed(2)),
-                "totalAmount": String((parseInt(product.sellPrice.retail) * parseInt(product.quantity)).toFixed(2)),
-                "cityTax": "0.00",
-                "vat": String(parseFloat(vatAmount).toFixed(2)),
-                "barCode": String(product.bar_code)
-			})
-			totalVat += parseFloat(vatAmount)
-			totalAmount += parseFloat(parseInt(product.quantity) * parseInt(product.sellPrice.retail))
-		})
-		console.log(totalVat.toFixed(2))
-		console.log(totalAmount)
-		let vatData = {
-			"register": 2155214,
-		    "bankTransactions": null,
-		    "orderId": Math.floor(Math.random() * 100 * Math.random() *100 * Math.random() * 100 * 100),
-		    "body": {
-		        "amount": String(totalAmount.toFixed(2)),
-		        "vat": String(parseFloat(totalVat).toFixed(2)),
-		        "cashAmount": String(totalAmount.toFixed(2)),
-		        "nonCashAmount": "0.00",
-		        "cityTax": "0.00",
-		        "districtCode": "35",
-		        "posNo": "1000",
-		        "customerNo": taxPayerType === "business" ? String(businessRegister) : "",
-		        "billType": taxPayerType === 'business' ? "3" : "1",
-		        "billIdSuffix": "",
-		        "taxType": "1",
-		        "registerNo": "2155214",
-		        "stocks": vatStocks,
-		        "bankTransactions": null
-		    }
-		}
-		console.log(vatData)
-		const url = `https://api2.ebazaar.mn/api/ebarimt/barimt`
-		var requestOptions = {
-			method: "POST",
-			headers: myHeaders,
-			redirect: "follow",
-			body: JSON.stringify(vatData)
-	    }
-	    fetch(url, requestOptions).
-		then(r => r.json()).
-		then(response => {
-			console.log(response.code)
-			if(response.code === 200 && response.data) {
-				console.log(response)
-				console.log(response.data.qrData)
-				setQr(response.data.qrData)
-				setBillId(response.data.billId)
-				setReady(true)
-			} else {
-				alert('Алдаа гарлаа.')
-			}
-		})
-	}, [])
-	*/
-	const currentDate = new Date()
-	const newSale = () => {
-		props.newSale()
-	}
-	return ready ? (
-		<div className="paymentpage" style={{zIndex: '3000000000'}}>
-			<div className="leftblock" style={{background: '#f6f6f6'}}>
-				<div style={{position: 'absolute', right: '0', bottom: '0', left: '0', padding: '2rem '}}>
-					<div className="margintop1rem">
-						<button className="button primary large" style={{width: '100%'}} onClick={() => newSale()}>Шинэ борлуулалт</button>
-						<div style={{height: '2rem'}}></div>
-						<button className="button primary large" style={{width: '100%', background: '#b2b1b0'}} onClick={() => printSlippery(true)}>Баримт хэвлэх</button>
-					</div>
-				</div>
-			</div>
-			<div className="rightblock" style={{overflow: 'auto', background: 'white', paddingRight: '2rem'}} id="printcontent">
+      ],
+      payments: [
+        {
+          code: 'CASH',
+          status: 'PAID',
+          paidAmount: totalAmount,
+          data: {}
+        }
+      ]
+    };
 
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>{props.taxPayerType === 'business' ? 'Байгуулагын баримт' : 'Иргэнд очих баримт'}</p>
-				<div style={{textAlign: 'center'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', margin: '12px 0'}}>{warehouseName}</p></div>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ТТД: 2155214</p>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ДДТД: {billId}</p>
-				<p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>Огноо: {currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate()}</p>
-				{props.taxPayerType === 'business' ? <p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ААН нэр: {props.businessName}</p> : null}
-				{props.taxPayerType === 'business' ? <p style={{fontFamily: 'Arial', fontSize: '10px', margin: '0'}}>ААН РД: {props.businessRegister}</p> : null}
-				<div style={{borderTop: '1px dotted gray', borderBottom: '1px dotted gray'}}>
-					<div style={{width: '25%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Бараа</p></div>
-					<div style={{width: '10%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Тоо</p></div>
-					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Үнэ</p></div>
-					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>НӨАТ</p></div>
-					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>НХАТ</p></div>
-					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black'}}>Хөнг</p></div>
-					<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', fontWeight: 'bold', color: 'black', textAlign: 'right'}}>Дүн</p></div>
-				</div>
-				{
-					props.data.map(product => {
-						console.log(product)
-						let temp = restructuredProducts[product._id]
-						const cityTax = product.citytax && parseInt(product.citytax) > 0 ? (parseInt(product.sellPrice.retail) / 110).toFixed(2) : null
-						return (
-							<div>
-								<div style={{width: '25%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0 .25rem 0 0', padding: '0 .5rem 0 0', boxSizing: 'border-box'}} className="twolineellipses">{temp.name}}</p></div>
-								<div style={{width: '10%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{product.quantity}</p></div>
-								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{product.sellPrice.retail}</p></div>
-								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{(parseInt(product.sellPrice.retail) / 11).toFixed(2)}</p></div>
-								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses">{cityTax}</p></div>
-								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}} className="twolineellipses"></p></div>
-								<div style={{width: '13%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}} className="twolineellipses">{(Number(product.sellPrice.retail) * product.quantity).toLocaleString()}₮</p></div>
-							</div>
-						)
-					})
-				}
-				<div style={{margin: '1rem 0 0 0'}}>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>Нийт дүн:</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}₮</p></div>
-				</div>
-				<div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>ЭМД хөнгөлөлт</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}></p></div>
-				</div>
-				<div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>Төлөх дүн</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{total.toLocaleString()}₮</p></div>
-				</div>
-				<div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0'}}>НӨАТ</p></div>
-					<div style={{width: '50%', display: 'inline-block'}}><p style={{fontFamily: 'Arial', fontSize: '10px', color: 'black', margin: '0', textAlign: 'right'}}>{(total / 11).toFixed(2)}₮</p></div>
-				</div>
+    if (taxPayerType === 'business') {
+      raw['customerTin'] = await getCustomerTin();
+    }
 
-				<div style={{textAlign: 'center'}}>
-					<p style={{margin: '1rem 0', fontSize: '16px', fontWeight: 'bold'}}></p>
-					<div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
-						<QRCode
-						    size={128}
-						    style={{ height: "160px", maxWidth: "100%", width: "100%" }}
-						    value={qr}
-						    viewBox={`0 0 256 256`}
-					    />
-					    {lotteryNumber ? <div style={{textAlign: 'center', fontSize: '10px'}}><div style={{fontSize: '10px'}}>Сугалааны дугаар: {lotteryNumber ?? lotteryNumber.split(" ").join("")}</div><div style={{fontSize: '10px'}}>Ибаримтын дүн: {lotteryAmount}</div></div> : null}
-					</div>
-				</div>
-			</div>
-		</div>
-	) : <div className="paymentpage" style={{zIndex: '3000000000'}}><div className="padding1rem">Түр хүлээнэ үү...</div></div>
-}
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(raw)
+    };
 
-export default Print
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/pos-api/receipt/create`,
+      requestOptions
+    )
+      .then(response => response.json())
+      .then(result => {
+        if (result.message === 201) {
+          const configData = {
+            sale: {
+              vat: {
+                taxPayerType: taxPayerType,
+                totalVat: totalVat,
+                totalAmount: totalAmount,
+                businessRegister: props.businessRegister,
+                billId: result.data.id
+              }
+            }
+          };
+          props.save(props, configData);
+
+          setQr(result.data.qrData);
+          setBillId(result.data.id);
+          setLotteryNumber(result.data.lottery);
+          setReady(true);
+          setLotteryAmount(totalAmount);
+        } else {
+          alert('Ибаримт үүсгэхэд алдаа гарлаа.');
+        }
+      })
+      .catch(error => console.error(error));
+  }
+
+  useEffect(() => {
+    foobar();
+  }, []);
+
+  const printSlippery = () => {
+    var div = document.getElementById('printcontent');
+    var win = window.open('', '', 'height=680,width=480');
+    win.document.write(div.outerHTML);
+    win.document.write(
+      '<script>window.addEventListener("afterprint", (event) => {window.close();})</script>'
+    );
+    win.print();
+    win.document.close();
+    if (!saved) {
+      props.save(props);
+      setSaved(true);
+    } else {
+      console.log('already saved');
+    }
+
+    win.close();
+  };
+
+  let warehouseName = '';
+
+  warehouses.map(warehouse => {
+    if (warehouse._id === props.warehouse) {
+      warehouseName = warehouse.name;
+      return;
+    }
+  });
+
+  let restructuredProducts = {};
+
+  products.map(prod => {
+    restructuredProducts[prod._id] = prod;
+  });
+
+  let total = 0;
+  let emdDiscount = 0;
+
+  data.map(product => {
+    const emt = product.emd ? product.emd.tbltUnitDisAmt : 0;
+
+    total += product.quantity * product.sellPrice.retail;
+
+    emdDiscount += emt * product.quantity;
+  });
+
+  async function getCustomerTin() {
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    const url =
+      `${process.env.REACT_APP_API_URL2}/pos-api/tin?regNo=` +
+      props.businessRegister;
+
+    const tin = await fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        return result;
+      })
+      .catch(error => console.error(error));
+
+    return tin.data;
+  }
+
+  const currentDate = new Date();
+
+  const newSale = () => {
+    props.newSale();
+  };
+
+  const formattedDate = format(currentDate, 'yyyy-MM-dd HH:mm:ss');
+
+  const titleList = [
+    { label: 'ТТД', value: '' },
+    { label: 'ДДТД', value: billId },
+    { label: 'Огноо', value: formattedDate },
+    {
+      label: taxPayerType === 'business' ? 'ААН нэр' : 'Харилцагчийн нэр',
+      value: taxPayerType === 'business' ? businessName : ''
+    },
+    {
+      label: taxPayerType === 'business' ? 'ААН РД' : 'Регистрийн дугаар',
+      value: taxPayerType === 'business' ? businessRegister : ''
+    },
+    { label: 'Жорын дугаар', value: '' }
+  ];
+
+  const headerList = [
+    { label: 'Бараа', value: 'name' },
+    { label: 'Тоо', value: '2' },
+    { label: 'Үнэ', value: '3' },
+    { label: 'Эмд хөнг', value: '4' },
+    { label: 'Хямд', value: '5' },
+    { label: 'Дүн', value: '6' }
+  ];
+
+  const footerList = [
+    { label: 'Нийт дүн', value: `${total.toLocaleString()}₮` },
+    { label: 'ЭМД хөнгөлөлт', value: `${emdDiscount.toLocaleString()}₮` },
+    { label: 'Хямдрал', value: `0₮` },
+    { label: 'Төлөх дүн', value: `${total.toLocaleString()}₮` },
+    { label: 'НӨАТ', value: `${(total / 11).toFixed(2)}₮` }
+  ];
+
+  return ready ? (
+    <div className='paymentpage' style={{ zIndex: '3000000000' }}>
+      <div className='leftblock' style={{ background: '#f6f6f6' }}>
+        <div
+          style={{
+            position: 'absolute',
+            right: '0',
+            bottom: '0',
+            left: '0',
+            padding: '2rem '
+          }}
+        >
+          <div className='margintop1rem'>
+            <button
+              className='button primary large'
+              style={{ width: '100%' }}
+              onClick={() => newSale()}
+            >
+              Шинэ борлуулалт
+            </button>
+            <div style={{ height: '2rem' }}></div>
+            <button
+              className='button primary large'
+              style={{ width: '100%', background: '#b2b1b0' }}
+              onClick={() => printSlippery(true)}
+            >
+              Баримт хэвлэх
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className='rightblock'
+        style={{ overflow: 'auto', background: 'white', paddingRight: '2rem' }}
+        id='printcontent'
+      >
+        <p style={{ fontFamily: 'Arial', fontSize: '10px', margin: '0' }}>
+          {taxPayerType === 'business'
+            ? 'Байгуулагын баримт'
+            : 'Иргэнд очих баримт'}
+        </p>
+        <div style={{ textAlign: 'center' }}>
+          <p
+            style={{
+              fontFamily: 'Arial',
+              fontSize: '10px',
+              fontWeight: 'bold',
+              margin: '12px 0'
+            }}
+          >
+            {warehouseName}
+          </p>
+        </div>
+
+        {titleList.map((item, index) => {
+          return (
+            <p
+              key={index}
+              style={{ fontFamily: 'Arial', fontSize: '10px', margin: '0' }}
+            >
+              {item.label}: {item.value}
+            </p>
+          );
+        })}
+
+        <table
+          style={{
+            borderTop: '1px dotted gray',
+            borderLeft: 'none',
+            borderRight: 'none',
+            margin: '8px 0'
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                borderBottom: '1px dotted gray'
+              }}
+            >
+              {headerList.map((item, index) => {
+                return (
+                  <th
+                    key={index}
+                    style={{
+                      fontSize: '10px',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      border: 'none',
+                      maxWidth: '90px'
+                    }}
+                  >
+                    {item.label}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.map((product, index) => {
+              let temp = restructuredProducts[product._id];
+
+              const cityTax =
+                product.citytax && parseInt(product.citytax) > 0
+                  ? (parseInt(product.sellPrice.retail) / 110).toFixed(2)
+                  : null;
+
+              const productTotal = Math.floor(
+                product.sellPrice.retail * product.quantity
+              );
+
+              return (
+                <tr key={index} style={{ borderBottom: '1px solid gray' }}>
+                  {headerList.map((item, index) => {
+                    return (
+                      <td
+                        key={index}
+                        style={{
+                          fontSize: '10px',
+                          textAlign: 'center',
+                          border: 'none',
+                          maxWidth: '90px'
+                        }}
+                        className='twolineellipses'
+                      >
+                        {index === 0
+                          ? temp.name
+                          : index === 1
+                          ? product.quantity
+                          : index === 2
+                          ? product.sellPrice.retail
+                          : index === 3
+                          ? `${product.emd?.tbltUnitDisAmt || 0}₮`
+                          : index === 4
+                          ? `0₮`
+                          : `${productTotal}₮`}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {footerList.map((item, index) => {
+          return (
+            <div
+              key={index}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '0 0.5rem'
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: 'Arial',
+                  fontSize: '10px',
+                  color: 'black'
+                }}
+              >
+                {item.label}
+              </p>
+
+              <p
+                style={{
+                  fontFamily: 'Arial',
+                  fontSize: '10px',
+                  color: 'black'
+                }}
+              >
+                {item.value}
+              </p>
+            </div>
+          );
+        })}
+
+        <div style={{ textAlign: 'center' }}>
+          <p
+            style={{ margin: '1rem 0', fontSize: '16px', fontWeight: 'bold' }}
+          ></p>
+          <div>
+            {lotteryNumber && (
+              <div
+                style={{
+                  textAlign: 'center',
+                  fontSize: '10px',
+                  margin: '8px 0'
+                }}
+              >
+                <div style={{ fontSize: '10px' }}>
+                  Сугалааны дугаар:{' '}
+                  {lotteryNumber ?? lotteryNumber.split(' ').join('')}
+                </div>
+                <div style={{ fontSize: '10px' }}>
+                  Ибаримтын дүн: {lotteryAmount}
+                </div>
+              </div>
+            )}
+
+            <QRCode
+              size={128}
+              style={{ height: '160px', maxWidth: '100%', width: '100%' }}
+              value={qr}
+              viewBox={`0 0 256 256`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className='paymentpage' style={{ zIndex: '3000000000' }}>
+      <div className='padding1rem'>Түр хүлээнэ үү...</div>
+    </div>
+  );
+};
+
+export default Print;

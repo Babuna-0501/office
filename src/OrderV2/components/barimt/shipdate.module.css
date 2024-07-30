@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 175px;
+  /* margin-top: 2rem; */
+  margin-bottom: 0.5rem;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+.wrapper span {
+  font-size: 14px;
+
+  color: #1a1a1a;
+}

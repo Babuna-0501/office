@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import { styles } from "./style";
-import css from "./xt.module.css";
-import Marshrut from "./Marshrut";
-import myHeaders from "../components/MyHeader/myHeader";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useContext, useEffect } from 'react';
+import { styles } from './style';
+import css from './xt.module.css';
+import Marshrut from './Marshrut';
+import myHeaders from '../components/MyHeader/myHeader';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const XT = (props) => {
+const XT = props => {
   const [active, setActive] = useState(null);
   const [listdata, setListdata] = useState([]);
   const [worksdata, setWorksdata] = useState([]);
@@ -28,70 +28,71 @@ const XT = (props) => {
     let controller = new AbortController();
 
     fetch(
-      `https://api2.ebazaar.mn/api/backoffice/users?company=${props.userData.company_id.replaceAll(
-        "|",
-        ""
+      `${
+        process.env.REACT_APP_API_URL2
+      }/api/backoffice/users?company=${props.userData.company_id.replaceAll(
+        '|',
+        ''
       )}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        signal: controller.signal,
+        signal: controller.signal
       }
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setWorksdata(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
 
     fetch(
-      `https://api2.ebazaar.mn/api/tracking?supplier=${props.userData.company_id.replaceAll(
-        "|",
-        ""
-      )}`,
+      `${
+        process.env.REACT_APP_API_URL2
+      }/api/tracking?supplier=${props.userData.company_id.replaceAll('|', '')}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        signal: controller.signal,
+        signal: controller.signal
       }
     )
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         // console.log("cancel reason data", res.list);
 
         setListdata(res.list);
-        fetch(`https://api2.ebazaar.mn/api/warehouse/get`, {
-          method: "GET",
+        fetch(`${process.env.REACT_APP_API_URL2}/api/warehouse/get`, {
+          method: 'GET',
           headers: myHeaders,
-          signal: controller.signal,
+          signal: controller.signal
         })
-          .then((res) => res.json())
-          .then((res) => {
+          .then(res => res.json())
+          .then(res => {
             // console.log("Inventory ", res);
-            setInventorydata((prev) => [...prev, ...res.data]);
-            fetch(`https://api2.ebazaar.mn/api/backoffice/role`, {
-              method: "GET",
-              headers: myHeaders,
+            setInventorydata(prev => [...prev, ...res.data]);
+            fetch(`${process.env.REACT_APP_API_URL2}/api/backoffice/role`, {
+              method: 'GET',
+              headers: myHeaders
             })
-              .then((res) => res.json())
-              .then((res) => {
+              .then(res => res.json())
+              .then(res => {
                 // console.log("res", res);
                 setRoleman(res.roles);
               })
-              .catch((error) => {
-                console.log("error", error);
+              .catch(error => {
+                console.log('error', error);
               });
           })
-          .catch((error) => {
-            console.log("error", error);
+          .catch(error => {
+            console.log('error', error);
           });
 
         controller = null;
       })
-      .catch((error) => {
-        console.log("order reason tathad aldaa ", error);
+      .catch(error => {
+        console.log('order reason tathad aldaa ', error);
       });
 
     return () => controller?.abort();
@@ -101,7 +102,7 @@ const XT = (props) => {
 
   const showHandler = (i, a) => {
     setActive(i);
-    console.log("a----------a-----------a", a);
+    console.log('a----------a-----------a', a);
     setOnextdata(a);
   };
   return (
@@ -110,84 +111,84 @@ const XT = (props) => {
         <div
           className={css.header}
           style={{
-            ...styles.firstContainer,
+            ...styles.firstContainer
           }}
         >
           <span className={css.headerTitle}>Код</span>
-          <input type="text" />
+          <input type='text' />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.adminContainer,
+            ...styles.adminContainer
           }}
         >
           <span className={css.headerTitle}>Албан тушаал</span>
-          <input type="text" />
+          <input type='text' />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Овог</span>
-          <input type="text" />
+          <input type='text' />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Нэр</span>
-          <input type="text" />
+          <input type='text' />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           {/* <span className={css.headerTitle}>Бүсчлэл хувиарлах</span> */}
           <span className={css.headerTitle}>Маршрут </span>
-          <input type="text" disabled />
+          <input type='text' disabled />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Дэлгүүр хувиарлах</span>
-          <input type="text" disabled />
+          <input type='text' disabled />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Өдөр хувиарлах</span>
-          <input type="text" disabled />
+          <input type='text' disabled />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Агуулах хувиарлах</span>
-          <input type="text" disabled />
+          <input type='text' disabled />
         </div>
         <div
           className={css.header}
           style={{
-            ...styles.checkboxcontainer,
+            ...styles.checkboxcontainer
           }}
         >
           <span className={css.headerTitle}>Бүсчлэл хувиарлах</span>
-          <input type="text" disabled />
+          <input type='text' disabled />
         </div>
         {/* <div
           className={css.header}

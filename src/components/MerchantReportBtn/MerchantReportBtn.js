@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
-import css from "./merchantreportbtn.module.css";
-import upload from "../../assets/Upload_white.svg";
-import MerchantReportHook from "../../Hooks/MerchantReportHook";
-import MerchantRegisterHook from "../../Hooks/MerchantRegisterHook";
-import readXlsxFile from "read-excel-file";
-import myHeaders from "../MyHeader/myHeader";
-import { Button } from "../common";
-import SettingOpen from "../../Merchants/Settings/SettingOpen";
+import React, { useContext, useState } from 'react';
+import css from './merchantreportbtn.module.css';
+import upload from '../../assets/Upload_white.svg';
+import MerchantReportHook from '../../Hooks/MerchantReportHook';
+import MerchantRegisterHook from '../../Hooks/MerchantRegisterHook';
+import readXlsxFile from 'read-excel-file';
+import myHeaders from '../MyHeader/myHeader';
+import { Button } from '../common';
+import SettingOpen from '../../Merchants/Settings/SettingOpen';
 const MerchantReportBtn = () => {
   const [open, setOpen] = useState(false);
   const ctx = useContext(MerchantReportHook);
@@ -28,9 +28,9 @@ const MerchantReportBtn = () => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -38,46 +38,46 @@ const MerchantReportBtn = () => {
           '><input type="file" id="read" /></form>'
       );
 
-    document.getElementById("read").click();
-    document.getElementById("read").addEventListener("change", () => {
+    document.getElementById('read').click();
+    document.getElementById('read').addEventListener('change', () => {
       const schema = {
         name: {
-          prop: "name",
-          type: String,
+          prop: 'name',
+          type: String
         },
         rd: {
-          prop: "rd",
-          type: String,
+          prop: 'rd',
+          type: String
         },
         phone: {
-          prop: "phone",
-          type: String,
+          prop: 'phone',
+          type: String
         },
 
         address: {
-          prop: "address",
-          type: String,
-        },
+          prop: 'address',
+          type: String
+        }
       };
-      readXlsxFile(document.getElementById("read").files[0], { schema }).then(
-        (rows) => {
-          console.log("rows", rows);
+      readXlsxFile(document.getElementById('read').files[0], { schema }).then(
+        rows => {
+          console.log('rows', rows);
           // ctx.setNewImportData(rows.rows);
 
           var requestOptions = {
-            method: "GET",
+            method: 'GET',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow'
           };
 
           rows.rows &&
-            rows.rows.map((item) => {
+            rows.rows.map(item => {
               return fetch(
-                `https://api2.ebazaar.mn/api/merchants?register=${item.rd}`,
+                `${process.env.REACT_APP_API_URL2}/api/merchants?register=${item.rd}`,
                 requestOptions
               )
-                .then((res) => res.json())
-                .then((res) => {
+                .then(res => res.json())
+                .then(res => {
                   // console.log("merchantRegister", res);
                   let newUpdate = [];
 
@@ -89,7 +89,7 @@ const MerchantReportBtn = () => {
                       khoroo: null,
                       channel_name: null,
                       sub: true,
-                      checked: true,
+                      checked: true
                     });
                   } else if (res.data.length === 0) {
                     newUpdate.push({
@@ -99,13 +99,13 @@ const MerchantReportBtn = () => {
                       khoroo: null,
                       channel_name: null,
                       sub: false,
-                      checked: false,
+                      checked: false
                     });
                   }
-                  ctx.setNewImportData((prev) => [...prev, ...newUpdate]);
+                  ctx.setNewImportData(prev => [...prev, ...newUpdate]);
                 })
-                .catch((error) => {
-                  console.log("error", error);
+                .catch(error => {
+                  console.log('error', error);
                 });
             });
         }
@@ -116,8 +116,8 @@ const MerchantReportBtn = () => {
   return (
     <div className={css.container}>
       <Button
-        variant="primary"
-        size="medium"
+        variant='primary'
+        size='medium'
         onClick={() => {
           setOpen(true);
         }}
@@ -125,8 +125,8 @@ const MerchantReportBtn = () => {
         Мерчант тохиргоо
       </Button>
       <Button
-        variant="primary"
-        size="medium"
+        variant='primary'
+        size='medium'
         onClick={() => {
           newSuphandler();
           readExcel();
@@ -134,11 +134,11 @@ const MerchantReportBtn = () => {
       >
         Харилцагч бүртгэх
       </Button>
-      <Button variant="primary" size="medium" onClick={newExportHandler}>
+      <Button variant='primary' size='medium' onClick={newExportHandler}>
         Шинээр нэмэх
       </Button>
-      <Button variant="primary" size="medium" onClick={exportHandler} icon>
-        <img src={upload} alt="upload" />
+      <Button variant='primary' size='medium' onClick={exportHandler} icon>
+        <img src={upload} alt='upload' />
         Export
       </Button>
       {open && <SettingOpen setOpen={setOpen} />}

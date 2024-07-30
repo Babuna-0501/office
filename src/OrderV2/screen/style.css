@@ -517,20 +517,6 @@
   border-radius: 4px;
 }
 
-.add_product {
-  width: 130px;
-  height: 24px;
-  border: 1px solid #2ab674;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: -0.5%;
-  color: #2ab674;
-  white-space: nowrap;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .notif_ctr {
   width: 500px;
   margin-top: 20px;

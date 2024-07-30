@@ -1,15 +1,15 @@
-import React, { useEffect, useContext, useState } from "react";
-import ReactDOM from "react-dom";
-import List from "./List";
-import CollectionHook from "../Hooks/CollectionHook";
-import CollectionModal from "./CollectionModal/CollectionModal";
-import UpdateCollection from "./Update/UpdateCollection";
-import myHeaders from "../components/MyHeader/myHeader";
-import css from "./collection.module.css";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useEffect, useContext, useState } from 'react';
+import ReactDOM from 'react-dom';
+import List from './List';
+import CollectionHook from '../Hooks/CollectionHook';
+import CollectionModal from './CollectionModal/CollectionModal';
+import UpdateCollection from './Update/UpdateCollection';
+import myHeaders from '../components/MyHeader/myHeader';
+import css from './collection.module.css';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const Collection = (props) => {
+const Collection = props => {
   // console.log("collection props", props);
   const collctx = useContext(CollectionHook);
   const [data, setData] = useState([]);
@@ -27,19 +27,22 @@ const Collection = (props) => {
   useEffect(() => {
     let controller = new AbortController();
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      signal: controller.signal,
+      signal: controller.signal
     };
-    fetch(`https://api2.ebazaar.mn/api/collection/get`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/collection/get`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
         // console.log("res", res.data);
         setData(res.data);
         controller = null;
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
     return () => controller?.abort();
   }, []);
@@ -61,34 +64,34 @@ const Collection = (props) => {
   return (
     <div>
       <div
-        className="row header"
-        style={{ borderBottom: "0.8px solid #cfd8dc" }}
+        className='row header'
+        style={{ borderBottom: '0.8px solid #cfd8dc' }}
       >
-        <div style={{ width: "200px" }}>
+        <div style={{ width: '200px' }}>
           <div>
-            <span className="header">Name</span>
+            <span className='header'>Name</span>
             <input
-              type="text"
+              type='text'
               //   value={orderID}
               //   onChange={(e) => setOrderID(e.target.value)}
             />
           </div>
         </div>
-        <div style={{ width: "200px" }}>
+        <div style={{ width: '200px' }}>
           <div>
-            <span className="header">SKUS</span>
+            <span className='header'>SKUS</span>
             <input
-              type="text"
+              type='text'
               //   value={searchID}
               //   onChange={(e) => setSearchID(e.target.value)}
             />
           </div>
         </div>
-        <div style={{ width: "100px" }}>
+        <div style={{ width: '100px' }}>
           <div>
-            <span className="header">Remove</span>
+            <span className='header'>Remove</span>
             <input
-              type="text"
+              type='text'
               //   value={added}
               //   onChange={(e) => setAdded(e.target.value)}
             />
@@ -100,11 +103,11 @@ const Collection = (props) => {
       )}
       {collctx.update && <UpdateCollection />}
       <div
-        id="foobar"
+        id='foobar'
         style={{
-          width: "100%",
-          overflowX: "auto",
-          overflowy: "hidden",
+          width: '100%',
+          overflowX: 'auto',
+          overflowy: 'hidden'
         }}
         className={css.body}
       >

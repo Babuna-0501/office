@@ -1,0 +1,121 @@
+#scrollableDiv {
+  position: relative;
+  height: 100%;
+  overflow-y: auto !important;
+}
+
+.infinite-scroll-component__outerdiv {
+  min-height: 0;
+  flex:1 1 auto;
+}
+
+.infinite-scroll-component {
+  height: 100% !important;
+}
+
+td {
+    font-size: 0.75rem;
+    padding: 0 10px 0 10px;
+    margin: 0;
+    height: 52px;
+    text-wrap: nowrap;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+}
+
+th {
+  font-size: 0.75rem;
+  text-wrap: nowrap;
+  height: 52px !important;
+  padding: 2px 8px !important;
+  margin: 0 !important;
+  position: sticky;
+  top: 0px;
+}
+
+th div{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.empty {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.note, .address {
+  width: 300px;
+  padding: 4px 0;
+  text-wrap: wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.table-header-input {
+  padding: 2px;
+  width: 100%;
+}
+
+.table-header-select {
+  padding: 2px;
+  border-radius: 5px;
+  border: 1px solid #999999;
+  background-color: #ffffff;
+  height: 24px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+#order_id > div, #supplier_logo > div{
+  min-width: 80px !important;
+}
+
+#line > div, #vat > div, #coupon > div{
+  min-width: 100px !important;
+}
+
+#payment_amount > div,  #manager > div, #delete > div, #khoroo > div {
+  min-width: 150px !important;
+}
+
+#warehouse > div {
+  min-width: 200px !important;
+}
+
+#tradeshop_name > div, #phone > div, #supplier_name > div{
+  min-width: 250px !important;
+}
+
+#note > div, #address > div, #pickpack > div{
+  min-width: 300px !important;
+}
+
+#supplier_logo > img, #image > img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}

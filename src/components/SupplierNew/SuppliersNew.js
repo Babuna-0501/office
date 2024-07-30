@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import css from "./suppliersnew.module.css";
+import React, { useState, useEffect } from 'react';
+import css from './suppliersnew.module.css';
 
-const SuppliersNew = (props) => {
+const SuppliersNew = props => {
   const [searchValue, setSearchValue] = useState(null);
   const [data, setData] = useState(null);
   const [searchModal, setSearchModal] = useState(false);
 
-  const chooseHandler = (item) => {
+  const chooseHandler = item => {
     props.setSupplier(item.id);
     props.name(item.name);
     setSearchModal(false);
@@ -19,26 +19,26 @@ const SuppliersNew = (props) => {
       setSearchModal(true);
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/backoffice/suppliers?name=${searchValue}`,
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?name=${searchValue}`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           // console.log("res--------------.", response);
           setData(response.data);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   }, [searchValue]);
@@ -46,7 +46,7 @@ const SuppliersNew = (props) => {
     <div className={css.container}>
       <input
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={e => setSearchValue(e.target.value)}
       />
 
       {searchModal && (

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
 const Ctx = React.createContext();
 
-export const BackOfficeHook = (props) => {
+export const BackOfficeHook = props => {
   const [suppliers, setSuppliers] = useState([]);
   const [data, setData] = useState([]);
   const [channels, setChannels] = useState([]);
@@ -12,12 +12,12 @@ export const BackOfficeHook = (props) => {
   useEffect(() => {
     const fetchdata = async () => {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       const data = await fetch(
-        "https://api2.ebazaar.mn/api/backoffice/suppliers",
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`,
         requestOptions
       );
       const res = await data.json();
@@ -27,7 +27,7 @@ export const BackOfficeHook = (props) => {
     try {
       fetchdata();
     } catch (error) {
-      console.log("suppliers error ", error);
+      console.log('suppliers error ', error);
     }
   }, []);
 
@@ -42,7 +42,7 @@ export const BackOfficeHook = (props) => {
         newBanner,
         setNewBanner,
         mobileBanner,
-        setMobileBanner,
+        setMobileBanner
       }}
     >
       {props.children}

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./imageupload.module.css";
-import closeicon from "../../assets/close.svg";
-import SMSHook from "../../Hooks/SMSHook";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './imageupload.module.css';
+import closeicon from '../../assets/close.svg';
+import SMSHook from '../../Hooks/SMSHook';
 
-const ImageUpload = (props) => {
+const ImageUpload = props => {
   const [images, setImages] = useState([]);
 
   const smsctx = useContext(SMSHook);
 
-  console.log("setUpdateID", smsctx.updateID);
+  console.log('setUpdateID', smsctx.updateID);
   const CloseHandler = () => {
     props.setImageOpen(false);
   };
@@ -25,9 +25,9 @@ const ImageUpload = (props) => {
       smsctx.updateID.prizes &&
       smsctx.updateID.prizes.length !== 0
     ) {
-      smsctx.updateID.prizes.map((x) => {
+      smsctx.updateID.prizes.map(x => {
         if (x.imageUrl && x.imageUrl.length !== 0) {
-          x.imageUrl.map((y) => {
+          x.imageUrl.map(y => {
             imageUrls.push(y);
           });
         }
@@ -35,7 +35,7 @@ const ImageUpload = (props) => {
     }
     setImages(imageUrls);
 
-    console.log("smsctx.prizeImage", smsctx.prizeImage);
+    console.log('smsctx.prizeImage', smsctx.prizeImage);
     // if (smsctx.prizeImage) {
     //   setImages(smsctx.prizeImage);
     // }
@@ -50,9 +50,9 @@ const ImageUpload = (props) => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -61,32 +61,34 @@ const ImageUpload = (props) => {
           id +
           '" multiple /></form>'
       );
-    document.getElementById("uploader" + id).click();
+    document.getElementById('uploader' + id).click();
     document
-      .getElementById("uploader" + id)
-      .addEventListener("change", () => upload(id), false);
+      .getElementById('uploader' + id)
+      .addEventListener('change', () => upload(id), false);
   };
-  const upload = (form) => {
-    const uploader = document.getElementById("uploader" + form);
-    var fileField = document.getElementById("uploader" + form);
+  const upload = form => {
+    const uploader = document.getElementById('uploader' + form);
+    var fileField = document.getElementById('uploader' + form);
     let formData = new FormData();
     for (let i = 0; i < uploader.files.length; i++) {
-      formData.append(i, fileField.files[i]);
+      formData.append('files', fileField.files[i]);
     }
     fetch(
-      "https://ebazaar.mn/media/ehlo.php?preset=product&ebazaar_admin_token=" +
-        localStorage.getItem("ebazaar_admin_token"),
-      { method: "post", body: formData }
+      `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
+        localStorage.getItem('ebazaar_admin_token'),
+      { method: 'post', body: formData }
     )
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         let temp = [];
         if (response.status === 200) {
-          response.data.map((img) => {
-            temp.push("https://ebazaar.mn/media/original/" + img.image);
+          response.data.map(img => {
+            temp.push(
+              `${process.env.REACT_APP_MEDIA_URL}/original/` + img.image
+            );
           });
         }
-        setImages((prev) => [...prev, ...temp]);
+        setImages(prev => [...prev, ...temp]);
       });
   };
   let renderHTML =
@@ -95,9 +97,9 @@ const ImageUpload = (props) => {
       return (
         <div key={index}>
           <img
-            src={i.replace("original", "product")}
-            alt="present image"
-            style={{ height: "168px", width: "168px" }}
+            src={i.replace('original', 'product')}
+            alt='present image'
+            style={{ height: '168px', width: '168px' }}
             className={css.prodImage}
           />
         </div>
@@ -110,21 +112,21 @@ const ImageUpload = (props) => {
         <div>
           <div className={css.header}>
             <span>Шагналын зураг</span>
-            <img src={closeicon} alt="close icon" onClick={CloseHandler} />
+            <img src={closeicon} alt='close icon' onClick={CloseHandler} />
           </div>
           <div
             style={{
-              width: "100%",
-              flexWrap: "wrap",
-              display: "flex",
+              width: '100%',
+              flexWrap: 'wrap',
+              display: 'flex'
             }}
           >
             {renderHTML}
             <img
-              src="https://ebazaar.mn/icon/photo-add.svg"
+              src='https://ebazaar.mn/icon/photo-add.svg'
               onClick={() => up()}
-              alt=""
-              style={{ height: "168px", width: "168px" }}
+              alt=''
+              style={{ height: '168px', width: '168px' }}
             />
           </div>
         </div>

@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import css from "./shops.module.css";
-import closeicon from "../assets/close.svg";
-import myHeaders from "../components/MyHeader/myHeader";
-import checkedOn from "../assets/Tick Square on.svg";
-import checkOff from "../assets/Tick Square.svg";
-import chevronDown from "../assets/chevron-down.svg";
+import { useState, useEffect, useRef } from 'react';
+import css from './shops.module.css';
+import closeicon from '../assets/close.svg';
+import myHeaders from '../components/MyHeader/myHeader';
+import checkedOn from '../assets/Tick Square on.svg';
+import checkOff from '../assets/Tick Square.svg';
+import chevronDown from '../assets/chevron-down.svg';
 
-const Shops = (props) => {
+const Shops = props => {
   const [schedules, setSchedules] = useState([]);
 
   const [tradeShopLoading, setTradeShopLoading] = useState(false);
@@ -25,9 +25,9 @@ const Shops = (props) => {
   const [selectedDistrict, setSelectedDistrict] = useState(undefined);
   const [selectedKhoroo, setSelectedKhoroo] = useState(undefined);
 
-  const [nameFilter, setNameFilter] = useState("");
-  const [phoneFilter, setPhoneFilter] = useState("");
-  const [addressFilter, setAddressFilter] = useState("");
+  const [nameFilter, setNameFilter] = useState('');
+  const [phoneFilter, setPhoneFilter] = useState('');
+  const [addressFilter, setAddressFilter] = useState('');
 
   const [scheduleDropdown, setScheduleDropdown] = useState([]);
 
@@ -40,10 +40,10 @@ const Shops = (props) => {
         if (!userId) return;
 
         const res = await fetch(
-          `https://api2.ebazaar.mn/api/employee/schedule/get?user_id=${userId}`,
+          `${process.env.REACT_APP_API_URL2}/api/employee/schedule/get?user_id=${userId}`,
           {
-            method: "GET",
-            headers: myHeaders,
+            method: 'GET',
+            headers: myHeaders
           }
         );
         const resData = await res.json();
@@ -59,7 +59,7 @@ const Shops = (props) => {
         setSchedules(resData.data[0].schedule);
         setScheduleRawData(resData.data[0]);
       } catch (error) {
-        console.log("error on fetching schedules: ", error);
+        console.log('error on fetching schedules: ', error);
       }
     };
 
@@ -70,9 +70,9 @@ const Shops = (props) => {
   useEffect(() => {
     if (props.data.supplier_id) {
       setSupplierId(
-        Number(props.data.supplier_id.replaceAll("|", "")) === 1
+        Number(props.data.supplier_id.replaceAll('|', '')) === 1
           ? 13884
-          : Number(props.data.supplier_id.replaceAll("|", ""))
+          : Number(props.data.supplier_id.replaceAll('|', ''))
       );
     }
 
@@ -85,17 +85,20 @@ const Shops = (props) => {
   useEffect(() => {
     const getSiteData = async () => {
       try {
-        const res = await fetch("https://api.ebazaar.mn/api/site_data", {
-          method: "GET",
-          headers: myHeaders,
-        });
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/site_data`,
+          {
+            method: 'GET',
+            headers: myHeaders
+          }
+        );
 
         const resData = await res.json();
 
         setBusinessTypes(resData.business_types);
         setLocations(resData.location);
       } catch (error) {
-        console.log("error on gettins site data: ", error);
+        console.log('error on gettins site data: ', error);
       }
     };
 
@@ -112,10 +115,10 @@ const Shops = (props) => {
         let tradeShopResponse = [];
 
         const idRes = await fetch(
-          `https://api2.ebazaar.mn/api/backoffice/users?id=${userId}`,
+          `${process.env.REACT_APP_API_URL2}/api/backoffice/users?id=${userId}`,
           {
-            method: "GET",
-            headers: myHeaders,
+            method: 'GET',
+            headers: myHeaders
           }
         );
         const idResData = await idRes.json();
@@ -128,7 +131,7 @@ const Shops = (props) => {
         if (idResData.data[0].custome_tradeshops) {
           shopIds = [
             ...shopIds,
-            ...JSON.parse(idResData.data[0].custome_tradeshops),
+            ...JSON.parse(idResData.data[0].custome_tradeshops)
           ];
         }
 
@@ -136,10 +139,12 @@ const Shops = (props) => {
 
         if (shopIds.length > 0) {
           const shopRes = await fetch(
-            `https://api2.ebazaar.mn/api/sfa/tradeshop/list?supplierId=${supplierId}&tradeshop=${shopIds.toString()}`,
+            `${
+              process.env.REACT_APP_API_URL2
+            }/api/sfa/tradeshop/list?supplierId=${supplierId}&tradeshop=${shopIds.toString()}`,
             {
-              method: "GET",
-              headers: myHeaders,
+              method: 'GET',
+              headers: myHeaders
             }
           );
           const shopResData = await shopRes.json();
@@ -147,14 +152,14 @@ const Shops = (props) => {
           for (const data of shopResData) {
             tradeShopResponse = [
               ...tradeShopResponse,
-              ...data[supplierId].tradeshops,
+              ...data[supplierId].tradeshops
             ];
           }
         }
 
         setTradeShopList(tradeShopResponse);
       } catch (error) {
-        console.log("error on getting tradeshops: ", error);
+        console.log('error on getting tradeshops: ', error);
       } finally {
         setTradeShopLoading(false);
       }
@@ -169,40 +174,40 @@ const Shops = (props) => {
 
     if (selectedBusinessType) {
       tradeShopCopy = tradeShopCopy.filter(
-        (shop) => Number(shop.channel) === selectedBusinessType
+        shop => Number(shop.channel) === selectedBusinessType
       );
     }
 
     if (selectedCity) {
       tradeShopCopy = tradeShopCopy.filter(
-        (shop) => Number(shop.address.city) === selectedCity
+        shop => Number(shop.address.city) === selectedCity
       );
     }
 
     if (selectedDistrict) {
       tradeShopCopy = tradeShopCopy.filter(
-        (shop) => Number(shop.address.district) === selectedDistrict
+        shop => Number(shop.address.district) === selectedDistrict
       );
     }
 
     if (selectedKhoroo) {
       tradeShopCopy = tradeShopCopy.filter(
-        (shop) => Number(shop.address.khoroo) === selectedKhoroo
+        shop => Number(shop.address.khoroo) === selectedKhoroo
       );
     }
 
-    if (nameFilter !== "") {
+    if (nameFilter !== '') {
       tradeShopCopy = tradeShopCopy.filter(
-        (shop) =>
+        shop =>
           shop.name &&
           shop.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
           shop.name[0].toLowerCase() === nameFilter[0].toLowerCase()
       );
     }
 
-    if (phoneFilter !== "") {
-      tradeShopCopy = tradeShopCopy.filter((shop) => {
-        const phones = shop.phone.split(",");
+    if (phoneFilter !== '') {
+      tradeShopCopy = tradeShopCopy.filter(shop => {
+        const phones = shop.phone.split(',');
         for (const phone of phones) {
           if (phone[0] === phoneFilter[0] && phone.includes(phoneFilter))
             return true;
@@ -212,8 +217,8 @@ const Shops = (props) => {
       });
     }
 
-    if (addressFilter !== "") {
-      tradeShopCopy = tradeShopCopy.filter((shop) =>
+    if (addressFilter !== '') {
+      tradeShopCopy = tradeShopCopy.filter(shop =>
         shop.address.detail.toLowerCase().includes(addressFilter.toLowerCase())
       );
     }
@@ -236,7 +241,7 @@ const Shops = (props) => {
     selectedKhoroo,
     nameFilter,
     phoneFilter,
-    addressFilter,
+    addressFilter
   ]);
 
   // Setting District as undefined when City becomes undefined
@@ -254,10 +259,10 @@ const Shops = (props) => {
   }, [selectedDistrict]);
 
   // Tradeshop Checkbox Handler
-  const checkShopHandler = (index) => {
-    if (index === "all") {
+  const checkShopHandler = index => {
+    if (index === 'all') {
       if (
-        tradeShopCheck.filter((check) => check === true).length ===
+        tradeShopCheck.filter(check => check === true).length ===
         filteredTradeShops.length
       ) {
         setTradeShopCheck(tradeShopCheck.map(() => false));
@@ -272,7 +277,7 @@ const Shops = (props) => {
     }
   };
 
-  const scheduleDropdownHandler = (index) => {
+  const scheduleDropdownHandler = index => {
     let scheduleDropdownCopy = [...scheduleDropdown];
 
     if (!scheduleDropdownCopy[index]) {
@@ -317,7 +322,7 @@ const Shops = (props) => {
         for (const id of shopsId) {
           scheduleCopy[scheduleIndex].tradeshops = scheduleCopy[
             scheduleIndex
-          ].tradeshops.filter((shopId) => shopId !== id);
+          ].tradeshops.filter(shopId => shopId !== id);
         }
       } else {
         for (const id of shopsId) {
@@ -335,7 +340,7 @@ const Shops = (props) => {
     if (scheduleCopy[scheduleIndex].tradeshops.includes(tradeShopId)) {
       scheduleCopy[scheduleIndex].tradeshops = scheduleCopy[
         scheduleIndex
-      ].tradeshops.filter((id) => id !== tradeShopId);
+      ].tradeshops.filter(id => id !== tradeShopId);
     } else {
       scheduleCopy[scheduleIndex].tradeshops.push(tradeShopId);
     }
@@ -358,14 +363,14 @@ const Shops = (props) => {
       data.schedule = schedules;
 
       const res = await fetch(
-        `https://api2.ebazaar.mn/api/employee/schedule/put`,
+        `${process.env.REACT_APP_API_URL2}/api/employee/schedule/put`,
         {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
           body: JSON.stringify({
             id,
-            data,
-          }),
+            data
+          })
         }
       );
 
@@ -375,13 +380,13 @@ const Shops = (props) => {
         setTradeShopCheck(tradeShopCheck.map(() => false));
         setScheduleDropdown(scheduleDropdown.map(() => false));
 
-        alert("Амжилттай хадгалагдлаа");
+        alert('Амжилттай хадгалагдлаа');
       } else {
         throw new Error(resData.message);
       }
     } catch (error) {
-      console.log("error while submiting: ", error);
-      alert("Алдаа гарлаа");
+      console.log('error while submiting: ', error);
+      alert('Алдаа гарлаа');
     }
   };
 
@@ -390,7 +395,7 @@ const Shops = (props) => {
       <div className={css.wrapper}>
         <div className={css.closewrapper}>
           <div className={css.headercontainer}>Дэлгүүрүүд хувиарлах</div>
-          <img src={closeicon} alt="close" onClick={closeHandler} />
+          <img src={closeicon} alt='close' onClick={closeHandler} />
         </div>
 
         {!tradeShopLoading && tradeShopList.length === 0 && (
@@ -401,24 +406,24 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "3%",
+                width: '3%'
               }}
-              onClick={() => checkShopHandler("all")}
+              onClick={() => checkShopHandler('all')}
             >
               <span></span>
 
               <img
-                alt="check"
+                alt='check'
                 src={
-                  tradeShopCheck.filter((check) => check === true).length ===
+                  tradeShopCheck.filter(check => check === true).length ===
                     filteredTradeShops.length && filteredTradeShops.length > 0
                     ? checkedOn
                     : checkOff
                 }
                 style={{
-                  width: "25px",
-                  height: "25px",
-                  marginLeft: "10px",
+                  width: '25px',
+                  height: '25px',
+                  marginLeft: '10px'
                 }}
               />
             </div>
@@ -426,41 +431,41 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Ү.цэгийн нэр</span>
               <input
-                type="text"
+                type='text'
                 value={nameFilter}
-                onChange={(e) => setNameFilter(e.target.value)}
+                onChange={e => setNameFilter(e.target.value)}
               />
             </div>
 
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Утасны дугаар</span>
               <input
-                type="text"
+                type='text'
                 value={phoneFilter}
-                onChange={(e) => setPhoneFilter(e.target.value)}
+                onChange={e => setPhoneFilter(e.target.value)}
               />
             </div>
             {/* Business Types */}
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Суваг</span>
               <select
                 value={selectedBusinessType}
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedBusinessType(Number(e.target.value));
                 }}
               >
@@ -481,20 +486,20 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Хот</span>
 
               <select
                 value={selectedCity}
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedCity(Number(e.target.value));
                 }}
               >
                 <option value={undefined}>--Хот--</option>
                 {locations
-                  .filter((location) => location.parent_id === 0)
+                  .filter(location => location.parent_id === 0)
                   .map((location, index) => {
                     return (
                       <option
@@ -511,20 +516,20 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Дүүрэг</span>
 
               <select
                 value={selectedDistrict}
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedDistrict(Number(e.target.value));
                 }}
               >
                 <option value={undefined}>--Дүүрэг--</option>
                 {locations
-                  .filter((location) => location.parent_id === selectedCity)
+                  .filter(location => location.parent_id === selectedCity)
                   .map((location, index) => {
                     return (
                       <option
@@ -541,20 +546,20 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Хороо</span>
 
               <select
                 value={selectedKhoroo}
-                onChange={(e) => {
+                onChange={e => {
                   setSelectedKhoroo(Number(e.target.value));
                 }}
               >
                 <option value={undefined}>--Хороо--</option>
                 {locations
-                  .filter((location) => location.parent_id === selectedDistrict)
+                  .filter(location => location.parent_id === selectedDistrict)
                   .map((location, index) => {
                     return (
                       <option
@@ -570,20 +575,20 @@ const Shops = (props) => {
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Хаяг</span>
               <input
-                type="text"
+                type='text'
                 value={addressFilter}
-                onChange={(e) => setAddressFilter(e.target.value)}
+                onChange={e => setAddressFilter(e.target.value)}
               />
             </div>
             <div
               className={css.headerwrapper}
               style={{
-                width: "10%",
+                width: '10%'
               }}
             >
               <span>Өдрийн хуваарь</span>
@@ -594,16 +599,16 @@ const Shops = (props) => {
           <div className={css.shopone}>
             {filteredTradeShops.map((shop, index) => {
               const city = locations.find(
-                (loc) => loc.location_id === Number(shop.address.city)
+                loc => loc.location_id === Number(shop.address.city)
               );
               const district = locations.find(
-                (loc) => loc.location_id === Number(shop.address.district)
+                loc => loc.location_id === Number(shop.address.district)
               );
               const khoroo = locations.find(
-                (loc) => loc.location_id === Number(shop.address.khoroo)
+                loc => loc.location_id === Number(shop.address.khoroo)
               );
               const businessType = businessTypes.find(
-                (type) => type.business_type_id === Number(shop.channel)
+                type => type.business_type_id === Number(shop.channel)
               );
               let currentSchedule;
 
@@ -624,23 +629,23 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "3%",
+                      width: '3%'
                     }}
                     onClick={() => checkShopHandler(index)}
                   >
                     <img
                       src={tradeShopCheck[index] ? checkedOn : checkOff}
                       style={{
-                        width: "20px",
-                        height: "20px",
+                        width: '20px',
+                        height: '20px'
                       }}
-                      alt="checked icon"
+                      alt='checked icon'
                     />
                   </div>
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>{shop.name}</span>
@@ -648,7 +653,7 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>{shop.phone}</span>
@@ -656,17 +661,17 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>
-                      {businessType ? businessType.business_type_name : ""}
+                      {businessType ? businessType.business_type_name : ''}
                     </span>
                   </div>
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>{city && city.location_name}</span>
@@ -674,7 +679,7 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>{district && district.location_name}</span>
@@ -682,7 +687,7 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span>{khoroo && khoroo.location_name}</span>
@@ -690,39 +695,39 @@ const Shops = (props) => {
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <span
                       style={{
-                        overflow: "hidden",
+                        overflow: 'hidden'
                       }}
                       // title={item.address.address}
                     >
-                      {shop.address?.detail ?? ""}
+                      {shop.address?.detail ?? ''}
                     </span>
                   </div>
                   <div
                     className={css.shoponewrapper}
                     style={{
-                      width: "10%",
+                      width: '10%'
                     }}
                   >
                     <div className={css.scheduleSelectWrapper}>
                       <button
-                        type="button"
+                        type='button'
                         onClick={() => scheduleDropdownHandler(index)}
                       >
-                        <span style={{ whiteSpace: "nowrap" }}>
+                        <span style={{ whiteSpace: 'nowrap' }}>
                           {currentSchedule
                             ? currentSchedule.name
-                            : "--Хуваарь--"}
+                            : '--Хуваарь--'}
                         </span>
-                        <img src={chevronDown} alt="Chevron Down" />
+                        <img src={chevronDown} alt='Chevron Down' />
                       </button>
 
                       <div
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={e => e.stopPropagation()}
                         className={`${css.scheduleDropdown} ${
                           scheduleDropdown[index] ? css.show : null
                         }`}
@@ -737,7 +742,7 @@ const Shops = (props) => {
                                 checked={schedule.tradeshops.includes(
                                   shop.tradeshop_id
                                 )}
-                                type="checkbox"
+                                type='checkbox'
                                 id={`${schedule.name}-${index}`}
                                 onChange={() => {
                                   scheduleSelectHandler(

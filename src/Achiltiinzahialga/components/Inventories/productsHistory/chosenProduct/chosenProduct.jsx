@@ -1,7 +1,7 @@
-import React from "react";
-import css from "./chosenProduct.module.css";
+import React from 'react';
+import css from './chosenProduct.module.css';
 
-const ChosenProduct = (props) => {
+const ChosenProduct = props => {
   const { productData } = props;
 
   return (
@@ -9,9 +9,9 @@ const ChosenProduct = (props) => {
       <div className={css.left}>
         <img
           src={
-            productData.image[0] !== " "
+            productData.image[0] !== ' '
               ? productData.image[0]
-              : "https://ebazaar.mn/media/product/9989646044764598603108547708202205130611436585188195547456197872435120.png"
+              : `${process.env.REACT_APP_MEDIA_URL}/product/9989646044764598603108547708202205130611436585188195547456197872435120.png`
           }
           alt={productData._id}
         />

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import Price from "./Price";
-import Info from "./Info";
-import Media from "./Media";
-import Map from "./Map";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect, useContext } from 'react';
+import Price from './Price';
+import Info from './Info';
+import Media from './Media';
+import Map from './Map';
+import myHeaders from '../components/MyHeader/myHeader';
 
 function Product(props) {
   // console.log(props)
@@ -16,50 +16,53 @@ function Product(props) {
   let image = null;
   if (product && product.image) {
     image =
-      product.image.split(",").length === 0
+      product.image.split(',').length === 0
         ? product.image
-        : product.image.split(",")[0];
+        : product.image.split(',')[0];
   } else {
-    image = "https://ebazaar.mn/icon/photo-add.svg";
+    image = 'https://ebazaar.mn/icon/photo-add.svg';
   }
   const setVisibility = () => {
     var raw = JSON.stringify({
       ProductID: product.id,
-      isActive: productVisibility === 0 ? 1 : 0,
+      isActive: productVisibility === 0 ? 1 : 0
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch("https://api2.ebazaar.mn/api/product/update", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/product/update`,
+      requestOptions
+    )
+      .then(response => response.json())
+      .then(result => {
         if (result.code === 200) {
           setProductVisibility(productVisibility === 0 ? 1 : 0);
         } else {
-          alert("Алдаа гарлаа. Please try again.");
+          alert('Алдаа гарлаа. Please try again.');
         }
       });
   };
-  let supplierName = "";
-  props.suppliers.map((s) => {
+  let supplierName = '';
+  props.suppliers.map(s => {
     if (s.id === product.supplier_id) {
       supplierName = s.name;
     }
   });
-  let productCategory = "";
+  let productCategory = '';
   if (props.categories && product.category_id) {
-    props.categories.map((c) => {
+    props.categories.map(c => {
       if (c.id === product.category_id) {
         productCategory = c.name;
       }
     });
   }
-  let brand = "";
+  let brand = '';
   if (parseInt(product.brand, 10) > 0) {
-    props.brands.map((brand) => {
+    props.brands.map(brand => {
       if (brand.BrandID === product.brand) {
         brand = brand.BrandName;
         // console.log(brand);
@@ -68,56 +71,56 @@ function Product(props) {
   }
   return product ? (
     <>
-      <div className="row">
-        <div style={{ width: "120px" }}>
-          <input type="checkbox" id={product.id} />
-          <span onClick={() => setInfo(!info)} className="recordid">
+      <div className='row'>
+        <div style={{ width: '120px' }}>
+          <input type='checkbox' id={product.id} />
+          <span onClick={() => setInfo(!info)} className='recordid'>
             {product.id}
           </span>
         </div>
-        <div style={{ width: "80px" }}>
+        <div style={{ width: '80px' }}>
           <span onClick={() => setVisibility()}>
             {productVisibility === 0 ? (
-              <img src="https://ebazaar.link/media/off.svg" alt="" />
+              <img src='https://ebazaar.link/media/off.svg' alt='' />
             ) : (
-              <img src="https://ebazaar.link/media/on.svg" alt="" />
+              <img src='https://ebazaar.link/media/on.svg' alt='' />
             )}
           </span>
         </div>
         <div
           style={{
-            width: "200px",
-            display: props.userData.company_id === "|1|" ? "block" : "none",
+            width: '200px',
+            display: props.userData.company_id === '|1|' ? 'block' : 'none'
           }}
         >
           {supplierName}
         </div>
-        <div style={{ width: "80px" }} onClick={() => setMedia(true)}>
+        <div style={{ width: '80px' }} onClick={() => setMedia(true)}>
           <img
             src={
-              image && image !== "https://ebazaar.mn/icon/photo-add.svg"
-                ? image.replace("original", "product")
+              image && image !== 'https://ebazaar.mn/icon/photo-add.svg'
+                ? image.replace('original', 'product')
                 : image
             }
-            alt=""
-            className="product-image"
+            alt=''
+            className='product-image'
           />
         </div>
-        <div style={{ width: "320px" }}>{product.name}</div>
-        <div style={{ width: "120px" }}>{product.priority}</div>
-        <div style={{ width: "240px" }}>{productCategory}</div>
-        <div style={{ width: "120px" }}>{product.bar_code}</div>
-        <div style={{ width: "120px" }}>{brand}</div>
-        <div style={{ width: "120px" }}>{product.sku}</div>
-        <div style={{ width: "120px" }}>
+        <div style={{ width: '320px' }}>{product.name}</div>
+        <div style={{ width: '120px' }}>{product.priority}</div>
+        <div style={{ width: '240px' }}>{productCategory}</div>
+        <div style={{ width: '120px' }}>{product.bar_code}</div>
+        <div style={{ width: '120px' }}>{brand}</div>
+        <div style={{ width: '120px' }}>{product.sku}</div>
+        <div style={{ width: '120px' }}>
           <span onClick={() => setPrice(!price)}>
             {product.price ? product.price.toLocaleString() : null}₮
           </span>
         </div>
-        <div style={{ width: "120px" }}>
+        <div style={{ width: '120px' }}>
           <span>{product.in_case}</span>
         </div>
-        <div style={{ width: "120px" }} onClick={() => setMap(true)}>
+        <div style={{ width: '120px' }} onClick={() => setMap(true)}>
           <span>Map</span>
         </div>
       </div>

@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
-import css from "./modals.module.css";
-import closeIcon from "../../assets/close.svg";
-import SMSHook from "../../Hooks/SMSHook";
-import BrandBody from "./BrandBody";
-import AngilalBody from "./AngilalBody";
-import Header from "./Header";
-import myHeaders from "../../components/MyHeader/myHeader";
+import React, { useState, useContext, useEffect } from 'react';
+import css from './modals.module.css';
+import closeIcon from '../../assets/close.svg';
+import SMSHook from '../../Hooks/SMSHook';
+import BrandBody from './BrandBody';
+import AngilalBody from './AngilalBody';
+import Header from './Header';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const Modals = () => {
   const [chosedData, setChosedData] = useState([]);
@@ -19,40 +19,40 @@ const Modals = () => {
   const CreateHandler = () => {
     let data = [];
     if (chosedData.length !== 0) {
-      data = chosedData.filter((item) => item.chosed === true);
+      data = chosedData.filter(item => item.chosed === true);
     }
 
     if (smsctx.brandModal) {
       smsctx.setChosedBrands(data);
-      let update = chosedData.map((item) => {
+      let update = chosedData.map(item => {
         return {
           ...item,
-          chosed: false,
+          chosed: false
         };
       });
       setChosedData(update);
       smsctx.setBrandModal(false);
-      console.log("Data brand", JSON.stringify(data));
+      console.log('Data brand', JSON.stringify(data));
     } else if (smsctx.angilalModal) {
       smsctx.setAngilalModal(false);
-      console.log("Data angilal", JSON.stringify(data));
+      console.log('Data angilal', JSON.stringify(data));
       smsctx.setAngilaldata(data);
     }
   };
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         setData(res);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }, []);
@@ -63,18 +63,18 @@ const Modals = () => {
         <div className={css.upperbody}>
           <div className={css.header}>
             <span>
-              {smsctx.brandModal && "Брэндийн төлөвлөгөө"}
-              {smsctx.angilalModal && "Ангилалын төлөвлөгөө"}
+              {smsctx.brandModal && 'Брэндийн төлөвлөгөө'}
+              {smsctx.angilalModal && 'Ангилалын төлөвлөгөө'}
             </span>
-            <img src={closeIcon} alt="close icon" onClick={CloseHandler} />
+            <img src={closeIcon} alt='close icon' onClick={CloseHandler} />
           </div>
           <div
             style={{
-              border: "1px solid rgba(0, 0, 0, 0.08)",
+              border: '1px solid rgba(0, 0, 0, 0.08)'
             }}
           >
-            {smsctx.brandModal && <Header title="Брэнд" name="Лого" />}
-            {smsctx.angilalModal && <Header title="Ангилал" />}
+            {smsctx.brandModal && <Header title='Брэнд' name='Лого' />}
+            {smsctx.angilalModal && <Header title='Ангилал' />}
             {smsctx.brandModal && data && (
               <BrandBody setChosedData={setChosedData} brands={data.brands} />
             )}

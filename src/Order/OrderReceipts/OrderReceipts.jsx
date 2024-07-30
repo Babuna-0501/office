@@ -1,11 +1,11 @@
-import css from "./orderReceipts.module.css";
-import logo from "../../assets/orders/logo.svg";
-import { useCallback, useEffect, useRef, useState } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import * as htmlToImage from "html-to-image";
-import { Button, LoadingSpinner } from "../../components/common";
-import placeHolder from "../../assets/orders/placeholder.jpg";
-import ErrorPopup from "../../Achiltiinzahialga/components/common/ErrorPopup";
+import css from './orderReceipts.module.css';
+import logo from '../../assets/orders/logo.svg';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import * as htmlToImage from 'html-to-image';
+import { Button, LoadingSpinner } from '../../components/common';
+import placeHolder from '../../assets/orders/placeholder.jpg';
+import ErrorPopup from '../../Achiltiinzahialga/components/common/ErrorPopup';
 
 export const OrderReceipts = ({ orders, closeHandler }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,7 +20,7 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
   const [showBtn, setShowBtn] = useState(true);
 
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [loading, setLoading] = useState(true);
 
@@ -31,10 +31,10 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
       try {
         setLoading(true);
 
-        const url = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=14005`;
+        const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=14005`;
         const requestOptions = {
-          method: "GET",
-          headers: myHeaders,
+          method: 'GET',
+          headers: myHeaders
         };
 
         const res = await fetch(url, requestOptions);
@@ -84,17 +84,17 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
         cacheBust: true,
         canvasWidth: width * 3,
         canvasHeight: height * 3,
-        imagePlaceholder: placeHolder,
+        imagePlaceholder: placeHolder
       })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
+      .then(dataUrl => {
+        const link = document.createElement('a');
         link.download = `Зарлагын-баримт-${order.order_id}.png`;
         link.href = dataUrl;
         link.click();
-        setCurrentIndex((prev) => prev + 1);
+        setCurrentIndex(prev => prev + 1);
         setShowBtn(true);
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }, [netgelRef, height, width, order]);
 
   return (
@@ -104,12 +104,13 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
           <div className={css.container} ref={netgelRef}>
             <div className={css.header}>
               <div className={css.logoWrapper}>
-                <img src={logo} alt="Ebazaar" />
+                <img src={logo} alt='Ebazaar' />
               </div>
               <div className={css.headerDetails}>
                 <h1>{supplier.name}</h1>
                 <p>
-                  {supplier.address} <br /> <strong>Утас:</strong> {supplier.phone} / <strong>И-мэйл:</strong> {supplier.email}
+                  {supplier.address} <br /> <strong>Утас:</strong>{' '}
+                  {supplier.phone} / <strong>И-мэйл:</strong> {supplier.email}
                 </p>
               </div>
             </div>
@@ -119,14 +120,20 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
             <div className={css.titleWrapper}>
               <h1 className={css.title}>Захиалга</h1>
               {showBtn && (
-                <Button onClick={downloadHandler} variant="primary" size="medium">
+                <Button
+                  onClick={downloadHandler}
+                  variant='primary'
+                  size='medium'
+                >
                   Зарлагын баримт хэвлэх
                 </Button>
               )}
             </div>
 
             <div className={css.tradeshopDetails}>
-              <h2 className={css.tradeshopName}>Захиалагч: {order.tradeshop_name}</h2>
+              <h2 className={css.tradeshopName}>
+                Захиалагч: {order.tradeshop_name}
+              </h2>
               <p>
                 <strong>Хүргэлтйн хаяг:</strong> {order.address}
               </p>
@@ -146,7 +153,8 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
               </span>
 
               <span>
-                Хүргэлтийн өдөр: <strong>{order.delivery_date.split("T")[0]}</strong>
+                Хүргэлтийн өдөр:{' '}
+                <strong>{order.delivery_date.split('T')[0]}</strong>
               </span>
 
               <span>
@@ -176,28 +184,49 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
                 </div>
               </div>
 
-              {order.line.map((product) => {
+              {order.line.map(product => {
                 return (
-                  <div key={`order-${order.order_id}-product-${product.product_id}`} className={css.singleProduct}>
+                  <div
+                    key={`order-${order.order_id}-product-${product.product_id}`}
+                    className={css.singleProduct}
+                  >
                     <div className={css.productImg}>
                       <div className={css.imgWrapper}>
-                        <img src={product.product_image} alt={product.product_name} />
+                        <img
+                          src={product.product_image}
+                          alt={product.product_name}
+                        />
                       </div>
                     </div>
 
-                    <div className={css.singleProductItem} style={{ width: 300 }}>
+                    <div
+                      className={css.singleProductItem}
+                      style={{ width: 300 }}
+                    >
                       {product.product_name}
                     </div>
-                    <div className={css.singleProductItem} style={{ width: 140 }}>
+                    <div
+                      className={css.singleProductItem}
+                      style={{ width: 140 }}
+                    >
                       {product.product_bar_code}
                     </div>
-                    <div className={css.singleProductItem} style={{ width: 100 }}>
+                    <div
+                      className={css.singleProductItem}
+                      style={{ width: 100 }}
+                    >
                       {product.price.toLocaleString()}₮
                     </div>
-                    <div className={css.singleProductItem} style={{ width: 60 }}>
+                    <div
+                      className={css.singleProductItem}
+                      style={{ width: 60 }}
+                    >
                       {product.quantity.toLocaleString()}
                     </div>
-                    <div className={css.singleProductItem} style={{ width: 100 }}>
+                    <div
+                      className={css.singleProductItem}
+                      style={{ width: 100 }}
+                    >
                       {(product.price * product.quantity).toLocaleString()}₮
                     </div>
                   </div>
@@ -216,7 +245,12 @@ export const OrderReceipts = ({ orders, closeHandler }) => {
           <LoadingSpinner />
         </div>
       )}
-      {showErrorMsg && <ErrorPopup closeHandler={() => setShowErrorMsg(false)} message={errorMsg} />}
+      {showErrorMsg && (
+        <ErrorPopup
+          closeHandler={() => setShowErrorMsg(false)}
+          message={errorMsg}
+        />
+      )}
     </>
   );
 };

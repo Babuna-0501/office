@@ -1,0 +1,22 @@
+.search {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 30px;
+    padding: 0 8px;
+    justify-content: space-between;
+}
+
+.search input {
+    min-width: 0;
+    flex: 1;
+    font-size: 14px;
+    height: 100%;
+    border: none;
+}
+
+.search-icon {
+    height: max-content;
+    width: max-content;
+}

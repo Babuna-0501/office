@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Order from "./Order";
-import LoadingSpinner from "../components/Spinner/Spinner";
-import InfiniteScroll from "react-infinite-scroll-component";
-import css from "./List.module.css";
-import myHeaders from "../components/MyHeader/myHeader";
-import XTcompany from "./XTcompany";
+import React, { useState, useEffect } from 'react';
+import Order from './Order';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import css from './List.module.css';
+import myHeaders from '../components/MyHeader/myHeader';
+import XTcompany from './XTcompany';
 
-const List = (props) => {
+const List = props => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -23,7 +23,6 @@ const List = (props) => {
   const [selectedData, setSelectedData] = useState(props.selectedData);
   let orderIds = [];
 
-
   useEffect(() => {
     setSelectedData([]);
     if (props.selectAll) {
@@ -35,7 +34,7 @@ const List = (props) => {
   }, [orders.length, props.selectAll]);
 
   useEffect(() => {
-    orders?.map((order) => {
+    orders?.map(order => {
       orderIds = [...orderIds, order.order_id];
     });
     if (
@@ -53,77 +52,80 @@ const List = (props) => {
       setCurrentPath(window.location.pathname);
     };
 
-    window.addEventListener("popstate", onLocationChange);
+    window.addEventListener('popstate', onLocationChange);
 
     return () => {
-      window.removeEventListener("popstate", onLocationChange);
+      window.removeEventListener('popstate', onLocationChange);
     };
   }, []);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     let supID =
-      props.userData.company_id.replaceAll("|", "") == 1
+      props.userData.company_id.replaceAll('|', '') == 1
         ? 13884
-        : props.userData.company_id.replaceAll("|", "");
+        : props.userData.company_id.replaceAll('|', '');
 
     fetch(
-      `https://api2.ebazaar.mn/api/sfa/tradeshop/list?supplierId=${Number(
-        supID
-      )}`,
+      `${
+        process.env.REACT_APP_API_URL2
+      }/api/sfa/tradeshop/list?supplierId=${Number(supID)}`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("tradeshop", res.data);
         setTradeShopList(res);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    if (props.userData.company_id !== "|1|") {
+    if (props.userData.company_id !== '|1|') {
       fetch(
-        `https://api2.ebazaar.mn/api/backoffice/users?company=${props.userData.company_id}`,
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/users?company=${props.userData.company_id}`,
         requestOptions
       )
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           setBuramhanworks(res.data);
           props.setBuramhanajilchid(res.data);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   }, []);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/order/status/list`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/order/status/list`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         // console.log("reeeeeees", res);
         if (res.code === 200) {
           setStatusData(res.data);
         }
       })
-      .catch((error) => {
-        console.log("error status", error);
+      .catch(error => {
+        console.log('error status', error);
       });
   }, [props]);
 
@@ -131,27 +133,27 @@ const List = (props) => {
     // console.log("EFFECT", props.hariutsagchNer);
     const getOrders = () => {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       let url;
 
-      if ((props.start && props.end) || props.hariutsagchNer !== "") {
-        console.log("negiig duudlaa");
-        url = `https://api2.ebazaar.mn/api/orders/?order_type=1&order_start=${props.start}&order_end=${props.end}&page=${page}&back_user_id=${props.hariutsagchNer}`;
-        console.log("urlll", url);
+      if ((props.start && props.end) || props.hariutsagchNer !== '') {
+        console.log('negiig duudlaa');
+        url = `${process.env.REACT_APP_API_URL2}/api/orders/?order_type=1&order_start=${props.start}&order_end=${props.end}&page=${page}&back_user_id=${props.hariutsagchNer}`;
+        console.log('urlll', url);
         setLoading(true);
         fetch(url, requestOptions)
-          .then((r) => r.json())
-          .then((response) => {
+          .then(r => r.json())
+          .then(response => {
             setOrders([...orders, ...response.data]);
             setLoading(false);
           })
-          .catch((error) => console.log("error", error));
-      } else if (props.userData.company_id === "|13954|") {
-        console.log("ARIG");
-        let params = "";
+          .catch(error => console.log('error', error));
+      } else if (props.userData.company_id === '|13954|') {
+        console.log('ARIG');
+        let params = '';
         if (props.order_start && props.order_end) {
           params += `order_start=${props.order_start}&`;
           params += `order_end=${props.order_end}&`;
@@ -159,7 +161,7 @@ const List = (props) => {
 
         if (props.arigSupplier) {
           params += `supplier_id=${
-            props.arigSupplier == "Нийлүүлэгч" ? 13954 : props.arigSupplier
+            props.arigSupplier == 'Нийлүүлэгч' ? 13954 : props.arigSupplier
           }&`;
         }
 
@@ -176,10 +178,10 @@ const List = (props) => {
           params += `tradeshop_phone=${parseInt(props.phone)}&`;
         }
         if (props.tugeegch) {
-          console.log("props.tugeegchprops.tugeegch", props.tugeegch);
-          if (props.tugeegch == "null") {
+          console.log('props.tugeegchprops.tugeegch', props.tugeegch);
+          if (props.tugeegch == 'null') {
             params += `deliveryManNull=true&`;
-          } else if (props.tugeegch === "notNull") {
+          } else if (props.tugeegch === 'notNull') {
             params += `deliveryManNotNull=true&`;
           } else {
             params += `delivery_man=${props.tugeegch}&`;
@@ -211,41 +213,41 @@ const List = (props) => {
           params += `origin=${props.origin}&`;
         }
 
-        let newUrl = `https://api2.ebazaar.mn/api/orders?${params}page=${page}`;
-        console.log("URL ARIG", newUrl);
+        let newUrl = `${process.env.REACT_APP_API_URL2}/api/orders?${params}page=${page}`;
+        console.log('URL ARIG', newUrl);
 
-        localStorage.setItem("url", newUrl);
+        localStorage.setItem('url', newUrl);
         fetch(newUrl, requestOptions)
-          .then((r) => r.json())
-          .then((response) => {
-            console.log("response arig order  ++++----///****", response);
+          .then(r => r.json())
+          .then(response => {
+            console.log('response arig order  ++++----///****', response);
             setLoading(false);
-            console.log("asdasdsad", newUrl);
-            setOrders((prev) => [...prev, ...response.data]);
+            console.log('asdasdsad', newUrl);
+            setOrders(prev => [...prev, ...response.data]);
           })
-          .catch((error) => console.log("error++++", error));
+          .catch(error => console.log('error++++', error));
       } else if (
-        (props.userData.company_id === "|13987|" ||
-          props.userData.company_id === "|14006|" ||
-          props.userData.company_id === "|13992|" ||
-          props.userData.company_id === "|13991|" ||
-          props.userData.company_id === "|13994|" ||
-          props.userData.company_id === "|13965|" ||
-          props.userData.company_id === "|13995|" ||
-          props.userData.company_id === "|4805|" ||
-          props.userData.company_id === "|10683|" ||
-          props.userData.company_id === "|1232|" ||
-          props.userData.company_id === "|13990|" ||
-          props.userData.company_id === "|13996|" ||
-          props.userData.company_id === "|13993|" ||
-          props.userData.company_id === "|13997|" ||
-          props.userData.company_id === "|13998|" ||
-          props.userData.company_id === "|14000|" ||
-          props.userData.company_id === "|13999|") &&
-        currentPath === "/shuurhai"
+        (props.userData.company_id === '|13987|' ||
+          props.userData.company_id === '|14006|' ||
+          props.userData.company_id === '|13992|' ||
+          props.userData.company_id === '|13991|' ||
+          props.userData.company_id === '|13994|' ||
+          props.userData.company_id === '|13965|' ||
+          props.userData.company_id === '|13995|' ||
+          props.userData.company_id === '|4805|' ||
+          props.userData.company_id === '|10683|' ||
+          props.userData.company_id === '|1232|' ||
+          props.userData.company_id === '|13990|' ||
+          props.userData.company_id === '|13996|' ||
+          props.userData.company_id === '|13993|' ||
+          props.userData.company_id === '|13997|' ||
+          props.userData.company_id === '|13998|' ||
+          props.userData.company_id === '|14000|' ||
+          props.userData.company_id === '|13999|') &&
+        currentPath === '/shuurhai'
       ) {
-        console.log("SHUURHAI");
-        let params = "";
+        console.log('SHUURHAI');
+        let params = '';
 
         if (props.date) {
           params += `order_date=${props.date}&`;
@@ -272,9 +274,9 @@ const List = (props) => {
           params += `tradeshop_name=${props.tradeshopname}&`;
         }
         if (props.tugeegch) {
-          if (props.tugeegch == "null") {
+          if (props.tugeegch == 'null') {
             params += `deliveryManNull=true&`;
-          } else if (props.tugeegch === "notNull") {
+          } else if (props.tugeegch === 'notNull') {
             params += `deliveryManNotNull=true&`;
           } else {
             params += `delivery_man=${props.tugeegch}&`;
@@ -293,30 +295,32 @@ const List = (props) => {
           params += `origin=${props.origin}&`;
         }
 
-        // url = `https://api2.ebazaar.mn/api/orders?order_type=1&supplier_id=13884&${params}page=${page}`;
-        let newUrl = `https://api2.ebazaar.mn/api/orders?vendor=${props.userData.company_id.replaceAll(
-          "|",
-          ""
+        // url = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&supplier_id=13884&${params}page=${page}`;
+        let newUrl = `${
+          process.env.REACT_API_URL2
+        }/orders?vendor=${props.userData.company_id.replaceAll(
+          '|',
+          ''
         )}&${params}page=${page}`;
 
-        localStorage.setItem("url----", newUrl);
+        localStorage.setItem('url----', newUrl);
         // console.log("requestOptions------------requestOptions", requestOptions);
 
         fetch(newUrl, requestOptions)
-          .then((r) => r.json())
-          .then((response) => {
+          .then(r => r.json())
+          .then(response => {
             console.log(
-              "response shuurhai tugeelt  ++++----///****++++++++++++++++++++++++++++++++++++",
+              'response shuurhai tugeelt  ++++----///****++++++++++++++++++++++++++++++++++++',
               response
             );
             setLoading(false);
             // console.log("response filter", response.data);
-            setOrders((prev) => [...prev, ...response.data]);
+            setOrders(prev => [...prev, ...response.data]);
           })
-          .catch((error) => console.log("error++++------------------", error));
-      } else if (currentPath === "/orders" || currentPath === "/return") {
-        console.log("ORDER PATH", props);
-        let params = "";
+          .catch(error => console.log('error++++------------------', error));
+      } else if (currentPath === '/orders' || currentPath === '/return') {
+        console.log('ORDER PATH', props);
+        let params = '';
         if (props.supplier) {
           params += `supplier_id=${parseInt(props.supplier)}&`;
         }
@@ -340,9 +344,9 @@ const List = (props) => {
           params += `tradeshop_phone=${parseInt(props.phone)}&`;
         }
         if (props.tugeegch) {
-          if (props.tugeegch == "null") {
+          if (props.tugeegch == 'null') {
             params += `deliveryManNull=true&`;
-          } else if (props.tugeegch === "notNull") {
+          } else if (props.tugeegch === 'notNull') {
             params += `deliveryManNotNull=true&`;
           } else {
             params += `delivery_man=${props.tugeegch}&`;
@@ -396,52 +400,52 @@ const List = (props) => {
 
           params += `back_user_id=${filteredXT.user_id}&`;
         }
-        if (currentPath === "/orders") {
-          url = `https://api2.ebazaar.mn/api/orders?order_type=1&${params}page=${page}`;
-        } else if (currentPath === "/return") {
-          url = `https://api2.ebazaar.mn/api/orders?order_type=2&${params}page=${page}`;
+        if (currentPath === '/orders') {
+          url = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&${params}page=${page}`;
+        } else if (currentPath === '/return') {
+          url = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=2&${params}page=${page}`;
         }
 
-        localStorage.setItem("url", url);
+        localStorage.setItem('url', url);
         // console.log("url engiin order", url);
         fetch(url, requestOptions)
-          .then((r) => r.json())
-          .then((response) => {
+          .then(r => r.json())
+          .then(response => {
             setLoading(false);
-            setOrders((prev) => [...prev, ...response.data]);
+            setOrders(prev => [...prev, ...response.data]);
 
             if (props.address) {
-              setOrders((prev) =>
+              setOrders(prev =>
                 prev.filter(
-                  (order) =>
+                  order =>
                     !(
                       (order.status === 1 || order.status === 5) &&
-                      props.userData.company_id !== "|1|"
-                    ) || props.userData.company_id === "|13901|"
+                      props.userData.company_id !== '|1|'
+                    ) || props.userData.company_id === '|13901|'
                 )
               );
             }
 
             if (props.xtvalue > 1) {
               if (props.xtvalue === 2) {
-                setOrders((prev) =>
-                  prev.filter((order) => order.back_office_user !== null)
+                setOrders(prev =>
+                  prev.filter(order => order.back_office_user !== null)
                 );
               }
 
               if (props.xtvalue === 3) {
-                setOrders((prev) =>
-                  prev.filter((order) => order.back_office_user === null)
+                setOrders(prev =>
+                  prev.filter(order => order.back_office_user === null)
                 );
               }
             }
 
             if (props.paymentMethod !== null) {
-              setOrders((prev) =>
-                prev.filter((order) => {
+              setOrders(prev =>
+                prev.filter(order => {
                   if (order.order_data !== null) {
                     const orderData = JSON.parse(order.order_data);
-                    console.log("jsonOrderData: ", orderData);
+                    console.log('jsonOrderData: ', orderData);
                     if (
                       Number(orderData.payment?.paymentId) ===
                       props.paymentMethod
@@ -466,7 +470,7 @@ const List = (props) => {
               setLoading(false);
             }
           })
-          .catch((error) => console.log("error++++", error));
+          .catch(error => console.log('error++++', error));
       }
     };
     getOrders();
@@ -491,7 +495,7 @@ const List = (props) => {
     props.xtName,
     props.xtPhone,
     props.origin,
-    props.hariutsagchNer,
+    props.hariutsagchNer
   ]);
 
   useEffect(() => {
@@ -499,47 +503,50 @@ const List = (props) => {
   }, [orders]);
 
   useEffect(() => {
-    fetch(`https://api2.ebazaar.mn/api/backoffice/users?company=14031`, {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    })
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/users?company=14031`,
+      {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      }
+    )
+      .then(res => res.json())
+      .then(res => {
         console.log(
-          "res----res--------++++++++++++++*//////////////",
+          'res----res--------++++++++++++++*//////////////',
           res.data
         );
         setTugeegch(res.data);
       })
-      .catch((error) => {
-        console.log("fetch backoffice response error", error);
+      .catch(error => {
+        console.log('fetch backoffice response error', error);
       });
-  }, [props.userData.company_id === "|14031|"]);
+  }, [props.userData.company_id === '|14031|']);
 
   useEffect(() => {
     const getShipments = async () => {
       try {
-        const companyId = Number(props.userData.company_id.replaceAll("|", ""));
+        const companyId = Number(props.userData.company_id.replaceAll('|', ''));
 
-        const shipmentsUrl = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}`;
-        const inventoryUrl = `https://api2.ebazaar.mn/api/warehouse/get`;
+        const shipmentsUrl = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}`;
+        const inventoryUrl = `${process.env.REACT_APP_API_URL2}/api/warehouse/get`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const [shipmentRes, inventoryRes] = await Promise.all([
           fetch(shipmentsUrl, requestOptions),
-          fetch(inventoryUrl, requestOptions),
+          fetch(inventoryUrl, requestOptions)
         ]);
         const shipmentData = await shipmentRes.json();
         const inventoryData = await inventoryRes.json();
 
         setShipments(shipmentData.data);
         setInventories(
-          inventoryData.data.filter((inven) => inven.supplier_id === companyId)
+          inventoryData.data.filter(inven => inven.supplier_id === companyId)
         );
       } catch (error) {
         console.log(error);
@@ -556,11 +563,11 @@ const List = (props) => {
       selectedData.push(id);
       props.setSelectedData(selectedData);
     } else {
-      const filteredData = selectedData.filter((hello) => hello !== id);
+      const filteredData = selectedData.filter(hello => hello !== id);
       props.setSelectedData(filteredData);
       setSelectedData(filteredData);
     }
-    setOrderChecks((prev) =>
+    setOrderChecks(prev =>
       prev.map((val, ind) => {
         if (ind === index) {
           return !val;
@@ -571,10 +578,10 @@ const List = (props) => {
     );
 
     if (value) {
-      props.setSelectedOrders((prev) => [...prev, orders[index]]);
+      props.setSelectedOrders(prev => [...prev, orders[index]]);
     } else {
-      props.setSelectedOrders((prev) =>
-        prev.filter((order) => orders[index].order_id !== order.order_id)
+      props.setSelectedOrders(prev =>
+        prev.filter(order => orders[index].order_id !== order.order_id)
       );
     }
   };
@@ -592,10 +599,10 @@ const List = (props) => {
   // }
   return orders ? (
     <>
-      <div id="scrollableDiv" className={css.scrollcontainer}>
+      <div id='scrollableDiv' className={css.scrollcontainer}>
         <InfiniteScroll
           dataLength={orders.length}
-          next={() => setPage((prev) => prev + 1)}
+          next={() => setPage(prev => prev + 1)}
           hasMore={true}
           loader={
             loading === true && (
@@ -604,7 +611,7 @@ const List = (props) => {
               </div>
             )
           }
-          scrollableTarget="scrollableDiv"
+          scrollableTarget='scrollableDiv'
         >
           {orders.map((order, index) => {
             return (

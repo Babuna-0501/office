@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./registerproduct.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './registerproduct.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
 
-const RegisterProduct = (props) => {
-  console.log("props", props);
+const RegisterProduct = props => {
+  console.log('props', props);
   const [chosed, setChosed] = useState(null);
   const prodctx = useContext(ProductReportHook);
 
@@ -12,62 +12,65 @@ const RegisterProduct = (props) => {
     let newData = [];
 
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
     prodctx.importData.map((item, index) => {
-      let url = `https://api2.ebazaar.mn/api/products/get1?bar_code=${Number(
-        item.barcode
-      )}`;
-      console.log("url948", url);
+      let url = `${
+        process.env.REACT_APP_API_URL2
+      }/products/get1?bar_code=${Number(item.barcode)}`;
+      console.log('url948', url);
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log("res 948", res);
+        .then(res => res.json())
+        .then(res => {
+          console.log('res 948', res);
           if (res.code === 200 && res.data.length !== 0) {
             newData.push({
               ...item,
               product: true,
               _id: res.data[0]._id,
-              supplier_id: res.data[0].supplier_id,
+              supplier_id: res.data[0].supplier_id
             });
           } else if (res.code === 200 && res.data.length === 0) {
             newData.push({
               ...item,
               product: true,
               _id: null,
-              supplier_id: null,
+              supplier_id: null
             });
           }
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     });
-    console.log("newdata1234", newData);
+    console.log('newdata1234', newData);
     prodctx.setImportData(newData);
   }, [chosed]);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/backoffice/suppliers`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         console.log(res);
         prodctx.setSuplier(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
 
-  console.log("chosed", chosed);
+  console.log('chosed', chosed);
 
   return (
     <div className={css.container}>
@@ -75,9 +78,9 @@ const RegisterProduct = (props) => {
         <div>
           <div
             style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              color: "black",
+              fontSize: '14px',
+              fontWeight: '600',
+              color: 'black'
             }}
           >
             Нийлүүлэгч сонгох
@@ -85,9 +88,9 @@ const RegisterProduct = (props) => {
           <div className={css.selectwrapper}>
             <select
               value={chosed}
-              onChange={(e) => {
+              onChange={e => {
                 let aa = window.confirm(
-                  "Та бүртгэгдээгүй барааг энэ компани дээр бүртгэхдээ итгэлтэй байна уу"
+                  'Та бүртгэгдээгүй барааг энэ компани дээр бүртгэхдээ итгэлтэй байна уу'
                 );
                 if (aa) {
                   setChosed(e.target.value);
@@ -119,14 +122,14 @@ const RegisterProduct = (props) => {
           <button
             onClick={() => {
               if (chosed === null) {
-                alert("Та нийлүүлэгчээ сонгоно уу...");
+                alert('Та нийлүүлэгчээ сонгоно уу...');
                 return;
               }
               props.setPage(4);
             }}
             className={css.confirm}
           >
-            {" "}
+            {' '}
             Дараахи
           </button>
         </div>

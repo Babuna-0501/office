@@ -34,6 +34,25 @@ const List = (props) => {
     }
   };
 
+  const onRowSelect2 = (id, confirmedBy) => {
+    if (ids.filter((i) => i.id == id)?.[0] == undefined) {
+      if (
+        ids.length == 0 ||
+        ids.filter((i) => i.by == confirmedBy)?.[0] != undefined
+      ) {
+        setIds((prev) => [
+          ...prev,
+          {
+            id: id,
+            by: confirmedBy,
+          },
+        ]);
+      }
+    } else {
+      setIds(ids.filter((i) => i.id != id));
+    }
+  };
+
   useEffect(() => {
     let confirmedFilter = [];
     let requestFilter = [];
@@ -103,9 +122,10 @@ const List = (props) => {
         setFormZarlaga={props.setFormZarlaga}
         key={Math.random()}
         widths={widths}
-		ids={ids}
+        ids={ids}
         setDistributionSettings={setDistributionSettings}
         onRowSelect={onRowSelect}
+        onRowSelect2={onRowSelect2}
       />
     );
   });
@@ -239,7 +259,7 @@ const List = (props) => {
               <p className="blahblahheader">
                 Хүсэлт гаргасан агуулах/харилцагч
               </p>
-              <select className="headerInputs">
+              <select className="headerInputs" disabled>
                 <option value="all">Бүгд</option>
                 <option value="1">Орлого</option>
                 <option value="2">Зарлага</option>
@@ -267,11 +287,11 @@ const List = (props) => {
               <select
                 className="headerInputs"
                 onChange={(e) => {
-                  change(e.target.value, "confirmedBy");
+                  change(e.target.value, "requestedBy");
                 }}
               >
                 <option value="all">Бүгд</option>
-                {confirmed.map((c, i) => {
+                {requested.map((c, i) => {
                   return (
                     <option value={c.id} key={i}>
                       {c.name}
@@ -321,6 +341,21 @@ const List = (props) => {
           <div className="blahblah">
             <div className="width200px">
               <p className="blahblahheader">Хүргэлт, түгээлт</p>
+              <select
+                className="headerInputs"
+                onChange={(e) => {
+                  change(e.target.value, "requestedBy");
+                }}
+              >
+                <option value="all">Бүгд</option>
+                {requested.map((r, i) => {
+                  return (
+                    <option value={r.id} key={i}>
+                      {r.name}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           </div>
         </div>

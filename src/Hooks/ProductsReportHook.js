@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
 
 const Ctx = React.createContext();
 
-export const ProductReportHook = (props) => {
+export const ProductReportHook = props => {
   const [massExport, setMassExport] = useState(false);
   const [newProduct, setNewProduct] = useState(false);
   const [massImport, setMassImport] = useState(false);
@@ -14,12 +14,12 @@ export const ProductReportHook = (props) => {
   const [productsAll, setProductsAll] = useState([]);
   const [zones, setZones] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState([]);
-  const [namesearch, setNamesearch] = useState("");
+  const [namesearch, setNamesearch] = useState('');
   const [searchValues, setSearchValues] = useState({
-    BuschlelSongoh: "",
-    Created: "",
+    BuschlelSongoh: '',
+    Created: ''
   });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [data, setData] = useState([]);
   const [selectedZone, setSelectedZone] = useState([]);
   const [chosedProducts, setChosedProducts] = useState([]);
@@ -44,19 +44,19 @@ export const ProductReportHook = (props) => {
 
   const warehousealls = async () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    let urlNew = `https://api2.ebazaar.mn/api/warehouse`;
+    let urlNew = `${process.env.REACT_APP_API_URL2}/api/warehouse`;
     await fetch(urlNew, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setWarehouseall(response.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
   useEffect(() => {
@@ -66,23 +66,23 @@ export const ProductReportHook = (props) => {
   useEffect(() => {
     if (warehouseall && warehouseall.length > 0) {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const warehouse = () => {
         const warehouseIds = warehouseall
-          .map((warehouse) => warehouse._id)
-          .join(",");
-        const url = `https://api2.ebazaar.mn/api/warehouse?&allProducts=true`;
+          .map(warehouse => warehouse._id)
+          .join(',');
+        const url = `${process.env.REACT_APP_API_URL2}/api/warehouse?&allProducts=true`;
 
         fetch(url, requestOptions)
-          .then((r) => r.json())
-          .then((response) => {
+          .then(r => r.json())
+          .then(response => {
             setWarehouseData(response);
           })
-          .catch((error) => console.log("error", error));
+          .catch(error => console.log('error', error));
       };
 
       warehouse();
@@ -93,68 +93,68 @@ export const ProductReportHook = (props) => {
     let controller = new AbortController();
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/zones`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/zones`;
     if (namesearch.length !== 0) {
       url += `?name=${namesearch}`;
     }
 
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
-        console.log("data buschlel", response.data);
+      .then(r => r.json())
+      .then(response => {
+        console.log('data buschlel', response.data);
         setData(response.data);
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
   }, [namesearch]);
 
   var requestOptions = {
-    method: "GET",
+    method: 'GET',
     headers: myHeaders,
-    redirect: "follow",
+    redirect: 'follow'
   };
 
   useEffect(() => {
     const fetchdata = async () => {
       const data = await fetch(
-        "https://api.ebazaar.mn/api/site_data",
+        `${process.env.REACT_APP_API_URL}/api/site_data`,
         requestOptions
       );
       const res = await data.json();
 
-      let bus = await res.business_types.map((item) => {
+      let bus = await res.business_types.map(item => {
         return {
           ...item,
           price: 0,
           chosed: true,
           priority: 0,
-          deliver_fee: 0,
+          deliver_fee: 0
         };
       });
 
-      let cat = await res.categories.map((item) => {
+      let cat = await res.categories.map(item => {
         return {
           ...item,
-          chosed: true,
+          chosed: true
         };
       });
 
       setAllCat(cat);
 
       let oron = await res.location
-        .filter((item) => item.parent_id === 0)
-        .map((item) => {
+        .filter(item => item.parent_id === 0)
+        .map(item => {
           return {
             ...item,
-            chosed: true,
+            chosed: true
           };
         });
       setNutagdata(oron);
@@ -164,7 +164,7 @@ export const ProductReportHook = (props) => {
     try {
       fetchdata();
     } catch (error) {
-      console.log("sitedata error ", error);
+      console.log('sitedata error ', error);
     }
   }, []);
   // console.log("newProduct", newProduct);
@@ -234,7 +234,7 @@ export const ProductReportHook = (props) => {
         channelID,
         setChannelID,
         render,
-        setRender,
+        setRender
       }}
     >
       {props.children}

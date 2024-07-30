@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import upload from "../../assets/Upload_white.svg";
-import css from "./upointheader.module.css";
-import { Modal } from "antd";
-import writeXlsxFile from "write-excel-file";
-import { Button } from "../common";
+import React, { useState } from 'react';
+import upload from '../../assets/Upload_white.svg';
+import css from './upointheader.module.css';
+import { Modal } from 'antd';
+import writeXlsxFile from 'write-excel-file';
+import { Button } from '../common';
 
 const WheelHeader = () => {
   const [open, setOpen] = useState(false);
@@ -11,81 +11,81 @@ const WheelHeader = () => {
 
   const schema = [
     {
-      column: "Хаяг",
+      column: 'Хаяг',
       type: String,
-      value: (d) => d.Address1,
+      value: d => d.Address1
     },
     {
-      column: "Огноо",
+      column: 'Огноо',
       type: String,
-      value: (d) => d.CreatedDate,
+      value: d => d.CreatedDate
     },
     {
-      column: "ID",
+      column: 'ID',
       type: String,
-      value: (d) => d.ID,
+      value: d => d.ID
     },
     {
-      column: "Утас",
+      column: 'Утас',
       type: String,
-      value: (d) => d.PhoneNumber,
+      value: d => d.PhoneNumber
     },
     {
-      column: "Prize",
+      column: 'Prize',
       type: String,
-      value: (d) => d.Prize,
+      value: d => d.Prize
     },
     {
-      column: "PrizeTitle",
+      column: 'PrizeTitle',
       type: String,
-      value: (d) => d.PrizeTitle,
+      value: d => d.PrizeTitle
     },
     {
-      column: "Статус",
+      column: 'Статус',
       type: String,
-      value: (d) => d.Status,
+      value: d => d.Status
     },
     {
-      column: "Захиалгын үнийн дүн",
+      column: 'Захиалгын үнийн дүн',
       type: String,
-      value: (d) => d.TotalAmount,
+      value: d => d.TotalAmount
     },
     {
-      column: "TradeshopID",
+      column: 'TradeshopID',
       type: String,
-      value: (d) => d.TradeshopID,
+      value: d => d.TradeshopID
     },
     {
-      column: "TradeshopName",
+      column: 'TradeshopName',
       type: String,
-      value: (d) => d.TradeshopName,
+      value: d => d.TradeshopName
     },
     {
-      column: "UpdatedDate",
+      column: 'UpdatedDate',
       type: String,
-      value: (d) => d.UpdatedDate,
+      value: d => d.UpdatedDate
     },
     {
-      column: "UserID",
+      column: 'UserID',
       type: String,
-      value: (d) => d.UserID,
-    },
+      value: d => d.UserID
+    }
   ];
   const output = (lines, dates) => {
     writeXlsxFile(lines, {
       schema,
-      fileName: `SPINNING_WHEEL_INFO_${dates}.xlsx`,
+      fileName: `SPINNING_WHEEL_INFO_${dates}.xlsx`
     });
   };
 
   const exporter = () => {
-    const start_date = document.getElementById("date_start");
-    const end_date = document.getElementById("date_end");
-    const borderColor = document.getElementById("date_start").style.borderColor;
+    const start_date = document.getElementById('date_start');
+    const end_date = document.getElementById('date_end');
+    const borderColor = document.getElementById('date_start').style.borderColor;
     start_date.style.borderColor =
-      start_date.value === "" ? "red" : borderColor;
-    end_date.style.borderColor = end_date.value === "" ? "red" : borderColor;
-    if (start_date.value === "" || end_date.value === "") {
+      start_date.value === '' ? 'red' : borderColor;
+    end_date.style.borderColor = end_date.value === '' ? 'red' : borderColor;
+    if (start_date.value === '' || end_date.value === '') {
       setTimeout(() => {
         start_date.style.borderColor = borderColor;
         end_date.style.borderColor = borderColor;
@@ -95,23 +95,23 @@ const WheelHeader = () => {
       setExporting(true);
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/spinningwheel/get?date_start=${start_date.value}&date_end=${end_date.value}`,
+        `${process.env.REACT_APP_API_URL2}/api/spinningwheel/get?date_start=${start_date.value}&date_end=${end_date.value}`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           let csv = [];
-          response.result.map((item) => {
+          response.result.map(item => {
             const Address1 = item.Address1;
             const CreatedDate = item.CreatedDate;
             const ID = item.ID;
@@ -137,36 +137,36 @@ const WheelHeader = () => {
               TradeshopID: String(TradeshopID),
               TradeshopName: String(TradeshopName),
               UpdatedDate: String(UpdatedDate),
-              UserID: String(UserID),
+              UserID: String(UserID)
             };
             csv.push(template);
           });
 
-          output(csv, start_date.value + "_" + end_date.value);
+          output(csv, start_date.value + '_' + end_date.value);
           setExporting(false);
         });
     }
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <Button
-        variant="primary"
-        size="medium"
+        variant='primary'
+        size='medium'
         icon
         onClick={() => {
           setOpen(true);
         }}
       >
-        <img src={upload} alt="upload" />
+        <img src={upload} alt='upload' />
         Тайлан
       </Button>
       <Modal
         title={
           <div
             style={{
-              fontSize: "18px",
-              fontWeight: "700",
+              fontSize: '18px',
+              fontWeight: '700'
             }}
           >
             Тайлан татах
@@ -178,7 +178,7 @@ const WheelHeader = () => {
           exporter();
         }}
         onCancel={() => setOpen(false)}
-        width="600px"
+        width='600px'
         okText={
           exporting ? (
             <span>Түр хүлээнэ үү ... </span>
@@ -186,16 +186,16 @@ const WheelHeader = () => {
             <span>Тайлан бэлтгэх</span>
           )
         }
-        cancelText={"Цуцлах"}
-        bodyStyle={{ padding: "5px 30px" }}
+        cancelText={'Цуцлах'}
+        bodyStyle={{ padding: '5px 30px' }}
       >
         <div>
           <label>Эхлэх огноо</label>
-          <input type="date" className="dateselect" id="date_start" />
+          <input type='date' className='dateselect' id='date_start' />
         </div>
         <div>
           <label>Дуусах огноо</label>
-          <input type="date" className="dateselect" id="date_end" />
+          <input type='date' className='dateselect' id='date_end' />
         </div>
       </Modal>
     </div>

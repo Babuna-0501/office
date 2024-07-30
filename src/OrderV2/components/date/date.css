@@ -2,6 +2,7 @@
 .date-filter {
   margin-bottom: 10px;
 }
+
 .date-filter select {
   padding: 10px;
   font-size: 12px;
@@ -10,7 +11,7 @@
   background-color: #fff;
   color: #333;
   outline: none;
-  width: 224px;
+  width: 100%;
 }
 
 .date-filter select:hover {

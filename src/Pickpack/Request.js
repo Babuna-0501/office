@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import css from "./request.module.css";
-import SingleProduct from "./SingleProduct";
-import Header from "./components/Header/Header";
-import { DatePicker, Space, TimePicker, Modal, Input, Checkbox } from "antd";
-import moment from "moment";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import css from './request.module.css';
+import SingleProduct from './SingleProduct';
+import Header from './components/Header/Header';
+import { DatePicker, Space, TimePicker, Modal, Input, Checkbox } from 'antd';
+import moment from 'moment';
+import myHeaders from '../components/MyHeader/myHeader';
 const { Search } = Input;
 
 const Index = () => {
@@ -18,33 +18,33 @@ const Index = () => {
   const [prods, setProds] = useState();
 
   let filtered = prods
-    ?.filter((e) => e.thirdparty_data?.pickpack?.sync === true)
-    .map((a) => ({
+    ?.filter(e => e.thirdparty_data?.pickpack?.sync === true)
+    .map(a => ({
       ...a,
       label: a.name,
-      value: a._id,
+      value: a._id
     }));
 
-  console.log("searchValue", searchValue);
-  console.log("checked", checked);
-  console.log("checked2", checked2);
+  console.log('searchValue', searchValue);
+  console.log('checked', checked);
+  console.log('checked2', checked2);
   // console.log("date", date);
   // console.log("time", time);
   // console.log("description", description);
 
   const fetchProduct = () => {
     var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
+      method: 'GET',
+      headers: myHeaders
     };
-    let url = `https://api2.ebazaar.mn/api/products/get1?supplier=13884`; // 13884 13873
+    let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?page=all&suppliers=13884`; // 13884 13873
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         setProds(res.data);
       })
-      .catch((error) => {
-        console.log("error collection", error);
+      .catch(error => {
+        console.log('error collection', error);
       });
   };
 
@@ -52,52 +52,55 @@ const Index = () => {
     try {
       fetchProduct();
     } catch (error) {
-      console.log("catch error", error);
+      console.log('catch error', error);
     }
   }, []);
 
   let last = checked2?.map((a, i) => ({
     totalUnit: a?.total_amount || 1,
     productSKU: a?.thirdparty_data?.pickpack?.sku,
-    id: a?._id,
+    id: a?._id
   }));
 
   const save = () => {
     if (date && time && description && last) {
       var raw = JSON.stringify({
         pickupdate: `${date}T${time}`,
-        note: "ebazaar татан авалт",
+        note: 'ebazaar татан авалт',
         description: description,
-        product: last,
+        product: last
       });
 
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log("pick puck requestOptions", requestOptions);
 
-      fetch(`https://api2.ebazaar.mn/api/inventory/request`, requestOptions)
-        .then((r) => r.json())
-        .then((res) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/inventory/request`,
+        requestOptions
+      )
+        .then(r => r.json())
+        .then(res => {
           if (res.status === 200) {
             setCheck2([]);
-            alert("Амжилттай хадгалагдлаа");
+            alert('Амжилттай хадгалагдлаа');
           } else {
-            alert("Алдаа гарлаа, Мэдээлэлээ шалгаад дахин оролдоно уу");
+            alert('Алдаа гарлаа, Мэдээлэлээ шалгаад дахин оролдоно уу');
           }
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     } else {
-      alert("Мэдээлэл дутуу байна");
+      alert('Мэдээлэл дутуу байна');
     }
   };
 
-  const disabledDate = (current) => {
+  const disabledDate = current => {
     return current && current._d < new Date(Date.now() - 86400000);
   };
 
@@ -105,19 +108,19 @@ const Index = () => {
     <div className={css.container}>
       <div className={css.wrapper}>
         <Header
-          title="Татан авалтын захиалга үүсгэх"
-          fontsize="20px"
-          color="#37474F"
-          fontWeight="700"
-          marginBottom="24px"
+          title='Татан авалтын захиалга үүсгэх'
+          fontsize='20px'
+          color='#37474F'
+          fontWeight='700'
+          marginBottom='24px'
         />
         <Header
-          title="Барааны мэдээлэл"
-          fontsize="16px"
-          fontWeight="600"
-          marginBottom="16px"
+          title='Барааны мэдээлэл'
+          fontsize='16px'
+          fontWeight='600'
+          marginBottom='16px'
         />
-        <div style={{ maxHeight: "350px", overflowY: "scroll" }}>
+        <div style={{ maxHeight: '350px', overflowY: 'scroll' }}>
           {checked2?.map((e, i) => (
             <SingleProduct
               e={e}
@@ -136,13 +139,13 @@ const Index = () => {
       <div
         className={css.wrapper}
         style={{
-          marginTop: "1rem",
+          marginTop: '1rem'
         }}
       >
         <div className={css.secondwrapper}>
           <div>
-            <Header title="Татах огноо" fontsize="16px" fontWeight="600" />
-            <Space direction="vertical">
+            <Header title='Татах огноо' fontsize='16px' fontWeight='600' />
+            <Space direction='vertical'>
               <DatePicker
                 onChange={(_, dateString) => {
                   setDate(dateString);
@@ -153,12 +156,12 @@ const Index = () => {
             </Space>
           </div>
           <div>
-            <Header title="Татах цаг" fontsize="16px" fontWeight="600" />
+            <Header title='Татах цаг' fontsize='16px' fontWeight='600' />
             <TimePicker
               onChange={(_, timeString) => {
                 setTime(timeString);
               }}
-              defaultValue={moment("00:00:00", "HH:mm:ss")}
+              defaultValue={moment('00:00:00', 'HH:mm:ss')}
               // value={time}
             />
           </div>
@@ -168,27 +171,27 @@ const Index = () => {
       <div
         className={css.wrapper}
         style={{
-          marginTop: "1rem",
+          marginTop: '1rem'
         }}
       >
         <div>
-          <Header title="Нэмэлт тэмдэглэл" fontsize="16px" fontWeight="600" />
+          <Header title='Нэмэлт тэмдэглэл' fontsize='16px' fontWeight='600' />
           <textarea
             style={{
-              width: "350px",
-              outline: "none",
-              padding: "5px",
-              borderRadius: "5px",
-              border: "1px solid #d9d9d9",
+              width: '350px',
+              outline: 'none',
+              padding: '5px',
+              borderRadius: '5px',
+              border: '1px solid #d9d9d9'
             }}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={e => setDescription(e.target.value)}
           />
         </div>
       </div>
       <div
         className={css.btncontainer}
-        style={{ display: "flex", justifyContent: "space-between" }}
+        style={{ display: 'flex', justifyContent: 'space-between' }}
       >
         <button
           onClick={() => {
@@ -212,37 +215,37 @@ const Index = () => {
 				</button> */}
       </div>
       <Modal
-        title="Бараа сонгох"
+        title='Бараа сонгох'
         centered
         open={open}
         onOk={() => {
-          setCheck2(filtered.filter((e) => checked.includes(e._id)));
+          setCheck2(filtered.filter(e => checked.includes(e._id)));
           setOpen(false);
         }}
         onCancel={() => setOpen(false)}
         width={500}
-        okText={"Бараа сонгох"}
-        cancelText={"Цуцлах"}
+        okText={'Бараа сонгох'}
+        cancelText={'Цуцлах'}
       >
         <Search
-          placeholder="Хайлт хийх ..."
-          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder='Хайлт хийх ...'
+          onChange={e => setSearchValue(e.target.value)}
           style={{
-            width: 400,
+            width: 400
           }}
         />
 
         <Checkbox.Group
           options={
             searchValue
-              ? filtered?.filter((e) =>
+              ? filtered?.filter(e =>
                   e.name?.toLowerCase()?.includes(searchValue?.toLowerCase())
                 )
               : filtered
           }
           defaultValue={[]}
-          onChange={(checkedValues) => setCheck(checkedValues)}
-          style={{ maxHeight: "500px", overflowY: "scroll" }}
+          onChange={checkedValues => setCheck(checkedValues)}
+          style={{ maxHeight: '500px', overflowY: 'scroll' }}
           // value={checked}
         />
       </Modal>

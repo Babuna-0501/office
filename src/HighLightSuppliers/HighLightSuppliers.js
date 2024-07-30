@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
-import BackOfficeHook from "../Hooks/BackOfficeHook";
-import css from "./highsuppliers.module.css";
-import { Button } from "../components/common/Button";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useEffect, useState, useContext } from 'react';
+import BackOfficeHook from '../Hooks/BackOfficeHook';
+import css from './highsuppliers.module.css';
+import { Button } from '../components/common/Button';
+import myHeaders from '../components/MyHeader/myHeader';
 
 const HighLightSuppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -12,33 +12,36 @@ const HighLightSuppliers = () => {
   const backctx = useContext(BackOfficeHook);
   useEffect(() => {
     let requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/component/getSuppliers`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/component/getSuppliers`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         let ids = [];
-        res.message.map((item) => {
+        res.message.map(item => {
           ids.push(item.id);
         });
         let data = [...res.message];
 
-        backctx.suppliers.map((x) => {
+        backctx.suppliers.map(x => {
           if (!ids.includes(x.id)) {
             data.push({
               id: x.id,
               name: x.name,
-              icon: x.media,
+              icon: x.media
             });
           }
         });
         setSuppliers(data);
       })
-      .catch((error) => {
-        console.log("Алдаа гарлаа.", error);
+      .catch(error => {
+        console.log('Алдаа гарлаа.', error);
       });
   }, []);
 
@@ -54,33 +57,33 @@ const HighLightSuppliers = () => {
     window.location.reload();
   };
   const SubmitHandler = () => {
-    let data = suppliers.slice(0, 12).map((item) => {
+    let data = suppliers.slice(0, 12).map(item => {
       return {
         id: item.id,
         name: item.name,
-        icon: item.icon,
+        icon: item.icon
       };
     });
     // console.log("data new", data);
     let requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(data),
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log("requestoptions", requestOptions);
     fetch(
-      `https://api2.ebazaar.mn/api/component/updateSuppliers`,
+      `${process.env.REACT_APP_API_URL2}/api/component/updateSuppliers`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         if (res.code === 200) {
           alert(res.message);
-          window.location.replace("/");
+          window.location.replace('/');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
         alert(`Алдаа гарлаа ${error.message}`);
       });
@@ -95,12 +98,12 @@ const HighLightSuppliers = () => {
               <div
                 key={item.id}
                 draggable
-                onDragStart={(e) => (dragItem.current = index)}
-                onDragEnter={(e) => (dragOverItem.current = index)}
+                onDragStart={e => (dragItem.current = index)}
+                onDragEnter={e => (dragOverItem.current = index)}
                 onDragEnd={sortHandler}
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={e => e.preventDefault()}
                 style={{
-                  background: index < 12 ? "#00000014" : "#fff",
+                  background: index < 12 ? '#00000014' : '#fff'
                 }}
                 className={css.onesupplier}
               >
@@ -114,14 +117,14 @@ const HighLightSuppliers = () => {
         </div>
       </div>
       <div className={css.btncontainer}>
-        <Button variant="secondary">
+        <Button variant='secondary'>
           <span onClick={CancelHandler}>Цуцлах</span>
         </Button>
-        <Button variant="primary">
-          {" "}
+        <Button variant='primary'>
+          {' '}
           <span
             style={{
-              color: "#fff",
+              color: '#fff'
             }}
             onClick={SubmitHandler}
           >

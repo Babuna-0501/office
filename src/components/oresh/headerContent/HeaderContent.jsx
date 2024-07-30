@@ -1,11 +1,11 @@
-import React from "react";
-import css from "./headerContent.module.css";
-import { Button } from "../../common";
-import readXlsxFile from "read-excel-file";
-import myHeaders from "../../MyHeader/myHeader";
-import ImportModal from "./importModal";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import css from './headerContent.module.css';
+import { Button } from '../../common';
+import readXlsxFile from 'read-excel-file';
+import myHeaders from '../../MyHeader/myHeader';
+import ImportModal from './importModal';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const HeaderContent = () => {
   const [isModal, setIsModal] = useState(false);
@@ -15,9 +15,9 @@ const HeaderContent = () => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -25,63 +25,63 @@ const HeaderContent = () => {
           '><input type="file" id="read" /></form>'
       );
 
-    document.getElementById("read").click();
-    document.getElementById("read").addEventListener("change", () => {
+    document.getElementById('read').click();
+    document.getElementById('read').addEventListener('change', () => {
       const schema = {
         supplierId: {
-          prop: "supplierId",
-          type: Number,
+          prop: 'supplierId',
+          type: Number
         },
         merchantId: {
-          prop: "merchantId",
-          type: Number,
+          prop: 'merchantId',
+          type: Number
         },
         barcode: {
-          prop: "barcode",
-          type: String,
+          prop: 'barcode',
+          type: String
         },
         stock: {
-          prop: "stock",
-          type: Number,
-        },
+          prop: 'stock',
+          type: Number
+        }
       };
-      readXlsxFile(document.getElementById("read").files[0], {
-        schema,
-      }).then((rows) => {
+      readXlsxFile(document.getElementById('read').files[0], {
+        schema
+      }).then(rows => {
         setData({
-          data: rows.rows,
+          data: rows.rows
         });
         setIsModal(true);
-        console.log("rowssssaa", rows.rows);
+        console.log('rowssssaa', rows.rows);
       });
     });
   };
 
   const fetchData = async () => {
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(data),
-      redirect: "follow",
+      redirect: 'follow'
     };
 
     try {
       const response = await fetch(
-        "https://api2.ebazaar.mn/api/oresh/import",
+        `${process.env.REACT_APP_API_URL2}/api/oresh/import`,
         requestOptions
       );
 
       const res = await response.json();
 
       if (res.code === 200) {
-        alert("Амжилттай");
+        alert('Амжилттай');
       } else {
-        alert("Амжилтгүй боллоо: " + res.message);
+        alert('Амжилтгүй боллоо: ' + res.message);
       }
       setIsModal(false);
     } catch (error) {
-      console.error("Алдаа гарлаа:", error);
-      alert("Сервертэй холбогдох үед алдаа гарлаа");
+      console.error('Алдаа гарлаа:', error);
+      alert('Сервертэй холбогдох үед алдаа гарлаа');
     }
   };
   // useEffect(() => {
@@ -93,7 +93,7 @@ const HeaderContent = () => {
         <h1 className={css.title}>Oresh</h1>
       </div>
       <div className={css.rightSide}>
-        <Button variant="primary" size="medium" icon onClick={readExcel}>
+        <Button variant='primary' size='medium' icon onClick={readExcel}>
           import
         </Button>
       </div>

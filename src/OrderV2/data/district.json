@@ -1,7 +1,7 @@
 {
     "District" : [
       {
-        "location_id": 0,
+        "location_id": "",
         "parent_id": 1,
         "location_name": "Бүгд",
         "latitude": null,

@@ -1,13 +1,13 @@
-import React from "react";
-import css from "./returnsidebar.module.css";
-import homeShop from "../assets/homeDelguur.svg";
-import closeBtn from "../assets/close.svg";
-import zoomInIcon from "../assets/zoom in.svg";
-import zoomOutIcon from "../assets/zoom out.svg";
-import ArrowRight from "../assets/Arrow - Right.svg";
-import ArrowLeft from "../assets/Arrow - Left.svg";
-import myHeaders from "../components/MyHeader/myHeader";
-const ReturnSidebar = (props) => {
+import React from 'react';
+import css from './returnsidebar.module.css';
+import homeShop from '../assets/homeDelguur.svg';
+import closeBtn from '../assets/close.svg';
+import zoomInIcon from '../assets/zoom in.svg';
+import zoomOutIcon from '../assets/zoom out.svg';
+import ArrowRight from '../assets/Arrow - Right.svg';
+import ArrowLeft from '../assets/Arrow - Left.svg';
+import myHeaders from '../components/MyHeader/myHeader';
+const ReturnSidebar = props => {
   // console.log(props);
   const cancelFunction = () => {
     props.setTailbar(true);
@@ -17,47 +17,50 @@ const ReturnSidebar = (props) => {
     var raw = JSON.stringify({
       status_id: 2,
       return_id: props.oneProduct[0].return_id,
-      additional_detail: "Амжилттай зөвшөөрөв",
+      additional_detail: 'Амжилттай зөвшөөрөв'
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: raw
     };
-    fetch("https://api2.ebazaar.mn/api/returnproduct/update", requestOptions)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.message === "Хүсэлт амжилттай үүссэн.") {
-          alert("Хүсэлт амжилттай үүссэн.");
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/returnproduct/update`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(response => {
+        if (response.message === 'Хүсэлт амжилттай үүссэн.') {
+          alert('Хүсэлт амжилттай үүссэн.');
           props.setReturnShow(false);
         } else {
-          alert("Алдаа гарлаа.");
+          alert('Алдаа гарлаа.');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(error.message);
       });
   };
 
   let dateReturn =
     props.oneProduct[0].created_date !== null
-      ? props.oneProduct[0].created_date.split("T")[0]
-      : "";
+      ? props.oneProduct[0].created_date.split('T')[0]
+      : '';
   return (
     <div className={css.tailbar}>
       <div className={css.modal}>
-        <div id="bg">
-          <div id="foo">
+        <div id='bg'>
+          <div id='foo'>
             <div className={css.containerMain}>
               <h1
-                style={{ color: "#37474F", fontSize: "20px", fontWeight: 700 }}
+                style={{ color: '#37474F', fontSize: '20px', fontWeight: 700 }}
               >
                 {props.oneProduct[0].product_name}
               </h1>
-              <span className="closebtn">
+              <span className='closebtn'>
                 <img
                   src={closeBtn}
-                  alt="close button"
+                  alt='close button'
                   onClick={() => props.setReturnShow(false)}
                 />
               </span>
@@ -66,7 +69,7 @@ const ReturnSidebar = (props) => {
               <div className={css.first}>
                 <div className={css.firstshopdetails}>
                   <div className={css.homeiconContainer}>
-                    <img src={homeShop} alt="home icon" />
+                    <img src={homeShop} alt='home icon' />
                   </div>
                   <div>
                     <p className={css.delguurname}>
@@ -81,7 +84,7 @@ const ReturnSidebar = (props) => {
                 <div className={css.deliveryInfoContainer}>
                   <div
                     className={css.deliveryInfoSecond}
-                    style={{ marginRight: "1rem" }}
+                    style={{ marginRight: '1rem' }}
                   >
                     <p className={css.deliveryInfoHeader}>Падааны дугаар:</p>
                     <p className={css.deliveryInfo_info}>
@@ -133,22 +136,22 @@ const ReturnSidebar = (props) => {
                     src={
                       props.oneProduct[0].image &&
                       props.oneProduct[0].image !==
-                        "https://ebazaar.mn/icon/photo-add.svg"
-                        ? props.oneProduct[0].image.replace("large", "product")
+                        'https://ebazaar.mn/icon/photo-add.svg'
+                        ? props.oneProduct[0].image.replace('large', 'product')
                         : props.oneProduct[0].image
                     }
-                    alt="product image"
+                    alt='product image'
                   />
                 </div>
               </div>
-              <div style={{ height: "16px" }}></div>
+              <div style={{ height: '16px' }}></div>
               <div className={css.sixthcontainer}>
                 <div className={css.arrrowContainer}>
                   <div>
-                    <img src={ArrowLeft} alt="arrow left" />
+                    <img src={ArrowLeft} alt='arrow left' />
                   </div>
                   <div>
-                    <img src={ArrowRight} alt="arrow right" />
+                    <img src={ArrowRight} alt='arrow right' />
                   </div>
                 </div>
                 <div className={css.sxContainer}>
@@ -156,31 +159,31 @@ const ReturnSidebar = (props) => {
                     src={
                       props.oneProduct[0].image &&
                       props.oneProduct[0].image !==
-                        "https://ebazaar.mn/icon/photo-add.svg"
-                        ? props.oneProduct[0].image.replace("large", "product")
+                        'https://ebazaar.mn/icon/photo-add.svg'
+                        ? props.oneProduct[0].image.replace('large', 'product')
                         : props.oneProduct[0].image
                     }
-                    alt="product image"
+                    alt='product image'
                   />
                 </div>
                 <div className={css.zoomContainer}>
                   <div className={css.zmContainer}>
                     <span>
-                      <img src={zoomInIcon} alt="zoom in icon" />
+                      <img src={zoomInIcon} alt='zoom in icon' />
                     </span>
                     <span>
-                      <img src={zoomOutIcon} alt="zoom out icon" />
+                      <img src={zoomOutIcon} alt='zoom out icon' />
                     </span>
                   </div>
                 </div>
               </div>
-              <div style={{ height: "100px" }}></div>
+              <div style={{ height: '100px' }}></div>
             </div>
-            <div id="order-confirm">
-              <span className="btn cancel" onClick={cancelFunction}>
+            <div id='order-confirm'>
+              <span className='btn cancel' onClick={cancelFunction}>
                 Цуцлах
               </span>
-              <span className="btn" onClick={approveFunction}>
+              <span className='btn' onClick={approveFunction}>
                 Зөвшөөрөх
               </span>
             </div>

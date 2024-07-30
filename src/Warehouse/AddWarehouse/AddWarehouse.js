@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from 'react';
 
-import Background from "../../components/Background/Background";
-import css from "./addwarehouse.module.css";
-import Button from "../../components/Button/Button";
-import CollectionHook from "../../Hooks/CollectionHook";
-import Okicon from "../../assets/OK.svg";
-import myHeaders from "../../components/MyHeader/myHeader";
-import BackOfficeHook from "../../Hooks/BackOfficeHook";
-import Baraatatah from "./Baraatatah";
+import Background from '../../components/Background/Background';
+import css from './addwarehouse.module.css';
+import Button from '../../components/Button/Button';
+import CollectionHook from '../../Hooks/CollectionHook';
+import Okicon from '../../assets/OK.svg';
+import myHeaders from '../../components/MyHeader/myHeader';
+import BackOfficeHook from '../../Hooks/BackOfficeHook';
+import Baraatatah from './Baraatatah';
 
-const AddWarehouse = (props) => {
+const AddWarehouse = props => {
   const [warehosename, setWarehousename] = useState(null);
 
   const [locationname, setLocationname] = useState(null);
@@ -33,19 +33,19 @@ const AddWarehouse = (props) => {
   };
   const approveHandler = () => {
     if (warehosename === null) {
-      alert("Та агуулахын нэрийг оруулна уу");
+      alert('Та агуулахын нэрийг оруулна уу');
       return;
     }
     if (warehouseType === null) {
-      alert("Та агуулахын төрөл сонгоно уу");
+      alert('Та агуулахын төрөл сонгоно уу');
       return;
     }
     if (locationname === null) {
-      alert("Та байршлын нэрийг оруулна уу");
+      alert('Та байршлын нэрийг оруулна уу');
       return;
     }
-    if (suppler === null || suppler === "--Нийлүүлэгч--") {
-      alert("Та нийлүүлэгчээ оруулна уу");
+    if (suppler === null || suppler === '--Нийлүүлэгч--') {
+      alert('Та нийлүүлэгчээ оруулна уу');
       return;
     }
     let data = {
@@ -54,39 +54,39 @@ const AddWarehouse = (props) => {
       location: locationname,
       manager: userData.email,
       type: 2,
-      origin: 2,
+      origin: 2
     };
-    let url = `https://api2.ebazaar.mn/api/warehouse/create`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/warehouse/create`;
 
-    if (pathname === "/ware-house") {
-      url = `https://api2.ebazaar.mn/warehouse`;
+    if (pathname === '/ware-house') {
+      url = `${process.env.REACT_APP_API_URL2}/warehouse`;
       data = {
-        supplierId: Number(userData.company_id.replace(/\|/g, "")),
+        supplierId: Number(userData.company_id.replace(/\|/g, '')),
         supplierName: userData.supplier_name,
         name: warehosename,
         location: locationname,
         manager: userData.id,
         managerEmail: userData.email,
-        type: 1,
+        type: 1
       };
     }
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: JSON.stringify(data),
+      redirect: 'follow',
+      body: JSON.stringify(data)
     };
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         if (res.code === 200) {
           setPage(1);
         }
       })
-      .catch((error) => {
-        console.log("warehouse register error", error);
+      .catch(error => {
+        console.log('warehouse register error', error);
       });
   };
   const productRecieveHandler = () => {
@@ -106,7 +106,7 @@ const AddWarehouse = (props) => {
 
               <select
                 value={suppler}
-                onChange={(e) => setSuppler(e.target.value)}
+                onChange={e => setSuppler(e.target.value)}
                 className={css.selectwrapper}
               >
                 <option>--Нийлүүлэгч--</option>
@@ -124,9 +124,9 @@ const AddWarehouse = (props) => {
                 <label>Агуулахын нэр : </label>
               </div>
               <input
-                type="text"
+                type='text'
                 value={warehosename}
-                onChange={(e) => setWarehousename(e.target.value)}
+                onChange={e => setWarehousename(e.target.value)}
               />
             </div>
             <div className={css.inputwrapper}>
@@ -134,9 +134,9 @@ const AddWarehouse = (props) => {
                 <label>Байршилын нэр : </label>
               </div>
               <input
-                type="text"
+                type='text'
                 value={locationname}
-                onChange={(e) => setLocationname(e.target.value)}
+                onChange={e => setLocationname(e.target.value)}
               />
             </div>
             <div className={css.inputwrapper}>
@@ -145,7 +145,7 @@ const AddWarehouse = (props) => {
               </div>
               <select
                 value={warehouseType}
-                onChange={(e) => setWarehouseType(e.target.value)}
+                onChange={e => setWarehouseType(e.target.value)}
                 className={css.selectwrapper}
               >
                 <option>--Төрөл сонгох--</option>
@@ -171,10 +171,10 @@ const AddWarehouse = (props) => {
               <img
                 src={Okicon}
                 style={{
-                  width: "80px",
-                  height: "80px",
+                  width: '80px',
+                  height: '80px'
                 }}
-                alt="okay icon"
+                alt='okay icon'
               />
             </div>
             <div className={css.header}>Амжилттай хадгаллаа.</div>
@@ -195,7 +195,7 @@ const AddWarehouse = (props) => {
           </div>
         </div>
       )}
-      {page === 2 && <Baraatatah suppctx={suppctx} baraa="shuudorulah" />}
+      {page === 2 && <Baraatatah suppctx={suppctx} baraa='shuudorulah' />}
     </Background>
   );
 };

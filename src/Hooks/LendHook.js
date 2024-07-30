@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
 const Ctx = React.createContext();
 
-export const LendHook = (props) => {
+export const LendHook = props => {
   const [lendState, setLendState] = useState(false);
   const [switchState, setSwitchState] = useState(true);
   const [worker, setWorker] = useState(null);
@@ -10,8 +10,8 @@ export const LendHook = (props) => {
   const [shopLeasing, setShopLeasing] = useState([
     {
       id: 0,
-      value: 0,
-    },
+      value: 0
+    }
   ]);
   const [zoneIDS, setZoneIDS] = useState([]);
   const [startDate, setStartDate] = useState(null);
@@ -39,105 +39,108 @@ export const LendHook = (props) => {
   // console.log("workers", worker);
   useEffect(() => {
     let requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     let controller = new AbortController();
-    fetch(`https://api2.ebazaar.mn/api/tradeshop/alldata`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/tradeshop/alldata`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(response => {
         // console.log("response+++--- all data", response);
 
         let allShopsFirst = [];
         response?.result?.map(item => {
-					if (item.g_latitude !== null && item.g_longtitude !== null) {
-						allShopsFirst.push(item);
-					}
-				});
+          if (item.g_latitude !== null && item.g_longtitude !== null) {
+            allShopsFirst.push(item);
+          }
+        });
         setAllShops(allShopsFirst);
         setAllDelguur(allShopsFirst);
         controller = null;
       })
-      .catch((error) => {
-        console.log("Zone fetch from lend component error", error);
+      .catch(error => {
+        console.log('Zone fetch from lend component error', error);
       });
     return () => controller?.abort();
   }, []);
 
-  useEffect(() => {
-    getResponse();
-  }, []);
+  // useEffect(() => {
+  //   getResponse();
+  // }, []);
 
   useEffect(() => {
     // console.log("worker------------zones", worker);
     if (zoneState && worker.zones !== null) {
       let zoneDatasaaa = [];
-      let url = `https://api2.ebazaar.mn/api/zones`;
+      let url = `${process.env.REACT_APP_API_URL2}/api/zones`;
 
-      if (worker.zones.includes(",")) {
-        worker.zones.split(",").map((item) => {
+      if (worker.zones.includes(',')) {
+        worker.zones.split(',').map(item => {
           url = url + `?id=${item}`;
           // console.log("url - neg", url);
 
           fetch(url, {
-            method: "GET",
+            method: 'GET',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow'
           })
-            .then((r) => r.json())
-            .then((response) => {
+            .then(r => r.json())
+            .then(response => {
               zoneDatasaaa.push(response.data[0]);
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         });
       } else {
         url = url + `?id=${worker.zones}`;
         // console.log("url - hoer", url);
         fetch(url, {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         })
-          .then((r) => r.json())
-          .then((response) => {
+          .then(r => r.json())
+          .then(response => {
             zoneDatasaaa.push(response.data[0]);
           })
-          .catch((error) => {
-            console.log("error", error);
+          .catch(error => {
+            console.log('error', error);
           });
       }
 
       setXtZones(zoneDatasaaa);
     }
   }, [zoneState]);
-
-  async function getResponse() {
-    const response = await fetch(
-      "https://api2.ebazaar.mn/api/sfa/users/tradeshop",
-      {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify({
-          zoneId: "641d5e465778aae99db6903b",
-          supplierId: 14014,
-          employeeId: 689,
-        }),
-      }
-    );
-    if (!response.ok) {
-      console.log("aldaa garlaa");
-    }
-    const data = await response.json();
-  }
+  // not useful
+  // async function getResponse() {
+  //   const response = await fetch(
+  //     `${process.env.REACT_APP_API_URL2}/api/sfa/users/tradeshop`,
+  //     {
+  //       method: 'POST',
+  //       headers: myHeaders,
+  //       redirect: 'follow',
+  //       body: JSON.stringify({
+  //         zoneId: '641d5e465778aae99db6903b',
+  //         supplierId: 14014,
+  //         employeeId: 689
+  //       })
+  //     }
+  //   );
+  //   if (!response.ok) {
+  //     console.log('aldaa garlaa');
+  //   }
+  //   const data = await response.json();
+  // }
 
   useEffect(() => {
     let data = [];
-    zoneMap.map((item) => {
-      zonesMap.map((x) => {
+    zoneMap.map(item => {
+      zonesMap.map(x => {
         if (x._id === item.value) {
           data.push(x);
         }
@@ -153,25 +156,25 @@ export const LendHook = (props) => {
       let ids = [];
       ids.push(Object.keys(worker?.leasing));
       // console.log("worker ---- worker", ids);
-      ids[0]?.map((item) => {
-        if (item !== "leasing_total") {
+      ids[0]?.map(item => {
+        if (item !== 'leasing_total') {
           // console.log("item", item);
-          let tradeshopID = item.split("_")[0];
-          let zoneID = item.split("_")[1];
+          let tradeshopID = item.split('_')[0];
+          let zoneID = item.split('_')[1];
           let requestOptions = {
-            method: "GET",
+            method: 'GET',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow'
           };
-          setZoneIDSAAA((prev) => [...prev, zoneID]);
+          setZoneIDSAAA(prev => [...prev, zoneID]);
           fetch(
-            `https://api2.ebazaar.mn/api/zones?id=${zoneID}`,
+            `${process.env.REACT_APP_API_URL2}/api/zones?id=${zoneID}`,
             requestOptions
           )
-            .then((r) => r.json())
-            .then((response) => {
+            .then(r => r.json())
+            .then(response => {
               let bbb = [];
-              allShops.map((x) => {
+              allShops.map(x => {
                 const aa = ray_casting(
                   x,
                   response.data[0].polygons.coordinates[0]
@@ -186,15 +189,15 @@ export const LendHook = (props) => {
                     total_amount:
                       Number(tradeshopID) === Number(x.t_id)
                         ? worker.leasing[item].total_amount
-                        : null,
+                        : null
                   });
                 }
               });
 
               setAllDelguur([...allDelguur, ...bbb]);
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         }
       });
@@ -206,8 +209,8 @@ export const LendHook = (props) => {
 
   useEffect(() => {
     let bbb = [];
-    selectedZoneMaps.map((z) => {
-      allShops.map((item) => {
+    selectedZoneMaps.map(z => {
+      allShops.map(item => {
         // console.log("item allshops", item);
 
         const aa = ray_casting(item, z.polygons.coordinates[0]);
@@ -216,7 +219,7 @@ export const LendHook = (props) => {
             id: `${item.t_id}_${Math.random() * 10000000000000000}`,
             zone_id: z._id,
             zone_name: z.name,
-            ...item,
+            ...item
           });
         }
       });
@@ -293,7 +296,7 @@ export const LendHook = (props) => {
         newWorkers,
         setNewWorkers,
         xtZones,
-        setXtZones,
+        setXtZones
       }}
     >
       {props.children}

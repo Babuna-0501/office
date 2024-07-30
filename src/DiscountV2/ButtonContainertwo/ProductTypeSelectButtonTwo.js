@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import css from "./producttypeselectbuttontwo.module.css";
-import PromoHook from "../../Hooks/PromoHook";
-import myHeaders from "../HeaderContent/HeaderContent";
+import React, { useContext } from 'react';
+import css from './producttypeselectbuttontwo.module.css';
+import PromoHook from '../../Hooks/PromoHook';
+import myHeaders from '../HeaderContent/HeaderContent';
 
-const ProductTypeSelectButtonTwo = (props) => {
+const ProductTypeSelectButtonTwo = props => {
   const ctx = useContext(PromoHook);
   const CancelHandler = () => {
     // console.log("cancel handler");
@@ -11,8 +11,8 @@ const ProductTypeSelectButtonTwo = (props) => {
     props.setStartDateValue(null);
     props.setEndDateValue(null);
     ctx.setPromoChannel([]);
-    props.setDiscountTitle("");
-    props.setComments("");
+    props.setDiscountTitle('');
+    props.setComments('');
     ctx.setGiftProduct([]);
 
     ctx.setNextPage(false);
@@ -25,56 +25,56 @@ const ProductTypeSelectButtonTwo = (props) => {
     let sku;
     let supplierIDS;
     // console.log(" ctx.promoChannel", ctx.promoChannel);
-    ctx.promoChannel.forEach((data) => {
+    ctx.promoChannel.forEach(data => {
       channel.push(data.business_type_id);
     });
     // console.log(" ctx.collectionProduct", ctx.collectionProduct);
-    ctx.collectionProduct.map((item) => {
+    ctx.collectionProduct.map(item => {
       productIDS = item.product_id;
       sku = item.sku;
       supplierIDS = item.supplier;
     });
     if (props.discountTitle.length === 0) {
-      alert("Та урамшууллын гарчигаа оруулна уу.");
+      alert('Та урамшууллын гарчигаа оруулна уу.');
       return;
     }
     if (props.comments.length === 0) {
-      alert("Та урамшууллын дэлгэрэнгүй бичиглэлээ оруулна уу.");
+      alert('Та урамшууллын дэлгэрэнгүй бичиглэлээ оруулна уу.');
       return;
     }
     if (props.channelOptionDefault.length === 0) {
-      alert("Та урамшууллын сувгаа оруулна уу.");
+      alert('Та урамшууллын сувгаа оруулна уу.');
       return;
     }
     if (props.zoneMapIDS.length === 0) {
-      alert("Хямдралын бүсчлэлийн мэдээлэл байхгүй байна.");
+      alert('Хямдралын бүсчлэлийн мэдээлэл байхгүй байна.');
       return;
     }
     if (props.startDateValue === null) {
-      alert("Та хямдралын эхлэх огноо оруулна уу!!!");
+      alert('Та хямдралын эхлэх огноо оруулна уу!!!');
       return;
     }
     if (props.endDateValue === null) {
-      alert("Та хямдралын дуусах огноо оруулна уу!!!");
+      alert('Та хямдралын дуусах огноо оруулна уу!!!');
       return;
     }
     if (props.discountGiftValue === null) {
-      alert("Та бэлгийн утгаа оруулна уу!!!");
+      alert('Та бэлгийн утгаа оруулна уу!!!');
       return;
     }
     if (props.discountValue === null) {
-      alert("Та хямдралын утгаа оруулна уу!!!");
+      alert('Та хямдралын утгаа оруулна уу!!!');
       return;
     }
     console.log(
-      "Number(ctx.insertTypeProduct)",
+      'Number(ctx.insertTypeProduct)',
       Number(props.insertTypeProduct)
     );
     if (Number(props.insertTypeProduct) === 500) {
       console.log(
-        "console.log 500 ++++, olon baraand , nemelt uramshuulal oruulah"
+        'console.log 500 ++++, olon baraand , nemelt uramshuulal oruulah'
       );
-      console.log("ctx.giftProduct", ctx.giftProduct);
+      console.log('ctx.giftProduct', ctx.giftProduct);
       // if (ctx.giftProduct.length === 0) {
       //   alert("Та хямдралын бэлэгээ оруулаагүй байна.");
       //   return;
@@ -84,7 +84,7 @@ const ProductTypeSelectButtonTwo = (props) => {
       // let prodID = [];
       // let suppID;
 
-      ctx.products.map((item) => {
+      ctx.products.map(item => {
         let cond = [];
         let package_id = Math.floor(Math.random() * 1000);
         let prodID = [];
@@ -98,7 +98,7 @@ const ProductTypeSelectButtonTwo = (props) => {
           gift_qty: 0,
           is_gift: false,
           product_id: item._id,
-          product_name: item.name,
+          product_name: item.name
         });
         cond.push({
           package_id: item._id,
@@ -109,7 +109,7 @@ const ProductTypeSelectButtonTwo = (props) => {
           gift_qty: Number(props.discountGiftValue),
           is_gift: true,
           product_id: item._id,
-          product_name: item.name,
+          product_name: item.name
         });
 
         prodID.push(item._id);
@@ -118,10 +118,10 @@ const ProductTypeSelectButtonTwo = (props) => {
           discount_data: {
             title: props.discountTitle,
             discounttype: 3,
-            type: "gifts",
+            type: 'gifts',
             value: 0,
             threshold_amount: 0,
-            description: props.comments,
+            description: props.comments
           },
           conditions: cond,
           locations: props.zoneMapIDS,
@@ -130,22 +130,22 @@ const ProductTypeSelectButtonTwo = (props) => {
           start_date: props.startDateValue,
           end_date: props.endDateValue,
           // supplierID: supplierIDS,
-          supplierID: suppID,
+          supplierID: suppID
         };
         let requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(rawData),
+          body: JSON.stringify(rawData)
         };
         console.log(
-          "treshold 500 requesOptions --- 10+1 uramshuulal",
+          'treshold 500 requesOptions --- 10+1 uramshuulal',
           requestOptions
         );
-        let url = `https://api2.ebazaar.mn/api/discount/add`;
+        let url = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
         fetch(url, requestOptions)
-          .then((r) => r.json)
-          .then((res) => {
-            console.log("response add ", res);
+          .then(r => r.json)
+          .then(res => {
+            console.log('response add ', res);
             // alert("Амжилттай нэмэгдлээ.1");
             // ctx.setNextPage(false);
             // props.setStartDateValue(null);
@@ -155,18 +155,18 @@ const ProductTypeSelectButtonTwo = (props) => {
             // props.setComments("");
             // ctx.setGiftProduct([]);
           })
-          .catch((error) => {
-            console.log("promo add error", error);
-            alert("Алдаа гарлаа.", error);
+          .catch(error => {
+            console.log('promo add error', error);
+            alert('Алдаа гарлаа.', error);
           });
       });
-      alert("Амжилттай нэмэгдлээ.1");
+      alert('Амжилттай нэмэгдлээ.1');
       ctx.setNextPage(false);
       props.setStartDateValue(null);
       props.setEndDateValue(null);
       ctx.setPromoChannel([]);
-      props.setDiscountTitle("");
-      props.setComments("");
+      props.setDiscountTitle('');
+      props.setComments('');
       ctx.setGiftProduct([]);
       // ctx.giftProduct.map((x) => {
       //   let id = x.package_id;
@@ -208,7 +208,7 @@ const ProductTypeSelectButtonTwo = (props) => {
       //   body: JSON.stringify(rawData),
       // };
       // console.log("treshold 500 requesOptions", requestOptions);
-      // let url = `https://api2.ebazaar.mn/api/discount/add`;
+      // let url = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
       // fetch(url, requestOptions)
       //   .then((r) => r.json)
       //   .then((res) => {
@@ -229,7 +229,7 @@ const ProductTypeSelectButtonTwo = (props) => {
 
       /////// BARAA OOR HYMDRALD HAMRAGDSAN BAIGAA ESEHIIG SHALGADAG
       // fetch(
-      //   `https://api2.ebazaar.mn/api/discounts?product_ids=[${rawData.products}]`,
+      //   `${process.env.REACT_APP_API_URL2}/api/discounts?product_ids=[${rawData.products}]`,
       //   {
       //     method: "GET",
       //     headers: myHeaders,
@@ -264,7 +264,7 @@ const ProductTypeSelectButtonTwo = (props) => {
       //       return;
       //     } else if (aa === false) {
       //       console.log("aa request 500 x+x", requestOptions);
-      //       let url = `https://api2.ebazaar.mn/api/discount/add`;
+      //       let url = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
       //       fetch(url, requestOptions)
       //         .then((r) => r.json)
       //         .then((res) => {
@@ -289,17 +289,17 @@ const ProductTypeSelectButtonTwo = (props) => {
       //   });
       /////// BARAA OOR HYMDRALD HAMRAGDSAN BAIGAA ESEHIIG SHALGADAG TOGSOB
     } else if (Number(props.insertTypeProduct) === 1000) {
-      console.log("console.log 1000 , bosgotoi uramshuulal");
-      console.log("ctx.thresholdList", ctx.thresholdList);
-      console.log("ctx.products", ctx.products);
+      console.log('console.log 1000 , bosgotoi uramshuulal');
+      console.log('ctx.thresholdList', ctx.thresholdList);
+      console.log('ctx.products', ctx.products);
 
       let cond = [];
 
       let package_id = Math.floor(Math.random() * 1000);
 
-      ctx.thresholdList.map((item) => {
+      ctx.thresholdList.map(item => {
         if (Number(ctx.thresholdType) === 1) {
-          ctx.products.map((x) => {
+          ctx.products.map(x => {
             // console.log("product", x);
             cond.push({
               package_id: package_id,
@@ -310,11 +310,11 @@ const ProductTypeSelectButtonTwo = (props) => {
               is_gift: true,
               min_amount: Number(item.price),
               product_id: x._id,
-              product_name: x.name,
+              product_name: x.name
             });
           });
         } else if (Number(ctx.thresholdType) === 2) {
-          ctx.products.map((x) => {
+          ctx.products.map(x => {
             // console.log("product", x);
             cond.push({
               package_id: package_id,
@@ -325,7 +325,7 @@ const ProductTypeSelectButtonTwo = (props) => {
               is_gift: true,
               min_amount: 0,
               product_id: x._id,
-              product_name: x.name,
+              product_name: x.name
             });
           });
         }
@@ -334,10 +334,10 @@ const ProductTypeSelectButtonTwo = (props) => {
         discount_data: {
           title: props.discountTitle,
           discounttype: 3,
-          type: "threshold",
+          type: 'threshold',
           value: 0,
           threshold_amount: Number(ctx.thresholdList[0].price),
-          description: props.comments,
+          description: props.comments
         },
 
         locations: props.zoneMapIDS,
@@ -347,15 +347,15 @@ const ProductTypeSelectButtonTwo = (props) => {
         end_date: props.endDateValue,
         // supplierID: supplierIDS,
         supplierID: supplierIDS[0],
-        conditions: cond,
+        conditions: cond
       });
       let requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
-        body: rawData,
+        body: rawData
       };
-      console.log("aa request threshold", requestOptions);
-      let url = `https://api2.ebazaar.mn/api/discount/add`;
+      console.log('aa request threshold', requestOptions);
+      let url = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
       // fetch(url, requestOptions)
       //   .then((r) => r.json)
       //   .then((res) => {
@@ -368,18 +368,18 @@ const ProductTypeSelectButtonTwo = (props) => {
       //     return;
       //   });
     } else if (Number(props.insertTypeProduct) === 2000) {
-      console.log("Neg uramshuulaliig olon baraand olgox");
-      console.log("console.log 2000");
-      ctx.products.map((x) => {
+      console.log('Neg uramshuulaliig olon baraand olgox');
+      console.log('console.log 2000');
+      ctx.products.map(x => {
         let package_id = Math.floor(Math.random() * 1000);
         var raw = {
           discount_data: {
             title: props.discountTitle,
             discounttype: 3,
-            type: "gifts",
+            type: 'gifts',
             value: 0,
             threshold_amount: 0,
-            description: props.comments,
+            description: props.comments
           },
 
           start_date: props.startDateValue,
@@ -398,7 +398,7 @@ const ProductTypeSelectButtonTwo = (props) => {
               gift_qty: 0,
               is_gift: false,
               product_id: x._id,
-              product_name: x.name,
+              product_name: x.name
             },
             {
               package_id: package_id + 4,
@@ -408,31 +408,31 @@ const ProductTypeSelectButtonTwo = (props) => {
               gift_qty: Number(props.discountGiftValue),
               is_gift: true,
               product_id: x._id,
-              product_name: x.name,
-            },
-          ],
+              product_name: x.name
+            }
+          ]
         };
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
-          body: JSON.stringify(raw),
+          body: JSON.stringify(raw)
         };
 
-        console.log("requestOptions olon render", requestOptions);
+        console.log('requestOptions olon render', requestOptions);
 
-        fetch(`https://api2.ebazaar.mn/api/discount/add`)
-          .then((res) => res.json())
-          .then((res) => {
-            console.log("response olon baraa", res);
+        fetch(`${process.env.REACT_APP_API_URL2}/api/discount/add`)
+          .then(res => res.json())
+          .then(res => {
+            console.log('response olon baraa', res);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(
-              "Алдаа гарлаа та мэдээлэлээ шалгаад дахин оролдоно уу.",
+              'Алдаа гарлаа та мэдээлэлээ шалгаад дахин оролдоно уу.',
               error
             );
           });
         setTimeout(() => {
-          alert("Амжилттай нэмэгдлээ");
+          alert('Амжилттай нэмэгдлээ');
         }, 3000);
       });
     }
@@ -440,8 +440,8 @@ const ProductTypeSelectButtonTwo = (props) => {
     props.setStartDateValue(null);
     props.setEndDateValue(null);
     ctx.setPromoChannel([]);
-    props.setDiscountTitle("");
-    props.setComments("");
+    props.setDiscountTitle('');
+    props.setComments('');
     ctx.setGiftProduct([]);
   };
   return (

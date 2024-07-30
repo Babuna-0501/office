@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./updatemodal.module.css";
-import UpdateMaps from "./UpdateMaps";
-import CloseIcon from "../../assets/close.svg";
-import ZonesHook from "../../Hooks/ZonesHook";
-import AppHook from "../../Hooks/AppHook";
-import myHeaders from "../../components/MyHeader/myHeader";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './updatemodal.module.css';
+import UpdateMaps from './UpdateMaps';
+import CloseIcon from '../../assets/close.svg';
+import ZonesHook from '../../Hooks/ZonesHook';
+import AppHook from '../../Hooks/AppHook';
+import myHeaders from '../../components/MyHeader/myHeader';
 
-const UpdateModal = (props) => {
+const UpdateModal = props => {
   const zonesctx = useContext(ZonesHook);
   const appctx = useContext(AppHook);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [updateData, setUpdateData] = useState(null);
   const [priority, setPriority] = useState(null);
   const [supplierid, setSupplierid] = useState(null);
@@ -17,7 +17,7 @@ const UpdateModal = (props) => {
   const [suppID, setSuppID] = useState(null);
 
   const cancelHandler = () => {
-    zonesctx.setUpdateID("");
+    zonesctx.setUpdateID('');
     zonesctx.setCoords(null);
     zonesctx.setUpdateModal(false);
   };
@@ -28,32 +28,32 @@ const UpdateModal = (props) => {
     aaa = parseInt(aaa);
 
     if (name.length === 0) {
-      alert("Та бүсчлэлийн нэрээ оруулна уу");
+      alert('Та бүсчлэлийн нэрээ оруулна уу');
       return;
     }
     if (!aaa) {
       alert(
-        "Та бүсчлэлийн эрэмбийн мэдээлэл оруулаагүй байна. Хамгийн их утгатай нь хамгийн их эрэмбэтэй. Та эерэг бүхэл тоо оруулна уу..."
+        'Та бүсчлэлийн эрэмбийн мэдээлэл оруулаагүй байна. Хамгийн их утгатай нь хамгийн их эрэмбэтэй. Та эерэг бүхэл тоо оруулна уу...'
       );
       return;
     }
     if (aaa < 1000) {
       alert(
-        "Та бүсчлэлийн эрэмбийн мэдээлэл оруулаагүй байна. Хамгийн их утгатай нь хамгийн их эрэмбэтэй. Та 1000-аас дээш бүхэл тоо оруулна уу..."
+        'Та бүсчлэлийн эрэмбийн мэдээлэл оруулаагүй байна. Хамгийн их утгатай нь хамгийн их эрэмбэтэй. Та 1000-аас дээш бүхэл тоо оруулна уу...'
       );
       return;
     }
     if (!suppID) {
-      alert("Та нийлүүлэгчээ сонгоно уу...");
+      alert('Та нийлүүлэгчээ сонгоно уу...');
       return;
     }
     if (parseInt(priority) <= 1) {
-      alert("Та 1-ээс өөр эерэг бүхэл тоо оруулна уу.");
+      alert('Та 1-ээс өөр эерэг бүхэл тоо оруулна уу.');
       return;
     }
     if (aaa) {
       let coor = [];
-      zonesctx?.coords?.map((item) => {
+      zonesctx?.coords?.map(item => {
         coor.push([item.lng, item.lat]);
       });
       coor.push(coor[0]);
@@ -65,42 +65,45 @@ const UpdateModal = (props) => {
           ...updateData,
           name: name,
           polygons: {
-            type: "Polygon",
-            coordinates: [coor],
+            type: 'Polygon',
+            coordinates: [coor]
           },
           supplier: Number(suppID),
           updateDate: dateaa.toISOString(),
-          priority: parseInt(priority),
-        },
+          priority: parseInt(priority)
+        }
       });
 
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      console.log("zone updat ", requestOptions);
+      console.log('zone updat ', requestOptions);
 
-      fetch("https://api2.ebazaar.mn/api/zones/update", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/zones/update`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           // console.log("result", result);
           if (result.code === 200) {
-            alert("Та амжилттай шинэчлэлээ.");
-            zonesctx.setUpdateID("");
+            alert('Та амжилттай шинэчлэлээ.');
+            zonesctx.setUpdateID('');
             zonesctx.setCoords(null);
-            appctx.setPage(["zones"]);
+            appctx.setPage(['zones']);
             zonesctx.setUpdateModal(false);
             setSuppID(null);
           }
         })
-        .catch((error) => {
-          alert("Алдаа гарлаа.", error);
-          console.log("error", error);
+        .catch(error => {
+          alert('Алдаа гарлаа.', error);
+          console.log('error', error);
         });
     } else {
-      alert("Та бүсчлэлийн эрэмбээр эерэг бүхэл тоо оруулах боломжтой.");
+      alert('Та бүсчлэлийн эрэмбээр эерэг бүхэл тоо оруулах боломжтой.');
       return;
     }
   };
@@ -111,28 +114,28 @@ const UpdateModal = (props) => {
     let controller = new AbortController();
 
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
-      signal: controller.signal,
+      redirect: 'follow',
+      signal: controller.signal
     };
     fetch(
-      `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${supplierid}`,
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${supplierid}`,
       requestOptions
     )
-      .then((response) => response.json())
-      .then((result) => {
+      .then(response => response.json())
+      .then(result => {
         // console.log("maps supplier", result);
         setSupplirInfo(result.data);
         controller = null;
       })
-      .catch((error) => {
-        console.log("error aldaa", error);
+      .catch(error => {
+        console.log('error aldaa', error);
         // alert("Алдаа гарлаа.");
       });
     return () => controller?.abort();
   }, [supplierid]);
-  const handleChange = (e) => {
+  const handleChange = e => {
     setSuppID(e.target.value);
   };
 
@@ -141,22 +144,22 @@ const UpdateModal = (props) => {
       <div className={css.wrapper}>
         <div className={css.headerContainer}>
           <input
-            placeholder="Бүсчлэлийн нэр шинэчлэх"
+            placeholder='Бүсчлэлийн нэр шинэчлэх'
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
           <input
-            placeholder="Бүсчлэлийн эрэмбэ оруулах"
+            placeholder='Бүсчлэлийн эрэмбэ оруулах'
             value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            type="number"
+            onChange={e => setPriority(e.target.value)}
+            type='number'
             className={css.inputpriority}
-            style={{ width: "250px" }}
+            style={{ width: '250px' }}
           />
           <div className={css.supContainer}>
             {supplierInfo !== null && supplierInfo !== undefined && (
               <select onChange={handleChange}>
-                <option value="all">---</option>;
+                <option value='all'>---</option>;
                 {supplierInfo?.map((item, index) => {
                   return (
                     <option value={item.id} key={index}>
@@ -168,7 +171,7 @@ const UpdateModal = (props) => {
             )}
             {supplierInfo === null && supplierInfo === undefined && (
               <select onChange={handleChange}>
-                <option value="all">---</option>;
+                <option value='all'>---</option>;
                 {supplierInfo?.map((item, index) => {
                   return (
                     <option value={item.id} key={index}>

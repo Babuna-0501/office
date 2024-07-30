@@ -1,81 +1,81 @@
 // CSS
-import { useContext, useRef } from "react";
-import css from "./combinedProducts.module.css";
-import { Button } from "./common";
-import { useState } from "react";
-import { useEffect } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import LoadingSpinner from "../../components/Spinner/Spinner";
-import * as htmlToImage from "html-to-image";
-import { useCallback } from "react";
-import writeXlsxFile from "write-excel-file";
-import { GlobalContext } from "../../Hooks/GlobalContext";
-import { async } from "q";
+import { useContext, useRef } from 'react';
+import css from './combinedProducts.module.css';
+import { Button } from './common';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import LoadingSpinner from '../../components/Spinner/Spinner';
+import * as htmlToImage from 'html-to-image';
+import { useCallback } from 'react';
+import writeXlsxFile from 'write-excel-file';
+import { GlobalContext } from '../../Hooks/GlobalContext';
+import { async } from 'q';
 
 const initSchema = [
   {
-    column: "№",
+    column: '№',
     type: Number,
-    value: (p) => p.number,
+    value: p => p.number,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Бүтээгдэхүүн",
+    column: 'Бүтээгдэхүүн',
     type: String,
-    value: (p) => p.name,
+    value: p => p.name,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "SKU",
+    column: 'SKU',
     type: String,
-    value: (p) => p.sku,
+    value: p => p.sku,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Barcode",
+    column: 'Barcode',
     type: String,
-    value: (p) => p.barcode,
+    value: p => p.barcode,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Нэгж үнэ",
+    column: 'Нэгж үнэ',
     type: Number,
-    value: (p) => p.price,
+    value: p => p.price,
     width: 10,
-    align: "right",
-    alignVertical: "center",
+    align: 'right',
+    alignVertical: 'center'
   },
   {
-    column: "Тоо ширхэг",
+    column: 'Тоо ширхэг',
     type: Number,
-    value: (p) => p.quantity,
+    value: p => p.quantity,
     width: 10,
-    align: "right",
-    alignVertical: "center",
+    align: 'right',
+    alignVertical: 'center'
   },
   {
-    column: "Нийт үнэ",
+    column: 'Нийт үнэ',
     type: Number,
-    value: (p) => p.totalPrice,
+    value: p => p.totalPrice,
     width: 10,
-    align: "right",
-    alignVertical: "center",
-  },
+    align: 'right',
+    alignVertical: 'center'
+  }
 ];
 
-export const CombinedProducts = (props) => {
+export const CombinedProducts = props => {
   const { startDate, endDate, closeHandler, userData } = props;
   const { loggedUser } = useContext(GlobalContext);
 
-  console.log("PROPS OF COMBINED PRODUCTS: ", props);
+  console.log('PROPS OF COMBINED PRODUCTS: ', props);
 
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -91,162 +91,164 @@ export const CombinedProducts = (props) => {
   const [reportData, setReportData] = useState([]);
 
   var requestOptions = {
-    method: "GET",
+    method: 'GET',
     headers: myHeaders,
-    redirect: "follow",
+    redirect: 'follow'
   };
 
-const getProductIds = async () => {
-  try {
-    const endDateObj = new Date(endDate);
-    endDateObj.setDate(endDateObj.getDate() + 2);
-
-    let url = `https://api2.ebazaar.mn/api/shipment/get/final?supplierId=${loggedUser.company_id.replace(
-      /\|/g,
-      ""
-    )}&statuses=[1,2,3,4]&startDate=${startDate}&endDate=${
-      endDateObj.toISOString().split("T")[0]
-    }&createdDate=true`;
-    const res = await fetch(url, requestOptions);
-    const resData = await res.json();
-
-    const movementIds = [];
-    const products = [];
-
-    for (const data of resData?.data) {
-      movementIds.push(data?._id);
-      let url2 = `https://api2.ebazaar.mn/api/shipment/get/final?_id=${data._id}&products=true`; // Use the actual ID from the data
-      const res2 = await fetch(url2, requestOptions);
-      const resData2 = await res2.json();
-      if (resData2.success) {
-        resData2.data[0].products.forEach((product) => {
-          products.push(product);
-        });
-      }
-    }
-
-    console.log("products", products);
-    return products;
-  } catch (error) {
-    console.error("Алдаа", error);
-    throw new Error("Алдаа: " + error.message);
-  }
-};
-
-useEffect(() => {
-  const getShipments = async () => {
+  const getProductIds = async () => {
     try {
-      setLoading(true);
+      const endDateObj = new Date(endDate);
+      endDateObj.setDate(endDateObj.getDate() + 2);
 
-      const companyId =
-        Number(userData.company_id.replaceAll("|", "")) === 1
-          ? 1
-          : Number(userData.company_id.replaceAll("|", ""));
-
-      const url = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
-      // if (props.filterUrl) {
-      // 	let url = props.filterUrl;
-      // } else {
-      // }
-      // }
-
-      const res = await fetch(
-        props.filterUrl ? props.filterUrl : url,
-        requestOptions
-      );
+      let url = `${
+        process.env.REACT_API_URL2
+      }/shipment/get/final?supplierId=${loggedUser.company_id.replace(
+        /\|/g,
+        ''
+      )}&statuses=[1,2,3,4]&startDate=${startDate}&endDate=${
+        endDateObj.toISOString().split('T')[0]
+      }&createdDate=true`;
+      const res = await fetch(url, requestOptions);
       const resData = await res.json();
 
-      let productsIds = [];
-      const products = await getProductIds();
-      console.log("eaeasdasd", products);
+      const movementIds = [];
+      const products = [];
 
-      for (const product of products) {
-        productsIds.push(product.productId);
-      }
-
-      productsIds = [...new Set(productsIds)];
-
-      const productUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIds.join(
-        ","
-      )}]`;
-
-      const productRes = await fetch(productUrl, requestOptions);
-      const productData = await productRes.json();
-
-      const productCopy = productData.data.map((prod) => ({
-        ...prod,
-        count: 0,
-      }));
-
-      for (const prod of productCopy) {
-        const shipProd = products.find(
-          (prodct) => prodct.productId === prod._id
-        );
-
-        if (shipProd) {
-          prod.count += shipProd.quantity;
+      for (const data of resData?.data) {
+        movementIds.push(data?._id);
+        let url2 = `${process.env.REACT_APP_API_URL2}/api/shipment/get/final?_id=${data._id}&products=true`; // Use the actual ID from the data
+        const res2 = await fetch(url2, requestOptions);
+        const resData2 = await res2.json();
+        if (resData2.success) {
+          resData2.data[0].products.forEach(product => {
+            products.push(product);
+          });
         }
       }
-      console.log("productCopy", productCopy);
 
-      // for (const shipment of resData.data) {
-      // 	if (shipment.orders) {
-      // 		setOrders(prev => [...prev, ...shipment.orders.split(",")]);
-      // 	}
-      // }
-
-      const reportDataCopy = [];
-      const schemaCopy = [...schema];
-
-      for (let i = 0; i < productCopy.length; i++) {
-        const data = {
-          number: i + 1,
-          name: productCopy[i].name,
-          sku: productCopy[i].sku,
-          barcode: productCopy[i].bar_code,
-          price:
-            productCopy[i].locations?.[`62f4aabe45a4e22552a3969f`]?.price
-              ?.channel?.[1],
-          quantity: productCopy[i].count,
-          totalPrice:
-            productCopy[i].locations?.[`62f4aabe45a4e22552a3969f`]?.price
-              ?.channel?.[1] * productCopy[i].count,
-        };
-
-        if (data.name?.length + 5 > schemaCopy[1].width) {
-          schemaCopy[1].width = data.name?.length + 5;
-        }
-        if (data.sku?.length + 5 > schemaCopy[2].width) {
-          schemaCopy[2].width = data.sku?.length + 5;
-        }
-        if (data.barcode?.length + 5 > schemaCopy[3].width) {
-          schemaCopy[3].width = data.barcode?.length + 5;
-        }
-        if ((data.price + "")?.length + 5 > schemaCopy[4].width) {
-          schemaCopy[4].width = (data.price + "")?.length + 5;
-        }
-        if ((data.quantity + "")?.length + 5 > schemaCopy[5].width) {
-          schemaCopy[5].width = (data.quantity + "")?.length + 5;
-        }
-        if ((data.totalPrice + "")?.length + 5 > schemaCopy[6].width) {
-          schemaCopy[6].width = (data.totalPrice + "")?.length + 5;
-        }
-
-        reportDataCopy.push({ ...data });
-      }
-
-      setReportData(reportDataCopy);
-      setSchema(schemaCopy);
-      setProducts(productCopy);
+      console.log('products', products);
+      return products;
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      console.error('Алдаа', error);
+      throw new Error('Алдаа: ' + error.message);
     }
   };
 
-  getShipments();
-}, [startDate, endDate, userData.company_id]);
+  useEffect(() => {
+    const getShipments = async () => {
+      try {
+        setLoading(true);
+
+        const companyId =
+          Number(userData.company_id.replaceAll('|', '')) === 1
+            ? 1
+            : Number(userData.company_id.replaceAll('|', ''));
+
+        const url = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
+        // if (props.filterUrl) {
+        // 	let url = props.filterUrl;
+        // } else {
+        // }
+        // }
+
+        const res = await fetch(
+          props.filterUrl ? props.filterUrl : url,
+          requestOptions
+        );
+        const resData = await res.json();
+
+        let productsIds = [];
+        const products = await getProductIds();
+        console.log('eaeasdasd', products);
+
+        for (const product of products) {
+          productsIds.push(product.productId);
+        }
+
+        productsIds = [...new Set(productsIds)];
+
+        const productUrl = `${
+          process.env.REACT_API_URL2
+        }/products/get1?ids=[${productsIds.join(',')}]`;
+
+        const productRes = await fetch(productUrl, requestOptions);
+        const productData = await productRes.json();
+
+        const productCopy = productData.data.map(prod => ({
+          ...prod,
+          count: 0
+        }));
+
+        for (const prod of productCopy) {
+          const shipProd = products.find(
+            prodct => prodct.productId === prod._id
+          );
+
+          if (shipProd) {
+            prod.count += shipProd.quantity;
+          }
+        }
+        console.log('productCopy', productCopy);
+
+        // for (const shipment of resData.data) {
+        // 	if (shipment.orders) {
+        // 		setOrders(prev => [...prev, ...shipment.orders.split(",")]);
+        // 	}
+        // }
+
+        const reportDataCopy = [];
+        const schemaCopy = [...schema];
+
+        for (let i = 0; i < productCopy.length; i++) {
+          const data = {
+            number: i + 1,
+            name: productCopy[i].name,
+            sku: productCopy[i].sku,
+            barcode: productCopy[i].bar_code,
+            price:
+              productCopy[i].locations?.[`62f4aabe45a4e22552a3969f`]?.price
+                ?.channel?.[1],
+            quantity: productCopy[i].count,
+            totalPrice:
+              productCopy[i].locations?.[`62f4aabe45a4e22552a3969f`]?.price
+                ?.channel?.[1] * productCopy[i].count
+          };
+
+          if (data.name?.length + 5 > schemaCopy[1].width) {
+            schemaCopy[1].width = data.name?.length + 5;
+          }
+          if (data.sku?.length + 5 > schemaCopy[2].width) {
+            schemaCopy[2].width = data.sku?.length + 5;
+          }
+          if (data.barcode?.length + 5 > schemaCopy[3].width) {
+            schemaCopy[3].width = data.barcode?.length + 5;
+          }
+          if ((data.price + '')?.length + 5 > schemaCopy[4].width) {
+            schemaCopy[4].width = (data.price + '')?.length + 5;
+          }
+          if ((data.quantity + '')?.length + 5 > schemaCopy[5].width) {
+            schemaCopy[5].width = (data.quantity + '')?.length + 5;
+          }
+          if ((data.totalPrice + '')?.length + 5 > schemaCopy[6].width) {
+            schemaCopy[6].width = (data.totalPrice + '')?.length + 5;
+          }
+
+          reportDataCopy.push({ ...data });
+        }
+
+        setReportData(reportDataCopy);
+        setSchema(schemaCopy);
+        setProducts(productCopy);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getShipments();
+  }, [startDate, endDate, userData.company_id]);
 
   useEffect(() => {
     if (!loading) {
@@ -262,15 +264,15 @@ useEffect(() => {
       .toPng(receiptRef.current, {
         cacheBust: true,
         canvasWidth: width * 3,
-        canvasHeight: height * 3,
+        canvasHeight: height * 3
       })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
+      .then(dataUrl => {
+        const link = document.createElement('a');
         link.download = `нэгтгэл-${startDate}-${endDate}.png`;
         link.href = dataUrl;
         link.click();
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }, [receiptRef, height, width, startDate, endDate]);
 
   const downloadReport = () => {
@@ -279,17 +281,17 @@ useEffect(() => {
       schema,
       fileName: `Ачилтын-захиалга-нэгтгэл-/${startDate}/-/${endDate}/.xlsx`,
       headerStyle: {
-        backgroundColor: "#d3d3d3",
-        align: "center",
-        alignVertical: "center",
-        borderColor: "#000000",
+        backgroundColor: '#d3d3d3',
+        align: 'center',
+        alignVertical: 'center',
+        borderColor: '#000000'
       },
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 11,
-      alignVertical: "center",
-      align: "center",
-      dateFormat: "mm/dd/yyyy",
-      stickyRowsCount: 1,
+      alignVertical: 'center',
+      align: 'center',
+      dateFormat: 'mm/dd/yyyy',
+      stickyRowsCount: 1
     });
   };
 
@@ -298,11 +300,11 @@ useEffect(() => {
       onClick={closeHandler}
       className={css.printRecieptContainer}
       style={{
-        justifyContent: products.length >= 17 ? "flex-start" : "center",
+        justifyContent: products.length >= 17 ? 'flex-start' : 'center'
       }}
     >
       <div
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         ref={receiptRef}
         className={css.receiptContainer}
       >
@@ -319,7 +321,7 @@ useEffect(() => {
               <table className={css.productTables}>
                 <thead>
                   <tr>
-                    <th style={{ width: "1%" }}>№</th>
+                    <th style={{ width: '1%' }}>№</th>
                     <th>Бүтээгдэхүүн</th>
                     <th>SKU</th>
                     <th>Barcode</th>
@@ -362,14 +364,14 @@ useEffect(() => {
 
                   <span>Нийт барааны төрөл: {products.length}</span>
                   <span>
-                    Нийт бүтээгдэхүүн:{" "}
+                    Нийт бүтээгдэхүүн:{' '}
                     {products
                       .reduce((acc, cur) => acc + cur.count, 0)
                       .toLocaleString()}
                     ш
                   </span>
                   <div>
-                    Нийт үнийн дүн:{" "}
+                    Нийт үнийн дүн:{' '}
                     {products
                       .reduce(
                         (acc, cur) =>
@@ -415,30 +417,30 @@ useEffect(() => {
       </div>
 
       <div className={css.printBtn}>
-        <Button onClick={closeHandler} variant="secondary" size="medium">
+        <Button onClick={closeHandler} variant='secondary' size='medium'>
           Болих
         </Button>
 
         <Button
           disabled={loading}
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             downloadHandler();
           }}
-          variant="primary"
-          size="medium"
+          variant='primary'
+          size='medium'
         >
           Татах
         </Button>
 
         <Button
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             downloadReport();
           }}
           disabled={loading}
-          variant="primary"
-          size="medium"
+          variant='primary'
+          size='medium'
         >
           Excel татах
         </Button>

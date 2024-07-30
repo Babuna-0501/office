@@ -1,39 +1,39 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Select } from "antd";
-import css from "./addnewdiscount.module.css";
-import PromoHook from "../Hooks/PromoHook";
-import ProductReportHook from "../Hooks/ProductsReportHook";
-import EllipseGrayIcon from "../assets/Component 92.svg";
-import PlusIcon from "../assets/plus_gray.svg";
-import OkIcon from "../assets/OK.svg";
-import myHeaders from "./HeaderContent/HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import { Select } from 'antd';
+import css from './addnewdiscount.module.css';
+import PromoHook from '../Hooks/PromoHook';
+import ProductReportHook from '../Hooks/ProductsReportHook';
+import EllipseGrayIcon from '../assets/Component 92.svg';
+import PlusIcon from '../assets/plus_gray.svg';
+import OkIcon from '../assets/OK.svg';
+import myHeaders from './HeaderContent/HeaderContent';
 
-import ArrawRightGray from "../assets/Arrow - Right.svg";
-import DiscountProducts from "./DiscountProductV1";
-import Condition from "./condition/Condition";
-import BackOfficeHook from "../Hooks/BackOfficeHook";
-import dataOne from "./discount.json";
-import settingData from "./settingData.json";
-import SmallTable from "./SmallTable";
-import AppHook from "../Hooks/AppHook";
-import Headertitle from "./HeaderTitle/Headertitle";
+import ArrawRightGray from '../assets/Arrow - Right.svg';
+import DiscountProducts from './DiscountProductV1';
+import Condition from './condition/Condition';
+import BackOfficeHook from '../Hooks/BackOfficeHook';
+import dataOne from './discount.json';
+import settingData from './settingData.json';
+import SmallTable from './SmallTable';
+import AppHook from '../Hooks/AppHook';
+import Headertitle from './HeaderTitle/Headertitle';
 
-import ZonesSidebar from "./ZonesModal/ZonesSidebar";
-import ProductChose from "./ProductChose/ProductChose";
-import Supplier from "./Suppliers/Supplier";
-import Headercomponent from "./Header/Headercomponent";
-import Threshold from "./Threshold/Threshold";
-import CollectionList from "./CollectionList/CollectionList";
-import CollectionView from "./CollectionView/CollectionView";
-import ProductTypeSelectButton from "./ButtonContainer/ProductTypeSelectButton";
-import ProductTypeSelectButtonTwo from "./ButtonContainertwo/ProductTypeSelectButtonTwo";
-import Buttonpercent from "./ButtonPercent/Buttonpercent";
-import Translate from "../Translate.json";
-import Promojson from "./Promo.json";
-import ProductAdd from "./Product/ProductAdd";
+import ZonesSidebar from './ZonesModal/ZonesSidebar';
+import ProductChose from './ProductChose/ProductChose';
+import Supplier from './Suppliers/Supplier';
+import Headercomponent from './Header/Headercomponent';
+import Threshold from './Threshold/Threshold';
+import CollectionList from './CollectionList/CollectionList';
+import CollectionView from './CollectionView/CollectionView';
+import ProductTypeSelectButton from './ButtonContainer/ProductTypeSelectButton';
+import ProductTypeSelectButtonTwo from './ButtonContainertwo/ProductTypeSelectButtonTwo';
+import Buttonpercent from './ButtonPercent/Buttonpercent';
+import Translate from '../Translate.json';
+import Promojson from './Promo.json';
+import ProductAdd from './Product/ProductAdd';
 
 const AddNewDiscount = () => {
-  const [discountTitle, setDiscountTitle] = useState("");
+  const [discountTitle, setDiscountTitle] = useState('');
   const [startDateValue, setStartDateValue] = useState(null);
   const [endDateValue, setEndDateValue] = useState(null);
   const [priceAndQuantity, setPriceAndQuantity] = useState(null);
@@ -41,7 +41,7 @@ const AddNewDiscount = () => {
   const [comments, setComments] = useState(null);
   const [giftQuantity, setQiftQuantity] = useState(null);
   const [data, setData] = useState([]);
-  const [zoneMapIDS, setZoneMapIDS] = useState(["62f4aabe45a4e22552a3969f"]);
+  const [zoneMapIDS, setZoneMapIDS] = useState(['62f4aabe45a4e22552a3969f']);
   const [zoneTransdata, setZoneTransdata] = useState([]);
   const [channelIDS, setChannelIDS] = useState([]);
 
@@ -65,26 +65,26 @@ const AddNewDiscount = () => {
 
   useEffect(() => {
     const fetchdata = () => {
-      let url = `https://api.ebazaar.mn/api/site_data`;
+      let url = `${process.env.REACT_APP_API_URL}/api/site_data`;
       fetch(url, {
-        method: "GET",
-        myHeaders: myHeaders,
+        method: 'GET',
+        myHeaders: myHeaders
       })
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           let aa = [];
           let bb = [];
           // console.log("response sitedata", response.business_types);
-          response.business_types.map((item) => {
+          response.business_types.map(item => {
             aa.push({
               value: item.business_type_id,
-              label: item.business_type_name,
+              label: item.business_type_name
             });
             bb.push(item.business_type_id);
           });
 
           let ids =
-            response && response.business_types.map((x) => x.business_type_id);
+            response && response.business_types.map(x => x.business_type_id);
           setBusIDS(ids);
           setChannelOption(aa);
 
@@ -103,13 +103,13 @@ const AddNewDiscount = () => {
   }, []);
   const options = [];
   if (ctxBackOffice.suppliers) {
-    ctxBackOffice.suppliers.map((supplier) => {
+    ctxBackOffice.suppliers.map(supplier => {
       options.push({ value: supplier.id, label: supplier.english_name });
     });
   }
   useEffect(() => {
     let disArr = [];
-    settingData.map((it) => {
+    settingData.map(it => {
       if (it.parentID === ctx.discountTypeSelect?.id) {
         disArr.push(it);
       }
@@ -120,11 +120,11 @@ const AddNewDiscount = () => {
     setMainDiscountType(ctx.discountTypeSelect.type);
   }, []);
 
-  console.log("ctx.productTypeSelec", ctx.productTypeSelec);
+  console.log('ctx.productTypeSelec', ctx.productTypeSelec);
 
   const optionsTwo = [];
   if (dataOne) {
-    dataOne.map((dataOne) => {
+    dataOne.map(dataOne => {
       optionsTwo.push({ value: dataOne.id, label: dataOne.name });
     });
   }
@@ -136,8 +136,8 @@ const AddNewDiscount = () => {
   /* Хямдралын төрлийг сонгох */
   const settingChooseHandler = (item, index) => {
     // console.log("iiitem", item);
-    if (ctx.productTypeSelect === "0") {
-      alert("Та барааны сонголтоо хийнэ үү...");
+    if (ctx.productTypeSelect === '0') {
+      alert('Та барааны сонголтоо хийнэ үү...');
       return;
     }
     setDiscountType(item);
@@ -146,7 +146,7 @@ const AddNewDiscount = () => {
   // console.log("ctx.products", ctx.products);
   const productsAddHandler = () => {
     if (ctx?.supplierID === null) {
-      alert("Та нийлүүлэгчээ сонгоно уу");
+      alert('Та нийлүүлэгчээ сонгоно уу');
       return;
     }
     ctx.setPromoProductAdd(true);
@@ -155,19 +155,19 @@ const AddNewDiscount = () => {
 
   const giftProductHandler = () => {
     if (supplierChoseID === null) {
-      alert("Та нийлүүлэгчээ сонгоно уу");
+      alert('Та нийлүүлэгчээ сонгоно уу');
       return;
     }
 
     let aa = ctx.willUpdateProd.supplierID;
-    console.log("++++aa", aa);
+    console.log('++++aa', aa);
 
     ctx.setPromoProductAdd(false);
     ctx.setGiftProd(true);
   };
 
   const deleteGiftHandler = (item, index) => {
-    const newList = ctx.giftProduct.filter((t) => t.id !== item.id);
+    const newList = ctx.giftProduct.filter(t => t.id !== item.id);
     ctx.setGiftProduct(newList);
   };
 
@@ -184,23 +184,23 @@ const AddNewDiscount = () => {
   const ShowHandler = () => {
     setConditionShow(true);
   };
-  const removeHandler = (item) => {
-    let aaa = discountCondition.filter((x) => {
+  const removeHandler = item => {
+    let aaa = discountCondition.filter(x => {
       return x.label !== item.label;
     });
     setDiscountCondition(aaa);
   };
 
-  const HandleChangeGiftQty = (event) => {
+  const HandleChangeGiftQty = event => {
     let { value, min, max } = event.target;
     value = Math.max(Number(min), Math.min(Number(max), Number(value)));
 
     setQiftQuantity(value);
   };
-  const typeThreeHandler = (e) => {
+  const typeThreeHandler = e => {
     // console.log("iiitem", item);
-    if (ctx.productTypeSelect === "0") {
-      alert("Та барааны сонголтоо хийнэ үү...");
+    if (ctx.productTypeSelect === '0') {
+      alert('Та барааны сонголтоо хийнэ үү...');
       return;
     }
     setPriceAndQuantity(e.target.value);
@@ -211,11 +211,11 @@ const AddNewDiscount = () => {
   for (let i = 0; i < ctx.promoChannel.length; i++) {
     channelOptions.push({
       value: ctx.promoChannel[i].business_type_id,
-      label: ctx.promoChannel[i].business_type_name,
+      label: ctx.promoChannel[i].business_type_name
     });
   }
   // console.log("zoneTransdata", zoneTransdata);
-  const handleChange = (value) => {
+  const handleChange = value => {
     // console.log(`selected ${value}`);
     setChannelOptionDefault(value);
   };
@@ -223,7 +223,7 @@ const AddNewDiscount = () => {
   // console.log("discountcondition", discountCondition);
   dicontent =
     discountCondition &&
-    discountCondition.map((item) => {
+    discountCondition.map(item => {
       return (
         <div className={css.discoContainer} onClick={() => removeHandler(item)}>
           <p>Урамшууллын үнэ: {item.label}</p>
@@ -237,8 +237,8 @@ const AddNewDiscount = () => {
     <div className={css.container}>
       <div className={css.wrapper}>
         <Headercomponent title={setDiscountTitle} titlevalue={discountTitle} />
-        <div style={{ width: "100%" }}>
-          <Supplier title="Нийлүүлэгч" supID={setSupplierChoseID} />
+        <div style={{ width: '100%' }}>
+          <Supplier title='Нийлүүлэгч' supID={setSupplierChoseID} />
         </div>
         {/* {ctx.discountTypeSelect.id === 2 && (
           <ProductChose setInsertTypeProduct={setInsertTypeProduct} />
@@ -256,10 +256,10 @@ const AddNewDiscount = () => {
             <div className={css.firswrapper}>
               <div
                 style={{
-                  display: "flex",
-                  width: "410px",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  width: '410px',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
                 }}
               >
                 {Number(insertTypeProduct) === 500 &&
@@ -267,8 +267,8 @@ const AddNewDiscount = () => {
                     return (
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center'
                           // width: "100%",
                         }}
                       >
@@ -288,13 +288,13 @@ const AddNewDiscount = () => {
                                 : EllipseGrayIcon
                             }
                             style={{
-                              width: "18.5px",
-                              height: "18.5px",
+                              width: '18.5px',
+                              height: '18.5px'
                             }}
                           />
                           <span
                             style={{
-                              fontSize: "12px",
+                              fontSize: '12px'
                             }}
                           >
                             {item.name}
@@ -306,40 +306,40 @@ const AddNewDiscount = () => {
               </div>
               {ctx.discountTypeSelect.id === 1 && (
                 <div>
-                  {Promojson.map((item) => {
+                  {Promojson.map(item => {
                     if (item.value === 100) {
-                      if (discountType?.type === "percent") {
+                      if (discountType?.type === 'percent') {
                         return (
                           <div className={css.inputContainerThree}>
                             <input
                               className={css.inputThree}
                               value={giftQuantity}
-                              type="number"
-                              min="0"
-                              max="100"
-                              placeholder="Хямдралын хувь"
+                              type='number'
+                              min='0'
+                              max='100'
+                              placeholder='Хямдралын хувь'
                               onChange={HandleChangeGiftQty}
                             />
                           </div>
                         );
                       }
-                      if (discountType?.type === "amount") {
+                      if (discountType?.type === 'amount') {
                         return (
                           <div
                             style={{
-                              display: "flex",
-                              width: "410px",
-                              justifyContent: "space-between",
-                              alignItems: "center",
+                              display: 'flex',
+                              width: '410px',
+                              justifyContent: 'space-between',
+                              alignItems: 'center'
                             }}
                           >
                             <div className={css.inputContainerTwo}>
                               <input
                                 className={css.inputTwo}
                                 value={priceAndQuantity}
-                                type="number"
-                                placeholder=" Үнийн дүн"
-                                onChange={(e) =>
+                                type='number'
+                                placeholder=' Үнийн дүн'
+                                onChange={e =>
                                   setPriceAndQuantity(e.target.value)
                                 }
                               />
@@ -348,10 +348,10 @@ const AddNewDiscount = () => {
                               <input
                                 className={css.inputTwo}
                                 value={giftQuantity}
-                                type="number"
-                                min="0"
-                                max="100"
-                                placeholder="Хямдралын хувь"
+                                type='number'
+                                min='0'
+                                max='100'
+                                placeholder='Хямдралын хувь'
                                 onChange={HandleChangeGiftQty}
                               />
                             </div>
@@ -368,27 +368,27 @@ const AddNewDiscount = () => {
                   {Number(insertTypeProduct) === 500 && (
                     <div
                       style={{
-                        display: "flex",
-                        width: "410px",
-                        justifyContent: "space-between",
+                        display: 'flex',
+                        width: '410px',
+                        justifyContent: 'space-between'
                       }}
                     >
                       <div className={css.inputContainerTwo}>
                         <input
                           className={css.inputTwo}
                           value={priceAndQuantity}
-                          type="text"
-                          placeholder=" Хямдралын утга"
-                          onChange={(e) => setPriceAndQuantity(e.target.value)}
+                          type='text'
+                          placeholder=' Хямдралын утга'
+                          onChange={e => setPriceAndQuantity(e.target.value)}
                         />
                       </div>
                       <div className={css.inputContainerTwo}>
                         <input
                           className={css.inputTwo}
                           value={giftQuantity}
-                          type="text"
-                          placeholder="Бэлгийн утга"
-                          onChange={(e) => setQiftQuantity(e.target.value)}
+                          type='text'
+                          placeholder='Бэлгийн утга'
+                          onChange={e => setQiftQuantity(e.target.value)}
                         />
                       </div>
                     </div>
@@ -400,18 +400,18 @@ const AddNewDiscount = () => {
                         <input
                           className={css.inputTwoA}
                           value={priceAndQuantity}
-                          type="text"
-                          placeholder=" Хямдралын утга"
-                          onChange={(e) => typeThreeHandler(e)}
+                          type='text'
+                          placeholder=' Хямдралын утга'
+                          onChange={e => typeThreeHandler(e)}
                         />
                       </div>
                       <div className={css.inputContainerTwoA}>
                         <input
                           className={css.inputTwoA}
                           value={giftQuantity}
-                          type="text"
-                          placeholder="Бэлгийн утга"
-                          onChange={(e) => setQiftQuantity(e.target.value)}
+                          type='text'
+                          placeholder='Бэлгийн утга'
+                          onChange={e => setQiftQuantity(e.target.value)}
                         />
                       </div>
                     </div>
@@ -421,31 +421,31 @@ const AddNewDiscount = () => {
             </div>
             <div
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%'
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "410px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '410px'
                 }}
               >
                 <div className={css.settingDateContainer}>
                   <input
-                    type="date"
+                    type='date'
                     style={{
-                      width: "100%",
-                      height: "24px",
-                      border: "none",
-                      outline: "none",
+                      width: '100%',
+                      height: '24px',
+                      border: 'none',
+                      outline: 'none'
                     }}
                     value={startDateValue}
-                    placeholder="Эхлэх өдөр"
-                    onChange={(e) => setStartDateValue(e.target.value)}
+                    placeholder='Эхлэх өдөр'
+                    onChange={e => setStartDateValue(e.target.value)}
                   />
                 </div>
                 <div>
@@ -453,24 +453,24 @@ const AddNewDiscount = () => {
                 </div>
                 <div className={css.settingDateContainer}>
                   <input
-                    type="date"
+                    type='date'
                     style={{
-                      width: "100%",
-                      height: "24px",
-                      border: "none",
-                      outline: "none",
+                      width: '100%',
+                      height: '24px',
+                      border: 'none',
+                      outline: 'none'
                     }}
                     value={endDateValue}
-                    placeholder="Дуусах өдөр"
-                    onChange={(e) => setEndDateValue(e.target.value)}
+                    placeholder='Дуусах өдөр'
+                    onChange={e => setEndDateValue(e.target.value)}
                   />
                 </div>
               </div>
               <div className={css.comments}>
                 <input
-                  placeholder="Тайлбар"
+                  placeholder='Тайлбар'
                   value={comments}
-                  onChange={(e) => setComments(e.target.value)}
+                  onChange={e => setComments(e.target.value)}
                 />
               </div>
             </div>
@@ -487,13 +487,13 @@ const AddNewDiscount = () => {
             <div>
               <div
                 style={{
-                  border: "1px solid #CFD8DC",
-                  width: "840px",
-                  borderTopRightRadius: "6px",
-                  borderTopLeftRadius: "6px",
-                  borderBottomLeftRadius: "6px",
-                  borderBottomRightRadius: "6px",
-                  overflow: "hidden",
+                  border: '1px solid #CFD8DC',
+                  width: '840px',
+                  borderTopRightRadius: '6px',
+                  borderTopLeftRadius: '6px',
+                  borderBottomLeftRadius: '6px',
+                  borderBottomRightRadius: '6px',
+                  overflow: 'hidden'
                 }}
               >
                 <SmallTable data={ctx?.products} />
@@ -501,11 +501,11 @@ const AddNewDiscount = () => {
                 {/* <ProductAdd /> */}
                 <div
                   style={{
-                    width: "840px",
-                    background: "#FFFFFF",
-                    paddingLeft: "10px",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                    width: '840px',
+                    background: '#FFFFFF',
+                    paddingLeft: '10px',
+                    paddingTop: '10px',
+                    paddingBottom: '10px'
                   }}
                 >
                   <div
@@ -528,12 +528,12 @@ const AddNewDiscount = () => {
             discountCondition={discountCondition}
           />
         )}
-        {mainDiscountType === "gifts" && Number(insertTypeProduct) === 500 && (
+        {mainDiscountType === 'gifts' && Number(insertTypeProduct) === 500 && (
           <div className={css.discountHeader}>
             <h3>Хямдралын бүтээгдэхүүн сонгох</h3>
           </div>
-        )}{" "}
-        {mainDiscountType === "gifts" && Number(insertTypeProduct) === 500 && (
+        )}{' '}
+        {mainDiscountType === 'gifts' && Number(insertTypeProduct) === 500 && (
           <div className={css.giftContainer}>
             <div className={css.giftwrapper}>
               {ctx.giftProduct.map((item, index) => {
@@ -550,22 +550,22 @@ const AddNewDiscount = () => {
         {ctx.promoProductAdd && <DiscountProducts />}
         <div>
           <div>
-            <Headertitle title="Сувгийн тохиргоо" />
+            <Headertitle title='Сувгийн тохиргоо' />
           </div>
           <Select
-            mode="multiple"
+            mode='multiple'
             allowClear
             style={{
-              width: "100%",
+              width: '100%'
             }}
-            placeholder="Please select"
+            placeholder='Please select'
             defaultValue={busIDS}
             onChange={handleChange}
             options={channelOption}
           />
         </div>
         <div className={css.lastContainer}>
-          <Headertitle title="Бүсчлэлийн тохиргоо" />
+          <Headertitle title='Бүсчлэлийн тохиргоо' />
           <div
             className={css.generalContainer}
             //  onClick={zonesHandler}
@@ -574,24 +574,24 @@ const AddNewDiscount = () => {
               {
                 <span
                   style={{
-                    fontSize: "16px",
+                    fontSize: '16px',
                     fontWeight: 400,
-                    color: "#37474F",
+                    color: '#37474F'
                   }}
                 >
                   {zoneTransdata?.map((it, index) => {
                     let name = it.name;
-                    name = name.replace("ZONE_MGL", "Бүх бүсчлэл");
+                    name = name.replace('ZONE_MGL', 'Бүх бүсчлэл');
                     return (
                       <span
                         key={index}
                         style={{
-                          fontSize: "16px",
+                          fontSize: '16px',
                           fontWeight: 400,
-                          color: "#37474F",
+                          color: '#37474F'
                         }}
                       >
-                        {name},{" "}
+                        {name},{' '}
                       </span>
                     );
                   })}
@@ -613,7 +613,7 @@ const AddNewDiscount = () => {
             )}
           </div>
         </div>
-        {mainDiscountType === "percent" && (
+        {mainDiscountType === 'percent' && (
           <Buttonpercent
             zoneMapIDS={zoneMapIDS}
             setZoneMapIDS={setZoneMapIDS}
@@ -633,7 +633,7 @@ const AddNewDiscount = () => {
             channelOptionDefault={channelOptionDefault}
           />
         )}
-        {mainDiscountType === "gifts" &&
+        {mainDiscountType === 'gifts' &&
           Number(ctx.productTypeSelect) === 1500 && (
             <ProductTypeSelectButton
               zoneMapIDS={zoneMapIDS}
@@ -653,7 +653,7 @@ const AddNewDiscount = () => {
               channelOptionDefault={channelOptionDefault}
             />
           )}
-        {mainDiscountType === "gifts" &&
+        {mainDiscountType === 'gifts' &&
           Number(ctx.productTypeSelect) !== 1500 && (
             <ProductTypeSelectButtonTwo
               zoneMapIDS={zoneMapIDS}

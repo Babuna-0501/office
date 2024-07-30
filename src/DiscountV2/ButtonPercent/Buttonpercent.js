@@ -1,18 +1,18 @@
-import React, { useContext, useState } from "react";
-import PromoHook from "../../Hooks/PromoHook";
-import css from "./buttonpercent.module.css";
-import myHeaders from "../HeaderContent/HeaderContent";
-import PromoProductCheck from "../PromoProductCheck/PromoProductCheck";
+import React, { useContext, useState } from 'react';
+import PromoHook from '../../Hooks/PromoHook';
+import css from './buttonpercent.module.css';
+import myHeaders from '../HeaderContent/HeaderContent';
+import PromoProductCheck from '../PromoProductCheck/PromoProductCheck';
 
-const Buttonpercent = (props) => {
+const Buttonpercent = props => {
   const ctx = useContext(PromoHook);
   const CancelHandler = () => {
     ctx.setNextPage(false);
     props.setStartDateValue(null);
     props.setEndDateValue(null);
     ctx.setPromoChannel([]);
-    props.setDiscountTitle("");
-    props.setComments("");
+    props.setDiscountTitle('');
+    props.setComments('');
     ctx.setGiftProduct([]);
   };
   const ApproveHandler = () => {
@@ -21,16 +21,16 @@ const Buttonpercent = (props) => {
     let sku;
     let supplierIDS;
 
-    ctx.promoChannel.forEach((data) => {
+    ctx.promoChannel.forEach(data => {
       channel.push(data.business_type_id);
     });
 
     if (props.discountTitle.length === 0) {
-      alert("Та урамшууллын гарчигаа оруулна уу.");
+      alert('Та урамшууллын гарчигаа оруулна уу.');
       return;
     }
     if (props.comments.length === 0) {
-      alert("Та урамшууллын дэлгэрэнгүй бичиглэлээ оруулна уу.");
+      alert('Та урамшууллын дэлгэрэнгүй бичиглэлээ оруулна уу.');
       return;
     }
     // if (props.channelOptionDefault.length === 0) {
@@ -38,15 +38,15 @@ const Buttonpercent = (props) => {
     //   return;
     // }
     if (props.zoneMapIDS.length === 0) {
-      alert("Хямдралын бүсчлэлийн мэдээлэл байхгүй байна.");
+      alert('Хямдралын бүсчлэлийн мэдээлэл байхгүй байна.');
       return;
     }
     if (props.startDateValue === null) {
-      alert("Та хямдралын эхлэх огноо оруулна уу!!!");
+      alert('Та хямдралын эхлэх огноо оруулна уу!!!');
       return;
     }
     if (props.endDateValue === null) {
-      alert("Та хямдралын дуусах огноо оруулна уу!!!");
+      alert('Та хямдралын дуусах огноо оруулна уу!!!');
       return;
     }
     let mainData;
@@ -56,7 +56,7 @@ const Buttonpercent = (props) => {
       let prodIDS = [];
       let supIDS = ctx.collectionProduct[0].supplier;
       // console.log("ctx.collectionProduct", ctx.collectionProduct);
-      ctx.collectionProduct.map((item) => {
+      ctx.collectionProduct.map(item => {
         prodIDS = item.product_id;
         sku = item.sku;
         // supIDS = item.supplier;
@@ -65,14 +65,14 @@ const Buttonpercent = (props) => {
       mainData = {
         discount_data: {
           title: props.discountTitle,
-          discounttype: props.discountType.type === "percent" ? 1 : 1,
-          type: props.discountType.type === "percent" ? "percent" : "amount",
+          discounttype: props.discountType.type === 'percent' ? 1 : 1,
+          type: props.discountType.type === 'percent' ? 'percent' : 'amount',
           value: Number(props.discountGiftValue),
           description: props.comments,
           threshold_amount:
-            props.discountType.type === "amount"
+            props.discountType.type === 'amount'
               ? Number(props.discountValue)
-              : 0,
+              : 0
         },
         conditions: [],
         start_date: props.startDateValue,
@@ -85,25 +85,25 @@ const Buttonpercent = (props) => {
         // supplierID: 13873,
         supplierID: Number(props.supplierChoseID),
         is_active: 1,
-        skus: [],
+        skus: []
       };
     } else if (Number(ctx.productTypeSelect) === 1600) {
       let ids = [];
-      ctx.products.map((item) => {
+      ctx.products.map(item => {
         ids.push(item._id);
       });
 
       mainData = {
         discount_data: {
           title: props.discountTitle,
-          discounttype: props.discountType.type === "percent" ? 1 : 1,
-          type: props.discountType.type === "percent" ? "percent" : "amount",
+          discounttype: props.discountType.type === 'percent' ? 1 : 1,
+          type: props.discountType.type === 'percent' ? 'percent' : 'amount',
           value: Number(props.discountGiftValue),
           description: props.comments,
           threshold_amount:
-            props.discountType.type === "amount"
+            props.discountType.type === 'amount'
               ? Number(props.discountValue)
-              : 0,
+              : 0
         },
         conditions: [],
         start_date: props.startDateValue,
@@ -116,39 +116,39 @@ const Buttonpercent = (props) => {
         // supplierID: 13873,
         supplierID: props.supplierChoseID,
         is_active: 1,
-        skus: [],
+        skus: []
       };
     }
 
     let requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify(mainData),
+      body: JSON.stringify(mainData)
     };
 
-    let urlnew = `https://api2.ebazaar.mn/api/discount/add`;
+    let urlnew = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
     fetch(urlnew, requestOptions)
-      .then((r) => r.json)
-      .then((res) => {
+      .then(r => r.json)
+      .then(res => {
         // console.log("response add ", res);
-        alert("Амжилттай хямдрал нэмэгдлээ.");
+        alert('Амжилттай хямдрал нэмэгдлээ.');
         ctx.setNextPage(false);
         props.setStartDateValue(null);
         props.setEndDateValue(null);
         ctx.setPromoChannel([]);
-        props.setDiscountTitle("");
-        props.setComments("");
+        props.setDiscountTitle('');
+        props.setComments('');
         ctx.setGiftProduct([]);
       })
-      .catch((error) => {
-        console.log("promo add error", error);
-        alert("Хямдрал бүртгэхэд алдаа гарлаа.");
+      .catch(error => {
+        console.log('promo add error', error);
+        alert('Хямдрал бүртгэхэд алдаа гарлаа.');
       });
 
     ////// HYMDRALTAI BARAANIII OMNO N OOR HYMDRALD HAMRAGDSANIIG SHALGADAG CODE
 
     // fetch(
-    //   `https://api2.ebazaar.mn/api/discounts?product_ids=[${mainData.products}]`,
+    //   `${process.env.REACT_APP_API_URL2}/api/discounts?product_ids=[${mainData.products}]`,
     //   {
     //     method: "GET",
     //     headers: myHeaders,
@@ -183,7 +183,7 @@ const Buttonpercent = (props) => {
     //       return;
     //     } else if (aa === false) {
     //       console.log("percent  and amount requestOptions", requestOptions);
-    //       let urlnew = `https://api2.ebazaar.mn/api/discount/add`;
+    //       let urlnew = `${process.env.REACT_APP_API_URL2}/api/discount/add`;
     //       fetch(urlnew, requestOptions)
     //         .then((r) => r.json)
     //         .then((res) => {

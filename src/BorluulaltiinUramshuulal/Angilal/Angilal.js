@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./angilal.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import closeIcon from "../../assets/close.svg";
-import checkboxicon from "../../assets/check box.svg";
-import chechboxchecked from "../../assets/Tick Square on 2.svg";
-import SMSHook from "../../Hooks/SMSHook";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './angilal.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import closeIcon from '../../assets/close.svg';
+import checkboxicon from '../../assets/check box.svg';
+import chechboxchecked from '../../assets/Tick Square on 2.svg';
+import SMSHook from '../../Hooks/SMSHook';
 const Angilal = () => {
   const [angilal, setAngilal] = useState([]);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
         setAngilal(res.categories);
       })
-      .catch((error) => {
-        console.log("fetch sitedata error", error);
+      .catch(error => {
+        console.log('fetch sitedata error', error);
       });
   }, []);
   return (
@@ -29,13 +29,13 @@ const Angilal = () => {
         <div className={css.body}>
           <div className={css.header}>
             <span>Ангилалын төлөвлөгөө</span>
-            <img src={closeIcon} alt="close icon" />
+            <img src={closeIcon} alt='close icon' />
           </div>
           <div className={css.subbody}>
             <div className={css.subheader}>
               <div>
-                {" "}
-                <img src={checkboxicon} />{" "}
+                {' '}
+                <img src={checkboxicon} />{' '}
               </div>
               <div>
                 <span>Ангилал</span>

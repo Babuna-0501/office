@@ -1,46 +1,49 @@
-import React, { useState } from "react";
-import css from "./tailbar.module.css";
-import close from "../assets/close.svg";
-import myHeaders from "../components/MyHeader/myHeader";
-const Tailbar = (props) => {
-  const [detailInfo, setDetailInfo] = useState("");
+import React, { useState } from 'react';
+import css from './tailbar.module.css';
+import close from '../assets/close.svg';
+import myHeaders from '../components/MyHeader/myHeader';
+const Tailbar = props => {
+  const [detailInfo, setDetailInfo] = useState('');
 
   const saveFunc = () => {
     if (detailInfo.length === 0) {
-      return alert("Та татгалзсан шалтгаанаа бичнэ үү.");
+      return alert('Та татгалзсан шалтгаанаа бичнэ үү.');
     }
 
     var raw = JSON.stringify({
       status_id: 3,
       return_id: props.oneProduct[0].return_id,
-      additional_detail: detailInfo,
+      additional_detail: detailInfo
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: raw
     };
-    fetch("https://api2.ebazaar.mn/api/returnproduct/update", requestOptions)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.message === "Хүсэлт амжилттай үүссэн.") {
-          alert("Хүсэлт амжилттай үүссэн.");
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/returnproduct/update`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(response => {
+        if (response.message === 'Хүсэлт амжилттай үүссэн.') {
+          alert('Хүсэлт амжилттай үүссэн.');
           props.setTailbar(false);
         } else {
-          alert("Алдаа гарлаа.");
+          alert('Алдаа гарлаа.');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(error.message);
       });
   };
   return (
     <div className={css.tailbar}>
       <div className={css.modal}>
-        <div style={{ position: "relative", background: "red" }}>
+        <div style={{ position: 'relative', background: 'red' }}>
           <img
             src={close}
-            alt="close icon"
+            alt='close icon'
             className={css.closebtn}
             onClick={() => props.setTailbar(false)}
           />
@@ -53,8 +56,8 @@ const Tailbar = (props) => {
             <span>Татгалзсан шалтгаан /тайлбар бичих/</span>
             <div className={css.textareacontainer}>
               <textarea
-                placeholder="Тайлбар бичих"
-                onChange={(e) => setDetailInfo(e.target.value)}
+                placeholder='Тайлбар бичих'
+                onChange={e => setDetailInfo(e.target.value)}
                 value={detailInfo}
               />
             </div>

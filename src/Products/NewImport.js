@@ -1,11 +1,11 @@
 function NewImport(props) {
   const save = () => {
-    if (document.getElementById("sup").value == 0) {
-      alert("Нийлүүлэгч сонгоно уу");
+    if (document.getElementById('sup').value == 0) {
+      alert('Нийлүүлэгч сонгоно уу');
       return;
     }
     // console.log(document.getElementById("sup").value);
-    let url = props.data.rows.map((product) => {
+    let url = props.data.rows.map(product => {
       if (parseInt(product.price, 10) > 0) {
         var raw = JSON.stringify({
           ProductName: product.name.replaceAll("'", "\\'"),
@@ -14,25 +14,28 @@ function NewImport(props) {
           SKU: product.sku,
           DefaultPrice: product.price,
           ProductDescription: product.description,
-          SupplierID: document.getElementById("sup").value,
+          SupplierID: document.getElementById('sup').value
         });
         var myHeaders = new Headers();
         myHeaders.append(
-          "ebazaar_token",
-          localStorage.getItem("ebazaar_admin_token")
+          'ebazaar_token',
+          localStorage.getItem('ebazaar_admin_token')
         );
-        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append('Content-Type', 'application/json');
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
           body: raw,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         setTimeout(() => {
-          fetch("https://api2.ebazaar.mn/api/product/get1/add", requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
+          fetch(
+            `${process.env.REACT_APP_API_URL2}/api/product/get1/add`,
+            requestOptions
+          )
+            .then(response => response.json())
+            .then(result => {
               // console.log(result);
             });
         }, 500);
@@ -40,10 +43,10 @@ function NewImport(props) {
     });
   };
   return props.data.rows ? (
-    <div id="bg">
-      <div id="foo">
-        <select id="sup">
-          <option value="0">Сонгоно уу</option>
+    <div id='bg'>
+      <div id='foo'>
+        <select id='sup'>
+          <option value='0'>Сонгоно уу</option>
           {props.suppliers.map((supplier, index) => {
             return (
               <option value={supplier.id} key={index}>

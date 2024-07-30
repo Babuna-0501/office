@@ -3,31 +3,31 @@ import React, {
   useMemo,
   useCallback,
   useRef,
-  useContext,
-} from "react";
-import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
-import DateRender from "./DateRender";
-import "ag-grid-enterprise";
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
-import "ag-grid-community/styles/ag-theme-alpine.css";
+  useContext
+} from 'react';
+import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
+import DateRender from './DateRender';
+import 'ag-grid-enterprise';
+import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-import Locations from "./compontent/Locations";
-import ProductName from "./ProductName";
+import Locations from './compontent/Locations';
+import ProductName from './ProductName';
 
-import PromoHook from "../Hooks/PromoHook";
+import PromoHook from '../Hooks/PromoHook';
 
-import "./table.css";
-import Category from "./compontent/Category";
-import SKU from "./compontent/SKU";
-import Deletebutton from "./compontent/Deletebutton";
-import { useEffect } from "react";
+import './table.css';
+import Category from './compontent/Category';
+import SKU from './compontent/SKU';
+import Deletebutton from './compontent/Deletebutton';
+import { useEffect } from 'react';
 
-const actionCellRenderer = (params) => {
+const actionCellRenderer = params => {
   let eGui = `<button class="action-button delete" data-action="delete" > delete </button>)`;
 
   let editingCells = params.api.getEditingCells();
   // checks if the rowIndex matches in at least one of the editing cells
-  let isCurrentRowEditing = editingCells.some((cell) => {
+  let isCurrentRowEditing = editingCells.some(cell => {
     return cell.rowIndex === params.node.rowIndex;
   });
 
@@ -48,13 +48,13 @@ const timeOperation = (name, operation) => {
   var end = new Date().getTime();
   console.log(
     name +
-      " finished in " +
+      ' finished in ' +
       (end - start) +
-      "ms, aggCallCount = " +
+      'ms, aggCallCount = ' +
       aggCallCount +
-      ", compareCallCount = " +
+      ', compareCallCount = ' +
       compareCallCount +
-      ", filterCallCount = " +
+      ', filterCallCount = ' +
       filterCallCount
   );
 };
@@ -62,51 +62,51 @@ var numberValueFormatter = function (params) {
   return params.value;
 };
 
-const Table = (props) => {
+const Table = props => {
   const promoctx = useContext(PromoHook);
   const ref = useRef();
   const [columnDefs, setColumnDefs] = useState([
     {
-      field: "supplierName",
-      headerName: "Нийлүүлэгч",
+      field: 'supplierName',
+      headerName: 'Нийлүүлэгч',
       checkboxSelection: true,
       headerCheckboxSelection: true,
 
-      cellRenderer: ProductName,
+      cellRenderer: ProductName
     },
     {
-      field: "discount_data.title",
-      headerName: "Урамшууллын нэр",
-      cellRenderer: ProductName,
+      field: 'discount_data.title',
+      headerName: 'Урамшууллын нэр',
+      cellRenderer: ProductName
     },
     // { field: "products", headerName: "Бүтээгдэхүүн", cellRenderer: Product },
     {
-      field: "productName",
-      headerName: "Барааны нэр",
-      cellRenderer: ProductName,
+      field: 'productName',
+      headerName: 'Барааны нэр',
+      cellRenderer: ProductName
     },
     {
-      field: "productBarcode",
-      headerName: "Баркод",
-      cellRenderer: ProductName,
+      field: 'productBarcode',
+      headerName: 'Баркод',
+      cellRenderer: ProductName
     },
     {
-      field: "skus",
-      headerName: "Бүтээгдэхүүн ID",
-      cellRenderer: SKU,
+      field: 'skus',
+      headerName: 'Бүтээгдэхүүн ID',
+      cellRenderer: SKU
     },
     {
-      field: "start_date",
-      headerName: "Эхлэх огноо",
-      filter: "agDateColumnFilter",
+      field: 'start_date',
+      headerName: 'Эхлэх огноо',
+      filter: 'agDateColumnFilter',
       filterParams: {
         comparator: (dateFromFilter, cellValue) => {
           if (cellValue === null) {
             return 0;
           }
 
-          const dataPartsOne = cellValue.split("T")[0];
-          const dataParts = dataPartsOne.split("-");
+          const dataPartsOne = cellValue.split('T')[0];
+          const dataParts = dataPartsOne.split('-');
 
           const year = Number(dataParts[0]);
           const month = Number(dataParts[1]) - 1;
@@ -118,14 +118,14 @@ const Table = (props) => {
             return 1;
           }
           return 0;
-        },
+        }
       },
-      cellRenderer: DateRender,
+      cellRenderer: DateRender
     },
     {
-      field: "end_date",
-      headerName: "Дуусах огноо",
-      filter: "agDateColumnFilter",
+      field: 'end_date',
+      headerName: 'Дуусах огноо',
+      filter: 'agDateColumnFilter',
 
       filterParams: {
         comparator: (dateFromFilter, cellValue) => {
@@ -133,8 +133,8 @@ const Table = (props) => {
             return 0;
           }
 
-          const dataPartsOne = cellValue.split("T")[0];
-          const dataParts = dataPartsOne.split("-");
+          const dataPartsOne = cellValue.split('T')[0];
+          const dataParts = dataPartsOne.split('-');
 
           const year = Number(dataParts[0]);
           const month = Number(dataParts[1]) - 1;
@@ -146,39 +146,39 @@ const Table = (props) => {
             return 1;
           }
           return 0;
-        },
+        }
       },
-      cellRenderer: DateRender,
+      cellRenderer: DateRender
     },
-    { field: "catName", headerName: "Суваг", cellRenderer: Category },
-    { field: "location", headerName: "Бүсчлэл", cellRenderer: Locations },
+    { field: 'catName', headerName: 'Суваг', cellRenderer: Category },
+    { field: 'location', headerName: 'Бүсчлэл', cellRenderer: Locations },
     {
-      field: "delete",
-      headerName: "Устгах",
+      field: 'delete',
+      headerName: 'Устгах',
       minWidth: 150,
       // cellRenderer: actionCellRenderer,
       editable: false,
-      colId: "action",
+      colId: 'action',
       cellRenderer: Deletebutton,
       cellRendererParams: {
         clicked: function (field) {
           alert(`${field} was clicked`);
-        },
-      },
-    },
+        }
+      }
+    }
   ]);
 
   ///// delete one product
-  const onCellClicked = (params) => {
+  const onCellClicked = params => {
     // Handle click event for action cells
     if (
-      params.column.colId === "action" &&
+      params.column.colId === 'action' &&
       params.event.target.dataset.action
     ) {
       let action = params.event.target.dataset.action;
-      if (action === "delete") {
+      if (action === 'delete') {
         params.api.applyTransaction({
-          remove: [params.node.data],
+          remove: [params.node.data]
         });
       }
     }
@@ -196,10 +196,10 @@ const Table = (props) => {
       resizable: true,
       sortable: true,
       filterParams: {
-        buttons: ["reset", "apply"],
-        debounceMs: 500,
+        buttons: ['reset', 'apply'],
+        debounceMs: 500
       },
-      floatingFilter: true,
+      floatingFilter: true
     };
   }, []);
   const onSelectionChanged = useCallback(() => {
@@ -222,35 +222,38 @@ const Table = (props) => {
     }
     // console.log("selectedRows ===========", selectedRows);
 
-    timeOperation("Delete", function () {
+    timeOperation('Delete', function () {
       api.applyTransaction({ remove: selectedRows });
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       let id = selectedRows[0]._id;
 
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow',
         body: JSON.stringify({
           discount_id: id,
-          is_active: 0,
-        }),
+          is_active: 0
+        })
       };
       // console.log("promo delete", requestOptions);
 
-      fetch(`https://api2.ebazaar.mn/api/discount/delete`, requestOptions)
-        .then((r) => r.json())
-        .then((res) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/discount/delete`,
+        requestOptions
+      )
+        .then(r => r.json())
+        .then(res => {
           if (res.code === 200) {
             promoctx.setDeleteBTN(false);
           }
         })
-        .catch((error) => {
+        .catch(error => {
           alert(`Устгахад алдаа гарлаа. ${error}`);
         });
     });
@@ -264,10 +267,10 @@ const Table = (props) => {
   }, [promoctx?.deleteBTN]);
   return (
     <div
-      className="ag-theme-alpine"
+      className='ag-theme-alpine'
       style={{
-        width: "100%",
-        height: "calc(100% - 53px)",
+        width: '100%',
+        height: 'calc(100% - 53px)'
       }}
     >
       <AgGridReact
@@ -275,7 +278,7 @@ const Table = (props) => {
         rowData={props.data} // Row Data for Rows
         columnDefs={columnDefs} // Column Defs for Columns
         defaultColDef={defaultColDef}
-        rowSelection={"single"}
+        rowSelection={'single'}
         onSelectionChanged={onSelectionChanged}
         onCellClicked={onCellClicked}
         // pagination={true}

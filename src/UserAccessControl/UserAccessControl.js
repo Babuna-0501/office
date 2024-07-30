@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
-import List from "./List";
-import css from "./index.module.css";
-import myHeaders from "../components/MyHeader/myHeader";
-import { defa } from "./Defa";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
-import { Button, Modal } from "antd";
-import { Product } from "./Product";
-import { Tabs } from "antd";
-import { AcceptedProducts } from "./AcceptedProducts";
-import searchIcon from "../assets/Search.svg";
+import React, { useState, useEffect, useContext } from 'react';
+import List from './List';
+import css from './index.module.css';
+import myHeaders from '../components/MyHeader/myHeader';
+import { defa } from './Defa';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
+import { Button, Modal } from 'antd';
+import { Product } from './Product';
+import { Tabs } from 'antd';
+import { AcceptedProducts } from './AcceptedProducts';
+import searchIcon from '../assets/Search.svg';
 
-const UserAccessControl = (props) => {
+const UserAccessControl = props => {
   const { TabPane } = Tabs;
   const [users, setUsers] = useState([]);
   const [index, setIndex] = useState();
@@ -35,7 +35,7 @@ const UserAccessControl = (props) => {
   const [supplerid, setSupplierid] = useState([]);
   //  const [zones, setZones] = useState(null);
   const [products, setProducts] = useState([]);
-  const [productName, setProductName] = useState("");
+  const [productName, setProductName] = useState('');
 
   const [newAcceptedPros, setNewAcceptedPros] = useState([]);
   const [acceptedProList, setAcceptedProList] = useState([]);
@@ -53,54 +53,60 @@ const UserAccessControl = (props) => {
     };
   }, []);
 
-  const actions = ["create", "read", "update", "delete", "admin", "report"];
+  const actions = ['create', 'read', 'update', 'delete', 'admin', 'report'];
   const features = {
-    others: ["product", "order", "account", "delivery", "return", "supplier"],
+    others: ['product', 'order', 'account', 'delivery', 'return', 'supplier'],
     ebazaar: [
-      "product",
-      "order",
-      "account",
-      "merchant",
-      "upoint",
-      "discount",
-      "pickpack",
-      "zones",
-      "contents",
-      "log",
-      "sms",
-      "delivery",
-      "return",
-      "supplier",
-      "collection",
-      "lottery",
-      "tradeshopfiles",
-      "orderCancel",
-      "inventory",
-      "lend",
-      "shuurhai",
-      "report",
-      "vat",
-      "marketing",
-      "noat",
-      "xtmar",
-      "orderreturn",
-      "borluulaltiinuramshuulal",
-      "promo",
-      "shipment",
-      "pbi",
-    ],
+      'product',
+      'order',
+      'account',
+      'merchant',
+      'upoint',
+      'discount',
+      'pickpack',
+      'zones',
+      'contents',
+      'log',
+      'sms',
+      'delivery',
+      'return',
+      'supplier',
+      'collection',
+      'lottery',
+      'tradeshopfiles',
+      'orderCancel',
+      'inventory',
+      'lend',
+      'shuurhai',
+      'report',
+      'vat',
+      'marketing',
+      'noat',
+      'xtmar',
+      'orderreturn',
+      'borluulaltiinuramshuulal',
+      'promo',
+      'shipment',
+      'pbi'
+    ]
   };
 
   const permission = Object.values(JSON.parse(props.userData.permission))[0];
 
   const fetchdata = async () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    const data = await fetch("https://api2.ebazaar.mn/api/backoffice/users", requestOptions);
-    const roledata = await fetch(`https://api2.ebazaar.mn/api/backoffice/role`, requestOptions);
+    const data = await fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/users`,
+      requestOptions
+    );
+    const roledata = await fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/role`,
+      requestOptions
+    );
     const resroledata = await roledata.json();
     const res = await data.json();
     setUsers(res.data);
@@ -110,7 +116,7 @@ const UserAccessControl = (props) => {
 
   useEffect(() => {
     let aaa = [];
-    songogdsonzone.map((item) => {
+    songogdsonzone.map(item => {
       aaa.push(false);
     });
     setSongogdsonzonefalse(aaa);
@@ -120,34 +126,34 @@ const UserAccessControl = (props) => {
     try {
       fetchdata();
     } catch (error) {
-      console.log("users error ", error);
+      console.log('users error ', error);
     }
   }, [dummy]);
 
   useEffect(() => {
     setSongogdsonzone([]);
-    setUserId(users?.find((e) => e.user_id === index)?.user_id || "");
-    setEmail(users?.find((e) => e.user_id === index)?.email || "");
-    setLastname(users?.find((e) => e.user_id === index)?.last_name || "");
-    setFirstname(users?.find((e) => e.user_id === index)?.first_name || "");
-    setPhone(users?.find((e) => e.user_id === index)?.phone_number || "");
-    setRole(users?.find((e) => e.user_id === index)?.role || "");
-    setSongogdsonzoneid(users?.find((e) => e.user_id === index)?.zones || "");
-    setSupplierid(users?.find((e) => e.user_id === index)?.supplier_id || "");
-    setSpa(users?.find((e) => e.user_id === index)?.origin === 2 ? true : false);
-    setAcceptedPros(users?.find((e) => e.user_id === index)?.products || []);
+    setUserId(users?.find(e => e.user_id === index)?.user_id || '');
+    setEmail(users?.find(e => e.user_id === index)?.email || '');
+    setLastname(users?.find(e => e.user_id === index)?.last_name || '');
+    setFirstname(users?.find(e => e.user_id === index)?.first_name || '');
+    setPhone(users?.find(e => e.user_id === index)?.phone_number || '');
+    setRole(users?.find(e => e.user_id === index)?.role || '');
+    setSongogdsonzoneid(users?.find(e => e.user_id === index)?.zones || '');
+    setSupplierid(users?.find(e => e.user_id === index)?.supplier_id || '');
+    setSpa(users?.find(e => e.user_id === index)?.origin === 2 ? true : false);
+    setAcceptedPros(users?.find(e => e.user_id === index)?.products || []);
     // console.log("user======user", users);
 
     try {
       let aa =
-        users?.find((e) => e.user_id === index) &&
-        JSON.parse(users?.find((e) => e.user_id === index).permission)[100000000];
+        users?.find(e => e.user_id === index) &&
+        JSON.parse(users?.find(e => e.user_id === index).permission)[100000000];
       let rr = { ...defa, ...aa };
       setDef(rr);
 
       let newPro =
-        users?.find((e) => e.user_id === index) &&
-        JSON.parse(users?.find((e) => e.user_id === index).products);
+        users?.find(e => e.user_id === index) &&
+        JSON.parse(users?.find(e => e.user_id === index).products);
       setNewAcceptedPros(newPro);
 
       getProducts();
@@ -160,26 +166,27 @@ const UserAccessControl = (props) => {
 
   const getProducts = () => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     const reqSupplerid =
-      users?.find((e) => e.user_id === index)?.supplier_id.replaceAll("|", "") || "";
+      users?.find(e => e.user_id === index)?.supplier_id.replaceAll('|', '') ||
+      '';
     if (reqSupplerid) {
       fetch(
-        `https://api2.ebazaar.mn/api/products/get1?&supplier=${reqSupplerid}&search=${productName}`,
+        `${process.env.REACT_APP_API_URL2}/api/products/get1?&supplier=${reqSupplerid}&search=${productName}`,
         requestOptions
       )
-        .then((res) => res.json())
-        .then((response) => setProducts(response.data));
+        .then(res => res.json())
+        .then(response => setProducts(response.data));
     }
   };
 
   useEffect(() => {
     if (acceptedPros.length > 0) {
       const acceptedProArray = JSON.parse(acceptedPros);
-      const filteredAAA = products?.filter((pro) => {
+      const filteredAAA = products?.filter(pro => {
         return acceptedProArray.includes(pro._id);
       });
       setAcceptedProList(filteredAAA);
@@ -190,34 +197,37 @@ const UserAccessControl = (props) => {
 
   useEffect(() => {
     // console.log("songogdsonzoneid", songogdsonzoneid);
-    let aa = "";
+    let aa = '';
 
     // console.log("songogdsonzoneid", aa);
     if (songogdsonzoneid.length > 25) {
-      aa = songogdsonzoneid.split(",");
+      aa = songogdsonzoneid.split(',');
     } else if (songogdsonzoneid !== null && songogdsonzoneid.length < 25) {
       aa = [songogdsonzoneid];
     }
     // console.log("aa  +++ end irsen", aa);
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     let data = [];
     // console.log("songogdsonzoneid  -------- songogdsonzoneid +++++++", aa);
     aa &&
-      aa?.map((item) => {
-        fetch(`https://api2.ebazaar.mn/api/zones?id=${item}`, requestOptions)
-          .then((res) => res.json())
-          .then((res) => {
-            console.log("zone response", res);
+      aa?.map(item => {
+        fetch(
+          `${process.env.REACT_APP_API_URL2}/api/zones?id=${item}`,
+          requestOptions
+        )
+          .then(res => res.json())
+          .then(res => {
+            console.log('zone response', res);
             if (res.data[0]) {
               data.push(res.data[0]);
-              setSongogdsonzone((prev) => [...prev, ...res.data]);
+              setSongogdsonzone(prev => [...prev, ...res.data]);
             }
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
       });
@@ -227,28 +237,29 @@ const UserAccessControl = (props) => {
   }, [songogdsonzoneid]);
   // console.log("setSongogdsonzone setSongogdsonzone", songogdsonzone);
 
-  const user = props.userData.company_id === "|1|" ? "ebazaar" : "others";
+  const user = props.userData.company_id === '|1|' ? 'ebazaar' : 'others';
   // console.log("user+++++----*****", props);
 
   const save = () => {
-    let newEmail = users?.find((e) => e.user_id === index)?.email !== email && email;
+    let newEmail =
+      users?.find(e => e.user_id === index)?.email !== email && email;
 
     let zoneids = [];
 
-    songogdsonzone.map((item) => {
+    songogdsonzone.map(item => {
       zoneids.push(item._id);
     });
 
-    let supids = supplerid.replaceAll("||", ",");
-    supids = supids.replaceAll("|", "");
-    if (supids.includes(",")) {
-      supids = supids.split(",");
+    let supids = supplerid.replaceAll('||', ',');
+    supids = supids.replaceAll('|', '');
+    if (supids.includes(',')) {
+      supids = supids.split(',');
     } else {
       supids = [supids];
     }
 
     var raw = JSON.stringify({
-      ...(index !== "new" && { user_id: index }),
+      ...(index !== 'new' && { user_id: index }),
       ...(newEmail && { email: email }),
       first_name: firstname,
       last_name: lastname,
@@ -259,49 +270,61 @@ const UserAccessControl = (props) => {
       employeeId: 0,
       supplier_ids: supids,
       permission: { 100000000: def },
-      ...(index === "new" && { password: password }),
-      ...(index === "new" && {
+      ...(index === 'new' && { password: password }),
+      ...(index === 'new' && {
         supplier_ids:
           supplier[0] === 13884
             ? [1]
-            : user === "ebazaar"
+            : user === 'ebazaar'
             ? supplier
-            : [parseInt(props.userData.company_id.replaceAll("|", ""))],
-      }),
+            : [parseInt(props.userData.company_id.replaceAll('|', ''))]
+      })
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    if (index === "new") {
-      if (email.includes("@") && email.includes(".") && password && firstname && lastname) {
-        fetch(`https://api2.ebazaar.mn/api/backoffice/add_users`, requestOptions)
-          .then((r) => r.json())
-          .then((res) => {
-            console.log("shine hereglegch uusgelee", res);
-            alert("Амжилттай хадгалагдлаа");
+    if (index === 'new') {
+      if (
+        email.includes('@') &&
+        email.includes('.') &&
+        password &&
+        firstname &&
+        lastname
+      ) {
+        fetch(
+          `${process.env.REACT_APP_API_URL2}/api/backoffice/add_users`,
+          requestOptions
+        )
+          .then(r => r.json())
+          .then(res => {
+            console.log('shine hereglegch uusgelee', res);
+            alert('Амжилттай хадгалагдлаа');
             setDummy(dummy + 1);
           })
-          .catch((error) => {
-            console.log("error", error);
+          .catch(error => {
+            console.log('error', error);
           });
       } else {
-        alert("Мэдээлэл дутуу байна");
+        alert('Мэдээлэл дутуу байна');
       }
     } else {
-      fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
-        .then((r) => r.json())
-        .then((res) => {
-          console.log(" hereglegchiig update hiilee ", res);
-          alert("Амжилттай хадгалагдлаа");
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`,
+        requestOptions
+      )
+        .then(r => r.json())
+        .then(res => {
+          console.log(' hereglegchiig update hiilee ', res);
+          alert('Амжилттай хадгалагдлаа');
           setDummy(dummy + 1);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   };
@@ -311,21 +334,24 @@ const UserAccessControl = (props) => {
   };
 
   const handleSaveProducts = () => {
-    setProductName("");
+    setProductName('');
     const raw = JSON.stringify({
       user_id: userId,
-      products: newAcceptedPros,
+      products: newAcceptedPros
     });
 
     const requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
-      .then((res) => res.json())
-      .then((response) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(response => {
         if (response.code === 200) {
           alert(response.message);
           setSettingsModal(false);
@@ -342,7 +368,7 @@ const UserAccessControl = (props) => {
 
   useEffect(() => {
     if (settingsModal === false) {
-      setProductName("");
+      setProductName('');
       setSelectAll(false);
     }
   }, [settingsModal]);
@@ -353,39 +379,39 @@ const UserAccessControl = (props) => {
     }
   }, [productName]);
 
-  console.log("newAcceptedPros", newAcceptedPros);
+  console.log('newAcceptedPros', newAcceptedPros);
 
   return (
     <div className={css.container2}>
       <div className={css.container}>
         <div
-          className="row header"
+          className='row header'
           style={{
-            height: "80px",
+            height: '80px'
           }}
         >
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
+                type='text'
+                placeholder='Хайх ...'
                 className={css.inputWrapper}
-                onChange={(e) => {
+                onChange={e => {
                   setSearchValue(e.target.value);
                 }}
-                style={{ padding: "8px" }}
+                style={{ padding: '8px' }}
               />
             </div>
             {permission.account.create && (
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
+                  display: 'flex',
+                  justifyContent: 'flex-end'
                 }}
               >
                 <u
                   onClick={() => {
-                    setIndex("new");
+                    setIndex('new');
                   }}
                   className={css.userbtn}
                 >
@@ -399,7 +425,9 @@ const UserAccessControl = (props) => {
           <List
             users={
               searchValue
-                ? users?.filter((e) => e.email.toLowerCase().includes(searchValue.toLowerCase()))
+                ? users?.filter(e =>
+                    e.email.toLowerCase().includes(searchValue.toLowerCase())
+                  )
                 : users
             }
             index={index}
@@ -411,28 +439,30 @@ const UserAccessControl = (props) => {
         {index && (
           <>
             <Tabs
-              defaultActiveKey="0"
-              onChange={(key) => {
+              defaultActiveKey='0'
+              onChange={key => {
                 // console.log(key);
               }}
             >
-              <TabPane tab={"Хэрэглэгчийн мэдээлэл"} key={0}>
+              <TabPane tab={'Хэрэглэгчийн мэдээлэл'} key={0}>
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "start",
+                    display: 'flex',
+                    alignItems: 'start'
                   }}
                 >
                   <div className={css.maininfo}>
-                    {index === "new" && (
+                    {index === 'new' && (
                       <div>
-                        <div className="header">Нийлүүлэгч</div>
-                        {user === "ebazaar" ? (
+                        <div className='header'>Нийлүүлэгч</div>
+                        {user === 'ebazaar' ? (
                           <select
-                            onChange={(e) => setSupplier([parseInt(e.target.value)])}
+                            onChange={e =>
+                              setSupplier([parseInt(e.target.value)])
+                            }
                             className={css.inputform}
                           >
-                            <option value="all">---</option>
+                            <option value='all'>---</option>
                             {props.suppliers
                               ? props.suppliers
                                   .sort((a, b) => a.name.localeCompare(b.name)) // Sort the suppliers alphabetically
@@ -452,15 +482,15 @@ const UserAccessControl = (props) => {
                     )}
                     <div> Имэйл</div>
                     <input
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={e => setEmail(e.target.value)}
                       value={email}
                       className={css.inputform}
                     />
-                    {index === "new" && (
+                    {index === 'new' && (
                       <>
                         <div>Нууц үг</div>
                         <input
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={e => setPassword(e.target.value)}
                           value={password}
                           className={css.inputform}
                         />
@@ -468,19 +498,19 @@ const UserAccessControl = (props) => {
                     )}
                     <div> Овог</div>
                     <input
-                      onChange={(e) => setLastname(e.target.value)}
+                      onChange={e => setLastname(e.target.value)}
                       value={lastname}
                       className={css.inputform}
                     />
                     <div> Нэр</div>
                     <input
-                      onChange={(e) => setFirstname(e.target.value)}
+                      onChange={e => setFirstname(e.target.value)}
                       value={firstname}
                       className={css.inputform}
                     />
                     <div> Утас</div>
                     <input
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={e => setPhone(e.target.value)}
                       value={phone}
                       className={css.inputform}
                     />
@@ -489,7 +519,7 @@ const UserAccessControl = (props) => {
                       <div>Албан тушаал</div>
                       <select
                         value={role}
-                        onChange={(e) => {
+                        onChange={e => {
                           setRole(e.target.value);
                         }}
                       >
@@ -506,10 +536,10 @@ const UserAccessControl = (props) => {
                     </div>
                     <div
                       style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        marginTop: "5px",
-                        gap: "30px",
+                        display: 'flex',
+                        flexDirection: 'row',
+                        marginTop: '5px',
+                        gap: '30px'
                       }}
                     >
                       <div>
@@ -520,9 +550,15 @@ const UserAccessControl = (props) => {
                           }}
                         >
                           {spa === true ? (
-                            <img src="https://admin.ebazaar.mn/media/on.svg" alt="" />
+                            <img
+                              src='https://admin.ebazaar.mn/media/on.svg'
+                              alt=''
+                            />
                           ) : (
-                            <img src="https://admin.ebazaar.mn/media/off.svg" alt="" />
+                            <img
+                              src='https://admin.ebazaar.mn/media/off.svg'
+                              alt=''
+                            />
                           )}
                         </span>
                       </div>
@@ -530,26 +566,32 @@ const UserAccessControl = (props) => {
                   </div>
                 </div>
               </TabPane>
-              {(props.sfaSupp || props.userData.company_id === "|1|") && (
-                <TabPane tab={"Бүтээгдэхүүн тохиргоо"} key={1}>
+              {(props.sfaSupp || props.userData.company_id === '|1|') && (
+                <TabPane tab={'Бүтээгдэхүүн тохиргоо'} key={1}>
                   <div className={css.maininfo}>
                     <button
                       onClick={handleModal}
                       style={{
-                        width: "200px",
-                        backgroundColor: "#ffa600",
-                        padding: "6px",
-                        fontWeight: "700",
-                        color: "#fff",
-                        cursor: "pointer",
-                        border: "none",
-                        borderRadius: "6px",
-                        marginBottom: "5px",
+                        width: '200px',
+                        backgroundColor: '#ffa600',
+                        padding: '6px',
+                        fontWeight: '700',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        border: 'none',
+                        borderRadius: '6px',
+                        marginBottom: '5px'
                       }}
                     >
                       Тохиргоо
                     </button>
-                    <div style={{ maxHeight: "240px", width: "100%", overflowY: "scroll" }}>
+                    <div
+                      style={{
+                        maxHeight: '240px',
+                        width: '100%',
+                        overflowY: 'scroll'
+                      }}
+                    >
                       <AcceptedProducts acceptedProList={acceptedProList} />
                     </div>
                   </div>
@@ -557,12 +599,12 @@ const UserAccessControl = (props) => {
               )}
             </Tabs>
 
-            <div style={{ marginTop: "10px" }}>Хэрэглэгчийн эрхүүд</div>
+            <div style={{ marginTop: '10px' }}>Хэрэглэгчийн эрхүүд</div>
             <div className={css.permissionContainer2}>
-              {index === "new" || (def && users?.find((e) => e.user_id === index))
+              {index === 'new' || (def && users?.find(e => e.user_id === index))
                 ? features[`${user}`].map((e, i) => (
                     <div className={css.permission} key={i}>
-                      <div style={{ marginBottom: "5px" }}>
+                      <div style={{ marginBottom: '5px' }}>
                         <b>{e}</b>
                       </div>
                       <div className={css.crudContainer}>
@@ -570,22 +612,22 @@ const UserAccessControl = (props) => {
                           <span className={css.row} key={w}>
                             <input
                               checked={def[`${e}`]?.[`${q}`]}
-                              onChange={(a) => {
+                              onChange={a => {
                                 def[`${e}`][`${q}`] = a.target.checked;
                                 let newq = {
                                   ...def[`${e}`],
-                                  [`${q}`]: a.target.checked,
+                                  [`${q}`]: a.target.checked
                                 };
                                 let newe = {
                                   ...def,
-                                  [`${e}`]: newq,
+                                  [`${e}`]: newq
                                 };
                                 setDef(newe);
                               }}
                               style={{
-                                marginRight: "5px",
+                                marginRight: '5px'
                               }}
-                              type="checkbox"
+                              type='checkbox'
                             />
                             <div className={css.crud}>{q}</div>
                           </span>
@@ -593,18 +635,18 @@ const UserAccessControl = (props) => {
                       </div>
                     </div>
                   ))
-                : ""}
+                : ''}
             </div>
 
             <div
               style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: "10px",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '10px'
               }}
             >
               <span
-                className="btn"
+                className='btn'
                 onClick={() => {
                   save();
                 }}
@@ -617,44 +659,52 @@ const UserAccessControl = (props) => {
               open={settingsModal}
               onCancel={() => {
                 setSettingsModal(false);
-                setProductName("");
+                setProductName('');
                 setSelectAll(false);
                 let newPro =
-                  users?.find((e) => e.user_id === index) &&
-                  JSON.parse(users?.find((e) => e.user_id === index).products);
+                  users?.find(e => e.user_id === index) &&
+                  JSON.parse(users?.find(e => e.user_id === index).products);
                 setNewAcceptedPros(newPro);
               }}
               onOk={handleSaveProducts}
-              okText={"Хадгалах"}
-              cancelText={"Цуцлах"}
+              okText={'Хадгалах'}
+              cancelText={'Цуцлах'}
             >
-              <div style={{ overflowY: "scroll", height: "500px" }}>
+              <div style={{ overflowY: 'scroll', height: '500px' }}>
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "5px",
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     checked={selectAll}
                     onChange={() => setSelectAll(true)}
-                    style={{ margin: "0" }}
+                    style={{ margin: '0' }}
                   />
                   <input
                     value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
+                    onChange={e => setProductName(e.target.value)}
                     className={css.input22}
-                    placeholder="Хайх..."
+                    placeholder='Хайх...'
                   />
-                  <Button variant="primary" onClick={handleFilter} style={{ padding: "0px 5px" }}>
-                    <img style={{ width: "15px", height: "15px" }} src={searchIcon} alt="" />
+                  <Button
+                    variant='primary'
+                    onClick={handleFilter}
+                    style={{ padding: '0px 5px' }}
+                  >
+                    <img
+                      style={{ width: '15px', height: '15px' }}
+                      src={searchIcon}
+                      alt=''
+                    />
                   </Button>
                 </div>
-                {products.map((product) => {
+                {products.map(product => {
                   return (
                     <Product
                       product={product}

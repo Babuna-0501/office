@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import PromoHook from "../../Hooks/PromoHook";
-import css from "./collectionlist.module.css";
-import myHeaders from "../HeaderContent/HeaderContent";
+import React, { useEffect, useState, useContext } from 'react';
+import PromoHook from '../../Hooks/PromoHook';
+import css from './collectionlist.module.css';
+import myHeaders from '../HeaderContent/HeaderContent';
 
 const CollectionList = () => {
   const [collections, setCollections] = useState([]);
@@ -9,26 +9,26 @@ const CollectionList = () => {
   const promoctx = useContext(PromoHook);
 
   const FetchCollection = () => {
-    let url = `https://api2.ebazaar.mn/api/collection/get`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/collection/get`;
     fetch(url, {
-      method: "GET",
-      headers: myHeaders,
+      method: 'GET',
+      headers: myHeaders
     })
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         // console.log("res collection list", res.data);
         setCollections(res.data);
       })
-      .catch((error) => {
-        console.log("Collection list error", error);
+      .catch(error => {
+        console.log('Collection list error', error);
       });
   };
   useEffect(() => {
     FetchCollection();
   }, []);
   // console.log("promoctx collection list", promoctx);
-  const handleSubmit = (e) => {};
-  const handleOnchange = (e) => {
+  const handleSubmit = e => {};
+  const handleOnchange = e => {
     // console.log("e.target.value collectuion++++++++--------", e.target.value);
     setSelectedCollection(e.target.value);
     promoctx.setSelectedCollection(e.target.value);

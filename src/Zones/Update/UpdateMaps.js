@@ -3,27 +3,27 @@ import React, {
   useRef,
   useCallback,
   useContext,
-  useEffect,
-} from "react";
+  useEffect
+} from 'react';
 import {
   GoogleMap,
   useJsApiLoader,
   Polygon,
   Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
-import ZonesHook from "../../Hooks/ZonesHook";
-import myHeaders from "../../components/MyHeader/myHeader";
+  InfoWindow
+} from '@react-google-maps/api';
+import ZonesHook from '../../Hooks/ZonesHook';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%'
 };
 
 function MyComponent(props) {
   const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.GOOGLE_MAP_KEY,
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.GOOGLE_MAP_KEY
   });
   const zonectx = useContext(ZonesHook);
   const [map, setMap] = React.useState(null);
@@ -37,136 +37,136 @@ function MyComponent(props) {
   let businessTypes = [
     {
       business_type_id: 1,
-      business_type_name: "8 нэрийн дэлгүүр",
+      business_type_name: '8 нэрийн дэлгүүр',
       channel_id: 1,
-      channel_name: "Хүнсний дэлгүүр",
+      channel_name: 'Хүнсний дэлгүүр'
     },
     {
       business_type_id: 2,
-      business_type_name: "6 нэрийн дэлгүүр",
+      business_type_name: '6 нэрийн дэлгүүр',
       channel_id: 1,
-      channel_name: "Хүнсний дэлгүүр",
+      channel_name: 'Хүнсний дэлгүүр'
     },
     {
       business_type_id: 3,
-      business_type_name: "ТҮЦ",
+      business_type_name: 'ТҮЦ',
       channel_id: 1,
-      channel_name: "Хүнсний дэлгүүр",
+      channel_name: 'Хүнсний дэлгүүр'
     },
     {
       business_type_id: 4,
-      business_type_name: "Лангуу, Павильон",
+      business_type_name: 'Лангуу, Павильон',
       channel_id: 2,
-      channel_name: "Зах бөөний төв",
+      channel_name: 'Зах бөөний төв'
     },
     {
       business_type_id: 5,
-      business_type_name: "Бөөний төв",
+      business_type_name: 'Бөөний төв',
       channel_id: 2,
-      channel_name: "Зах бөөний төв",
+      channel_name: 'Зах бөөний төв'
     },
     {
       business_type_id: 6,
-      business_type_name: "Ресторан",
+      business_type_name: 'Ресторан',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 7,
-      business_type_name: "Цайны газар",
+      business_type_name: 'Цайны газар',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 8,
-      business_type_name: "Зоогийн газар",
+      business_type_name: 'Зоогийн газар',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 9,
-      business_type_name: "Олон үндэстний хоол",
+      business_type_name: 'Олон үндэстний хоол',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 10,
-      business_type_name: "Кафе, Кофе шоп",
+      business_type_name: 'Кафе, Кофе шоп',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 11,
-      business_type_name: "Паб, Лаунж",
+      business_type_name: 'Паб, Лаунж',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 12,
-      business_type_name: "Караоке",
+      business_type_name: 'Караоке',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 13,
-      business_type_name: "Зочид буудал",
+      business_type_name: 'Зочид буудал',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 14,
-      business_type_name: "Бар",
+      business_type_name: 'Бар',
       channel_id: 3,
-      channel_name: "ХоРеКа",
+      channel_name: 'ХоРеКа'
     },
     {
       business_type_id: 15,
-      business_type_name: "Үсчин, гоо сайхан",
+      business_type_name: 'Үсчин, гоо сайхан',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 16,
-      business_type_name: "Цэцэрлэг",
+      business_type_name: 'Цэцэрлэг',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 17,
-      business_type_name: "Сургууль",
+      business_type_name: 'Сургууль',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 18,
-      business_type_name: "Фитнес",
+      business_type_name: 'Фитнес',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 19,
-      business_type_name: "Эмнэлэг",
+      business_type_name: 'Эмнэлэг',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 20,
-      business_type_name: "Үйлдвэр",
+      business_type_name: 'Үйлдвэр',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 22,
-      business_type_name: "Оффис",
+      business_type_name: 'Оффис',
       channel_id: 4,
-      channel_name: "Албан Байгууллага",
+      channel_name: 'Албан Байгууллага'
     },
     {
       business_type_id: 21,
-      business_type_name: "Эмийн сан",
+      business_type_name: 'Эмийн сан',
       channel_id: 5,
-      channel_name: "Эмийн Сан",
-    },
+      channel_name: 'Эмийн Сан'
+    }
   ];
 
   const onEdit = useCallback(() => {
@@ -174,26 +174,26 @@ function MyComponent(props) {
       const nextPath = polygonRef.current
         .getPath()
         .getArray()
-        .map((latLng) => {
+        .map(latLng => {
           return { lat: latLng.lat(), lng: latLng.lng() };
         });
       setPath(nextPath);
     }
   }, [setPath]);
   const onLoadTwo = useCallback(
-    (polygon) => {
+    polygon => {
       polygonRef.current = polygon;
       const path = polygon.getPath();
       listenersRef.current.push(
-        path.addListener("set_at", onEdit),
-        path.addListener("insert_at", onEdit),
-        path.addListener("remove_at", onEdit)
+        path.addListener('set_at', onEdit),
+        path.addListener('insert_at', onEdit),
+        path.addListener('remove_at', onEdit)
       );
     },
     [onEdit]
   );
   const onUnmountTwo = useCallback(() => {
-    listenersRef.current.forEach((lis) => lis.remove());
+    listenersRef.current.forEach(lis => lis.remove());
     polygonRef.current = null;
   }, []);
 
@@ -201,19 +201,19 @@ function MyComponent(props) {
 
   const GetData = () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
 
-      redirect: "follow",
+      redirect: 'follow'
     };
-    // let urlOld = `https://api2.ebazaar.mn/api/zones?supplier=${props?.supplier}&id=${zonectx?.updateID}`;
-    let urlNew = `https://api2.ebazaar.mn/api/zones?&id=${zonectx?.updateID}`;
+    // let urlOld = `${process.env.REACT_APP_API_URL2}/api/zones?supplier=${props?.supplier}&id=${zonectx?.updateID}`;
+    let urlNew = `${process.env.REACT_APP_API_URL2}/api/zones?&id=${zonectx?.updateID}`;
     fetch(urlNew, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         let arrMain = [];
         // console.log("res", res.data);
-        res.data.map((item) => {
+        res.data.map(item => {
           props.setName(item.name);
           props.setPriority(item.priority);
           props.setSupplierid(item.supplier);
@@ -223,14 +223,14 @@ function MyComponent(props) {
         props.setUpdateData(data);
         let cenx = [];
         let ceny = [];
-        res.data.map((item) => {
-          item.polygons.coordinates.map((x) => {
+        res.data.map(item => {
+          item.polygons.coordinates.map(x => {
             let arr = [];
 
-            x.map((t) => {
+            x.map(t => {
               arr.push({
                 lat: t[1],
-                lng: t[0],
+                lng: t[0]
               });
               cenx.push(t[1]);
               ceny.push(t[0]);
@@ -243,7 +243,7 @@ function MyComponent(props) {
         let averagey = ceny.reduce((a, b) => a + b, 0) / ceny.length;
         setCenter({
           lat: parseFloat(averagex),
-          lng: parseFloat(averagey),
+          lng: parseFloat(averagey)
         });
 
         setPath(...arrMain);
@@ -253,37 +253,37 @@ function MyComponent(props) {
     try {
       GetData();
     } catch (error) {
-      console.log("error fetch maps data", error);
+      console.log('error fetch maps data', error);
     }
   }, []);
   useEffect(() => {
     zonectx.setCoords(path);
   }, [path]);
   const options = {
-    fillColor: "#00000066",
-    strokeColor: "#ffa600",
+    fillColor: '#00000066',
+    strokeColor: '#ffa600'
   };
 
-  const onLoad = (marker) => {
+  const onLoad = marker => {
     // console.log("marker: ", marker);
   };
 
   const divStyle = {
     background: `white`,
-    padding: 5,
+    padding: 5
   };
-  console.log("setSelectedMarker", selectedMarker);
+  console.log('setSelectedMarker', selectedMarker);
   useEffect(() => {
     let data = [];
     if (selectedMarker) {
-      businessTypes.map((x) => {
+      businessTypes.map(x => {
         if (
           x.channel_id ==
           selectedMarker[
             `${
-              props.data.company_id === "|1|"
+              props.data.company_id === '|1|'
                 ? 13884
-                : props.data.company_id.replaceAll("|", "")
+                : props.data.company_id.replaceAll('|', '')
             }`
           ].tradeshops[0].channel
         ) {
@@ -301,7 +301,7 @@ function MyComponent(props) {
       zoom={12}
       //   onLoad={onLoad}
       //   onUnmount={onUnmount}
-      version="weekly"
+      version='weekly'
     >
       <Polygon
         editable
@@ -319,12 +319,12 @@ function MyComponent(props) {
         title: item.u_las_name ? `${item.u_las_name}` : `${item.c_name}`, */}
       {props.merchantsinfo?.map((item, index) => {
         let supplier =
-          props.data.company_id === "|1|"
+          props.data.company_id === '|1|'
             ? 13884
-            : props.data.company_id.replaceAll("|", "");
+            : props.data.company_id.replaceAll('|', '');
         let position = {
           lat: item[`${supplier}`].tradeshops[0].address.coordinate[1],
-          lng: item[`${supplier}`].tradeshops[0].address.coordinate[0],
+          lng: item[`${supplier}`].tradeshops[0].address.coordinate[0]
         };
         return (
           <Marker
@@ -342,46 +342,46 @@ function MyComponent(props) {
           position={{
             lat: selectedMarker[
               `${
-                props.data.company_id === "|1|"
+                props.data.company_id === '|1|'
                   ? 13884
-                  : props.data.company_id.replaceAll("|", "")
+                  : props.data.company_id.replaceAll('|', '')
               }`
             ].tradeshops[0].address.coordinate[1],
             lng: selectedMarker[
               `${
-                props.data.company_id === "|1|"
+                props.data.company_id === '|1|'
                   ? 13884
-                  : props.data.company_id.replaceAll("|", "")
+                  : props.data.company_id.replaceAll('|', '')
               }`
-            ].tradeshops[0].address.coordinate[0],
+            ].tradeshops[0].address.coordinate[0]
           }}
         >
           <div style={divStyle}>
             <div>
-              {" "}
-              <span style={{ fontWeight: "700" }}>Хэрэглэгчийн нэр :</span>
+              {' '}
+              <span style={{ fontWeight: '700' }}>Хэрэглэгчийн нэр :</span>
               <span>
                 {selectedMarker
                   ? selectedMarker[
                       `${
-                        props.data.company_id === "|1|"
+                        props.data.company_id === '|1|'
                           ? 13884
-                          : props.data.company_id.replaceAll("|", "")
+                          : props.data.company_id.replaceAll('|', '')
                       }`
                     ].tradeshops[0].name
                   : selectedMarker[
                       `${
-                        props.data.company_id === "|1|"
+                        props.data.company_id === '|1|'
                           ? 13884
-                          : props.data.company_id.replaceAll("|", "")
+                          : props.data.company_id.replaceAll('|', '')
                       }`
                     ].customer_name}
               </span>
             </div>
             <div>
-              {" "}
-              <span style={{ fontWeight: "700" }}>Бизнесийн төрөл :</span>
-              <span>{channelname ? channelname[0] : ""}</span>
+              {' '}
+              <span style={{ fontWeight: '700' }}>Бизнесийн төрөл :</span>
+              <span>{channelname ? channelname[0] : ''}</span>
             </div>
           </div>
         </InfoWindow>

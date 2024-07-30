@@ -1,20 +1,20 @@
-import { useState, useContext, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
-import List from "./List";
-import Header from "./Header";
-import Form from "./Form";
-import AppHook from "../Hooks/AppHook";
-import MassChannelPrice from "./MassChannelPrice";
-import Sidebar from "./Component/sidebar/sidebar";
-import Total from "./Component/Footer/Footer";
-import MassImport from "./MassImport";
-import TabsProduct from "./Component/Tab/Tab";
-import readXlsxFile from "read-excel-file";
-const Index = (props) => {
+import { useState, useContext, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
+import List from './List';
+import Header from './Header';
+import Form from './Form';
+import AppHook from '../Hooks/AppHook';
+import MassChannelPrice from './MassChannelPrice';
+import Sidebar from './Component/sidebar/sidebar';
+import Total from './Component/Footer/Footer';
+import MassImport from './MassImport';
+import TabsProduct from './Component/Tab/Tab';
+import readXlsxFile from 'read-excel-file';
+const Index = props => {
   const appContext = useContext(AppHook);
   const [data, setData] = useState([]);
   const [customers, setCustomers] = useState(null);
-  const [tab, setTab] = useState("products");
+  const [tab, setTab] = useState('products');
   const [product, setProduct] = useState(null);
   const [productGroups, setProductGroups] = useState(null);
   const [attributes, setAttributes] = useState(null);
@@ -31,12 +31,15 @@ const Index = (props) => {
   }, []);
 
   useEffect(() => {
-    fetch("https://api2.ebazaar.mn/api/backoffice/newsuppliers?id=13884", {
-      method: "GET",
-      headers: myHeaders,
-    })
-      .then((res) => res.json())
-      .then((response) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/newsuppliers?id=13884`,
+      {
+        method: 'GET',
+        headers: myHeaders
+      }
+    )
+      .then(res => res.json())
+      .then(response => {
         if (response?.ProductGroups) {
           setProductGroup(JSON.parse(response?.ProductGroups));
         }
@@ -51,113 +54,113 @@ const Index = (props) => {
 
   let [state, setState] = useState({
     supplier: null,
-    suppliers: [],
+    suppliers: []
   });
   useEffect(() => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/suppliers/get`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/suppliers/get`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         setState({ ...state, suppliers: response.data });
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
   }, []);
 
   const fetchCustomerData = () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    const url = `https://api2.ebazaar.mn/api/merchants?page=all`;
+    const url = `${process.env.REACT_APP_API_URL2}/api/merchants?page=all`;
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setCustomers(response.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    const url = "https://api2.ebazaar.mn/api/backoffice/users";
+    const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/users`;
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setSupplierUsers(response.data);
       });
   }, []);
 
   const fetchSiteData = () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     const url =
-      "https://api2.ebazaar.mn/api/productgroup/get?supplier=" +
+      `${process.env.REACT_APP_API_URL2}/api/productgroup/get?supplier=` +
       parseInt(appContext.userData.company_id.match(/(\d+)/)[0]);
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setProductGroups(response);
       });
   };
 
   const fetchAttributes = () => {
-    const url = `https://api2.ebazaar.mn/product/sub_attributes`;
+    const url = `${process.env.REACT_APP_API_URL2}/product/sub_attributes`;
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         setAttributes(response.data[0]);
       });
   };
-  const foobar = (e) => {
+  const foobar = e => {
     const schema = {
       price: {
-        prop: "price",
-        type: Number,
+        prop: 'price',
+        type: Number
       },
       barcode: {
-        prop: "barcode",
-        type: String,
+        prop: 'barcode',
+        type: String
       },
       sku: {
-        prop: "sku",
-        type: String,
+        prop: 'sku',
+        type: String
       },
       name: {
-        prop: "name",
-        type: String,
+        prop: 'name',
+        type: String
       },
       description: {
-        prop: "description",
-        type: String,
-      },
+        prop: 'description',
+        type: String
+      }
     };
 
-    readXlsxFile(e.target.files[0], { schema }).then((rows) => {
+    readXlsxFile(e.target.files[0], { schema }).then(rows => {
       setMassImportData(rows);
     });
     console.log(data);
@@ -167,9 +170,9 @@ const Index = (props) => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -177,115 +180,115 @@ const Index = (props) => {
           '><input type="file" id="read" /></form>'
       );
 
-    document.getElementById("read").click();
-    document.getElementById("read").addEventListener(
-      "change",
+    document.getElementById('read').click();
+    document.getElementById('read').addEventListener(
+      'change',
       () => {
         const schema = {
           price: {
-            prop: "price",
-            type: Number,
+            prop: 'price',
+            type: Number
           },
           barcode: {
-            prop: "barcode",
-            type: String,
+            prop: 'barcode',
+            type: String
           },
           active: {
-            prop: "active",
-            type: String,
+            prop: 'active',
+            type: String
           },
           sku: {
-            prop: "sku",
-            type: String,
+            prop: 'sku',
+            type: String
           },
           name: {
-            prop: "name",
-            type: String,
+            prop: 'name',
+            type: String
           },
           description: {
-            prop: "description",
-            type: String,
+            prop: 'description',
+            type: String
           },
           incase: {
-            prop: "incase",
-            type: Number,
+            prop: 'incase',
+            type: Number
           },
           stock: {
-            prop: "stock",
-            type: Number,
+            prop: 'stock',
+            type: Number
           },
           proper_stock: {
-            prop: "proper_stock",
-            type: String,
+            prop: 'proper_stock',
+            type: String
           },
           city_tax: {
-            prop: "city_tax",
-            type: String,
+            prop: 'city_tax',
+            type: String
           },
           safe_stock: {
-            prop: "safe_stock",
-            type: String,
+            prop: 'safe_stock',
+            type: String
           },
           supplier_minimum_order_amount: {
-            prop: "supplier_minimum_order_amount",
-            type: String,
+            prop: 'supplier_minimum_order_amount',
+            type: String
           },
           minimum_order_quantity: {
-            prop: "minimum_order_quantity",
-            type: String,
+            prop: 'minimum_order_quantity',
+            type: String
           },
           pick_date: {
-            prop: "pick_date",
-            type: String,
+            prop: 'pick_date',
+            type: String
           },
           brand: {
-            prop: "brand",
-            type: String,
+            prop: 'brand',
+            type: String
           },
           category: {
-            prop: "category",
-            type: String,
+            prop: 'category',
+            type: String
           },
           subCategory: {
-            prop: "subCategory",
-            type: String,
+            prop: 'subCategory',
+            type: String
           },
           alcohol: {
-            prop: "alcohol",
-            type: String,
+            prop: 'alcohol',
+            type: String
           },
           product_measure: {
-            prop: "product_measure",
-            type: String,
+            prop: 'product_measure',
+            type: String
           },
           storage_day: {
-            prop: "storage_day",
-            type: String,
+            prop: 'storage_day',
+            type: String
           },
           product_weigth: {
-            prop: "product_weigth",
-            type: String,
+            prop: 'product_weigth',
+            type: String
           },
           slug: {
-            prop: "slug",
-            type: String,
+            prop: 'slug',
+            type: String
           },
           priority: {
-            prop: "priority",
-            type: Number,
+            prop: 'priority',
+            type: Number
           },
           shuurhaicat: {
-            prop: "shuurkhaicat",
-            type: String,
+            prop: 'shuurkhaicat',
+            type: String
           },
 
           form: {
             prop: 'form',
-            type: String,
+            type: String
           },
           packActual: {
             prop: 'packActual',
-            type: String,
+            type: String
           },
           packSale: {
             prop: 'packSale',
@@ -322,11 +325,11 @@ const Index = (props) => {
           wholePrice: {
             prop: 'wholePrice',
             type: String
-          },
+          }
         };
-        readXlsxFile(document.getElementById("read").files[0], {
-          schema,
-        }).then((rows) => {
+        readXlsxFile(document.getElementById('read').files[0], {
+          schema
+        }).then(rows => {
           setMassImportData(rows);
         });
       },
@@ -336,19 +339,19 @@ const Index = (props) => {
 
   const tabs = [
     {
-      label: "Бүтээгдэхүүний жагсаалт",
+      label: 'Бүтээгдэхүүний жагсаалт',
       content: (
         <>
-          <div className="containerPageButtons productv2">
-            <button className="pageButton" style={{ marginRight: "5px" }}>
+          <div className='containerPageButtons productv2'>
+            <button className='pageButton' style={{ marginRight: '5px' }}>
               Жагсаалтын багана солих
             </button>
-            <button className="pageButton" onClick={() => setProduct("new")}>
+            <button className='pageButton' onClick={() => setProduct('new')}>
               + Шинэ бүтээгдэхүүн
             </button>
           </div>
-          <div className="product_page_list" style={{ display: "flex" }}>
-            <Sidebar onClick={(e) => setSelectedSupplier(e)} />
+          <div className='product_page_list' style={{ display: 'flex' }}>
+            <Sidebar onClick={e => setSelectedSupplier(e)} />
             <List
               setPage={setPage}
               suppliers={selectedSupplier}
@@ -382,33 +385,33 @@ const Index = (props) => {
             // <MassImport setProductMassImport={setProductMassImport} />
             <p>mass</p>
           ) : null} */}
-          
-          <Total data={data} setData={setData}/>
+
+          <Total data={data} setData={setData} />
         </>
-      ),
+      )
     },
     {
-      label: "Масс тохиргоо",
+      label: 'Масс тохиргоо',
       content: (
         <div>
           <div>
-            <button className="pageButton secondary marginleft1rem">
+            <button className='pageButton secondary marginleft1rem'>
               Export
             </button>
 
             <button
-              className="pageButton secondary marginleft1rem"
+              className='pageButton secondary marginleft1rem'
               onClick={() => {
                 readExcel();
               }}
             >
               Бүтээгдэхүүн масс импортлох
             </button>
-            <button className="pageButton secondary">
+            <button className='pageButton secondary'>
               Бүтээгдэхүүний тайлан
             </button>
             <button
-              className="pageButton secondary"
+              className='pageButton secondary'
               onClick={() => setMassChannelPrice(true)}
             >
               Масс сувгийн үнийн тохиргоо
@@ -424,29 +427,29 @@ const Index = (props) => {
             />
           ) : null}
         </div>
-      ),
+      )
     },
     {
-      label: "Ерөнхий тохиргоо",
+      label: 'Ерөнхий тохиргоо',
       content: (
         <div>
-          <button className="pageButton secondary marginleft1rem">
+          <button className='pageButton secondary marginleft1rem'>
             Ангилалын тохиргоо
           </button>
-          <button className="pageButton secondary marginleft1rem">
+          <button className='pageButton secondary marginleft1rem'>
             Брэндийн тохиргоо
           </button>
-          <button className="pageButton secondary">Эрэмбийн тохиргоо</button>
-          <button className="pageButton secondary">
+          <button className='pageButton secondary'>Эрэмбийн тохиргоо</button>
+          <button className='pageButton secondary'>
             Мерчант АПП Эрэмбийн тохиргоо
           </button>
         </div>
-      ),
-    },
+      )
+    }
   ];
 
   return attributes && supplierUsers && customers ? (
-    <div className="ProductNew">
+    <div className='ProductNew'>
       <Header tab={tab} setTab={setTab} />
       <TabsProduct tabs={tabs} />
     </div>

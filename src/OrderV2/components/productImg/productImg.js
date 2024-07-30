@@ -1,58 +1,29 @@
-import React, { useState, useEffect } from "react";
-import "./productImg.css";
+import React from 'react';
+import './productImg.css';
+import Avatar from '../avatar/Avatar';
 
-const ProductAvatar = (props) => {
-  const [avatar, setAvatar] = useState([]);
-  const [total, setTotal] = useState(null);
-
-  useEffect(() => {
-    // console.log("Zurag irj bnuuu?", props.data);
-    if (props?.data) {
-      setAvatar(props.data);
-      let aa = props.data?.line?.length ?? 0;
-      setTotal(aa);
-    }
-  }, [props]);
-
-  let images = avatar.line?.slice(0, 3).map((l, index) => {
-    if (l.product_image) {
-      let image = l.product_image.split(",").length === 0
-        ? l.product_image
-        : l.product_image.split(",")[0];
-      return (
-        <li className="avatars__item" key={index}>
-          <img
-            src={image.replace("original", "small")}
-            alt="product"
-            className="avatars__img"
-          />
-        </li>
-      );
-    } else {
-      return null;
-    }
-  });
-
-  let additionalImage = null;
-  if (avatar.line?.length > 3 && avatar.line[3]?.product_image) {
-    let image = avatar.line[3].product_image.replace("original", "small");
-    additionalImage = (
-      <li className="avatars__itemBack" key={3}>
-        <span className="avatars__others">+{total - 3}</span>
-        <img
-          src={image}
-          alt="product"
-          className="avatars__imgBack"
-        />
-      </li>
-    );
+const ProductAvatar = ({ data }) => {
+  if (!data) {
+    return null;
   }
 
   return (
-    <ul className="avatars">
-      {images}
-      {additionalImage}
-    </ul>
+    <div className='product-list'>
+      {data.slice(0, 4).map((item, index) => {
+        const imageUrl =
+          item.image && item.image.length > 0 ? item.image[0] : '';
+
+        return (
+          <div key={index} className='product-item'>
+            <Avatar
+              imageUrl={index === 3 ? '' : imageUrl}
+              name={index === 3 ? `+${data.length - 3}` : item.product_name}
+              position={index === 3 ? 3 : 0}
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

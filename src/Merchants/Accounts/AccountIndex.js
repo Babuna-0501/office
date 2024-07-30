@@ -1,22 +1,22 @@
-import css from "./accountindex.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Account from "./Account";
-import BusinessTable from "./BusinessTable";
-import { useContext } from "react";
-import { HeaderContext } from "../../Hooks/HeaderHook";
-import { useEffect } from "react";
-import { HeaderContent } from "./HeaderContent";
-import { useState } from "react";
-import { styles } from "./style";
-import { LoadingSpinner } from "../../components/common";
+import css from './accountindex.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Account from './Account';
+import BusinessTable from './BusinessTable';
+import { useContext } from 'react';
+import { HeaderContext } from '../../Hooks/HeaderHook';
+import { useEffect } from 'react';
+import { HeaderContent } from './HeaderContent';
+import { useState } from 'react';
+import { styles } from './style';
+import { LoadingSpinner } from '../../components/common';
 
-const AccountIndex = (props) => {
+const AccountIndex = props => {
   const { setHeaderContent } = useContext(HeaderContext);
-  const [searchUser, setSearchUser] = useState("");
-  const [searchBusiness, setSearchBusiness] = useState("");
-  const [tradeshopId, setTradeshopId] = useState("");
-  const [tradeshopName, setTradeshopName] = useState("");
+  const [searchUser, setSearchUser] = useState('');
+  const [searchBusiness, setSearchBusiness] = useState('');
+  const [tradeshopId, setTradeshopId] = useState('');
+  const [tradeshopName, setTradeshopName] = useState('');
   // const [businessType, setBusinessType] = useState("");
   // const [businessChannel, setBusinessChannel] = useState("");
   // const [city, setCity] = useState("");
@@ -29,7 +29,7 @@ const AccountIndex = (props) => {
   // const [loading, setLoading] = useState(false);
   const [sfa, setSfa] = useState(null);
 
-  let params = "";
+  let params = '';
   if (searchUser.length > 5) {
     params += `users=${searchUser}&`;
   }
@@ -74,16 +74,16 @@ const AccountIndex = (props) => {
 
   useEffect(() => {
     const getFilterRequest = () => {
-      const url = `https://api2.ebazaar.mn/users/alldata?page=${page}&limit=3000&${params}`;
+      const url = `${process.env.REACT_APP_API_URL2}/users/alldata?page=${page}&limit=3000&${params}`;
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((response) => setDatas(response.data));
+        .then(res => res.json())
+        .then(response => setDatas(response.data));
     };
     getFilterRequest();
   }, [params, page]);
@@ -100,8 +100,8 @@ const AccountIndex = (props) => {
     <div className={css.container}>
       <div className={css.accounts}>
         <div
-          className="header row"
-          style={{ padding: "0 0px", borderBottom: "0.8px solid #CCCCCC" }}
+          className='header row'
+          style={{ padding: '0 0px', borderBottom: '0.8px solid #CCCCCC' }}
         >
           {/* ----------------ACCOUNTS--------------- */}
           {sfa ? null : (
@@ -109,10 +109,10 @@ const AccountIndex = (props) => {
               <div className={css.w700}>Users</div>
               <div>
                 <input
-                  type="text"
-                  placeholder="Хайх ..."
-                  style={{ padding: "8px" }}
-                  onChange={(e) => setSearchUser(e.target.value)}
+                  type='text'
+                  placeholder='Хайх ...'
+                  style={{ padding: '8px' }}
+                  onChange={e => setSearchUser(e.target.value)}
                   value={searchUser}
                 />
               </div>
@@ -125,10 +125,10 @@ const AccountIndex = (props) => {
             <div className={css.w700}>Businesses</div>
             <div>
               <input
-                onChange={(e) => setSearchBusiness(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                onChange={e => setSearchBusiness(e.target.value)}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
                 value={searchBusiness}
               />
             </div>
@@ -136,13 +136,13 @@ const AccountIndex = (props) => {
 
           {/* ----------------TRADESHOP--------------- */}
 
-          <div style={{ ...styles.tradeshopId, padding: "0" }}>
+          <div style={{ ...styles.tradeshopId, padding: '0' }}>
             <div className={css.w700}>T-ID</div>
             <div>
               <input
-                onChange={(e) => setTradeshopId(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
+                onChange={e => setTradeshopId(e.target.value)}
+                type='text'
+                placeholder='Хайх ...'
                 // style={{ padding: "8px" }}
               />
             </div>
@@ -152,10 +152,10 @@ const AccountIndex = (props) => {
             <div className={css.w700}>T-Name</div>
             <div>
               <input
-                onChange={(e) => setTradeshopName(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                onChange={e => setTradeshopName(e.target.value)}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -166,9 +166,9 @@ const AccountIndex = (props) => {
               <input
                 // onChange={(e) => setTradeshopName(e.target.value)}
                 disabled={true}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -179,9 +179,9 @@ const AccountIndex = (props) => {
               <input
                 // onChange={(e) => setTradeshopName(e.target.value)}
                 disabled={true}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -192,9 +192,9 @@ const AccountIndex = (props) => {
               <input
                 disabled={true}
                 // onChange={(e) => setTradeshopName(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -205,9 +205,9 @@ const AccountIndex = (props) => {
               <input
                 disabled={true}
                 // onChange={(e) => setTradeshopName(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -218,9 +218,9 @@ const AccountIndex = (props) => {
               <input
                 disabled={true}
                 // onChange={(e) => setTradeshopName(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -231,27 +231,27 @@ const AccountIndex = (props) => {
               <input
                 disabled={true}
                 // onChange={(e) => setTradeshopName(e.target.value)}
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
 
-          <div style={{ ...styles.tradeshopAlcohol, padding: "0" }}>
+          <div style={{ ...styles.tradeshopAlcohol, padding: '0' }}>
             <div className={css.w700}>Тусгай ...</div>
             <div>
-              <input disabled style={{ padding: "8px" }} />
+              <input disabled style={{ padding: '8px' }} />
             </div>
           </div>
         </div>
       </div>
 
       {/* -----------------DATAS--------------------- */}
-      <div id="scrollableDiv" className={css.scrollcontainer}>
+      <div id='scrollableDiv' className={css.scrollcontainer}>
         <InfiniteScroll
           dataLength={datas?.length}
-          next={() => datas.length > 20 && setPage((prev) => prev + 1)}
+          next={() => datas.length > 20 && setPage(prev => prev + 1)}
           hasMore={true}
           loader={
             datas?.length === 0 && (
@@ -260,7 +260,7 @@ const AccountIndex = (props) => {
               </div>
             )
           }
-          scrollableTarget="scrollableDiv"
+          scrollableTarget='scrollableDiv'
         >
           {datas ? (
             datas.map((data, index) => {
@@ -279,12 +279,12 @@ const AccountIndex = (props) => {
                   ) : (
                     <div
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "81px",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '81px'
                       }}
                     >
-                      {data.businesses.map((business) => {
+                      {data.businesses.map(business => {
                         return (
                           <BusinessTable
                             key={index}
@@ -307,9 +307,9 @@ const AccountIndex = (props) => {
           ) : (
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
               Мэдээлэл байхгүй байна.

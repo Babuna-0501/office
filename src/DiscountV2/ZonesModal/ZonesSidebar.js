@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-import css from "./zonessidebar.module.css";
-import closeIcon from "../../assets/close.svg";
-import { Checkbox, Col, Row } from "antd";
-import myHeaders from "../../components/MyHeader/myHeader";
-import Googlemap from "./Googlemap";
-import PromoHook from "../../Hooks/PromoHook";
+import React, { useEffect, useState, useContext } from 'react';
+import css from './zonessidebar.module.css';
+import closeIcon from '../../assets/close.svg';
+import { Checkbox, Col, Row } from 'antd';
+import myHeaders from '../../components/MyHeader/myHeader';
+import Googlemap from './Googlemap';
+import PromoHook from '../../Hooks/PromoHook';
 
-const ZonesSidebar = (props) => {
+const ZonesSidebar = props => {
   const [data, setData] = useState([]);
   const [optionPlan, setOptionPlan] = useState([1, 2, 3]);
   const [ids, setIds] = useState([]);
@@ -17,28 +17,28 @@ const ZonesSidebar = (props) => {
     options.push({});
   }, []);
 
-  const onChange = (checkedValues) => {
+  const onChange = checkedValues => {
     // console.log("checkedvalue", checkedValues);
     setIds(checkedValues);
   };
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/zones`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         if (response.code === 200) {
-          let content = response.data.filter((item) => {
+          let content = response.data.filter(item => {
             return item.isActive === 1;
           });
           setData(content);
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
   }, []);
 
   const saveHandler = () => {
@@ -46,7 +46,7 @@ const ZonesSidebar = (props) => {
     let transData = [];
 
     data.map((it, i) => {
-      ids.map((x) => {
+      ids.map(x => {
         if (it._id === x) {
           transData.push(it);
         }
@@ -56,10 +56,10 @@ const ZonesSidebar = (props) => {
     props.setZoneMapIDS(ids);
     promoctx.setZonessidebar(false);
   };
-  const onChangeAll = (e) => {
+  const onChangeAll = e => {
     // console.log(`checked = ${e.target.checked}`);
     if (e.target.checked === true) {
-      setIds(["62f4aabe45a4e22552a3969f"]);
+      setIds(['62f4aabe45a4e22552a3969f']);
     }
   };
 
@@ -68,10 +68,10 @@ const ZonesSidebar = (props) => {
       <div className={css.wrapperOne}></div>
       <div className={css.wrapperTwo}>
         <div className={css.firstcontainer}>
-          <span>Бүсчлэлийн тохиргоо</span>{" "}
+          <span>Бүсчлэлийн тохиргоо</span>{' '}
           <img
             src={closeIcon}
-            alt="close icon"
+            alt='close icon'
             onClick={() => {
               promoctx.setZonessidebar(false);
             }}
@@ -84,8 +84,8 @@ const ZonesSidebar = (props) => {
           <div className={css.mapscontainer}>
             <Checkbox.Group
               style={{
-                display: "flex",
-                flexWrap: "wrap",
+                display: 'flex',
+                flexWrap: 'wrap'
               }}
               onChange={onChange}
             >
@@ -100,7 +100,7 @@ const ZonesSidebar = (props) => {
                   >
                     <div className={css.headercontainer}>
                       <Checkbox value={item._id} options={optionPlan}>
-                        <p style={{ fontSize: "16px", marginBottom: "0" }}>
+                        <p style={{ fontSize: '16px', marginBottom: '0' }}>
                           {item.name}
                         </p>
                       </Checkbox>

@@ -1,55 +1,75 @@
 import React, { useState } from 'react';
 
-function DeliveryDate({ data, setOrder, closeDeliveryDate }) {
-  const [date, setDate] = useState(data.delivery_date.substr(0, 10));
+function DeliveryDate({
+  data,
+  closeDeliveryDate,
+  loadingButton,
+  setLoadingButton
+}) {
+  const [date, setDate] = useState(data?.delivery_date?.substr(0, 10));
 
   const save = () => {
-    if (date !== "") {
+    setLoadingButton(true);
+
+    if (date !== '') {
       var myHeaders = new Headers();
+
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+
+      myHeaders.append('Content-Type', 'application/json');
+
       var raw = JSON.stringify({
         order_id: data.order_id,
-        delivery_date: date,
+        delivery_date: date
       });
+
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      fetch("https://api2.ebazaar.mn/api/order/update", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/update`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           if (result.code === 200) {
-            alert("Амжилттай хадгаллаа!");
-            data.delivery_date = date;
-            setOrder(data);
-            window.location.reload(); 
+            setLoadingButton(false);
+            alert('Амжилттай хадгаллаа!');
           }
         });
     } else {
-      alert("Алдаа гарлаа");
+      alert('Алдаа гарлаа');
     }
   };
 
   return (
-    <div id="bg" style={{ zIndex: '150' }}>
-      <div id="foo">
-        <span className="close" onClick={closeDeliveryDate}>
+    <div id='bg' style={{ zIndex: '150' }}>
+      <div id='foo'>
+        <span className='close' onClick={closeDeliveryDate}>
           Close
         </span>
         <h1>Хүргэлтийн өдөр</h1>
         <input
-          type="date"
-          id="deliverydate"
+          type='date'
+          id='deliverydate'
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={e => setDate(e.target.value)}
         />
-        <button onClick={save}>Хадгалах</button>
+        <button
+          onClick={() => {
+            save();
+            closeDeliveryDate();
+          }}
+        >
+          Хадгалах
+        </button>
       </div>
     </div>
   );

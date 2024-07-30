@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useState, useEffect, useContext, createContext } from 'react';
 
-import myHeaders from "../components/MyHeader/myHeader";
-import { GlobalContext } from "../../Hooks/GlobalContext";
+import myHeaders from '../components/MyHeader/myHeader';
+import { GlobalContext } from '../../Hooks/GlobalContext';
 
 const Ctx = createContext();
 
-export const Order2Hook = (props) => {
+export const Order2Hook = props => {
   const { loggedUser } = useContext(GlobalContext);
   const [fieldsData, setFieldsData] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -13,12 +13,12 @@ export const Order2Hook = (props) => {
   const [tablePosition, setTablePosition] = useState({
     order: {
       field: [],
-      report: [],
+      report: []
     },
     product: {
       field: [],
-      report: [],
-    },
+      report: []
+    }
   });
 
   const [permission, setPermission] = useState();
@@ -37,234 +37,234 @@ export const Order2Hook = (props) => {
         {
           id: 1,
           position: 1,
-          title: "Дугаар",
+          title: 'Дугаар',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 2,
           position: 2,
-          title: "Logo",
+          title: 'Logo',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 3,
           position: 3,
-          title: "Нийлүүлэгч",
+          title: 'Нийлүүлэгч',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 4,
           position: 4,
-          title: "Notification",
+          title: 'Notification',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 5,
           position: 5,
-          title: "Захиалга",
+          title: 'Захиалга',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 6,
           position: 6,
-          title: "DeliveryManOne",
+          title: 'DeliveryManOne',
           permission: true,
-          show: false,
+          show: false
         },
         {
           id: 7,
           position: 7,
-          title: "Захиалсан",
+          title: 'Захиалсан',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 8,
           position: 8,
-          title: "Хүргүүлэх",
+          title: 'Хүргүүлэх',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 9,
           position: 9,
-          title: "Дүн",
+          title: 'Дүн',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 10,
           position: 10,
-          title: "Анхны дүн",
+          title: 'Анхны дүн',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 11,
           position: 11,
-          title: "Coupon",
+          title: 'Coupon',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 12,
           position: 12,
-          title: "Тэмдэглэл",
+          title: 'Тэмдэглэл',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 13,
           position: 13,
-          title: "Утас",
+          title: 'Утас',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 14,
           position: 14,
-          title: "Захиалсан",
+          title: 'Захиалсан',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 15,
           position: 15,
-          title: "Суваг",
+          title: 'Суваг',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 16,
           position: 16,
-          title: "Хот/аймаг",
+          title: 'Хот/аймаг',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 17,
           position: 17,
-          title: "Дүүрэг/сум",
+          title: 'Дүүрэг/сум',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 18,
           position: 18,
-          title: "Хороо",
+          title: 'Хороо',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 19,
           position: 19,
-          title: "Хаяг",
+          title: 'Хаяг',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 20,
           position: 20,
-          title: "Төлбөрийн хэлбэр",
+          title: 'Төлбөрийн хэлбэр',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 21,
           position: 21,
-          title: "PickPack",
+          title: 'PickPack',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 22,
           position: 22,
-          title: "Origin",
+          title: 'Origin',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 23,
           position: 23,
-          title: "VAT",
+          title: 'VAT',
           permission: true,
-          show: false,
+          show: false
         },
         {
           id: 24,
           position: 24,
-          title: "user_date",
+          title: 'user_date',
           permission: true,
-          show: false,
+          show: false
         },
         {
           id: 25,
           position: 25,
-          title: "Хариуцагч",
+          title: 'Хариуцагч',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 26,
           position: 26,
-          title: "Хариуцагч нэр",
+          title: 'Хариуцагч нэр',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 27,
           position: 27,
-          title: " Утасны дугаар",
+          title: ' Утасны дугаар',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 28,
           position: 28,
-          title: "Түгээгч",
+          title: 'Түгээгч',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 29,
           position: 29,
-          title: "Ачилт",
+          title: 'Ачилт',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 30,
           position: 30,
-          title: "Захиалга устгах",
+          title: 'Захиалга устгах',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 31,
           position: 31,
-          title: "Утасны захиалга",
+          title: 'Утасны захиалга',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 32,
           position: -1,
-          title: "Буцаалт",
+          title: 'Буцаалт',
           permission: true,
-          show: true,
+          show: true
         },
         {
           id: 33,
           position: 33,
-          title: "ХТ код",
+          title: 'ХТ код',
           permission: true,
-          show: true,
-        },
+          show: true
+        }
       ]);
     }
     if (loggedUser && tablePosition.order?.report?.length > 0) {
@@ -272,177 +272,177 @@ export const Order2Hook = (props) => {
     } else if (loggedUser) {
       setFieldsDataReport([
         {
-          fieldName: "Order number",
-          show: true,
+          fieldName: 'Order number',
+          show: true
         },
         {
-          fieldName: "Product name",
-          show: true,
+          fieldName: 'Product name',
+          show: true
         },
         {
-          fieldName: "Merchant Sku",
-          show: true,
+          fieldName: 'Merchant Sku',
+          show: true
         },
         {
-          fieldName: "Barcode",
-          show: true,
+          fieldName: 'Barcode',
+          show: true
         },
         {
-          fieldName: "Brand",
-          show: true,
+          fieldName: 'Brand',
+          show: true
         },
         {
-          fieldName: "Qty",
-          show: true,
+          fieldName: 'Qty',
+          show: true
         },
         {
-          fieldName: "Gr",
-          show: true,
+          fieldName: 'Gr',
+          show: true
         },
         {
-          fieldName: "Price",
-          show: true,
+          fieldName: 'Price',
+          show: true
         },
         {
-          fieldName: "Taken",
-          show: true,
+          fieldName: 'Taken',
+          show: true
         },
         {
-          fieldName: "Canceled",
-          show: true,
+          fieldName: 'Canceled',
+          show: true
         },
         {
-          fieldName: "Returned",
-          show: true,
+          fieldName: 'Returned',
+          show: true
         },
         {
-          fieldName: "Final Total",
-          show: true,
+          fieldName: 'Final Total',
+          show: true
         },
         {
-          fieldName: "Paid at",
-          show: true,
+          fieldName: 'Paid at',
+          show: true
         },
         {
-          fieldName: "Reason",
-          show: true,
+          fieldName: 'Reason',
+          show: true
         },
         {
-          fieldName: "Main category",
-          show: true,
+          fieldName: 'Main category',
+          show: true
         },
         {
-          fieldName: "Sub-category",
-          show: true,
+          fieldName: 'Sub-category',
+          show: true
         },
         {
-          fieldName: "Cancel reason",
-          show: true,
+          fieldName: 'Cancel reason',
+          show: true
         },
         {
-          fieldName: "Төлбөр бэлэн",
-          show: true,
+          fieldName: 'Төлбөр бэлэн',
+          show: true
         },
         {
-          fieldName: "Төлбөр банк",
-          show: true,
+          fieldName: 'Төлбөр банк',
+          show: true
         },
         {
-          fieldName: "Төлбөр зээл",
-          show: true,
+          fieldName: 'Төлбөр зээл',
+          show: true
         },
         {
-          fieldName: "LendMn",
-          show: true,
+          fieldName: 'LendMn',
+          show: true
         },
         {
-          fieldName: "StorePay",
-          show: true,
+          fieldName: 'StorePay',
+          show: true
         },
         {
-          fieldName: "Урдчилсан",
-          show: true,
+          fieldName: 'Урдчилсан',
+          show: true
         },
         {
-          fieldName: "Түгээгч",
-          show: true,
+          fieldName: 'Түгээгч',
+          show: true
         },
         {
-          fieldName: "Vendor",
-          show: true,
+          fieldName: 'Vendor',
+          show: true
         },
         {
-          fieldName: "Total",
-          show: true,
+          fieldName: 'Total',
+          show: true
         },
         {
-          fieldName: "Completed at",
-          show: true,
+          fieldName: 'Completed at',
+          show: true
         },
         {
-          fieldName: "When to ship",
-          show: true,
+          fieldName: 'When to ship',
+          show: true
         },
         {
-          fieldName: "Shipped at",
-          show: true,
+          fieldName: 'Shipped at',
+          show: true
         },
         {
-          fieldName: "Note",
-          show: true,
+          fieldName: 'Note',
+          show: true
         },
         {
-          fieldName: "Receiver phone",
-          show: true,
+          fieldName: 'Receiver phone',
+          show: true
         },
         {
-          fieldName: "Receiver info",
-          show: true,
+          fieldName: 'Receiver info',
+          show: true
         },
         {
-          fieldName: "Receiver name",
-          show: true,
+          fieldName: 'Receiver name',
+          show: true
         },
         {
-          fieldName: "Branch",
-          show: true,
+          fieldName: 'Branch',
+          show: true
         },
         {
-          fieldName: "Business type",
-          show: true,
+          fieldName: 'Business type',
+          show: true
         },
         {
-          fieldName: "State name",
-          show: true,
+          fieldName: 'State name',
+          show: true
         },
         {
-          fieldName: "District",
-          show: true,
+          fieldName: 'District',
+          show: true
         },
         {
-          fieldName: "Quarter",
-          show: true,
+          fieldName: 'Quarter',
+          show: true
         },
         {
-          fieldName: "Address",
-          show: true,
+          fieldName: 'Address',
+          show: true
         },
         {
-          fieldName: "Original total",
-          show: true,
+          fieldName: 'Original total',
+          show: true
         },
         {
-          fieldName: "Status",
-          show: true,
+          fieldName: 'Status',
+          show: true
         },
         {
-          fieldName: "Register",
-          show: true,
+          fieldName: 'Register',
+          show: true
         },
         {
-          fieldName: "Origin",
-          show: true,
-        },
+          fieldName: 'Origin',
+          show: true
+        }
       ]);
     }
   }, [tablePosition.order.field, tablePosition.order.report, loggedUser]);
@@ -453,7 +453,7 @@ export const Order2Hook = (props) => {
         setTablePosition(JSON.parse(loggedUser?.tablePosition));
       }
     } catch (error) {
-      console.log("tablePosition error");
+      console.log('tablePosition error');
     }
   }, [loggedUser]);
 
@@ -463,73 +463,48 @@ export const Order2Hook = (props) => {
       tablePosition: {
         order: {
           field:
-            fieldsData === "restart"
+            fieldsData === 'restart'
               ? []
               : fieldsData
               ? fieldsData.map(({ content, ...rest }) => rest)
               : tablePosition.order.field || [],
 
           report:
-            fieldsDataReport === "restart"
+            fieldsDataReport === 'restart'
               ? []
-              : fieldsDataReport || tablePosition.order?.report || [],
+              : fieldsDataReport || tablePosition.order?.report || []
         },
         product: {
           field: [],
-          report: [],
-        },
-      },
+          report: []
+        }
+      }
     };
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: JSON.stringify(data),
+      redirect: 'follow',
+      body: JSON.stringify(data)
     };
-    fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("Res", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('Res', res);
         if (
-          (res.code === 200 && fieldsData === "restart") ||
-          fieldsDataReport === "restart"
+          (res.code === 200 && fieldsData === 'restart') ||
+          fieldsDataReport === 'restart'
         ) {
-          alert("Амжилттай шинэчлэгдлээ");
+          alert('Амжилттай шинэчлэгдлээ');
           window.location.reload(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(`Алдаа гарлаа. ${error}`);
       });
   };
-
-  // useEffect(() => {
-  //   if (loggedUser) {
-  //     updateUser();
-  //   }
-  // }, [fieldsData]);
-
-  // useEffect(() => {
-  //   let headerAttach = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-
-  //   fetch(
-  //     `https://api2.ebazaar.mn/api/backoffice/users?company=14031`,
-  //     headerAttach
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       // console.log("res----res--------++++++++++++++*//////////////", res);
-  //       setTugeegch(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("fetch backoffice response error", error);
-  //     });
-  // }, [userData]);
-  console.log(fieldsData);
 
   return (
     <Ctx.Provider
@@ -542,7 +517,7 @@ export const Order2Hook = (props) => {
         permission,
         tablePosition,
         fieldsDataReport,
-        setFieldsDataReport,
+        setFieldsDataReport
       }}
     >
       {props.children}

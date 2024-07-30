@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from "react";
-import ErrorPopup from "../components/common/ErrorPopup";
-import myHeaders from "../components/MyHeader/myHeader";
+import { createContext, useState, useEffect } from 'react';
+import ErrorPopup from '../components/common/ErrorPopup';
+import myHeaders from '../components/MyHeader/myHeader';
 
 // Services
 import {
@@ -8,8 +8,8 @@ import {
   getLoggedUser,
   getUserRoles,
   getSuppliers,
-  getModules,
-} from "../services";
+  getModules
+} from '../services';
 
 export const GlobalContext = createContext(null);
 
@@ -25,7 +25,7 @@ export const GlobalProvider = ({ children }) => {
   const [emdProducts, setEmdProducts] = useState([]);
   const [globalDataReady, setGlobalDataReady] = useState(false);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const GlobalProvider = ({ children }) => {
             getLoggedUser(),
             getSiteData(),
             getUserRoles(),
-            getSuppliers(),
+            getSuppliers()
           ]);
 
         const loggedUserData = await loggedUserRes.json();
@@ -58,33 +58,33 @@ export const GlobalProvider = ({ children }) => {
         // }
         setGlobalDataReady(true);
       } catch (error) {
-        setErrorMsg("Алдаа гарлаа. Та дахин оролдоно уу!");
+        setErrorMsg('Алдаа гарлаа. Та дахин оролдоно уу!');
         setShowErrorMsg(true);
       }
     };
 
-    const token = localStorage.getItem("ebazaar_admin_token");
+    const token = localStorage.getItem('ebazaar_admin_token');
 
     if (token) {
       getGlobalDatas();
     }
   }, []);
 
-  const getSafeDecent = async ({ supplierId, merchantId = "" }) => {
+  const getSafeDecent = async ({ supplierId, merchantId = '' }) => {
     try {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       const data = await fetch(
-        `https://api2.ebazaar.mn/api/oresh?supplierId=${supplierId}&merchantId=${merchantId}`,
+        `${process.env.REACT_APP_API_URL2}/api/oresh?supplierId=${supplierId}&merchantId=${merchantId}`,
         requestOptions
       );
       const res = await data.json();
       return res;
     } catch (error) {
-      console.log("users error ", error);
+      console.log('users error ', error);
     }
   };
 
@@ -101,7 +101,7 @@ export const GlobalProvider = ({ children }) => {
     modules,
     getSafeDecent,
     emdProducts,
-    setEmdProducts,
+    setEmdProducts
   };
 
   return (
