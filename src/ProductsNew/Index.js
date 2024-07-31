@@ -157,7 +157,31 @@ const Index = props => {
       description: {
         prop: 'description',
         type: String
-      }
+      },
+      boditSavlalt: {
+        prop: 'boditSavlalt',
+        type: String
+      },
+      zardagSavlalt: {
+        prop: 'zardagSavlalt',
+        type: String
+      },
+      slug: {
+        prop: 'slug',
+        type: String
+      },
+      subCategory: {
+        prop: 'subCategory',
+        type: String
+      },
+      country: {
+        prop: 'country',
+        type: String
+      },
+      manufacturer: {
+        prop: 'manufacturer',
+        type: String
+      },
     };
 
     readXlsxFile(e.target.files[0], { schema }).then(rows => {
@@ -419,7 +443,6 @@ const Index = props => {
           </div>
           {massImportData ? (
             <MassImport
-
               data={massImportData}
               setMassImportData={setMassImportData}
               suppliers={state.suppliers}

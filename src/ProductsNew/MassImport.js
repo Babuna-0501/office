@@ -8,6 +8,7 @@ import ProductReportHook from '../Hooks/ProductsReportHook';
 import { GlobalContext } from '../Hooks/GlobalContext';
 
 const MassImport = props => {
+  console.log(props.data)
   const { loggedUser } = useContext(GlobalContext);
   const [isEmhangan, setIsEmhangan] = useState(false);
   const [rows, setRows] = useState(props.data.rows);
