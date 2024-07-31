@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Table from '../../components/table/Table';
 import myHeaders from '../../components/MyHeader/myHeader';
 import Total from '../Total';
-import OrderDetail from '../../components/orderDetail/OrderDetail';
+import OrderDetail from '../../components/orderDetail/orderDetail';
 import { LoadingSpinner } from '../../../components/common';
 import DeliveryDate from '../../components/DeliveryDate';
 import CityData from '../../data/city.json';

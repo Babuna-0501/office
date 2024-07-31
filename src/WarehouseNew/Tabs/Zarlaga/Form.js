@@ -14,29 +14,7 @@ const Form = props => {
   const [saving, setSaving] = useState(false);
   const [mode, setMode] = useState(null);
 
-  const fetchData = (params = '') => {
-    const url = `${process.env.REACT_APP_API_URL2}/api/shipment?owner=${props.wh}&products=true&createdDate=true&pageAll=true&${params}`;
 
-    const requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-
-    fetch(url, requestOptions)
-      .then(r => r.json())
-      .then(response => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [props.wh]);
 
 
 

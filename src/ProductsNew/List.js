@@ -256,7 +256,7 @@ const List = props => {
         <div className='entryBlock' style={{ width: '200px' }}>
           <p>{product.sector_id}</p>
         </div>
-        {/* <div className='entryBlock' style={{ width: '200px' }}>
+        <div className='entryBlock' style={{ width: '200px' }}>
           <p>
             {product.attributes &&
               product.attributes[0] &&
@@ -269,17 +269,17 @@ const List = props => {
               product.attributes[0] &&
               product.attributes[0].boditSavlalt}
           </p>
-        </div> */}
+        </div>
         <div className='entryBlock' style={{ width: '140px' }}>
           <p>{product.created_date.substr(0, 10)}</p>
         </div>
-        {/* <div className='entryBlock' style={{ width: '140px' }}>
+        <div className='entryBlock' style={{ width: '140px' }}>
            <p>
             {product.attributes &&
               product.attributes[0] &&
               product.attributes[0].endDate}
           </p>
-        </div> */}
+        </div>
         {/* settings */}
         {/* <div
           className="entryBlock"
@@ -482,7 +482,7 @@ const List = props => {
             <input type='text' />
           </div>
         </div>
-        {/* <div className='entryBlock' style={{ width: '200px' }}>
+        <div className='entryBlock' style={{ width: '200px' }}>
           <div className='entryHeader'>
             <label>Зардаг савлалт</label>
             <input type='text' />
@@ -493,19 +493,19 @@ const List = props => {
             <label>Бодит савлалт</label>
             <input type='text' />
           </div>
-        </div> */}
+        </div>
         <div className='entryBlock' style={{ width: '140px' }}>
           <div className='entryHeader'>
             <label>Үүсгэсэн огноо</label>
             <input type='text' />
           </div>
         </div>
-        {/* <div className='entryBlock' style={{ width: '140px' }}>
+        <div className='entryBlock' style={{ width: '140px' }}>
           <div className='entryHeader'>
             <label>Дуусах хугацаа</label>
             <input type='text' />
           </div>
-        </div> */}
+        </div>
       </div>
       {renderHTML}
     </div>
