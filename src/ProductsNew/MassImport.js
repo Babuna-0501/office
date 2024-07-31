@@ -281,7 +281,9 @@ const MassImport = props => {
                 'quantity',
                 'wholePrice',
                 'unitPrice',
-                'seriesNumber'
+                'seriesNumber',
+                'boditSavlalt',
+                'zardagSavlalt'
               ]
                 .filter(field => rows?.[0]?.[field])
                 .map(field => (
@@ -343,7 +345,11 @@ const MassImport = props => {
                       'quantity',
                       'wholePrice',
                       'unitPrice',
-                      'seriesNumber'
+                      'seriesNumber',
+                      'resource',
+                      'condition',
+                      'endDate',
+                      'manufacturer',
                     ]
                       .filter(field => row?.[field])
                       .map(field => (

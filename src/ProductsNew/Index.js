@@ -158,14 +158,6 @@ const Index = props => {
         prop: 'description',
         type: String
       },
-      boditSavlalt: {
-        prop: 'boditSavlalt',
-        type: String
-      },
-      zardagSavlalt: {
-        prop: 'zardagSavlalt',
-        type: String
-      },
       slug: {
         prop: 'slug',
         type: String
@@ -198,10 +190,10 @@ const Index = props => {
       .insertAdjacentHTML(
         'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
-          id +
-          '" name=' +
-          id +
-          '><input type="file" id="read" /></form>'
+        id +
+        '" name=' +
+        id +
+        '><input type="file" id="read" /></form>'
       );
 
     document.getElementById('read').click();
@@ -223,6 +215,10 @@ const Index = props => {
           },
           sku: {
             prop: 'sku',
+            type: String
+          },
+          resource: {
+            prop: 'resource',
             type: String
           },
           name: {
@@ -334,6 +330,10 @@ const Index = props => {
             prop: 'storageCondition',
             type: String
           },
+          condition: {
+            prop: 'condition',
+            type: String
+          },
           quantity: {
             prop: 'quantity',
             type: String
@@ -346,10 +346,24 @@ const Index = props => {
             prop: 'seriesNumber',
             type: String
           },
+          endDate: {
+            prop: 'endDate',
+            type: String
+          },
           wholePrice: {
             prop: 'wholePrice',
             type: String
-          }
+          },
+
+
+          boditSavlalt: {
+            prop: 'boditSavlalt',
+            type: String
+          },
+          zardagSavlalt: {
+            prop: 'zardagSavlalt',
+            type: String
+          },
         };
         readXlsxFile(document.getElementById('read').files[0], {
           schema
