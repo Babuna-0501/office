@@ -1,0 +1,61 @@
+
+.sidebar-product {
+    width: 26rem;
+    background-color: #FFFFFF;
+    padding: 10px;
+    
+  }
+
+  .search-bar {
+    position: relative;
+  }
+  .search-bar .search_icon {
+    position: absolute;
+    top: 10%;
+    right: 4%;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    height: 30px;
+  }
+  
+  .scroll-container {
+    max-height: 600px;
+    overflow-y: auto;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .scroll-container .item{
+    font-size: 12px;
+  }
+  
+  .item {
+    padding: 8px;
+    justify-content: space-around;
+  }
+  
+  .item:last-child {
+    border-bottom: none; 
+  }
+  
+  .item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+.item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #fff;
+}
+
+.item:hover,
+.item.selected {
+  background-color: #f0f0f0;
+}

@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import upload from "../../assets/Upload_white.svg";
-import refreshIcon from "../../assets/refresh.svg";
-import settingIcon from "../../assets/Setting_darkgray.svg";
-import PaperIcon from "../../assets/Paper.svg";
-import PriceSetting from "../../assets/Price Setting 2.png";
-import css from "./productreportbtn.module.css";
-import ProductsReportHook from "../../Hooks/ProductsReportHook";
-import ProductHook from "../../Hooks/ProductHook";
-import { Modal } from "antd";
-import ShopPriceRegister from "../../Products/ShopPriceRegister/ShopPriceRegister";
-import { Button } from "../common";
+import React, { useContext, useEffect, useState } from 'react';
+import upload from '../../assets/Upload_white.svg';
+import refreshIcon from '../../assets/refresh.svg';
+import settingIcon from '../../assets/Setting_darkgray.svg';
+import PaperIcon from '../../assets/Paper.svg';
+import PriceSetting from '../../assets/Price Setting 2.png';
+import css from './productreportbtn.module.css';
+import ProductsReportHook from '../../Hooks/ProductsReportHook';
+import ProductHook from '../../Hooks/ProductHook';
+import { Modal } from 'antd';
+import ShopPriceRegister from '../../Products/ShopPriceRegister/ShopPriceRegister';
+import { Button } from '../common';
+import { replaceImageUrl } from '../../utils';
 
-const ProductReportBtn = (props) => {
+const ProductReportBtn = props => {
   const productsCtx = useContext(ProductsReportHook);
   const prodCtx = useContext(ProductHook);
   const settingHandler = () => {
@@ -24,9 +25,9 @@ const ProductReportBtn = (props) => {
   const [products, setProducts] = useState([]);
   const [newOrder, setNewOrder] = useState({});
   const [companyId, setUserCompanyId] = useState(
-    props.userData.company_id === "|1|"
+    props.userData.company_id === '|1|'
       ? 13884
-      : parseInt(props.userData.company_id.replaceAll("|", ""))
+      : parseInt(props.userData.company_id.replaceAll('|', ''))
   );
 
   const permission = Object.values(JSON.parse(props.userData.permission))[0];
@@ -35,25 +36,25 @@ const ProductReportBtn = (props) => {
     setOpen(true);
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     fetch(
-      `https://api2.ebazaar.mn/api/products/get1?supplier=${companyId}`,
+      `${process.env.REACT_APP_API_URL2}/api/products/get1?supplier=${companyId}`,
       requestOptions
     )
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         setProducts(res.data);
       })
-      .catch((error) => {
-        console.log("error", error.message);
+      .catch(error => {
+        console.log('error', error.message);
       });
   };
   useEffect(() => {
@@ -72,48 +73,51 @@ const ProductReportBtn = (props) => {
   const newArray = products.map((e, i) => ({
     id: e._id,
     priority: newOrder[`${e._id}`] || products.length - i,
-    supplier: parseInt(companyId),
+    supplier: parseInt(companyId)
   }));
 
   const save = () => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
 
     var raw = JSON.stringify(newArray);
     // newArray
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/product/priority/set`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/product/priority/set`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
         if (res.data.statusCode === 200) {
-          alert("Амжилттай хадгалагдлаа");
+          alert('Амжилттай хадгалагдлаа');
         } else {
-          alert("Алдаа гарлаа, Дахин оролдоно уу");
+          alert('Алдаа гарлаа, Дахин оролдоно уу');
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
   return (
     <div
       style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        boxSizing: "border-box",
-        gap: 10,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        gap: 10
       }}
     >
       {productsCtx?.selectedProductsId?.length !== 0 && (
@@ -147,11 +151,11 @@ const ProductReportBtn = (props) => {
                   onClick={() => {
                     prodCtx.setCreateProd(true);
                   }}
-                  variant="primary"
-                  size="medium"
+                  variant='primary'
+                  size='medium'
                   icon
                 >
-                  <img src={upload} alt="upload" /> Нэг бүтээгдэхүүн бүртгэх
+                  <img src={upload} alt='upload' /> Нэг бүтээгдэхүүн бүртгэх
                 </Button>
               </div>
 
@@ -159,100 +163,100 @@ const ProductReportBtn = (props) => {
                 onClick={() => {
                   prodCtx.setShopPrice(true);
                 }}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
                 icon
               >
-                <img src={upload} alt="upload" /> Сувгийн үнэ
+                <img src={upload} alt='upload' /> Сувгийн үнэ
               </Button>
               {permission?.product?.update && (
                 <Button
-                  variant="primary"
-                  size="medium"
+                  variant='primary'
+                  size='medium'
                   icon
                   onClick={() => getProducts()}
                 >
-                  <img src={upload} alt="upload" />
+                  <img src={upload} alt='upload' />
                   Эрэмбэлэх
                 </Button>
               )}
 
               <Button
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
                 icon
                 onClick={() => productsCtx?.setMassImport(true)}
               >
-                <img src={upload} alt="upload" />
+                <img src={upload} alt='upload' />
                 Масс импорт
               </Button>
               <Button
                 onClick={() => productsCtx.setMassUpdate(true)}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
                 icon
               >
-                <img src={upload} alt="upload" />
+                <img src={upload} alt='upload' />
                 Масс шинэчлэх
               </Button>
 
               {/* <a href="/assets/Calendar.svg" download="Calendar.svg"> */}
 
               <Button
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
                 icon
                 onClick={() => prodCtx?.setPriceTerm(true)}
               >
                 <img
                   src={PriceSetting}
-                  alt="upload"
+                  alt='upload'
                   className={css.pricesettingImg}
                 />
                 Үнийн тохиргоо
               </Button>
               <a
-                href="https://ebazaar.mn/static/media/massupdate.zip"
-                download="file"
+                href='https://pics.ebazaar.link/media/massupdate.zip'
+                download='file'
               >
-                <Button variant="secondary" size="medium" icon>
-                  <img src={PaperIcon} alt="upload" className={css.thirdimg} />
-                  Масс импорт загварх
+                <Button variant='secondary' size='medium' icon>
+                  <img src={PaperIcon} alt='upload' className={css.thirdimg} />
+                  Масс импорт загвар
                 </Button>
               </a>
 
               <Button
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
                 icon
                 onClick={() => productsCtx?.setMassExport(true)}
               >
-                <img src={PaperIcon} alt="upload" />
+                <img src={PaperIcon} alt='upload' />
                 Export
               </Button>
 
               <Button
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
                 icon
                 onClick={settingHandler}
               >
-                <img src={settingIcon} alt="upload" className={css.thirdimg} />
+                <img src={settingIcon} alt='upload' className={css.thirdimg} />
                 Тохиргоо
               </Button>
             </>
           )}
           <Modal
             title={
-              props.userData.company_id === "|1|" ? (
+              props.userData.company_id === '|1|' ? (
                 <div>
                   Компани сонгох
                   <select
-                    name="supplier"
-                    id="supplier"
+                    name='supplier'
+                    id='supplier'
                     selected={companyId}
-                    style={{ marginLeft: "20px", outline: "none" }}
-                    onChange={(e) => {
+                    style={{ marginLeft: '20px', outline: 'none' }}
+                    onChange={e => {
                       setUserCompanyId(e.target.value);
                     }}
                   >
@@ -265,7 +269,7 @@ const ProductReportBtn = (props) => {
                   </select>
                 </div>
               ) : (
-                "Эрэмбэлэх"
+                'Эрэмбэлэх'
               )
             }
             centered
@@ -275,144 +279,144 @@ const ProductReportBtn = (props) => {
               save();
             }}
             onCancel={() => setOpen(false)}
-            width="80%"
-            okText={"Хадгалах"}
-            cancelText={"Цуцлах"}
-            bodyStyle={{ padding: "5px 30px" }}
+            width='80%'
+            okText={'Хадгалах'}
+            cancelText={'Цуцлах'}
+            bodyStyle={{ padding: '5px 30px' }}
           >
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <span
                 style={{
-                  width: "80px",
-                  fontWeight: "700",
-                  lineHeight: "18px",
+                  width: '80px',
+                  fontWeight: '700',
+                  lineHeight: '18px'
                 }}
               >
                 Хуучин эрэмбэ
               </span>
               <span
                 style={{
-                  width: "100px",
-                  fontWeight: "700",
-                  lineHeight: "18px",
+                  width: '100px',
+                  fontWeight: '700',
+                  lineHeight: '18px'
                 }}
               >
                 Шинэ эрэмбэ
               </span>
               <span
                 style={{
-                  width: "70px",
-                  fontWeight: "700",
-                  display: "flex",
-                  justifyContent: "center",
+                  width: '70px',
+                  fontWeight: '700',
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
               >
                 ID
               </span>
               <span
                 style={{
-                  width: "70px",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: "700",
+                  width: '70px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  fontWeight: '700'
                 }}
               >
                 Зураг
               </span>
               <span
                 style={{
-                  width: "500px",
-                  fontWeight: "700",
+                  width: '500px',
+                  fontWeight: '700'
                 }}
               >
                 Бүтээгдэхүүний нэр
               </span>
               <span
                 style={{
-                  width: "150px",
-                  fontWeight: "700",
+                  width: '150px',
+                  fontWeight: '700'
                 }}
               >
                 Үлдэгдэл
               </span>
               <span
                 style={{
-                  width: "100px",
-                  overflow: "hidden",
-                  fontWeight: "700",
+                  width: '100px',
+                  overflow: 'hidden',
+                  fontWeight: '700'
                 }}
               >
                 Идэвхи
               </span>
             </div>
-            <div style={{ overflow: "scroll", height: "700px" }}>
+            <div style={{ overflow: 'scroll', height: '700px' }}>
               {products?.map((item, index) => {
-                let iamage = item.image[0];
+                let iamage = replaceImageUrl(item.image[0]);
                 // console.log("typeof", typeof iamage);
                 let iamageTwo =
                   iamage === undefined || iamage === null
-                    ? "https://ebazaar.mn/icon/photo-add.svg"
-                    : iamage.replace("original", "small");
+                    ? 'https://ebazaar.mn/icon/photo-add.svg'
+                    : iamage.replace('original', 'small');
                 return (
                   <div
                     key={index}
                     style={{
-                      fontSize: "12px",
-                      color: "#37474F",
-                      fontWeight: "400",
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      height: "30px",
+                      fontSize: '12px',
+                      color: '#37474F',
+                      fontWeight: '400',
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '30px'
                     }}
-                    draggable="true"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDragEnter={(e) => {
+                    draggable='true'
+                    onDragOver={e => e.preventDefault()}
+                    onDragEnter={e => {
                       setToi(index);
                     }}
-                    onDragStart={(e) => {
+                    onDragStart={e => {
                       setSoi(index);
                     }}
-                    onDrop={(e) => {
+                    onDrop={e => {
                       arraymove(products, soi, toi);
                     }}
                   >
                     <span
                       style={{
-                        width: "80px",
+                        width: '80px'
                       }}
                     >
                       {products.length - index}
                     </span>
                     <span
                       style={{
-                        width: "100px",
+                        width: '100px'
                       }}
                     >
                       <input
                         style={{
-                          width: "80px",
-                          outline: "none",
+                          width: '80px',
+                          outline: 'none',
 
                           border:
                             newArray.filter(
-                              (al) => al.priority === newOrder[`${item._id}`]
+                              al => al.priority === newOrder[`${item._id}`]
                             ).length > 1
-                              ? "0.8px solid red"
-                              : "0.8px solid #cfd8dc",
+                              ? '0.8px solid red'
+                              : '0.8px solid #cfd8dc',
 
                           color:
                             newArray.filter(
-                              (al) => al.priority === newOrder[`${item._id}`]
+                              al => al.priority === newOrder[`${item._id}`]
                             ).length > 1
-                              ? "red"
-                              : "#4d4d4d",
+                              ? 'red'
+                              : '#4d4d4d'
                         }}
-                        value={newOrder[`${item._id}`] || ""}
-                        onChange={(a) => {
+                        value={newOrder[`${item._id}`] || ''}
+                        onChange={a => {
                           let newq = {
                             ...newOrder,
-                            [`${item._id}`]: parseInt(a.target.value),
+                            [`${item._id}`]: parseInt(a.target.value)
                           };
                           setNewOrder(newq);
                         }}
@@ -420,51 +424,51 @@ const ProductReportBtn = (props) => {
                     </span>
                     <span
                       style={{
-                        width: "70px",
+                        width: '70px'
                       }}
                     >
                       {item._id}
                     </span>
                     <span
                       style={{
-                        width: "70px",
-                        display: "flex",
-                        justifyContent: "center",
+                        width: '70px',
+                        display: 'flex',
+                        justifyContent: 'center'
                       }}
                     >
                       <img
-                        src={iamageTwo}
+                        src={replaceImageUrl(iamageTwo)}
                         height={25}
                         width={25}
-                        alt="product image"
-                        style={{ objectFit: "contain" }}
+                        alt='product image'
+                        style={{ objectFit: 'contain' }}
                       />
                     </span>
                     <span
                       style={{
-                        width: "500px",
-                        overflow: "hidden",
-                        height: "25px",
-                        lineHeight: "14px",
+                        width: '500px',
+                        overflow: 'hidden',
+                        height: '25px',
+                        lineHeight: '14px'
                       }}
                     >
                       {item.name}
                     </span>
                     <span
                       style={{
-                        width: "150px",
-                        overflow: "hidden",
-                        height: "25px",
+                        width: '150px',
+                        overflow: 'hidden',
+                        height: '25px'
                       }}
                     >
                       <div
                         style={{
                           background:
-                            item.stock === 0 ? "rgb(235, 94, 67)" : "white",
-                          width: item.stock === 0 ? "43px" : "150px",
-                          color: item.stock === 0 ? "white" : "inherit",
-                          borderRadius: "8px",
-                          paddingLeft: item.stock === 0 ? "10px" : "0px",
+                            item.stock === 0 ? 'rgb(235, 94, 67)' : 'white',
+                          width: item.stock === 0 ? '43px' : '150px',
+                          color: item.stock === 0 ? 'white' : 'inherit',
+                          borderRadius: '8px',
+                          paddingLeft: item.stock === 0 ? '10px' : '0px'
                         }}
                       >
                         {item.stock}ш
@@ -472,15 +476,15 @@ const ProductReportBtn = (props) => {
                     </span>
                     <span
                       style={{
-                        marginLeft: "10px",
-                        width: "80px",
+                        marginLeft: '10px',
+                        width: '80px'
                       }}
                     >
-                      {item?.locations["62f4aabe45a4e22552a3969f"].is_active
+                      {item?.locations['62f4aabe45a4e22552a3969f'].is_active
                         .channel[1] === 1 ? (
-                        <div style={{ color: "green" }}>Тийм</div>
+                        <div style={{ color: 'green' }}>Тийм</div>
                       ) : (
-                        <div style={{ color: "red" }}>Үгүй</div>
+                        <div style={{ color: 'red' }}>Үгүй</div>
                       )}
                     </span>
                   </div>

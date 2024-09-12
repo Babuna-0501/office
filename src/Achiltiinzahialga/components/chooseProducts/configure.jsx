@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./configure.module.css";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import { GlobalContext } from "../../../Hooks/GlobalContext";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './configure.module.css';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import { GlobalContext } from '../../../Hooks/GlobalContext';
 
-const Configure = (props) => {
+const Configure = props => {
   const {
     setIsProduct,
     supplier,
@@ -13,7 +13,7 @@ const Configure = (props) => {
     fromAguulah,
     setFromAguulah,
     description,
-    setDescription,
+    setDescription
   } = props;
   const { suppliers } = useContext(GlobalContext);
 
@@ -23,21 +23,21 @@ const Configure = (props) => {
 
   suppliers
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((supplier) => {
+    .map(supplier => {
       supplierOption.push({ name: supplier.name, value: supplier.id });
     });
 
   const getWarehouses = async () => {
     try {
-      let url = `https://api2.ebazaar.mn/api/warehouse/get/new`;
+      let url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
       if (supplier.id) {
-        url = `https://api2.ebazaar.mn/api/warehouse/get/new?supplierId=${supplier.id}`;
+        url = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new?supplierId=${supplier.id}`;
       }
       console.log(url);
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -48,10 +48,10 @@ const Configure = (props) => {
       if (warehouses?.length > 0) {
         warehouses
           .sort((a, b) => a.name.localeCompare(b.name))
-          .map((warehouse) => {
+          .map(warehouse => {
             warehouseOptionCopy.push({
               name: warehouse.name,
-              value: warehouse._id,
+              value: warehouse._id
             });
           });
 
@@ -72,16 +72,16 @@ const Configure = (props) => {
         <span>Нийлүүлэгч</span>
         <select
           value={supplier.name}
-          onChange={(e) => {
+          onChange={e => {
             const selectedName = e.target.value;
-            const selectedId = supplierOption.find((item) =>
+            const selectedId = supplierOption.find(item =>
               item.name.includes(selectedName)
             )?.value;
             setSupplier({ id: selectedId, name: selectedName });
           }}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         >
-          <option value="">--Нийлүүлэгч--</option>
+          <option value=''>--Нийлүүлэгч--</option>
           {supplierOption?.map((item, index) => {
             return (
               <option value={item._id} key={item._id}>
@@ -95,12 +95,12 @@ const Configure = (props) => {
         <span>Орлогодох агуулах</span>
         <select
           value={toAguulah}
-          onChange={(e) => {
+          onChange={e => {
             setToAguulah(e.target.value);
           }}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         >
-          <option value="">--Агуулах--</option>
+          <option value=''>--Агуулах--</option>
           {warehouseOption?.map((item, index) => {
             return (
               <option value={item.value} key={index}>
@@ -114,12 +114,12 @@ const Configure = (props) => {
         <span>Зарлагадах агуулах</span>
         <select
           value={fromAguulah}
-          onChange={(e) => {
+          onChange={e => {
             setFromAguulah(e.target.value);
           }}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         >
-          <option value="">--Агуулах--</option>
+          <option value=''>--Агуулах--</option>
           {warehouseOption?.map((item, index) => {
             return (
               <option value={item.value} key={index}>
@@ -132,9 +132,9 @@ const Configure = (props) => {
       <div className={css.inputWrapper}>
         <span>Тэмдэглэл</span>
         <input
-          placeholder="Хөдөлгөөний тэмдэглэл"
+          placeholder='Хөдөлгөөний тэмдэглэл'
           value={description}
-          onChange={(e) => {
+          onChange={e => {
             setDescription(e.target.value);
           }}
         />
@@ -142,8 +142,8 @@ const Configure = (props) => {
       <div
         className={css.inputWrapper}
         style={{
-          justifyContent: "flex-end",
-          height: "100%",
+          justifyContent: 'flex-end',
+          height: '100%'
         }}
       >
         <button

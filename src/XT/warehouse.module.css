@@ -97,3 +97,14 @@
 .subaguulah div {
   font-size: 12px;
 }
+
+.searchInput {
+  border: 1px solid #eeee;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.searchContainer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

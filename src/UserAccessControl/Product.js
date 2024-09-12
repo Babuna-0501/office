@@ -6,7 +6,7 @@ export const Product = (props) => {
 
   const isChecked = newAcceptedPros.includes(product._id);
   const [checked, setChecked] = useState(isChecked);
-
+  console.log(product)
   useEffect(() => {
     if (selectAll) {
       if (!newAcceptedPros.includes(product._id)) {

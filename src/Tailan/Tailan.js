@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
-import css from "./tailan.module.css";
-import checkboxicon from "../assets/check box.svg";
-import chechboxchecked from "../assets/Tick Square on 2.svg";
-import closeIcon from "../assets/close.svg";
-import AppHook from "../Hooks/AppHook";
-import SupplierHook from "../Hooks/SupplierHook";
-const Tailan = (props) => {
+import React, { useContext, useEffect, useState } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
+import css from './tailan.module.css';
+import checkboxicon from '../assets/check box.svg';
+import chechboxchecked from '../assets/Tick Square on 2.svg';
+import closeIcon from '../assets/close.svg';
+import AppHook from '../Hooks/AppHook';
+import SupplierHook from '../Hooks/SupplierHook';
+const Tailan = props => {
   const [data, setData] = useState([]);
   const [bustype, setBustype] = useState([]);
   const [parent, setParent] = useState(null);
@@ -25,44 +25,47 @@ const Tailan = (props) => {
   const supctx = useContext(SupplierHook);
 
   const rawdata = [
-    { id: 0, name: "Улаанбаатар" },
-    { id: 1, name: "Орон нутаг" },
+    { id: 0, name: 'Улаанбаатар' },
+    { id: 1, name: 'Орон нутаг' }
   ];
 
   useEffect(() => {
     let supID = appctx.userData.company_id;
 
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/backoffice/suppliers`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         console.log(res);
         setSuppliersData(res.data);
         setActive();
       })
-      .catch((error) => {
-        console.log("supplier fetch error", error);
+      .catch(error => {
+        console.log('supplier fetch error', error);
       });
   }, []);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    let supID = appctx.userData.company_id.replaceAll("|", "");
-    let urlList = `https://api2.ebazaar.mn/api/sfa/tradeshop/list?supplierId=${
-      supID == 1 ? 13884 : supID
-    }`;
+    let supID = appctx.userData.company_id.replaceAll('|', '');
+    let urlList = `${
+      process.env.REACT_APP_API_URL2
+    }/sfa/tradeshop/list?supplierId=${supID == 1 ? 13884 : supID}`;
     fetch(urlList, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         let data = [];
         res.map((item, index) => {
           item[`${supID == 1 ? 13884 : supID}`].tradeshops.map((x, index) => {
@@ -72,16 +75,16 @@ const Tailan = (props) => {
         });
         setTradelist(data);
       })
-      .catch((error) => {
-        console.log("tradeshop list fetch error", error);
+      .catch(error => {
+        console.log('tradeshop list fetch error', error);
       });
     // console.log("vatctx.zoneinfo", vatctx.zonesInfo);
   }, []);
   useEffect(() => {
-    console.log("props");
+    console.log('props');
     if (props.updatedata) {
       let copypropsdata = props.updatedata;
-      console.log("props.updatedata", props.updatedata.name);
+      console.log('props.updatedata', props.updatedata.name);
       setChosedSupplier(Number(props.updatedata.name));
 
       // let copydata = data?.map((item) => {
@@ -110,18 +113,18 @@ const Tailan = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
         let data = [];
         let busfalse = [];
 
-        res.location.map((item) => {
+        res.location.map(item => {
           item.checked = null;
           item.channelIDS = [
             true,
@@ -148,11 +151,11 @@ const Tailan = (props) => {
             true,
             true,
             true,
-            true,
+            true
           ];
           item.channels = [
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24, 25,
+            20, 21, 22, 23, 24, 25
           ];
           let tradeshop = [];
           tradelist.map((x, i) => {
@@ -181,8 +184,8 @@ const Tailan = (props) => {
         }
         setBustypefalse(busfalse);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [tradelist]);
 
@@ -209,15 +212,15 @@ const Tailan = (props) => {
     }
   };
   const AimagHandler = (item, index) => {
-    console.log("item++++++++++++++++++++++++", item);
+    console.log('item++++++++++++++++++++++++', item);
 
     setOneaimag(item);
-    let newState = data.map((obj) => {
+    let newState = data.map(obj => {
       if (obj.location_id == item.location_id) {
         // console.log("obje", obj);
         return {
           ...obj,
-          checked: checkedHandler(obj.checked),
+          checked: checkedHandler(obj.checked)
         };
       }
       return obj;
@@ -245,12 +248,12 @@ const Tailan = (props) => {
     });
 
     setBustypefalse(update);
-    let newState = data.map((obj) => {
+    let newState = data.map(obj => {
       if (obj.location_id === oneaimag.location_id) {
         return {
           ...obj,
           channels: chanids,
-          channelIDS: update,
+          channelIDS: update
         };
       }
       return obj;
@@ -266,7 +269,7 @@ const Tailan = (props) => {
     // console.log("oneaimage", oneaimag);
     let chosed = [];
 
-    tradelist.map((item) => {
+    tradelist.map(item => {
       if (item.address.district == oneaimag?.location_id) {
         chosed.push(item);
       }
@@ -277,7 +280,7 @@ const Tailan = (props) => {
     let dataB = data;
     let newShops = [];
     // console.log("tradelist", tradelist);
-    dataB.map((item) => {
+    dataB.map(item => {
       if (item.checked) {
         tradelist.map((x, index) => {
           if (
@@ -292,23 +295,23 @@ const Tailan = (props) => {
   }, [data]);
 
   const DelguurHandler = (item, index) => {
-    console.log("item", item);
+    console.log('item', item);
     // console.log("oneaimag-------+++++++++oneaimag", oneaimag);
-    let newState = oneaimag.tradeshops.map((obj) => {
+    let newState = oneaimag.tradeshops.map(obj => {
       if (obj.tradeshop_id === item.tradeshop_id) {
         return {
           ...obj,
-          chosed: checkedHandler(obj.chosed),
+          chosed: checkedHandler(obj.chosed)
         };
       }
       return obj;
     });
 
-    let newData = data.map((obj) => {
+    let newData = data.map(obj => {
       if (obj.location_id === oneaimag.location_id) {
         return {
           ...obj,
-          tradeshops: newState,
+          tradeshops: newState
         };
       }
       return obj;
@@ -318,18 +321,18 @@ const Tailan = (props) => {
 
     setOneaimag({
       ...oneaimag,
-      tradeshops: newState,
+      tradeshops: newState
     });
     // console.log("tradelist", tradelist);
 
     if (item.chosed) {
       let shopdata = songogdsonShops.filter(
-        (x) => x.tradeshop_id !== item.tradeshop_id
+        x => x.tradeshop_id !== item.tradeshop_id
       );
       setSongogdsonShops(shopdata);
     }
     if (item.chosed === false) {
-      setSongogdsonShops((prev) => [...prev, item]);
+      setSongogdsonShops(prev => [...prev, item]);
     }
   };
 
@@ -338,18 +341,18 @@ const Tailan = (props) => {
     let parentids = [];
     let checkedTrue = [];
 
-    let supplier = suppliersData.filter((item) => item.id == chosedSupplier);
+    let supplier = suppliersData.filter(item => item.id == chosedSupplier);
     // console.log("props.updatedata", props.updatedata);
     if (props.updatedata.length !== 0) {
       supplier = [
         {
-          name: props.updatedata.name,
-        },
+          name: props.updatedata.name
+        }
       ];
     }
 
     if (supplier.length === 0) {
-      alert("Та нийлүүлэгчээ сонгоно уу");
+      alert('Та нийлүүлэгчээ сонгоно уу');
 
       return;
     }
@@ -362,20 +365,20 @@ const Tailan = (props) => {
     });
 
     let uniqueChars = [...new Set(parentids)];
-    uniqueChars.map((item) => {
+    uniqueChars.map(item => {
       let objectadata = {};
-      checkedTrue.map((x) => {
+      checkedTrue.map(x => {
         if (item === x.parent_id) {
           let tradeshoids = [];
           x.tradeshops &&
-            x.tradeshops.map((item) => {
+            x.tradeshops.map(item => {
               if (item.chosed) {
                 tradeshoids.push(item.tradeshop_id);
               }
             });
           objectadata[x.location_id] = {
             channels: x.channels,
-            tradeshops: tradeshoids ? tradeshoids : [],
+            tradeshops: tradeshoids ? tradeshoids : []
           };
         }
       });
@@ -386,43 +389,43 @@ const Tailan = (props) => {
 
     // console.log("objRaw ------------------objRaw", objRaw);
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(objRaw),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("requestOptions", requestOptions);
+    console.log('requestOptions', requestOptions);
 
-    let urlList = `https://api2.ebazaar.mn/api/supplier/options`;
+    let urlList = `${process.env.REACT_APP_API_URL2}/api/supplier/options`;
     // console.log("props.updatedata", props);
     if (props.updatedata.length === 0) {
-      urlList = `https://api2.ebazaar.mn/api/supplier/options`;
+      urlList = `${process.env.REACT_APP_API_URL2}/api/supplier/options`;
     }
     if (props.updatedata.length !== 0) {
-      urlList = `https://api2.ebazaar.mn/api/supplier/options?id=${props.updatedata._id}`;
+      urlList = `${process.env.REACT_APP_API_URL2}/api/supplier/options?id=${props.updatedata._id}`;
     }
 
     // console.log("songogdsonShops ---- songogdsonShops", urlList);
 
     fetch(urlList, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         if (res.code === 200 || res.success === true) {
           supctx.setDataopen(false);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
-  const SoumHandler = (item) => {
+  const SoumHandler = item => {
     // console.log("item", item);
-    let newstate = data.map((obj) => {
+    let newstate = data.map(obj => {
       if (obj.location_id === item.location_id) {
         return {
           ...obj,
-          checked: checkedHandler(obj.checked),
+          checked: checkedHandler(obj.checked)
         };
       }
       return obj;
@@ -450,19 +453,19 @@ const Tailan = (props) => {
   };
 
   useEffect(() => {
-    let newdata = data.map((obj) => {
+    let newdata = data.map(obj => {
       if (obj.tradeshoids) {
         obj.tradeshoids.map((ix, i) => {
-          songogdsonShops.map((x) => {
+          songogdsonShops.map(x => {
             if (ix.tradeshop_id === x.tradeshop_id) {
               return {
                 ...ix,
-                chosed: true,
+                chosed: true
               };
             } else {
               return {
                 ...ix,
-                chosed: false,
+                chosed: false
               };
             }
           });
@@ -472,7 +475,7 @@ const Tailan = (props) => {
     });
 
     setData(newdata);
-    console.log("newdata", newdata);
+    console.log('newdata', newdata);
   }, [songogdsonShops]);
 
   return (
@@ -480,7 +483,7 @@ const Tailan = (props) => {
       <div className={css.closewrapper}>
         <img
           src={closeIcon}
-          alt="close button"
+          alt='close button'
           onClick={() => {
             supctx.setDataopen(false);
           }}
@@ -489,13 +492,13 @@ const Tailan = (props) => {
       <div
         className={css.suppliercontainer}
         style={{
-          display: props.updatedata.length !== 0 ? "none" : "block",
+          display: props.updatedata.length !== 0 ? 'none' : 'block'
         }}
       >
-        {appctx.userData.company_id === "|1|" && (
+        {appctx.userData.company_id === '|1|' && (
           <select
             value={chosedSupplier}
-            onChange={(e) => {
+            onChange={e => {
               setChosedSupplier(e.target.value);
             }}
           >
@@ -508,10 +511,10 @@ const Tailan = (props) => {
             })}
           </select>
         )}
-        {appctx.userData.company_id !== "|1|" && (
+        {appctx.userData.company_id !== '|1|' && (
           <select
             value={suppliersData[0]}
-            onChange={(e) => {
+            onChange={e => {
               setChosedSupplier(e.target.value);
             }}
           >
@@ -527,14 +530,14 @@ const Tailan = (props) => {
       </div>
       <div className={css.container}>
         <div className={css.ubcontainer}>
-          <div className={css.spanwrapper}>Сонгох</div>{" "}
+          <div className={css.spanwrapper}>Сонгох</div>{' '}
           {rawdata.map((item, index) => {
             return (
               <div
                 onClick={() => FirstHandler(item, index)}
                 className={css.wrapper}
               >
-                <img src={index === active ? chechboxchecked : checkboxicon} />{" "}
+                <img src={index === active ? chechboxchecked : checkboxicon} />{' '}
                 <span>{item.name}</span>
               </div>
             );
@@ -543,14 +546,14 @@ const Tailan = (props) => {
         <div className={css.aimagcontainer}>
           {parent !== null && (
             <div className={css.spanwrapper}>
-              {parent === 1 ? "Дүүрэг" : "Аймаг"}
+              {parent === 1 ? 'Дүүрэг' : 'Аймаг'}
             </div>
           )}
 
           {parent !== null &&
             data
-              .filter((item) => item.parent_id == parent)
-              .filter((item) => item.location_id !== 1)
+              .filter(item => item.parent_id == parent)
+              .filter(item => item.location_id !== 1)
               .map((item, index) => {
                 // console.log("item ,khoroo", item);
 
@@ -558,8 +561,8 @@ const Tailan = (props) => {
                   <div
                     onClick={() => AimagHandler(item, index)}
                     style={{
-                      display: "flex",
-                      alignItems: "center",
+                      display: 'flex',
+                      alignItems: 'center'
                     }}
                     className={css.wrapper}
                   >
@@ -567,7 +570,7 @@ const Tailan = (props) => {
                       src={
                         item.checked === true ? chechboxchecked : checkboxicon
                       }
-                    />{" "}
+                    />{' '}
                     <span>{item.location_name}</span>
                   </div>
                 );
@@ -576,25 +579,25 @@ const Tailan = (props) => {
         <div className={css.soumscontainer}>
           {oneaimag !== null && (
             <div className={css.spanwrapper}>
-              {parent === 0 ? "Сум" : "Хороо"}
+              {parent === 0 ? 'Сум' : 'Хороо'}
             </div>
           )}
 
           {soumdata &&
             data
-              .filter((item) => item.parent_id === soumdata[0]?.location_id)
+              .filter(item => item.parent_id === soumdata[0]?.location_id)
               .map((item, index) => {
                 return (
                   <div
                     className={css.wrapper}
                     onClick={() => SoumHandler(item)}
                   >
-                    {" "}
+                    {' '}
                     <img
                       src={
                         item.checked === true ? chechboxchecked : checkboxicon
                       }
-                    />{" "}
+                    />{' '}
                     <span>{item.location_name}</span>
                   </div>
                 );
@@ -608,8 +611,8 @@ const Tailan = (props) => {
                 <div
                   onClick={() => BusHandler(item, index)}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center'
                   }}
                   className={css.wrapper}
                 >
@@ -619,7 +622,7 @@ const Tailan = (props) => {
                         ? chechboxchecked
                         : checkboxicon
                     }
-                  />{" "}
+                  />{' '}
                   <span>{bustype[index]?.business_type_name}</span>
                 </div>
               );
@@ -627,9 +630,9 @@ const Tailan = (props) => {
         </div>
 
         <div className={css.shopscontainer}>
-          <div className={css.spanwrapper}>{oneaimag ? "Дэлгүүр" : ""}</div>
+          <div className={css.spanwrapper}>{oneaimag ? 'Дэлгүүр' : ''}</div>
           <div className={css.shopswrapper}>
-            {" "}
+            {' '}
             {oneaimag &&
               oneaimag.tradeshops.map((item, index) => {
                 return (
@@ -638,9 +641,9 @@ const Tailan = (props) => {
                     style={{
                       display:
                         oneaimag.channelIDS[item.channel] === true
-                          ? "flex"
-                          : "none",
-                      alignItems: "center",
+                          ? 'flex'
+                          : 'none',
+                      alignItems: 'center'
                     }}
                     className={css.wrapper}
                   >
@@ -648,7 +651,7 @@ const Tailan = (props) => {
                       src={
                         item.chosed === true ? chechboxchecked : checkboxicon
                       }
-                    />{" "}
+                    />{' '}
                     <span>{item.name}</span>
                   </div>
                 );
@@ -661,7 +664,7 @@ const Tailan = (props) => {
             <div className={css.spanwrapper}>Сонгогдсон дэлгүүр</div>
           )}
           <div className={css.shopswrapper}>
-            {" "}
+            {' '}
             {songogdsonShops &&
               songogdsonShops.map((item, index) => {
                 return (
@@ -670,9 +673,9 @@ const Tailan = (props) => {
                     style={{
                       display:
                         oneaimag.channelIDS[item.channel] === true
-                          ? "flex"
-                          : "none",
-                      alignItems: "center",
+                          ? 'flex'
+                          : 'none',
+                      alignItems: 'center'
                     }}
                     className={css.wrapper}
                   >
@@ -680,7 +683,7 @@ const Tailan = (props) => {
                       src={
                         item.chosed === true ? chechboxchecked : checkboxicon
                       }
-                    />{" "}
+                    />{' '}
                     <span>{item.name}</span>
                   </div>
                 );

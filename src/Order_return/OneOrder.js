@@ -1,8 +1,9 @@
-import React from "react";
-import css from "./oneorder.module.css";
+import React from 'react';
+import css from './oneorder.module.css';
+import { replaceImageUrl } from '../utils';
 
-const OneOrder = (props) => {
-  console.log("props oneorder", props);
+const OneOrder = props => {
+  console.log('props oneorder', props);
   let totalPrice = Number(props.item.price) * Number(props.item.quantity);
   return (
     <div className={css.container}>
@@ -11,46 +12,46 @@ const OneOrder = (props) => {
           <img
             src={
               props.item.product_image
-                ? props.item.product_image
-                : "http://ebazaar.mn/icon/noti.svg"
+                ? replaceImageUrl(props.item.product_image)
+                : 'http://ebazaar.mn/icon/noti.svg'
             }
-            alt="product image"
+            alt='product image'
           />
         </div>
         <div className={css.detailWrapper}>
           <h3 className={css.hd3} style={{ fontWeight: 300 }}>
             {props.item.product_name}
           </h3>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <span
               style={{
-                color: "#90A4AE",
-                fontSize: "14px",
-                fontWeight: 700,
+                color: '#90A4AE',
+                fontSize: '14px',
+                fontWeight: 700
               }}
             >
               {props.item.price.toLocaleString()}₮
             </span>
             <span
               style={{
-                color: "#FFA400",
-                fontSize: "12px",
+                color: '#FFA400',
+                fontSize: '12px',
                 fontWeight: 700,
-                marginLeft: "5px",
+                marginLeft: '5px'
               }}
             >
-              {" "}
+              {' '}
               x {props.item.quantity}
             </span>
             <span
               style={{
-                color: "#263238",
-                fontSize: "14px",
+                color: '#263238',
+                fontSize: '14px',
                 fontWeight: 700,
-                marginLeft: "5px",
+                marginLeft: '5px'
               }}
             >
-              {" "}
+              {' '}
               {totalPrice.toLocaleString()}₮
             </span>
           </div>

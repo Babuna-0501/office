@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./promoindex.module.css";
-import { styles } from "./style";
-import myHeaders from "../components/MyHeader/myHeader";
-import OnePromo from "./components/OnePromo/OnePromo";
-import NewPromo from "./components/NewPromo/NewPromo";
-import PromoHookV1 from "../Hooks/PromoHookV1";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './promoindex.module.css';
+import { styles } from './style';
+import myHeaders from '../components/MyHeader/myHeader';
+import OnePromo from './components/OnePromo/OnePromo';
+import NewPromo from './components/NewPromo/NewPromo';
+import PromoHookV1 from '../Hooks/PromoHookV1';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const PromoIndex = (props) => {
+const PromoIndex = props => {
   const [data, setData] = useState([]);
   const promoctx = useContext(PromoHookV1);
 
@@ -24,19 +24,19 @@ const PromoIndex = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/discounts`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/discounts`;
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("resPromo", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('resPromo', res);
         setData(res);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   return (

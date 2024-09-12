@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./list.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import SMSHook from "../../Hooks/SMSHook";
-import checkboxicon from "../../assets/check box.svg";
-import chechboxchecked from "../../assets/Tick Square on 2.svg";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './list.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import SMSHook from '../../Hooks/SMSHook';
+import checkboxicon from '../../assets/check box.svg';
+import chechboxchecked from '../../assets/Tick Square on 2.svg';
 
 const data = [
-  { id: 0, name: "ХТ нэрс" },
-  { id: 1, name: "Бараанууд" },
+  { id: 0, name: 'ХТ нэрс' },
+  { id: 1, name: 'Бараанууд' }
 ];
 
-const List = (props) => {
+const List = props => {
   const [name, setName] = useState(0);
   const [xtners, setXtners] = useState([]);
   const [xtnersfalse, setXtnersfalse] = useState([]);
@@ -58,39 +58,41 @@ const List = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
     fetch(
-      `https://api2.ebazaar.mn/api/backoffice/users?company=${props.userdata.userData.company_id.replaceAll(
-        "|",
-        ""
+      `${
+        process.env.REACT_API_URL2
+      }/backoffice/users?company=${props.userdata.userData.company_id.replaceAll(
+        '|',
+        ''
       )}`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
         let listarray = [...res.data];
         listarray.fill(false);
         setXtnersfalse(listarray);
         setXtners(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    let params = "";
+    let params = '';
     if (searchname !== null) {
       params += `search=${searchname}&`;
     }
@@ -103,25 +105,25 @@ const List = (props) => {
     if (searchangilal !== null) {
       params += `category=${searchangilal.toString()}`;
     }
-    let url = `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}page=${page}&limit=50`;
     // console.log("url--------------url", url);
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
         let aa = [];
         res.data &&
           res.data.map((item, index) => {
             aa.push({
               ...item,
-              checked: checkedall ? true : false,
+              checked: checkedall ? true : false
             });
           });
 
         setProductlist(aa);
       })
-      .catch((error) => {
-        console.log("error product fetch", error);
+      .catch(error => {
+        console.log('error product fetch', error);
       });
   }, [searchname, searchsku, searchbarcode, searchangilal]);
   const CancelHandler = () => {
@@ -133,37 +135,37 @@ const List = (props) => {
     }
   };
 
-  const ChosedHandler = (position) => {
+  const ChosedHandler = position => {
     let update = xtnersfalse.map((item, i) => (i === position ? !item : item));
     setXtnersfalse(update);
   };
-  const angilalShow = (item) => {
+  const angilalShow = item => {
     // console.log("item =-=---------------", item);
-    let aa = categoryList?.filter((x) => x.id == item);
+    let aa = categoryList?.filter(x => x.id == item);
     return aa[0].name;
   };
   const AllCheckedHandler = () => {
-    setChechedall((prev) => !prev);
+    setChechedall(prev => !prev);
     let ids = [];
-    let newUpdate = productlist.map((item) => {
+    let newUpdate = productlist.map(item => {
       ids.push(item._id);
       return {
         ...item,
-        checked: item.checked ? false : true,
+        checked: item.checked ? false : true
       };
     });
     if (checkedall === true) {
       let dataids = [];
-      ids.map((x) => {
+      ids.map(x => {
         if (smsctx.ids.includes(x) !== true) {
           dataids.push(x);
         }
       });
-      smsctx.setIds((prev) => [...prev, ...dataids]);
+      smsctx.setIds(prev => [...prev, ...dataids]);
     }
     if (checkedall === false) {
       let allids = [];
-      smsctx.ids.map((item) => {
+      smsctx.ids.map(item => {
         if (ids.includes(item) === false) {
           allids.push(item);
         }
@@ -175,25 +177,25 @@ const List = (props) => {
     setProductlist(newUpdate);
   };
 
-  const ChosedOneHandler = (item) => {
+  const ChosedOneHandler = item => {
     let ids = [];
 
     if (item.checked === false) {
       ids.push(item._id);
-      smsctx.setIds((prev) => [...prev, ...ids]);
+      smsctx.setIds(prev => [...prev, ...ids]);
     }
 
     if (item.checked === true) {
-      let aa = smsctx.ids.filter((x) => x !== item._id);
+      let aa = smsctx.ids.filter(x => x !== item._id);
 
       smsctx.setIds(aa);
     }
 
-    let newdata = productlist.map((obj) => {
+    let newdata = productlist.map(obj => {
       if (obj._id === item._id) {
         return {
           ...obj,
-          checked: obj.checked === true ? false : true,
+          checked: obj.checked === true ? false : true
         };
       }
       return obj;
@@ -215,35 +217,35 @@ const List = (props) => {
     });
 
     if (xtdata.length === 0) {
-      alert("Та худалдааны төлөөлөгчөө сонгоно уу");
+      alert('Та худалдааны төлөөлөгчөө сонгоно уу');
       return;
     }
     if (totalValue === null) {
-      alert("Та нийт үнэ оруулна уу");
+      alert('Та нийт үнэ оруулна уу');
       return;
     }
     if (uramshuulal === null) {
-      alert("Та урамшуулалын дүн оруулна уу");
+      alert('Та урамшуулалын дүн оруулна уу');
       return;
     }
     if (startdate === null) {
-      alert("Та эхлэх огноо оруулна уу");
+      alert('Та эхлэх огноо оруулна уу');
       return;
     }
     if (enddate === null) {
-      alert("Та дуусах огноо оруулна уу");
+      alert('Та дуусах огноо оруулна уу');
       return;
     }
     if (allproduct === false && uniquids.length === 0) {
-      alert("Та бүтээгдэхүүний сонгоно уу");
+      alert('Та бүтээгдэхүүний сонгоно уу');
       return;
     }
 
     const data = {
-      name: `${xtdata && xtdata.join("-")}-${startdate}-${enddate}`,
+      name: `${xtdata && xtdata.join('-')}-${startdate}-${enddate}`,
       xt_ids: xtids,
       supplier_id: Number(
-        props.userdata.userData.company_id.replaceAll("|", "")
+        props.userdata.userData.company_id.replaceAll('|', '')
       ),
       totalValue: Number(totalValue),
       uramshuulal: Number(uramshuulal),
@@ -251,25 +253,25 @@ const List = (props) => {
       startdate: startdate,
       enddate: enddate,
       productids: allproduct === false ? uniquids : [],
-      allProducts: allproduct === true ? true : false,
+      allProducts: allproduct === true ? true : false
     };
     // console.log("aaaaaa", JSON.stringify(data));
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
       body: JSON.stringify(data),
-      redirect: "follow",
+      redirect: 'follow'
     };
     fetch(
-      `https://api2.ebazaar.mn/api/supplier/options/userdiscount`,
+      `${process.env.REACT_APP_API_URL2}/api/supplier/options/userdiscount`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("response borluulaltiin uramshuulalt", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('response borluulaltiin uramshuulalt', res);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
   return (
@@ -280,8 +282,8 @@ const List = (props) => {
             <div
               className={css.xtwrapper}
               style={{
-                display: name === index ? "flex" : "none",
-                flexDirection: "column",
+                display: name === index ? 'flex' : 'none',
+                flexDirection: 'column'
               }}
             >
               <div className={css.garchig}>{item.name}</div>
@@ -300,7 +302,7 @@ const List = (props) => {
                               ? chechboxchecked
                               : checkboxicon
                           }
-                          alt="checked box"
+                          alt='checked box'
                         />
                         <span>{item.first_name}</span>
                       </div>
@@ -315,10 +317,10 @@ const List = (props) => {
                 <span className={css.spanvalue}>Эхлэх огноо</span>
                 <input
                   value={startdate}
-                  onChange={(e) => {
+                  onChange={e => {
                     setStartdate(e.target.value);
                   }}
-                  type="date"
+                  type='date'
                   className={css.inputvalue}
                 />
               </div>
@@ -326,20 +328,20 @@ const List = (props) => {
                 <span className={css.spanvalue}>Дуусах огноо</span>
                 <input
                   value={enddate}
-                  onChange={(e) => {
+                  onChange={e => {
                     setEnddate(e.target.value);
                   }}
-                  type="date"
+                  type='date'
                   className={css.inputvalue}
                 />
               </div>
               <div>
                 <span className={css.spanvalue}>Нийт мөнгөн дүн</span>
                 <input
-                  placeholder="Мөнгөн дүн"
-                  type="number"
+                  placeholder='Мөнгөн дүн'
+                  type='number'
                   value={totalValue}
-                  onChange={(e) => {
+                  onChange={e => {
                     setTotalValue(e.target.value);
                   }}
                   className={css.inputvalue}
@@ -348,10 +350,10 @@ const List = (props) => {
               <div>
                 <span className={css.spanvalue}>Урамшуулал</span>
                 <input
-                  placeholder="Мөнгөн дүн"
-                  type="number"
+                  placeholder='Мөнгөн дүн'
+                  type='number'
                   value={uramshuulal}
-                  onChange={(e) => {
+                  onChange={e => {
                     setUramshuulal(e.target.value);
                   }}
                   className={css.inputvalue}
@@ -360,15 +362,15 @@ const List = (props) => {
               <div className={css.nextwrapper}>
                 <img
                   src={tutam === true ? chechboxchecked : checkboxicon}
-                  alt="checked box"
+                  alt='checked box'
                   onClick={() => {
-                    setTutam((prev) => !prev);
+                    setTutam(prev => !prev);
                   }}
                 />
                 <span
                   className={css.spanvalue}
                   style={{
-                    fontWeight: "400",
+                    fontWeight: '400'
                   }}
                 >
                   тутамд
@@ -379,9 +381,9 @@ const List = (props) => {
                 <div className={css.productchecker}>
                   <img
                     src={allproduct === true ? chechboxchecked : checkboxicon}
-                    alt="checked box"
+                    alt='checked box'
                     onClick={() => {
-                      setAllproduct((prev) => !prev);
+                      setAllproduct(prev => !prev);
                     }}
                   />
                   <span>All</span>
@@ -395,7 +397,7 @@ const List = (props) => {
                 <div
                   className={css.oneheader}
                   style={{
-                    width: "30px",
+                    width: '30px'
                   }}
                 >
                   <img
@@ -406,13 +408,13 @@ const List = (props) => {
                 <div
                   className={css.oneheader}
                   style={{
-                    width: "220px",
+                    width: '220px'
                   }}
                 >
                   <span>Бүтээгдэхүүн нэр</span>
                   <input
                     value={searchname}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearchname(e.target.value);
                     }}
                   />
@@ -420,13 +422,13 @@ const List = (props) => {
                 <div
                   className={css.oneheader}
                   style={{
-                    width: "150px",
+                    width: '150px'
                   }}
                 >
                   <span>Бүтээгдэхүүн sku</span>
                   <input
                     value={searchsku}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearchsku(e.target.value);
                     }}
                   />
@@ -434,13 +436,13 @@ const List = (props) => {
                 <div
                   className={css.oneheader}
                   style={{
-                    width: "150px",
+                    width: '150px'
                   }}
                 >
                   <span>Бүтээгдэхүүн barcode</span>
                   <input
                     value={searchbarcode}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearchbarcode(e.target.value);
                     }}
                   />
@@ -448,13 +450,13 @@ const List = (props) => {
                 <div
                   className={css.oneheader}
                   style={{
-                    width: "150px",
+                    width: '150px'
                   }}
                 >
                   <span>Ангилал</span>
                   <select
                     value={searchangilal}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearchangilal(e.target.value);
                     }}
                   >
@@ -477,7 +479,7 @@ const List = (props) => {
                         <div
                           className={css.oneitem}
                           style={{
-                            width: "30px",
+                            width: '30px'
                           }}
                         >
                           <img
@@ -486,14 +488,14 @@ const List = (props) => {
                                 ? chechboxchecked
                                 : checkboxicon
                             }
-                            alt="goe icon"
+                            alt='goe icon'
                             onClick={() => ChosedOneHandler(item)}
                           />
                         </div>
                         <div
                           className={css.oneitem}
                           style={{
-                            width: "220px",
+                            width: '220px'
                           }}
                         >
                           <span>{item.name}</span>
@@ -501,7 +503,7 @@ const List = (props) => {
                         <div
                           className={css.oneitem}
                           style={{
-                            width: "150px",
+                            width: '150px'
                           }}
                         >
                           <span>{item.sku}</span>
@@ -509,7 +511,7 @@ const List = (props) => {
                         <div
                           className={css.oneitem}
                           style={{
-                            width: "150px",
+                            width: '150px'
                           }}
                         >
                           <span>{item.bar_code}</span>
@@ -517,7 +519,7 @@ const List = (props) => {
                         <div
                           className={css.oneitem}
                           style={{
-                            width: "150px",
+                            width: '150px'
                           }}
                         >
                           <span>{angilalShow(item.category_id)}</span>
@@ -544,7 +546,7 @@ const List = (props) => {
               }
             }}
           >
-            {productFalse === true ? "Хадгалах" : "Үргэлжлүүлэх"}
+            {productFalse === true ? 'Хадгалах' : 'Үргэлжлүүлэх'}
           </button>
         </div>
       </div>

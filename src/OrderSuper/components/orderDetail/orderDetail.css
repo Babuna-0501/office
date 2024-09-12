@@ -1,0 +1,59 @@
+.order-detail-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  /* Fixed width for the popup */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* Align content to the end (right) */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.order-detail-container.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.order-detail-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+.order-detail-content {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 571px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* Additional styles can be added as needed */

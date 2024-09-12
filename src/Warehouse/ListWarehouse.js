@@ -1,26 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 
-import css from "./list.module.css";
-import Edit from "../assets/EditSquare.svg";
-import AppHook from "../Hooks/AppHook";
-import { styles } from "./style";
-import settingIcon from "../assets/Setting.svg";
-import Serinumber from "./Serinumber";
-import carsvg from "../assets/car.svg";
+import css from './list.module.css';
+import Edit from '../assets/EditSquare.svg';
+import AppHook from '../Hooks/AppHook';
+import { styles } from './style';
+import settingIcon from '../assets/Setting.svg';
+import Serinumber from './Serinumber';
+import carsvg from '../assets/car.svg';
 
-const List = (props) => {
+const List = props => {
   const appctx = useContext(AppHook);
   const [showOpen, setShowOpen] = useState(false);
   const [data, setData] = useState(null);
 
   // console.log("props warehouse ", appctx.userData);
   const ShowHideHandler = () => {
-    console.log("clicked");
+    console.log('clicked');
   };
   const SettingHandler = () => {
-    console.log("clicked");
+    console.log('clicked');
   };
-  const ShowHandlier = (e) => {
+  const ShowHandlier = e => {
     setData(e);
     setShowOpen(true);
   };
@@ -34,25 +34,25 @@ const List = (props) => {
                 style={{
                   ...styles.allWidthContainer,
 
-                  display: "flex",
+                  display: 'flex'
                 }}
               >
                 <div
-                  style={{ ...styles.companyContainer, paddingLeft: "10px" }}
+                  style={{ ...styles.companyContainer, paddingLeft: '10px' }}
                 >
-                  <input type="checkbox" />
+                  <input type='checkbox' />
                 </div>
                 <div
                   style={{
                     ...styles.numberContainer,
-                    padding: "0px 8px",
+                    padding: '0px 8px'
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: "#37474F",
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#37474F'
                     }}
                   >
                     {e.name}
@@ -61,14 +61,14 @@ const List = (props) => {
                 <div
                   style={{
                     ...styles.notifContainer,
-                    padding: "0px 8px",
+                    padding: '0px 8px'
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: "#37474F",
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#37474F'
                     }}
                   >
                     {e.type}
@@ -77,34 +77,28 @@ const List = (props) => {
                 <div
                   style={{
                     ...styles.notifContainer,
-                    padding: "0px 8px",
+                    padding: '0px 8px'
                   }}
                 >
                   <div onClick={ShowHideHandler}>
                     {e.type === 1 ? (
-                      <img
-                        src="https://admin.ebazaar.mn/media/on.svg"
-                        alt="open "
-                      />
+                      <img src='/media/on.svg' alt='open ' />
                     ) : (
-                      <img
-                        src="https://admin.ebazaar.mn/media/off.svg"
-                        alt="close"
-                      />
+                      <img src='/media/off.svg' alt='close' />
                     )}
                   </div>
                 </div>
                 <div
                   style={{
                     ...styles.createdContainer,
-                    padding: "0px 8px",
+                    padding: '0px 8px'
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: "#37474F",
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#37474F'
                     }}
                   >
                     {e.manager}
@@ -113,14 +107,14 @@ const List = (props) => {
                 <div
                   style={{
                     ...styles.registerContainer,
-                    padding: "0px 8px",
+                    padding: '0px 8px'
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: "#37474F",
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#37474F'
                     }}
                   >
                     {e.supplier_name}
@@ -129,15 +123,15 @@ const List = (props) => {
                 <div
                   style={{
                     ...styles.serviceContainer,
-                    padding: "0px 8px",
-                    display: "none",
+                    padding: '0px 8px',
+                    display: 'none'
                   }}
                 >
                   <span
                     style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      color: "#37474F",
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#37474F'
                     }}
                   >
                     {e.supplier_name}
@@ -145,10 +139,10 @@ const List = (props) => {
                 </div>
                 <span
                   style={{
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "#37474F",
-                    width: "50px",
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    color: '#37474F',
+                    width: '50px'
                   }}
                 >
                   <img
@@ -158,37 +152,37 @@ const List = (props) => {
                       appctx.setTabOpenstate(true);
                       appctx.setSelectedWareHouse(e);
                     }}
-                    alt="edit"
+                    alt='edit'
                   />
                 </span>
                 <span
                   style={{
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "#37474F",
-                    width: "50px",
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    color: '#37474F',
+                    width: '50px'
                   }}
                 >
-                  <img src={settingIcon} alt="edit" onClick={SettingHandler} />
+                  <img src={settingIcon} alt='edit' onClick={SettingHandler} />
                 </span>
                 <span
                   style={{
-                    display: appctx.userData.id === 351 ? "block" : "hidden",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "#37474F",
-                    width: "50px",
-                    display: "flex",
-                    alignItems: "center",
+                    display: appctx.userData.id === 351 ? 'block' : 'hidden',
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    color: '#37474F',
+                    width: '50px',
+                    display: 'flex',
+                    alignItems: 'center'
                   }}
                 >
                   <img
                     src={carsvg}
                     style={{
                       // width: "40px",
-                      height: "25px",
+                      height: '25px'
                     }}
-                    alt="edit"
+                    alt='edit'
                     onClick={() => ShowHandlier(e)}
                   />
                 </span>

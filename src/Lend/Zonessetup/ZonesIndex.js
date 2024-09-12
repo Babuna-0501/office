@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./zonesindex.module.css";
-import LendHook from "../../Hooks/LendHook";
-import SpanButton from "../components/SpanButton";
-import SpecilCustomer from "../Specilcustomer/SpecilCustomer";
-import ZonesChose from "../Zones/ZonesChose";
-import Modal from "../Modal/Modal";
-import Zone from "../components/Zone";
-import { styles } from "./style";
-import CustomerList from "./CustomerList";
-import { Modal as GeneralModal } from "../components/Modal";
-import Background from "../../Order/Othercomponents/Background";
-import myHeaders from "../../components/MyHeader/myHeader";
-import userHook from "../../Hooks/userHook";
-import Hirender from "./Hirender";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './zonesindex.module.css';
+import LendHook from '../../Hooks/LendHook';
+import SpanButton from '../components/SpanButton';
+import SpecilCustomer from '../Specilcustomer/SpecilCustomer';
+import ZonesChose from '../Zones/ZonesChose';
+import Modal from '../Modal/Modal';
+import Zone from '../components/Zone';
+import { styles } from './style';
+import CustomerList from './CustomerList';
+import { Modal as GeneralModal } from '../components/Modal';
+import Background from '../../Order/Othercomponents/Background';
+import myHeaders from '../../components/MyHeader/myHeader';
+import userHook from '../../Hooks/userHook';
+import Hirender from './Hirender';
 
 const ZonesIndex = () => {
   const [workPerson, setWorkPerson] = useState(null);
@@ -22,13 +22,13 @@ const ZonesIndex = () => {
   useEffect(() => {
     setWorkPerson(lendctx.worker);
   }, [lendctx.worker]);
-  console.log("workPerson++++++++++---------- ", workPerson);
+  console.log('workPerson++++++++++---------- ', workPerson);
   useEffect(() => {
     // if (lendctx.worker.special_tradeshops !== null) {
     //   let ids = lendctx.worker.special_tradeshops.split(",");
     //   let allData = [];
     //   ids?.map((item) => {
-    //     fetch(`https://api2.ebazaar.mn/api/merchants?id=${item}`, {
+    //     fetch(`${process.env.REACT_APP_API_URL2}/api/merchants?id=${item}`, {
     //       method: "GET",
     //       headers: myHeaders,
     //       redirect: "follow",
@@ -82,9 +82,9 @@ const ZonesIndex = () => {
     lendctx.setZoneState(false);
     lendctx.setFilteredZones([]);
   };
-  console.log("lendctx.filteredZones", lendctx.filteredZones);
-  console.log("zonesData-------", zonesData);
-  console.log("endctx.xtZones", lendctx.xtZones);
+  console.log('lendctx.filteredZones', lendctx.filteredZones);
+  console.log('zonesData-------', zonesData);
+  console.log('endctx.xtZones', lendctx.xtZones);
 
   return (
     <div className={css.container}>
@@ -94,7 +94,7 @@ const ZonesIndex = () => {
           <p className={css.title}>
             {workPerson && workPerson.role !== null
               ? workPerson.role
-              : "Худалдааны төлөөлөгч"}
+              : 'Худалдааны төлөөлөгч'}
           </p>
         </div>
         <div className={css.btncontainer}>
@@ -253,14 +253,14 @@ const ZonesIndex = () => {
         <Background>
           <div
             style={{
-              width: "320px",
-              height: "300px",
-              borderRadius: "14px",
-              overflow: "hidden",
+              width: '320px',
+              height: '300px',
+              borderRadius: '14px',
+              overflow: 'hidden'
             }}
           >
             <GeneralModal
-              content="Бүсчлэлийн тохиргоо амжилттай үүслээ."
+              content='Бүсчлэлийн тохиргоо амжилттай үүслээ.'
               onClick={closeHandler}
             />
           </div>

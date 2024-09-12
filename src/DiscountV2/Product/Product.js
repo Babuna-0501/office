@@ -1,30 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./product.module.css";
-import checkboxicon from "../../assets/check box.svg";
-import checkedIcon from "../../assets/check box_black.svg";
-import { styles } from "./style";
-import PromoHook from "../../Hooks/PromoHook";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './product.module.css';
+import checkboxicon from '../../assets/check box.svg';
+import checkedIcon from '../../assets/check box_black.svg';
+import { styles } from './style';
+import PromoHook from '../../Hooks/PromoHook';
+import { replaceImageUrl } from '../../utils';
 const Product = ({ item }) => {
   const promoctx = useContext(PromoHook);
   const [checked, setChecked] = useState(false);
 
-  let imagesrc =
-    "https://ebazaar.mn/media/product/9989646044764598603108547708202205130611436585188195547456197872435120.png";
+  let imagesrc = `${process.env.REACT_APP_MEDIA_URL}/product/9989646044764598603108547708202205130611436585188195547456197872435120.png`;
   if (item.image !== null && item.image && item.image[0]) {
-    imagesrc = item.image[0].replace("original", "small");
+    imagesrc = replaceImageUrl(item.image[0].replace('original', 'small'));
   }
   const ChosedHandler = () => {
     if (promoctx.productIDS && promoctx.productIDS.includes(item._id)) {
-      let bb = promoctx.productIDS.filter((item) => item !== item._id);
+      let bb = promoctx.productIDS.filter(item => item !== item._id);
       promoctx.setProductIDS(bb);
-      setChecked((prev) => !prev);
-      console.log("daragdlaa haslaa");
-      console.log("productIDS", promoctx.productIDS);
+      setChecked(prev => !prev);
+      console.log('daragdlaa haslaa');
+      console.log('productIDS', promoctx.productIDS);
     } else {
-      promoctx.setProductIDS((prev) => [...prev, item._id]);
-      console.log("daragdlaa nemlee");
-      setChecked((prev) => !prev);
-      console.log("productIDS", promoctx.productIDS);
+      promoctx.setProductIDS(prev => [...prev, item._id]);
+      console.log('daragdlaa nemlee');
+      setChecked(prev => !prev);
+      console.log('productIDS', promoctx.productIDS);
     }
   };
   useEffect(() => {
@@ -39,20 +39,20 @@ const Product = ({ item }) => {
       <div
         className={css.checkcontainer}
         style={{
-          ...styles.checkboxcontainer,
+          ...styles.checkboxcontainer
         }}
       >
         <img
           src={checked ? checkedIcon : checkboxicon}
-          alt="checked box"
+          alt='checked box'
           onClick={ChosedHandler}
         />
       </div>
       <div
         style={{
           ...styles.idcontainer,
-          textDecoration: "underline",
-          color: "#706AC5",
+          textDecoration: 'underline',
+          color: '#706AC5'
         }}
       >
         {item && item._id}
@@ -67,60 +67,60 @@ const Product = ({ item }) => {
       <div
         className={css.imagecontainer}
         style={{
-          width: "80px",
+          width: '80px'
         }}
       >
         <img src={imagesrc} alt={item.name} />
       </div>
       <div
         style={{
-          ...styles.productName,
+          ...styles.productName
         }}
       >
         {item && item.name}
       </div>
       <div
         style={{
-          ...styles.barCode,
+          ...styles.barCode
         }}
       >
         {item && item.category_id}
       </div>
       <div
         style={{
-          ...styles.barCode,
+          ...styles.barCode
         }}
       >
         {item && item.brand}
       </div>
       <div
         style={{
-          ...styles.barCode,
+          ...styles.barCode
         }}
       >
         {item &&
-          item.locations["62f4aabe45a4e22552a3969f"].price.channel[
-            "1"
-          ]?.toLocaleString() + "₮"}
+          item.locations['62f4aabe45a4e22552a3969f'].price.channel[
+            '1'
+          ]?.toLocaleString() + '₮'}
       </div>
       <div
         style={{
-          ...styles.barCode,
+          ...styles.barCode
         }}
       >
-        {" "}
-        {item && item.created_date.split("T")[0]}
+        {' '}
+        {item && item.created_date.split('T')[0]}
       </div>
       <div
         style={{
-          ...styles.SKU,
+          ...styles.SKU
         }}
       >
         {item && item.sku}
       </div>
       <div
         style={{
-          ...styles.barCode,
+          ...styles.barCode
         }}
       >
         {item && item.bar_code}

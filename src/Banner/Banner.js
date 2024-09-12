@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import Setting from "../assets/Setting.svg";
-import plus from "../assets/plus button.svg";
-import Delete from "../assets/delete_big.svg";
-import { Drawer } from "antd";
-import css from "./list.module.css";
-import { Select, Popconfirm } from "antd";
-import BackOfficeHook from "../Hooks/BackOfficeHook";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import Setting from '../assets/Setting.svg';
+import plus from '../assets/plus button.svg';
+import Delete from '../assets/delete_big.svg';
+import { Drawer } from 'antd';
+import css from './list.module.css';
+import { Select, Popconfirm } from 'antd';
+import BackOfficeHook from '../Hooks/BackOfficeHook';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const Banner = (props) => {
+const Banner = props => {
   const [data, setData] = useState();
 
   const [edit, setEdit] = useState(false);
@@ -58,7 +58,7 @@ const Banner = (props) => {
     // data?.desktop;
     let aa = data;
 
-    aa["desktop"] = _fruitItems;
+    aa['desktop'] = _fruitItems;
 
     // setData(aa)
     setData(aa);
@@ -83,7 +83,7 @@ const Banner = (props) => {
 
     let aa = data;
 
-    aa["mobile"] = _fruitItems;
+    aa['mobile'] = _fruitItems;
 
     //update the actual array
     setData(aa);
@@ -94,32 +94,32 @@ const Banner = (props) => {
   useEffect(() => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api.ebazaar.mn/api/pages/?page_id=1`;
+    let url = `${process.env.REACT_APP_API_URL}/api/pages/?page_id=1`;
 
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         // console.log("res banner", res);
-        setData(res.data.find((a) => a.type === "Banner").new_data.image);
+        setData(res.data.find(a => a.type === 'Banner').new_data.image);
         // console.log("data", data);
         bannerctx.setMobileBanner(
-          res.data.find((a) => a.type === "Banner").new_data.image.mobile
+          res.data.find(a => a.type === 'Banner').new_data.image.mobile
         );
         bannerctx.setNewBanner(
-          res.data.find((a) => a.type === "Banner").new_data.image.desktop
+          res.data.find(a => a.type === 'Banner').new_data.image.desktop
         );
       })
-      .catch((error) => {
-        alert("Алдаа гарлаа");
+      .catch(error => {
+        alert('Алдаа гарлаа');
       });
   }, [dummy]);
 
@@ -127,24 +127,24 @@ const Banner = (props) => {
     if (productInput?.length > 1) {
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      let url = `https://api2.ebazaar.mn/api/products/get1?search=${productInput}`;
+      let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?search=${productInput}`;
 
       fetch(url, requestOptions)
-        .then((r) => r.json())
-        .then((res) => {
+        .then(r => r.json())
+        .then(res => {
           setProductSearch(res.data);
         })
-        .catch((error) => {
-          alert("Алдаа гарлаа");
+        .catch(error => {
+          alert('Алдаа гарлаа');
         });
     }
   }, [productInput]);
@@ -154,9 +154,9 @@ const Banner = (props) => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -165,29 +165,31 @@ const Banner = (props) => {
           id +
           '" multiple /></form>'
       );
-    document.getElementById("uploader" + id).click();
+    document.getElementById('uploader' + id).click();
     document
-      .getElementById("uploader" + id)
-      .addEventListener("change", () => upload(id), false);
+      .getElementById('uploader' + id)
+      .addEventListener('change', () => upload(id), false);
   };
-  const upload = (form) => {
-    const uploader = document.getElementById("uploader" + form);
-    var fileField = document.getElementById("uploader" + form);
+  const upload = form => {
+    const uploader = document.getElementById('uploader' + form);
+    var fileField = document.getElementById('uploader' + form);
     let formData = new FormData();
     for (let i = 0; i < uploader.files.length; i++) {
-      formData.append(i, fileField.files[i]);
+      formData.append('files', fileField.files[i]);
     }
     fetch(
-      "https://ebazaar.mn/media/ehlo.php?preset=product&ebazaar_admin_token=" +
-        localStorage.getItem("ebazaar_admin_token"),
-      { method: "post", body: formData }
+      `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
+        localStorage.getItem('ebazaar_admin_token'),
+      { method: 'post', body: formData }
     )
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         let temp = [];
         if (response.status === 200) {
-          response.data.map((img) => {
-            temp.push("https://ebazaar.mn/media/original/" + img.image);
+          response.data.map(img => {
+            temp.push(
+              `${process.env.REACT_APP_MEDIA_URL}/original/` + img.image
+            );
           });
         }
         setImg(temp[0]);
@@ -199,29 +201,29 @@ const Banner = (props) => {
       if (deviceType) {
         var myHeaders = new Headers();
         myHeaders.append(
-          "ebazaar_token",
-          localStorage.getItem("ebazaar_admin_token")
+          'ebazaar_token',
+          localStorage.getItem('ebazaar_admin_token')
         );
-        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append('Content-Type', 'application/json');
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
           body: JSON.stringify({
             bannerType: deviceType,
-            index: selected === "new" ? data[deviceType].length : index,
+            index: selected === 'new' ? data[deviceType].length : index,
             file: img,
             type: parseInt(bannerType),
-            id: parseInt(id),
+            id: parseInt(id)
           }),
-          redirect: "follow",
+          redirect: 'follow'
         };
         // console.log("requestOptions banner", requestOptions);
-        let url = `https://api2.ebazaar.mn/api/updateBanner`;
+        let url = `${process.env.REACT_APP_API_URL2}/api/updateBanner`;
         fetch(url, requestOptions)
-          .then((r) => r.json())
-          .then((result) => {
+          .then(r => r.json())
+          .then(result => {
             if (result.code === 200) {
-              alert("Амжилттай хадгаллаа!");
+              alert('Амжилттай хадгаллаа!');
               setEdit(false);
               setDummy(dummy + 1);
               // props.setProduct({
@@ -229,49 +231,49 @@ const Banner = (props) => {
               // 	image: images,
               // });
             } else {
-              alert("Алдаа гарлаа!");
+              alert('Алдаа гарлаа!');
             }
           })
-          .catch((error) => {
-            alert("Алдаа гарлаа");
+          .catch(error => {
+            alert('Алдаа гарлаа');
           });
       } else {
-        alert("Төхөөрөмжөө сонго л доо!");
+        alert('Төхөөрөмжөө сонго л доо!');
       }
     } else {
-      alert("Зурагаа оруулал даа!");
+      alert('Зурагаа оруулал даа!');
     }
   };
   const del = () => {
     var myHeaders = new Headers();
     myHeaders.append(
-      "ebazaar_token",
-      localStorage.getItem("ebazaar_admin_token")
+      'ebazaar_token',
+      localStorage.getItem('ebazaar_admin_token')
     );
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify({
         bannerType: deviceType,
-        index: index,
+        index: index
       }),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/removeBanner`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/removeBanner`;
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((result) => {
+      .then(r => r.json())
+      .then(result => {
         if (result.code === 200) {
-          alert("Амжилттай устгалаа!");
+          alert('Амжилттай устгалаа!');
           setEdit(false);
           setDummy(dummy + 1);
         } else {
-          alert("Алдаа гарлаа!");
+          alert('Алдаа гарлаа!');
         }
       })
-      .catch((error) => {
-        alert("Алдаа гарлаа");
+      .catch(error => {
+        alert('Алдаа гарлаа');
       });
   };
   const footer = () => {
@@ -299,7 +301,7 @@ const Banner = (props) => {
     );
   };
 
-  const handleChange = (value) => {
+  const handleChange = value => {
     setProductInput(value);
   };
 
@@ -310,10 +312,10 @@ const Banner = (props) => {
           Веб
           <img
             src={plus}
-            alt=""
+            alt=''
             onClick={() => {
               setEdit(true);
-              setSelected("new");
+              setSelected('new');
               setImg();
             }}
           />
@@ -324,41 +326,41 @@ const Banner = (props) => {
               className={css.fcontainer}
               key={i}
               draggable
-              onDragStart={(e) => (dragItem.current = i)}
-              onDragEnter={(e) => (dragOverItem.current = i)}
+              onDragStart={e => (dragItem.current = i)}
+              onDragEnter={e => (dragOverItem.current = i)}
               onDragEnd={handleSort}
-              onDragOver={(e) => e.preventDefault()}
+              onDragOver={e => e.preventDefault()}
             >
               <img
-                src={x.file.replace("original", "product")}
-                alt=""
+                src={x.file.replace('original', 'product')}
+                alt=''
                 width={285}
               />
               <div className={css.gcontainer}>
                 <div className={css.name}>
                   {x.type === 1
-                    ? props?.suppliers?.find((e) => e.id === x.id)?.name
-                    : ""}
+                    ? props?.suppliers?.find(e => e.id === x.id)?.name
+                    : ''}
                 </div>
                 <div>
                   {x.type === 1
-                    ? "Нийлүүлэгч"
+                    ? 'Нийлүүлэгч'
                     : x.type === 2
-                    ? "Бүтээгдхүүн"
+                    ? 'Бүтээгдхүүн'
                     : x.type === 3
-                    ? "Брэнд"
+                    ? 'Брэнд'
                     : x.type === 0
-                    ? "Banner"
-                    : ""}
+                    ? 'Banner'
+                    : ''}
                 </div>
                 <img
                   src={Setting}
-                  alt=""
+                  alt=''
                   className={css.setting}
                   onClick={() => {
                     setEdit(true);
                     setSelected(x.file);
-                    setDeviceType("desktop");
+                    setDeviceType('desktop');
                     setImg(x.file);
                     setIndex(i);
                   }}
@@ -373,10 +375,10 @@ const Banner = (props) => {
           Мобайл
           <img
             src={plus}
-            alt=""
+            alt=''
             onClick={() => {
               setEdit(true);
-              setSelected("new");
+              setSelected('new');
               setImg();
             }}
           />
@@ -387,39 +389,39 @@ const Banner = (props) => {
               className={css.fcontainer}
               key={i}
               draggable
-              onDragStart={(e) => (mobiledragItem.current = i)}
-              onDragEnter={(e) => (mobiledragOverItem.current = i)}
+              onDragStart={e => (mobiledragItem.current = i)}
+              onDragEnter={e => (mobiledragOverItem.current = i)}
               onDragEnd={mobileHandleSort}
-              onDragOver={(e) => e.preventDefault()}
+              onDragOver={e => e.preventDefault()}
             >
               <img
-                src={x.file.replace("original", "product")}
-                alt=""
+                src={x.file.replace('original', 'product')}
+                alt=''
                 width={285}
               />
               <div className={css.gcontainer}>
                 <div className={css.name}>
                   {x.type === 1
-                    ? props?.suppliers?.find((e) => e.id === x.id)?.name
-                    : ""}
+                    ? props?.suppliers?.find(e => e.id === x.id)?.name
+                    : ''}
                 </div>
                 <div>
                   {x.type === 1
-                    ? "Нийлүүлэгч"
+                    ? 'Нийлүүлэгч'
                     : x.type === 2
-                    ? "Бүтээгдхүүн"
+                    ? 'Бүтээгдхүүн'
                     : x.type === 3
-                    ? "Брэнд"
-                    : ""}
+                    ? 'Брэнд'
+                    : ''}
                 </div>
                 <img
                   src={Setting}
-                  alt=""
+                  alt=''
                   className={css.setting}
                   onClick={() => {
                     setEdit(true);
                     setSelected(x.file);
-                    setDeviceType("mobile");
+                    setDeviceType('mobile');
                     setImg(x.file);
                     setIndex(i);
                   }}
@@ -431,35 +433,35 @@ const Banner = (props) => {
       </div>
       <Drawer
         title={<div className={css.drawerTitle}>Баннер</div>}
-        placement="right"
+        placement='right'
         onClose={() => setEdit(false)}
         open={edit}
-        width="571px"
+        width='571px'
         footer={footer()}
-        bodyStyle={{ background: "#f6f7f8" }}
+        bodyStyle={{ background: '#f6f7f8' }}
       >
         <div>
-          <img src={img} style={{ width: "100%" }} />
+          <img src={img} style={{ width: '100%' }} />
           <div className={css.title}>
             <img
-              src="https://ebazaar.mn/icon/photo-add.svg"
+              src='https://ebazaar.mn/icon/photo-add.svg'
               onClick={() => up()}
-              alt=""
-              style={{ height: "80px", width: "80px" }}
+              alt=''
+              style={{ height: '80px', width: '80px' }}
             />
-            {selected !== "new" && (
+            {selected !== 'new' && (
               <Popconfirm
-                placement="right"
-                title="Та устгахдаа итгэлтэй байна уу?"
+                placement='right'
+                title='Та устгахдаа итгэлтэй байна уу?'
                 onConfirm={() => del()}
-                okText="Тийм"
-                cancelText="Үгүй"
+                okText='Тийм'
+                cancelText='Үгүй'
               >
                 <img
                   src={Delete}
-                  alt=""
+                  alt=''
                   height={40}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: 'pointer' }}
                 />
               </Popconfirm>
             )}
@@ -467,23 +469,23 @@ const Banner = (props) => {
           <div className={css.deviceBanner}>
             <span className={css.deviceTohooromj}>Төхөөрөмж:</span>
             <select
-              onChange={(e) => {
+              onChange={e => {
                 setDeviceType(e.target.value);
               }}
             >
-              <option value={""}>---</option>
-              <option value={"desktop"}>Desktop</option>
-              <option value={"mobile"}>Mobile</option>
+              <option value={''}>---</option>
+              <option value={'desktop'}>Desktop</option>
+              <option value={'mobile'}>Mobile</option>
             </select>
           </div>
           <div className={css.deviceBanner}>
             <span className={css.deviceTohooromj}> Төрөл:</span>
             <select
-              onChange={(e) => {
+              onChange={e => {
                 setBannerType(e.target.value);
               }}
             >
-              <option value={""}>---</option>
+              <option value={''}>---</option>
               <option value={1}>Нийлүүлэгч</option>
               <option value={2}>Бүтээгдхүүн</option>
               <option value={3}>Брэнд</option>
@@ -492,65 +494,65 @@ const Banner = (props) => {
           {bannerType && (
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
               <span className={css.deviceTohooromj}> Нэр:</span>
-              {bannerType === "1" ? (
+              {bannerType === '1' ? (
                 <select
-                  onChange={(e) => {
+                  onChange={e => {
                     setId(e.target.value);
                   }}
                 >
-                  <option value={""}>---</option>
-                  {props.suppliers.map((e) => (
+                  <option value={''}>---</option>
+                  {props.suppliers.map(e => (
                     <option value={e.id} key={e.id}>
                       {e.name}
                     </option>
                   ))}
                 </select>
-              ) : bannerType === "2" ? (
+              ) : bannerType === '2' ? (
                 <Select
                   showSearch
                   style={{
-                    width: 300,
+                    width: 300
                   }}
-                  placeholder="Хайх"
+                  placeholder='Хайх'
                   onSearch={handleChange}
-                  onChange={(e) => setId(e)}
+                  onChange={e => setId(e)}
                   filterOption={(input, option) => option?.name}
                   options={productSearch}
-                  fieldNames={{ label: "name", value: "_id" }}
+                  fieldNames={{ label: 'name', value: '_id' }}
                 />
-              ) : bannerType === "3" ? (
+              ) : bannerType === '3' ? (
                 <select
-                  onChange={(e) => {
+                  onChange={e => {
                     setId(e.target.value);
                   }}
                 >
-                  <option value={""}>---</option>
-                  {props.brands.map((e) => (
+                  <option value={''}>---</option>
+                  {props.brands.map(e => (
                     <option value={e.BrandID} key={e.BrandID}>
                       {e.BrandName}
                     </option>
                   ))}
                 </select>
-              ) : bannerType === "4" ? (
+              ) : bannerType === '4' ? (
                 <select
-                  onChange={(e) => {
+                  onChange={e => {
                     setId(e.target.value);
                   }}
                 >
-                  <option value={""}>---</option>
-                  {props.brands.map((e) => (
+                  <option value={''}>---</option>
+                  {props.brands.map(e => (
                     <option value={e.BrandID} key={e.BrandID}>
                       {e.BrandName}
                     </option>
                   ))}
                 </select>
               ) : (
-                ""
+                ''
               )}
             </div>
           )}

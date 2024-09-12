@@ -1,45 +1,56 @@
 // CSS
-import css from "./brandTargetAdd.module.css";
+import css from './brandTargetAdd.module.css';
 
 // Images
-import { CloseDark, TugrugGray, TugrugGreen, TargetWhite } from "../../../../../assets/icons";
+import {
+  CloseDark,
+  TugrugGray,
+  TugrugGreen,
+  TargetWhite
+} from '../../../../../assets/icons';
 
 // Components
-import { Button, Checkbox, Input, SuccessPopup } from "../../../../../components/common";
-import { useState, useEffect } from "react";
-import ErrorPopup from "../../../../../components/common/ErrorPopup";
+import {
+  Button,
+  Checkbox,
+  Input,
+  SuccessPopup
+} from '../../../../../components/common';
+import { useState, useEffect } from 'react';
+import ErrorPopup from '../../../../../components/common/ErrorPopup';
+import { replaceImageUrl } from '../../../../../utils';
 
-export const BrandTargetAdd = (props) => {
+export const BrandTargetAdd = props => {
   const {
     closeHandler,
     brands: initBrands,
     loggedUser,
     setTarget,
     setTargetExist,
-    setBrandTargetExist,
+    setBrandTargetExist
   } = props;
 
   const [brands, setBrands] = useState(
     initBrands.filter(
-      (brand) => brand.SupplierID === loggedUser.company_id.replaceAll("|", "")
+      brand => brand.SupplierID === loggedUser.company_id.replaceAll('|', '')
     )
   );
   const [selectedBrands, setSelectedBrands] = useState([]);
 
-  const [brandName, setBrandName] = useState("");
+  const [brandName, setBrandName] = useState('');
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   useEffect(() => {
     let brandsCopy = initBrands.filter(
-      (brand) => brand.SupplierID === loggedUser.company_id.replaceAll("|", "")
+      brand => brand.SupplierID === loggedUser.company_id.replaceAll('|', '')
     );
 
     if (brandName) {
-      brandsCopy = brandsCopy.filter((brand) =>
+      brandsCopy = brandsCopy.filter(brand =>
         brand.BrandName.toLowerCase().includes(brandName.toLowerCase())
       );
     }
@@ -49,26 +60,26 @@ export const BrandTargetAdd = (props) => {
 
   const saveHandler = () => {
     try {
-      if (selectedBrands.length === 0) throw new Error("Брэнд сонгоно уу!");
+      if (selectedBrands.length === 0) throw new Error('Брэнд сонгоно уу!');
       if (
-        selectedBrands.filter((brand) => brand.target).length !==
+        selectedBrands.filter(brand => brand.target).length !==
           selectedBrands.length &&
         selectedBrands.length !== brands.length
       )
-        throw new Error("Сонгосон брэндэд төлөвлөгөө оруулна уу!");
+        throw new Error('Сонгосон брэндэд төлөвлөгөө оруулна уу!');
 
-      setTarget((prev) => ({
+      setTarget(prev => ({
         ...prev,
-        brands: selectedBrands.map((brand) => ({
+        brands: selectedBrands.map(brand => ({
           _id: brand.BrandID,
           target: { ...brand.target },
           succeeded: { amount: 0, quantity: 0 },
-          waiting: { amount: 0, quantity: 0 },
+          waiting: { amount: 0, quantity: 0 }
         })),
-        type: 1,
+        type: 1
       }));
 
-      setSuccessMsg("Брэнд төлөвлөгөө амжилттай үүслээ.");
+      setSuccessMsg('Брэнд төлөвлөгөө амжилттай үүслээ.');
       setTargetExist(true);
       setBrandTargetExist(true);
       setShowSuccessMsg(true);
@@ -84,7 +95,7 @@ export const BrandTargetAdd = (props) => {
         <div className={css.header}>
           <h1 className={css.title}>Брэнд төлөвлөгөө</h1>
 
-          <button className={css.closeBtn} type="button" onClick={closeHandler}>
+          <button className={css.closeBtn} type='button' onClick={closeHandler}>
             <CloseDark />
           </button>
         </div>
@@ -98,31 +109,31 @@ export const BrandTargetAdd = (props) => {
               className={css.headerItem}
               style={{
                 width: 34,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center'
               }}
             >
               <Checkbox
                 checked={
                   selectedBrands
-                    .map((brand) => brand.BrandID)
+                    .map(brand => brand.BrandID)
                     .sort()
-                    .join(",") ===
+                    .join(',') ===
                   brands
-                    .map((brand) => brand.BrandID)
+                    .map(brand => brand.BrandID)
                     .sort()
-                    .join(",")
+                    .join(',')
                 }
                 onChange={() => {
                   if (
                     selectedBrands
-                      .map((brand) => brand.BrandID)
+                      .map(brand => brand.BrandID)
                       .sort()
-                      .join(",") ===
+                      .join(',') ===
                     brands
-                      .map((brand) => brand.BrandID)
+                      .map(brand => brand.BrandID)
                       .sort()
-                      .join(",")
+                      .join(',')
                   ) {
                     setSelectedBrands([]);
                   } else {
@@ -140,9 +151,9 @@ export const BrandTargetAdd = (props) => {
               <span className={css.headerText}>Брэнд</span>
               <Input
                 value={brandName}
-                onChange={(e) => setBrandName(e.target.value)}
-                size="small"
-                placeholder="Хайх"
+                onChange={e => setBrandName(e.target.value)}
+                size='small'
+                placeholder='Хайх'
               />
             </div>
 
@@ -180,13 +191,13 @@ export const BrandTargetAdd = (props) => {
         </div>
 
         <div className={css.footer}>
-          <Button onClick={closeHandler} variant="secondary" size="medium">
+          <Button onClick={closeHandler} variant='secondary' size='medium'>
             Цуцлах
           </Button>
           <Button
             onClick={saveHandler}
-            variant="primary"
-            size="medium"
+            variant='primary'
+            size='medium'
             width={116}
           >
             Хадгалах
@@ -199,7 +210,7 @@ export const BrandTargetAdd = (props) => {
         message={errorMsg}
         closeHandler={() => {
           setShowErrorMsg(false);
-          setErrorMsg("");
+          setErrorMsg('');
         }}
       />
 
@@ -208,7 +219,7 @@ export const BrandTargetAdd = (props) => {
         message={successMsg}
         closeHandler={() => {
           setShowSuccessMsg(false);
-          setSuccessMsg("");
+          setSuccessMsg('');
           closeHandler();
         }}
       />
@@ -218,29 +229,29 @@ export const BrandTargetAdd = (props) => {
 
 const SingleBrand = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
   const checked = selectedBrands
-    .map((curBrand) => curBrand.BrandID)
+    .map(curBrand => curBrand.BrandID)
     .includes(brand.BrandID);
 
-  const [amount, setAmount] = useState(brand.target ? brand.target.amount : "");
+  const [amount, setAmount] = useState(brand.target ? brand.target.amount : '');
   const [quantity, setQuantity] = useState(
-    brand.target ? brand.target.quantity : ""
+    brand.target ? brand.target.quantity : ''
   );
 
   useEffect(() => {
     if (amount) {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) =>
+      setSelectedBrands(prev =>
+        prev.map(curBrand =>
           curBrand.BrandID === brand.BrandID
             ? {
                 ...curBrand,
-                target: { amount: Number(amount), quantity: null },
+                target: { amount: Number(amount), quantity: null }
               }
             : curBrand
         )
       );
     } else {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) => {
+      setSelectedBrands(prev =>
+        prev.map(curBrand => {
           if (curBrand.BrandID === brand.BrandID) {
             delete curBrand.target;
             return curBrand;
@@ -253,19 +264,19 @@ const SingleBrand = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
 
   useEffect(() => {
     if (quantity) {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) =>
+      setSelectedBrands(prev =>
+        prev.map(curBrand =>
           curBrand.BrandID === brand.BrandID
             ? {
                 ...curBrand,
-                target: { amount: null, quantity: Number(quantity) },
+                target: { amount: null, quantity: Number(quantity) }
               }
             : curBrand
         )
       );
     } else {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) => {
+      setSelectedBrands(prev =>
+        prev.map(curBrand => {
           if (curBrand.BrandID === brand.BrandID) {
             delete curBrand.target;
             return curBrand;
@@ -283,19 +294,19 @@ const SingleBrand = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
     >
       <div
         className={css.contentItem}
-        style={{ width: 34, justifyContent: "center" }}
+        style={{ width: 34, justifyContent: 'center' }}
       >
         <Checkbox
           checked={checked}
           onChange={() => {
             if (checked) {
-              setSelectedBrands((prev) =>
-                prev.filter((curBrand) => curBrand.BrandID !== brand.BrandID)
+              setSelectedBrands(prev =>
+                prev.filter(curBrand => curBrand.BrandID !== brand.BrandID)
               );
-              setAmount("");
-              setQuantity("");
+              setAmount('');
+              setQuantity('');
             } else {
-              setSelectedBrands((prev) => [...prev, brand]);
+              setSelectedBrands(prev => [...prev, brand]);
             }
           }}
         />
@@ -303,7 +314,7 @@ const SingleBrand = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
 
       <div className={css.contentItem} style={{ width: 55 }}>
         <div className={css.brandLogo}>
-          <img src={brand.Image} alt={brand.BrandName} />
+          <img src={replaceImageUrl(brand.Image)} alt={brand.BrandName} />
         </div>
       </div>
 
@@ -313,14 +324,14 @@ const SingleBrand = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
 
       <div className={css.contentItem} style={{ width: 120 }}>
         <Input
-          type="number"
+          type='number'
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={e => setAmount(e.target.value)}
           disabled={!checked || quantity}
-          size="small"
-          placeholder="0"
+          size='small'
+          placeholder='0'
           icon={amount ? <TugrugGreen /> : <TugrugGray />}
-          iconposition="right"
+          iconposition='right'
         />
       </div>
 

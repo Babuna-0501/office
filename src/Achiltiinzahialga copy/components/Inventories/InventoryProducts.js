@@ -1,23 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import InventoryProductHeader from "./InventoryProductHeader";
-import SingleInventoryProduct from "./SingleInventoryProduct";
-import css from "./inventoryProducts.module.css";
-import { ShipmentContext } from "../../../Hooks/ShipmentHook";
-import { Drawer } from "../common/Drawer";
-import packageIcon from "../../../assets/shipment/package.svg";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import ReturnProduct from "./ReturnProduct";
-import { Modal } from "../common";
-import CreateShipmentModal from "./CreateShipmentModal";
+import { useContext, useEffect, useState } from 'react';
+import InventoryProductHeader from './InventoryProductHeader';
+import SingleInventoryProduct from './SingleInventoryProduct';
+import css from './inventoryProducts.module.css';
+import { ShipmentContext } from '../../../Hooks/ShipmentHook';
+import { Drawer } from '../common/Drawer';
+import packageIcon from '../../../assets/shipment/package.svg';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import LoadingSpinner from '../../../components/Spinner/Spinner';
+import ReturnProduct from './ReturnProduct';
+import { Modal } from '../common';
+import CreateShipmentModal from './CreateShipmentModal';
 
-const InventoryProducts = (props) => {
+const InventoryProducts = props => {
   const { inventory, allInventories, userData, users } = props;
   const {
     createInventoryShipmentOrder,
     setCreateInventoryShipmentOrder,
     shipmentReturn,
-    setShipmentReturn,
+    setShipmentReturn
   } = useContext(ShipmentContext);
 
   const [products, setProducts] = useState([]);
@@ -32,20 +32,20 @@ const InventoryProducts = (props) => {
   const [selectedInven, setSelectedInven] = useState(null);
 
   // Filter States
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [barcode, setBarcode] = useState("");
-  const [sku, setSku] = useState("");
-  const [price, setPrice] = useState("");
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [barcode, setBarcode] = useState('');
+  const [sku, setSku] = useState('');
+  const [price, setPrice] = useState('');
 
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const url = `https://api.ebazaar.mn/api/site_data`;
+        const url = `${process.env.REACT_APP_API_URL}/api/site_data`;
         const requestOption = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOption);
@@ -67,7 +67,7 @@ const InventoryProducts = (props) => {
         setLoading(true);
 
         const currentInventory = allInventories.find(
-          (inven) => inven._id === inventory._id
+          inven => inven._id === inventory._id
         );
         const prodIds = [];
 
@@ -75,13 +75,13 @@ const InventoryProducts = (props) => {
           prodIds.push(Object.keys(prod)[0]);
         }
 
-        const url = `https://api2.ebazaar.mn/api/products/get1?ids=[${prodIds.join(
-          ","
-        )}]`;
+        const url = `${
+          process.env.REACT_APP_API_URL2
+        }/products/get1?ids=[${prodIds.join(',')}]`;
         const requestOption = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOption);
@@ -91,12 +91,12 @@ const InventoryProducts = (props) => {
 
         for (const product of currentInventory.products) {
           const curProduct = resData.data.find(
-            (prod) => Number(Object.keys(product)[0]) === prod._id
+            prod => Number(Object.keys(product)[0]) === prod._id
           );
           if (curProduct) {
             productsCopy.push({
               ...curProduct,
-              myStock: product[Object.keys(product)[0]],
+              myStock: product[Object.keys(product)[0]]
             });
           }
         }
@@ -131,28 +131,28 @@ const InventoryProducts = (props) => {
   useEffect(() => {
     let filteredProductsCopy = [...products];
 
-    if (name !== "") {
-      filteredProductsCopy = filteredProductsCopy.filter((prod) =>
+    if (name !== '') {
+      filteredProductsCopy = filteredProductsCopy.filter(prod =>
         prod.name.toLowerCase().includes(name.toLowerCase())
       );
     }
 
-    if (barcode !== "") {
+    if (barcode !== '') {
       filteredProductsCopy = filteredProductsCopy.filter(
-        (prod) => prod.bar_code === barcode
+        prod => prod.bar_code === barcode
       );
     }
 
-    if (sku !== "") {
+    if (sku !== '') {
       filteredProductsCopy = filteredProductsCopy.filter(
-        (prod) => prod.sku === sku
+        prod => prod.sku === sku
       );
     }
 
-    if (price !== "") {
+    if (price !== '') {
       filteredProductsCopy = filteredProductsCopy.filter(
-        (prod) =>
-          prod.locations?.["62f4aabe45a4e22552a3969f"]?.price?.channel?.[1] ===
+        prod =>
+          prod.locations?.['62f4aabe45a4e22552a3969f']?.price?.channel?.[1] ===
           Number(price)
       );
     }
@@ -161,17 +161,15 @@ const InventoryProducts = (props) => {
   }, [products, name, barcode, sku, price]);
 
   const allCheckHandler = () => {
-    if (
-      productChecks.filter((check) => check).length === productChecks.length
-    ) {
-      setProductChecks((prev) => prev.map(() => false));
+    if (productChecks.filter(check => check).length === productChecks.length) {
+      setProductChecks(prev => prev.map(() => false));
     } else {
-      setProductChecks((prev) => prev.map(() => true));
+      setProductChecks(prev => prev.map(() => true));
     }
   };
 
-  const singleCheckHandler = (index) => {
-    setProductChecks((prev) =>
+  const singleCheckHandler = index => {
+    setProductChecks(prev =>
       prev.map((val, ind) => (ind === index ? !val : val))
     );
   };
@@ -182,7 +180,7 @@ const InventoryProducts = (props) => {
         <InventoryProductHeader
           zIndex={products.length + 1}
           checkHandler={allCheckHandler}
-          checked={productChecks.every((val) => val)}
+          checked={productChecks.every(val => val)}
           categories={categories}
           {...{
             name,
@@ -194,7 +192,7 @@ const InventoryProducts = (props) => {
             sku,
             setSku,
             price,
-            setPrice,
+            setPrice
           }}
         />
 
@@ -221,7 +219,7 @@ const InventoryProducts = (props) => {
             })}
           {!loading && filteredProducts.length === 0 && (
             <div className={css.productEmptyWrapper}>
-              <img src={packageIcon} alt="Package" />
+              <img src={packageIcon} alt='Package' />
               <span>Агуулах хоосон байна</span>
             </div>
           )}

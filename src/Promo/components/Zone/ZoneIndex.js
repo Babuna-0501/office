@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import closeIcon from "../../../assets/close.svg";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import closeIcon from '../../../assets/close.svg';
 
-const ZoneIndex = (props) => {
+const ZoneIndex = props => {
   const [data, setData] = useState([]);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/zones`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         setData(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   return (
@@ -26,10 +26,10 @@ const ZoneIndex = (props) => {
         <img
           src={{ closeIcon }}
           style={{
-            width: "24px",
-            height: "24px",
+            width: '24px',
+            height: '24px'
           }}
-          alt="close icon"
+          alt='close icon'
           onClick={() => {
             props.setChannelOpen(false);
             props.setZoneOpen(false);

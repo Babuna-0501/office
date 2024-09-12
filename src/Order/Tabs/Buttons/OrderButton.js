@@ -1,38 +1,38 @@
-import React from "react";
-import css from "./orderbutton.module.css";
-import Button from "./Button";
-import myHeaders from "../../../components/MyHeader/myHeader";
+import React from 'react';
+import css from './orderbutton.module.css';
+import Button from './Button';
+import myHeaders from '../../../components/MyHeader/myHeader';
 
-const OrderButton = (props) => {
-  console.log("props order button----", props);
+const OrderButton = props => {
+  console.log('props order button----', props);
   const cancelHandler = () => {
-    console.log("cancel clicked");
+    console.log('cancel clicked');
     props.setOrderCancelState(true);
   };
   const permission = Object.values(JSON.parse(props.userData.permission))[0];
   const confirm = () => {
     var raw = JSON.stringify({
       order_id: props.order.order_id,
-      order_status: 2,
+      order_status: 2
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/order/status`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
         if (result.code === 200) {
-          alert("Захиалгын статусыг амжилттай өөрчиллөө!");
+          alert('Захиалгын статусыг амжилттай өөрчиллөө!');
           let aa = props.order;
           aa.status = 2;
           props.setOrder(aa);
           props.setTabState(false);
         } else {
-          alert("Алдаа гарлаа");
+          alert('Алдаа гарлаа');
         }
       });
   };
@@ -40,31 +40,34 @@ const OrderButton = (props) => {
   const ApprovedHandler = () => {
     if (
       window.confirm(
-        "Та захиалгын статусыг хүргэсэн төлөвт шилжүүлэхдээ итгэлтэй байна уу?"
+        'Та захиалгын статусыг хүргэсэн төлөвт шилжүүлэхдээ итгэлтэй байна уу?'
       )
     ) {
       var raw = JSON.stringify({
         order_id: props.order.order_id,
-        order_status: 3,
+        order_status: 3
       });
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
-      fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/status`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           if (result.code === 200) {
-            alert("Захиалгын статусыг амжилттай өөрчиллөө!");
+            alert('Захиалгын статусыг амжилттай өөрчиллөө!');
             let aa = props.order;
             aa.status = 3;
             props.setOrder(aa);
             props.setTabState(false);
           } else {
-            alert("Алдаа гарлаа");
+            alert('Алдаа гарлаа');
           }
         });
     }
@@ -84,18 +87,18 @@ const OrderButton = (props) => {
       content = (
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
           }}
         >
           <Button
-            name="Цуцлах"
+            name='Цуцлах'
             className={css.cancelbtn}
             clickHandler={cancelHandler}
           />
           <Button
-            name="Илгээх"
+            name='Илгээх'
             className={css.approvebtn}
             clickHandler={confirm}
           />
@@ -105,18 +108,18 @@ const OrderButton = (props) => {
       content = (
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
           }}
         >
           <Button
-            name="Цуцлах"
+            name='Цуцлах'
             className={css.cancelbtn}
             clickHandler={OrderConfirmCancel}
           />
           <Button
-            name="Баталгаажсан"
+            name='Баталгаажсан'
             className={css.approveOrder}
             clickHandler={ApprovedHandler}
           />
@@ -125,7 +128,7 @@ const OrderButton = (props) => {
     } else if (props.order.status === 3) {
       content = (
         <Button
-          name="Хүргэж өгсөн"
+          name='Хүргэж өгсөн'
           className={css.delivered}
           clickHandler={DeliveryHandler}
         />
@@ -133,7 +136,7 @@ const OrderButton = (props) => {
     } else if (props.order.status === 4) {
       content = (
         <Button
-          name="Хүргэгдсэн"
+          name='Хүргэгдсэн'
           className={css.delivered}
           clickHandler={DeliveredHandler}
         />
@@ -141,7 +144,7 @@ const OrderButton = (props) => {
     } else if (props.order.status === 5) {
       content = (
         <Button
-          name="Цуцлагдсан"
+          name='Цуцлагдсан'
           className={css.canceled}
           clickHandler={CancelStatusFiveHandler}
         />
@@ -150,7 +153,7 @@ const OrderButton = (props) => {
   }
   return (
     <div className={css.container}>
-      {permission.order && permission.order.update ? content : ""}
+      {permission.order && permission.order.update ? content : ''}
     </div>
   );
 };

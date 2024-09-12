@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from "react";
-import css from "./zone.module.css";
-import closeicon from "../assets/close.svg";
-import myHeaders from "../components/MyHeader/myHeader";
-import { zoneStyles } from "./zoneStyle";
-import OneZone from "./OneZone";
+import React, { useEffect, useState } from 'react';
+import css from './zone.module.css';
+import closeicon from '../assets/close.svg';
+import myHeaders from '../components/MyHeader/myHeader';
+import { zoneStyles } from './zoneStyle';
+import OneZone from './OneZone';
 
-const Zone = (props) => {
+const Zone = props => {
   const [data, setData] = useState([]);
   useEffect(() => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/zones`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         if (res.data.length !== 0) {
           let zoneids = [];
-          console.log("props.data.zones", props.data.zones);
+          console.log('props.data.zones', props.data.zones);
           if (props.data.zones && props.data.zones.length > 25) {
-            let aa = props.data.zones.split(",");
-            aa.map((item) => {
+            let aa = props.data.zones.split(',');
+            aa.map(item => {
               zoneids.push(item);
             });
           } else {
             zoneids.push(props.data.zones);
           }
 
-          let update = res.data.map((item) => {
+          let update = res.data.map(item => {
             if (zoneids.length !== 0 && zoneids.includes(item._id)) {
               return {
                 ...item,
-                checked: true,
+                checked: true
               };
             } else {
               return {
                 ...item,
-                checked: false,
+                checked: false
               };
             }
           });
@@ -46,8 +46,8 @@ const Zone = (props) => {
         }
         // setData(res.data);
       })
-      .catch((e) => {
-        console.log("e", e);
+      .catch(e => {
+        console.log('e', e);
       });
   }, [props]);
   const closeHandler = () => {
@@ -55,68 +55,71 @@ const Zone = (props) => {
   };
   const submitHandler = () => {
     let ids = [];
-    data.map((item) => {
+    data.map(item => {
       if (item.checked) {
         ids.push(item._id);
       }
     });
     let raw = {
       user_id: props.data.user_id,
-      zones: ids.toString(),
+      zones: ids.toString()
     };
     const requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(raw),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("requestOptions", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/backoffice/update_users`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log(" hereglegchiig update hiilee ", res);
+    console.log('requestOptions', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/update_users`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log(' hereglegchiig update hiilee ', res);
         if (res.code === 200) {
           let update = [...props.worksdata];
-          update = update.map((x) => {
+          update = update.map(x => {
             if (x.user_id === props.data.user_id) {
               return {
                 ...x,
-                zones: ids.toString(),
+                zones: ids.toString()
               };
             }
             return x;
           });
-          props.setWorksdata((prev) => [...update]);
-          alert("Амжилттай хадгалагдлаа");
+          props.setWorksdata(prev => [...update]);
+          alert('Амжилттай хадгалагдлаа');
           props.setZoneOpen(false);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
-  console.log("props", props);
+  console.log('props', props);
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
         <div>
           <div className={css.closewrapper}>
             <div className={css.headercontainer}>Бүсчлэл сонгох</div>
-            <img src={closeicon} alt="close" onClick={closeHandler} />
+            <img src={closeicon} alt='close' onClick={closeHandler} />
           </div>
           <div className={css.body}>
             <div className={css.header}>
               <div
                 style={{
-                  width: "200px",
-                  borderRight: "1px solid #CFD8DC",
+                  width: '200px',
+                  borderRight: '1px solid #CFD8DC'
                 }}
               >
                 Name
               </div>
               <div
                 style={{
-                  width: "200px",
+                  width: '200px'
                 }}
               >
                 Created by

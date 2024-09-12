@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const Ctx = React.createContext();
 
-export const SfaHook = (props) => {
+export const SfaHook = props => {
   const [selectedWareHouse, setSelectedWareHouse] = useState();
   const [hete, setHete] = useState();
   const [targetMode, setTargetMode] = useState();
@@ -18,17 +18,17 @@ export const SfaHook = (props) => {
     const fetchdata = async () => {
       const myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       const data = await fetch(
-        "https://api2.ebazaar.mn/api/backoffice/users?target=1",
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/users?target=1`,
         requestOptions
       );
       //   console.log("data", data);
@@ -38,22 +38,22 @@ export const SfaHook = (props) => {
     try {
       fetchdata();
     } catch (error) {
-      console.log("users error ", error);
+      console.log('users error ', error);
     }
   }, [hete]);
 
   useEffect(() => {
     if (targetUsers && hete) {
       setProductTarget(
-        JSON.parse(targetUsers?.find((e) => e.user_id === hete).target)
+        JSON.parse(targetUsers?.find(e => e.user_id === hete).target)
           ?.productTarget
       );
       setCategoryTarget(
-        JSON.parse(targetUsers?.find((e) => e.user_id === hete).target)
+        JSON.parse(targetUsers?.find(e => e.user_id === hete).target)
           ?.categoryTarget
       );
       setBrandTarget(
-        JSON.parse(targetUsers?.find((e) => e.user_id === hete).target)
+        JSON.parse(targetUsers?.find(e => e.user_id === hete).target)
           ?.brandTarget
       );
     }
@@ -79,7 +79,7 @@ export const SfaHook = (props) => {
         categoryTarget,
         setCategoryTarget,
         brandTarget,
-        setBrandTarget,
+        setBrandTarget
       }}
     >
       {props.children}

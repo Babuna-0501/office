@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import css from "./angilalbody.module.css";
-import blackchecked from "../../assets/check box_black.svg";
-import checkedgray from "../../assets/check box.svg";
+import React, { useEffect, useState } from 'react';
+import css from './angilalbody.module.css';
+import blackchecked from '../../assets/check box_black.svg';
+import checkedgray from '../../assets/check box.svg';
 
-const AngilalBody = (props) => {
+const AngilalBody = props => {
   const [data, setData] = useState([]);
-  console.log("angilal props", props);
+  console.log('angilal props', props);
   useEffect(() => {
-    let update = props.categories?.map((item) => {
+    let update = props.categories?.map(item => {
       return {
         ...item,
         chosed: false,
         totalAmount: null,
-        actionAmount: null,
+        actionAmount: null
       };
     });
     setData(update);
   }, [props.categories]);
-  const CheckedHandler = (item) => {
-    let update = data.map((x) => {
+  const CheckedHandler = item => {
+    let update = data.map(x => {
       if (x.id === item.id) {
         return {
           ...x,
-          chosed: x.chosed == true ? false : true,
+          chosed: x.chosed == true ? false : true
         };
       }
       return x;
@@ -32,7 +32,7 @@ const AngilalBody = (props) => {
   };
   return (
     <div className={css.container}>
-      {" "}
+      {' '}
       {data &&
         data.map((item, index) => {
           return (
@@ -40,10 +40,10 @@ const AngilalBody = (props) => {
               key={index}
               className={css.wrapper}
               style={{
-                background: item.chosed ? "#F2F2F2" : "#fff",
+                background: item.chosed ? '#F2F2F2' : '#fff',
                 borderBottom: item.chosed
-                  ? "1px solid #fff"
-                  : "1px solid rgba(0, 0, 0, 0.08)",
+                  ? '1px solid #fff'
+                  : '1px solid rgba(0, 0, 0, 0.08)'
               }}
               onClick={() => CheckedHandler(item)}
             >
@@ -53,12 +53,12 @@ const AngilalBody = (props) => {
                   src={
                     item && item.logo
                       ? item.logo[1]
-                      : "https://ebazaar.mn/media/product/3972463217692126714577193090202305010152296735091923881782527978709705.png"
+                      : `${process.env.REACT_APP_MEDIA_URL}/product/3972463217692126714577193090202305010152296735091923881782527978709705.png`
                   }
-                  alt="logo"
+                  alt='logo'
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: '40px',
+                    height: '40px'
                   }}
                 />
               </p>

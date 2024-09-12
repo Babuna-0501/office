@@ -1,20 +1,20 @@
-import React, { useState, useContext, useEffect } from "react";
-import css from "./calendar.module.css";
-import Wrapper from "../Wrapper/Wrapper";
-import Garig from "../Garig/Garig";
-import HeaderXT from "../Header/HeaderXT";
-import XTHook from "../../../Hooks/XtHook";
-import Month from "./Month";
-import Button from "../../../components/Button/Button";
-import myHeaders from "../../../components/MyHeader/myHeader";
-const Calendar = (props) => {
+import React, { useState, useContext, useEffect } from 'react';
+import css from './calendar.module.css';
+import Wrapper from '../Wrapper/Wrapper';
+import Garig from '../Garig/Garig';
+import HeaderXT from '../Header/HeaderXT';
+import XTHook from '../../../Hooks/XtHook';
+import Month from './Month';
+import Button from '../../../components/Button/Button';
+import myHeaders from '../../../components/MyHeader/myHeader';
+const Calendar = props => {
   const [garigState, setGarigState] = useState([]);
 
   const [calendarState, setCalendarState] = useState({
-    buschlel: "",
-    ontsgoiHariltsag: "",
-    garig: "",
-    days: "",
+    buschlel: '',
+    ontsgoiHariltsag: '',
+    garig: '',
+    days: ''
   });
   const [zonebtn, setZonebtn] = useState([]);
   const [data, setData] = useState({});
@@ -25,23 +25,23 @@ const Calendar = (props) => {
   };
 
   const data2023 = [
-    ["1 сар", 36, 6, 0, 2023],
-    ["2 сар", 29, 2, 1, 2023],
-    ["3 сар", 32, 2, 2, 2023],
-    ["4 сар", 34, 5, 3, 2023],
-    ["5 сар", 30, 0, 4, 2023],
-    ["6 сар", 32, 3, 5, 2023],
-    ["7 сар", 35, 5, 6, 2023],
-    ["8 сар", 31, 1, 7, 2023],
-    ["9 сар", 33, 4, 8, 2023],
-    ["10 сар", 36, 6, 9, 2023],
-    ["11 сар", 31, 2, 10, 2023],
-    ["12 сар", 34, 4, 11, 2023],
+    ['1 сар', 36, 6, 0, 2023],
+    ['2 сар', 29, 2, 1, 2023],
+    ['3 сар', 32, 2, 2, 2023],
+    ['4 сар', 34, 5, 3, 2023],
+    ['5 сар', 30, 0, 4, 2023],
+    ['6 сар', 32, 3, 5, 2023],
+    ['7 сар', 35, 5, 6, 2023],
+    ['8 сар', 31, 1, 7, 2023],
+    ['9 сар', 33, 4, 8, 2023],
+    ['10 сар', 36, 6, 9, 2023],
+    ['11 сар', 31, 2, 10, 2023],
+    ['12 сар', 34, 4, 11, 2023]
   ];
-  let days = ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"];
+  let days = ['Даваа', 'Мягмар', 'Лхагва', 'Пүрэв', 'Баасан', 'Бямба', 'Ням'];
 
-  const ChoseDays = (b) => {
-    console.log("b", b);
+  const ChoseDays = b => {
+    console.log('b', b);
     // checked[b] = !checked[b];
     // checked[b] = true;
     // setChecked(!checked[b]);
@@ -49,11 +49,11 @@ const Calendar = (props) => {
     let stateCopy = data;
     // setActive(b);
 
-    data2023.map((m) => {
+    data2023.map(m => {
       for (let i = 1; i <= m[1]; i++) {
         let temp = new Date(`${m[4]}-${m[3] + 1}-${i}`);
         // console.log("temp", temp);
-        console.log("B", b);
+        console.log('B', b);
         if (temp.getDay() === b) {
           if (
             stateCopy[
@@ -74,22 +74,22 @@ const Calendar = (props) => {
 
     setData({
       // ...data,
-      ...stateCopy,
+      ...stateCopy
     });
   };
 
   useEffect(() => {
-    fetch(`https://api2.ebazaar.mn/api/zones`, {
-      method: "GET",
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, {
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setZones(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   const confirmHandler = () => {
@@ -103,18 +103,18 @@ const Calendar = (props) => {
         });
       }
     });
-    console.log("data odor", data);
-    console.log("data zones", zonesdata);
-    console.log("data garig", garigState);
-    console.log("data xt", props.xtdata);
+    console.log('data odor', data);
+    console.log('data zones', zonesdata);
+    console.log('data garig', garigState);
+    console.log('data xt', props.xtdata);
   };
   return (
     <Wrapper>
       <div className={css.container}>
         <HeaderXT zones={zones} setZonebtn={setZonebtn} />
-        <Garig onClick={(e) => ChoseDays(e)} setGarigState={setGarigState} />
+        <Garig onClick={e => ChoseDays(e)} setGarigState={setGarigState} />
         <div className={css.calendarwrapper}>
-          {data2023.map((item) => {
+          {data2023.map(item => {
             // console.log("item", item);
             return (
               <Month

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState, useRef, useMemo } from "react";
-import css from "./giftproduct.module.css";
-import closeBtn from "../assets/close.svg";
-import PromoHook from "../Hooks/PromoHook";
-import ProductReportHook from "../Hooks/ProductsReportHook";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useContext, useEffect, useState, useRef, useMemo } from 'react';
+import css from './giftproduct.module.css';
+import closeBtn from '../assets/close.svg';
+import PromoHook from '../Hooks/PromoHook';
+import ProductReportHook from '../Hooks/ProductsReportHook';
+import myHeaders from '../components/MyHeader/myHeader';
 
-import TableGiftProd from "./TableGiftProd";
+import TableGiftProd from './TableGiftProd';
 
 const GiftProduct = () => {
   const ctx = useContext(PromoHook);
@@ -17,36 +17,36 @@ const GiftProduct = () => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     const getProducts = () => {
       let url;
       if (ctx.willUpdateProd.supplierID) {
-        url = `https://api2.ebazaar.mn/api/products/get1?supplier=${ctx.willUpdateProd.supplierID}&search=${ctx.searchValue}`;
+        url = `${process.env.REACT_APP_API_URL2}/api/products/get1?supplier=${ctx.willUpdateProd.supplierID}&search=${ctx.searchValue}`;
       }
       if (ctx.supplierID) {
-        url = `https://api2.ebazaar.mn/api/products/get1?supplier=${ctx.supplierID}&search=${ctx.searchValue}`;
+        url = `${process.env.REACT_APP_API_URL2}/api/products/get1?supplier=${ctx.supplierID}&search=${ctx.searchValue}`;
       }
 
       // console.log("url", url);
       fetch(url, requestOptions)
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           // console.log("res", response.data);
           setData([]);
 
           let data = [];
-          response.data.forEach((dat) => {
+          response.data.forEach(dat => {
             let brand;
             let categoryAngilal;
-            ctxSitedata.sitedata.categories.filter((item) => {
+            ctxSitedata.sitedata.categories.filter(item => {
               if (item.id === dat.category_id) {
                 return (categoryAngilal = item.name);
               }
             });
-            ctx.brands.filter((item) => {
+            ctx.brands.filter(item => {
               if (item.id === dat.brand) {
                 return (brand = item.name);
               }
@@ -57,14 +57,14 @@ const GiftProduct = () => {
               suppName: ctx.supplierName,
               brandName: brand,
               categoryName: categoryAngilal,
-              gift: false,
+              gift: false
             });
           });
 
           setData(data);
         })
-        .catch((error) => {
-          console.log("Product tathad aldaa garlaa" + error.message);
+        .catch(error => {
+          console.log('Product tathad aldaa garlaa' + error.message);
           setData([]);
         });
     };
@@ -76,19 +76,19 @@ const GiftProduct = () => {
     }
   }, [ctx.searchValue]);
   const addProductsHandler = () => {
-    let dete = selectedRows.map((item) => {
+    let dete = selectedRows.map(item => {
       return {
         threshold_qty: 0,
         min_csku_qty: 0,
         gift_qty: 0,
         is_gift: true,
         product_id: item._id,
-        product_name: item.name,
+        product_name: item.name
       };
     });
     let data = {
       package_id: Math.floor(Math.random() * 10000),
-      dete,
+      dete
     };
     // ctx.setGiftProduct([...ctx.giftProduct, data]);
 
@@ -97,7 +97,7 @@ const GiftProduct = () => {
 
     ctx.setGiftProd(false);
     ctx.setPromoProductAdd(false);
-    ctx.setSearchValue("");
+    ctx.setSearchValue('');
   };
   // console.log("data+++++------", data);
   return (
@@ -122,7 +122,7 @@ const GiftProduct = () => {
                 ctx.setPromoProductAdd(false);
                 ctx.setGiftProd(false);
                 setData([]);
-                ctx.setSearchValue("");
+                ctx.setSearchValue('');
               }}
             >
               Цуцлах++++

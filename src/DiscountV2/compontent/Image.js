@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
+import { replaceImageUrl } from '../../utils';
 
-const Image = (props) => {
-  let picture = props.data.image ? props?.data?.image[0] : "";
+const Image = props => {
+  let picture = props.data.image ? replaceImageUrl(props?.data?.image[0]) : '';
 
   return (
-    <div style={{ height: "100%", padding: "10px", cursor: "pointer" }}>
+    <div style={{ height: '100%', padding: '10px', cursor: 'pointer' }}>
       {props.data.image ? (
         <img
           src={picture}
-          style={{ height: "56px", objectFit: "cover", width: "56px" }}
+          style={{ height: '56px', objectFit: 'cover', width: '56px' }}
         />
       ) : (
-        ""
+        ''
       )}
     </div>
   );

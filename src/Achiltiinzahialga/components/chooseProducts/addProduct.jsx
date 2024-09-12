@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import css from "./addProduct.module.css";
-import InfiniteScroll from "react-infinite-scroll-component";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import checkboxIcon from "../../../assets/check box.svg";
-import checkedIcon from "../../../assets/Tick Square_green.svg";
-import { useEffect } from "react";
-import { Button } from "../common";
+import React, { useState } from 'react';
+import css from './addProduct.module.css';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import LoadingSpinner from '../../../components/Spinner/Spinner';
+import checkboxIcon from '../../../assets/check box.svg';
+import checkedIcon from '../../../assets/Tick Square_green.svg';
+import { useEffect } from 'react';
+import { Button } from '../common';
+import { replaceImageUrl } from '../../../utils';
 
-const AddProduct = (props) => {
+const AddProduct = props => {
   const {
     truncater,
     supplier,
@@ -16,14 +17,14 @@ const AddProduct = (props) => {
     setCheckedProducts,
     setIsProduct,
     fromAguulah,
-    toAguulah,
+    toAguulah
   } = props;
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
 
   const [chosenProduct, setChosenProduct] = useState({});
   const [orlogoHistory, setOrlogoHistory] = useState([]);
-  const [chosenProductStock, setChosenProductStock] = useState("");
+  const [chosenProductStock, setChosenProductStock] = useState('');
   const [zarlagaHistory, setZarlagaHistory] = useState([]);
 
   const [isChekedAll, setIsCheckedAll] = useState(false);
@@ -31,10 +32,10 @@ const AddProduct = (props) => {
 
   // for filter products
   const [filter, setFilter] = useState({
-    bar_code: "",
-    name: "",
-    sku: "",
-    img: "",
+    bar_code: '',
+    name: '',
+    sku: '',
+    img: ''
   });
 
   const handleCheckedProducts = ({ product, products }) => {
@@ -45,7 +46,7 @@ const AddProduct = (props) => {
     if (products) {
       const productsCopy = [];
 
-      products.map((e) => {
+      products.map(e => {
         productsCopy.push({ ...e, nonDuplicatable });
       });
 
@@ -60,24 +61,24 @@ const AddProduct = (props) => {
       }
 
       const isIncludes = checkedProducts.some(
-        (checkedProduct) => checkedProduct.bar_code === product.bar_code
+        checkedProduct => checkedProduct.bar_code === product.bar_code
       );
 
       if (isIncludes) {
         const filteredProducts = checkedProducts.filter(
-          (a) => a.bar_code !== product.bar_code
+          a => a.bar_code !== product.bar_code
         );
         setCheckedProducts(filteredProducts);
       } else {
         setCheckedProducts([
           ...checkedProducts,
-          { ...product, nonDuplicatable },
+          { ...product, nonDuplicatable }
         ]);
       }
     }
   };
 
-  const handleFilter = (e) => {
+  const handleFilter = e => {
     setPage(1);
     setProducts([]);
 
@@ -91,30 +92,30 @@ const AddProduct = (props) => {
     try {
       setIsLoading(true);
       let baseUrl = fromAguulah
-        ? "https://api2.ebazaar.mn/api/warehouse/get/new"
-        : "https://api2.ebazaar.mn/api/products/get1";
+        ? `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`
+        : `${process.env.REACT_APP_API_URL2}/api/products/get1`;
 
       const params = fromAguulah
         ? {
             // productPage: page,
             // poruductLimit: 50,
             id: fromAguulah,
-            allProducts: true,
+            allProducts: true
           }
         : {
             page: page,
             limit: 50,
             ...filter,
-            ...(supplier !== "" ? { supplier: supplier.id } : {}),
+            ...(supplier !== '' ? { supplier: supplier.id } : {})
           };
 
       const queryParams = new URLSearchParams(params).toString();
       const url = `${baseUrl}?${queryParams}`;
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -132,7 +133,7 @@ const AddProduct = (props) => {
 
   const getProductHistory = async () => {
     try {
-      let baseUrl = "https://api2.ebazaar.mn/api/warehouse/get/new";
+      let baseUrl = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
 
       const params = {
         productId: chosenProduct._id,
@@ -140,7 +141,7 @@ const AddProduct = (props) => {
         movementType: 1,
         movementLimit: 200,
         movementPage: 1,
-        productMovement: true,
+        productMovement: true
       };
 
       const params2 = {
@@ -149,7 +150,7 @@ const AddProduct = (props) => {
         movementType: 2,
         movementLimit: 200,
         movementPage: 1,
-        productMovement: true,
+        productMovement: true
       };
 
       const queryParams = new URLSearchParams(params).toString();
@@ -159,9 +160,9 @@ const AddProduct = (props) => {
       const url2 = `${baseUrl}?${queryParams2}`;
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -192,60 +193,60 @@ const AddProduct = (props) => {
   return (
     <div className={css.container}>
       <div className={css.container2}>
-        <div style={{ display: "flex", alignItems: "center", height: "40px" }}>
-          <h2 style={{ fontWeight: "700", fontSize: "20px" }}>
+        <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+          <h2 style={{ fontWeight: '700', fontSize: '20px' }}>
             Барааны жагсаалт
           </h2>
         </div>
         <div className={css.header}>
           <div
             className={css.oneFieldHeader}
-            style={{ flexDirection: "row", gap: "5px", width: "100px" }}
+            style={{ flexDirection: 'row', gap: '5px', width: '100px' }}
           >
-            <div style={{ display: "flex", alignItems: "centers" }}>
+            <div style={{ display: 'flex', alignItems: 'centers' }}>
               <img
                 src={isChekedAll ? checkedIcon : checkboxIcon}
                 onClick={() => {
-                  setIsCheckedAll((prev) => !prev);
+                  setIsCheckedAll(prev => !prev);
                   handleCheckedProducts({ products, isChekedAll: isChekedAll });
                 }}
-                style={{ width: "20px" }}
+                style={{ width: '20px' }}
               />
             </div>
             <div
               style={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
               }}
             >
               <span>Barcode</span>
-              <input type="text" name="bar_code" onChange={handleFilter} />
+              <input type='text' name='bar_code' onChange={handleFilter} />
             </div>
           </div>
-          <div className={css.oneFieldHeader} style={{ width: "200px" }}>
+          <div className={css.oneFieldHeader} style={{ width: '200px' }}>
             <span>Бүтээгдэхүүний нэр</span>
-            <input type="text" name="name" onChange={handleFilter} />
+            <input type='text' name='name' onChange={handleFilter} />
           </div>
           <div className={css.oneFieldHeader}>
             <span>Бүтээгдэхүүний sku</span>
-            <input type="text" name="sku" onChange={handleFilter} />
+            <input type='text' name='sku' onChange={handleFilter} />
           </div>
-          <div className={css.oneFieldHeader} style={{ width: "80px" }}>
+          <div className={css.oneFieldHeader} style={{ width: '80px' }}>
             <span>Зураг</span>
-            <input type="text" name="img" onChange={handleFilter} disabled />
+            <input type='text' name='img' onChange={handleFilter} disabled />
           </div>
         </div>
-        <div id="productList" className={css.productList}>
+        <div id='productList' className={css.productList}>
           <InfiniteScroll
             dataLength={products?.length}
-            next={() => setPage((prev) => prev + 1)}
+            next={() => setPage(prev => prev + 1)}
             hasMore={true}
-            scrollableTarget="productList"
+            scrollableTarget='productList'
           >
             {!isLoading ? (
-              products.map((product) => {
+              products.map(product => {
                 return (
                   <div
                     className={css.product}
@@ -255,22 +256,22 @@ const AddProduct = (props) => {
                     }}
                     style={
                       chosenProduct._id == product._id
-                        ? { backgroundColor: "#ededed" }
+                        ? { backgroundColor: '#ededed' }
                         : {}
                     }
                   >
                     <div
                       className={css.oneFieldBody}
                       style={{
-                        display: "flex",
-                        gap: "10px",
-                        width: "150px",
+                        display: 'flex',
+                        gap: '10px',
+                        width: '150px'
                       }}
                     >
                       <img
                         src={
                           checkedProducts?.some(
-                            (checkedProduct) =>
+                            checkedProduct =>
                               checkedProduct.bar_code === product.bar_code
                           )
                             ? checkedIcon
@@ -279,12 +280,12 @@ const AddProduct = (props) => {
                         onClick={() => {
                           handleCheckedProducts({ product: product });
                         }}
-                        style={{ width: "20px" }}
+                        style={{ width: '20px' }}
                       />
                       <span
                         style={{
-                          textAlign: "center",
-                          lineHeight: "50px",
+                          textAlign: 'center',
+                          lineHeight: '50px'
                         }}
                       >
                         {product.bar_code}
@@ -292,7 +293,7 @@ const AddProduct = (props) => {
                     </div>
                     <div
                       className={css.oneFieldBody}
-                      style={{ width: "300px" }}
+                      style={{ width: '300px' }}
                     >
                       <span>{truncater(product.name, 50)}</span>
                     </div>
@@ -302,8 +303,8 @@ const AddProduct = (props) => {
                     <div className={css.oneFieldBody}>
                       <img
                         src={
-                          product.image[0] ||
-                          "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+                          replaceImageUrl(product.image[0]) ||
+                          `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
                         }
                         alt={product._id}
                       />
@@ -314,10 +315,10 @@ const AddProduct = (props) => {
             ) : (
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "500px",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '500px'
                 }}
               >
                 <LoadingSpinner />
@@ -330,9 +331,9 @@ const AddProduct = (props) => {
         <div className={css.productBalance}>
           <div className={css.left}>
             <img
-              src={chosenProduct?.image?.[0]}
-              alt={chosenProduct?.image?.[0]}
-              style={{ width: "120px", height: "90px", objectFit: "contain" }}
+              src={replaceImageUrl(chosenProduct?.image?.[0])}
+              alt={replaceImageUrl(chosenProduct?.image?.[0])}
+              style={{ width: '120px', height: '90px', objectFit: 'contain' }}
             />
           </div>
           <div className={css.right}>
@@ -342,13 +343,13 @@ const AddProduct = (props) => {
           </div>
         </div>
         <div className={css.productHistory}>
-          <span style={{ fontWeight: "700", fontSize: "18px" }}>
+          <span style={{ fontWeight: '700', fontSize: '18px' }}>
             Бараа орлогодсон түүх
           </span>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <div className={css.oProducts}>
@@ -360,7 +361,7 @@ const AddProduct = (props) => {
                 <span>Үнэ</span>
                 <span>Зарах үнэ</span>
               </div>
-              {orlogoHistory.map((product) => {
+              {orlogoHistory.map(product => {
                 return (
                   <div className={css.oProduct} key={product?._id}>
                     <span>{product?.seriesId}</span>
@@ -376,13 +377,13 @@ const AddProduct = (props) => {
           </div>
         </div>
         <div className={css.productHistory}>
-          <span style={{ fontWeight: "700", fontSize: "18px" }}>
+          <span style={{ fontWeight: '700', fontSize: '18px' }}>
             Бараа зарлагадсан түүх
           </span>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <div className={css.oProducts}>
@@ -394,7 +395,7 @@ const AddProduct = (props) => {
                 <span>Үнэ</span>
                 <span>Зарах үнэ</span>
               </div>
-              {zarlagaHistory.map((product) => {
+              {zarlagaHistory.map(product => {
                 return (
                   <div className={css.oProduct} key={product?._id}>
                     <span>{product?.seriesId}</span>

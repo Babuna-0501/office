@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./specilcustomer.module.css";
-import Background from "../../Order/Othercomponents/Background";
-import Button from "../components/Button";
-import LendHook from "../../Hooks/LendHook";
-import Headers from "../Headers/Headers";
-import { styles } from "./style";
-import Customer from "./Customer";
-import myHeaders from "../../components/MyHeader/myHeader";
-import userHook from "../../Hooks/userHook";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './specilcustomer.module.css';
+import Background from '../../Order/Othercomponents/Background';
+import Button from '../components/Button';
+import LendHook from '../../Hooks/LendHook';
+import Headers from '../Headers/Headers';
+import { styles } from './style';
+import Customer from './Customer';
+import myHeaders from '../../components/MyHeader/myHeader';
+import userHook from '../../Hooks/userHook';
 
 const SpecilCustomer = () => {
   const [customerFalse, setCustomerFalse] = useState([]);
@@ -24,18 +24,18 @@ const SpecilCustomer = () => {
 
   useEffect(() => {
     let controller = new AbortController();
-    fetch(`https://api2.ebazaar.mn/api/tradeshop/alldata`, {
-      method: "GET",
+    fetch(`${process.env.REACT_APP_API_URL2}/api/tradeshop/alldata`, {
+      method: 'GET',
       headers: myHeaders,
-      signal: controller.signal,
+      signal: controller.signal
     })
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         // console.log("response marker", response.result);
 
         let aa = [];
         if (response.result) {
-          response?.result?.map((item) => {
+          response?.result?.map(item => {
             if (item.g_latitude !== null || item.g_longtitude !== null) {
               aa.push(item);
             }
@@ -49,25 +49,25 @@ const SpecilCustomer = () => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/merchants`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/merchants`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         // console.log("response merchant", response);
         let data = [];
         let customerDatas = [];
-        response.data.map((item) => {
+        response.data.map(item => {
           data.push(false);
 
           // let businessName;
           let cityName;
           let khorooName;
           // console.log("item", item);
-          let businessName = userctx?.sitedata?.business_types.map((x) => {
+          let businessName = userctx?.sitedata?.business_types.map(x => {
             let aa;
             if (x.business_type_id === Number(item.business_type_id)) {
               aa = x.business_type_name;
@@ -75,7 +75,7 @@ const SpecilCustomer = () => {
             return aa;
           });
 
-          userctx.sitedata.location.map((x) => {
+          userctx.sitedata.location.map(x => {
             if (x.location_id === Number(item.district)) {
               cityName = x.location_name;
             }
@@ -88,15 +88,15 @@ const SpecilCustomer = () => {
             ...item,
             businesName: businessName,
             cityName: cityName,
-            khorooName: khorooName,
+            khorooName: khorooName
           });
         });
         // console.log("customerdatas", customerDatas);
         setCustomerFalse(data);
         setAllMerchant(customerDatas);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   const ChoseHandler = (e, position) => {
@@ -124,26 +124,26 @@ const SpecilCustomer = () => {
     <Background>
       <div className={css.container}>
         <div className={css.firstContainer}>
-          <Headers title="Онцгой харилцагч нэмэх" onClick={cancelHandler} />
+          <Headers title='Онцгой харилцагч нэмэх' onClick={cancelHandler} />
           <div className={css.bodyWrapper}>
             <div className={css.header}>
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.checkboxcontainer,
+                  ...styles.checkboxcontainer
                 }}
               >
                 <input
                   style={{
-                    width: "18.5px",
-                    height: "18.5px",
+                    width: '18.5px',
+                    height: '18.5px'
                   }}
                 />
               </div>
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.codeContainer,
+                  ...styles.codeContainer
                 }}
               >
                 <span>Ү.цэгийн нэр</span>
@@ -152,7 +152,7 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.positionContainer,
+                  ...styles.positionContainer
                 }}
               >
                 <span>Суваг</span>
@@ -161,7 +161,7 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.nameContainer,
+                  ...styles.nameContainer
                 }}
               >
                 <span>Ү.ажиллагааны чиглэл</span>
@@ -170,7 +170,7 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.dateContainer,
+                  ...styles.dateContainer
                 }}
               >
                 <span>Байгууллагын нэр</span>
@@ -179,7 +179,7 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.zoneContainer,
+                  ...styles.zoneContainer
                 }}
               >
                 <span>Дүүрэг/Сум</span>
@@ -188,7 +188,7 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.settingContainer,
+                  ...styles.settingContainer
                 }}
               >
                 <span>Хороо</span>
@@ -197,11 +197,11 @@ const SpecilCustomer = () => {
               <div
                 className={css.columnheader}
                 style={{
-                  ...styles.addressContainer,
+                  ...styles.addressContainer
                 }}
               >
                 <span>Хаягын дэлгэрэнгүй</span>
-                <input style={{ visibility: "hidden" }} />
+                <input style={{ visibility: 'hidden' }} />
               </div>
             </div>
             <div className={css.customercontainer}>

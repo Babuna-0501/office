@@ -1,15 +1,15 @@
-import React, { useState, useContext } from "react";
-import readXlsxFile from "read-excel-file";
-import css from "./shoppriceregister.module.css";
-import Shops from "./Shops";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import ProductHook from "../../Hooks/ProductHook";
-import Upload from "./Upload";
-import myHeaders from "../../components/MyHeader/myHeader";
-import RegisterProduct from "./RegisterProduct";
-import AppHook from "../../Hooks/AppHook";
+import React, { useState, useContext } from 'react';
+import readXlsxFile from 'read-excel-file';
+import css from './shoppriceregister.module.css';
+import Shops from './Shops';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import ProductHook from '../../Hooks/ProductHook';
+import Upload from './Upload';
+import myHeaders from '../../components/MyHeader/myHeader';
+import RegisterProduct from './RegisterProduct';
+import AppHook from '../../Hooks/AppHook';
 
-const ShopPriceRegister = (props) => {
+const ShopPriceRegister = props => {
   const [page, setPage] = useState(1);
   const [shopsdata, setShopsdata] = useState([]);
   const [productdata, setProductdata] = useState([]);
@@ -23,9 +23,9 @@ const ShopPriceRegister = (props) => {
       Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
     ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -33,97 +33,97 @@ const ShopPriceRegister = (props) => {
           '><input type="file" id="read" /></form>'
       );
 
-    document.getElementById("read").click();
-    document.getElementById("read").addEventListener("change", () => {
+    document.getElementById('read').click();
+    document.getElementById('read').addEventListener('change', () => {
       const schema = {
         name: {
-          prop: "name",
-          type: String,
+          prop: 'name',
+          type: String
         },
         barcode: {
-          prop: "barcode",
-          type: String,
+          prop: 'barcode',
+          type: String
         },
 
         sku: {
-          prop: "sku",
-          type: String,
+          prop: 'sku',
+          type: String
         },
         price: {
-          prop: "price",
-          type: Number,
+          prop: 'price',
+          type: Number
         },
         description: {
-          prop: "description",
-          type: String,
+          prop: 'description',
+          type: String
         },
         in_case: {
-          prop: "in_case",
-          type: Number,
+          prop: 'in_case',
+          type: Number
         },
         active: {
-          prop: "active",
-          type: Number,
+          prop: 'active',
+          type: Number
         },
         id: {
-          prop: "id",
-          type: Number,
-        },
+          prop: 'id',
+          type: Number
+        }
       };
-      readXlsxFile(document.getElementById("read").files[0], {
-        schema,
-      }).then((rows) => {
+      readXlsxFile(document.getElementById('read').files[0], {
+        schema
+      }).then(rows => {
         // console.log("rows", rows);
         // setImportData(rows.rows);
 
         // let newData = [];
 
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         rows.rows &&
-          rows.rows.map((item) => {
-            console.log("item", item);
-            let url = "";
+          rows.rows.map(item => {
+            console.log('item', item);
+            let url = '';
 
             if (item.id) {
-              url = `https://api2.ebazaar.mn/api/products/get1?ids=[${parseInt(
-                item.id
-              )}]`;
+              url = `${
+                process.env.REACT_APP_API_URL2
+              }/products/get1?ids=[${parseInt(item.id)}]`;
             } else {
-              url = `https://api2.ebazaar.mn/api/products/get1?bar_code=${parseInt(
-                item.barcode
-              )}`;
+              url = `${
+                process.env.REACT_APP_API_URL2
+              }/products/get1?bar_code=${parseInt(item.barcode)}`;
             }
 
-            console.log("url948", url);
+            console.log('url948', url);
             fetch(url, requestOptions)
-              .then((res) => res.json())
-              .then((res) => {
+              .then(res => res.json())
+              .then(res => {
                 let newData = [];
-                console.log("response upload", res);
+                console.log('response upload', res);
                 if (res.code === 200 && res.data.length !== 0) {
                   newData.push({
                     ...item,
                     product: true,
                     _id: res.data[0]._id,
-                    supplier_id: res.data[0].supplier_id,
+                    supplier_id: res.data[0].supplier_id
                   });
                 } else {
                   newData.push({
                     ...item,
                     product: true,
                     _id: null,
-                    supplier_id: null,
+                    supplier_id: null
                   });
                 }
-                sitedatactx.setImportData((prev) => [...prev, ...newData]);
+                sitedatactx.setImportData(prev => [...prev, ...newData]);
               })
-              .catch((error) => {
-                console.log("error", error);
+              .catch(error => {
+                console.log('error', error);
               });
           });
       });
@@ -136,21 +136,21 @@ const ShopPriceRegister = (props) => {
 
     let mewdata = [];
     if (sitedatactx.shopIDS.length === 0) {
-      alert("Та дэлгүүрээ сонгоно уу");
+      alert('Та дэлгүүрээ сонгоно уу');
       return;
     }
     if (sitedatactx.importData.length === 0) {
-      alert("Та бараагаа оруулна уу");
+      alert('Та бараагаа оруулна уу');
       return;
     }
 
-    sitedatactx.importData.map((item) => {
+    sitedatactx.importData.map(item => {
       if (item._id !== null) {
         let TIDS = [];
-        sitedatactx.shopIDS.map((x) => {
+        sitedatactx.shopIDS.map(x => {
           TIDS.push({
             tradeshopId: Number(x),
-            price: Number(item.price),
+            price: Number(item.price)
           });
         });
         mewdata.push({
@@ -158,9 +158,9 @@ const ShopPriceRegister = (props) => {
           data: [
             {
               _id: Number(item._id),
-              tradeshop: TIDS,
-            },
-          ],
+              tradeshop: TIDS
+            }
+          ]
         });
         TIDS = [];
       }
@@ -170,34 +170,34 @@ const ShopPriceRegister = (props) => {
     let successdata = [];
 
     mewdata &&
-      mewdata.map((x) => {
+      mewdata.map(x => {
         // console.log("x", x);
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
-          redirect: "follow",
-          body: JSON.stringify(x),
+          redirect: 'follow',
+          body: JSON.stringify(x)
         };
-        console.log("requestOptions", requestOptions);
+        console.log('requestOptions', requestOptions);
         fetch(
-          `https://api2.ebazaar.mn/api/product/channel-price`,
+          `${process.env.REACT_APP_API_URL2}/api/product/channel-price`,
           requestOptions
         )
-          .then((res) => res.json())
-          .then((res) => {
-            console.log("res-----", res);
+          .then(res => res.json())
+          .then(res => {
+            console.log('res-----', res);
             if (res.code === 200) {
               if (res.code === 200 && res.data && res.data.length !== 0) {
                 errordata.push({
-                  error: "aldaa",
-                  message: res.data.toString(),
+                  error: 'aldaa',
+                  message: res.data.toString()
                 });
               } else if (res.code === 200 && res.data.length === 0) {
                 successdata.push(res);
               }
             }
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
       });
@@ -208,7 +208,7 @@ const ShopPriceRegister = (props) => {
     if (errordata.length !== 0) {
       let title = [];
 
-      errordata.map((item) => {
+      errordata.map(item => {
         title.push(JSON.stringify(item.message));
       });
       alert(
@@ -225,7 +225,7 @@ const ShopPriceRegister = (props) => {
       prodctx.setShopPrice(false);
     }
   };
-  console.log("shopsdata", shopsdata);
+  console.log('shopsdata', shopsdata);
 
   return (
     <div className={css.container}>
@@ -241,7 +241,7 @@ const ShopPriceRegister = (props) => {
                   <div className={css.shopswrapper}>
                     {shopsdata &&
                       shopsdata
-                        .filter((x) =>
+                        .filter(x =>
                           sitedatactx.shopIDS.includes(x.tradeshop_id)
                         )
                         .map((item, index) => {
@@ -250,15 +250,15 @@ const ShopPriceRegister = (props) => {
                   </div>
                   <div
                     style={{
-                      fontSize: "12px",
-                      color: "#37474F",
-                      fontWeight: "400",
+                      fontSize: '12px',
+                      color: '#37474F',
+                      fontWeight: '400'
                     }}
                   >
                     {shopsdata &&
                       shopsdata.length !== 0 &&
                       `Нийт дэлгүүр : ${
-                        shopsdata.filter((x) =>
+                        shopsdata.filter(x =>
                           sitedatactx.shopIDS.includes(x.tradeshop_id)
                         ).length
                       }ш`}
@@ -283,14 +283,14 @@ const ShopPriceRegister = (props) => {
                   <div className={css.header}>
                     <span
                       style={{
-                        width: "150px",
+                        width: '150px'
                       }}
                     >
                       SKUS
                     </span>
                     <span
                       style={{
-                        width: "150px",
+                        width: '150px'
                       }}
                     >
                       Price
@@ -303,7 +303,7 @@ const ShopPriceRegister = (props) => {
                           <div
                             className={css.onesku}
                             style={{
-                              background: item._id === null ? "red" : "#fff",
+                              background: item._id === null ? 'red' : '#fff'
                             }}
                           >
                             <p>{item.sku}</p>
@@ -316,15 +316,15 @@ const ShopPriceRegister = (props) => {
                 <div
                   className={css.shopnemeh}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    width: '100%'
                   }}
                 >
-                  {" "}
+                  {' '}
                   <div
                     style={{
-                      fontSize: "10px",
+                      fontSize: '10px'
                     }}
                   >
                     Урт : {sitedatactx.importData.length}
@@ -343,8 +343,8 @@ const ShopPriceRegister = (props) => {
             <div className={css.btnwrapper}>
               <button
                 style={{
-                  background: "#ECEFF1",
-                  color: "#78909C",
+                  background: '#ECEFF1',
+                  color: '#78909C'
                 }}
                 onClick={() => {
                   sitedatactx.setShopIDS([]);
@@ -356,8 +356,8 @@ const ShopPriceRegister = (props) => {
               </button>
               <button
                 style={{
-                  background: "#ffa600",
-                  color: "#fff",
+                  background: '#ffa600',
+                  color: '#fff'
                 }}
                 onClick={SaveHandler}
               >

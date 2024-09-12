@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import css from "./addProduct.module.css";
-import { styles } from "../style";
-import { Button } from "../../../components/common";
-import checkedIcon from "../../../assets/Tick Square_green.svg";
-import checkboxIcon from "../../../assets/check box.svg";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useEffect, useState } from 'react';
+import css from './addProduct.module.css';
+import { styles } from '../style';
+import { Button } from '../../../components/common';
+import checkedIcon from '../../../assets/Tick Square_green.svg';
+import checkboxIcon from '../../../assets/check box.svg';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { replaceImageUrl } from '../../../utils';
 
 const AddProduct = ({
   products,
@@ -18,23 +19,22 @@ const AddProduct = ({
   setCheckedProducts,
   setIsModal,
   filterPage,
-  setFilterPage,
+  setFilterPage
 }) => {
   const handleCheckedProducts = ({ product }) => {
     const isIncludes = checkedProducts.some(
-      (checkedProduct) => checkedProduct._id === product._id
+      checkedProduct => checkedProduct._id === product._id
     );
 
     if (isIncludes) {
       const filteredProducts = checkedProducts.filter(
-        (a) => a._id !== product._id
+        a => a._id !== product._id
       );
       setCheckedProducts(filteredProducts);
     } else {
       setCheckedProducts([...checkedProducts, product]);
     }
   };
-
 
   return (
     <div className={css.container}>
@@ -45,19 +45,19 @@ const AddProduct = ({
             <div className={css.headerColumn}>
               <span>ID</span>
               <input
-                placeholder="Хайх"
+                placeholder='Хайх'
                 value={searchid}
-                onChange={(e) => setSearchid(e.target.value)}
+                onChange={e => setSearchid(e.target.value)}
               />
             </div>
           </div>
-          <div className={css.column} style={{ width: "250px" }}>
+          <div className={css.column} style={{ width: '250px' }}>
             <div className={css.headerColumn}>
               <span>Бүтээгдэхүүний нэр</span>
               <input
-                placeholder="Хайх"
+                placeholder='Хайх'
                 value={searchvalue}
-                onChange={(e) => setSearchvalue(e.target.value)}
+                onChange={e => setSearchvalue(e.target.value)}
               />
             </div>
           </div>
@@ -65,9 +65,9 @@ const AddProduct = ({
             <div className={css.headerColumn}>
               <span>Бүтээгдэхүүний sku</span>
               <input
-                placeholder="Хайх"
+                placeholder='Хайх'
                 value={searchsku}
-                onChange={(e) => setSearchsku(e.target.value)}
+                onChange={e => setSearchsku(e.target.value)}
               />
             </div>
           </div>
@@ -78,7 +78,7 @@ const AddProduct = ({
             </div>
           </div>
         </div>
-        <div id="scrollableDiv" className={css.rows}>
+        <div id='scrollableDiv' className={css.rows}>
           <InfiniteScroll
             dataLength={products.length}
             next={() => setFilterPage(filterPage + 1)}
@@ -86,7 +86,7 @@ const AddProduct = ({
             // loader={
             //   loading === true && <div className={css.loading}>... Loading</div>
             // }
-            scrollableTarget="scrollableDiv"
+            scrollableTarget='scrollableDiv'
           >
             {products.map((product, idx) => (
               <div className={css.tableRow} key={idx}>
@@ -94,7 +94,7 @@ const AddProduct = ({
                   <img
                     src={
                       checkedProducts.some(
-                        (checkedProduct) => checkedProduct._id === product._id
+                        checkedProduct => checkedProduct._id === product._id
                       )
                         ? checkedIcon
                         : checkboxIcon
@@ -102,12 +102,12 @@ const AddProduct = ({
                     onClick={() => {
                       handleCheckedProducts({ product: product });
                     }}
-                    style={{ boxSizing: "border-box", marginRight: "10px" }}
+                    style={{ boxSizing: 'border-box', marginRight: '10px' }}
                   />
 
                   <span>{product._id}</span>
                 </div>
-                <div className={css.column} style={{ width: "250px" }}>
+                <div className={css.column} style={{ width: '250px' }}>
                   <span>{product.name}</span>
                 </div>
                 <div className={css.column}>
@@ -115,7 +115,7 @@ const AddProduct = ({
                 </div>
                 <div className={css.column}>
                   <div className={css.imgContainer}>
-                    <img src={product.image[0]} alt="img" />
+                    <img src={replaceImageUrl(product.image[0])} alt='img' />
                   </div>
                 </div>
               </div>
@@ -126,9 +126,9 @@ const AddProduct = ({
       <div
         className={css.footer}
         onClick={() => {
-          setSearchsku("");
-          setSearchid("");
-          setSearchvalue("");
+          setSearchsku('');
+          setSearchid('');
+          setSearchvalue('');
           setIsModal(false);
         }}
       >

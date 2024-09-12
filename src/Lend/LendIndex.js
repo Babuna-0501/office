@@ -1,17 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
-import css from "./lendindex.module.css";
-import { styles } from "./style";
-import Lend from "./Lend";
-import LendCheck from "./Lendcheck/LendCheck";
-import LendHook from "../Hooks/LendHook";
-import ZonesIndex from "./Zonessetup/ZonesIndex";
-import NewWorker from "./NewWorker/NewWorker";
-import Newzone from "./Zonessetup/Newzone";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useContext, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
+import css from './lendindex.module.css';
+import { styles } from './style';
+import Lend from './Lend';
+import LendCheck from './Lendcheck/LendCheck';
+import LendHook from '../Hooks/LendHook';
+import ZonesIndex from './Zonessetup/ZonesIndex';
+import NewWorker from './NewWorker/NewWorker';
+import Newzone from './Zonessetup/Newzone';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const LendIndex = (props) => {
+const LendIndex = props => {
   const [workers, setWorkers] = useState([]);
   const lendctx = useContext(LendHook);
 
@@ -27,17 +27,17 @@ const LendIndex = (props) => {
 
   useEffect(() => {
     let controller = new AbortController();
-    fetch(`https://api2.ebazaar.mn/api/backoffice/users`, {
-      method: "GET",
+    fetch(`${process.env.REACT_APP_API_URL2}/api/backoffice/users`, {
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
-      signal: controller.signal,
+      redirect: 'follow',
+      signal: controller.signal
     })
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         // console.log("response ", response);
         let data = [];
-        response.data.map((item) => {
+        response.data.map(item => {
           if (item.last_name !== null && item.first_name !== null) {
             data.push(item);
           }
@@ -45,74 +45,74 @@ const LendIndex = (props) => {
         setWorkers(data);
         controller = null;
       })
-      .catch((error) => console.log("error", error));
+      .catch(error => console.log('error', error));
     return () => controller?.abort();
   }, []);
   const choseOneXT = () => {};
   return (
     <div className={css.container}>
       <div
-        className="row header"
+        className='row header'
         style={{
-          width: "1200px",
-          borderBottom: "0.8px solid #CFD8DC",
+          width: '1200px',
+          borderBottom: '0.8px solid #CFD8DC'
         }}
       >
         <div style={{ ...styles.checkboxcontainer }}>
           <div className={`${css.wrapper} ${css.aabb}`}>
-            <input type="text" className={css.checkbox} />
+            <input type='text' className={css.checkbox} />
           </div>
         </div>
         <div style={{ ...styles.codeContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Kод</span>
-            <input type="text" />
+            <span className='header'>Kод</span>
+            <input type='text' />
           </div>
         </div>
         <div style={{ ...styles.positionContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Албан тушаал</span>
-            <input type="text" />
+            <span className='header'>Албан тушаал</span>
+            <input type='text' />
           </div>
         </div>
         <div style={{ ...styles.nameContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Овог</span>
-            <input type="text" />
+            <span className='header'>Овог</span>
+            <input type='text' />
           </div>
         </div>
         <div style={{ ...styles.nameContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Нэр</span>
-            <input type="text" />
+            <span className='header'>Нэр</span>
+            <input type='text' />
           </div>
         </div>
         <div style={{ ...styles.dateContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Бүртгэсэн огноо</span>
-            <input type="date" />
+            <span className='header'>Бүртгэсэн огноо</span>
+            <input type='date' />
           </div>
         </div>
         <div style={{ ...styles.zoneContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Бүсчлэл хувиарлах</span>
+            <span className='header'>Бүсчлэл хувиарлах</span>
             <input
-              type="text"
+              type='text'
               disabled
               style={{
-                visibility: "hidden",
+                visibility: 'hidden'
               }}
             />
           </div>
         </div>
         <div style={{ ...styles.settingContainer }}>
           <div className={css.wrapper}>
-            <span className="header">Зээлийн тохиргоо</span>
+            <span className='header'>Зээлийн тохиргоо</span>
             <input
-              type="text"
+              type='text'
               disabled
               style={{
-                visibility: "hidden",
+                visibility: 'hidden'
               }}
             />
           </div>

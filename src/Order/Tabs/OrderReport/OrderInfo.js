@@ -1,38 +1,38 @@
-import React from "react";
-import css from "./orderinfo.module.css";
+import React from 'react';
+import css from './orderinfo.module.css';
 
-const OrderInfo = (props) => {
+const OrderInfo = props => {
   const dataheader = [
     {
       id: 0,
-      name: "№",
-      width: "50px",
+      name: '№',
+      width: '50px'
     },
     {
       id: 1,
-      name: "Баркод:",
-      width: "300px",
+      name: 'Баркод:',
+      width: '300px'
     },
     {
       id: 2,
-      name: "Бүтээгдэхүүний нэр:",
-      width: "750px",
+      name: 'Бүтээгдэхүүний нэр:',
+      width: '750px'
     },
     {
       id: 3,
-      name: "Хэмжих:",
-      width: "100px",
+      name: 'Хэмжих:',
+      width: '100px'
     },
     {
       id: 4,
-      name: "Үнэ:",
-      width: "150px",
+      name: 'Үнэ:',
+      width: '150px'
     },
     {
       id: 5,
-      name: "Нийт үнэ:",
-      width: "150px",
-    },
+      name: 'Нийт үнэ:',
+      width: '150px'
+    }
   ];
 
   return (
@@ -43,9 +43,9 @@ const OrderInfo = (props) => {
             <div
               style={{
                 width: item.width,
-                color: "#1A1A1A",
-                fontWeight: "700",
-                fontSize: props.pFont,
+                color: '#1A1A1A',
+                fontWeight: '700',
+                fontSize: props.pFont
               }}
             >
               {item.name}
@@ -56,10 +56,10 @@ const OrderInfo = (props) => {
       <div className={css.body}>
         {props.data.line.map((item, index) => {
           let totalPrice = item.quantity * item.price;
-          let too = "ш";
-          let names = ["грам", "гр", "кг"];
+          let too = 'ш';
+          let names = ['грам', 'гр', 'кг'];
 
-          names.map((x) => {
+          names.map(x => {
             if (item.product_name.toString().includes(x)) {
               too = x;
             }
@@ -78,7 +78,7 @@ const OrderInfo = (props) => {
                 <img
                   src={
                     item.product_image === "" || undefined
-                      ? "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+                      ? `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
                       : item.product_image
                   }
                   alt="product"
@@ -91,7 +91,7 @@ const OrderInfo = (props) => {
               <div
                 style={{
                   width: dataheader[0].width,
-                  fontSize: props.pFont,
+                  fontSize: props.pFont
                   // marginLeft: "5px",
                 }}
               >
@@ -101,7 +101,7 @@ const OrderInfo = (props) => {
                 style={{
                   width: dataheader[1].width,
                   fontSize: props.pFont,
-                  marginLeft: "5px",
+                  marginLeft: '5px'
                 }}
               >
                 {item.product_bar_code}
@@ -110,7 +110,7 @@ const OrderInfo = (props) => {
                 style={{
                   width: dataheader[2].width,
                   fontSize: props.pFont,
-                  marginLeft: "10px",
+                  marginLeft: '10px'
                 }}
               >
                 {item.product_name}
@@ -119,10 +119,10 @@ const OrderInfo = (props) => {
                 style={{
                   width: dataheader[3].width,
                   fontSize: props.pFont,
-                  marginLeft: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  marginLeft: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 {item.quantity}
@@ -130,19 +130,19 @@ const OrderInfo = (props) => {
               <div
                 style={{
                   width: dataheader[4].width,
-                  fontSize: props.pFont,
+                  fontSize: props.pFont
                 }}
               >
-                {item.price.toLocaleString() + "₮"}
+                {item.price.toLocaleString() + '₮'}
               </div>
               <div
                 style={{
                   width: dataheader[5].width,
                   fontSize: props.pFont,
-                  marginLeft: "10px",
+                  marginLeft: '10px'
                 }}
               >
-                {totalPrice.toLocaleString() + "₮"}
+                {totalPrice.toLocaleString() + '₮'}
               </div>
             </div>
           );
@@ -153,7 +153,7 @@ const OrderInfo = (props) => {
           Нийт дүн
         </div>
         <div className={css.totalAmount} style={{ fontSize: props.pFont }}>
-          {props.data.grand_total.toLocaleString() + "₮"}
+          {props.data.grand_total.toLocaleString() + '₮'}
         </div>
       </div>
     </div>

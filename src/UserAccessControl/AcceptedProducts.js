@@ -5,6 +5,7 @@ export const AcceptedProducts = (props) => {
 
   return acceptedProList.length > 0 ? (
     acceptedProList.map((product) => {
+      console.log(acceptedProList)
       return (
         <div key={product._id} className={css.container}>
           <img className={css.picture} src={product?.image[0]} alt="product" />

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import AppHook from "./AppHook";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect, useContext } from 'react';
+import AppHook from './AppHook';
+import myHeaders from '../components/MyHeader/myHeader';
 
 const Ctx = React.createContext();
 
-export const PromoHook = (props) => {
+export const PromoHook = props => {
   const [data, setData] = useState([]);
   const [newPromoAdd, setNewPromoAdd] = useState(false);
   const [updateDisProd, setUpdateDisProd] = useState(false);
@@ -30,9 +30,9 @@ export const PromoHook = (props) => {
   const [proUpdate, setProUpdate] = useState(false);
   const [newProd, setNewProd] = useState(true);
   const [discountChannel, setDiscountChannel] = useState([]);
-  const [giftQty, setQiftQty] = useState("");
-  const [thresholdQty, setThresholdQty] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [giftQty, setQiftQty] = useState('');
+  const [thresholdQty, setThresholdQty] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const [giftProd, setGiftProd] = useState(false);
   const [giftProduct, setGiftProduct] = useState([]);
   const [productUpdate, setProductUpdate] = useState(false);
@@ -42,7 +42,7 @@ export const PromoHook = (props) => {
   const [zoneMap, setZoneMap] = useState([]);
   /////
   const [thresholdList, setThresholdList] = useState([
-    { price: "", percent: "" },
+    { price: '', percent: '' }
   ]);
   const [thresholdType, setThresholdType] = useState(1);
   const [productTypeSelect, setProductTypeSelect] = useState(1600);
@@ -57,7 +57,7 @@ export const PromoHook = (props) => {
   // console.log("willUpdateProd", willUpdateProd);
 
   useEffect(() => {
-    if (willUpdateProd?.discount_data?.type === "percent") {
+    if (willUpdateProd?.discount_data?.type === 'percent') {
       setSettingIndex(0);
     } else {
       setSettingIndex(1);
@@ -65,16 +65,16 @@ export const PromoHook = (props) => {
   }, []);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
+      method: 'GET',
+      headers: myHeaders
     };
-    fetch(`https://api2.ebazaar.mn/api/brands`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/brands`, requestOptions)
+      .then(r => r.json())
+      .then(res => {
         setBrands(res.data);
       })
-      .catch((error) =>
-        console.log("brands tathad aldaa garlaa" + error.message)
+      .catch(error =>
+        console.log('brands tathad aldaa garlaa' + error.message)
       );
   }, []);
   // console.log("products", products);
@@ -83,13 +83,13 @@ export const PromoHook = (props) => {
     let mainData;
 
     let chanID = [];
-    discountChannel?.map((item) => {
+    discountChannel?.map(item => {
       chanID.push(item.business_type_id);
     });
 
     if (willUpdateProd.discount_data.discounttype === 1) {
       ///// Энэ хэсэг хувийн хямдралын урамшуулалын шинэчлэл бодож байна
-      console.log("AAA");
+      console.log('AAA');
 
       mainData = {
         discount_id: willUpdateProd._id,
@@ -112,26 +112,26 @@ export const PromoHook = (props) => {
             settingIndex === 1
               ? Number(willUpdateProd.discount_data.threshold_amount)
               : 0,
-          type: settingIndex === 1 ? "amount" : "percent",
-          value: Number(willUpdateProd.discount_data.value),
-        },
+          type: settingIndex === 1 ? 'amount' : 'percent',
+          value: Number(willUpdateProd.discount_data.value)
+        }
       };
     }
     if (willUpdateProd.discount_data.discounttype === 3) {
-      console.log("CCC");
+      console.log('CCC');
       let data = [];
-      console.log("giftproduct", giftProduct);
+      console.log('giftproduct', giftProduct);
 
-      willUpdateProd.conditions.map((item) => {
+      willUpdateProd.conditions.map(item => {
         if (item.is_gift === false) {
           data.push({
             ...item,
-            threshold_qty: Number(thresholdQty),
+            threshold_qty: Number(thresholdQty)
           });
         } else if (item.is_gift === true) {
           data.push({
             ...item,
-            gift_qty: Number(giftQty),
+            gift_qty: Number(giftQty)
           });
         }
       });
@@ -144,7 +144,7 @@ export const PromoHook = (props) => {
           type: willUpdateProd.discount_data.type,
           value: Number(willUpdateProd.discount_data.value),
           threshold_amount: willUpdateProd.discount_data.threshold_amount,
-          description: willUpdateProd.discount_data.description,
+          description: willUpdateProd.discount_data.description
         },
         start_date: willUpdateProd.start_date,
         end_date: willUpdateProd.end_date,
@@ -156,28 +156,31 @@ export const PromoHook = (props) => {
         conditions: data,
         // conditions: [...willUpdateProd.conditions],
         insert_date: willUpdateProd.insert_date,
-        skus: [...willUpdateProd.skus],
+        skus: [...willUpdateProd.skus]
       };
     }
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: JSON.stringify(mainData),
+      body: JSON.stringify(mainData)
       // body: mainData,
     };
-    console.log("Update okay+++", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/discount/update`, requestOptions)
-      .then((r) => r.json())
-      .then((r) => {
-        console.log("successfull", r);
+    console.log('Update okay+++', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/discount/update`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(r => {
+        console.log('successfull', r);
 
         setWillUpdateProd({});
         setProducts([]);
-        appctx.setPage(["discount"]);
+        appctx.setPage(['discount']);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
@@ -266,7 +269,7 @@ export const PromoHook = (props) => {
         thresholdQty,
         setThresholdQty,
         productIDS,
-        setProductIDS,
+        setProductIDS
       }}
     >
       {props.children}

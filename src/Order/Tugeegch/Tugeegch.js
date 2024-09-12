@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./tugeegch.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './tugeegch.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
 
-const Tugeegch = (props) => {
+const Tugeegch = props => {
   const [users, setUsers] = useState([]);
   const [chosed, setChosed] = useState(null);
 
   useEffect(() => {
-    let update = props.users.filter((item) => item.role === 2);
+    let update = props.users.filter(item => item.role === 2);
 
     let backUser = props.order;
     if (backUser.back_office_user !== null) {
       if (backUser.back_office_user?.length > 5) {
-        let ids = backUser.back_office_user.split(",");
-        ids.map((x) => {
+        let ids = backUser.back_office_user.split(',');
+        ids.map(x => {
           update.map((user, index) => {
             if (user.user_id === x) {
               setChosed(x);
@@ -21,7 +21,7 @@ const Tugeegch = (props) => {
           });
         });
       } else if (backUser.back_office_user) {
-        update.map((x) => {
+        update.map(x => {
           if (x.user_id == backUser.back_office_user) {
             setChosed(x.user_id);
           }
@@ -38,8 +38,8 @@ const Tugeegch = (props) => {
     let backUser = props.order;
     if (backUser.back_office_user !== null) {
       if (backUser.back_office_user.length > 4) {
-        let aa = backUser.back_office_user.split(",");
-        aa.map((item) => {
+        let aa = backUser.back_office_user.split(',');
+        aa.map(item => {
           userIDS.push(Number(item));
         });
       }
@@ -51,40 +51,43 @@ const Tugeegch = (props) => {
     let uniqueChars = [...new Set(userIDS)];
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify({
         orderId: props.order.order_id,
-        backUserID: `'${uniqueChars.toString()}'`,
+        backUserID: `'${uniqueChars.toString()}'`
       }),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("requestOptions backoffuce user chose", requestOptions);
+    console.log('requestOptions backoffuce user chose', requestOptions);
 
-    fetch(`https://api2.ebazaar.mn/api/order/update/new`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/order/update/new`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         if (res.code === 200) {
           let aa = props.order;
           aa.back_office_user = uniqueChars.toString();
           props.setOrder(aa);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
   return (
     <select
       value={chosed}
-      onChange={(e) => {
-        console.log("e.target.value", e.target.value);
+      onChange={e => {
+        console.log('e.target.value', e.target.value);
         setChosed(e.target.value);
         TugeegchHubaarilah();
       }}
       style={{
-        width: "100%",
+        width: '100%'
       }}
     >
       <option>Түгээгч байхгүй</option>

@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from "react";
-import css from "./settingopen.module.css";
-import closeicon from "../../assets/close.svg";
-import Checkbox from "./Checkbox";
-import myHeaders from "../../components/MyHeader/myHeader";
-import Supplier from "./Supplier";
+import React, { useState, useEffect } from 'react';
+import css from './settingopen.module.css';
+import closeicon from '../../assets/close.svg';
+import Checkbox from './Checkbox';
+import myHeaders from '../../components/MyHeader/myHeader';
+import Supplier from './Supplier';
 
 const maindata = [
   {
     id: 1,
-    name: "Компонент",
+    name: 'Компонент'
   },
   {
     id: 2,
-    name: "Нийлүүлэгч",
-  },
+    name: 'Нийлүүлэгч'
+  }
 ];
 
-const SettingOpen = (props) => {
+const SettingOpen = props => {
   const [data, setData] = useState([
-    { name: "Banner", checked: true, key: "Banner" },
-    { name: "Supplier List", checked: true, key: "Supplier_List" },
-    { name: "Product Categories", checked: true, key: "Product_Categories" },
-    { name: "Featured Brands", checked: true, key: "FeaturedBrands" },
-    { name: "Product Grid", checked: true, key: "Product_Grid" },
-    { name: "Pickpack", checked: true, key: "Pickpack" },
-    { name: "ImageList", checked: true, key: "ImageList" },
-    { name: "Promo", checked: true, key: "Promo" },
+    { name: 'Banner', checked: true, key: 'Banner' },
+    { name: 'Supplier List', checked: true, key: 'Supplier_List' },
+    { name: 'Product Categories', checked: true, key: 'Product_Categories' },
+    { name: 'Featured Brands', checked: true, key: 'FeaturedBrands' },
+    { name: 'Product Grid', checked: true, key: 'Product_Grid' },
+    { name: 'Pickpack', checked: true, key: 'Pickpack' },
+    { name: 'ImageList', checked: true, key: 'ImageList' },
+    { name: 'Promo', checked: true, key: 'Promo' }
   ]);
 
   const [switchdata, setSwitchdata] = useState(1);
   const [suppliers, setSuppliers] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const updateCheckStatus = (index) => {
+  const updateCheckStatus = index => {
     setData(
       data.map((item, currentIndex) =>
         currentIndex === index ? { ...item, checked: !item.checked } : item
@@ -42,34 +42,37 @@ const SettingOpen = (props) => {
 
   useEffect(() => {
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/backoffice/suppliers`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         if (res.code === 200) {
-          let aa = res.data.map((item) => {
+          let aa = res.data.map(item => {
             return {
               ...item,
-              chosed: false,
+              chosed: false
             };
           });
           setSuppliers(aa);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   const SaveHandler = () => {
-    let tradeids = JSON.parse(localStorage.getItem("merchantIDS"));
+    let tradeids = JSON.parse(localStorage.getItem('merchantIDS'));
 
     if (tradeids.length === 0 || tradeids === null || tradeids === undefined) {
-      alert("Та мерчантаа сонгоно уу");
+      alert('Та мерчантаа сонгоно уу');
       props.setOpen(false);
       return;
     }
@@ -81,33 +84,36 @@ const SettingOpen = (props) => {
       datanew[item.key] = item.checked;
     });
 
-    suppliers.map((item) => (item.chosed ? supIDS.push(item.id) : null));
+    suppliers.map(item => (item.chosed ? supIDS.push(item.id) : null));
     let headers = myHeaders;
-    headers.cors = "no=-cors";
+    headers.cors = 'no=-cors';
 
     var requestOptions = {
-      method: "PUT",
+      method: 'PUT',
       headers: headers,
       body: JSON.stringify({
         merchantsIDS: tradeids,
         body: {
           components: datanew,
-          suppliers: supIDS,
-        },
+          suppliers: supIDS
+        }
       }),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("requestOptions", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/tradeshop/update`, requestOptions)
-      .then((res) => {
+    console.log('requestOptions', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/tradeshop/update`,
+      requestOptions
+    )
+      .then(res => {
         // console.log("res", res);
         if (res.code === 200) {
-          alert("Амжилттай");
+          alert('Амжилттай');
           props.setOpen(false);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
         setErrorMessage(error.message);
       });
   };
@@ -128,7 +134,7 @@ const SettingOpen = (props) => {
             <span>Мерчантын тохиргоо</span>
             <img
               src={closeicon}
-              alt="close button"
+              alt='close button'
               onClick={() => {
                 props.setOpen(false);
               }}
@@ -137,9 +143,9 @@ const SettingOpen = (props) => {
           {errorMessage !== null && (
             <div
               style={{
-                fontSize: "18px",
-                fontWeight: "700",
-                color: "red",
+                fontSize: '18px',
+                fontWeight: '700',
+                color: 'red'
               }}
             >
               {errorMessage}
@@ -157,8 +163,8 @@ const SettingOpen = (props) => {
                   style={{
                     borderBottom:
                       switchdata === item.id
-                        ? "4px solid #2ab674"
-                        : "2px solid #1a1a1a",
+                        ? '4px solid #2ab674'
+                        : '2px solid #1a1a1a'
                   }}
                 >
                   {item.name}

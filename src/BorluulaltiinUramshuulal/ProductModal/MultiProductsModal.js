@@ -1,16 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
-import css from "./productmodal.module.css";
-import closeIcon from "../../assets/close.svg";
-import checkbox from "../../assets/check box.svg";
-import checked from "../../assets/Tick Square_green.svg";
-import SMSHook from "../../Hooks/SMSHook";
-import myHeaders from "../../components/MyHeader/myHeader";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import AppHook from "../../Hooks/AppHook";
+import React, { useState, useContext, useEffect } from 'react';
+import css from './productmodal.module.css';
+import closeIcon from '../../assets/close.svg';
+import checkbox from '../../assets/check box.svg';
+import checked from '../../assets/Tick Square_green.svg';
+import SMSHook from '../../Hooks/SMSHook';
+import myHeaders from '../../components/MyHeader/myHeader';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import AppHook from '../../Hooks/AppHook';
+import { replaceImageUrl } from '../../utils';
 
 const widtharray = [50, 150, 100, 100, 100, 100, 100];
 
-const MultiProductsModal = (props) => {
+const MultiProductsModal = props => {
   const [page, setPage] = useState(0);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState(null);
@@ -35,31 +36,31 @@ const MultiProductsModal = (props) => {
   useEffect(() => {
     if (allchecked) {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      let supid = appctx.userData.company_id.replaceAll("|", "");
-      let url = `https://api2.ebazaar.mn/api/products/get1?supplier=${
+      let supid = appctx.userData.company_id.replaceAll('|', '');
+      let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?supplier=${
         supid == 1 ? 13884 : supid
       }`;
 
-      console.log("hi", url);
+      console.log('hi', url);
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log("hi", res);
+        .then(res => res.json())
+        .then(res => {
+          console.log('hi', res);
           let ids = [];
           res &&
-            res.data.map((x) => {
+            res.data.map(x => {
               ids.push(x._id);
             });
           let uniqueIDS = [...new Set(ids)];
-          console.log("uniqueIDS", uniqueIDS);
+          console.log('uniqueIDS', uniqueIDS);
           smsctx.setMultiProductIDS(uniqueIDS);
           setChosedProducts(res.data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -67,11 +68,11 @@ const MultiProductsModal = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
 
     if (search && search.length >= 3) {
       params += `search=${search.toLowerCase()}&`;
@@ -82,33 +83,35 @@ const MultiProductsModal = (props) => {
     if (sku !== null) {
       params += `sku=${sku}&`;
     }
-    if (onebrand !== null && onebrand !== "") {
+    if (onebrand !== null && onebrand !== '') {
       params += `brand=${onebrand}&`;
     }
 
-    if (onecategory !== null && onecategory !== "") {
+    if (onecategory !== null && onecategory !== '') {
       params += `category=${onecategory}&`;
     }
-    let supid = appctx.userData.company_id.replaceAll("|", "");
-    let url = `https://api2.ebazaar.mn/api/products/get1?${params}supplier=${
+    let supid = appctx.userData.company_id.replaceAll('|', '');
+    let url = `${
+      process.env.REACT_APP_API_URL2
+    }/products/get1?${params}supplier=${
       supid == 1 ? 13884 : supid
     }&page=${page}&limit=25`;
-    console.log("url new ", url);
+    console.log('url new ', url);
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
         let updateProducts = [];
-        res.data.map((item) => {
+        res.data.map(item => {
           updateProducts.push({
             ...item,
-            chosed: false,
+            chosed: false
           });
         });
         setProducts(updateProducts);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [barcode, sku, search, onecategory, onebrand]);
 
@@ -117,9 +120,9 @@ const MultiProductsModal = (props) => {
     let ids = [];
 
     if (chosedProducts.length !== 0) {
-      chosedProducts.map((item) => ids.push(item._id));
+      chosedProducts.map(item => ids.push(item._id));
       if (ids.includes(item._id)) {
-        let aa = chosedProducts.filter((x) => x._id !== item._id);
+        let aa = chosedProducts.filter(x => x._id !== item._id);
         setChosedProducts(aa);
       } else {
         setChosedProducts([...chosedProducts, item]);
@@ -130,7 +133,7 @@ const MultiProductsModal = (props) => {
   };
   useEffect(() => {
     let newids = [];
-    chosedProducts.map((item) => {
+    chosedProducts.map(item => {
       newids.push(item._id);
     });
     let uniqueIDS = [...new Set(newids)];
@@ -138,11 +141,11 @@ const MultiProductsModal = (props) => {
   }, [chosedProducts]);
   const SaveHandler = () => {
     if (smsctx.collectTitle === null) {
-      alert("Та багц бүтээгдэхүүний нэрийг оруулна уу");
+      alert('Та багц бүтээгдэхүүний нэрийг оруулна уу');
       return;
     }
     if (chosedProducts.length === 0) {
-      alert("Та багц бүтээгдэхүүн сонгоно уу");
+      alert('Та багц бүтээгдэхүүн сонгоно уу');
       return;
     }
     let obj = {
@@ -150,10 +153,10 @@ const MultiProductsModal = (props) => {
       title: smsctx.collectTitle,
       products: chosedProducts,
       totalAmount: 0,
-      totalQuantity: 0,
+      totalQuantity: 0
     };
     console.log(obj);
-    smsctx.setMultiProducts((prev) => [...prev, obj]);
+    smsctx.setMultiProducts(prev => [...prev, obj]);
     smsctx.setMultiProductIDS([]);
     props.setPage(0);
   };
@@ -168,14 +171,14 @@ const MultiProductsModal = (props) => {
       <div className={css.wrapper}>
         <div className={css.header}>
           <span>Бүтээгдэхүүний төлөвлөгөө үүсгэх</span>
-          <img src={closeIcon} alt="close icon" onClick={CancelHandler} />
+          <img src={closeIcon} alt='close icon' onClick={CancelHandler} />
         </div>
         <div className={css.body}>
           <div className={css.bodyheader}>
             <input
-              placeholder="Багц бүтээгдэхүүний нэр..."
+              placeholder='Багц бүтээгдэхүүний нэр...'
               value={smsctx.collectTitle}
-              onChange={(e) => {
+              onChange={e => {
                 smsctx.setCollectTitle(e.target.value);
               }}
             />
@@ -187,8 +190,8 @@ const MultiProductsModal = (props) => {
                 <img
                   src={allchecked ? checked : checkbox}
                   style={{
-                    width: "20px",
-                    height: "20px",
+                    width: '20px',
+                    height: '20px'
                   }}
                   onClick={SelectAllHandler}
                 />
@@ -196,7 +199,7 @@ const MultiProductsModal = (props) => {
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[0],
+                  width: widtharray[0]
                 }}
               >
                 <span>IMG</span>
@@ -205,33 +208,33 @@ const MultiProductsModal = (props) => {
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[1],
+                  width: widtharray[1]
                 }}
               >
                 <span>Бүтээгдэхүүний нэр</span>
                 <input
                   value={search}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSearch(e.target.value);
                   }}
-                  placeholder="Хайх"
+                  placeholder='Хайх'
                 />
               </div>
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[2],
+                  width: widtharray[2]
                 }}
               >
                 <span>Ангилал</span>
 
                 <select
                   value={onecategory}
-                  onChange={(e) => {
+                  onChange={e => {
                     setOnecategory(e.target.value);
                   }}
                 >
-                  <option value={""}>-Category-</option>
+                  <option value={''}>-Category-</option>
                   {category &&
                     category.map((item, index) => {
                       return <option value={item.id}>{item.name}</option>;
@@ -241,18 +244,18 @@ const MultiProductsModal = (props) => {
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[3],
+                  width: widtharray[3]
                 }}
               >
                 <span>Брэнд</span>
 
                 <select
                   value={onebrand}
-                  onChange={(e) => {
+                  onChange={e => {
                     setOnebrand(e.target.value);
                   }}
                 >
-                  <option value={""}>-Brand-</option>
+                  <option value={''}>-Brand-</option>
                   {brand &&
                     brand.map((item, index) => {
                       return (
@@ -266,29 +269,29 @@ const MultiProductsModal = (props) => {
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[3],
+                  width: widtharray[3]
                 }}
               >
                 <span>Баркод</span>
                 <input
                   value={barcode}
-                  onChange={(e) => {
+                  onChange={e => {
                     setBarcode(e.target.value);
                   }}
-                  placeholder="Хайх"
+                  placeholder='Хайх'
                 />
               </div>
               <div
                 className={css.one}
                 style={{
-                  width: widtharray[3],
+                  width: widtharray[3]
                 }}
               >
                 <span>SKU</span>
                 <input
-                  placeholder="Хайх"
+                  placeholder='Хайх'
                   value={sku}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSku(e.target.value);
                   }}
                 />
@@ -297,17 +300,15 @@ const MultiProductsModal = (props) => {
             <div className={css.productbody}>
               {products &&
                 products.map((item, index) => {
-                  let cat = category.filter(
-                    (x) => x.id === item.category_id
-                  )[0];
+                  let cat = category.filter(x => x.id === item.category_id)[0];
                   let brandname = brand.filter(
-                    (x) => x.BrandID === item.brand
+                    x => x.BrandID === item.brand
                   )[0];
                   return (
                     <div
                       className={css.oneproduct}
                       style={{
-                        background: item.chosed === true ? "#F2F2F2" : "#fff",
+                        background: item.chosed === true ? '#F2F2F2' : '#fff'
                       }}
                     >
                       <div
@@ -322,10 +323,10 @@ const MultiProductsModal = (props) => {
                               ? checked
                               : checkbox
                           }
-                          alt="checkbox"
+                          alt='checkbox'
                           style={{
-                            width: "15px",
-                            height: "15px",
+                            width: '15px',
+                            height: '15px'
                           }}
                           onClick={() => ChosedHandler(item, index)}
                         />
@@ -333,21 +334,23 @@ const MultiProductsModal = (props) => {
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[0],
+                          width: widtharray[0]
                         }}
                       >
                         <img
                           src={
                             item.image
-                              ? item.image[0].replace("original", "product")
-                              : "https://ebazaar.mn/media/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg"
+                              ? replaceImageUrl(
+                                  item.image[0].replace('original', 'product')
+                                )
+                              : `${process.env.REACT_APP_MEDIA_URL}/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg`
                           }
                         />
                       </div>
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[1],
+                          width: widtharray[1]
                         }}
                       >
                         <span>{item.name}</span>
@@ -355,7 +358,7 @@ const MultiProductsModal = (props) => {
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[2],
+                          width: widtharray[2]
                         }}
                       >
                         <span>{cat && cat.name}</span>
@@ -364,7 +367,7 @@ const MultiProductsModal = (props) => {
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[3],
+                          width: widtharray[3]
                         }}
                       >
                         <span>{brandname && brandname.BrandName}</span>
@@ -372,7 +375,7 @@ const MultiProductsModal = (props) => {
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[4],
+                          width: widtharray[4]
                         }}
                       >
                         <span>{item.bar_code}</span>
@@ -380,7 +383,7 @@ const MultiProductsModal = (props) => {
                       <div
                         className={css.onewrapper}
                         style={{
-                          width: widtharray[5],
+                          width: widtharray[5]
                         }}
                       >
                         <span>{item.sku}</span>

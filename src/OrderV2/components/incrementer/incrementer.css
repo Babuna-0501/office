@@ -1,0 +1,53 @@
+
+.input-number-group {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: max-content;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  
+  .input-number-group input[type=number]::-webkit-inner-spin-button,
+  .input-number-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+            appearance: none;
+  }
+
+  .input-number-group .input-number {
+    width: 33px;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+    outline: none;
+    display: block;
+    margin: 0;
+    background-color: #f2f2f2;
+  }
+  
+  .input-number-group .input-number,
+  .input-number-group .input-group-button {
+    border: none;
+    height: 33px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    border-radius: 0;
+  }
+  
+  .input-number-group .input-group-button {
+    display: flex;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #808080;
+  }
+  
+  
+  

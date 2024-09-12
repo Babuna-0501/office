@@ -1,40 +1,39 @@
-import React from "react";
-import { useEffect } from "react";
-import css from "./list2.module.css";
-import SideMenu from "../components/common/SideMenu/index";
-import { useState } from "react";
-import { SidebarContent } from "./sidebarContent";
-import myHeaders from "../components/MyHeader/myHeader";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React from 'react';
+import { useEffect } from 'react';
+import css from './list2.module.css';
+import SideMenu from '../components/common/SideMenu/index';
+import { useState } from 'react';
+import { SidebarContent } from './sidebarContent';
+import myHeaders from '../components/MyHeader/myHeader';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { replaceImageUrl } from '../utils';
 
-const ListProduct2 = (props) => {
+const ListProduct2 = props => {
   const [isSideMenu, setIsSideMenu] = useState(false);
   const [product, setProduct] = useState({});
   const [movementArr, setMovementArr] = useState([]);
   const [page, setPage] = useState(1);
 
   const getMovement = async () => {
-    const baseUrl = "https://api2.ebazaar.mn/api/warehouse/get/new";
+    const baseUrl = `${process.env.REACT_APP_API_URL2}/api/warehouse/get/new`;
     const queryParams = new URLSearchParams({
       productId: product._id,
       id: props?.warehouseId,
       movementPage: page,
       movementLimit: 15,
-      productMovement: true,
+      productMovement: true
     });
 
     const url = `${baseUrl}?${queryParams}`;
-    console.log(url)
+    console.log(url);
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log(requestOptions)
+    console.log(requestOptions);
 
     try {
-
-
       const response = await fetch(url, requestOptions);
 
       if (!response.ok) {
@@ -53,43 +52,42 @@ const ListProduct2 = (props) => {
     getMovement();
   }, [page, product._id]);
 
-
   return (
-    <div id="scrollableDiv" className={css.container}>
+    <div id='scrollableDiv' className={css.container}>
       <InfiniteScroll
         dataLength={props?.products.length}
         hasMore={true}
-        next={() => props.setPage((prev) => prev + 1)}
+        next={() => props.setPage(prev => prev + 1)}
         // loader={
         //   <p style={{ textAlign: "center" }}>
         //     <b>Уншиж байна...</b>
         //   </p>
         // }
-        scrollableTarget="scrollableDiv"
+        scrollableTarget='scrollableDiv'
       >
         {props.products.map((product, index) => (
           <div className={css.rowContainer} key={index}>
-            <div style={{ width: "50px" }}>
-              <input type="checkbox" />
+            <div style={{ width: '50px' }}>
+              <input type='checkbox' />
             </div>
             <div>
               <span>{product._id}</span>
             </div>
-            <div style={{ width: "100px" }}>
+            <div style={{ width: '100px' }}>
               {0 === 0 ? (
-                <img src="https://admin.ebazaar.mn/media/on.svg" alt="on" />
+                <img src='/media/on.svg' alt='on' />
               ) : (
-                <img src="https://admin.ebazaar.mn/media/off.svg" alt="off" />
+                <img src='/media/off.svg' alt='off' />
               )}
             </div>
             <div className={css.imageWrapper}>
-              <img src={product.image[0]} alt="image" />
+              <img src={replaceImageUrl(product.image[0])} alt='image' />
             </div>
             <div
               style={{
-                width: "200px",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                width: '200px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
               }}
             >
               <span>{product.name}</span>
@@ -97,56 +95,56 @@ const ListProduct2 = (props) => {
             <div>
               <span>
                 {
-                  props.categories.find((c) => c?.id === product?.category_id)
+                  props.categories.find(c => c?.id === product?.category_id)
                     ?.name
                 }
               </span>
             </div>
-            <div style={{ width: "100px" }}>
+            <div style={{ width: '100px' }}>
               <span>---</span>
             </div>
-            <div style={{ width: "140px" }}>
+            <div style={{ width: '140px' }}>
               <span>{product.sku}</span>
             </div>
-            <div style={{ width: "140px" }}>
+            <div style={{ width: '140px' }}>
               <span>{product.bar_code}</span>
             </div>
-            <div style={{ width: "140px" }}>
+            <div style={{ width: '140px' }}>
               <span>{product.stock}</span>
             </div>
-            <div style={{ width: "140px" }}>
+            <div style={{ width: '140px' }}>
               <button
                 style={{
-                  width: "90%",
-                  borderRadius: "5px",
-                  border: "none",
-                  textAlign: "center",
-                  color: "#FFFFFF",
-                  background: "#B0BEC5",
-                  fontSize: "12px",
+                  width: '90%',
+                  borderRadius: '5px',
+                  border: 'none',
+                  textAlign: 'center',
+                  color: '#FFFFFF',
+                  background: '#B0BEC5',
+                  fontSize: '12px'
                 }}
               >
                 Татан авах
               </button>
             </div>
-            <div style={{ width: "140px" }}>
+            <div style={{ width: '140px' }}>
               <button
                 onClick={() => {
                   setMovementArr([]);
                   setProduct(product);
                   getMovement({ product });
-                  setIsSideMenu((prev) => !prev);
+                  setIsSideMenu(prev => !prev);
                   setPage(1);
                 }}
                 style={{
-                  width: "90%",
-                  borderRadius: "5px",
-                  border: "none",
-                  textAlign: "center",
-                  color: "#546E7A",
-                  background: "#ECEFF1",
-                  border: "1px solid #CFD8DC",
-                  fontSize: "12px",
+                  width: '90%',
+                  borderRadius: '5px',
+                  border: 'none',
+                  textAlign: 'center',
+                  color: '#546E7A',
+                  background: '#ECEFF1',
+                  border: '1px solid #CFD8DC',
+                  fontSize: '12px'
                 }}
               >
                 Хөдөлгөөн

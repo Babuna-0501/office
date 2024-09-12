@@ -1,0 +1,30 @@
+.report {
+    padding: 50px;
+}
+
+.date {
+    display: flex;
+    gap: 50px;
+}
+
+.report_wrapper {
+    display: flex;
+    gap: 67px;
+    margin-top: 50px;
+}
+
+.report_wrapper span{
+    display: flex;
+    width: 404px;
+    height: 102px;
+    border: none;
+    border: 1px solid #E6E6E6;
+    border-radius: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.report_wrapper span div {
+    font-size: 18px;
+    font-weight: bold;
+}

@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import myHeaders from "../../components/MyHeader/myHeader";
-import close from "../../assets/close.svg";
-import css from "./supplierEditPermission.module.css";
+import React, { useState, useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import myHeaders from '../../components/MyHeader/myHeader';
+import close from '../../assets/close.svg';
+import css from './supplierEditPermission.module.css';
 
-export const SupplierEditPermission = (props) => {
-  const { setModal, orderEditPermission, userId, update, setUpdate, allSuppliers } = props;
+export const SupplierEditPermission = props => {
+  const {
+    setModal,
+    orderEditPermission,
+    userId,
+    update,
+    setUpdate,
+    allSuppliers
+  } = props;
   const [supps, setSupps] = useState(allSuppliers);
 
   const [raw, setRaw] = useState();
@@ -13,7 +20,9 @@ export const SupplierEditPermission = (props) => {
 
   useEffect(() => {
     if (orderEditPermission !== null) {
-      const supplierIds = Object.keys(JSON.parse(orderEditPermission)).map(Number);
+      const supplierIds = Object.keys(JSON.parse(orderEditPermission)).map(
+        Number
+      );
       setSupplierIds(supplierIds);
     }
   }, [orderEditPermission]);
@@ -22,13 +31,13 @@ export const SupplierEditPermission = (props) => {
     if (checked) {
       setSupplierIds([...supplierIds, id]);
     } else {
-      setSupplierIds(supplierIds.filter((sup) => sup !== id));
+      setSupplierIds(supplierIds.filter(sup => sup !== id));
     }
   };
 
   useEffect(() => {
     let permissionSup = [];
-    supplierIds.map((sup) => {
+    supplierIds.map(sup => {
       permissionSup.push({ [sup]: true });
     });
 
@@ -39,26 +48,26 @@ export const SupplierEditPermission = (props) => {
   }, [supplierIds]);
 
   const save = () => {
-    const url = "https://api2.ebazaar.mn/user";
+    const url = `${process.env.REACT_APP_API_URL2}/user`;
     const requestOptions = {
-      method: "PUT",
+      method: 'PUT',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
       body: JSON.stringify({
         userId: userId,
-        editPermission: raw,
-      }),
+        editPermission: raw
+      })
     };
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.message === "success") {
+      .then(res => res.json())
+      .then(response => {
+        if (response.message === 'success') {
           setUpdate(!update);
           setModal(false);
           alert(response.message);
         } else {
-          alert("error", response.message);
+          alert('error', response.message);
         }
       });
   };
@@ -72,7 +81,7 @@ export const SupplierEditPermission = (props) => {
             setModal(false);
           }}
         >
-          <img src={close} alt="close" />
+          <img src={close} alt='close' />
         </div>
       </div>
       {/* <div className={css.inputField}>
@@ -96,7 +105,7 @@ export const SupplierEditPermission = (props) => {
           dataLength={supps.length}
           hasMore={true}
           loader={
-            <p style={{ textAlign: "center" }}>
+            <p style={{ textAlign: 'center' }}>
               <b>Нийлүүлэгч алга ...</b>
             </p>
           }
@@ -108,18 +117,20 @@ export const SupplierEditPermission = (props) => {
                   className={css.listContainer}
                   style={{
                     backgroundColor: supplierIds.includes(sup.id)
-                      ? "rgba(136, 255, 0, 0.427)"
-                      : "rgb(255, 255, 255)",
+                      ? 'rgba(136, 255, 0, 0.427)'
+                      : 'rgb(255, 255, 255)'
                   }}
                 >
                   <div className={css.listGeneral}>
                     <div className={css.listSingle}>
                       <input
-                        type="checkbox"
-                        onChange={(e) => handleSuppliers(e.target.checked, sup.id)}
+                        type='checkbox'
+                        onChange={e =>
+                          handleSuppliers(e.target.checked, sup.id)
+                        }
                         checked={supplierIds.includes(sup.id) ? true : false}
                       />
-                      <img src={sup.media} alt="logo" />
+                      <img src={sup.media} alt='logo' />
                       <div className={css.listText}>{sup.name}</div>
                     </div>
                   </div>

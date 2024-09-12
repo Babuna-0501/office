@@ -1,23 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./buindex.module.css";
-import SMSHook from "../Hooks/SMSHook";
-import List from "./components/List";
-import myHeaders from "../components/MyHeader/myHeader";
-import { styles } from "./style";
-import Avatar from "./Avatar/Avatar";
-import checkboxicon from "../assets/check box.svg";
-import Modal from "./Modal/Modal";
-import Uramshuulal from "./Uramshuulal/Uramshuulal";
-import Product from "./Product/Product";
-import Productmodal from "./ProductModal/Productmodal";
-import Modals from "./Modals/Modals";
-import DeleteIcon from "../assets/delete_big.svg";
-import checked from "../assets/Tick Square_green.svg";
-import modifiedIcon from "../assets/Setting.svg";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './buindex.module.css';
+import SMSHook from '../Hooks/SMSHook';
+import List from './components/List';
+import myHeaders from '../components/MyHeader/myHeader';
+import { styles } from './style';
+import Avatar from './Avatar/Avatar';
+import checkboxicon from '../assets/check box.svg';
+import Modal from './Modal/Modal';
+import Uramshuulal from './Uramshuulal/Uramshuulal';
+import Product from './Product/Product';
+import Productmodal from './ProductModal/Productmodal';
+import Modals from './Modals/Modals';
+import DeleteIcon from '../assets/delete_big.svg';
+import checked from '../assets/Tick Square_green.svg';
+import modifiedIcon from '../assets/Setting.svg';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
+import { replaceImageUrl } from '../utils';
 
-const BUindex = (props) => {
+const BUindex = props => {
   const smsctx = useContext(SMSHook);
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -37,179 +38,183 @@ const BUindex = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
     let supID =
-      Number(props.userData.company_id.replaceAll("|", "")) === 1
+      Number(props.userData.company_id.replaceAll('|', '')) === 1
         ? 13884
-        : Number(props.userData.company_id.replaceAll("|", ""));
+        : Number(props.userData.company_id.replaceAll('|', ''));
 
-    let newUrl = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${supID}`;
+    let newUrl = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${supID}`;
 
     fetch(newUrl, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res ++++++++++++++++++", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res ++++++++++++++++++', res);
         smsctx.setSupplierInfo(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
 
-    let url = `https://api2.ebazaar.mn/api/promotion/get?supplier=${supID}`;
-    console.log("promotion url ", url);
+    let url = `${process.env.REACT_APP_API_URL2}/api/promotion/get?supplier=${supID}`;
+    console.log('promotion url ', url);
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res ++++++++++++++++++", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res ++++++++++++++++++', res);
         if (res.data.length !== 0) {
           let update = res.data.map((item, index) => {
             return {
               ...item,
-              checked: false,
+              checked: false
             };
           });
           setData(update);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
     fetch(
-      `https://api2.ebazaar.mn/api/backoffice/users?company=${props.userData.company_id.replaceAll(
-        "|",
-        ""
+      `${
+        process.env.REACT_API_URL2
+      }/backoffice/users?company=${props.userData.company_id.replaceAll(
+        '|',
+        ''
       )}`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
         setUserData(res.data);
 
-        fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-          .then((res) => res.json())
-          .then((res) => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+          .then(res => res.json())
+          .then(res => {
             setSitedata(res);
           })
-          .catch((error) => {
-            console.log("error", error);
+          .catch(error => {
+            console.log('error', error);
           });
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
-  const CheckedHandler = (item) => {
-    console.log("data", data);
+  const CheckedHandler = item => {
+    console.log('data', data);
     let update = data.map((x, i) => {
       if (x._id === item._id) {
         return {
           ...x,
-          checked: item.checked === true ? false : true,
+          checked: item.checked === true ? false : true
         };
       } else {
         return {
-          ...x,
+          ...x
         };
       }
     });
     setData(update);
   };
 
-  const DeleteHandler = (item) => {
-    if (window.confirm("Та устгахдаа итгэлтэй байна уу")) {
-      let url = `https://api2.ebazaar.mn/api/promotion/delete?_id=${item._id}`;
+  const DeleteHandler = item => {
+    if (window.confirm('Та устгахдаа итгэлтэй байна уу')) {
+      let url = `${process.env.REACT_APP_API_URL2}/api/promotion/delete?_id=${item._id}`;
       const requestOptions = {
-        method: "DELETE",
+        method: 'DELETE',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           if (res.code === 200) {
-            let update = data.filter((x) => x._id !== item._id);
+            let update = data.filter(x => x._id !== item._id);
             setData(update);
-            alert("Амжилттай устгалаа");
+            alert('Амжилттай устгалаа');
           }
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   };
 
-  const ModifiedHandler = (item) => {
-    console.log("item modified", JSON.stringify(item));
+  const ModifiedHandler = item => {
+    console.log('item modified', JSON.stringify(item));
     smsctx.setUpdateTrue(true);
     smsctx.setUpdateID(item);
     smsctx.setBarOpen(true);
 
     smsctx.setUramshuulalOpen(true);
     const requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     let userdatass = [];
-    item.users.map((x) => {
-      let url = `https://api2.ebazaar.mn/api/backoffice/users?id=${Number(x)}`;
+    item.users.map(x => {
+      let url = `${
+        process.env.REACT_APP_API_URL2
+      }/api/backoffice/users?id=${Number(x)}`;
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           console.log(res);
 
           userdatass.push({
             ...res.data[0],
-            chosed: true,
+            chosed: true
           });
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     });
     // smsctx.setXt(userdatass);
 
-    smsctx.setFilteredXT((prev) => [prev, ...userdatass]);
+    smsctx.setFilteredXT(prev => [prev, ...userdatass]);
 
     item.products &&
-      item.products.map((x) => {
-        smsctx.setChosedProdIDS((prev) => [...prev, x.productId]);
+      item.products.map(x => {
+        smsctx.setChosedProdIDS(prev => [...prev, x.productId]);
       });
 
     item.zones &&
-      item.zones.map((x) => {
-        smsctx.setZoneids((prev) => [...prev, x]);
+      item.zones.map(x => {
+        smsctx.setZoneids(prev => [...prev, x]);
       });
     let newMultidata = [];
 
     if (item.packages.length !== 0) {
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      item.packages.map((y) => {
+      item.packages.map(y => {
         let multiProductdata = [];
-        y.products.map((x) => {
+        y.products.map(x => {
           fetch(
-            `https://api2.ebazaar.mn/api/products/get1?ids=[${x.productId}]`,
+            `${process.env.REACT_APP_API_URL2}/api/products/get1?ids=[${x.productId}]`,
             requestOptions
           )
-            .then((res) => res.json())
-            .then((res) => {
+            .then(res => res.json())
+            .then(res => {
               multiProductdata.push({
                 ...res.data[0],
-                succeeded: x.succeeded,
+                succeeded: x.succeeded
               });
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         });
         newMultidata.push({
@@ -218,21 +223,21 @@ const BUindex = (props) => {
           title: y.title,
           products: multiProductdata,
           totalQuantity: y.goal.quantity,
-          totalAmount: y.goal.amount,
+          totalAmount: y.goal.amount
         });
       });
     }
-    smsctx.setCollectTitle("HI");
-    console.log("newMultidata", newMultidata);
+    smsctx.setCollectTitle('HI');
+    console.log('newMultidata', newMultidata);
     smsctx.setMultiProducts(newMultidata);
     // smsctx.setUpdateID(item._id);
-    smsctx.setPrizeImage(item.prizes[0].imageUrl[0]);
+    smsctx.setPrizeImage(replaceImageUrl(item.prizes[0].imageUrl[0]));
 
     smsctx.setBname(item.name);
     smsctx.setShagnalname(item.prizes[0].name);
 
-    smsctx.setStartdate(item.startDate.split("T")[0]);
-    smsctx.setEnddate(item.endDate.split("T")[0]);
+    smsctx.setStartdate(item.startDate.split('T')[0]);
+    smsctx.setEnddate(item.endDate.split('T')[0]);
     smsctx.setChosedChannel(item.channels);
     smsctx.setBrandsdata(item.brands);
     smsctx.setCategoriesdata(item.categories);
@@ -244,10 +249,10 @@ const BUindex = (props) => {
           <div className={css.angilalcheck} style={styles.firstContainer}>
             <img
               src={checkboxicon}
-              alt="checkbox icon"
+              alt='checkbox icon'
               style={{
-                width: "20px",
-                height: "20px",
+                width: '20px',
+                height: '20px'
               }}
             />
           </div>
@@ -264,11 +269,11 @@ const BUindex = (props) => {
           </div>
           <div className={css.angilal} style={styles.dateContainer}>
             <span>Эхлэх огноо</span>
-            <input type="date" />
+            <input type='date' />
           </div>
           <div className={css.angilal} style={styles.dateContainer}>
             <span>Дуусах огноо</span>
-            <input type="date" />
+            <input type='date' />
           </div>
           <div className={css.angilal} style={styles.notifContainer}>
             <span>Борлуулалтын төлөвлөгөө</span>
@@ -290,41 +295,41 @@ const BUindex = (props) => {
                   >
                     <img
                       src={item.checked === true ? checked : checkboxicon}
-                      alt="checkbox icon"
+                      alt='checkbox icon'
                     />
                   </div>
                   <div
                     className={css.subwrapper}
                     style={{
-                      paddingLeft: "6px",
-                      marginLeft: "10px",
-                      ...styles.checkboxcontainer,
+                      paddingLeft: '6px',
+                      marginLeft: '10px',
+                      ...styles.checkboxcontainer
                     }}
                   >
                     <Avatar ids={item.users} users={userData} />
                   </div>
                   <div className={css.subwrapper} style={styles.logoContainer}>
-                    <span>{item.name ? item.name : ""}</span>
+                    <span>{item.name ? item.name : ''}</span>
                   </div>
                   <div
                     className={css.subwrapper}
                     style={styles.supplierContainer}
                   >
-                    <span>{item.prizes ? item.prizes[0].name : ""}</span>
+                    <span>{item.prizes ? item.prizes[0].name : ''}</span>
                   </div>
                   <div className={css.subwrapper} style={styles.dateContainer}>
                     <span>
-                      {item.startDate && item.startDate.split("T")[0]}
+                      {item.startDate && item.startDate.split('T')[0]}
                     </span>
                     <span>
                       {item.startDate &&
-                        item.startDate.split("T")[1]?.substr(0, 8)}
+                        item.startDate.split('T')[1]?.substr(0, 8)}
                     </span>
                   </div>
                   <div className={css.subwrapper} style={styles.dateContainer}>
-                    <span>{item.endDate && item.endDate.split("T")[0]}</span>
+                    <span>{item.endDate && item.endDate.split('T')[0]}</span>
                     <span>
-                      {item.endDate && item.endDate.split("T")[1]?.substr(0, 8)}
+                      {item.endDate && item.endDate.split('T')[1]?.substr(0, 8)}
                     </span>
                   </div>
                   <div
@@ -333,7 +338,7 @@ const BUindex = (props) => {
                   >
                     <span
                       style={{
-                        fontWeight: "700",
+                        fontWeight: '700'
                       }}
                     >
                       {/* {item &&
@@ -341,7 +346,7 @@ const BUindex = (props) => {
                         item.goal.amount.toLocaleString() + "₮"} */}
                       {item &&
                         item.goal &&
-                        item.goal.amount?.toLocaleString() + "₮"}
+                        item.goal.amount?.toLocaleString() + '₮'}
                     </span>
                     <div className={css.totalwrapper}>
                       <div className={css.total}></div>
@@ -350,7 +355,7 @@ const BUindex = (props) => {
                         style={{
                           width: `${
                             widthcalculate >= 150 ? 150 : widthcalculate
-                          }px`,
+                          }px`
                         }}
                       ></div>
                     </div>
@@ -359,10 +364,10 @@ const BUindex = (props) => {
                     <img
                       src={DeleteIcon}
                       style={{
-                        width: "20px",
-                        height: "20px",
-                        cursor: "pointer",
-                        marginLeft: "1rem",
+                        width: '20px',
+                        height: '20px',
+                        cursor: 'pointer',
+                        marginLeft: '1rem'
                       }}
                       onClick={() => DeleteHandler(item)}
                     />
@@ -371,10 +376,10 @@ const BUindex = (props) => {
                     <img
                       src={modifiedIcon}
                       style={{
-                        width: "20px",
-                        height: "20px",
-                        cursor: "pointer",
-                        marginLeft: "1rem",
+                        width: '20px',
+                        height: '20px',
+                        cursor: 'pointer',
+                        marginLeft: '1rem'
                       }}
                       onClick={() => ModifiedHandler(item)}
                     />

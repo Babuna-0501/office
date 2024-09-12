@@ -1,146 +1,146 @@
 // CSS
-import { useState } from "react";
-import { Button, Input } from "./common";
-import css from "./detailedShipmentReport.module.css";
-import LoadingSpinner from "../../components/Spinner/Spinner";
-import writeXlsxFile from "write-excel-file";
-import ErrorPopup from "./common/ErrorPopup";
-import myHeaders from "../../components/MyHeader/myHeader";
+import { useState } from 'react';
+import { Button, Input } from './common';
+import css from './detailedShipmentReport.module.css';
+import LoadingSpinner from '../../components/Spinner/Spinner';
+import writeXlsxFile from 'write-excel-file';
+import ErrorPopup from './common/ErrorPopup';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const initSchema = [
   {
-    column: "Дугаар",
+    column: 'Дугаар',
     type: String,
-    value: (s) => s.id,
+    value: s => s.id,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Барааны нэр",
+    column: 'Барааны нэр',
     type: String,
-    value: (s) => s.name,
+    value: s => s.name,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Баркод",
+    column: 'Баркод',
     type: String,
-    value: (s) => s.barcode,
+    value: s => s.barcode,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Нэгж үнэ",
+    column: 'Нэгж үнэ',
     type: Number,
-    value: (s) => s.price,
+    value: s => s.price,
     width: 20,
-    align: "center",
-    alignVertical: "center",
-    format: "#,##0.00",
+    align: 'center',
+    alignVertical: 'center',
+    format: '#,##0.00'
   },
   {
-    column: "Тоо ширхэг",
+    column: 'Тоо ширхэг',
     type: Number,
-    value: (s) => s.quantity,
+    value: s => s.quantity,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Нийт үнэ",
+    column: 'Нийт үнэ',
     type: Number,
-    value: (s) => s.totalPrice,
+    value: s => s.totalPrice,
     width: 20,
-    align: "center",
-    alignVertical: "center",
-    format: "#,##0.00",
+    align: 'center',
+    alignVertical: 'center',
+    format: '#,##0.00'
   },
   {
-    column: "Гарсан агуулах",
+    column: 'Гарсан агуулах',
     type: String,
-    value: (s) => s.outInventory,
+    value: s => s.outInventory,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Авах агуулах",
+    column: 'Авах агуулах',
     type: String,
-    value: (s) => s.inInventory,
+    value: s => s.inInventory,
     width: 10,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Үүссэн огноо",
+    column: 'Үүссэн огноо',
     type: Date,
-    value: (s) => s.createdDate,
+    value: s => s.createdDate,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Хариуцагч",
+    column: 'Хариуцагч',
     type: String,
-    value: (s) => s.owner,
+    value: s => s.owner,
     width: 20,
-    align: "center",
-    alignVertical: "center",
+    align: 'center',
+    alignVertical: 'center'
   },
   {
-    column: "Төрөл",
+    column: 'Төрөл',
     type: String,
-    value: (s) => s.type,
+    value: s => s.type,
     width: 20,
-    align: "center",
-    alignVertical: "center",
-  },
+    align: 'center',
+    alignVertical: 'center'
+  }
 ];
 
-export const DetailedShipmentReport = (props) => {
+export const DetailedShipmentReport = props => {
   const { closeHandler, userData, users, inventories } = props;
 
   const [showErrorMsg, setShowErrorMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [reportReady, setReportReady] = useState(false);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const [schema, setSchema] = useState(initSchema);
   const [reportData, setReportData] = useState([]);
 
   const generateReport = async () => {
     try {
-      if (startDate === "") {
-        throw new Error("Эхлэх огноог оруулна уу!");
+      if (startDate === '') {
+        throw new Error('Эхлэх огноог оруулна уу!');
       }
 
-      if (endDate === "") {
-        throw new Error("Дуусах огноог оруулна уу!");
+      if (endDate === '') {
+        throw new Error('Дуусах огноог оруулна уу!');
       }
 
       if (startDate > endDate) {
-        throw new Error("Эхлэх болон дуусах огноог буруу оруулсан байна!");
+        throw new Error('Эхлэх болон дуусах огноог буруу оруулсан байна!');
       }
 
       setLoading(true);
 
       const companyId =
-        Number(userData.company_id.replaceAll("|", "")) === 1
+        Number(userData.company_id.replaceAll('|', '')) === 1
           ? 1
-          : Number(userData.company_id.replaceAll("|", ""));
+          : Number(userData.company_id.replaceAll('|', ''));
 
-      const url = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}&startDate=${startDate}&endDate=${endDate}&page=0`;
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -156,9 +156,9 @@ export const DetailedShipmentReport = (props) => {
 
       productsIds = [...new Set(productsIds)];
 
-      const productUrl = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIds.join(
-        ","
-      )}]`;
+      const productUrl = `${
+        process.env.REACT_API_URL2
+      }/products/get1?ids=[${productsIds.join(',')}]`;
 
       const productRes = await fetch(productUrl, requestOptions);
       const productData = await productRes.json();
@@ -179,12 +179,12 @@ export const DetailedShipmentReport = (props) => {
 
       for (const shipment of resData.data) {
         const ownr = shipment.tugeegchID ?? shipment.createUser;
-        const date = shipment.createDate.split("T")[0].split("-");
+        const date = shipment.createDate.split('T')[0].split('-');
 
         const fromInven = inventories.find(
-          (inven) => inven._id === shipment.from
+          inven => inven._id === shipment.from
         );
-        const toInven = inventories.find((inven) => inven._id === shipment.to);
+        const toInven = inventories.find(inven => inven._id === shipment.to);
 
         let shipmentType;
 
@@ -229,31 +229,31 @@ export const DetailedShipmentReport = (props) => {
 
         for (const product of shipment.products) {
           const curProduct = productData.data.find(
-            (prod) => prod._id === product.productId
+            prod => prod._id === product.productId
           );
           const price =
-            curProduct?.locations?.["62f4aabe45a4e22552a3969f"]?.price
+            curProduct?.locations?.['62f4aabe45a4e22552a3969f']?.price
               ?.channel?.[1] ?? 0;
 
           const data = {
-            id: shipment.id + "",
+            id: shipment.id + '',
             name: curProduct.name,
             barcode: curProduct.bar_code,
             price: price,
             quantity: product.count,
             totalPrice: price * product.count,
-            outInventory: fromInven ? fromInven.name : "",
-            inInventory: toInven ? toInven.name : "",
+            outInventory: fromInven ? fromInven.name : '',
+            inInventory: toInven ? toInven.name : '',
             createdDate: new Date(`${date[0]}-${date[1]}-${date[2]}`),
-            owner: users.find((usr) => usr.user_id === ownr).first_name,
+            owner: users.find(usr => usr.user_id === ownr).first_name,
             type:
               shipmentType === 1
-                ? "Ачилт"
+                ? 'Ачилт'
                 : shipmentType === 2
-                ? "Хөдөлгөөн"
+                ? 'Хөдөлгөөн'
                 : shipmentType === 3
-                ? "Буцаалт"
-                : "",
+                ? 'Буцаалт'
+                : ''
           };
 
           reportDataCopy.push({ ...data });
@@ -273,16 +273,16 @@ export const DetailedShipmentReport = (props) => {
           schemaCopy[2].width = data.barcode.length + 5;
         }
 
-        if ((data.price + "").length + 5 > schemaCopy[3].width) {
-          schemaCopy[3].width = (data.price + "").length + 5;
+        if ((data.price + '').length + 5 > schemaCopy[3].width) {
+          schemaCopy[3].width = (data.price + '').length + 5;
         }
 
-        if ((data.quantity + "").length + 5 > schemaCopy[4].width) {
-          schemaCopy[4].width = (data.quantity + "").length + 5;
+        if ((data.quantity + '').length + 5 > schemaCopy[4].width) {
+          schemaCopy[4].width = (data.quantity + '').length + 5;
         }
 
-        if ((data.totalPrice + "").length + 5 > schemaCopy[5].width) {
-          schemaCopy[5].width = (data.totalPrice + "").length + 5;
+        if ((data.totalPrice + '').length + 5 > schemaCopy[5].width) {
+          schemaCopy[5].width = (data.totalPrice + '').length + 5;
         }
 
         if (data.outInventory.length + 5 > schemaCopy[6].width) {
@@ -314,23 +314,23 @@ export const DetailedShipmentReport = (props) => {
       schema,
       fileName: `shipment-report-/${startDate}/-/${endDate}/.xlsx`,
       headerStyle: {
-        backgroundColor: "#d3d3d3",
-        align: "center",
-        alignVertical: "center",
-        borderColor: "#000000",
+        backgroundColor: '#d3d3d3',
+        align: 'center',
+        alignVertical: 'center',
+        borderColor: '#000000'
       },
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 11,
-      alignVertical: "center",
-      align: "center",
-      dateFormat: "mm/dd/yyyy",
-      stickyRowsCount: 1,
+      alignVertical: 'center',
+      align: 'center',
+      dateFormat: 'mm/dd/yyyy',
+      stickyRowsCount: 1
     });
   };
 
   const restart = () => {
-    setStartDate("");
-    setEndDate("");
+    setStartDate('');
+    setEndDate('');
     setReportData([]);
     setSchema(initSchema);
     setReportReady(false);
@@ -341,7 +341,7 @@ export const DetailedShipmentReport = (props) => {
       <div className={css.container}>
         <div className={css.header}>
           <h1>Дэлгэрэнгүй тайлан</h1>
-          <button onClick={closeHandler} type="button">
+          <button onClick={closeHandler} type='button'>
             Хаах
           </button>
         </div>
@@ -349,24 +349,24 @@ export const DetailedShipmentReport = (props) => {
         {!loading && !reportReady && (
           <div className={css.content}>
             <div className={css.dateContainer}>
-              <label htmlFor="startDate">Эхлэх огноо</label>
+              <label htmlFor='startDate'>Эхлэх огноо</label>
               <Input
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                id="startDate"
-                type="date"
-                size="medium"
+                onChange={e => setStartDate(e.target.value)}
+                id='startDate'
+                type='date'
+                size='medium'
               />
             </div>
 
             <div className={css.dateContainer}>
-              <label htmlFor="endDate">Дуусах огноо</label>
+              <label htmlFor='endDate'>Дуусах огноо</label>
               <Input
                 value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                id="endDate"
-                type="date"
-                size="medium"
+                onChange={e => setEndDate(e.target.value)}
+                id='endDate'
+                type='date'
+                size='medium'
               />
             </div>
           </div>
@@ -376,10 +376,10 @@ export const DetailedShipmentReport = (props) => {
           <div
             style={{
               flex: 1,
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <span>Тайлан амжилттай үүслээ...</span>
@@ -398,16 +398,16 @@ export const DetailedShipmentReport = (props) => {
               <Button
                 disabled={loading}
                 onClick={closeHandler}
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
               >
                 Цуцлах
               </Button>
               <Button
                 onClick={generateReport}
                 disabled={loading}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
               >
                 Тайлан бэлтгэх
               </Button>
@@ -418,16 +418,16 @@ export const DetailedShipmentReport = (props) => {
               <Button
                 disabled={loading}
                 onClick={restart}
-                variant="secondary"
-                size="medium"
+                variant='secondary'
+                size='medium'
               >
                 Дахин бэлтгэх
               </Button>
               <Button
                 onClick={downloadReport}
                 disabled={loading}
-                variant="primary"
-                size="medium"
+                variant='primary'
+                size='medium'
               >
                 Тайлан татах
               </Button>

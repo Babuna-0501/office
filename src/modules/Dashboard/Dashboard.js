@@ -1,25 +1,26 @@
-import React, { useEffect, useContext, useState } from "react";
-import css from "./dashboard.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import { HeaderContext } from "../../Hooks/HeaderHook";
+import React, { useEffect, useContext, useState } from 'react';
+import css from './dashboard.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import { HeaderContext } from '../../Hooks/HeaderHook';
 
-import { DashboardHeader } from "./Header";
-import { BodyHeader } from "../../Sfa_tailan/component/BodyHeader";
-import { DonutChartBrand } from "../../Sfa_tailan/component/DonutChartBrand";
-import { ColumnChartSupplier } from "../../Sfa_tailan/component/ColumnChartSupplier";
+import { DashboardHeader } from './Header';
+import { BodyHeader } from '../../Sfa_tailan/component/BodyHeader';
+import { DonutChartBrand } from '../../Sfa_tailan/component/DonutChartBrand';
+import { ColumnChartSupplier } from '../../Sfa_tailan/component/ColumnChartSupplier';
 
-const Dashboard = (props) => {
+const Dashboard = props => {
   const { userData, categories, brands } = props;
   const { setHeaderContent } = useContext(HeaderContext);
 
   const today = new Date();
   const [startDate, setStartDate] = useState(
-    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-01`
+    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-01`
   );
   const [endDate, setEndDate] = useState(
-    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(
-      today.getDate()
-    ).padStart(2, "0")}`
+    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${String(today.getDate()).padStart(2, '0')}`
   );
   const [searchDistrict, setSearchDistrict] = useState(null);
 
@@ -40,8 +41,8 @@ const Dashboard = (props) => {
   const [filteredBrands, setFilteredBrands] = useState();
 
   const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
+    method: 'GET',
+    headers: myHeaders
   };
 
   useEffect(() => {
@@ -59,13 +60,15 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     fetch(
-      `https://api2.ebazaar.mn/api/orders?order_type=1&order_start=${startDate}&order_end=${endDate}&district=${
-        searchDistrict ? searchDistrict : ""
+      `${
+        process.env.REACT_API_URL2
+      }/orders?order_type=1&order_start=${startDate}&order_end=${endDate}&district=${
+        searchDistrict ? searchDistrict : ''
       }&page=0`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((response) => setDatas(response.data));
+      .then(res => res.json())
+      .then(response => setDatas(response.data));
   }, [startDate, endDate, searchDistrict]);
 
   useEffect(() => {
@@ -103,7 +106,7 @@ const Dashboard = (props) => {
 
       let newTopDistricts = [];
 
-      datas.map((data) => {
+      datas.map(data => {
         total += data.grand_total;
         if (!merchantIds.includes(data.tradeshop_id)) {
           merchantIds.push(data.tradeshop_id);
@@ -122,7 +125,7 @@ const Dashboard = (props) => {
         } else {
         }
 
-        data.line.map((pro) => {
+        data.line.map(pro => {
           totalQuantity2 += pro.quantity;
 
           if (minOrderAmount > pro.amount) {
@@ -146,14 +149,19 @@ const Dashboard = (props) => {
 
           if (brandIds.length > 0) {
             let existBrand2 = [];
-            brandIds.forEach((brandId) => {
-              const existBrand = brandAmount.find((item) => item && item.id === brandId);
+            brandIds.forEach(brandId => {
+              const existBrand = brandAmount.find(
+                item => item && item.id === brandId
+              );
               existBrand2 = existBrand;
             });
             if (existBrand2) {
               existBrand2.amount += pro.amount;
             } else {
-              brandAmount.push({ id: pro.product_brand_id, amount: pro.amount });
+              brandAmount.push({
+                id: pro.product_brand_id,
+                amount: pro.amount
+              });
             }
           } else {
           }
@@ -164,8 +172,10 @@ const Dashboard = (props) => {
 
           if (categoryIds.length > 0) {
             let existCategory2 = [];
-            categoryIds.forEach((categoryId) => {
-              const existCategory = catAmounts.find((item) => item && item.id === categoryId);
+            categoryIds.forEach(categoryId => {
+              const existCategory = catAmounts.find(
+                item => item && item.id === categoryId
+              );
               existCategory2 = existCategory;
             });
             if (existCategory2) {
@@ -177,23 +187,23 @@ const Dashboard = (props) => {
           }
         });
 
-        if (data.tradeshop_district === "2") {
+        if (data.tradeshop_district === '2') {
           totalBND += data.grand_total;
-        } else if (data.tradeshop_district === "3") {
+        } else if (data.tradeshop_district === '3') {
           totalBHD += data.grand_total;
-        } else if (data.tradeshop_district === "4") {
+        } else if (data.tradeshop_district === '4') {
           totalBGD += data.grand_total;
-        } else if (data.tradeshop_district === "5") {
+        } else if (data.tradeshop_district === '5') {
           totalBZD += data.grand_total;
-        } else if (data.tradeshop_district === "6") {
+        } else if (data.tradeshop_district === '6') {
           totalND += data.grand_total;
-        } else if (data.tradeshop_district === "7") {
+        } else if (data.tradeshop_district === '7') {
           totalSHD += data.grand_total;
-        } else if (data.tradeshop_district === "8") {
+        } else if (data.tradeshop_district === '8') {
           totalSBD += data.grand_total;
-        } else if (data.tradeshop_district === "9") {
+        } else if (data.tradeshop_district === '9') {
           totalHUD += data.grand_total;
-        } else if (data.tradeshop_district === "10") {
+        } else if (data.tradeshop_district === '10') {
           totalChD += data.grand_total;
         } else {
         }
@@ -219,77 +229,80 @@ const Dashboard = (props) => {
           totalHUD,
           totalND,
           totalSBD,
-          totalSHD,
+          totalSHD
         ];
 
         function compareNumbers(a, b) {
           return a - b;
         }
-        const sortedTotalDistrict = totalDistrictArray.sort(compareNumbers).slice(3).reverse();
+        const sortedTotalDistrict = totalDistrictArray
+          .sort(compareNumbers)
+          .slice(3)
+          .reverse();
 
-        sortedTotalDistrict.map((total) => {
+        sortedTotalDistrict.map(total => {
           if (total === totalBGD) {
             newTopDistricts.push({
-              Баянгол: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Баянгол: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalBHD) {
             newTopDistricts.push({
-              Багахангай: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Багахангай: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalBND) {
             newTopDistricts.push({
-              Багануур: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Багануур: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalBZD) {
             newTopDistricts.push({
-              Баянзүрх: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Баянзүрх: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalChD) {
             newTopDistricts.push({
-              Чингэлтэй: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Чингэлтэй: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalHUD) {
             newTopDistricts.push({
-              "Хан-Уул": new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              'Хан-Уул': new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalND) {
             newTopDistricts.push({
-              Налайх: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Налайх: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalSBD) {
             newTopDistricts.push({
-              Сүхбаатар: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Сүхбаатар: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else if (total === totalSHD) {
             newTopDistricts.push({
-              Сонгинохайрхан: new Intl.NumberFormat("en-US", {
-                notation: "compact",
-                compactDisplay: "short",
-              }).format(total),
+              Сонгинохайрхан: new Intl.NumberFormat('en-US', {
+                notation: 'compact',
+                compactDisplay: 'short'
+              }).format(total)
             });
           } else {
             newTopDistricts.push([]);
@@ -298,8 +311,8 @@ const Dashboard = (props) => {
       }
 
       if (categoryIds.length > 0) {
-        categoryIds.map((cateId) => {
-          categories.map((cate) => {
+        categoryIds.map(cateId => {
+          categories.map(cate => {
             if (cate.id === cateId) {
               filtCats.push(cate);
             }
@@ -309,8 +322,8 @@ const Dashboard = (props) => {
       }
 
       if (brandIds.length > 0) {
-        brandIds.map((brandId) => {
-          brands.map((brand) => {
+        brandIds.map(brandId => {
+          brands.map(brand => {
             if (brand.BrandID === brandId) {
               filtBrands.push(brand);
             }
@@ -330,7 +343,7 @@ const Dashboard = (props) => {
         setBrandAmounts(brandAmount);
         setFiltCategories(filtCats);
         setFilteredBrands(filtBrands);
-      }, "500");
+      }, '500');
     }
   }, [datas, totalAmount, brands, categories]);
 
@@ -363,7 +376,10 @@ const Dashboard = (props) => {
           <div className={`${css.chartRight}  ${css.chartParenColumn}`}>
             <h3>Борлуулалт/Дэд Ангилал/</h3>
             <div className={css.chartSupplier}>
-              <ColumnChartSupplier amounts={categoryAmounts} categories={filtCategories} />
+              <ColumnChartSupplier
+                amounts={categoryAmounts}
+                categories={filtCategories}
+              />
             </div>
           </div>
         </div>
@@ -373,5 +389,3 @@ const Dashboard = (props) => {
 };
 
 export default Dashboard;
-
-

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./orderreturn.module.css";
-import Suppliers from "../components/Suppliers/Suppliers";
-import { styles } from "./style";
-import notifIcon from "../assets/Notification.svg";
-import Districtdata from "../District.json";
-import myHeaders from "../components/MyHeader/myHeader";
-import OrderList from "./OrderList";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './orderreturn.module.css';
+import Suppliers from '../components/Suppliers/Suppliers';
+import { styles } from './style';
+import notifIcon from '../assets/Notification.svg';
+import Districtdata from '../District.json';
+import myHeaders from '../components/MyHeader/myHeader';
+import OrderList from './OrderList';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
-const OrderReturnIndex = (props) => {
+const OrderReturnIndex = props => {
   const [orderStart, setOrderStart] = useState(null);
   const [deliveryDate, setDeliveryDate] = useState(null);
   const [orderID, setOrderID] = useState(null);
@@ -26,7 +26,7 @@ const OrderReturnIndex = (props) => {
   const [orderKhoroo, setOrderKhoroo] = useState(null);
   const [orderAddress, setOrderAddress] = useState(null);
   const [businesType, setBusinesType] = useState([]);
-  const [suppValue, setSuppValue] = useState("");
+  const [suppValue, setSuppValue] = useState('');
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -42,17 +42,17 @@ const OrderReturnIndex = (props) => {
     };
   }, []);
 
-  console.log("props orderChannel", props);
+  console.log('props orderChannel', props);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
     setLoading(true);
-    let params = "";
-    console.log("orderID", orderID);
+    let params = '';
+    console.log('orderID', orderID);
 
     if (orderChannel) {
       params += `business_type=${parseInt(orderChannel)}&`;
@@ -81,32 +81,32 @@ const OrderReturnIndex = (props) => {
     if (orderOrder) {
       params += `tradeshop_name=${orderOrder}&`;
     }
-    let url = `https://api2.ebazaar.mn/api/orders?origin=4&order_type=2&${params}page=${page}`;
-    console.log("url", url);
+    let url = `${process.env.REACT_APP_API_URL2}/api/orders?origin=4&order_type=2&${params}page=${page}`;
+    console.log('url', url);
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res", res);
-        if (props.userData.company_id === "|14014|") {
+      .then(res => res.json())
+      .then(res => {
+        console.log('res', res);
+        if (props.userData.company_id === '|14014|') {
           fetch(
-            `https://api2.ebazaar.mn/api/backoffice/users?company=14014`,
+            `${process.env.REACT_APP_API_URL2}/api/backoffice/users?company=14014`,
             requestOptions
           )
-            .then((res) => res.json())
-            .then((res) => {
+            .then(res => res.json())
+            .then(res => {
               setBuramkhan(res.data);
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         }
         setLoading(false);
         setOrders(res.data);
         setBusinesType(props.businessType);
       })
-      .catch((error) => {
-        console.log("order catch error", error);
+      .catch(error => {
+        console.log('order catch error', error);
       });
   }, [
     orderChannel,
@@ -116,46 +116,46 @@ const OrderReturnIndex = (props) => {
     orderStart,
     deliveryDate,
     suppValue,
-    orderOrder,
+    orderOrder
   ]);
   return (
     <div>
       <div className={css.container}>
         <div
           style={{
-            width: props.userData.company_id === "|1|" ? "2700px" : "2700px",
-            borderBottom: "0.8px solid #CFD8DC",
+            width: props.userData.company_id === '|1|' ? '2700px' : '2700px',
+            borderBottom: '0.8px solid #CFD8DC'
           }}
         >
-          <div className="row header">
+          <div className='row header'>
             <div style={styles.checkboxcontainer}>
               <div>
                 <span className={css.headerTitle}>Дугаар</span>
                 {/* <input type="text" onKeyPress={(e) => searchById(e)} /> */}
                 <input
-                  type="text"
+                  type='text'
                   value={orderID}
-                  onChange={(e) => setOrderID(e.target.value)}
+                  onChange={e => setOrderID(e.target.value)}
                 />
               </div>
             </div>
             <div
               style={{
-                ...styles.logoContainer,
+                ...styles.logoContainer
               }}
             >
               <div>
                 <span className={css.headerTitle}>Logo</span>
-                <input type="text" disabled />
+                <input type='text' disabled />
               </div>
             </div>
             <div
               style={{
-                ...styles.supplierContainer,
+                ...styles.supplierContainer
               }}
             >
-              <div style={{ position: "relative" }}>
-                {props.userData.company_id !== "|13954|" && (
+              <div style={{ position: 'relative' }}>
+                {props.userData.company_id !== '|13954|' && (
                   <Suppliers setSuppValue={setSuppValue} />
                 )}
               </div>
@@ -166,20 +166,20 @@ const OrderReturnIndex = (props) => {
                 <span
                   className={css.headerTitle}
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                    justifyContent: "center",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    justifyContent: 'center'
                   }}
                 >
                   <span className={css.headerTitle}></span>
                   <img
                     src={notifIcon}
-                    alt="notif"
+                    alt='notif'
                     style={{
-                      width: "24px",
-                      heigth: "24px",
-                      objectFit: "cover",
+                      width: '24px',
+                      heigth: '24px',
+                      objectFit: 'cover'
                     }}
                   />
                 </span>
@@ -190,21 +190,21 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Захиалга</span>
 
-                <input type="text" disabled />
+                <input type='text' disabled />
               </div>
             </div>
             <div
               style={{
-                ...styles.orderDateContainer,
+                ...styles.orderDateContainer
               }}
             >
               <div>
                 <span className={css.headerTitle}>Захиалсан</span>
 
                 <input
-                  type="date"
+                  type='date'
                   value={orderStart}
-                  onChange={(e) => setOrderStart(e.target.value)}
+                  onChange={e => setOrderStart(e.target.value)}
                 />
               </div>
             </div>
@@ -213,9 +213,9 @@ const OrderReturnIndex = (props) => {
                 <span className={css.headerTitle}>Хүргүүлэх</span>
 
                 <input
-                  type="date"
+                  type='date'
                   value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  onChange={e => setDeliveryDate(e.target.value)}
                 />
               </div>
             </div>
@@ -224,9 +224,9 @@ const OrderReturnIndex = (props) => {
                 <span className={css.headerTitle}>Дүн</span>
 
                 <input
-                  type="text"
+                  type='text'
                   value={orderAmount}
-                  onChange={(e) => setOrderAmount(e.target.value)}
+                  onChange={e => setOrderAmount(e.target.value)}
                   disabled
                 />
               </div>
@@ -236,9 +236,9 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Төлбөр</span>
                 <input
-                  type="text"
+                  type='text'
                   value={orderPaid}
-                  onChange={(e) => setOrderPaid(e.target.value)}
+                  onChange={e => setOrderPaid(e.target.value)}
                   disabled
                 />
               </div>
@@ -248,9 +248,9 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Тэмдэглэл</span>
                 <input
-                  type="text"
+                  type='text'
                   value={orderNote}
-                  onChange={(e) => setOrderNote(e.target.value)}
+                  onChange={e => setOrderNote(e.target.value)}
                   disabled
                 />
               </div>
@@ -260,9 +260,9 @@ const OrderReturnIndex = (props) => {
                 <span className={css.headerTitle}>Утас</span>
 
                 <input
-                  type="number"
+                  type='number'
                   value={orderPhone}
-                  onChange={(e) => setOrderPhone(e.target.value)}
+                  onChange={e => setOrderPhone(e.target.value)}
                 />
               </div>
             </div>
@@ -271,9 +271,9 @@ const OrderReturnIndex = (props) => {
                 <span className={css.headerTitle}>Байгууллага</span>
 
                 <input
-                  type="text"
+                  type='text'
                   value={orderOrder}
-                  onChange={(e) => setOrderOrder(e.target.value)}
+                  onChange={e => setOrderOrder(e.target.value)}
                 />
               </div>
             </div>
@@ -283,9 +283,9 @@ const OrderReturnIndex = (props) => {
 
                 <select
                   value={orderChannel}
-                  onChange={(e) => setOrderChannel(e.target.value)}
+                  onChange={e => setOrderChannel(e.target.value)}
                 >
-                  <option value="all">---</option>
+                  <option value='all'>---</option>
                   {businesType
                     ? businesType.map((s, index) => {
                         return (
@@ -302,9 +302,9 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Хот/аймаг</span>
                 <input
-                  type="text"
+                  type='text'
                   value={orderCity}
-                  onChange={(e) => setOrderCity(e.target.value)}
+                  onChange={e => setOrderCity(e.target.value)}
                   disabled
                 />
               </div>
@@ -315,9 +315,9 @@ const OrderReturnIndex = (props) => {
 
                 <select
                   value={orderDistrict}
-                  onChange={(e) => setOrderDistrict(e.target.value)}
+                  onChange={e => setOrderDistrict(e.target.value)}
                 >
-                  <option value=""></option>
+                  <option value=''></option>
                   {Districtdata.map((s, index) => {
                     return (
                       <option value={s.id} key={index}>
@@ -332,9 +332,9 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Хороо</span>
                 <input
-                  type="text"
+                  type='text'
                   value={orderKhoroo}
-                  onChange={(e) => setOrderKhoroo(e.target.value)}
+                  onChange={e => setOrderKhoroo(e.target.value)}
                   disabled
                 />
               </div>
@@ -343,31 +343,31 @@ const OrderReturnIndex = (props) => {
               <div>
                 <span className={css.headerTitle}>Хаяг</span>
                 <input
-                  type="text"
+                  type='text'
                   value={orderAddress}
-                  onChange={(e) => setOrderAddress(e.target.value)}
+                  onChange={e => setOrderAddress(e.target.value)}
                   disabled
                 />
               </div>
             </div>
-            {props.userData.company_id === "|14014|" && (
+            {props.userData.company_id === '|14014|' && (
               <>
                 <div style={styles.khorooContainer}>
                   <div>
                     <span className={css.headerTitle}>XT ID</span>
-                    <input type="text" disabled />
+                    <input type='text' disabled />
                   </div>
                 </div>
                 <div style={styles.khorooContainer}>
                   <div>
                     <span className={css.headerTitle}>XT Нэр</span>
-                    <input type="text" disabled />
+                    <input type='text' disabled />
                   </div>
                 </div>
                 <div style={styles.khorooContainer}>
                   <div>
                     <span className={css.headerTitle}>XT Утас</span>
-                    <input type="text" disabled />
+                    <input type='text' disabled />
                   </div>
                 </div>
               </>
@@ -375,23 +375,23 @@ const OrderReturnIndex = (props) => {
             <div style={styles.khorooContainer}>
               <div>
                 <span className={css.headerTitle}>Буцаагдсан шалтгаан</span>
-                <input type="text" disabled />
+                <input type='text' disabled />
               </div>
             </div>
           </div>
         </div>
         <div className={css.foobarcontainer}>
-          <div id="scrollableDiv" className={css.scrollcontainer}>
+          <div id='scrollableDiv' className={css.scrollcontainer}>
             <InfiniteScroll
               dataLength={orders?.length}
-              next={() => setPage((prev) => prev + 1)}
+              next={() => setPage(prev => prev + 1)}
               hasMore={true}
               loader={
                 loading === true && (
                   <div className={css.loading}>... Loading</div>
                 )
               }
-              scrollableTarget="scrollableDiv"
+              scrollableTarget='scrollableDiv'
             >
               {orders.map((order, index) => {
                 return (

@@ -1,35 +1,36 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 // import Detail from "./Detail";
-import myHeaders from "../components/MyHeader/myHeader";
-import Note from "./Note";
-import DeliveryDate from "./DeliveryDate";
-import PushNotification from "./PushNotification";
-import FMCG from "./FMCG";
-import Upoint from "./Upoint";
-import StatusChange from "./StatusChange/StatusChange";
-import { styles } from "./style";
-import ProductAvatar from "./ProductAvatar/ProductAvatar";
-import { Popconfirm, message } from "antd";
-import XTcompany, { TugeegchCompany } from "./XTcompany";
-import UpointHistory from "./UpointHistory";
+import myHeaders from '../components/MyHeader/myHeader';
+import Note from './Note';
+import DeliveryDate from './DeliveryDate';
+import PushNotification from './PushNotification';
+import FMCG from './FMCG';
+import Upoint from './Upoint';
+import StatusChange from './StatusChange/StatusChange';
+import { styles } from './style';
+import ProductAvatar from './ProductAvatar/ProductAvatar';
+import { Popconfirm, message } from 'antd';
+import XTcompany, { TugeegchCompany } from './XTcompany';
+import UpointHistory from './UpointHistory';
 // import delivery_cancel from "../assets/car delivery canceled.svg";
 // import car_delivery from "../assets/car delivery 01.svg";
-import car_delivery_waiting from "../assets/building warehouse.svg";
+import car_delivery_waiting from '../assets/building warehouse.svg';
 // import car_delivery_done from "../assets/car delivered.svg";
 // import checkbox from "../assets/check box.svg";
 // import checkboxon from "../assets/Tick Square on.svg";
-import downred from "../assets/red-arrow-down-red.svg";
-import upgreen from "../assets/red-arrow-up-green.svg";
-import TabIndex from "./Tabs/TabIndex";
-import css from "./order.module.css";
+import downred from '../assets/red-arrow-down-red.svg';
+import upgreen from '../assets/red-arrow-up-green.svg';
+import TabIndex from './Tabs/TabIndex';
+import css from './order.module.css';
 
-import Vatmodal from "./VatModal/Vatmodal";
-import Orderlog from "./Log/Orderlog";
-import Tugeegch from "./Tugeegch/Tugeegch";
-import { originData } from "./Index";
-import { Button } from "../components/common";
+import Vatmodal from './VatModal/Vatmodal';
+import Orderlog from './Log/Orderlog';
+import Tugeegch from './Tugeegch/Tugeegch';
+import { originData } from './Index';
+import { Button } from '../components/common';
+import { replaceImageUrl } from '../utils';
 
-const Order = (data) => {
+const Order = data => {
   const {
     userData,
     buramhanworks: accounts,
@@ -38,12 +39,12 @@ const Order = (data) => {
     checkHandler,
     shipments,
     inventories,
-    fieldsData,
+    fieldsData
   } = data;
 
   let [order, setOrder] = useState({});
   const [orderdata, setOrderdata] = useState([]);
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState('');
 
   const permission = Object.values(JSON.parse(data.userData.permission))[0];
 
@@ -54,7 +55,7 @@ const Order = (data) => {
   const [upointHistory, setUpointHistory] = useState(false);
   const [upointDataInfo, setUpointDataInfo] = useState(null);
   const [pickpuckbtn, setPickpuckbtn] = useState(false);
-  let [foo, setFoo] = useState("");
+  let [foo, setFoo] = useState('');
   //   console.log("FOO: ",foo)
   let [fmcg, setFmcg] = useState(null);
   let [push, setPush] = useState(false);
@@ -82,7 +83,7 @@ const Order = (data) => {
 
   const [orderTugeegch, setOrderTugeegch] = useState(null);
   const [orderXT, setOrderXT] = useState(null);
-  const [selectedXT, setSelectedXT] = useState("");
+  const [selectedXT, setSelectedXT] = useState('');
   const [pricedown, setPricedown] = useState(0);
 
   const [orderShipment, setOrderShipment] = useState(null);
@@ -96,40 +97,40 @@ const Order = (data) => {
   useEffect(() => {
     if (description === null && data.data.status === 3) {
       let d = new Date();
-      fetch("https://api2.ebazaar.mn/api/order/update_note", {
-        method: "POST",
+      fetch(`${process.env.REACT_APP_API_URL2}/api/order/update_note`, {
+        method: 'POST',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow',
         body: JSON.stringify({
           order_id: data.data.order_id,
-          order_note: "Хүргэсэн",
-        }),
-      })
-        .then((r) => r.text())
-        .then((res) => {
-          console.log("noteRes", res);
+          order_note: 'Хүргэсэн'
         })
-        .catch((err) => console.log("NOTE ERR: ", err));
+      })
+        .then(r => r.text())
+        .then(res => {
+          console.log('noteRes', res);
+        })
+        .catch(err => console.log('NOTE ERR: ', err));
     }
 
     if (data.data.status === 2) {
       fetch(
-        `https://api2.ebazaar.mn/api/notification/get?userId=${data.data.user_id}&body=${data.data.order_id}`,
+        `${process.env.REACT_APP_API_URL2}/api/notification/get?userId=${data.data.user_id}&body=${data.data.order_id}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         }
       )
-        .then((r) => r.json())
-        .then((res) => {
+        .then(r => r.json())
+        .then(res => {
           if (res.data.length > 0) {
             setHasNotif(true);
           } else {
             setHasNotif(false);
           }
         })
-        .catch((err) => console.log("ERROR: ", err));
+        .catch(err => console.log('ERROR: ', err));
     }
   }, []);
 
@@ -140,19 +141,19 @@ const Order = (data) => {
   // console.log("XTcompany++++++++++++++++", data);
 
   const StatusDataHI = [
-    { id: 1, backgroundColor: "#eceff1" },
-    { id: 2, backgroundColor: "#00add0" },
-    { id: 3, backgroundColor: "#58dd42" },
-    { id: 4, backgroundColor: "#EB5E43" },
-    { id: 5, backgroundColor: "red" },
-    { id: 6, backgroundColor: "green" },
-    { id: 7, backgroundColor: "#D6DF2A" },
-    { id: 8, backgroundColor: "#D6DF2A" },
-    { id: 9, backgroundColor: "#D6DF2A" },
-    { id: 10, backgroundColor: "#D6DF2A" },
-    { id: 11, backgroundColor: "#D6DF2A" },
-    { id: 12, backgroundColor: "#D6DF2A" },
-    { id: 13, backgroundColor: "#D6DF2A" },
+    { id: 1, backgroundColor: '#eceff1' },
+    { id: 2, backgroundColor: '#00add0' },
+    { id: 3, backgroundColor: '#58dd42' },
+    { id: 4, backgroundColor: '#EB5E43' },
+    { id: 5, backgroundColor: 'red' },
+    { id: 6, backgroundColor: 'green' },
+    { id: 7, backgroundColor: '#D6DF2A' },
+    { id: 8, backgroundColor: '#D6DF2A' },
+    { id: 9, backgroundColor: '#D6DF2A' },
+    { id: 10, backgroundColor: '#D6DF2A' },
+    { id: 11, backgroundColor: '#D6DF2A' },
+    { id: 12, backgroundColor: '#D6DF2A' },
+    { id: 13, backgroundColor: '#D6DF2A' }
   ];
 
   useEffect(() => {
@@ -177,12 +178,12 @@ const Order = (data) => {
     }
     // console.log("Data", data);
     let supID =
-      data.userData.company_id.replaceAll("|", "") == 1
+      data.userData.company_id.replaceAll('|', '') == 1
         ? 13884
-        : data.userData.company_id.replaceAll("|", "");
+        : data.userData.company_id.replaceAll('|', '');
 
-    data.tradeShopList.map((x) => {
-      x[Number(supID)]?.tradeshops.map((t) => {
+    data.tradeShopList.map(x => {
+      x[Number(supID)]?.tradeshops.map(t => {
         if (Number(t.tradeshop_id) === Number(data.data.tradeshop_id)) {
           let lat1 = data.data.latitude;
           let lon1 = data.data.longitude;
@@ -211,23 +212,23 @@ const Order = (data) => {
     let aa = JSON.parse(JSON.stringify(data.data));
     // console.log("DATA2", data.data);
 
-    aa.line.map((l) => {
+    aa.line.map(l => {
       totalaa += Number(l.quantity) * parseFloat(l.price.toFixed(2));
     });
     setOrder(aa);
     // console.log("asd", aa);
-    if (aa.order_data !== null || aa.order_data !== "") {
+    if (aa.order_data !== null || aa.order_data !== '') {
       try {
         setOrderdata(JSON.parse(aa.order_data));
         // console.log("TFAA", aa);
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
     }
 
     if (aa.raw_order) {
       let rawdata = JSON.parse(aa.raw_order.toLowerCase());
-      rawdata.map((item) => {
+      rawdata.map(item => {
         rawtotal += Number(item.quantity) * Number(item.price);
       });
     }
@@ -259,7 +260,7 @@ const Order = (data) => {
     //   data.userData.company_id === "|1|"
     // ) {
     //   fetch(
-    //     `https://api2.ebazaar.mn/api/get/backofficelog?entry_id=${Number(
+    //     `${process.env.REACT_APP_API_URL2}/api/get/backofficelog?entry_id=${Number(
     //       data?.data?.order_id
     //     )}`,
     //     {
@@ -282,26 +283,26 @@ const Order = (data) => {
   const confirmOrder = ({ orderId, status }) => {
     if (status !== 2) {
       let requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow',
         body: JSON.stringify({
           order_id: orderId,
-          order_status: 2,
-        }),
+          order_status: 2
+        })
       };
 
-      let url = `https://api2.ebazaar.mn/api/order/status`;
+      let url = `${process.env.REACT_APP_API_URL2}/api/order/status`;
       fetch(url, requestOptions)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log("====================", res);
+        .then(res => res.json())
+        .then(res => {
+          console.log('====================', res);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     } else {
-      alert("Баталгаажсан захиалга байна");
+      alert('Баталгаажсан захиалга байна');
     }
   };
 
@@ -319,8 +320,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.pending}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -330,8 +331,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.confirmed}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -341,8 +342,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.shipped}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -353,8 +354,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.paid}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -364,8 +365,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.cancelled}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -375,8 +376,8 @@ const Order = (data) => {
         <span
           className={`${css.statusorder} ${css.edited}`}
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         ></span>
       );
@@ -391,17 +392,17 @@ const Order = (data) => {
   let khoroo = order.tradeshop_horoo;
 
   if (locations) {
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(district, 10)) {
         district = location.location_name;
       }
     });
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(khoroo, 10)) {
         khoroo = location.location_name;
       }
     });
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(city, 10)) {
         city = location.location_name;
       }
@@ -410,7 +411,7 @@ const Order = (data) => {
 
   useEffect(() => {
     if (data.businessType) {
-      data.businessType.map((type) => {
+      data.businessType.map(type => {
         if (type.business_type_id === parseInt(data.data.business_type_id)) {
           setChannel(type.business_type_name);
         }
@@ -441,48 +442,48 @@ const Order = (data) => {
   useEffect(() => {
     if (order.upoint_bonus_amount && order.upoint_consume_amount) {
       let upointInfo = (
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <span
             style={{
-              background: "#CFD8DC",
-              color: "#F6F7F8",
-              fontSize: "12px",
+              background: '#CFD8DC',
+              color: '#F6F7F8',
+              fontSize: '12px',
               fontWeight: 700,
-              paddingTop: "3px",
-              paddingBottom: "3px",
-              paddingRight: "6px",
-              paddingLeft: "6px",
-              width: "51px",
-              height: "22px",
-              borderTopLeftRadius: "6px",
-              borderBottomLeftRadius: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-              marginRight: "1px",
+              paddingTop: '3px',
+              paddingBottom: '3px',
+              paddingRight: '6px',
+              paddingLeft: '6px',
+              width: '51px',
+              height: '22px',
+              borderTopLeftRadius: '6px',
+              borderBottomLeftRadius: '6px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+              marginRight: '1px'
             }}
           >
             +{order.upoint_bonus_amount}
           </span>
           <span
             style={{
-              background: "#F4F3FB",
-              color: "#3F60AA",
-              fontSize: "12px",
+              background: '#F4F3FB',
+              color: '#3F60AA',
+              fontSize: '12px',
               fontWeight: 700,
-              paddingTop: "3px",
-              paddingBottom: "3px",
-              paddingRight: "6px",
-              paddingLeft: "6px",
-              width: "51px",
-              height: "22px",
-              borderTopRightRadius: "6px",
-              borderBottomRightRadius: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
+              paddingTop: '3px',
+              paddingBottom: '3px',
+              paddingRight: '6px',
+              paddingLeft: '6px',
+              width: '51px',
+              height: '22px',
+              borderTopRightRadius: '6px',
+              borderBottomRightRadius: '6px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer'
             }}
           >
             +{order.upoint_consume_amount}
@@ -493,48 +494,48 @@ const Order = (data) => {
       // return;
     } else if (order.upoint_added_bonus_amount && order.upoint_consume_amount) {
       let upointInfo = (
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <span
             style={{
-              background: "#FBDC42",
-              color: "#3F60AA",
-              fontSize: "12px",
+              background: '#FBDC42',
+              color: '#3F60AA',
+              fontSize: '12px',
               fontWeight: 700,
-              paddingTop: "3px",
-              paddingBottom: "3px",
-              paddingRight: "6px",
-              paddingLeft: "6px",
-              width: "51px",
-              height: "22px",
-              borderTopLeftRadius: "6px",
-              borderBottomLeftRadius: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-              marginRight: "1px",
+              paddingTop: '3px',
+              paddingBottom: '3px',
+              paddingRight: '6px',
+              paddingLeft: '6px',
+              width: '51px',
+              height: '22px',
+              borderTopLeftRadius: '6px',
+              borderBottomLeftRadius: '6px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+              marginRight: '1px'
             }}
           >
             +{order.upoint_added_bonus_amount}
           </span>
           <span
             style={{
-              background: "#F4F3FB",
-              color: "#3F60AA",
-              fontSize: "12px",
+              background: '#F4F3FB',
+              color: '#3F60AA',
+              fontSize: '12px',
               fontWeight: 700,
-              paddingTop: "3px",
-              paddingBottom: "3px",
-              paddingRight: "6px",
-              paddingLeft: "6px",
-              width: "51px",
-              height: "22px",
-              borderTopRightRadius: "6px",
-              borderBottomRightRadius: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
+              paddingTop: '3px',
+              paddingBottom: '3px',
+              paddingRight: '6px',
+              paddingLeft: '6px',
+              width: '51px',
+              height: '22px',
+              borderTopRightRadius: '6px',
+              borderBottomRightRadius: '6px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer'
             }}
           >
             +{order.upoint_consume_amount}
@@ -547,21 +548,21 @@ const Order = (data) => {
       let upointInfo = (
         <span
           style={{
-            background: "#CFD8DC",
-            color: "#F6F7F8",
-            fontSize: "12px",
+            background: '#CFD8DC',
+            color: '#F6F7F8',
+            fontSize: '12px',
             fontWeight: 700,
-            paddingTop: "3px",
-            paddingBottom: "3px",
-            paddingRight: "6px",
-            paddingLeft: "6px",
-            width: "51px",
-            height: "22px",
-            borderRadius: "6px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
+            paddingTop: '3px',
+            paddingBottom: '3px',
+            paddingRight: '6px',
+            paddingLeft: '6px',
+            width: '51px',
+            height: '22px',
+            borderRadius: '6px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer'
           }}
         >
           +{order.upoint_bonus_amount}
@@ -573,21 +574,21 @@ const Order = (data) => {
       let upointInfo = (
         <span
           style={{
-            background: "#F4F3FB",
-            color: "#3F60AA",
-            fontSize: "12px",
+            background: '#F4F3FB',
+            color: '#3F60AA',
+            fontSize: '12px',
             fontWeight: 700,
-            paddingTop: "3px",
-            paddingBottom: "3px",
-            paddingRight: "6px",
-            paddingLeft: "6px",
-            width: "51px",
-            height: "22px",
-            borderRadius: "6px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
+            paddingTop: '3px',
+            paddingBottom: '3px',
+            paddingRight: '6px',
+            paddingLeft: '6px',
+            width: '51px',
+            height: '22px',
+            borderRadius: '6px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer'
           }}
         >
           +{order.upoint_consume_amount}
@@ -599,22 +600,22 @@ const Order = (data) => {
       let upointInfo = (
         <span
           style={{
-            background: "#FBDC42",
-            color: "#3F60AA",
-            fontSize: "12px",
+            background: '#FBDC42',
+            color: '#3F60AA',
+            fontSize: '12px',
             fontWeight: 700,
-            paddingTop: "3px",
-            paddingBottom: "3px",
-            paddingRight: "6px",
-            paddingLeft: "6px",
-            width: "51px",
-            height: "22px",
-            borderRadius: "6px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            cursor: "pointer",
-            marginRight: "1px",
+            paddingTop: '3px',
+            paddingBottom: '3px',
+            paddingRight: '6px',
+            paddingLeft: '6px',
+            width: '51px',
+            height: '22px',
+            borderRadius: '6px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            marginRight: '1px'
           }}
         >
           +{order.upoint_added_bonus_amount}
@@ -629,16 +630,16 @@ const Order = (data) => {
     order.upoint_bonus_amount,
     order.upoint_consume_amount,
     order.upoint_added_bonus_amount,
-    order,
+    order
   ]);
   // console.log("order", order);
   // console.log("tugeegchperson", tugeegchperson);
 
   let phoneOne;
   let phoneTwo;
-  if (order?.phone?.includes(",")) {
-    phoneOne = order.phone.split(",")[0];
-    phoneTwo = order.phone.split(",")[1];
+  if (order?.phone?.includes(',')) {
+    phoneOne = order.phone.split(',')[0];
+    phoneTwo = order.phone.split(',')[1];
   } else {
     phoneOne = order.phone;
   }
@@ -653,110 +654,119 @@ const Order = (data) => {
     aa.pickpack = '{"PPOrderID": "D65419214172","PPOrderStatus": "created"}';
     setOrder(aa);
     var raw = JSON.stringify({
-      order_id: order.order_id,
+      order_id: order.order_id
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch(`https://api2.ebazaar.mn/api/pickpack/ordercreate`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("res", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/pickpack/ordercreate`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('res', res);
         if (res.code === 200) {
           let aa = order;
-          aa.pickpack = "Захиалга үүссэн";
+          aa.pickpack = 'Захиалга үүссэн';
           setOrder(aa);
-          alert("Амжилттай илгээлээ");
+          alert('Амжилттай илгээлээ');
         } else {
           alert(`Алдаа гарлаа. ${res.message}`);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
-  const editPickPack = (order) => {
+  const editPickPack = order => {
     let raw = JSON.stringify({
-      orderId: parseInt(order.order_id),
+      orderId: parseInt(order.order_id)
     });
     var requestOptions = {
-      method: "PUT",
+      method: 'PUT',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log("edit pick pack :", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/order/recreate`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("res pickpack", res);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/order/recreate`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('res pickpack', res);
         if (res.code === 200) {
           if (order.supplier_id === 13884) {
             ppsent();
           }
 
-          message.success("Амжилттай дахин илгээлээ.");
+          message.success('Амжилттай дахин илгээлээ.');
           setDisplayDelete(true);
         } else {
-          message.success("Алдаа гарлаа.");
+          message.success('Алдаа гарлаа.');
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
-  const testDeleteHandler = (order) => {
+  const testDeleteHandler = order => {
     if (!permission.order.delete) {
-      alert("Таньд захиалга устгах эрх байхгүй байна");
+      alert('Таньд захиалга устгах эрх байхгүй байна');
       // return;
     }
     let raw = JSON.stringify({
-      order_id: parseInt(order.order_id),
+      order_id: parseInt(order.order_id)
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("test delete", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/order/datechange`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("res test delete", res);
+    console.log('test delete', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/order/datechange`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('res test delete', res);
         if (res.code === 200) {
-          message.success("Амжилттай устгалаа.");
+          message.success('Амжилттай устгалаа.');
           ///// Eniig refresh hiihguigeer shiideh bolomj
           // data.appctx.setPage(["orders"]);
           setDisplayDelete(true);
           // setOrder({});
         } else {
-          message.success("Алдаа гарлаа.");
+          message.success('Алдаа гарлаа.');
         }
       })
-      .catch((error) => {
-        console.log("Test order delete error", error);
+      .catch(error => {
+        console.log('Test order delete error', error);
       });
   };
 
   const ppstatus = order.pickpack && JSON.parse(order.pickpack)?.PPOrderStatus;
   const detail = {
-    created: "Захиалга үүссэн",
+    created: 'Захиалга үүссэн',
     // approved: "Захиалга баталгаажсан",
     // rejected: "Захиалгыг татгалзсан",
     // picked: "Захиалгыг ажилтан авсан",
     // received: "Агуулахын ажилтан авсан",
     // partialcomplete: "Захиалга бүрдэж байна",
-    completed: "Захиалга бэлтгэгдсэн",
+    completed: 'Захиалга бэлтгэгдсэн',
     // partialDelivery: "Хэсэгчлэн хүргэлтэд гарсан",
     // partialDelivered: "Хэсэгчлэн хүргэгдсэн",
-    delivered: "Бараа хүргэгдсэн",
-    delivery: "Хүргэлтэд гарсан",
+    delivered: 'Бараа хүргэгдсэн',
+    delivery: 'Хүргэлтэд гарсан',
     // driverAssigned: "Хүргэлтийн жолоочид хуваарилсан",
     // deleted: "Устгагдсан",
     // hvdriver: "Татан авалт хийгдсэн",
@@ -769,14 +779,14 @@ const Order = (data) => {
     // pdriver: "Хүргэлтэд гарсан",
     // picker: "Хүргэлтэд гарсан",
     // invcontrol: "Тооллого хийгдэж байна",
-    canceled: "Цуцлагдсан",
+    canceled: 'Цуцлагдсан'
   };
   // console.log("permission?.order", permission?.order);
 
   useEffect(() => {
-    StatusDataHI.map((x) => {
+    StatusDataHI.map(x => {
       if (Number(x.id) === Number(order.status)) {
-        console.log("order status background change", x);
+        // console.log("order status background", x);
         setStatusColor(x.backgroundColor);
       }
     });
@@ -794,22 +804,22 @@ const Order = (data) => {
   // };
 
   const LogHandler = (e, order) => {
-    console.log("e", e);
-    console.log("e", order);
+    console.log('e', e);
+    console.log('e', order);
     setLogtrue(true);
     setOnelog(order);
   };
 
   let zeel = [
-    { Id: 0, Name: "Дансаар" },
-    { Id: 1, Name: "Бэлнээр" },
-    { Id: 2, Name: "Зээлээр" },
-    { Id: 3, Name: "Бэлэн+Данс" },
-    { Id: 4, Name: "Бэлэн+Зээл" },
-    { Id: 5, Name: "Данс+Зээл" },
+    { Id: 0, Name: 'Дансаар' },
+    { Id: 1, Name: 'Бэлнээр' },
+    { Id: 2, Name: 'Зээлээр' },
+    { Id: 3, Name: 'Бэлэн+Данс' },
+    { Id: 4, Name: 'Бэлэн+Зээл' },
+    { Id: 5, Name: 'Данс+Зээл' }
   ];
 
-  let zeelOne = zeel.map((item) => {
+  let zeelOne = zeel.map(item => {
     if (
       orderdata &&
       orderdata[`payment`] &&
@@ -822,7 +832,7 @@ const Order = (data) => {
   // Getting XT and Tugeegch from Order
   useEffect(() => {
     const backUserIds = myOrder.back_office_user
-      ? myOrder.back_office_user?.split(",").map((id) => Number(id))
+      ? myOrder.back_office_user?.split(',').map(id => Number(id))
       : [];
 
     if (
@@ -849,8 +859,8 @@ const Order = (data) => {
         }
       }
     }
-    console.log("accounts", accounts);
-    console.log("myOrder", myOrder);
+    console.log('accounts', accounts);
+    console.log('myOrder', myOrder);
     for (const user of accounts) {
       if (myOrder?.deliver_man === user.user_id) {
         tugeegch = { ...user };
@@ -870,7 +880,7 @@ const Order = (data) => {
         (a, b) => new Date(b.createDate) - new Date(a.createDate)
       )) {
         const orderIds = shipment.orders
-          ? shipment.orders.split(",").map((id) => Number(id))
+          ? shipment.orders.split(',').map(id => Number(id))
           : [];
         if (orderIds.includes(myOrder.order_id)) {
           myShipment = { ...shipment };
@@ -882,7 +892,7 @@ const Order = (data) => {
     setOrderShipment(myShipment);
   }, [myOrder, shipments]);
 
-  const assignXTHandler = async (value) => {
+  const assignXTHandler = async value => {
     try {
       const backUserIds = [value];
 
@@ -890,23 +900,23 @@ const Order = (data) => {
         backUserIds.push(orderTugeegch.user_id);
       }
 
-      const url = `https://api2.ebazaar.mn/api/order/update/`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/order/update/`;
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: JSON.stringify({
           order_id: myOrder.order_id,
-          backOfficeUser: backUserIds.join(","),
+          backOfficeUser: backUserIds.join(',')
         }),
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
       const resData = await res.json();
 
       if (resData.code === 200) {
-        setOrderXT(accounts.find((acc) => acc.user_id === Number(value)));
-        alert("ХТ амжилттай хувиарлагдлаа");
+        setOrderXT(accounts.find(acc => acc.user_id === Number(value)));
+        alert('ХТ амжилттай хувиарлагдлаа');
         // setOrder((prev) => ({
         //   ...prev,
         //   back_office_user: backUserIds.join(","),
@@ -915,7 +925,7 @@ const Order = (data) => {
         alert(resData.message);
       }
     } catch (error) {
-      alert("ХТ Хувиарлахад алдаа гарлаа");
+      alert('ХТ Хувиарлахад алдаа гарлаа');
     }
   };
   const rowDataCopy = [
@@ -929,11 +939,11 @@ const Order = (data) => {
           // onClick={upointHistoryHandler}
         >
           <input
-            type="checkbox"
+            type='checkbox'
             // id={order.order_id}
-            id="order_ids"
+            id='order_ids'
             checked={checked}
-            onChange={(e) =>
+            onChange={e =>
               checkHandler(data.index, e.target.checked, order.order_id)
             }
           />
@@ -941,15 +951,15 @@ const Order = (data) => {
           <span
             style={{
               background: statusColor,
-              padding: "2px 6px",
-              borderRadius: "4px",
-              color: `${statusColor === "#eceff1" ? "#37474F" : "#fff"}`,
+              padding: '2px 6px',
+              borderRadius: '4px',
+              color: `${statusColor === '#eceff1' ? '#37474F' : '#fff'}`
             }}
           >
             {order.order_id}
           </span>
         </div>
-      ),
+      )
     },
     {
       id: 2,
@@ -959,31 +969,31 @@ const Order = (data) => {
           className={css.checkcontainer}
           style={{
             display:
-              data.userData.company_id === "|1|" ||
-              data.userData.company_id === "|13954|" ||
+              data.userData.company_id === '|1|' ||
+              data.userData.company_id === '|13954|' ||
               permission.order.read
-                ? window.location.pathname === "/return"
-                  ? "none"
-                  : "block"
-                : "none",
-            ...styles.logoContainer,
+                ? window.location.pathname === '/return'
+                  ? 'none'
+                  : 'block'
+                : 'none',
+            ...styles.logoContainer
           }}
           // onClick={upointHistoryHandler}
         >
           <img
             src={
               order?.supplier_logo
-                ? order?.supplier_logo.replace("product", "small")
-                : "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+                ? replaceImageUrl(order?.supplier_logo.replace('product', 'small'))
+                : `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
             }
             style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%'
             }}
           />
         </div>
-      ),
+      )
     },
     {
       id: 3,
@@ -999,21 +1009,21 @@ const Order = (data) => {
           }
           style={{
             display:
-              data.userData.company_id === "|1|" ||
-              data.userData.company_id === "|13954|" ||
-              data.userData.company_id === "|14045|" ||
+              data.userData.company_id === '|1|' ||
+              data.userData.company_id === '|13954|' ||
+              data.userData.company_id === '|14045|' ||
               permission.order.read
-                ? window.location.pathname === "/return"
-                  ? "none"
-                  : "block"
-                : "none",
-            ...styles.supplierContainer,
+                ? window.location.pathname === '/return'
+                  ? 'none'
+                  : 'block'
+                : 'none',
+            ...styles.supplierContainer
           }}
           className={css.suppliername}
         >
           {order.supplier_name}
         </div>
-      ),
+      )
     },
     {
       id: 4,
@@ -1022,7 +1032,7 @@ const Order = (data) => {
           key={4}
           onClick={() => {
             if (permission?.order?.update) {
-              if (data.userData.company_id !== "|13954|") {
+              if (data.userData.company_id !== '|13954|') {
                 setPush(true);
               }
             }
@@ -1032,14 +1042,14 @@ const Order = (data) => {
         >
           {hasNotif ? (
             <img
-              src="https://ebazaar.mn/media/original/2479582547472339055940821288202310030158127753780103531630710938141724.png"
-              alt="noti"
+              src={`${process.env.REACT_APP_MEDIA_URL}/original/2479582547472339055940821288202310030158127753780103531630710938141724.png`}
+              alt='noti'
             />
           ) : (
-            <img src="http://ebazaar.mn/icon/noti.svg" alt="noti" />
+            <img src='http://ebazaar.mn/icon/noti.svg' alt='noti' />
           )}
         </div>
-      ),
+      )
     },
     {
       id: 5,
@@ -1048,9 +1058,9 @@ const Order = (data) => {
           key={5}
           style={{
             ...styles.orderImageContainer,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
 
             // marginLeft: data.userData.company_id === "|13954|" ? "20px" : "0px",
           }}
@@ -1063,10 +1073,10 @@ const Order = (data) => {
           >
             {/* {statusCircle} */}
             {statusCircle === 2 ? (
-              <img src={car_delivery_waiting} alt="delivery waiting" />
+              <img src={car_delivery_waiting} alt='delivery waiting' />
             ) : null}
             {statusCircle === 1 ? (
-              <img src={car_delivery_waiting} alt="delivery waiting" />
+              <img src={car_delivery_waiting} alt='delivery waiting' />
             ) : null}
             {showStatus && data.index ? <StatusChange /> : null}
           </div>
@@ -1074,7 +1084,7 @@ const Order = (data) => {
             <ProductAvatar data={order} />
           </div>
         </div>
-      ),
+      )
     },
     {
       id: 6,
@@ -1082,15 +1092,15 @@ const Order = (data) => {
         <div
           key={6}
           style={{
-            display: "flex",
-            width: "200px",
-            marginRight: "10px",
+            display: 'flex',
+            width: '200px',
+            marginRight: '10px'
           }}
         >
           <div className={css.selecterwrapper}>
             <select
               value={chosedTugeegch}
-              onChange={(e) => {
+              onChange={e => {
                 setChosedTugeegch(e.target.value);
               }}
             >
@@ -1104,7 +1114,7 @@ const Order = (data) => {
             </select>
           </div>
         </div>
-      ),
+      )
     },
     {
       id: 7,
@@ -1115,18 +1125,18 @@ const Order = (data) => {
             setLines(true);
           }}
           style={{
-            ...styles.orderDateContainer,
+            ...styles.orderDateContainer
             // marginLeft: data.userData.company_id === "|13954|" ? "20px" : "0px",
           }}
           className={`${css.textcontainer} ${css.datecontainer}`}
         >
           {order.order_date
             ? order.order_date.substr(5, 5) +
-              " " +
+              ' ' +
               order.order_date.substr(11, 5)
-            : ""}
+            : ''}
         </div>
-      ),
+      )
     },
     {
       id: 8,
@@ -1139,13 +1149,13 @@ const Order = (data) => {
             }
           }}
           style={{
-            ...styles.deliverDateContainer,
+            ...styles.deliverDateContainer
           }}
           className={`${css.textcontainer} ${css.deliverydatecontainer}`}
         >
-          {order.delivery_date ? order.delivery_date.substr(5, 5) : ""}
+          {order.delivery_date ? order.delivery_date.substr(5, 5) : ''}
         </div>
-      ),
+      )
     },
     {
       id: 9,
@@ -1157,64 +1167,64 @@ const Order = (data) => {
           }}
           style={{
             ...styles.totalPriceContainer,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center'
           }}
         >
           <p
             style={{
-              marginBottom: "0px",
+              marginBottom: '0px'
             }}
           >
-            {" "}
+            {' '}
             <p
               className={`${css.textcontainer} ${css.pricewrapper}`}
               style={{
-                marginBottom: "0px",
+                marginBottom: '0px'
               }}
             >
-              {total && total?.toLocaleString()}₮{" "}
+              {total && total?.toLocaleString()}₮{' '}
             </p>
-            {data.userData.company_id === "|13987|" ||
-            data.userData.company_id === "|14006|" ||
-            data.userData.company_id === "|13992|" ||
-            data.userData.company_id === "|13991|" ||
-            data.userData.company_id === "|13994|" ||
-            data.userData.company_id === "|13965|" ||
-            data.userData.company_id === "|13995|" ||
-            data.userData.company_id === "|4805|" ||
-            data.userData.company_id === "|10683|" ||
-            data.userData.company_id === "|1232|" ||
-            data.userData.company_id === "|13990|" ||
-            data.userData.company_id === "|13996|" ||
-            data.userData.company_id === "|13993|" ||
-            data.userData.company_id === "|13997|" ||
-            data.userData.company_id === "|13998|" ||
-            data.userData.company_id === "|14000|" ||
-            data.userData.company_id === "|13999|" ? null : (
+            {data.userData.company_id === '|13987|' ||
+            data.userData.company_id === '|14006|' ||
+            data.userData.company_id === '|13992|' ||
+            data.userData.company_id === '|13991|' ||
+            data.userData.company_id === '|13994|' ||
+            data.userData.company_id === '|13965|' ||
+            data.userData.company_id === '|13995|' ||
+            data.userData.company_id === '|4805|' ||
+            data.userData.company_id === '|10683|' ||
+            data.userData.company_id === '|1232|' ||
+            data.userData.company_id === '|13990|' ||
+            data.userData.company_id === '|13996|' ||
+            data.userData.company_id === '|13993|' ||
+            data.userData.company_id === '|13997|' ||
+            data.userData.company_id === '|13998|' ||
+            data.userData.company_id === '|14000|' ||
+            data.userData.company_id === '|13999|' ? null : (
               <p
                 className={`${css.textcontainer} ${css.pricewrapper}`}
                 style={{
-                  color: "#60A744",
-                  marginBottom: "0px",
-                  fontWeight: "700",
+                  color: '#60A744',
+                  marginBottom: '0px',
+                  fontWeight: '700'
                 }}
               >
                 {order.payment_amount
-                  ? order.payment_amount.toLocaleString() + "₮"
+                  ? order.payment_amount.toLocaleString() + '₮'
                   : null}
               </p>
             )}
           </p>
           {pricedown == 0 && <div></div>}
           {pricedown == 1 && (
-            <img src={upgreen} alt="down icon" className={css.container} />
+            <img src={upgreen} alt='down icon' className={css.container} />
           )}
           {pricedown == 2 && (
-            <img src={downred} alt="down icon" className={css.container} />
+            <img src={downred} alt='down icon' className={css.container} />
           )}
         </div>
-      ),
+      )
     },
     {
       id: 10,
@@ -1223,8 +1233,8 @@ const Order = (data) => {
           key={10}
           style={{
             ...styles.counponContainer,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center'
           }}
           onClick={() => {
             setLines(true);
@@ -1232,15 +1242,15 @@ const Order = (data) => {
         >
           <p
             style={{
-              fontSize: "12px",
-              fontWeight: "400",
-              marginBottom: "0",
+              fontSize: '12px',
+              fontWeight: '400',
+              marginBottom: '0'
             }}
           >
-            {rawTotal && rawTotal.toLocaleString() + "₮"}
+            {rawTotal && rawTotal.toLocaleString() + '₮'}
           </p>
         </div>
-      ),
+      )
     },
     {
       id: 11,
@@ -1251,15 +1261,15 @@ const Order = (data) => {
             // setLines(true);
           }}
           style={{
-            ...styles.counponContainer,
+            ...styles.counponContainer
           }}
           className={`${css.textcontainer} ${css.couponwrapper}`}
         >
           {order.coupon_amount
-            ? order.coupon_amount.toLocaleString() + "₮"
+            ? order.coupon_amount.toLocaleString() + '₮'
             : null}
         </div>
-      ),
+      )
     },
     {
       id: 12,
@@ -1268,26 +1278,26 @@ const Order = (data) => {
           key={12}
           onClick={() => {
             if (permission?.order?.update) {
-              if (data.userData.company_id !== "|13954|") {
+              if (data.userData.company_id !== '|13954|') {
                 setNotes(true);
               }
             }
           }}
           style={{
-            ...styles.noteContainer,
+            ...styles.noteContainer
           }}
           className={`${css.textcontainer} ${css.notewrapper}`}
         >
           {console.log(order)}
-          <span id={"note" + order.order_id} className={css.noted}>
-            {order.description !== null && order.description !== "" ? (
+          <span id={'note' + order.order_id} className={css.noted}>
+            {order.description !== null && order.description !== '' ? (
               <Note note={foo} setFoo={setFoo} />
             ) : (
-              <div style={{ width: "100%", color: "#fff" }}>.</div>
+              <div style={{ width: '100%', color: '#fff' }}>.</div>
             )}
           </span>
         </div>
-      ),
+      )
     },
     {
       id: 13,
@@ -1295,7 +1305,7 @@ const Order = (data) => {
         <div
           key={13}
           style={{
-            ...styles.phoneContainer,
+            ...styles.phoneContainer
           }}
           onClick={() => {
             setLines(true);
@@ -1305,7 +1315,7 @@ const Order = (data) => {
           {phoneOne} <br />
           {phoneTwo}
         </div>
-      ),
+      )
     },
     {
       id: 14,
@@ -1316,13 +1326,13 @@ const Order = (data) => {
             setLines(true);
           }}
           style={{
-            ...styles.channelNameContainer,
+            ...styles.channelNameContainer
           }}
           className={`${css.textcontainer} ${css.shoppingwrapper}`}
         >
           {order.tradeshop_name}
         </div>
-      ),
+      )
     },
     {
       id: 15,
@@ -1330,16 +1340,16 @@ const Order = (data) => {
         <div
           key={15}
           style={{
-            ...styles.channelContainer,
+            ...styles.channelContainer
           }}
           onClick={() => {
             setLines(true);
           }}
           className={`${css.textcontainer} ${css.channelwrapper}`}
         >
-          {channel ? channel : ""}
+          {channel ? channel : ''}
         </div>
-      ),
+      )
     },
     {
       id: 16,
@@ -1354,7 +1364,7 @@ const Order = (data) => {
         >
           {city}
         </div>
-      ),
+      )
     },
     {
       id: 17,
@@ -1369,7 +1379,7 @@ const Order = (data) => {
         >
           {district}
         </div>
-      ),
+      )
     },
     {
       id: 18,
@@ -1377,7 +1387,7 @@ const Order = (data) => {
         <div
           key={18}
           style={{
-            ...styles.khorooContainer,
+            ...styles.khorooContainer
           }}
           onClick={() => {
             setLines(true);
@@ -1386,7 +1396,7 @@ const Order = (data) => {
         >
           {khoroo}
         </div>
-      ),
+      )
     },
     {
       id: 19,
@@ -1394,9 +1404,9 @@ const Order = (data) => {
         <div
           key={19}
           style={{
-            color: "#37474f",
+            color: '#37474f',
             // lineHeight: "0.96",
-            ...styles.khorooContainer,
+            ...styles.khorooContainer
           }}
           onClick={() => {
             setLines(true);
@@ -1405,13 +1415,13 @@ const Order = (data) => {
           title={order.address}
         >
           {(order.status === 1 || order.status === 5) &&
-          data.userData.company_id !== "|1|"
-            ? data.userData.company_id === "|13901|"
+          data.userData.company_id !== '|1|'
+            ? data.userData.company_id === '|13901|'
               ? order.address
-              : "******** ******** ********"
+              : '******** ******** ********'
             : order.address}
         </div>
-      ),
+      )
     },
     {
       id: 20,
@@ -1419,28 +1429,28 @@ const Order = (data) => {
         <div
           key={20}
           style={{
-            color: "#37474f",
-            paddingLeft: "10px",
-            display: window.location.pathname === "/return" ? "none" : "flex",
-            alignItems: "center",
+            color: '#37474f',
+            paddingLeft: '10px',
+            display: window.location.pathname === '/return' ? 'none' : 'flex',
+            alignItems: 'center',
 
-            ...styles.lendWrapper,
+            ...styles.lendWrapper
           }}
           className={`${css.textcontainer} ${css.lendwrapper}`}
         >
           <span
             style={{
-              width: "80px",
-              fontSize: "12px",
-              fontWeight: "400",
-              color: "#37474F",
+              width: '80px',
+              fontSize: '12px',
+              fontWeight: '400',
+              color: '#37474F'
             }}
           >
-            {" "}
-            {zeelOne ? zeelOne : ""}
+            {' '}
+            {zeelOne ? zeelOne : ''}
           </span>
         </div>
-      ),
+      )
     },
     {
       id: 21,
@@ -1448,9 +1458,9 @@ const Order = (data) => {
         <div
           key={21}
           style={{
-            display: data.userData.company_id === "|1|" ? "flex" : "none",
+            display: data.userData.company_id === '|1|' ? 'flex' : 'none',
 
-            ...styles.pickpackContainer,
+            ...styles.pickpackContainer
           }}
           className={css.btncontainer}
         >
@@ -1463,31 +1473,31 @@ const Order = (data) => {
               Илгээх
             </button>
           ) : (
-            <div style={{ fontSize: "12px", marginLeft: "20px" }}>
+            <div style={{ fontSize: '12px', marginLeft: '20px' }}>
               {detail[ppstatus]}
             </div>
           )}
         </div>
-      ),
+      )
     },
     {
       id: 22,
-      rowContent: data.userData.company_id === "|1|" && (
+      rowContent: data.userData.company_id === '|1|' && (
         <div
           key={22}
           style={{
-            textAlign: "center",
-            width: 80,
+            textAlign: 'center',
+            width: 80
           }}
           className={`${css.textcontainer} ${css.khoroowrapper}`}
         >
-          {originData.map((origin) => {
+          {originData.map(origin => {
             if (origin.id === order.origin) {
               return origin.name;
             }
           })}
         </div>
-      ),
+      )
     },
     {
       id: 23,
@@ -1498,7 +1508,7 @@ const Order = (data) => {
             className={`${css.textcontainer} ${css.vatbtncontainer}`}
             style={{
               ...styles.vatContainer,
-              display: "flex",
+              display: 'flex'
             }}
           >
             <div className={css.btnvatcontainer}>
@@ -1508,7 +1518,7 @@ const Order = (data) => {
                 <button
                   className={css.btn}
                   style={{
-                    background: "#FFA600",
+                    background: '#FFA600'
                   }}
                   onClick={vatHandler}
                   disabled={order.vat !== null ? true : false}
@@ -1520,10 +1530,10 @@ const Order = (data) => {
                 <button
                   className={css.btn}
                   style={{
-                    background: "#7AC046",
-                    display: "flex",
-                    justifyContent: "center",
-                    fontSize: "10px",
+                    background: '#7AC046',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    fontSize: '10px'
                   }}
                   disabled={true}
                 >
@@ -1533,7 +1543,7 @@ const Order = (data) => {
             </div>
           </div>
         </>
-      ),
+      )
     },
     {
       id: 24,
@@ -1545,7 +1555,7 @@ const Order = (data) => {
         >
           {data.data.user_date}
         </div>
-      ),
+      )
     },
     {
       id: 25,
@@ -1553,7 +1563,7 @@ const Order = (data) => {
         <div
           key={25}
           className={`${css.textcontainer} ${css.provincewrapper}`}
-          style={{ width: 100, padding: "0 10px" }}
+          style={{ width: 100, padding: '0 10px' }}
         >
           {orderXT ? (
             <div className={`${css.tugeegchStatus} ${css.assigned}`}>
@@ -1565,7 +1575,7 @@ const Order = (data) => {
             </div>
           )}
         </div>
-      ),
+      )
     },
     {
       id: 26,
@@ -1575,30 +1585,30 @@ const Order = (data) => {
           className={`${css.textcontainer} ${css.xtwrapper}`}
           style={{
             width: 120,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column'
           }}
         >
           {orderXT ? (
             <>
               <span className={css.roleName}>
-                {orderXT.role === 1 && "Худалдааны төлөөлөгч"}
-                {orderXT.role === 4 && "Шууд борлуулагч"}
+                {orderXT.role === 1 && 'Худалдааны төлөөлөгч'}
+                {orderXT.role === 4 && 'Шууд борлуулагч'}
               </span>
               <span className={css.XTName}>{orderXT.first_name}</span>
             </>
           ) : (
             <select
               value={selectedXT}
-              onChange={(e) => assignXTHandler(e.target.value)}
-              style={{ width: "80%" }}
+              onChange={e => assignXTHandler(e.target.value)}
+              style={{ width: '80%' }}
             >
-              <option value={""}>Хариуцагч байхгүй</option>
+              <option value={''}>Хариуцагч байхгүй</option>
               {accounts
-                .filter((user) => user.role === 1)
-                .map((user) => {
+                .filter(user => user.role === 1)
+                .map(user => {
                   return (
                     <option value={user.user_id}>{user.first_name}</option>
                   );
@@ -1606,7 +1616,7 @@ const Order = (data) => {
             </select>
           )}
         </div>
-      ),
+      )
     },
     {
       id: 27,
@@ -1616,9 +1626,9 @@ const Order = (data) => {
           className={`${css.textcontainer} ${css.provincewrapper}`}
           style={{ width: 120 }}
         >
-          {orderXT ? orderXT.phone_number : ""}
+          {orderXT ? orderXT.phone_number : ''}
         </div>
-      ),
+      )
     },
     {
       id: 28,
@@ -1627,15 +1637,15 @@ const Order = (data) => {
           key={28}
           className={`${css.textcontainer} ${css.provincewrapper}`}
           style={{
-            padding: "0 10px",
+            padding: '0 10px',
             width: 120,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3
           }}
         >
-          {console.log("orderTugeegch", orderTugeegch)}
+          {console.log('orderTugeegch', orderTugeegch)}
           {orderTugeegch ? (
             <>
               <div className={`${css.tugeegchStatus} ${css.assigned}`}>
@@ -1651,7 +1661,7 @@ const Order = (data) => {
             </div>
           )}
         </div>
-      ),
+      )
     },
     {
       id: 29,
@@ -1660,12 +1670,12 @@ const Order = (data) => {
           key={29}
           className={`${css.textcontainer} ${css.provincewrapper}`}
           style={{
-            padding: "0 10px",
+            padding: '0 10px',
             width: 120,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3
           }}
         >
           <>
@@ -1684,7 +1694,7 @@ const Order = (data) => {
                     <span className={css.tugeegchName}>
                       {
                         inventories.find(
-                          (inven) => inven._id === orderShipment.to
+                          inven => inven._id === orderShipment.to
                         ).name
                       }
                     </span>
@@ -1703,7 +1713,7 @@ const Order = (data) => {
             )}
           </>
         </div>
-      ),
+      )
     },
     {
       id: 30,
@@ -1711,22 +1721,22 @@ const Order = (data) => {
         <div
           key={30}
           style={{
-            ...styles.vatContainer,
+            ...styles.vatContainer
           }}
           className={`${css.textcontainer} ${css.vatbtncontainer}`}
         >
           <div className={css.btnvatcontainer}>
             <Popconfirm
-              placement="left"
-              title="Та энэ захиалгыг устгахдаа итгэлтэй байна уу?"
+              placement='left'
+              title='Та энэ захиалгыг устгахдаа итгэлтэй байна уу?'
               onConfirm={() => testDeleteHandler(order)}
-              okText="Тийм"
-              cancelText="Үгүй"
+              okText='Тийм'
+              cancelText='Үгүй'
             >
               <button
                 className={css.btn}
                 style={{
-                  fontSize: data.userData.id === 378 && "10px",
+                  fontSize: data.userData.id === 378 && '10px'
                 }}
               >
                 Устгах
@@ -1734,7 +1744,7 @@ const Order = (data) => {
             </Popconfirm>
           </div>
         </div>
-      ),
+      )
     },
     {
       id: 31,
@@ -1743,21 +1753,21 @@ const Order = (data) => {
           key={31}
           style={{
             ...styles.vatContainer,
-            textAlign: "center",
+            textAlign: 'center'
           }}
           className={`${css.textcontainer} ${css.vatbtncontainer}`}
         >
           <button
             className={css.btn}
             style={{
-              fontSize: data.userData.id === 378 && "10px",
-              background: phoneOk ? "#ffa400" : "#2AB674",
+              fontSize: data.userData.id === 378 && '10px',
+              background: phoneOk ? '#ffa400' : '#2AB674'
             }}
           >
-            {phoneOk ? "Очиж" : "Утас"}
+            {phoneOk ? 'Очиж' : 'Утас'}
           </button>
         </div>
-      ),
+      )
     },
     {
       id: 32,
@@ -1766,8 +1776,8 @@ const Order = (data) => {
           key={-1}
           style={{
             ...styles.vatContainer,
-            textAlign: "center",
-            display: window.location.pathname === "/return" ? "block" : "none",
+            textAlign: 'center',
+            display: window.location.pathname === '/return' ? 'block' : 'none'
           }}
           className={`${css.textcontainer} ${css.vatbtncontainer}`}
         >
@@ -1777,25 +1787,25 @@ const Order = (data) => {
             }}
             className={css.confirmButton}
             // disabled={order.status === 2 && true}
-            style={order.status === 2 ? { backgroundColor: "#00add0" } : {}}
+            style={order.status === 2 ? { backgroundColor: '#00add0' } : {}}
           >
-            {order.status === 2 ? "Баталгаажсан" : "Баталгаажуулах"}
+            {order.status === 2 ? 'Баталгаажсан' : 'Баталгаажуулах'}
           </Button>
         </div>
-      ),
-    },
+      )
+    }
   ];
   const [rowData, setRowData] = useState(rowDataCopy);
   useEffect(() => {
     // Update positions in rowData based on matching fieldsData
-    const updatedData = rowDataCopy.map((row) => {
-      const matchingField = fieldsData.find((field) => field.id === row.id);
+    const updatedData = rowDataCopy.map(row => {
+      const matchingField = fieldsData.find(field => field.id === row.id);
       if (matchingField) {
         return {
           ...row,
           position: matchingField.position,
           permission: matchingField.permission,
-          show: matchingField.show,
+          show: matchingField.show
         };
       }
       return row;
@@ -1805,7 +1815,7 @@ const Order = (data) => {
 
   if (order)
     return (
-      <div style={{ width: "max-content !important" }}>
+      <div style={{ width: 'max-content !important' }}>
         <div
           // className="row"
           className={
@@ -1820,16 +1830,16 @@ const Order = (data) => {
             //   ].indexOf(data.data.user_id) !== -1
             //     ? "none"
             //     : "display",
-            display: displayDelete ? "none" : "flex",
-            background: checked ? "#F1F1FA" : "#fff",
-            width: "max-content",
+            display: displayDelete ? 'none' : 'flex',
+            background: checked ? '#F1F1FA' : '#fff',
+            width: 'max-content'
           }}
         >
           {/* Order ID */}
 
           {rowData
             .sort((a, b) => a.position - b.position)
-            .map((row) => {
+            .map(row => {
               if (row.permission && row.show) return row.rowContent;
             })}
           {/* Order Logo */}
@@ -1874,13 +1884,13 @@ const Order = (data) => {
               setLines(true);
             }}
             style={{
-              ...styles.paidPriceContainer,
+              ...styles.paidPriceContainer
             }}
             className={`${css.textcontainer} ${css.paidcontainer}`}
           >
             <span className={css.paidPrice}>
               {order.payment_amount
-                ? order.payment_amount.toLocaleString() + "₮"
+                ? order.payment_amount.toLocaleString() + '₮'
                 : null}
             </span>
           </div>
@@ -1898,48 +1908,48 @@ const Order = (data) => {
           {/* lend */}
           <div
             style={{
-              color: "#37474f",
-              paddingLeft: "10px",
+              color: '#37474f',
+              paddingLeft: '10px',
               // lineHeight: "0.96",
               ...styles.lendContainer,
-              display: "none",
+              display: 'none'
             }}
             className={`${css.textcontainer} ${css.lendwrapper}`}
           >
             {orderdata && orderdata[`payment`]
-              ? orderdata[`payment`]?.m1?.toLocaleString() + "₮"
-              : ""}
+              ? orderdata[`payment`]?.m1?.toLocaleString() + '₮'
+              : ''}
           </div>
           <div
             style={{
-              color: "#37474f",
-              paddingLeft: "10px",
+              color: '#37474f',
+              paddingLeft: '10px',
               // lineHeight: "0.96",
               ...styles.lendContainer,
-              display: "none",
+              display: 'none'
             }}
             className={`${css.textcontainer} ${css.lendwrapper}`}
           >
             {orderdata && orderdata[`payment`]
-              ? orderdata[`payment`]?.m2?.toLocaleString() + "₮"
-              : ""}
+              ? orderdata[`payment`]?.m2?.toLocaleString() + '₮'
+              : ''}
             <span>
-              {orderdata && orderdata[`payment`]?.m2 ? "Хаан банк" : ""}
+              {orderdata && orderdata[`payment`]?.m2 ? 'Хаан банк' : ''}
             </span>
           </div>
           <div
             style={{
-              color: "#37474f",
-              paddingLeft: "10px",
+              color: '#37474f',
+              paddingLeft: '10px',
               // lineHeight: "0.96",
               ...styles.lendContainer,
-              display: "none",
+              display: 'none'
             }}
             className={`${css.textcontainer} ${css.lendwrapper}`}
           >
             {orderdata && orderdata[`payment`]
-              ? orderdata[`payment`]?.m3?.toLocaleString() + "₮"
-              : ""}
+              ? orderdata[`payment`]?.m3?.toLocaleString() + '₮'
+              : ''}
           </div>
 
           {/* XT and Tugeegch Infos Start */}
@@ -1959,19 +1969,19 @@ const Order = (data) => {
               display:
                 (data.userData.id === 256 || data.userData.id === 320) &&
                 order.supplier_id === 13884
-                  ? "block"
-                  : "none",
+                  ? 'block'
+                  : 'none'
             }}
             className={`${css.textcontainer} ${css.vatbtncontainer}`}
           >
             {data.userData.id === 256 || data.userData.id === 320 ? (
               <div className={css.btnvatcontainer}>
                 <Popconfirm
-                  placement="left"
-                  title="Та итгэлтэй байна уу?"
+                  placement='left'
+                  title='Та итгэлтэй байна уу?'
                   onConfirm={() => editPickPack(order)}
-                  okText="Тийм"
-                  cancelText="Үгүй"
+                  okText='Тийм'
+                  cancelText='Үгүй'
                 >
                   <button className={css.pickpackbtn}>
                     PickPack дахин илгээх
@@ -1985,18 +1995,18 @@ const Order = (data) => {
           data.userData.id === 435 ? (
             <div
               style={{
-                color: "#37474f",
+                color: '#37474f',
                 // lineHeight: "0.96",
                 ...styles.khorooContainer,
-                display: "flex",
-                justifyContent: "center",
+                display: 'flex',
+                justifyContent: 'center'
               }}
               className={`${css.textcontainer} ${css.xtwrapper}`}
             >
               {log?.length !== 0 && (
                 <span
                   className={css.xtnamewrapper}
-                  onClick={(e) => LogHandler(e, log)}
+                  onClick={e => LogHandler(e, log)}
                 >
                   Харах
                 </span>

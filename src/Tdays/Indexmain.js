@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
-import ReactDOM from "react-dom";
-import css from "./indexmaina.module.css";
-import TdaysHook from "../Hooks/TdaysHook";
-import ZonesHook from "../Hooks/ZonesHook";
-import Calendarcomponent from "./calendar/Calendarcomponent";
-import List from "./List";
-import Update from "./calendar/Update/Update";
-import myHeaders from "../components/MyHeader/myHeader";
-import { styles } from "./style";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import ReactDOM from 'react-dom';
+import css from './indexmaina.module.css';
+import TdaysHook from '../Hooks/TdaysHook';
+import ZonesHook from '../Hooks/ZonesHook';
+import Calendarcomponent from './calendar/Calendarcomponent';
+import List from './List';
+import Update from './calendar/Update/Update';
+import myHeaders from '../components/MyHeader/myHeader';
+import { styles } from './style';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
 const areEqual = (prevProps, nextProps) => true;
 
-const Index = React.memo((props) => {
+const Index = React.memo(props => {
   const [searchDate, setSearchDate] = useState(null);
   const [searchZoneIndex, setSearchZoneIndex] = useState(null);
   const [updateModal, setUpdateModal] = useState(false);
@@ -44,7 +44,7 @@ const Index = React.memo((props) => {
           setUpdateModal={setUpdateModal}
         />
       </React.StrictMode>,
-      document.getElementById("foobaraaaa")
+      document.getElementById('foobaraaaa')
     );
   };
   useEffect(() => {
@@ -59,7 +59,7 @@ const Index = React.memo((props) => {
   //     method: "GET",
   //     headers: myHeaders,
   //   };
-  //   let url = `https://api2.ebazaar.mn/api/zones`;
+  //   let url = `${process.env.REACT_APP_API_URL2}/api/zones`;
   //   // url = searchzone ? url + `?name=${searchzone}` : url;
   //   fetch(url, requestOptions)
   //     .then((r) => r.json())
@@ -74,16 +74,19 @@ const Index = React.memo((props) => {
     let controller = new AbortController();
     (async () => {
       try {
-        const response = await fetch("https://api2.ebazaar.mn/api/zones", {
-          method: "GET",
-          headers: myHeaders,
-          signal: controller.signal,
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL2}/api/zones`,
+          {
+            method: 'GET',
+            headers: myHeaders,
+            signal: controller.signal
+          }
+        );
         const res = await response.json();
         setZonedata(res.data);
         controller = null;
       } catch (e) {
-        console.log("zone error", e);
+        console.log('zone error', e);
       }
     })();
     return () => controller?.abort();
@@ -94,27 +97,27 @@ const Index = React.memo((props) => {
       <div className={css.rowHeaderlocal}>
         <div style={styles.checkboxcontainer}>
           <div className={css.firstContainer}>
-            <span className="header"></span>
-            <input type="checkbox" />
+            <span className='header'></span>
+            <input type='checkbox' />
           </div>
         </div>
         <div style={styles.zonescontainer}>
           <div>
-            <span className="header">Бүсчлэл</span>
+            <span className='header'>Бүсчлэл</span>
             <input
-              type="text"
+              type='text'
               // onKeyPress={(e) => searchById(e)}
-              disabled="disabled"
+              disabled='disabled'
               className={css.inputWrapper}
               // value={searchZoneIndex}
               // onChange={(e) => setSearchZoneIndex(e.target.value)}
             />
           </div>
         </div>
-        <div style={{ ...styles.showcontainer, marginRight: "10px" }}>
-          <span className="header">Show</span>
+        <div style={{ ...styles.showcontainer, marginRight: '10px' }}>
+          <span className='header'>Show</span>
           <input
-            type="text"
+            type='text'
             disabled
             // onKeyPress={(e) => searchById(e)}
 
@@ -126,50 +129,50 @@ const Index = React.memo((props) => {
           className={css.middleContainer}
         >
           <div className={css.middleWrapper}>
-            <span className="header" style={{ width: "100%" }}>
+            <span className='header' style={{ width: '100%' }}>
               Түгээлтийн өдрийн хуваарь
             </span>
             <input
-              type="text"
-              placeholder="Хайх ..."
+              type='text'
+              placeholder='Хайх ...'
               value={searchDate}
-              onChange={(e) => setSearchDate(e.target.value)}
+              onChange={e => setSearchDate(e.target.value)}
             />
           </div>
         </div>
         <div style={styles.supplierContainer}>
           <div>
-            <span className="header" style={{ width: "100%" }}>
+            <span className='header' style={{ width: '100%' }}>
               Нийлүүлэгч
             </span>
-            <input type="text" placeholder="Хайх ..." />
+            <input type='text' placeholder='Хайх ...' />
           </div>
         </div>
         <div style={styles.createdcontainer}>
           <div>
-            <span className="header" style={{ width: "100%" }}>
+            <span className='header' style={{ width: '100%' }}>
               Үүссэн огноо
             </span>
-            <input type="date" placeholder="Хайх ..." />
+            <input type='date' placeholder='Хайх ...' />
           </div>
         </div>
         <div style={styles.createdUser}>
           <div>
-            <span className="header" style={{ width: "100%" }}>
+            <span className='header' style={{ width: '100%' }}>
               Үүссэн хэрэглэгч
             </span>
-            <input type="text" placeholder="Хайх ..." disabled="disabled" />
+            <input type='text' placeholder='Хайх ...' disabled='disabled' />
           </div>
         </div>
         <div style={styles.updatedUser}>
           <div>
-            <span className="header" style={{ width: "100%" }}>
+            <span className='header' style={{ width: '100%' }}>
               Шинэчилсэн хэрэглэгч
             </span>
-            <input type="text" placeholder="Хайх ..." disabled="disabled" />
+            <input type='text' placeholder='Хайх ...' disabled='disabled' />
           </div>
         </div>
-        <div style={{ width: "180px" }}>
+        <div style={{ width: '180px' }}>
           <div></div>
         </div>
       </div>
@@ -183,7 +186,7 @@ const Index = React.memo((props) => {
           user={props.userData}
         />
       )}
-      <div id="foobaraaaa" className={css.body}></div>
+      <div id='foobaraaaa' className={css.body}></div>
     </div>
   );
 }, areEqual);

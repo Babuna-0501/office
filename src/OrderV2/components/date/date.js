@@ -1,28 +1,80 @@
 import React, { useState } from 'react';
 import './date.css';
+import { options } from './constants';
+import { getDates } from '../../data/info';
 
-const Date = ({ handleFilterChange }) => {
-  const [selectedFilter, setSelectedFilter] = useState('');
+const DateFilter = ({ filterByDate, selectedFilter, setParams }) => {
+  const [showDatepicker, setShowDatepicker] = useState(false);
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setSelectedFilter(value);
-    handleFilterChange(value); 
+  const filterClick = () => {
+    filterByDate(date);
+  };
+
+  const closeClick = () => {
+    setShowDatepicker(false);
+  };
+
+  const selectOnChange = ({ target: { value } }) => {
+    if (value === 'date') {
+      setShowDatepicker(true);
+    } else {
+      setShowDatepicker(false);
+    }
+
+    if (value === 'all') {
+      setParams('');
+    } else {
+      const filteredDate = getDates(value);
+
+      filterByDate(filteredDate);
+    }
   };
 
   return (
-    <div className="date-filter">
-      <select value={selectedFilter} onChange={handleSelectChange}>
-        <option value="">Огноогоор шүүх</option>
-        <option value="today">Өнөөдөр</option>
-        <option value="yesterday">Өчигдөр</option>
-        <option value="yesterday+today">Өчигдөр + Өнөөдөр</option>
-        <option value="last3days">Сүүлийн 3 хоног</option>
-        <option value="lastweek">Сүүлийн 7 хоног</option>
-        <option value="lastmonth">Сүүлийн 1 сар</option>
+    <div className='date-filter'>
+      <select
+        defaultValue='all'
+        value={selectedFilter}
+        onChange={selectOnChange}
+      >
+        {options.map((item, index) => {
+          return (
+            <option value={item.value} key={index}>
+              {item.label}
+            </option>
+          );
+        })}
       </select>
+
+      {showDatepicker && (
+        <div className='date-range-container'>
+          <input
+            type='date'
+            name='startDate'
+            value={date.startDate}
+            className='date-range-input'
+            placeholder='Эхлэх огноо'
+            onChange={e => setDate({ ...date, startDate: e.target.value })}
+          />
+
+          <input
+            type='date'
+            name='endDate'
+            value={date.endDate}
+            className='date-range-input'
+            placeholder='Дуусах огноо'
+            onChange={e => setDate({ ...date, endDate: e.target.value })}
+          />
+
+          <div className='btn_wrapper'>
+            <button onClick={filterClick}>Шүүх</button>
+            <button onClick={closeClick}>Хаах</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Date;
+export default DateFilter;

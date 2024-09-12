@@ -1,0 +1,56 @@
+
+.date-filter {
+  margin-bottom: 10px;
+}
+.date-filter select {
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  width: 224px;
+}
+
+.date-filter select:hover {
+  border-color: #999;
+}
+
+.date-filter select:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 0 2px rgba(102, 175, 233, 0.6);
+}
+
+.date-range-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.date-range-container input {
+  font-size: 13px;
+  cursor: pointer;
+  padding: 3px;
+}
+
+.btn_wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 50px;
+}
+
+.btn_wrapper button {
+  width: 100%;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn_wrapper button:first-of-type {
+  background-color: #00ADD0;
+  color: #fff;
+}

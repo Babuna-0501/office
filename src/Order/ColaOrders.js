@@ -1,11 +1,11 @@
-import css from "./colaOrders.module.css";
-import closeIcon from "../assets/shipment/closeIcon.svg";
-import { useEffect, useState } from "react";
-import { LoadingSpinner } from "../components/common";
-import { colaOrderUsers } from "./Index";
+import css from './colaOrders.module.css';
+import closeIcon from '../assets/shipment/closeIcon.svg';
+import { useEffect, useState } from 'react';
+import { LoadingSpinner } from '../components/common';
+import { colaOrderUsers } from './Index';
 
 const token =
-  "eb_cola_integration_05f60b8248eb98591c10ce996eedff0831db539ebe913f6531551299730f4a024a4707e7510ee2e9915c9e8bb1d8c18b558c4f76c765e6e3628705262f85fc9a";
+  'eb_cola_integration_05f60b8248eb98591c10ce996eedff0831db539ebe913f6531551299730f4a024a4707e7510ee2e9915c9e8bb1d8c18b558c4f76c765e6e3628705262f85fc9a';
 
 export const ColaOrders = ({ closeHandler, userData }) => {
   const [orders, setOrders] = useState([]);
@@ -29,14 +29,14 @@ export const ColaOrders = ({ closeHandler, userData }) => {
         setLoading(true);
 
         var myHeaders = new Headers();
-        myHeaders.append("eb_token", token);
-        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append('eb_token', token);
+        myHeaders.append('Content-Type', 'application/json');
 
-        const url = `https://api.ebazaar.mn/api/cola/order`;
+        const url = `${process.env.REACT_APP_API_URL}/api/cola/order`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
@@ -58,7 +58,7 @@ export const ColaOrders = ({ closeHandler, userData }) => {
       <div className={css.headers}>
         <h1>MCS-Coca-Cola захиалга</h1>
         <button onClick={closeHandler}>
-          <img src={closeIcon} alt="Close" />
+          <img src={closeIcon} alt='Close' />
         </button>
       </div>
 
@@ -113,7 +113,7 @@ export const ColaOrders = ({ closeHandler, userData }) => {
 
           {!loading && (
             <div className={css.mainContent}>
-              {orders.map((order) => {
+              {orders.map(order => {
                 return (
                   <SingleOrder
                     key={`cola-single-order-${order.DocumentNo}`}
@@ -170,12 +170,12 @@ const SingleOrder = ({ order }) => {
 
       {/* Date Create */}
       <div className={css.singleOrderItem} style={{ width: 110 }}>
-        {order.DateCreate.split("T")[0]}
+        {order.DateCreate.split('T')[0]}
       </div>
 
       {/* DDate */}
       <div className={css.singleOrderItem} style={{ width: 110 }}>
-        {order.DDate.split("T")[0]}
+        {order.DDate.split('T')[0]}
       </div>
 
       {/* Amount */}

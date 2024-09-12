@@ -2,19 +2,19 @@ import {
   Button,
   Dropdown,
   Input,
-  Modal,
-} from "../../Achiltiinzahialga/components/common";
-import LoadingSpinner from "../../components/Spinner/Spinner";
-import css from "./shipmentCreate.module.css";
-import closeIcon from "../../assets/shipment/closeIcon.svg";
-import { useState } from "react";
-import notFound from "../../assets/shipment/package.svg";
-import { useEffect } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import okIcon from "../../assets/shipment/ok.svg";
-import ErrorPopup from "../../Achiltiinzahialga/components/common/ErrorPopup";
+  Modal
+} from '../../Achiltiinzahialga/components/common';
+import LoadingSpinner from '../../components/Spinner/Spinner';
+import css from './shipmentCreate.module.css';
+import closeIcon from '../../assets/shipment/closeIcon.svg';
+import { useState } from 'react';
+import notFound from '../../assets/shipment/package.svg';
+import { useEffect } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import okIcon from '../../assets/shipment/ok.svg';
+import ErrorPopup from '../../Achiltiinzahialga/components/common/ErrorPopup';
 
-const ShipmentCreate = (props) => {
+const ShipmentCreate = props => {
   const { orders, closeHandler, users, userData, setChangedTugeegch } = props;
 
   const [loading, setLoading] = useState(false);
@@ -29,17 +29,17 @@ const ShipmentCreate = (props) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
-    setErrorMsg("");
+    setErrorMsg('');
     let firstOrderUserIds = orders[0].back_office_user
-      ? orders[0].back_office_user.split(",")
+      ? orders[0].back_office_user.split(',')
       : [];
     let firstOrderTugeegch;
 
     for (const id of firstOrderUserIds) {
-      const user = users.find((usr) => usr.user_id === Number(id));
+      const user = users.find(usr => usr.user_id === Number(id));
       if (user.role === 2) {
         firstOrderTugeegch = user;
         setTugeegch(user);
@@ -50,11 +50,11 @@ const ShipmentCreate = (props) => {
     let allHasSameTugeegch = true;
     for (const order of orders) {
       const userIds = order.back_office_user
-        ? order.back_office_user.split(",")
+        ? order.back_office_user.split(',')
         : [];
 
       for (const id of userIds) {
-        const user = users.find((usr) => usr.user_id === Number(id));
+        const user = users.find(usr => usr.user_id === Number(id));
         if (user.role === 2 && user.user_id !== firstOrderTugeegch.user_id) {
           allHasSameTugeegch = false;
           break;
@@ -66,7 +66,7 @@ const ShipmentCreate = (props) => {
 
     if (!allHasSameTugeegch) {
       setErrorMsg(
-        "Захиалгуудыг хариуцсан түгээгч өөр байгаа тул, ачилт үүсгэх боломжгүй!"
+        'Захиалгуудыг хариуцсан түгээгч өөр байгаа тул, ачилт үүсгэх боломжгүй!'
       );
       setShowAlert(true);
       return;
@@ -77,12 +77,12 @@ const ShipmentCreate = (props) => {
 
   useEffect(() => {
     if (!checkedTugeegchs) return;
-    setErrorMsg("");
+    setErrorMsg('');
 
     for (const order of orders) {
       if (order.status === 3 || order.status === 5) {
         setErrorMsg(
-          "Хүргэгдсэн эсвэл цуцлагдсан захиалга дээр ачилтын захиалга үүсгэх боломжгүй!"
+          'Хүргэгдсэн эсвэл цуцлагдсан захиалга дээр ачилтын захиалга үүсгэх боломжгүй!'
         );
         setShowAlert(true);
         return;
@@ -105,9 +105,7 @@ const ShipmentCreate = (props) => {
       }
     }
 
-    const productsId = [
-      ...new Set(productsCopy.map((prod) => prod.product_id)),
-    ];
+    const productsId = [...new Set(productsCopy.map(prod => prod.product_id))];
 
     const uniqueProducts = [];
 
@@ -137,34 +135,34 @@ const ShipmentCreate = (props) => {
   useEffect(() => {
     const getShipments = async () => {
       try {
-        setErrorMsg("");
+        setErrorMsg('');
         if (shipmentInvenLoading) return;
         setShipmentInvenLoading(true);
 
-        const companyId = Number(userData.company_id.replaceAll("|", ""));
+        const companyId = Number(userData.company_id.replaceAll('|', ''));
 
-        const shipmentsUrl = `https://api2.ebazaar.mn/api/shipment?supplierId=${companyId}`;
+        const shipmentsUrl = `${process.env.REACT_APP_API_URL2}/api/shipment?supplierId=${companyId}`;
 
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(shipmentsUrl, requestOptions);
         const resData = await res.json();
 
-        const orderIds = orders.map((order) => order.order_id);
+        const orderIds = orders.map(order => order.order_id);
 
         for (const id of orderIds) {
           for (const shipment of resData) {
             const shipmentOrderids = shipment.orders
-              ? shipment.orders.split(",").map((id) => Number(id))
+              ? shipment.orders.split(',').map(id => Number(id))
               : [];
 
             if (shipmentOrderids.includes(id) && shipment.status !== 3) {
               setErrorMsg(
-                "Сонгосон захиалга дээр ачилтын захиалга үүссэн байна!"
+                'Сонгосон захиалга дээр ачилтын захиалга үүссэн байна!'
               );
               setShowAlert(true);
               return;
@@ -183,31 +181,31 @@ const ShipmentCreate = (props) => {
 
   const submitHandler = async () => {
     try {
-      setErrorMsg("");
+      setErrorMsg('');
       if (loading) return;
       if (!checkedTugeegchs) return;
       if (!tugeegch) return;
 
       setLoading(true);
 
-      const url = `https://api2.ebazaar.mn/api/shipment`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment`;
       const body = JSON.stringify({
-        supplierId: Number(userData.company_id.replaceAll("|", "")),
-        from: "",
-        to: "",
+        supplierId: Number(userData.company_id.replaceAll('|', '')),
+        from: '',
+        to: '',
         status: 1,
-        orders: orders.map((order) => order.order_id).join(","),
+        orders: orders.map(order => order.order_id).join(','),
         tugeegchID: Number(tugeegch.user_id),
-        products: products.map((prod) => ({
+        products: products.map(prod => ({
           productId: prod.product_id,
-          count: prod.count,
-        })),
+          count: prod.count
+        }))
       });
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         body,
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -217,12 +215,12 @@ const ShipmentCreate = (props) => {
         setChangedTugeegch(true);
         setShowPopup(true);
       } else {
-        setErrorMsg("Алдаа гарсан тул дахин оролдоно уу!");
+        setErrorMsg('Алдаа гарсан тул дахин оролдоно уу!');
         setShowError(true);
       }
     } catch (error) {
       console.log(error);
-      setErrorMsg("Алдаа гарсан тул дахин оролдоно уу!");
+      setErrorMsg('Алдаа гарсан тул дахин оролдоно уу!');
       setShowError(true);
     } finally {
       setLoading(false);
@@ -235,7 +233,7 @@ const ShipmentCreate = (props) => {
         <div className={css.headerContainer}>
           <span>Ачилтын захиалга үүсгэх</span>
           <button onClick={closeHandler}>
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
@@ -243,12 +241,12 @@ const ShipmentCreate = (props) => {
           <div className={css.contentHeader}>
             <div className={css.fieldWrapper} style={{ width: 70 }}>
               <span className={css.fieldTitle}>Зураг</span>
-              <Input type="text" size="small" disabled />
+              <Input type='text' size='small' disabled />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 140 }}>
               <span className={css.fieldTitle}>Бүтээгдэхүүний нэр</span>
-              <Input type="text" size="small" placeholder="Хайх" />
+              <Input type='text' size='small' placeholder='Хайх' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 100 }}>
@@ -258,12 +256,12 @@ const ShipmentCreate = (props) => {
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>Баркод</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 120 }}>
               <span className={css.fieldTitle}>SKU</span>
-              <Input type="text" placeholder="Хайх" size="small" />
+              <Input type='text' placeholder='Хайх' size='small' />
             </div>
 
             <div className={css.fieldWrapper} style={{ width: 90 }}>
@@ -273,7 +271,7 @@ const ShipmentCreate = (props) => {
 
             <div className={css.fieldWrapper} style={{ width: 116 }}>
               <span className={css.fieldTitle}>Нийт үнэ</span>
-              <Input type="text" disabled size="small" />
+              <Input type='text' disabled size='small' />
             </div>
           </div>
 
@@ -300,7 +298,7 @@ const ShipmentCreate = (props) => {
             checkedStatus &&
             products.length === 0 && (
               <div className={css.notFoundContainer}>
-                <img src={notFound} alt="Not Found" />
+                <img src={notFound} alt='Not Found' />
                 <span>Илэрц олдсонгүй</span>
               </div>
             )}
@@ -317,15 +315,15 @@ const ShipmentCreate = (props) => {
             <Button
               disabled={loading || !checkedTugeegchs}
               onClick={closeHandler}
-              variant="secondary"
-              size="medium"
+              variant='secondary'
+              size='medium'
             >
               Цуцлах
             </Button>
             <Button
               disabled={loading || !checkedTugeegchs}
-              variant="primary"
-              size="medium"
+              variant='primary'
+              size='medium'
               onClick={submitHandler}
             >
               Илгээх
@@ -338,35 +336,35 @@ const ShipmentCreate = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Ачилтын захиалга илгээгдлээ
@@ -376,9 +374,9 @@ const ShipmentCreate = (props) => {
                 setShowPopup(false);
                 closeHandler();
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>
@@ -410,7 +408,7 @@ const ShipmentCreate = (props) => {
 
 export default ShipmentCreate;
 
-const SingleItem = (props) => {
+const SingleItem = props => {
   const { product, zIndex } = props;
 
   return (

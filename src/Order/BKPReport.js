@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from "react";
-import CSV from "./CSV";
-import writeXlsxFile from "write-excel-file";
+import React, { useState, useEffect } from 'react';
+import CSV from './CSV';
+import writeXlsxFile from 'write-excel-file';
 
 const schema = [
   {
-    column: "Order number",
+    column: 'Order number',
     type: String,
-    value: (d) => d.OrderID,
+    value: d => d.OrderID
   },
   {
-    column: "Product name",
+    column: 'Product name',
     type: String,
-    value: (d) => d.ProductName,
+    value: d => d.ProductName
   },
   {
-    column: "Barcode",
+    column: 'Barcode',
     type: String,
-    value: (d) => d.Barcode,
+    value: d => d.Barcode
   },
   {
-    column: "Merchant Sku",
+    column: 'Merchant Sku',
     type: String,
-    value: (d) => d.SKU,
-  },
+    value: d => d.SKU
+  }
 ];
 
 const objects = [
   {
-    OrderID: "",
-    ProductName: "",
-    Barcode: "",
-    SKU: "",
-  },
+    OrderID: '',
+    ProductName: '',
+    Barcode: '',
+    SKU: ''
+  }
 ];
 
 const output = () => {
   // console.log("excel");
   writeXlsxFile(objects, {
     schema, // (optional) column widths, etc.
-    fileName: "file.xlsx",
+    fileName: 'file.xlsx'
   });
 };
 
@@ -50,65 +50,65 @@ function Report(props) {
   let categories = props.categories;
   let csv = [
     [
-      "Order number",
-      "Product name",
-      "Barcode",
-      "Merchant Sku",
-      "Brand",
-      "Vendor",
-      "Qty",
-      "Price",
-      "Total",
-      "Taken",
-      "Canceled",
-      "Returned",
-      "Final total",
-      "Completed at",
-      "When to ship",
-      "Paid at",
-      "Shipped at",
-      "Receiver phone",
-      "Receiver info",
-      "Receiver name",
-      "Branch",
-      "Business type",
-      "State name",
-      "District",
-      "Quarter",
-      "Address",
-      "Latest note",
-      "Status",
-      "Reason",
-      "Main category",
-      "Sub-category",
-      "Sub-Sub-category",
-      "Original total",
-    ],
+      'Order number',
+      'Product name',
+      'Barcode',
+      'Merchant Sku',
+      'Brand',
+      'Vendor',
+      'Qty',
+      'Price',
+      'Total',
+      'Taken',
+      'Canceled',
+      'Returned',
+      'Final total',
+      'Completed at',
+      'When to ship',
+      'Paid at',
+      'Shipped at',
+      'Receiver phone',
+      'Receiver info',
+      'Receiver name',
+      'Branch',
+      'Business type',
+      'State name',
+      'District',
+      'Quarter',
+      'Address',
+      'Latest note',
+      'Status',
+      'Reason',
+      'Main category',
+      'Sub-category',
+      'Sub-Sub-category',
+      'Original total'
+    ]
   ];
   let [blah, setBlah] = useState(csv);
-  const getCategories = (categoryId) => {
+  const getCategories = categoryId => {
     let cats = {
-      main: "",
-      sub: "",
-      subsub: "",
+      main: '',
+      sub: '',
+      subsub: ''
     };
-    categories.map((category) => {
+    categories.map(category => {
       if (category.id === categoryId) {
         if (category.parent_id === 0) {
-          cats["main"] = category["name"];
+          cats['main'] = category['name'];
         } else {
           let parent = category.parent_id;
-          categories.map((categoryParent) => {
+          categories.map(categoryParent => {
             if (categoryParent.id === category.parent_id) {
               if (categoryParent.id === 0) {
-                cats["main"] = categoryParent["name"];
-                cats["sub"] = category["name"];
+                cats['main'] = categoryParent['name'];
+                cats['sub'] = category['name'];
               } else {
-                categories.map((categoryParentParent) => {
+                categories.map(categoryParentParent => {
                   if (categoryParentParent.id === categoryParent.parent_id) {
-                    cats["main"] = categoryParentParent["name"];
-                    cats["sub"] = categoryParent["name"];
-                    cats["subsub"] = category["name"];
+                    cats['main'] = categoryParentParent['name'];
+                    cats['sub'] = categoryParent['name'];
+                    cats['subsub'] = category['name'];
                   }
                 });
               }
@@ -121,13 +121,13 @@ function Report(props) {
   };
   const exporter = () => {
     let locations = props.locations;
-    const date_start = document.getElementById("date_start");
-    const date_end = document.getElementById("date_end");
-    const borderColor = document.getElementById("date_start").style.borderColor;
+    const date_start = document.getElementById('date_start');
+    const date_end = document.getElementById('date_end');
+    const borderColor = document.getElementById('date_start').style.borderColor;
     date_start.style.borderColor =
-      date_start.value === "" ? "red" : borderColor;
-    date_end.style.borderColor = date_end.value === "" ? "red" : borderColor;
-    if (date_start.value === "" || date_end.value === "") {
+      date_start.value === '' ? 'red' : borderColor;
+    date_end.style.borderColor = date_end.value === '' ? 'red' : borderColor;
+    if (date_start.value === '' || date_end.value === '') {
       setTimeout(() => {
         date_start.style.borderColor = borderColor;
         date_end.style.borderColor = borderColor;
@@ -136,50 +136,50 @@ function Report(props) {
     } else {
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/orders?order_type=1&start=${date_start.value}&end=${date_end.value}&page=all`,
+        `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&start=${date_start.value}&end=${date_end.value}&page=all`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           let csv = [];
-          response.data.map((order) => {
+          response.data.map(order => {
             const orderId = order.order_id;
             const supplierName = order.supplier_name;
             const customerPhone = order.phone;
             const customerAddress = order.address;
             const createdDate = order.order_date
               ? order.order_date.substr(0, 10)
-              : "";
+              : '';
             const shippingDate = order.delivery_date
               ? order.delivery_date.substr(0, 10)
-              : "";
-            let note = "";
-            let city = "";
-            let khoroo = "";
-            let district = "";
-            locations.map((location) => {
+              : '';
+            let note = '';
+            let city = '';
+            let khoroo = '';
+            let district = '';
+            locations.map(location => {
               if (
                 location.location_id == parseInt(order.tradeshop_district, 10)
               ) {
                 district = location.location_name;
               }
             });
-            locations.map((location) => {
+            locations.map(location => {
               if (location.location_id == parseInt(order.tradeshop_horoo, 10)) {
                 khoroo = location.location_name;
               }
             });
-            locations.map((location) => {
+            locations.map(location => {
               if (location.location_id == parseInt(order.tradeshop_city, 10)) {
                 city = location.location_name;
               }
@@ -192,89 +192,89 @@ function Report(props) {
             let lines = [];
             let rawTotal = 0;
             if (JSON.parse(order.raw_order)) {
-              JSON.parse(order.raw_order).map((ro) => {
+              JSON.parse(order.raw_order).map(ro => {
                 rawTotal =
                   rawTotal + parseInt(ro.Quantity, 10) * parseInt(ro.Price, 10);
               });
             }
             if (order.line && order.line.length > 0) {
-              order.line.map((line) => {
+              order.line.map(line => {
                 let cat = getCategories(parseInt(line.product_type_id, 10));
                 let temp = [
                   orderId,
-                  line.product_name.replaceAll(",", ""),
+                  line.product_name.replaceAll(',', ''),
                   line.product_bar_code,
                   line.product_sku,
-                  "",
+                  '',
                   supplierName,
                   line.quantity,
                   line.price,
                   line.quantity * line.price,
-                  "",
-                  "",
-                  "",
+                  '',
+                  '',
+                  '',
                   line.quantity * line.price,
                   createdDate,
                   shippingDate,
-                  "",
-                  "",
+                  '',
+                  '',
                   customerPhone,
                   order.register,
-                  order.business_name ? order.business_name : "",
+                  order.business_name ? order.business_name : '',
                   order.tradeshop_name,
-                  "business type",
+                  'business type',
                   city,
                   district,
                   khoroo,
                   order.address,
                   note,
-                  "",
-                  "",
-                  cat["main"],
-                  cat["sub"],
-                  cat["subsub"],
-                  rawTotal,
+                  '',
+                  '',
+                  cat['main'],
+                  cat['sub'],
+                  cat['subsub'],
+                  rawTotal
                 ];
                 csv.push(temp);
               });
             } else {
               if (JSON.parse(order.raw_order)) {
-                JSON.parse(order.raw_order).map((ro) => {
+                JSON.parse(order.raw_order).map(ro => {
                   let cat = getCategories(parseInt(ro.product_type_id, 10));
                   let temp = [
                     orderId,
                     ro.ProductID,
-                    "n/a",
-                    "n/a",
-                    "",
+                    'n/a',
+                    'n/a',
+                    '',
                     supplierName,
                     ro.Quantity,
                     ro.Price,
-                    "n/a",
-                    "",
-                    "",
-                    "",
-                    "n/a",
+                    'n/a',
+                    '',
+                    '',
+                    '',
+                    'n/a',
                     createdDate,
                     shippingDate,
-                    "",
-                    "",
+                    '',
+                    '',
                     customerPhone,
                     order.register,
-                    order.business_name ? order.business_name : "",
+                    order.business_name ? order.business_name : '',
                     order.tradeshop_name,
-                    "business type",
+                    'business type',
                     city,
                     district,
                     khoroo,
                     order.address,
                     note,
-                    "",
-                    "",
-                    cat["main"],
-                    cat["sub"],
-                    cat["subsub"],
-                    rawTotal,
+                    '',
+                    '',
+                    cat['main'],
+                    cat['sub'],
+                    cat['subsub'],
+                    rawTotal
                   ];
                   csv.push(temp);
                 });
@@ -298,28 +298,28 @@ function Report(props) {
       </>
     ) : (
       <>
-        <span id="close" onClick={() => props.close(false)}>
+        <span id='close' onClick={() => props.close(false)}>
           Close
         </span>
         <div>
           <label>Эхлэх огноо</label>
-          <input type="date" className="dateselect" id="date_start" />
+          <input type='date' className='dateselect' id='date_start' />
         </div>
         <div>
           <label>Эхлэх огноо</label>
-          <input type="date" className="dateselect" id="date_end" />
+          <input type='date' className='dateselect' id='date_end' />
         </div>
-        <div className="margintop1rem">
-          <span className="btn-tech" onClick={() => exporter()}>
+        <div className='margintop1rem'>
+          <span className='btn-tech' onClick={() => exporter()}>
             Тайлан бэлтгэх
           </span>
         </div>
       </>
     );
   return (
-    <div id="formwithtransparentbackground">
-      <div id="form">{renderHTML}</div>
-      <div id="transparentbackground"></div>
+    <div id='formwithtransparentbackground'>
+      <div id='form'>{renderHTML}</div>
+      <div id='transparentbackground'></div>
     </div>
   );
 }

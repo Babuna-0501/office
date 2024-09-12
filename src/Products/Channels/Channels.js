@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import css from "./channels.module.css";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
+import React, { useState, useContext, useEffect } from 'react';
+import css from './channels.module.css';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
 
-const Channels = (props) => {
+const Channels = props => {
   const [data, setData] = useState([]);
   const [allChecked, setAllChecked] = useState(true);
 
@@ -11,32 +11,28 @@ const Channels = (props) => {
   useEffect(() => {
     setData(prodctx.bustype);
   }, []);
-  
+
   useEffect(() => {
-    const allChosed = data.every((item) => item.chosed === true);
+    const allChosed = data.every(item => item.chosed === true);
     setAllChecked(allChosed);
   }, [data]);
 
   return (
     <div
       style={{
-        width: "100%",
+        width: '100%'
       }}
     >
       <div className={css.wrapper}>
         <span>Бүгдийг сонгох</span>
         <img
-          src={
-            allChecked
-              ? "https://admin.ebazaar.mn/media/on.svg"
-              : "https://admin.ebazaar.mn/media/off.svg"
-          }
-          alt="open hidden button"
+          src={allChecked ? '/media/on.svg' : '/media/off.svg'}
+          alt='open hidden button'
           onClick={() => {
-            setAllChecked((checked) => !checked);
-            const updatedData = data.map((el) => ({
+            setAllChecked(checked => !checked);
+            const updatedData = data.map(el => ({
               ...el,
-              chosed: !allChecked,
+              chosed: !allChecked
             }));
             setData(updatedData);
             prodctx.setBustype(updatedData);
@@ -51,16 +47,12 @@ const Channels = (props) => {
               {/* <input /> */}
 
               <img
-                src={
-                  item.chosed
-                    ? "https://admin.ebazaar.mn/media/on.svg"
-                    : "https://admin.ebazaar.mn/media/off.svg"
-                }
-                alt="open hidden button"
+                src={item.chosed ? '/media/on.svg' : '/media/off.svg'}
+                alt='open hidden button'
                 onClick={() => {
                   let aa = [...data];
                   aa.find(
-                    (x) => x.business_type_id === item.business_type_id
+                    x => x.business_type_id === item.business_type_id
                   ).chosed = !item.chosed;
                   prodctx.setBustype(aa);
                   setData(aa);

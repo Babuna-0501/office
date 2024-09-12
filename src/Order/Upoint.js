@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext, useReducer } from "react";
-import homeShop from "../assets/homeDelguur.svg";
-import closeBtn from "../assets/close.svg";
-import OrderReportHook from "../Hooks/OrderReportHook";
-import css from "./upoint.module.css";
-import UserDataHook from "../Hooks/userHook";
-import AppHook from "../Hooks/AppHook";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect, useContext, useReducer } from 'react';
+import homeShop from '../assets/homeDelguur.svg';
+import closeBtn from '../assets/close.svg';
+import OrderReportHook from '../Hooks/OrderReportHook';
+import css from './upoint.module.css';
+import UserDataHook from '../Hooks/userHook';
+import AppHook from '../Hooks/AppHook';
+import myHeaders from '../components/MyHeader/myHeader';
 
 function Upoint(props) {
   // console.log("props upoint", props);
@@ -35,12 +35,12 @@ function Upoint(props) {
         `${(
           <span
             style={{
-              color: "#DA1414",
-              fontSize: "14px",
-              fontWeight: 400,
+              color: '#DA1414',
+              fontSize: '14px',
+              fontWeight: 400
             }}
           >
-            Таны утасны <span style={{ fontWeight: 700 }}>{data.phone}</span>{" "}
+            Таны утасны <span style={{ fontWeight: 700 }}>{data.phone}</span>{' '}
             дугаар Upoint-той холбогдоогүй байна
           </span>
         )}`
@@ -49,48 +49,51 @@ function Upoint(props) {
     }
 
     var raw = JSON.stringify({
-      order_id: data.order_id,
+      order_id: data.order_id
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: raw
     };
     // console.log("fdsfds");
-    fetch("https://api2.ebazaar.mn/api/upoint/spent_return", requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/upoint/spent_return`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(response => {
         // console.log("response", response);
-        fetch("https://api2.ebazaar.mn/api/create/backofficelog", {
-          method: "POST",
+        fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+          method: 'POST',
           headers: myHeaders,
           body: JSON.stringify({
-            section_name: "order",
+            section_name: 'order',
             entry_id: props.data.order_id,
             user_name: props.userData.email,
-            action: "Зарцуулсан оноо буцаасан",
-          }),
+            action: 'Зарцуулсан оноо буцаасан'
+          })
         })
-          .then((r) => r.json())
-          .then((res) => {
+          .then(r => r.json())
+          .then(res => {
             // console.log("res", res);
             if (res.code === 200) {
-              alert("Амжилттай буцаалаа.");
+              alert('Амжилттай буцаалаа.');
               props.setOrder({
                 ...props.data,
-                upoint_consume_amount: 0,
+                upoint_consume_amount: 0
               });
               props?.setUpointBasket(false);
             }
           })
-          .catch((error) => {
-            alert("Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.");
-            console.log("error", error);
+          .catch(error => {
+            alert('Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.');
+            console.log('error', error);
           });
       })
-      .catch((error) => {
-        alert("Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.");
-        console.log("error", error);
+      .catch(error => {
+        alert('Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.');
+        console.log('error', error);
       });
   };
 
@@ -104,12 +107,12 @@ function Upoint(props) {
         `${(
           <span
             style={{
-              color: "#DA1414",
-              fontSize: "14px",
-              fontWeight: 400,
+              color: '#DA1414',
+              fontSize: '14px',
+              fontWeight: 400
             }}
           >
-            Таны утасны <span style={{ fontWeight: 700 }}>{data.phone}</span>{" "}
+            Таны утасны <span style={{ fontWeight: 700 }}>{data.phone}</span>{' '}
             дугаар Upoint-той холбогдоогүй байна
           </span>
         )}`
@@ -118,26 +121,26 @@ function Upoint(props) {
     }
 
     var raw = JSON.stringify({
-      order_id: data.order_id,
+      order_id: data.order_id
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch("https://api2.ebazaar.mn/api/upoint/add", requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/upoint/add`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         // console.log("response upoint add", response);
         if (response.code === 402) {
           alert(
             `${(
               <span
                 style={{
-                  color: "#DA1414",
-                  fontSize: "14px",
-                  fontWeight: 400,
+                  color: '#DA1414',
+                  fontSize: '14px',
+                  fontWeight: 400
                 }}
               >
                 Таны утасны дугаарт Upoint холболт хийгээгүй байна.
@@ -148,45 +151,45 @@ function Upoint(props) {
           return;
         }
 
-        fetch("https://api2.ebazaar.mn/api/create/backofficelog", {
-          method: "POST",
+        fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+          method: 'POST',
           headers: myHeaders,
           body: JSON.stringify({
-            section_name: "order",
+            section_name: 'order',
             entry_id: props.data.order_id,
             user_name: props.userData.email,
-            action: "Upoint оноо олгосон",
-          }),
+            action: 'Upoint оноо олгосон'
+          })
         })
-          .then((r) => r.json())
-          .then((res) => {
+          .then(r => r.json())
+          .then(res => {
             // console.log("res upoint add", res);
             if (res.code === 200) {
               var raw = JSON.stringify({
-                icon: "https://ebazaar.mn/logo/logon.png",
+                icon: 'https://ebazaar.mn/logo/logon.png',
                 title: `Таны ${data.order_id} дугаартай захиалгын upoint оноо олголоо`,
                 body: data.order_id,
-                status_id: 1,
+                status_id: 1
               });
               var requestOptions = {
-                method: "POST",
+                method: 'POST',
                 headers: myHeaders,
                 body: raw,
-                redirect: "follow",
+                redirect: 'follow'
               };
               fetch(
-                "https://api2.ebazaar.mn/api/notification/pushsingle?UserID=" +
+                `${process.env.REACT_APP_API_URL2}/api/notification/pushsingle?UserID=` +
                   props.data.user_id,
                 requestOptions
               )
-                .then((response) => response.json())
-                .then((result) => {
+                .then(response => response.json())
+                .then(result => {
                   if (result.code === 200) {
                     alert(`Upoint амжилттай олголоо.`);
                     props.setOrder({
                       ...props.data,
                       upoint_added_bonus_amount: aaaa,
-                      upoint_bonus_amount: 0,
+                      upoint_bonus_amount: 0
                     });
 
                     props?.setUpointBasket(false);
@@ -195,9 +198,9 @@ function Upoint(props) {
                       `${(
                         <span
                           style={{
-                            color: "#DA1414",
-                            fontSize: "14px",
-                            fontWeight: 400,
+                            color: '#DA1414',
+                            fontSize: '14px',
+                            fontWeight: 400
                           }}
                         >
                           Таны утасны дугаарт Upoint холболт хийгээгүй байна.
@@ -208,22 +211,22 @@ function Upoint(props) {
                     return;
                   }
                 })
-                .catch((error) => {
+                .catch(error => {
                   alert(
-                    "Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу."
+                    'Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.'
                   );
-                  console.log("error", error);
+                  console.log('error', error);
                 });
             } else {
             }
           })
-          .catch((error) => {
-            console.error("Error-second", error);
+          .catch(error => {
+            console.error('Error-second', error);
           });
       })
-      .catch((error) => {
-        alert("Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.");
-        console.log("error", error);
+      .catch(error => {
+        alert('Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.');
+        console.log('error', error);
       });
   };
 
@@ -234,70 +237,73 @@ function Upoint(props) {
     e.preventDefault();
 
     var raw = JSON.stringify({
-      order_id: data.order_id,
+      order_id: data.order_id
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: raw
     };
-    fetch("https://api2.ebazaar.mn/api/upoint/bonus_return", requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/upoint/bonus_return`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(response => {
         // console.log("response return ", response);
 
-        fetch("https://api2.ebazaar.mn/api/create/backofficelog", {
-          method: "POST",
+        fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+          method: 'POST',
           headers: myHeaders,
           body: JSON.stringify({
-            section_name: "order",
+            section_name: 'order',
             entry_id: props.data.order_id,
             user_name: props.userData.email,
-            action: "Upoint оноо буцаах",
-          }),
+            action: 'Upoint оноо буцаах'
+          })
         })
-          .then((r) => r.json())
-          .then((res) => {
+          .then(r => r.json())
+          .then(res => {
             // console.log("res upoint return", res);
             if (res.code === 200) {
               alert(`Амжилттай Upoint оноо буцаалаа.`);
               props.setOrder({
                 ...props.data,
-                upoint_added_bonus_amount: 0,
+                upoint_added_bonus_amount: 0
               });
               props?.setUpointBasket(false);
             }
           })
-          .catch((error) => {
-            alert("Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.");
-            console.log("error", error);
+          .catch(error => {
+            alert('Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.');
+            console.log('error', error);
           });
       })
-      .catch((error) => {
-        alert("Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.");
-        console.log("error", error);
+      .catch(error => {
+        alert('Амжилтгүй боллоо. Та түр хүлээгээд дахин оролдоно уу.');
+        console.log('error', error);
       });
   };
 
   return (
-    <div id="bg">
-      <div id="foo">
+    <div id='bg'>
+      <div id='foo'>
         <div className={css.containerMain}>
-          <h1 style={{ color: "#37474F", fontSize: "20px", fontWeight: 700 }}>
+          <h1 style={{ color: '#37474F', fontSize: '20px', fontWeight: 700 }}>
             Захиалгын дугаар: {props.data.order_id}
           </h1>
           <span
-            className="closebtn"
+            className='closebtn'
             onClick={() => props?.setUpointBasket(false)}
           >
-            <img src={closeBtn} alt="close button" />
+            <img src={closeBtn} alt='close button' />
           </span>
         </div>
         <div>
           {props.data.upoint_phone === null && (
-            <h1 style={{ color: "#37474F", fontSize: "16px", fontWeight: 700 }}>
-              Таны утасны дугаар{" "}
-              <span style={{ color: "#60A744", fontWeight: "bold" }}>
+            <h1 style={{ color: '#37474F', fontSize: '16px', fontWeight: 700 }}>
+              Таны утасны дугаар{' '}
+              <span style={{ color: '#60A744', fontWeight: 'bold' }}>
                 Upoint
               </span>
               -д холбогдоогүй байна.
@@ -310,7 +316,7 @@ function Upoint(props) {
               <tr>
                 <td>Зарцуулсан оноо буцаах</td>
                 <td>
-                  {" "}
+                  {' '}
                   {props?.data?.upoint_consume_amount !== 0 ? (
                     <a className={css.href}>
                       <>{props?.data?.upoint_consume_amount}</>
@@ -324,14 +330,14 @@ function Upoint(props) {
                     <button
                       // disabled={props?.data?.upoint_consume_amount ? true : false}
 
-                      onClick={(e) => UPointSpendReturn(e, props.data)}
+                      onClick={e => UPointSpendReturn(e, props.data)}
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        backgroundColor: "#FFA600",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: '#FFA600'
                       }}
                     >
                       Буцаах
@@ -339,12 +345,12 @@ function Upoint(props) {
                   ) : (
                     <button
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#b0bec5",
-                        cursor: "not-allowed",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#b0bec5',
+                        cursor: 'not-allowed'
                       }}
                     >
                       Буцаах
@@ -368,14 +374,14 @@ function Upoint(props) {
                   {props?.data?.upoint_bonus_amount &&
                   props.data.upoint_phone !== null ? (
                     <button
-                      onClick={(e) => UPointBonusAdd(e, props.data)}
+                      onClick={e => UPointBonusAdd(e, props.data)}
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        backgroundColor: "#FFA600",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: '#FFA600'
                         // cursor: "not-allowed",
                       }}
                     >
@@ -384,12 +390,12 @@ function Upoint(props) {
                   ) : (
                     <button
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#b0bec5",
-                        cursor: "not-allowed",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#b0bec5',
+                        cursor: 'not-allowed'
                       }}
                     >
                       Оноо олгох
@@ -412,14 +418,14 @@ function Upoint(props) {
                 <td>
                   {props?.data?.upoint_added_bonus_amount ? (
                     <button
-                      onClick={(e) => UPointBonusReturn(e, props.data)}
+                      onClick={e => UPointBonusReturn(e, props.data)}
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        backgroundColor: "#FFA600",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: '#FFA600'
                       }}
                     >
                       Оноо буцаах
@@ -427,12 +433,12 @@ function Upoint(props) {
                   ) : (
                     <button
                       style={{
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#b0bec5",
-                        cursor: "not-allowed",
+                        height: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#b0bec5',
+                        cursor: 'not-allowed'
                       }}
                     >
                       Оноо буцаах
@@ -443,7 +449,7 @@ function Upoint(props) {
             </table>
           </div>
         </div>
-        <div id="order-confirm"></div>
+        <div id='order-confirm'></div>
       </div>
     </div>
   );

@@ -1,94 +1,94 @@
-import React, { useState, useEffect, useContext } from "react";
-import Select from "react-select";
-import closeBtn from "../assets/close.svg";
+import React, { useState, useEffect, useContext } from 'react';
+import Select from 'react-select';
+import closeBtn from '../assets/close.svg';
 
 function Import(props) {
   let [saving, setSaving] = useState(false);
   const [supID, setSupID] = useState(null);
   const options = [];
-  props.suppliers.map((item) => {
+  props.suppliers.map(item => {
     options.push({
       value: item.id,
-      label: item.name,
+      label: item.name
     });
   });
 
   const save = () => {
     if (supID === 0) {
-      alert("Нийлүүлэгч сонгоно уу");
+      alert('Нийлүүлэгч сонгоно уу');
       return;
     }
 
     if (supID === null) {
-      alert("Нийлүүлэгч сонгоно уу");
+      alert('Нийлүүлэгч сонгоно уу');
       return;
     }
-    document.getElementById("read").remove();
+    document.getElementById('read').remove();
     setSaving(true);
 
-    props.data.rows.map((product) => {
+    props.data.rows.map(product => {
       const productPrice = parseInt(product.price, 10);
       const inCase = parseInt(product.incase, 10);
 
       let rawNew = {};
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
       // console.log("rawnew", rawNew);
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(rawNew),
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log("new product import requestoptions", requestOptions);
 
-      let urlNew = `https://api2.ebazaar.mn/api/product/add1`;
+      let urlNew = `${process.env.REACT_APP_API_URL2}/api/product/add1`;
       fetch(urlNew, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+        .then(response => response.json())
+        .then(result => {
           if (result.acknowledged === true) {
-            alert("Бүтээгдэхүүнийг амжилттай орууллаа!");
+            alert('Бүтээгдэхүүнийг амжилттай орууллаа!');
             props.setImporter(false);
           }
           // console.log("new product import", result);
-          setSupID("");
+          setSupID('');
         })
-        .catch((error) => {
-          console.log("error", error);
-          setSupID("");
+        .catch(error => {
+          console.log('error', error);
+          setSupID('');
         });
     });
     setTimeout(() => {}, 5000);
   };
-  const handleChange = (selectedOptions) => {
+  const handleChange = selectedOptions => {
     setSupID(selectedOptions.value);
   };
   const CancelHandler = () => {
     props?.setImporter(false);
-    document.getElementById("read").remove();
+    document.getElementById('read').remove();
     setSaving(false);
-    setSupID("");
+    setSupID('');
   };
   return (
-    <div id="formwithtransparentbackground">
-      <div id="form" className="import">
-        <div className="container">
+    <div id='formwithtransparentbackground'>
+      <div id='form' className='import'>
+        <div className='container'>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItem: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItem: 'center'
             }}
           >
-            {" "}
+            {' '}
             <h1>Merchant import</h1>
           </div>
-          <div id="rows">
-            <div className="entry header">
+          <div id='rows'>
+            <div className='entry header'>
               <div>Компани нэр</div>
               <div>Регистр</div>
               <div>Үйл ажиллагааны чиглэл</div>
@@ -102,7 +102,7 @@ function Import(props) {
             </div>
             {props.data.rows.map((row, index) => {
               return (
-                <div className="entry" key={index}>
+                <div className='entry' key={index}>
                   <div>{row.name}</div>
                   <div>{row.barcode}</div>
                   <div>{row.active}</div>
@@ -116,23 +116,23 @@ function Import(props) {
             })}
           </div>
           <div
-            className="container-btn"
-            style={{ display: "flex", justifyContent: "space-between" }}
+            className='container-btn'
+            style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <span
-              className="btn"
-              style={{ background: "#B0BEC5" }}
+              className='btn'
+              style={{ background: '#B0BEC5' }}
               onClick={CancelHandler}
             >
               Цуцлах
             </span>
-            <span className="btn" onClick={() => save()}>
-              {saving ? "Түр хүлээнэ үү" : "Хадгалах"}
+            <span className='btn' onClick={() => save()}>
+              {saving ? 'Түр хүлээнэ үү' : 'Хадгалах'}
             </span>
           </div>
         </div>
       </div>
-      <div id="transparentbackground"></div>
+      <div id='transparentbackground'></div>
     </div>
   );
 }

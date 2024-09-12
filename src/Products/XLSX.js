@@ -1,191 +1,166 @@
-import React, { useState, useEffect, useContext } from "react";
-import CSV from "./CSV";
-import ProductReportHook from "../Hooks/ProductsReportHook";
-import LoadingSpinner from "../components/Spinner/Spinner";
+import React, { useState, useContext } from 'react';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import ProductReportHook from '../Hooks/ProductsReportHook';
+import myHeaders from '../components/MyHeader/myHeader';
 
-function XLSX(props) {
-  const [supplier, setSupplier] = useState(props.suppValue);
+function XLSX({ suppliers, onClose }) {
   const [loading, setLoading] = useState(false);
-
-  let [blah, setBlah] = useState([
-    [
-      "id",
-      "show",
-      "supplier",
-      "name",
-      "general_category",
-      "category",
-      "description",
-      "barcode",
-      "brand",
-      "sku",
-      "price",
-      "stock",
-      "proper_stock",
-      "safe_stock",
-      "in_case",
-      "product_measure",
-    ],
-  ]);
+  const [isVisible, setIsVisible] = useState(true);
+  const [selectedSupplier, setSelectedSupplier] = useState('');
   const productsCtx = useContext(ProductReportHook);
 
-  const fetchProduct = (supplier_id, isAll) => {
-    console.log("supplier_id", supplier_id);
+  const downloadExcel = () => {
     setLoading(true);
+    const supplierId = selectedSupplier || 'all';
+    const url = `${process.env.REACT_APP_API_URL2}/api/product/report?supplierId=${supplierId}`;
 
-    var myHeaders = new Headers();
-    myHeaders.append("ebazaar_token", localStorage.getItem("ebazaar_admin_token"));
-    myHeaders.append("Content-Type", "application/json");
-    var requestOptions = {
-      method: "GET",
+    fetch(url, {
+      method: 'GET',
       headers: myHeaders,
-    };
-    // let url = `https://api2.ebazaar.mn/api/products/get1?supplier=${
-    //   supplier_id === 1 ? "" : supplier_id
-    // }`;
-    let url = `https://api2.ebazaar.mn/api/products/get1`;
-    if (supplier_id)
-      if (supplier_id === 1) {
-        if (window.confirm("Бүх барааны тайлан татах уу?")) {
-          url = `https://api2.ebazaar.mn/api/products/get1`;
-        } else {
-          url = `https://api2.ebazaar.mn/api/products/get1?supplier=13884`;
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Алдаатай хүсэлт');
         }
-      } else {
-        url = `https://api2.ebazaar.mn/api/products/get1?supplier=${supplier_id}`;
-      }
-
-    console.log("product report url", url);
-    fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("res.data++++++бүтээгдэхүүн", res.data);
-
-        if (res.data.length === 0) {
-          alert("Мэдээлэл байхгүй байна");
-          return;
-        }
-        let data = [];
-        res.data.map((e) => {
-          let description = e.description;
-
-          let div = document.createElement("div");
-          div.innerHTML = description;
-          let text = div.textContent || div.innerText || "";
-          text = text.replace(/[\s,"]+/g, "");
-
-          let name = e.name;
-          let general_category = {};
-
-          let category;
-          let supplier;
-          function convertToPlain(html) {
-            var tempDivElement = document.createElement("div");
-            tempDivElement.innerHTML = html;
-            return tempDivElement.textContent || tempDivElement.innerText || "";
-          }
-          if (props.categories) {
-            props.categories.map((cat) => {
-              if (cat.id === parseInt(e.category_id)) {
-                category = cat.name;
-                general_category = cat;
-              }
-            });
-          }
-
-          function recurse() {
-            if (general_category["parent_id"] !== 0) {
-              props.categories.map((item) => {
-                if (item.id === general_category["parent_id"] && general_category.parent_id !== 0) {
-                  general_category = item;
-                  recurse();
-                }
-              });
-            } else if (general_category["parent_id"] === 0) {
-              return;
-            }
-          }
-          recurse();
-          // console.log("general_category", general_category);
-
-          if (props.suppliers) {
-            props.suppliers.map((sup) => {
-              if (sup.id === parseInt(e.supplier_id)) {
-                supplier = sup.name;
-              }
-            });
-          }
-
-          name = convertToPlain(name);
-
-          data.push({
-            id: e._id,
-            show:
-              e.locations?.["62f4aabe45a4e22552a3969f"]?.is_active?.channel?.["1"] === 0
-                ? "Хаалттай"
-                : "Нээлттэй",
-            supplier: supplier,
-            general_category: general_category.name,
-            name: name.replace(/[,"]/g, ""),
-            category: category ? category : ".",
-            // description: description.replaceAll(",", ".").toString().trim(),
-            description: text,
-            barcode: e.bar_code,
-            brand: e.brand,
-            sku: e.sku,
-            price: e.locations?.["62f4aabe45a4e22552a3969f"]?.price?.channel?.["1"],
-            stock: e.stock,
-            proper_stock: e.proper_stock,
-            safe_stock: e.safe_stock,
-            in_case: e.locations?.["62f4aabe45a4e22552a3969f"]?.in_case?.channel?.["1"],
-
-            product_measure: e.product_measure ? e.product_measure : "Байхгүй",
-          });
-        });
-        setBlah(data);
+        return response.blob(); 
+      })
+      .then(blob => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', 'product_report.xlsx'); 
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log("error collection", error);
+      .catch(error => {
+        console.error('Excel татах үед алдаа гарлаа:', error);
+        setLoading(false);
       });
   };
 
-  useEffect(() => {
-    if (props.suppValue) {
-      fetchProduct(supplier);
-    } else if (props.suppValue === undefined) {
-      fetchProduct(props.company_id);
-    }
-  }, []);
-
-  const clickHandler = () => {
-    productsCtx?.setMassExport(false);
+  const handleSupplierChange = (event) => {
+    setSelectedSupplier(event.target.value);
   };
+
+  const closePopup = () => {
+    productsCtx?.setMassExport(false); 
+  };
+
+  if (!isVisible) {
+    return null; 
+  }
+
   return (
-    <div id="formwithtransparentbackground">
-      <div id="form">
+    <div
+      id="formwithtransparentbackground"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 9999,
+      }}
+    >
+      <div
+        id="form"
+        style={{
+          position: 'relative',
+          width: '400px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+          zIndex: 10000,
+          textAlign: 'center',
+        }}
+      >
         {loading ? (
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "100%",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
             }}
           >
             <LoadingSpinner />
           </div>
         ) : (
           <>
-            <span id="close" onClick={clickHandler}>
-              Close
+            <span
+              id="close"
+              onClick={closePopup}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                color: '#555',
+              }}
+            >
+              &#10005;
             </span>
-            <CSV data={blah} />
+
+            <label
+              htmlFor="supplier-select"
+              style={{
+                display: 'block',
+                marginBottom: '10px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+              }}
+            >
+              Нийлүүлэгч сонгох:
+            </label>
+            <select
+              id="supplier-select"
+              value={selectedSupplier}
+              onChange={handleSupplierChange}
+              style={{
+                width: '100%',
+                padding: '8px',
+                marginBottom: '20px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                fontSize: '14px',
+                height:'50px'
+              }}
+            >
+              <option value="">Бүх нийлүүлэгч</option>
+              {suppliers.map((supplier) => (
+                <option key={supplier.id} value={supplier.id}>
+                  {supplier.name}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={downloadExcel}
+              style={{
+                width: '100%',
+                padding: '10px',
+                backgroundColor: '#8dc543',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '16px',
+              }}
+            >
+              Тайлан татах
+            </button>
           </>
         )}
       </div>
-      <div id="transparentbackground"></div>
     </div>
   );
 }

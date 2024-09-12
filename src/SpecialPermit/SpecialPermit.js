@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import List from "./List";
-import { Modal } from "antd";
-import myHeaders from "../components/MyHeader/myHeader";
-import { HeaderContext } from "../Hooks/HeaderHook";
-import { HeaderContent } from "./HeaderContent";
+import React, { useState, useEffect, useContext } from 'react';
+import List from './List';
+import { Modal } from 'antd';
+import myHeaders from '../components/MyHeader/myHeader';
+import { HeaderContext } from '../Hooks/HeaderHook';
+import { HeaderContent } from './HeaderContent';
 
 const SpecialPermit = () => {
   const [data, setData] = useState();
@@ -23,20 +23,20 @@ const SpecialPermit = () => {
 
   const Fetchdata = () => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/tradeshop/files`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/tradeshop/files`;
 
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+      .then(r => r.json())
+      .then(res => {
         setData(res);
       })
-      .catch((error) => {
+      .catch(error => {
         // console.log("error messenger history get", error);
-        alert("Алдаа гарлаа");
+        alert('Алдаа гарлаа');
       });
   };
   // console.log("tradeshopid", props.tx.tradeshop_id);
@@ -44,101 +44,101 @@ const SpecialPermit = () => {
     try {
       Fetchdata();
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: "100%" }}>
-        <div className="row header" style={{ padding: "0 12px" }}>
-          <div style={{ width: "20%" }}>
+    <div style={{ display: 'flex' }}>
+      <div style={{ width: '100%' }}>
+        <div className='row header' style={{ padding: '0 12px' }}>
+          <div style={{ width: '20%' }}>
             <div>file_id</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             <div>Огноо</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             <div>ID</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <div>Нэр</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <div>Утас</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             <div>Регистер</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <div>Дэлгэрэнгүй</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "20%" }}>
+          <div style={{ width: '20%' }}>
             <div>Статус</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <div>Зураг</div>
             <div>
               <input
-                type="text"
-                placeholder="Хайх ..."
-                style={{ padding: "8px" }}
+                type='text'
+                placeholder='Хайх ...'
+                style={{ padding: '8px' }}
               />
             </div>
           </div>
@@ -158,29 +158,29 @@ const SpecialPermit = () => {
             setOpen(false);
           }}
           onCancel={() => setOpen(false)}
-          width="680px"
+          width='680px'
           // width="auto"
-          bodyStyle={{ padding: "40px" }}
-          className="noFooterModal"
+          bodyStyle={{ padding: '40px' }}
+          className='noFooterModal'
         >
           <img
             src={selected}
-            alt=""
+            alt=''
             width={600}
             height={600}
             style={{
               rotate: `${deg}deg`,
-              objectFit: "contain",
+              objectFit: 'contain'
               // transition: "all 0.5s",
             }}
           />
           <div
             style={{
-              width: "100%",
-              justifyContent: "space-evenly",
-              display: "flex",
+              width: '100%',
+              justifyContent: 'space-evenly',
+              display: 'flex',
               zIndex: 10,
-              marginTop: "10px",
+              marginTop: '10px'
             }}
           >
             <button

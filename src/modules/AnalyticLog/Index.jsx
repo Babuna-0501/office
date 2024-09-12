@@ -1,18 +1,23 @@
 // CSS
-import css from "./index.module.css";
+import css from './index.module.css';
 
-import { useContext, useEffect } from "react";
-import { HeaderContext } from "../../Hooks/HeaderHook";
+import { useContext, useEffect } from 'react';
+import { HeaderContext } from '../../Hooks/HeaderHook';
 
-import { LogHeader } from "./components/LogHeader";
-import { Checkbox, Dropdown, Input, LoadingSpinner } from "../../components/common";
+import { LogHeader } from './components/LogHeader';
+import {
+  Checkbox,
+  Dropdown,
+  Input,
+  LoadingSpinner
+} from '../../components/common';
 
-import calendarIcon from "../../assets/global/calendar.svg";
-import { GlobalContext } from "../../Hooks/GlobalContext";
-import { useState } from "react";
-import ErrorPopup from "../../components/common/ErrorPopup";
-import myHeaders from "../../components/MyHeader/myHeader";
-import InfiniteScroll from "react-infinite-scroll-component";
+import calendarIcon from '../../assets/global/calendar.svg';
+import { GlobalContext } from '../../Hooks/GlobalContext';
+import { useState } from 'react';
+import ErrorPopup from '../../components/common/ErrorPopup';
+import myHeaders from '../../components/MyHeader/myHeader';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Index = () => {
   const { setHeaderContent, setShowRefreshBtn } = useContext(HeaderContext);
@@ -26,10 +31,10 @@ const Index = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false);
 
-  const [logDate, setLogDate] = useState("");
+  const [logDate, setLogDate] = useState('');
 
   useEffect(() => {
     setHeaderContent(<LogHeader />);
@@ -45,15 +50,15 @@ const Index = () => {
     try {
       if (currentPage === 1) setLoading(true);
 
-      let logUrl = `https://api2.ebazaar.mn/api/analytics?limit=50&page=${currentPage}`;
+      let logUrl = `${process.env.REACT_APP_API_URL2}/api/analytics?limit=50&page=${currentPage}`;
 
       if (logDate) {
-        logUrl = `https://api2.ebazaar.mn/api/analytics?limit=50&page=${currentPage}&date=${logDate}`;
+        logUrl = `${process.env.REACT_APP_API_URL2}/api/analytics?limit=50&page=${currentPage}&date=${logDate}`;
       }
 
       const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       };
 
       const logRes = await fetch(logUrl, requestOptions);
@@ -63,17 +68,23 @@ const Index = () => {
         setHasMore(false);
       }
 
-      const tradeshopIds = [...[...new Set(logData.map((log) => log.tradeshop_id))]];
+      const tradeshopIds = [
+        ...[...new Set(logData.map(log => log.tradeshop_id))]
+      ];
 
-      const tradeshopsUrl = `https://api2.ebazaar.mn/api/merchants?id=${tradeshopIds.join(",")}`;
+      const tradeshopsUrl = `${
+        process.env.REACT_API_URL2
+      }/api/merchants?id=${tradeshopIds.join(',')}`;
 
       const tradeshopsRes = await fetch(tradeshopsUrl, requestOptions);
       const tradeshopsData = await tradeshopsRes.json();
 
       if (logDate) {
         setLogs(
-          logData.map((log) => {
-            const curTradeshop = tradeshopsData.data?.find((tradeshop) => tradeshop.tradeshop_id === log.tradeshop_id);
+          logData.map(log => {
+            const curTradeshop = tradeshopsData.data?.find(
+              tradeshop => tradeshop.tradeshop_id === log.tradeshop_id
+            );
             if (curTradeshop) {
               return { ...log, tradeshop: { ...curTradeshop } };
             }
@@ -82,20 +93,22 @@ const Index = () => {
           })
         );
       } else {
-        setLogs((prev) => [
+        setLogs(prev => [
           ...prev,
-          ...logData.map((log) => {
-            const curTradeshop = tradeshopsData.data?.find((tradeshop) => tradeshop.tradeshop_id === log.tradeshop_id);
+          ...logData.map(log => {
+            const curTradeshop = tradeshopsData.data?.find(
+              tradeshop => tradeshop.tradeshop_id === log.tradeshop_id
+            );
             if (curTradeshop) {
               return { ...log, tradeshop: { ...curTradeshop } };
             }
 
             return log;
-          }),
+          })
         ]);
       }
     } catch (error) {
-      setErrorMsg("Алдаа гарлаа. Та дахин оролдоно уу!");
+      setErrorMsg('Алдаа гарлаа. Та дахин оролдоно уу!');
       setShowErrorMsg(true);
     } finally {
       setLoading(false);
@@ -115,28 +128,35 @@ const Index = () => {
     <>
       <div className={css.container}>
         <div className={css.header} style={{ zIndex: logs.length + 1 }}>
-          <div className={css.headerItem} style={{ width: 34, alignItems: "center", justifyContent: "center" }}>
+          <div
+            className={css.headerItem}
+            style={{
+              width: 34,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             <Checkbox
               checked={
                 logs
-                  .map((log) => log._id)
+                  .map(log => log._id)
                   .sort()
-                  .join(",") ===
+                  .join(',') ===
                 selectedLogs
-                  .map((log) => log._id)
+                  .map(log => log._id)
                   .sort()
-                  .join(",")
+                  .join(',')
               }
               onChange={() => {
                 if (
                   logs
-                    .map((log) => log._id)
+                    .map(log => log._id)
                     .sort()
-                    .join(",") ===
+                    .join(',') ===
                   selectedLogs
-                    .map((log) => log._id)
+                    .map(log => log._id)
                     .sort()
-                    .join(",")
+                    .join(',')
                 ) {
                   setSelectedLogs([]);
                 } else {
@@ -148,17 +168,25 @@ const Index = () => {
 
           <div className={css.headerItem} style={{ width: 200 }}>
             <span className={css.headerText}>Лог огноо</span>
-            <Input value={logDate} onChange={(e) => setLogDate(e.target.value)} size="small" type="date" icon={calendarIcon} iconposition="left" name="logDate" />
+            <Input
+              value={logDate}
+              onChange={e => setLogDate(e.target.value)}
+              size='small'
+              type='date'
+              icon={calendarIcon}
+              iconposition='left'
+              name='logDate'
+            />
           </div>
 
           <div className={css.headerItem} style={{ width: 150 }}>
             <span className={css.headerText}>Компанийн нэр</span>
-            <Input size="small" placeholder="Хайх" />
+            <Input size='small' placeholder='Хайх' />
           </div>
 
           <div className={css.headerItem} style={{ width: 150 }}>
             <span className={css.headerText}>Регистер</span>
-            <Input size="small" placeholder="Хайх" />
+            <Input size='small' placeholder='Хайх' />
           </div>
 
           <div className={css.headerItem} style={{ width: 150 }}>
@@ -173,31 +201,40 @@ const Index = () => {
 
           <div className={css.headerItem} style={{ width: 150 }}>
             <span className={css.headerText}>Нэр</span>
-            <Input size="small" placeholder="Хайх" />
+            <Input size='small' placeholder='Хайх' />
           </div>
 
           <div className={css.headerItem} style={{ width: 150 }}>
             <span className={css.headerText}>Section</span>
-            <Input size="small" placeholder="Хайх" />
+            <Input size='small' placeholder='Хайх' />
           </div>
 
           <div className={css.headerItem} style={{ width: 150 }}>
             <span className={css.headerText}>Утга</span>
-            <Input size="small" placeholder="Хайх" />
+            <Input size='small' placeholder='Хайх' />
           </div>
         </div>
 
         {!loading && logs.length > 0 && (
-          <div className={css.content} id="logScrollDiv">
+          <div className={css.content} id='logScrollDiv'>
             <InfiniteScroll
-              scrollableTarget="logScrollDiv"
+              scrollableTarget='logScrollDiv'
               hasMore={hasMore}
               dataLength={logs.length}
-              next={() => setCurrentPage((prev) => prev + 1)}
+              next={() => setCurrentPage(prev => prev + 1)}
               loader={<h4 className={css.loadingScroll}>Уншиж байна...</h4>}
             >
               {logs.map((log, index) => {
-                return <SingleLog key={`analytic-log-${log._id}`} zIndex={logs.length - index} log={log} businessTypes={businessTypes} selectedLogs={selectedLogs} setSelectedLogs={setSelectedLogs} />;
+                return (
+                  <SingleLog
+                    key={`analytic-log-${log._id}`}
+                    zIndex={logs.length - index}
+                    log={log}
+                    businessTypes={businessTypes}
+                    selectedLogs={selectedLogs}
+                    setSelectedLogs={setSelectedLogs}
+                  />
+                );
               })}
             </InfiniteScroll>
           </div>
@@ -221,7 +258,7 @@ const Index = () => {
         message={errorMsg}
         closeHandler={() => {
           setShowErrorMsg(false);
-          setErrorMsg("");
+          setErrorMsg('');
           getData();
         }}
       />
@@ -231,19 +268,33 @@ const Index = () => {
 
 export default Index;
 
-const SingleLog = ({ zIndex, log, businessTypes, selectedLogs, setSelectedLogs }) => {
-  const checked = selectedLogs.map((curLog) => curLog._id).includes(log._id);
+const SingleLog = ({
+  zIndex,
+  log,
+  businessTypes,
+  selectedLogs,
+  setSelectedLogs
+}) => {
+  const checked = selectedLogs.map(curLog => curLog._id).includes(log._id);
 
   return (
-    <div className={`${css.contentRow} ${checked && css.checked}`} style={{ zIndex }}>
-      <div className={css.contentItem} style={{ width: 34, justifyContent: "center" }}>
+    <div
+      className={`${css.contentRow} ${checked && css.checked}`}
+      style={{ zIndex }}
+    >
+      <div
+        className={css.contentItem}
+        style={{ width: 34, justifyContent: 'center' }}
+      >
         <Checkbox
           checked={checked}
           onChange={() => {
             if (checked) {
-              setSelectedLogs((prev) => prev.filter((curLog) => curLog._id !== log._id));
+              setSelectedLogs(prev =>
+                prev.filter(curLog => curLog._id !== log._id)
+              );
             } else {
-              setSelectedLogs((prev) => [...prev, log]);
+              setSelectedLogs(prev => [...prev, log]);
             }
           }}
         />
@@ -254,23 +305,45 @@ const SingleLog = ({ zIndex, log, businessTypes, selectedLogs, setSelectedLogs }
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{log.tradeshop?.tradeshop_name ?? ""}</span>
+        <span className={css.contentText}>
+          {log.tradeshop?.tradeshop_name ?? ''}
+        </span>
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{log.tradeshop?.business_register ?? ""}</span>
+        <span className={css.contentText}>
+          {log.tradeshop?.business_register ?? ''}
+        </span>
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{businessTypes.find((type) => type.business_type_id === Number(log.tradeshop?.business_type_id))?.business_type_name}</span>
+        <span className={css.contentText}>
+          {
+            businessTypes.find(
+              type =>
+                type.business_type_id ===
+                Number(log.tradeshop?.business_type_id)
+            )?.business_type_name
+          }
+        </span>
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{businessTypes.find((type) => type.business_type_id === Number(log.tradeshop?.business_type_id))?.channel_name}</span>
+        <span className={css.contentText}>
+          {
+            businessTypes.find(
+              type =>
+                type.business_type_id ===
+                Number(log.tradeshop?.business_type_id)
+            )?.channel_name
+          }
+        </span>
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{log.tradeshop?.customer_name ?? ""}</span>
+        <span className={css.contentText}>
+          {log.tradeshop?.customer_name ?? ''}
+        </span>
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
@@ -278,7 +351,7 @@ const SingleLog = ({ zIndex, log, businessTypes, selectedLogs, setSelectedLogs }
       </div>
 
       <div className={css.contentItem} style={{ width: 150 }}>
-        <span className={css.contentText}>{log.name ?? ""}</span>
+        <span className={css.contentText}>{log.name ?? ''}</span>
       </div>
     </div>
   );

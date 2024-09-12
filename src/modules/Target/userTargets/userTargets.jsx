@@ -1,50 +1,50 @@
-import React, { useContext } from "react";
-import { useEffect, useState } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import { HeaderContext } from "../../../Hooks/HeaderHook";
-import Link from "../../../components/Routing/Link";
-import css from "./userTargets.module.css";
-import HeaderContent from "./headerContent";
-import { Button } from "../../../components/common";
-import { ProfileGray } from "../../../assets/icons";
+import React, { useContext } from 'react';
+import { useEffect, useState } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import { HeaderContext } from '../../../Hooks/HeaderHook';
+import Link from '../../../components/Routing/Link';
+import css from './userTargets.module.css';
+import HeaderContent from './headerContent';
+import { Button } from '../../../components/common';
+import { ProfileGray } from '../../../assets/icons';
 
 const UserTargets = () => {
   const { setHeaderContent } = useContext(HeaderContext);
-  const [userId] = useState(window.location.pathname.split("/")[2]);
+  const [userId] = useState(window.location.pathname.split('/')[2]);
 
-  const [userData, setUserData] = useState({ first_name: "Нэргүй", role: 0 });
+  const [userData, setUserData] = useState({ first_name: 'Нэргүй', role: 0 });
   const [targets, setTargets] = useState([]);
   const [succeededPerc, setSuceededPerc] = useState(0);
   const [waitingPerc, setWaitingPerc] = useState(0);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const amountTargetCalculator = () => {
     let goal = 0;
     let succeeded = 0;
     let waiting = 0;
 
-    targets.map((target) => {
+    targets.map(target => {
       if (target?.type === 2) {
         goal += target.target.goal;
         succeeded += target.target.succeeded;
         waiting += target.target.waiting;
       } else if (target?.type === 1) {
         target?.products?.length &&
-          target.products.map((product) => {
+          target.products.map(product => {
             goal += product.target.amount;
             succeeded += product.succeeded.amount;
             waiting += product.waiting.amount;
           });
         target?.categories?.length &&
-          target.categories.map((category) => {
+          target.categories.map(category => {
             goal += category.target.amount;
             succeeded += category.succeeded.amount;
             waiting += category.waiting.amount;
           });
         target?.brands?.length &&
-          target.brands.map((brand) => {
+          target.brands.map(brand => {
             goal += brand.target.amount;
             succeeded += brand.succeeded.amount;
             waiting += brand.waiting.amount;
@@ -63,26 +63,26 @@ const UserTargets = () => {
     let returnValue = {
       goal: 0,
       succeeded: 0,
-      waiting: 0,
+      waiting: 0
     };
 
     if (target?.type === 2) {
       returnValue = target.target;
     } else if (target?.type === 1) {
       target?.products &&
-        target.products.map((product) => {
+        target.products.map(product => {
           returnValue.goal += product.target.amount;
           returnValue.succeeded += product.succeeded.amount;
           returnValue.waiting += product.waiting.amount;
         });
       target?.categories &&
-        target.categories.map((category) => {
+        target.categories.map(category => {
           returnValue.goal += category.target.amount;
           returnValue.succeeded += category.succeeded.amount;
           returnValue.waiting += category.waiting.amount;
         });
       target?.brands &&
-        target.brands.map((brand) => {
+        target.brands.map(brand => {
           returnValue.goal += brand.target.amount;
           returnValue.succeeded += brand.succeeded.amount;
           returnValue.waiting += brand.waiting.amount;
@@ -93,15 +93,15 @@ const UserTargets = () => {
 
   const getTargetByUser = async () => {
     try {
-      let url = `https://api2.ebazaar.mn/api/backoffice/users/targets?userId=${userId}`;
+      let url = `https://api2.ebazaar.link/api/backoffice/users/targets?userId=${userId}`;
       if (startDate && endDate) {
-        url = `https://api2.ebazaar.mn/api/backoffice/users/targets?userId=${userId}&startDate=${startDate}&endDate=${endDate}`;
+        url = `https://api2.ebazaar.link/api/backoffice/users/targets?userId=${userId}&startDate=${startDate}&endDate=${endDate}`;
       }
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -111,25 +111,25 @@ const UserTargets = () => {
       setTargets(resData.data);
     } catch (error) {
       console.log(error);
-      alert("Алдаа", error);
+      alert('Алдаа', error);
     }
   };
 
   const getUser = async () => {
     try {
-      const url = `https://api2.ebazaar.mn/api/backoffice/users?id=${userId}`;
+      const url = `https://api2.ebazaar.link/api/backoffice/users?id=${userId}`;
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       const res = await fetch(url, requestOptions);
       const resData = await res.json();
       setUserData(resData.data?.[0]);
     } catch (error) {
       console.log(error);
-      alert("Алдаа", error);
+      alert('Алдаа', error);
     }
   };
 
@@ -150,40 +150,40 @@ const UserTargets = () => {
             {userData.profile_picture ? (
               <img
                 src={userData.profile_picture}
-                alt="profile"
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                alt='profile'
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             ) : (
               <ProfileGray />
             )}
           </div>
           <div className={css.userNameRole}>
-            <span style={{ fontWeight: "700" }}>{userData.first_name}</span>
+            <span style={{ fontWeight: '700' }}>{userData.first_name}</span>
             <span>
-              {userData.role === 0 && " "}
-              {userData.role === 1 && "Худалдааны төлөөлөгч"}
-              {userData.role === 2 && "Түгээгч"}
-              {userData.role === 3 && "Админ"}
-              {userData.role === 4 && "Van Sale"}
-              {userData.role === 5 && "Нярав"}
+              {userData.role === 0 && ' '}
+              {userData.role === 1 && 'Худалдааны төлөөлөгч'}
+              {userData.role === 2 && 'Түгээгч'}
+              {userData.role === 3 && 'Админ'}
+              {userData.role === 4 && 'Van Sale'}
+              {userData.role === 5 && 'Нярав'}
             </span>
           </div>
         </div>
         <div className={css.dateFilter}>
           <input
-            type="date"
-            onChange={(e) => {
+            type='date'
+            onChange={e => {
               setStartDate(e.target.value);
             }}
           />
           <img
-            src="https://admin.ebazaar.mn/static/media/arrow-right.99b8a05c36a6a1040bc241e82526c995.svg"
-            alt="arrow"
-            style={{ height: "50%" }}
+            src='/static/media/arrow-right.99b8a05c36a6a1040bc241e82526c995.svg'
+            alt='arrow'
+            style={{ height: '50%' }}
           />
           <input
-            type="date"
-            onChange={(e) => {
+            type='date'
+            onChange={e => {
               setEndDate(e.target.value);
             }}
           />
@@ -196,7 +196,7 @@ const UserTargets = () => {
           style={{
             background: `conic-gradient(#2ab674 ${
               3.6 * succeededPerc
-            }deg, #d6df2a 0deg)`,
+            }deg, #d6df2a 0deg)`
           }}
         >
           <div
@@ -204,7 +204,7 @@ const UserTargets = () => {
             style={{
               background: `conic-gradient(transparent ${
                 (succeededPerc + waitingPerc) * 3.6
-              }deg, #F1F1F1   0deg)`,
+              }deg, #F1F1F1   0deg)`
             }}
           ></div>
 
@@ -249,11 +249,11 @@ const UserTargets = () => {
                   <div
                     className={css.targetGraph}
                     style={{
-                      width: "80px",
-                      height: "80px",
+                      width: '80px',
+                      height: '80px',
                       background: `conic-gradient(#2ab674 ${
                         3.6 * succeededPercentage
-                      }deg, #d6df2a 0deg)`,
+                      }deg, #d6df2a 0deg)`
                     }}
                   >
                     <div
@@ -261,7 +261,7 @@ const UserTargets = () => {
                       style={{
                         background: `conic-gradient(transparent ${
                           (waitingPercentage + succeededPercentage) * 3.6
-                        }deg, #F1F1F1   0deg)`,
+                        }deg, #F1F1F1   0deg)`
                       }}
                     ></div>
 
@@ -269,9 +269,9 @@ const UserTargets = () => {
                       <span
                         className={css.completed}
                         style={{
-                          width: "max-content",
-                          backgroundColor: "transparent",
-                          fontSize: "13px",
+                          width: 'max-content',
+                          backgroundColor: 'transparent',
+                          fontSize: '13px'
                         }}
                       >
                         {succeededPercentage}%
@@ -279,9 +279,9 @@ const UserTargets = () => {
                       <span
                         className={css.pending}
                         style={{
-                          width: "max-content",
-                          backgroundColor: "transparent",
-                          fontSize: "12px",
+                          width: 'max-content',
+                          backgroundColor: 'transparent',
+                          fontSize: '12px'
                         }}
                       >
                         {waitingPercentage}%

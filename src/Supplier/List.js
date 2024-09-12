@@ -6,6 +6,11 @@ const List = (props) => {
 
  useEffect(() => {
    // zuvhun oresh (daraa zasah heregtei!!!)
+
+  // Check if company_id matches |13884|
+  // if (props.userData.company_id === "|13884|") {
+  //   console.log("Company ID 13884 selected");
+  // }
    if (
      props.userData.company_id === "|14057|" ||
      props.userData.company_id === "|14142|"
@@ -19,7 +24,6 @@ const List = (props) => {
      setSuppliers(props.suppliers);
    }
  }, [props.suppliers, props.userData.company_id]);
-
   let content = props.suppliers ? (
     <div className={css.wrapper}>
       {suppliers?.map((e, index) => {

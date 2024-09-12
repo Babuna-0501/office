@@ -1,36 +1,36 @@
-import React, { useEffect, useState, useContext } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import css from "./noatheader.module.css";
-import AppHook from "../../Hooks/AppHook";
-import { Company } from "../NoatCompany";
+import React, { useEffect, useState, useContext } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import css from './noatheader.module.css';
+import AppHook from '../../Hooks/AppHook';
+import { Company } from '../NoatCompany';
 
-const NoatHeader = (props) => {
-  console.log("props -----------n", props);
+const NoatHeader = props => {
+  console.log('props -----------n', props);
 
   const noatctx = useContext(AppHook);
-  let registter = "";
+  let registter = '';
   registter = Company[props.userData.company_id];
-  console.log(props)
+  console.log(props);
 
   const ShalgahHandler = () => {
     let requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
       body: JSON.stringify({
-        register: Number(registter),
-      }),
+        register: Number(registter)
+      })
     };
-    fetch(`https://api2.ebazaar.mn/api/ebarimt/info`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("Res", res);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/ebarimt/info`, requestOptions)
+      .then(res => res.json())
+      .then(res => {
+        console.log('Res', res);
         if (res.code === 200) {
           noatctx.setNoatInfo(res.data);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
@@ -46,11 +46,11 @@ const NoatHeader = (props) => {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        gap: "16px",
-        width: "100%",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '16px',
+        width: '100%'
       }}
     >
       <div>
@@ -60,13 +60,13 @@ const NoatHeader = (props) => {
       </div>
       <div className={css.container}>
         <span>
-          Илгээхэд бэлэн:{" "}
+          Илгээхэд бэлэн:{' '}
           {noatctx.noatInfo && noatctx.noatInfo.extraInfo.countBill}
         </span>
       </div>
       <div className={css.container}>
         <span>
-          Үлдэгдэл:{" "}
+          Үлдэгдэл:{' '}
           {noatctx.noatInfo && noatctx.noatInfo.extraInfo.countLottery}
         </span>
       </div>

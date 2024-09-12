@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import css from "./select.module.css";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import css from './select.module.css';
+import { useEffect } from 'react';
 
 const Select = ({
   style = {},
   options,
   value,
   onChange = () => {},
-  onSearch = () => {},
+  onSearch = () => {}
 }) => {
   const [values, setValues] = useState([...value]);
   const [isFocus, setIsFocus] = useState(false);
@@ -22,17 +22,17 @@ const Select = ({
           setIsFocus(true);
         }}
       >
-        {values.map((value) => {
+        {values.map(value => {
           return (
             <div className={css.choosenOption}>
               <span>{value}</span>
               <span
                 style={{
-                  fontSize: "18px",
-                  cursor: "pointer",
+                  fontSize: '18px',
+                  cursor: 'pointer'
                 }}
                 onClick={() => {
-                  setValues(values.filter((item) => item !== value));
+                  setValues(values.filter(item => item !== value));
                 }}
               >
                 x
@@ -41,8 +41,8 @@ const Select = ({
           );
         })}
         <input
-          placeholder="хайх..."
-          onChange={(e) => {
+          placeholder='хайх...'
+          onChange={e => {
             onSearch(e.target.value);
           }}
         />
@@ -54,38 +54,38 @@ const Select = ({
               setIsFocus(false);
             }}
             style={{
-              position: "absolute",
-              width: "15px",
-              height: "15px",
-              right: "10px",
-              top: "10px",
+              position: 'absolute',
+              width: '15px',
+              height: '15px',
+              right: '10px',
+              top: '10px'
             }}
           >
             <img
               style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                cursor: "pointer",
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                cursor: 'pointer'
               }}
-              src="https://ebazaar.mn/media/original/5635124130785212415802395926202310030529379073801687019852063413126833.png"
-              alt="close"
+              src={`${process.env.REACT_APP_MEDIA_URL}/original/5635124130785212415802395926202310030529379073801687019852063413126833.png`}
+              alt='close'
             />
           </div>
-          {options.map((option) => {
+          {options.map(option => {
             return (
               <div
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   if (values.includes(option.value)) {
-                    setValues(values.filter((item) => item !== option.value));
+                    setValues(values.filter(item => item !== option.value));
                   } else {
                     setValues([...values, option.value]);
                   }
                 }}
                 style={
                   values.includes(option.value)
-                    ? { backgroundColor: "#f1f1f1" }
+                    ? { backgroundColor: '#f1f1f1' }
                     : {}
                 }
                 className={css.option}

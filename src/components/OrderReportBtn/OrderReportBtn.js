@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import upload from "../../assets/Upload_white.svg";
 import uploadGray from "../../assets/Upload.svg";
 import refreshIcon from "../../assets/refresh.svg";
@@ -9,14 +9,20 @@ import { Button } from "../../Achiltiinzahialga/components/common";
 import carIcon from "../../assets/shipment/car-icon-shipment.svg";
 import { colaOrderUsers } from "../../Order/Index";
 import FilterConfig from "../../Order/FilterButton/FilterConfig";
+import YunaToExcel from "../../OrderV2/components/yuna/Yuna";
+import YunaModal from "./YunaModal";
+import MgcToExcel from "../../OrderV2/components/mgc/mgc";
 
-const dataIDS = ["|14057|", "|14045|", "|13954|"];
+const dataIDS = ["|14057|", "|14045|", "|13954|" , "|13948|"];
 
 const OrderReportBtn = (props) => {
   const orderCTX = useContext(OrderReportHook);
+  const [isYunaModalOpen, setIsYunaModalOpen] = useState(false); // State to control modal visibility
+
   const refreshFunction = () => {
     props.setPage(["orders"]);
   };
+
   const onChange = (dates, dateStrings) => {
     if (dates) {
       console.log("From: ", dates[0], ", to: ", dates[1]);
@@ -24,9 +30,8 @@ const OrderReportBtn = (props) => {
       console.log("Clear");
     }
   };
+
   const permission = Object.values(JSON.parse(props.userData.permission))[0];
-  console.log(XTcompany)
-  console.log(props.userData.company_id)
 
   return (
     <div
@@ -50,7 +55,7 @@ const OrderReportBtn = (props) => {
           {(props.userData.company_id === "|14005|" ||  
             props.userData.company_id === "|14005||14238|" ||
             props.userData.company_id === "|14191|" ||
-            props.userData.company_id === "|14246|") && (
+            props.userData.company_id === "|14246|" ) && (
             <>
               <Button
                 onClick={() => orderCTX.setShowOrderReceipts(true)}
@@ -69,34 +74,32 @@ const OrderReportBtn = (props) => {
             </>
           )}
 
+          <>
+            <Button
+              disabled={orderCTX?.tugeegchBtnDisabled}
+              variant="primary"
+              size="medium"
+              onClick={() => {
+                orderCTX.setShowTugeegchAssign(true);
+              }}
+            >
+              Түгээгчид хувиарлах11
+            </Button>
 
-            <>
-              <Button
-                disabled={orderCTX?.tugeegchBtnDisabled}
-                variant="primary"
-                size="medium"
-                onClick={() => {
-                  orderCTX.setShowTugeegchAssign(true);
-                }}
-              >
-                Түгээгчид хувиарлах11
-              </Button>
-
-              <Button
-                disabled={orderCTX?.shipmentBtnDisabled}
-                variant="primary"
-                size="medium"
-                width={143}
-                icon
-                onClick={() => {
-                  orderCTX.setShowShipmentAssign(true);
-                }}
-              >
-                <img src={carIcon} alt="Car" />
-                Ачилт
-              </Button>
-            </>
-
+            <Button
+              disabled={orderCTX?.shipmentBtnDisabled}
+              variant="primary"
+              size="medium"
+              width={143}
+              icon
+              onClick={() => {
+                orderCTX.setShowShipmentAssign(true);
+              }}
+            >
+              <img src={carIcon} alt="Car" />
+              Ачилт
+            </Button>
+          </>
 
           {props.userData.company_id === "|14057|" &&
             permission.order.report && (
@@ -110,7 +113,7 @@ const OrderReportBtn = (props) => {
                 Тайлан
               </Button>
             )}
-          {props.userData.company_id === "|14045|" &&
+          {props.userData.company_id === "|14045|"  &&
             permission.order.report && (
               <Button
                 variant="primary"
@@ -122,6 +125,21 @@ const OrderReportBtn = (props) => {
                 Хангамж
               </Button>
             )}
+
+            {props.userData.company_id === "|13948|" &&
+            permission.order.report && (
+              <Button
+                variant="primary"
+                size="medium"
+                onClick={() => orderCTX.setShowIrishReport(true)}
+                icon
+              >
+                <img src={upload} alt="upload" />
+                Хангамж Irish
+              </Button>
+            )}
+
+       
           {props.userData.company_id === "|14045|" &&
             permission.order.report && (
               <Button
@@ -140,24 +158,49 @@ const OrderReportBtn = (props) => {
 
           {props.userData.company_id === "|14045|" &&
             permission.order.report && (
-              <Button
-                variant="primary"
-                size="medium"
-                onClick={() => {
-                  orderCTX.setShowArigReport(true);
-                  orderCTX.setYunaTailanType(1);
-                }}
-                icon
-              >
-                <img src={upload} alt="upload" />
-                Юна тайлан
-              </Button>
+              <>
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={() => setIsYunaModalOpen(true)} 
+                >
+                  <img src={upload} alt="upload" />
+                  Yuna Тайлан
+                </Button>
+                <YunaModal
+                  isOpen={isYunaModalOpen}
+                  onClose={() => setIsYunaModalOpen(false)} 
+                >
+                  <YunaToExcel />
+                </YunaModal>
+              </>
+            )}
+
+            
+          {props.userData.company_id === "|14178|" &&
+            permission.order.report && (
+              <>
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={() => setIsYunaModalOpen(true)} 
+                >
+                  <img src={upload} alt="upload" />
+                  MGC Тайлан
+                </Button>
+                <YunaModal
+                  isOpen={isYunaModalOpen}
+                  onClose={() => setIsYunaModalOpen(false)} 
+                >
+                  <MgcToExcel/>
+                </YunaModal>
+              </>
             )}
 
           {props.userData.company_id === "|13954|" &&
             permission.order.report && (
               <Button
-                variant="primary"
+                variant="primary" 
                 size="medium"
                 onClick={() => orderCTX.setShowArigReport(true)}
                 icon
@@ -191,13 +234,6 @@ const OrderReportBtn = (props) => {
           ) : null}
 
           {!dataIDS.includes(props.userData.company_id) && (
-            // <div
-            //   className={css.firstBtn}
-            //   onClick={() => orderCTX.setReportSecond(true)}
-            // >
-            //   <img src={upload} alt="upload" />
-            //   <span>Тайлан</span>
-            // </div>
             <Button
               variant="primary"
               size="medium"
@@ -229,16 +265,6 @@ const OrderReportBtn = (props) => {
               Diamond тайлан
             </Button>
           ) : null}
-          {/* {props.userData.id === 1082 || props.userData.id === 1115 ? (
-						<Button
-							variant="primary"
-							size="medium"
-							icon
-							onClick={() => orderCTX.setBmTovchoo(true)}
-						>
-							<img src={upload} alt="upload" /> Some report
-						</Button>
-					) : null} */}
         </>
       </div>
     </div>

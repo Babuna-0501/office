@@ -1,0 +1,35 @@
+<svg width='36' height='36'
+            viewBox='0 0 36 36'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <rect width='36' height='36' rx='18' fill='#F2F2F2' />
+            <path
+              d='M22.2675 25.2032V13.1875'
+              stroke='#4D4D4D'
+              stroke-width='1.37868'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M25.868 21.5898L22.2699 25.2045L18.6719 21.5898'
+              stroke='#4D4D4D'
+              stroke-width='1.37868'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M13.5097 10.793V22.8087'
+              stroke='#4D4D4D'
+              stroke-width='1.37868'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+            <path
+              d='M9.91016 14.4077L13.5082 10.793L17.1062 14.4077'
+              stroke='#4D4D4D'
+              stroke-width='1.37868'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            />
+          </svg>

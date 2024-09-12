@@ -1,8 +1,9 @@
-import React from "react";
-import css from "./sidemenuContent.module.css";
-import { useEffect } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import { useState } from "react";
+import React from 'react';
+import css from './sidemenuContent.module.css';
+import { useEffect } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import { useState } from 'react';
+import { replaceImageUrl } from '../../../utils';
 
 const SidemenuContent = ({ sidemenuData, inventories }) => {
   const [products, setProducts] = useState([]);
@@ -11,12 +12,12 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
 
   const getDetail = async () => {
     try {
-      const url = `https://api2.ebazaar.mn/api/shipment/get/final?_id=${sidemenuData._id}&products=true`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment/get/final?_id=${sidemenuData._id}&products=true`;
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -27,13 +28,13 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
 
         setProductsDetail(resData?.data[0]?.products);
 
-        resData?.data[0]?.products.map((product) => {
+        resData?.data[0]?.products.map(product => {
           productsIdQtyCopy.push({
             productId: product.productId,
-            quantity: product.quantity,
+            quantity: product.quantity
           });
         });
-        console.log("productsIdQtyCopyproductsIdQtyCopy", productsIdQtyCopy);
+        console.log('productsIdQtyCopyproductsIdQtyCopy', productsIdQtyCopy);
         setProductsIdQty(productsIdQtyCopy);
       }
     } catch (error) {
@@ -43,14 +44,14 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
 
   const getProduct = async () => {
     try {
-      const url = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIdQty.map(
-        (item) => item.productId
-      )}]`;
+      const url = `${
+        process.env.REACT_API_URL2
+      }/products/get1?ids=[${productsIdQty.map(item => item.productId)}]`;
 
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -61,11 +62,11 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
     }
   };
 
-  console.log("productsIdQty", productsIdQty);
+  console.log('productsIdQty', productsIdQty);
 
   const getProductQuantity = ({ id }) => {
     const product = productsIdQty.find(
-      (product) => product.productId === Number(id)
+      product => product.productId === Number(id)
     );
     return product ? product.quantity : 0;
   };
@@ -84,16 +85,16 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
 
   const getInventoryName = ({ inventoryId }) => {
     if (!inventoryId) {
-      return "";
+      return '';
     }
-    const foundInventory = inventories.find((e) => e._id === inventoryId);
+    const foundInventory = inventories.find(e => e._id === inventoryId);
     return foundInventory ? foundInventory.name : null;
   };
 
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <span style={{ fontWeight: "700", fontSize: "30px" }}>Хөдөлгөөн</span>
+        <span style={{ fontWeight: '700', fontSize: '30px' }}>Хөдөлгөөн</span>
         <div className={css.headerInfo}>
           <span>
             <strong>Үүссэн огноо: </strong>
@@ -106,9 +107,9 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
               </span>
             </div>
             <img
-              style={{ height: "40px" }}
-              src="	https://admin.ebazaar.mn/static/media/arrow-right.99b8a05c36a6a1040bc241e82526c995.svg"
-              alt="arrow"
+              style={{ height: '40px' }}
+              src='	/static/media/arrow-right.99b8a05c36a6a1040bc241e82526c995.svg'
+              alt='arrow'
             />
             <div>
               <span>{getInventoryName({ inventoryId: sidemenuData.to })}</span>
@@ -117,9 +118,9 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
         </div>
       </div>
       <div className={css.productsList}>
-        {productsIdQty.map((prdct) => {
+        {productsIdQty.map(prdct => {
           return products.map(
-            (product) =>
+            product =>
               prdct.productId === product._id && (
                 <div
                   className={css.oneProduct}
@@ -128,10 +129,10 @@ const SidemenuContent = ({ sidemenuData, inventories }) => {
                   <div className={css.productLeft}>
                     <img
                       src={
-                        product.image[0] ||
-                        "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+                        replaceImageUrl(product.image[0]) ||
+                        `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
                       }
-                      alt="asd"
+                      alt='asd'
                     />
                   </div>
                   <div className={css.productRight}>

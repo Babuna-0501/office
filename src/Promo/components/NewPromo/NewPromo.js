@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
-import css from "./newpromo.module.css";
-import ProductTable from "../ProductTable/ProductTable";
-import Products from "../../../components/Products/Products";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import PromoHookV1 from "../../../Hooks/PromoHookV1";
-import promodata from "./Promotype.json";
-import setupdata from "./Setuptype.json";
-import Background from "../Background/Background";
-import ZoneIndex from "../Zone/ZoneIndex";
-import Channel from "../Channel/Channel";
+import React, { useEffect, useState, useContext } from 'react';
+import css from './newpromo.module.css';
+import ProductTable from '../ProductTable/ProductTable';
+import Products from '../../../components/Products/Products';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import PromoHookV1 from '../../../Hooks/PromoHookV1';
+import promodata from './Promotype.json';
+import setupdata from './Setuptype.json';
+import Background from '../Background/Background';
+import ZoneIndex from '../Zone/ZoneIndex';
+import Channel from '../Channel/Channel';
 const NewPromo = () => {
   const [productopen, setProductopen] = useState(false);
   const [prodids, setProdids] = useState([]);
@@ -29,44 +29,44 @@ const NewPromo = () => {
   const CloseHandler = () => {
     setProductopen(false);
   };
-  console.log("prodids", prodids);
+  console.log('prodids', prodids);
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api/products/get1?id=${prodids}`;
-    console.log("url", url);
+    let url = `${process.env.REACT_APP_API_URL2}/api/products/get1?id=${prodids}`;
+    console.log('url', url);
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("res products", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('res products', res);
         setProducts(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [prodids]);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let url = `https://api2.ebazaar.mn/api//backoffice/suppliers`;
+    let url = `${process.env.REACT_APP_API_URL2}/api//backoffice/suppliers`;
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setSuppliers(res.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
-  console.log(suppliers)
+  console.log(suppliers);
   return (
     <div className={css.container}>
       <div>
@@ -74,9 +74,9 @@ const NewPromo = () => {
         <div className={css.onewrapper}>
           <div>
             <input
-              placeholder="Гарчиг1"
+              placeholder='Гарчиг1'
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
             />
           </div>
           <div>
@@ -144,25 +144,25 @@ const NewPromo = () => {
           <div>
             <div>
               <input
-                placeholder="Hymdarliin hub"
+                placeholder='Hymdarliin hub'
                 value={percentone}
-                onChange={(e) => {
+                onChange={e => {
                   setPercentone(e.target.value);
                 }}
               />
             </div>
             <div>
               <input
-                placeholder="Uniin dun"
+                placeholder='Uniin dun'
                 value={price}
-                onChange={(e) => {
+                onChange={e => {
                   setPrice(e.target.value);
                 }}
               />
               <input
-                placeholder="Hymdraliin hubi"
+                placeholder='Hymdraliin hubi'
                 value={percenttwo}
-                onChange={(e) => {
+                onChange={e => {
                   setPercenttwo(e.target.value);
                 }}
               />
@@ -172,25 +172,25 @@ const NewPromo = () => {
         <div>
           <div>
             <input
-              type="date"
+              type='date'
               value={startdate}
-              onChange={(e) => {
+              onChange={e => {
                 setStartdate(e.target.value);
               }}
             />
             <input
-              type="date"
+              type='date'
               value={enddate}
-              onChange={(e) => {
+              onChange={e => {
                 setEnddate(e.target.value);
               }}
             />
           </div>
           <div>
             <input
-              placeholder="Comment"
+              placeholder='Comment'
               value={desc}
-              onChange={(e) => {
+              onChange={e => {
                 setDesc(e.target.value);
               }}
             />
@@ -215,7 +215,7 @@ const NewPromo = () => {
       <div>
         <div
           onClick={() => {
-            setChannelOpen((prev) => !prev);
+            setChannelOpen(prev => !prev);
           }}
         >
           Subgiin tohirgoo
@@ -225,7 +225,7 @@ const NewPromo = () => {
       <div>
         <div
           onClick={() => {
-            setZoneOpen((prev) => !prev);
+            setZoneOpen(prev => !prev);
           }}
         >
           Busiin tohirgoo
@@ -241,7 +241,7 @@ const NewPromo = () => {
         <Products
           onClose={CloseHandler}
           setProdids={setProdids}
-          btnTitle="Songoh"
+          btnTitle='Songoh'
         />
       )}
 

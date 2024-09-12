@@ -1,27 +1,28 @@
-import React, { useState, useEffect, useContext, useReducer } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
-import TavanBogd from "./TavanBogd";
+import React, { useState, useEffect, useContext, useReducer } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
+import TavanBogd from './TavanBogd';
 
-import editIcon from "../assets/Edit_icon.svg";
-import homeShop from "../assets/homeDelguur.svg";
-import closeBtn from "../assets/close.svg";
-import plusIcon from "../assets/plus.svg";
-import minusIcon from "../assets/minus.svg";
-import prinfIcon from "../assets/Upload.svg";
+import editIcon from '../assets/Edit_icon.svg';
+import homeShop from '../assets/homeDelguur.svg';
+import closeBtn from '../assets/close.svg';
+import plusIcon from '../assets/plus.svg';
+import minusIcon from '../assets/minus.svg';
+import prinfIcon from '../assets/Upload.svg';
 
-import css from "./lines.module.css";
-import OrderApprove from "./OrderApprove/OrderApprove";
-import OrderCancel from "./OrderCancel/OrderCancel";
-import ArigOrder from "./ArigOrder.json";
-import Braketterm from "./BraketTerm/Braketterm";
-import BankInfo from "./BankInfo/BankInfo";
+import css from './lines.module.css';
+import OrderApprove from './OrderApprove/OrderApprove';
+import OrderCancel from './OrderCancel/OrderCancel';
+import ArigOrder from './ArigOrder.json';
+import Braketterm from './BraketTerm/Braketterm';
+import BankInfo from './BankInfo/BankInfo';
 
-import { Modal, message } from "antd";
-import AppHook from "../Hooks/AppHook";
-import { MillhouseLines } from "./Millhouse/MillhouseLines";
-import warning from "../assets/warning.svg";
-import ProductNemeh from "./ProductAdd/ProductNemeh";
-import Products from "../components/Products/Products";
+import { Modal, message } from 'antd';
+import AppHook from '../Hooks/AppHook';
+import { MillhouseLines } from './Millhouse/MillhouseLines';
+import warning from '../assets/warning.svg';
+import ProductNemeh from './ProductAdd/ProductNemeh';
+import Products from '../components/Products/Products';
+import { replaceImageUrl } from '../utils';
 
 function reducer(state, action) {
   return state;
@@ -49,7 +50,10 @@ function LinesCopy(props) {
   const permission = Object.values(JSON.parse(props.userData.permission))[0];
 
   let [order, setOrder] = useReducer(reducer, props.data);
-  console.log("props", props.userData.company_id === "|14005|" && permission?.order?.update);
+  console.log(
+    'props',
+    props.userData.company_id === '|14005|' && permission?.order?.update
+  );
   let [ready, setReady] = useState(true);
   // if (props.data.supplier_id === 149) {
   //   console.log("tb");
@@ -66,11 +70,11 @@ function LinesCopy(props) {
   }, [props.data]);
   let aa = JSON.parse(order.raw_order.toLowerCase());
 
-  console.log("ss", aa);
+  console.log('ss', aa);
   let ids = [];
 
   let total = 0;
-  order.line.map((l) => {
+  order.line.map(l => {
     total += parseFloat(l.price.toFixed(2)) * l.quantity;
     ids.push(l.product_id);
   });
@@ -83,107 +87,119 @@ function LinesCopy(props) {
     });
   }, [props]);
 
-  const cancel = (id) => {
-    if (window.confirm("Та захиалгыг цуцлахдаа итгэлтэй байна уу?")) {
+  const cancel = id => {
+    if (window.confirm('Та захиалгыг цуцлахдаа итгэлтэй байна уу?')) {
       var raw = JSON.stringify({
         order_id: order.order_id,
         order_status: 5,
-        cancel_reason: Number(id),
+        cancel_reason: Number(id)
       });
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      console.log("order status", requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      console.log('order status', requestOptions);
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/status`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           console.log(
-            "order status--------------------////////////////////*******************-----------------------///////////////",
+            'order status--------------------////////////////////*******************-----------------------///////////////',
             result
           );
           if (result.code === 200) {
-            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-              method: "POST",
-              headers: myHeaders,
-              redirect: "follow",
-              body: JSON.stringify({
-                section_name: "Захиалгыг цуцаллаа.",
-                entry_id: props.data.order_id,
-                user_name: props.userData.email,
-                action: `Шинэ захиалга:${raw}`,
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => console.log("res", res))
-              .catch((error) => {
-                console.log("error", error);
+            fetch(
+              `${process.env.REACT_APP_API_URL2}/api/create/backofficelog`,
+              {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: JSON.stringify({
+                  section_name: 'Захиалгыг цуцаллаа.',
+                  entry_id: props.data.order_id,
+                  user_name: props.userData.email,
+                  action: `Шинэ захиалга:${raw}`
+                })
+              }
+            )
+              .then(res => res.json())
+              .then(res => console.log('res', res))
+              .catch(error => {
+                console.log('error', error);
               });
             let aa = order;
             aa.status = 5;
             // console.log("aa.status", aa);
             props.setOrder(aa);
             setOrder(aa);
-            props.appctx.setPage(["orders"]);
-            alert("Захиалгыг цуцаллаа!");
+            props.appctx.setPage(['orders']);
+            alert('Захиалгыг цуцаллаа!');
             setOrderCancelState(false);
           }
         })
-        .catch((error) => {
-          console.log("aldaa garlaa", error);
+        .catch(error => {
+          console.log('aldaa garlaa', error);
         });
     }
   };
 
   ///// confirm tolobtei zahialgiig ustgah
-  const orderConfirmCancel = (id) => {
-    if (window.confirm("Та захиалгыг цуцлахдаа итгэлтэй байна уу?")) {
+  const orderConfirmCancel = id => {
+    if (window.confirm('Та захиалгыг цуцлахдаа итгэлтэй байна уу?')) {
       var raw = JSON.stringify({
         order_id: order.order_id,
-        cancel_reason: Number(id),
+        cancel_reason: Number(id)
       });
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      console.log("order status+++++11111", requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/undo", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log("order status+++++++++++++++++**********************//////////", result);
+      console.log('order status+++++11111', requestOptions);
+      fetch(`${process.env.REACT_APP_API_URL2}/api/order/undo`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(
+            'order status+++++++++++++++++**********************//////////',
+            result
+          );
           if (result.code === 200) {
-            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-              method: "POST",
-              headers: myHeaders,
-              redirect: "follow",
-              body: JSON.stringify({
-                section_name: "Захиалгыг цуцаллаа.",
-                entry_id: props.data.order_id,
-                user_name: props.userData.email,
-                action: `Шинэ захиалга:${raw}`,
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => console.log("res", res))
-              .catch((error) => {
-                console.log("error", error);
+            fetch(
+              `${process.env.REACT_APP_API_URL2}/api/create/backofficelog`,
+              {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: JSON.stringify({
+                  section_name: 'Захиалгыг цуцаллаа.',
+                  entry_id: props.data.order_id,
+                  user_name: props.userData.email,
+                  action: `Шинэ захиалга:${raw}`
+                })
+              }
+            )
+              .then(res => res.json())
+              .then(res => console.log('res', res))
+              .catch(error => {
+                console.log('error', error);
               });
-            alert("Захиалгыг цуцаллаа!");
+            alert('Захиалгыг цуцаллаа!');
             // let aa = order;
             // aa.status = 5;
             // props.setOrder(aa);
-            props.appctx.setPage(["orders"]);
+            props.appctx.setPage(['orders']);
             // setOrder(aa);
 
             setOrderCancelState(false);
           }
         })
-        .catch((error) => {
-          console.log("aldaa garlaa", error);
+        .catch(error => {
+          console.log('aldaa garlaa', error);
         });
     }
   };
@@ -192,18 +208,18 @@ function LinesCopy(props) {
     setWaiting(true);
 
     var raw = JSON.stringify({
-      order_id: order.order_id,
+      order_id: order.order_id
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    fetch("https://api2.ebazaar.mn/api/order/undo", requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/order/undo`, requestOptions)
+      .then(response => response.json())
+      .then(res => {
         if (res.code === 200) {
           message.success(res.message);
           setOpen(false);
@@ -217,39 +233,42 @@ function LinesCopy(props) {
   const confirm = () => {
     var raw = JSON.stringify({
       order_id: order.order_id,
-      order_status: 2,
+      order_status: 2
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    console.log("requestOptions------------------------requestOptions", requestOptions);
+    console.log(
+      'requestOptions------------------------requestOptions',
+      requestOptions
+    );
     setEditing(false);
-    fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log("response----response", response);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/order/status`, requestOptions)
+      .then(response => response.json())
+      .then(response => {
+        console.log('response----response', response);
         if (response.code === 200) {
-          fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-            method: "POST",
+          fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+            method: 'POST',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow',
             body: JSON.stringify({
-              section_name: "Захиалгын статусыг өөрчилөв.",
+              section_name: 'Захиалгын статусыг өөрчилөв.',
               entry_id: props.data.order_id,
               user_name: props.userData.email,
-              action: `Шинэ захиалга:${raw}`,
-            }),
+              action: `Шинэ захиалга:${raw}`
+            })
           })
-            .then((res) => res.json())
-            .then((res) => console.log("res", res))
-            .catch((error) => {
-              console.log("error", error);
+            .then(res => res.json())
+            .then(res => console.log('res', res))
+            .catch(error => {
+              console.log('error', error);
             });
-          alert("Захиалгын статусыг амжилттай өөрчиллөө!");
+          alert('Захиалгын статусыг амжилттай өөрчиллөө!');
           order.status = 2;
           props.setOrder(order);
           setOrder(order);
@@ -257,93 +276,103 @@ function LinesCopy(props) {
           alert(`Алдаа: ${response.message}`);
         }
       })
-      .catch((error) => {
-        console.log("error order status change", error);
+      .catch(error => {
+        console.log('error order status change', error);
       });
   };
 
   const address =
     (order.status !== 1 && order.status !== 5) ||
     props.data.supplier_id === 13901 ||
-    props.company === "|1|"
+    props.company === '|1|'
       ? order.address
-      : "******** ******** ********";
+      : '******** ******** ********';
   const phone =
     (order.status !== 1 && order.status !== 5) ||
     props.data.supplier_id === 13901 ||
-    props.company === "|1|"
+    props.company === '|1|'
       ? order.phone
-      : "******** ******** ********";
+      : '******** ******** ********';
   const register =
     (order.status !== 1 && order.status !== 5) ||
     props.data.supplier_id === 13901 ||
-    props.company === "|1|"
+    props.company === '|1|'
       ? order.register
-      : "******** ******** ********";
+      : '******** ******** ********';
 
   const change = (e, idx, operator) => {
     e.stopPropagation();
     setOrderChangeBtn(true);
     // console.log("orderchange btn from change", orderChangeBtn);
     let qty =
-      operator === "plus"
-        ? parseInt(document.getElementById("qty" + idx).value, 10) + 1
-        : parseInt(document.getElementById("qty" + idx).value, 10) > 2
-        ? parseInt(document.getElementById("qty" + idx).value, 10) - 1
+      operator === 'plus'
+        ? parseInt(document.getElementById('qty' + idx).value, 10) + 1
+        : parseInt(document.getElementById('qty' + idx).value, 10) > 2
+        ? parseInt(document.getElementById('qty' + idx).value, 10) - 1
         : 1;
-    document.getElementById("qty" + idx).value = qty;
+    document.getElementById('qty' + idx).value = qty;
     let temp = order;
     temp.line[idx].quantity = qty;
 
-    setOrder((temp) => JSON.parse(JSON.stringify(temp)));
+    setOrder(temp => JSON.parse(JSON.stringify(temp)));
   };
 
   const delivery = () => {
-    if (window.confirm("Та захиалгын статусыг хүргэсэн төлөвт шилжүүлэхдээ итгэлтэй байна уу?")) {
+    if (
+      window.confirm(
+        'Та захиалгын статусыг хүргэсэн төлөвт шилжүүлэхдээ итгэлтэй байна уу?'
+      )
+    ) {
       var raw = JSON.stringify({
         order_id: order.order_id,
-        order_status: 3,
+        order_status: 3
       });
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       if (editing) {
         // console.log(order);
-        console.log("order");
+        console.log('order');
       } else {
-        console.log("submitting original order");
+        console.log('submitting original order');
       }
       setEditing(false);
-      fetch("https://api2.ebazaar.mn/api/order/status", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log("end ork irlee, batalgaajsanaas hurgegdesen", result);
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/status`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
+          console.log('end ork irlee, batalgaajsanaas hurgegdesen', result);
           if (result.code === 200) {
-            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-              method: "POST",
-              headers: myHeaders,
-              redirect: "follow",
-              body: JSON.stringify({
-                section_name: "Захиалгын статусыг өөрчилөв.",
-                entry_id: props.data.order_id,
-                user_name: props.userData.email,
-                action: `Шинэ захиалга:${raw}`,
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => console.log("res", res))
-              .catch((error) => {
-                console.log("error", error);
+            fetch(
+              `${process.env.REACT_APP_API_URL2}/api/create/backofficelog`,
+              {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: JSON.stringify({
+                  section_name: 'Захиалгын статусыг өөрчилөв.',
+                  entry_id: props.data.order_id,
+                  user_name: props.userData.email,
+                  action: `Шинэ захиалга:${raw}`
+                })
+              }
+            )
+              .then(res => res.json())
+              .then(res => console.log('res', res))
+              .catch(error => {
+                console.log('error', error);
               });
-            alert("Захиалгын статусыг амжилттай өөрчиллөө!");
+            alert('Захиалгын статусыг амжилттай өөрчиллөө!');
             order.status = 3;
             props?.setOrder(order);
             setOrder(order);
 
-            // fetch("https://api2.ebazaar.mn/api/order/update_note", {
+            // fetch(`${process.env.REACT_APP_API_URL2}/api/order/update_note`, {
             // 	method: "POST",
             // 	headers: myHeaders,
             // 	redirect: "follow",
@@ -358,56 +387,66 @@ function LinesCopy(props) {
             // 	})
             // 	.catch(err => console.log("NOTE ERR: ", err));
           } else {
-            alert("Алдаа гарлаа--------");
+            alert('Алдаа гарлаа--------');
           }
         });
     }
   };
   const restore = () => {
-    if (window.confirm("Та захиалгын статусыг сэргээх төлөвт шилжүүлэхдээ итгэлтэй байна уу?")) {
+    if (
+      window.confirm(
+        'Та захиалгын статусыг сэргээх төлөвт шилжүүлэхдээ итгэлтэй байна уу?'
+      )
+    ) {
       var raw = JSON.stringify({
         orderId: order.order_id,
-        order_status: 2,
+        order_status: 2
       });
       var requestOptions = {
-        method: "PUT",
+        method: 'PUT',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       if (editing) {
         // console.log(order);
-        console.log("order");
+        console.log('order');
       } else {
-        console.log("submitting original order");
+        console.log('submitting original order');
       }
       setEditing(false);
-      fetch("https://api2.ebazaar.mn/api/order/recreate", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/recreate`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           if (result.code === 200) {
-            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-              method: "POST",
-              headers: myHeaders,
-              redirect: "follow",
-              body: JSON.stringify({
-                section_name: "Захиалгын статусыг өөрчилөв.",
-                entry_id: props.data.order_id,
-                user_name: props.userData.email,
-                action: `Шинэ захиалга:${raw}`,
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => console.log("res", res))
-              .catch((error) => {
-                console.log("error", error);
+            fetch(
+              `${process.env.REACT_APP_API_URL2}/api/create/backofficelog`,
+              {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: JSON.stringify({
+                  section_name: 'Захиалгын статусыг өөрчилөв.',
+                  entry_id: props.data.order_id,
+                  user_name: props.userData.email,
+                  action: `Шинэ захиалга:${raw}`
+                })
+              }
+            )
+              .then(res => res.json())
+              .then(res => console.log('res', res))
+              .catch(error => {
+                console.log('error', error);
               });
-            alert("Захиалгын статусыг амжилттай өөрчиллөө!");
+            alert('Захиалгын статусыг амжилттай өөрчиллөө!');
             order.status = 2;
             props?.setOrder(order);
             setOrder(order);
           } else {
-            alert("Алдаа гарлаа--------");
+            alert('Алдаа гарлаа--------');
           }
         });
     }
@@ -418,17 +457,17 @@ function LinesCopy(props) {
   let district = order.tradeshop_district;
   let khoroo = order.tradeshop_horoo;
   if (locations) {
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(district, 10)) {
         district = location.location_name;
       }
     });
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(khoroo, 10)) {
         khoroo = location.location_name;
       }
     });
-    locations.map((location) => {
+    locations.map(location => {
       if (location.location_id === parseInt(city, 10)) {
         city = location.location_name;
       }
@@ -437,50 +476,50 @@ function LinesCopy(props) {
 
   const updateHandler = () => {
     setButtonDisabled(true);
-    let dataQuantity = order.line.map((item) => {
+    let dataQuantity = order.line.map(item => {
       return {
         order_detail_id: item.order_detail_id,
-        quantity: Number(item.quantity),
+        quantity: Number(item.quantity)
       };
     });
 
     var raw = JSON.stringify({
       order_id: order.order_id,
-      line: dataQuantity,
+      line: dataQuantity
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    console.log("order line request", requestOptions);
-    fetch("https://api2.ebazaar.mn/api/order/update", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
+    console.log('order line request', requestOptions);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/order/update`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
         if (result.code === 200) {
-          fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-            method: "POST",
+          fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+            method: 'POST',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow',
             body: JSON.stringify({
-              section_name: "Захиалгыг шинэчлэлээ.",
+              section_name: 'Захиалгыг шинэчлэлээ.',
               entry_id: props.data.order_id,
               user_name: props.userData.email,
-              action: `Шинэ захиалга:${raw}`,
-            }),
+              action: `Шинэ захиалга:${raw}`
+            })
           })
-            .then((res) => res.json())
-            .then((res) => console.log("res", res))
-            .catch((error) => {
-              console.log("error", error);
+            .then(res => res.json())
+            .then(res => console.log('res', res))
+            .catch(error => {
+              console.log('error', error);
             });
-          alert("Захиалгыг шинэчлэлээ.!");
+          alert('Захиалгыг шинэчлэлээ.!');
           setButtonDisabled(false);
           props.setLines(false);
         } else {
-          alert("Алдаа гарлаа" + result.message);
+          alert('Алдаа гарлаа' + result.message);
         }
       });
   };
@@ -488,8 +527,8 @@ function LinesCopy(props) {
   const deleteProduct = (id, index) => {
     // console.log(id);
 
-    if (window.confirm("Та захиалгыг устгахдаа итгэлтэй байна уу?")) {
-      let dataQuantity = order.line.map((item) => {
+    if (window.confirm('Та захиалгыг устгахдаа итгэлтэй байна уу?')) {
+      let dataQuantity = order.line.map(item => {
         // console.log("item", item);
         if (item.order_id === id) {
           item.quantity = 0;
@@ -499,43 +538,49 @@ function LinesCopy(props) {
       // console.log("dataQuantity", dataQuantity);
       var raw = JSON.stringify({
         order_id: order.order_id,
-        line: [{ order_detail_id: id, quantity: dataQuantity.quantity }],
+        line: [{ order_detail_id: id, quantity: dataQuantity.quantity }]
       });
       // console.log("raw", raw);
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log(requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/update", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/update`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           // console.log(result);
           if (result.code === 200) {
-            fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-              method: "POST",
-              headers: myHeaders,
-              redirect: "follow",
-              body: JSON.stringify({
-                section_name: "Захиалгын сагсалсан бүтээгдэхүүн цуцаллаа.",
-                entry_id: props.data.order_id,
-                user_name: props.userData.email,
-                action: `Шинэ захиалга:${raw}`,
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => console.log("res", res))
-              .catch((error) => {
-                console.log("error", error);
+            fetch(
+              `${process.env.REACT_APP_API_URL2}/api/create/backofficelog`,
+              {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: JSON.stringify({
+                  section_name: 'Захиалгын сагсалсан бүтээгдэхүүн цуцаллаа.',
+                  entry_id: props.data.order_id,
+                  user_name: props.userData.email,
+                  action: `Шинэ захиалга:${raw}`
+                })
+              }
+            )
+              .then(res => res.json())
+              .then(res => console.log('res', res))
+              .catch(error => {
+                console.log('error', error);
               });
-            alert("Сагсалсан бүтээгдэхүүнийг цуцаллаа!");
+            alert('Сагсалсан бүтээгдэхүүнийг цуцаллаа!');
 
             props.setOrder(order);
             setOrder(order);
           } else {
-            alert("Алдаа гарлаа" + result.message);
+            alert('Алдаа гарлаа' + result.message);
           }
         });
     }
@@ -547,11 +592,11 @@ function LinesCopy(props) {
 
   const PriceHandlerSave = (l, index) => {
     if (newPrice === null) {
-      alert("Та шинэ үнэ оруулна уу");
+      alert('Та шинэ үнэ оруулна уу');
       return;
     }
     if (!permission.order.update) {
-      alert("Таны эрх хүрэхгүй байна");
+      alert('Таны эрх хүрэхгүй байна');
       return;
     }
     // console.log("l", l);
@@ -562,41 +607,44 @@ function LinesCopy(props) {
         {
           order_detail_id: l.order_detail_id,
           product_id: l.product_id,
-          price: newPrice === null ? l.price : Number(newPrice),
-        },
-      ],
+          price: newPrice === null ? l.price : Number(newPrice)
+        }
+      ]
     });
     let requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log("new price change ", requestOptions);
 
-    fetch(`https://api2.ebazaar.mn/api/order/update/price`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/order/update/price`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         // console.log("price response", res);
         if (res.code === 200) {
-          fetch(`https://api2.ebazaar.mn/api/create/backofficelog`, {
-            method: "POST",
+          fetch(`${process.env.REACT_APP_API_URL2}/api/create/backofficelog`, {
+            method: 'POST',
             headers: myHeaders,
-            redirect: "follow",
+            redirect: 'follow',
             body: JSON.stringify({
-              section_name: "Захиалгын үнэ өөрчилөв.",
+              section_name: 'Захиалгын үнэ өөрчилөв.',
               entry_id: props.data.order_id,
               user_name: props.userData.email,
-              action: `Захиалгын үнэ өөрчилөв. Шинэ үнэ : ${newPrice}. Хуучин үнэ : ${l.price}`,
-            }),
+              action: `Захиалгын үнэ өөрчилөв. Шинэ үнэ : ${newPrice}. Хуучин үнэ : ${l.price}`
+            })
           })
-            .then((res) => res.json())
-            .then((res) => console.log("res", res))
-            .catch((error) => {
-              console.log("error", error);
+            .then(res => res.json())
+            .then(res => console.log('res', res))
+            .catch(error => {
+              console.log('error', error);
             });
           let aaa = order;
-          let bbb = aaa.line.map((x) => {
+          let bbb = aaa.line.map(x => {
             if (x.order_detail_id === l.order_detail_id) {
               x.price = Number(newPrice);
             }
@@ -607,47 +655,52 @@ function LinesCopy(props) {
           setNewPrice(null);
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
   const ChosedHandler = (e, item) => {
     e.stopPropagation();
-    item["quantity"] = 0;
-    console.log("ffff", item);
-    if (window.confirm(`Та энэ ${item.product_name} захиалгаас хасах гэж байна`)) {
-      console.log("zovshoorlooo");
+    item['quantity'] = 0;
+    console.log('ffff', item);
+    if (
+      window.confirm(`Та энэ ${item.product_name} захиалгаас хасах гэж байна`)
+    ) {
+      console.log('zovshoorlooo');
 
       var raw = JSON.stringify({
         order_id: order.order_id,
         line: [
           {
             order_detail_id: item.order_detail_id,
-            quantity: 0,
-          },
-        ],
+            quantity: 0
+          }
+        ]
       });
       // console.log("raw", raw);
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log(requestOptions);
-      fetch("https://api2.ebazaar.mn/api/order/update", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/order/update`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
           console.log(result);
           if (result.code === 200) {
             setProductAdd(true);
           } else {
-            alert("Алдаа гарлаа" + result.message);
+            alert('Алдаа гарлаа' + result.message);
           }
         });
     } else {
-      console.log("tatgalzlaaa");
+      console.log('tatgalzlaaa');
     }
     // setProductAdd(true);
   };
@@ -661,8 +714,8 @@ function LinesCopy(props) {
   } else if (props.data.supplier_id === 948) {
     lines = <MillhouseLines order={order} />;
   } else {
-    console.log("order.line-----", order.line);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.log('order.line-----', order.line);
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa');
     let qty = 0;
     lines = order.line.map((l, index) => {
       qty = l.quantity;
@@ -670,7 +723,9 @@ function LinesCopy(props) {
         // return;
         // console.log("line quantity === 0 baina");
       } else {
-        newQTY = aa[index]?.quantity ? aa[index]?.quantity : aa[index]?.quantity;
+        newQTY = aa[index]?.quantity
+          ? aa[index]?.quantity
+          : aa[index]?.quantity;
 
         if (!l.quantity_and_weight && l.average_weight !== null) {
           newQTY = Number(newQTY) * Number(l.average_weight);
@@ -681,9 +736,11 @@ function LinesCopy(props) {
         newQTY = newQTY ? newQTY : 1;
         const rawOrderTotal = l.price * newQTY;
         let image = l.product_image
-          ? l.product_image.split(",")[0].replace("original", "small")
+          ? replaceImageUrl(
+              l.product_image.split(',')[0].replace('original', 'small')
+            )
           : null;
-        console.log("bbb", aa[index]);
+        console.log('bbb', aa[index]);
         return (
           <div
             className={css.container}
@@ -692,17 +749,24 @@ function LinesCopy(props) {
           >
             <div className={css.firstwrapper}>
               <div className={css.imageContainer}>
-                <img src={image} alt="product image" />
+                <img src={image} alt='product image' />
               </div>
               <div className={css.detailWrapper}>
-                <h3 className={css.hd3} style={{ fontWeight: 300, margin: "0" }}>
+                <h3
+                  className={css.hd3}
+                  style={{ fontWeight: 300, margin: '0' }}
+                >
                   {l.product_name}
                 </h3>
 
                 <div className={css.barcodeContainer}>
-                  {l.product_sku ? <span>Бүтээгдэхүүн sku : {l.product_sku}</span> : null}
+                  {l.product_sku ? (
+                    <span>Бүтээгдэхүүн sku : {l.product_sku}</span>
+                  ) : null}
 
-                  {l.product_bar_code ? <span> Barcode : {l.product_bar_code}</span> : null}
+                  {l.product_bar_code ? (
+                    <span> Barcode : {l.product_bar_code}</span>
+                  ) : null}
                 </div>
                 <div className={css.updatedPrice}>
                   {l.quantity !== newQTY ? (
@@ -710,10 +774,10 @@ function LinesCopy(props) {
                       <div className={css.UpdatedOrder}>
                         <span
                           style={{
-                            color: "#2AB674",
-                            fontWeight: "700",
-                            fontSize: "10px",
-                            lineHeight: "12px",
+                            color: '#2AB674',
+                            fontWeight: '700',
+                            fontSize: '10px',
+                            lineHeight: '12px'
                           }}
                         >
                           Өөрчлөгдсөн захиалга
@@ -726,7 +790,7 @@ function LinesCopy(props) {
                               width: 16,
                               height: 18,
                               marginBottom: 4,
-                              marginRight: 5,
+                              marginRight: 5
                             }}
                             className={css.updatedImage}
                             src={warning}
@@ -735,34 +799,35 @@ function LinesCopy(props) {
 
                         <span
                           style={{
-                            color: "#2AB674",
-                            fontSize: "14px",
-                            fontWeight: "700",
+                            color: '#2AB674',
+                            fontSize: '14px',
+                            fontWeight: '700'
                           }}
                         >
                           {l.price.toLocaleString()}₮
                         </span>
                         <span
                           style={{
-                            color: "#2AB674",
-                            fontSize: "12px",
-                            fontSize: l.average_weight !== null ? "12px" : "14px",
-                            fontWeight: "700",
-                            marginLeft: "5px",
-                            width: l.average_weight !== null ? "60px" : "40px",
+                            color: '#2AB674',
+                            fontSize: '12px',
+                            fontSize:
+                              l.average_weight !== null ? '12px' : '14px',
+                            fontWeight: '700',
+                            marginLeft: '5px',
+                            width: l.average_weight !== null ? '60px' : '40px'
                           }}
                         >
-                          {" "}
-                          x {qty} {l.average_weight !== null ? "кг" : ""} =
+                          {' '}
+                          x {qty} {l.average_weight !== null ? 'кг' : ''} =
                         </span>
                         <span
                           style={{
-                            color: "#2AB674",
-                            fontSize: "14px",
-                            fontWeight: "700",
+                            color: '#2AB674',
+                            fontSize: '14px',
+                            fontWeight: '700'
                           }}
                         >
-                          {" "}
+                          {' '}
                           {lineTotal.toLocaleString()}₮
                         </span>
                       </div>
@@ -773,12 +838,12 @@ function LinesCopy(props) {
                       <div>
                         <span
                           style={{
-                            color: "#808080",
-                            fontWeight: "400",
-                            fontSize: "10px",
-                            lineHeight: "12px",
-                            display: l.quantity === newQTY ? "none" : "block",
-                            fontWeight: "700",
+                            color: '#808080',
+                            fontWeight: '400',
+                            fontSize: '10px',
+                            lineHeight: '12px',
+                            display: l.quantity === newQTY ? 'none' : 'block',
+                            fontWeight: '700'
                           }}
                         >
                           Анхны захиалга
@@ -787,33 +852,33 @@ function LinesCopy(props) {
                       <div className={css.rawOrderPrice}>
                         <span
                           style={{
-                            color: "#808080",
-                            fontSize: "14px",
-                            fontWeight: "700",
+                            color: '#808080',
+                            fontSize: '14px',
+                            fontWeight: '700'
                           }}
                         >
-                          {l.price.toLocaleString()}₮{" "}
+                          {l.price.toLocaleString()}₮{' '}
                         </span>
                         <span
                           style={{
-                            color: "#2AB674",
-                            fontSize: "14px",
-                            fontWeight: "700",
-                            marginLeft: "5px",
+                            color: '#2AB674',
+                            fontSize: '14px',
+                            fontWeight: '700',
+                            marginLeft: '5px'
                           }}
                         >
-                          {" "}
+                          {' '}
                           x {newQTY ? newQTY : 1}
-                          {l.average_weight !== null ? "кг" : ""} ={" "}
+                          {l.average_weight !== null ? 'кг' : ''} ={' '}
                         </span>
                         <span
                           style={{
-                            color: "#808080",
-                            fontSize: "14px",
-                            fontWeight: "700",
+                            color: '#808080',
+                            fontSize: '14px',
+                            fontWeight: '700'
                           }}
                         >
-                          {" "}
+                          {' '}
                           {rawOrderTotal.toLocaleString()}₮
                         </span>
                       </div>
@@ -832,27 +897,29 @@ function LinesCopy(props) {
                     props.userData.id === 256 ||
                     props.userData.id === 320 ||
                     props.userData.id === 366 ||
+                    props.userData.id === 1285 ||
                     props.userData.id === 1189 ||
                     props.userData.id === 1272 ||
                     props.userData.id === 980
-                      ? "flex"
-                      : "none",
+                      ? 'flex'
+                      : 'none'
                 }}
               >
                 {index === priceChangeActive ? (
                   <input
                     className={css.priceinputnew}
                     value={newPrice}
-                    type="number"
-                    onChange={(e) => setNewPrice(e.target.value)}
+                    type='number'
+                    onChange={e => setNewPrice(e.target.value)}
                   />
                 ) : null}
                 <button
                   className={css.pricecontainer}
                   style={{
-                    background: index === priceChangeActive ? "#2AB674" : "#ffa600",
-                    display: arigOrder ? "block" : "none",
-                    border: "none",
+                    background:
+                      index === priceChangeActive ? '#2AB674' : '#ffa600',
+                    display: arigOrder ? 'block' : 'none',
+                    border: 'none'
                   }}
                   onClick={() => {
                     index === priceChangeActive
@@ -860,7 +927,7 @@ function LinesCopy(props) {
                       : PriceHandler(l, index);
                   }}
                 >
-                  {index === priceChangeActive ? "Хадгалах" : "Үнэ засах"}
+                  {index === priceChangeActive ? 'Хадгалах' : 'Үнэ засах'}
                 </button>
               </div>
             ) : null}
@@ -876,25 +943,27 @@ function LinesCopy(props) {
                     props.userData.id === 320 ||
                     props.userData.id === 256 ||
                     props.userData.id === 1272 ||
+                    props.userData.id === 1285 ||
                     props.userData.id === 1189 ||
                     props.userData.id === 1138
-                      ? "flex"
-                      : "none",
+                      ? 'flex'
+                      : 'none'
                 }}
               >
                 {index === priceChangeActive ? (
                   <input
                     className={css.priceinputnew}
                     value={newPrice}
-                    type="number"
-                    onChange={(e) => setNewPrice(e.target.value)} ///// Primeone deer une update hiih heseg
+                    type='number'
+                    onChange={e => setNewPrice(e.target.value)} ///// Primeone deer une update hiih heseg
                   />
                 ) : null}
                 <button
                   className={css.pricecontainer}
                   style={{
-                    background: index === priceChangeActive ? "#2AB674" : "#ffa600",
-                    border: "none",
+                    background:
+                      index === priceChangeActive ? '#2AB674' : '#ffa600',
+                    border: 'none'
                   }}
                   onClick={() => {
                     index === priceChangeActive
@@ -902,44 +971,52 @@ function LinesCopy(props) {
                       : PriceHandler(l, index);
                   }}
                 >
-                  {index === priceChangeActive ? "Хадгалах" : "Үнэ засах"}
+                  {index === priceChangeActive ? 'Хадгалах' : 'Үнэ засах'}
                 </button>
               </div>
             ) : null}
             {order.status !== 5 && permission?.order?.update && (
               <div onClick={() => orderModified(l.id, index)}>
-                {index !== activeIndex ? <img src={editIcon} alt="edit icon" /> : null}
+                {index !== activeIndex ? (
+                  <img src={editIcon} alt='edit icon' />
+                ) : null}
               </div>
             )}
             {index === activeIndex ? (
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "120px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '120px'
                 }}
               >
                 <div
                   // style={{ display: activeIndex ? "block" : "none" }}
                   className={css.lineEditing}
                 >
-                  <span className={css.spanMinus} onClick={(e) => change(e, index, "minus")}>
-                    <img src={minusIcon} alt="minus icon" />
+                  <span
+                    className={css.spanMinus}
+                    onClick={e => change(e, index, 'minus')}
+                  >
+                    <img src={minusIcon} alt='minus icon' />
                   </span>
                   <input
                     className={css.spanInput}
-                    type="number"
+                    type='number'
                     defaultValue={l.quantity}
-                    id={"qty" + index}
-                    style={{ width: "50px" }}
-                    onChange={(e) => {
+                    id={'qty' + index}
+                    style={{ width: '50px' }}
+                    onChange={e => {
                       e.stopPropagation();
                       l.quantity = e.target.value;
                       setOrderChangeBtn(true);
                     }}
                   />
-                  <span className={css.spanPlus} onClick={(e) => change(e, index, "plus")}>
-                    <img src={plusIcon} alt="plus icon" />
+                  <span
+                    className={css.spanPlus}
+                    onClick={e => change(e, index, 'plus')}
+                  >
+                    <img src={plusIcon} alt='plus icon' />
                   </span>
                 </div>
                 {/* <div
@@ -955,15 +1032,15 @@ function LinesCopy(props) {
       }
     });
   }
-  console.log("product", product);
+  console.log('product', product);
 
   const orderModified = (id, index) => {
     setEditing(true);
     setActiveIndex(index);
   };
-  let businessType = "";
+  let businessType = '';
   // console.log(props.data.business_type_id);
-  props.businessType.map((btype) => {
+  props.businessType.map(btype => {
     // console.log(btype);
     if (btype.business_type_id === parseInt(props.data.business_type_id, 10)) {
       businessType = btype.business_type_name;
@@ -972,33 +1049,36 @@ function LinesCopy(props) {
 
   //// ene order deer product nemj baigaa
 
-  const ProductAddHandler = (item) => {
-    item.map((x) => {
+  const ProductAddHandler = item => {
+    item.map(x => {
       let raw = JSON.stringify({
         orderId: order.order_id,
         products: [
           {
             productId: x._id,
             quantity: 1,
-            price: x.locations["62f4aabe45a4e22552a3969f"].price.channel["1"],
+            price: x.locations['62f4aabe45a4e22552a3969f'].price.channel['1']
             // QuantityAndWeight: 1,
             // AverageWeight: x.weight,
-          },
-        ],
+          }
+        ]
       });
 
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log(requestOptions);
       // console.log("item", props);
-      fetch("https://api2.ebazaar.mn/api/orderDetail/create", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log("product add", result);
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/orderDetail/create`,
+        requestOptions
+      )
+        .then(response => response.json())
+        .then(result => {
+          console.log('product add', result);
           if (result.code === 200) {
             let aa = {
               ...props.data,
@@ -1009,34 +1089,37 @@ function LinesCopy(props) {
                   order_id: order.order_id,
                   product_id: x._id,
                   quantity: 1,
-                  price: x.locations["62f4aabe45a4e22552a3969f"].price.channel["1"],
-                  price_amount: x.locations["62f4aabe45a4e22552a3969f"].price.channel["1"],
-                  base_price: x.locations["62f4aabe45a4e22552a3969f"].price.channel["1"],
+                  price:
+                    x.locations['62f4aabe45a4e22552a3969f'].price.channel['1'],
+                  price_amount:
+                    x.locations['62f4aabe45a4e22552a3969f'].price.channel['1'],
+                  base_price:
+                    x.locations['62f4aabe45a4e22552a3969f'].price.channel['1'],
                   amount: 1,
                   average_weight: x.weight,
                   quantity_and_weight: true,
                   product_name: x.name,
-                  product_image: x.image[0],
+                  product_image: replaceImageUrl(x.image[0]),
                   product_type_id: 0,
                   product_bar_code: x.bar_code,
                   product_brand_id: 0,
                   product_sku: x.sku,
                   sector_id: null,
                   city_tax: false,
-                  alcohol: false,
-                },
-              ],
+                  alcohol: false
+                }
+              ]
             };
-            console.log("aa", aa);
+            console.log('aa', aa);
             props.setOrder(aa);
             props.setLines(false);
           } else {
-            alert("Алдаа гарлаа" + result.message);
+            alert('Алдаа гарлаа' + result.message);
           }
         });
     });
     let timer = setTimeout(() => {
-      alert("Амжилттай нэмэгдлээ");
+      alert('Амжилттай нэмэгдлээ');
       window.location.reload();
     }, [1000]);
     return () => clearTimeout(timer);
@@ -1045,72 +1128,75 @@ function LinesCopy(props) {
     <>
       <>
         <div className={css.linesContainer}>
-          {(order.status === 1 || order.status === 2) && permission?.order?.update && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent:
-                  props.userData.id === 351 ||
-                  props.userData.id === 435 ||
-                  props.userData.id === 256 ||
-                  props.userData.id === 320 ||
-                  props.userData.id === 990 ||
-                  props.userData.id === 1189 ||
-                  props.userData.id === 366
-                    ? "space-between"
-                    : "flex-end",
-                paddingBottom: "10px",
-              }}
-              onClick={
-                orderChangeBtn
-                  ? updateHandler
-                  : () => {
-                      console.log("daragdlaa");
-                      console.log("orderchangebtn", orderChangeBtn);
-                    }
-              }
-            >
-              {console.log(" props.userData.id", props.userData.id)}
-              <button
+          {(order.status === 1 || order.status === 2) &&
+            permission?.order?.update && (
+              <div
                 style={{
-                  background: "#2AB674",
-                  fontSize: "10px",
-                  padding: "5px",
-                  color: "#fff",
-                  borderRadius: "4px",
-                  display:
+                  display: 'flex',
+                  justifyContent:
                     props.userData.id === 351 ||
-                    props.userData.id === 1272 ||
-                    props.userData.id === 1138 ||
-                    props.userData.id === 1230 ||
+                    props.userData.id === 435 ||
                     props.userData.id === 256 ||
                     props.userData.id === 320 ||
                     props.userData.id === 990 ||
                     props.userData.id === 1189 ||
-                    (props.userData.company_id === "|14005|" && permission.order.admin === true) ||
                     props.userData.id === 366
-                      ? "block"
-                      : "none",
+                      ? 'space-between'
+                      : 'flex-end',
+                  paddingBottom: '10px'
                 }}
-                onClick={() => {
-                  setProductAdd(true);
-                }}
+                onClick={
+                  orderChangeBtn
+                    ? updateHandler
+                    : () => {
+                        console.log('daragdlaa');
+                        console.log('orderchangebtn', orderChangeBtn);
+                      }
+                }
               >
-                Бараа нэмэх
-              </button>
-              <button
-                disabled={buttonDisabled ? true : false}
-                className={css.saveModified}
-                style={{
-                  background: buttonDisabled ? "#ECEFF1" : "#ffa600",
-                  border: "none",
-                  fontSize: "12px",
-                }}
-              >
-                Өөрчлөлтийг хадгалах
-              </button>
-            </div>
-          )}
+                {console.log(' props.userData.id', props.userData.id)}
+                <button
+                  style={{
+                    background: '#2AB674',
+                    fontSize: '10px',
+                    padding: '5px',
+                    color: '#fff',
+                    borderRadius: '4px',
+                    display:
+                      props.userData.id === 351 ||
+                      props.userData.id === 1272 ||
+                      props.userData.id === 1138 ||
+                      props.userData.id === 1230 ||
+                      props.userData.id === 1285 ||
+                      props.userData.id === 256 ||
+                      props.userData.id === 320 ||
+                      props.userData.id === 990 ||
+                      props.userData.id === 1189 ||
+                      (props.userData.company_id === '|14005|' &&
+                        permission.order.admin === true) ||
+                      props.userData.id === 366
+                        ? 'block'
+                        : 'none'
+                  }}
+                  onClick={() => {
+                    setProductAdd(true);
+                  }}
+                >
+                  Бараа нэмэх
+                </button>
+                <button
+                  disabled={buttonDisabled ? true : false}
+                  className={css.saveModified}
+                  style={{
+                    background: buttonDisabled ? '#ECEFF1' : '#ffa600',
+                    border: 'none',
+                    fontSize: '12px'
+                  }}
+                >
+                  Өөрчлөлтийг хадгалах
+                </button>
+              </div>
+            )}
 
           {(props.userData.id === 351 ||
             props.userData.id === 256 ||
@@ -1124,7 +1210,7 @@ function LinesCopy(props) {
             permission?.order?.update && (
               <div
                 style={{
-                  display: "flex",
+                  display: 'flex',
                   justifyContent:
                     props.userData.id === 351 ||
                     props.userData.id === 1189 ||
@@ -1133,37 +1219,38 @@ function LinesCopy(props) {
                     props.userData.id === 990 ||
                     props.userData.id === 1272 ||
                     props.userData.id === 366
-                      ? "space-between"
-                      : "flex-end",
-                  paddingBottom: "10px",
+                      ? 'space-between'
+                      : 'flex-end',
+                  paddingBottom: '10px'
                 }}
                 onClick={
                   orderChangeBtn
                     ? updateHandler
                     : () => {
-                        console.log("daragdlaa+111");
+                        console.log('daragdlaa+111');
                       }
                 }
               >
                 <button
                   style={{
-                    background: "#2AB674",
-                    fontSize: "10px",
-                    padding: "5px",
-                    color: "#fff",
-                    borderRadius: "4px",
+                    background: '#2AB674',
+                    fontSize: '10px',
+                    padding: '5px',
+                    color: '#fff',
+                    borderRadius: '4px',
                     display:
                       props.userData.id === 351 ||
                       props.userData.id === 1189 ||
                       props.userData.id === 256 ||
                       props.userData.id === 320 ||
                       props.userData.id === 1230 ||
+                      props.userData.id === 1285 ||
                       props.userData.id === 1272 ||
-                      (props.userData.company_id === "|14005|" &&
+                      (props.userData.company_id === '|14005|' &&
                         permission.order.admin === true) ||
                       props.userData.id === 366
-                        ? "block"
-                        : "none",
+                        ? 'block'
+                        : 'none'
                   }}
                   onClick={() => {
                     setProductAdd(true);
@@ -1175,9 +1262,9 @@ function LinesCopy(props) {
                   disabled={buttonDisabled ? true : false}
                   className={`${css.saveModified}`}
                   style={{
-                    background: buttonDisabled ? "#ECEFF1" : "#ffa600",
-                    border: "none",
-                    fontSize: "12px",
+                    background: buttonDisabled ? '#ECEFF1' : '#ffa600',
+                    border: 'none',
+                    fontSize: '12px'
                   }}
                 >
                   Өөрчлөлтийг хадгалах
@@ -1187,7 +1274,9 @@ function LinesCopy(props) {
 
           {lines}
         </div>
-        {orderApprove && <OrderApprove confirm={confirm} onCancel={setOrderApprove} />}
+        {orderApprove && (
+          <OrderApprove confirm={confirm} onCancel={setOrderApprove} />
+        )}
         {orderCancelState && (
           <OrderCancel
             cancelOn={cancel}
@@ -1203,13 +1292,17 @@ function LinesCopy(props) {
           />
         )}
         {permission?.order?.update && (
-          <div id="order-confirm">
+          <div id='order-confirm'>
             {order.status === 1 || order.status === 2 || order.status === 3 ? (
               <span
-                className="btn cancel"
+                className='btn cancel'
                 // onClick={() => cancel()}
                 onClick={() => {
-                  if (order.status === 1 || order.status === 2 || order.status === 3) {
+                  if (
+                    order.status === 1 ||
+                    order.status === 2 ||
+                    order.status === 3
+                  ) {
                     setOrderCancelState(true);
                   } else {
                     setOpen(true);
@@ -1221,8 +1314,8 @@ function LinesCopy(props) {
                     order.status === 2 ||
                     order.status === 3 ||
                     permission?.orderCancel?.update
-                      ? "block"
-                      : "none",
+                      ? 'block'
+                      : 'none'
                 }}
               >
                 Цуцлах
@@ -1230,39 +1323,41 @@ function LinesCopy(props) {
             ) : null}
 
             <span
-              className="btn"
+              className='btn'
               onClick={() => setOrderApprove(true)}
               // onClick={() => confirm()}
-              style={{ display: order.status === 1 ? "block" : "none" }}
+              style={{ display: order.status === 1 ? 'block' : 'none' }}
             >
               Баталгаажуулах
             </span>
 
             <span
-              className="btn"
+              className='btn'
               onClick={() => delivery()}
               style={{
-                display: order.status === 2 ? "block" : "none",
+                display: order.status === 2 ? 'block' : 'none'
               }}
             >
               Хүргэж өгсөн
             </span>
             <span
-              className="btn"
+              className='btn'
               style={{
-                display: order.status === 3 ? "block" : "none",
-                backgroundColor: "#2ab674",
+                display: order.status === 3 ? 'block' : 'none',
+                backgroundColor: '#2ab674'
               }}
             >
               Хүргэгдсэн
             </span>
             <span
               onClick={() => restore()}
-              className="btn"
+              className='btn'
               style={{
-                display: order.status === 5 ? "block" : "none",
+                display: order.status === 5 ? 'block' : 'none',
                 flexDirection:
-                  props.userData.id === 256 || props.userData.id === 320 ? "row" : "column",
+                  props.userData.id === 256 || props.userData.id === 320
+                    ? 'row'
+                    : 'column'
               }}
             >
               Дахин сэргээх
@@ -1285,8 +1380,8 @@ function LinesCopy(props) {
         title={
           <div
             style={{
-              fontSize: "14px",
-              fontWeight: "700",
+              fontSize: '14px',
+              fontWeight: '700'
             }}
           >
             Захиалга цуцлах
@@ -1300,12 +1395,14 @@ function LinesCopy(props) {
           }
         }}
         onCancel={() => setOpen(false)}
-        width="600px"
-        okText={"Цуцлах"}
-        cancelText={"Буцах"}
-        bodyStyle={{ padding: "5px 30px" }}
+        width='600px'
+        okText={'Цуцлах'}
+        cancelText={'Буцах'}
+        bodyStyle={{ padding: '5px 30px' }}
       >
-        <div style={{ fontSize: "16px" }}>Та захиалга цуцлахдаа итгэлтэй байна уу?</div>
+        <div style={{ fontSize: '16px' }}>
+          Та захиалга цуцлахдаа итгэлтэй байна уу?
+        </div>
       </Modal>
     </>
   ) : (

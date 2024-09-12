@@ -1,97 +1,100 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./passwordchange.module.css";
-import UserDataHook from "../../Hooks/userHook";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './passwordchange.module.css';
+import UserDataHook from '../../Hooks/userHook';
 const PasswordChange = () => {
   const userCtx = useContext(UserDataHook);
-  const [passwordOne, setPasswordOne] = useState("");
-  const [passwordTwo, setPasswordTwo] = useState("");
-  const [errorOne, setErrorOne] = useState("");
-  const [errorTwo, setErrorTwo] = useState("");
-  const [error, setError] = useState("");
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
+  const [errorOne, setErrorOne] = useState('');
+  const [errorTwo, setErrorTwo] = useState('');
+  const [error, setError] = useState('');
 
   const passwordChangeHandler = () => {
     userCtx.setPasswordChangeShow(false);
-    setErrorOne("");
-    setError("");
-    setErrorTwo("");
-    setPasswordOne("");
-    setPasswordTwo("");
+    setErrorOne('');
+    setError('');
+    setErrorTwo('');
+    setPasswordOne('');
+    setPasswordTwo('');
   };
   useEffect(() => {
     setTimeout(() => {
-      setErrorOne("");
-      setError("");
-      setErrorTwo("");
-      setPasswordOne("");
-      setPasswordTwo("");
+      setErrorOne('');
+      setError('');
+      setErrorTwo('');
+      setPasswordOne('');
+      setPasswordTwo('');
     }, 1500);
   }, [errorOne]);
   useEffect(() => {
     setTimeout(() => {
-      setErrorTwo("");
-      setErrorOne("");
-      setError("");
-      setPasswordOne("");
-      setPasswordTwo("");
+      setErrorTwo('');
+      setErrorOne('');
+      setError('');
+      setPasswordOne('');
+      setPasswordTwo('');
     }, 1500);
   }, [errorTwo]);
   useEffect(() => {
     setTimeout(() => {
-      setError("");
-      setErrorTwo("");
-      setErrorOne("");
-      setPasswordOne("");
-      setPasswordTwo("");
+      setError('');
+      setErrorTwo('');
+      setErrorOne('');
+      setPasswordOne('');
+      setPasswordTwo('');
     }, 2000);
   }, [error]);
   const passwordChangeHandlerFetch = () => {
     if (passwordOne.length <= 3) {
-      setErrorOne("Таны нууц үг богино байна!.");
+      setErrorOne('Таны нууц үг богино байна!.');
       return;
     } else if (passwordTwo.length <= 3) {
-      setErrorTwo("Таны нууц үг богино байна!.");
+      setErrorTwo('Таны нууц үг богино байна!.');
       return;
     } else if (passwordOne === passwordTwo) {
-      setError("Таны шинэ нууц үг ижил байна!.");
+      setError('Таны шинэ нууц үг ижил байна!.');
       return;
     } else {
       var myHeaders = new Headers();
       myHeaders.append(
-        "ebazaar_token",
-        localStorage.getItem("ebazaar_admin_token")
+        'ebazaar_token',
+        localStorage.getItem('ebazaar_admin_token')
       );
-      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append('Content-Type', 'application/json');
       var raw = JSON.stringify({
         oldpassword: passwordOne,
-        newpassword: passwordTwo,
+        newpassword: passwordTwo
       });
       var requestOptions = {
-        method: "PUT",
+        method: 'PUT',
         headers: myHeaders,
         body: raw,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      fetch(`https://api2.ebazaar.mn/api/user/change_password`, requestOptions)
-        .then((r) => r.json())
-        .then((response) => {
+      fetch(
+        `${process.env.REACT_APP_API_URL2}/api/user/change_password`,
+        requestOptions
+      )
+        .then(r => r.json())
+        .then(response => {
           // console.log("response", response);
           if (response.code === 200) {
-            alert("Нууц үг амжилттай солигдлоо.......");
+            alert('Нууц үг амжилттай солигдлоо.......');
             setPasswordOne(null);
             setPasswordTwo(null);
             userCtx.setPasswordChangeShow(false);
-            window.location.href("/");
+            window.location.href('/');
           } else if (response.code !== 200) {
             setError(response.message);
-            setPasswordOne("");
-            setPasswordTwo("");
+            setPasswordOne('');
+            setPasswordTwo('');
             alert(`Таны нууц үг солиход алдаа гарлаа!. ${response.message}`);
             // userCtx.setPasswordChangeShow(false);
             // window.location.href("/");
           }
         })
-        .catch((error) => {
-          console.log("password change error ", error);
+        .catch(error => {
+          console.log('password change error ', error);
           // setError(error.message);
         });
     }
@@ -104,24 +107,24 @@ const PasswordChange = () => {
           <div className={css.inputContainer}>
             <input
               minLength={4}
-              placeholder="Та хуучин нууц үгээ оруулна уу"
+              placeholder='Та хуучин нууц үгээ оруулна уу'
               value={passwordOne}
-              onChange={(e) => setPasswordOne(e.target.value)}
-              type="password"
+              onChange={e => setPasswordOne(e.target.value)}
+              type='password'
             />
           </div>
           {errorOne && <div className={css.errorSUB}>{errorOne}</div>}
         </div>
 
         <div>
-          <span className={css.spanName}>Та шинэ нууц үгээ оруулна уу </span>{" "}
+          <span className={css.spanName}>Та шинэ нууц үгээ оруулна уу </span>{' '}
           <div className={css.inputContainer}>
             <input
               minLength={4}
-              placeholder="Та шинэ нууц үгээ оруулна уу"
+              placeholder='Та шинэ нууц үгээ оруулна уу'
               value={passwordTwo}
-              onChange={(e) => setPasswordTwo(e.target.value)}
-              type="password"
+              onChange={e => setPasswordTwo(e.target.value)}
+              type='password'
             />
           </div>
           {errorTwo && <div className={css.errorSUB}>{errorTwo}</div>}

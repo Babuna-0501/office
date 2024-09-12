@@ -1,18 +1,17 @@
-import { Checkbox } from "../common";
-import css from "./singleInventoryProduct.module.css";
+import { replaceImageUrl } from '../../../utils';
+import { Checkbox } from '../common';
+import css from './singleInventoryProduct.module.css';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-const SingleInventoryProduct = (props) => {
+const SingleInventoryProduct = props => {
   const { zIndex, product, categories, checked, checkHandler } = props;
   const [currentCategory, setCurrentCategory] = useState(null);
 
   useEffect(() => {
     if (categories.length === 0) return;
 
-    setCurrentCategory(
-      categories.find((cat) => cat.id === product.category_id)
-    );
+    setCurrentCategory(categories.find(cat => cat.id === product.category_id));
   }, [product, categories]);
 
   return (
@@ -28,9 +27,9 @@ const SingleInventoryProduct = (props) => {
           className={css.fieldWrapper}
           style={{
             width: 34,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <Checkbox checked={checked} onChange={checkHandler} />
@@ -41,13 +40,13 @@ const SingleInventoryProduct = (props) => {
           className={css.fieldWrapper}
           style={{
             width: 78,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <div className={css.productImageWrapper}>
-            <img src={product.image[0]} alt={product.name} />
+            <img src={replaceImageUrl(product.image[0])} alt={product.name} />
           </div>
         </div>
 
@@ -59,7 +58,7 @@ const SingleInventoryProduct = (props) => {
         {/* Category */}
         <div className={css.fieldWrapper} style={{ width: 120 }}>
           <span className={css.text}>
-            {currentCategory ? currentCategory.name : "Ангилалгүй"}
+            {currentCategory ? currentCategory.name : 'Ангилалгүй'}
           </span>
         </div>
 
@@ -82,7 +81,7 @@ const SingleInventoryProduct = (props) => {
         <div className={css.fieldWrapper} style={{ width: 90 }}>
           <span className={css.text}>
             {product.locations?.[
-              "62f4aabe45a4e22552a3969f"
+              '62f4aabe45a4e22552a3969f'
             ]?.price?.channel?.[1].toLocaleString()}
             ₮
           </span>

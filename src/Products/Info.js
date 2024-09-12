@@ -1,30 +1,36 @@
-import React, { useEffect, useState, useContext } from "react";
-import Select from "react-select";
-import { Popconfirm, message } from "antd";
-import deleteIcon from "../assets/delete_red_small.svg";
-import { Tabs } from "antd";
-import css from "./List.module.css";
-import cssproduct from "./product.module.css";
-import closeIcon from "../assets/close.svg";
-import myHeaders from "../components/MyHeader/myHeader";
-import ProductReportHook from "../Hooks/ProductsReportHook";
-import Zones from "./Zones/Zones";
+import React, { useEffect, useState, useContext } from 'react';
+import Select from 'react-select';
+import { Popconfirm, message } from 'antd';
+import deleteIcon from '../assets/delete_red_small.svg';
+import { Tabs } from 'antd';
+import css from './List.module.css';
+import cssproduct from './product.module.css';
+import closeIcon from '../assets/close.svg';
+import myHeaders from '../components/MyHeader/myHeader';
+import ProductReportHook from '../Hooks/ProductsReportHook';
+import Zones from './Zones/Zones';
 
 const oronnudagdata = [
-  { id: 1, name: "Улаанбаатар", value: "1" },
-  { id: 2, name: "Улаанбаатар+Орон нутаг", value: "1,329, 117" },
-  { id: 3, name: "Орон нутаг", value: "329, 117" },
+  { id: 1, name: 'Улаанбаатар', value: '1' },
+  { id: 2, name: 'Улаанбаатар+Орон нутаг', value: '1,329, 117' },
+  { id: 3, name: 'Орон нутаг', value: '329, 117' }
 ];
 function Info(props) {
-  console.log("PROPS:   ", props);
+  console.log('PROPS:   ', props);
   let [category, setCategory] = useState(props.product.category_id);
   const [alco, setAlco] = useState(props.product.alcohol === 1 ? true : false);
   const [pp, setPp] = useState(
-    props.product && props.product.thirdparty_data?.pickpack?.sync === true ? true : false
+    props.product && props.product.thirdparty_data?.pickpack?.sync === true
+      ? true
+      : false
   );
-  const [cityTax, setCityTax] = useState(props.product.city_tax === 1 ? true : false);
+  const [cityTax, setCityTax] = useState(
+    props.product.city_tax === 1 ? true : false
+  );
   const [oronnutag, setOronnutag] = useState(false);
-  const [noat, setNoat] = useState(props.product.noat ? props.product.noat : false);
+  const [noat, setNoat] = useState(
+    props.product.noat ? props.product.noat : false
+  );
   const [images, setImages] = useState(props.product.image);
   const [busTypes, setBusTypes] = useState([]);
   const [choseddata, setChoseddata] = useState(1);
@@ -32,7 +38,10 @@ function Info(props) {
   const [group, setGroup] = useState(props.product.supplierProductGroup);
 
   useEffect(() => {
-    if (props.product.supplier_id === 13884 || props.product.supplier_id === 14051) {
+    if (
+      props.product.supplier_id === 13884 ||
+      props.product.supplier_id === 14051
+    ) {
       if (props.product.include.length === 1) {
         setChoseddata(1);
       } else if (props.product.include.length === 2) {
@@ -48,23 +57,23 @@ function Info(props) {
   // console.log("sitedatactx.sitedata", sitedatactx);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let urlNew = `https://api.ebazaar.mn/api/site_data`;
+    let urlNew = `${process.env.REACT_APP_API_URL}/api/site_data`;
     fetch(urlNew, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
         let data = [];
-        res.business_types.map((item) => {
+        res.business_types.map(item => {
           data.push(item.business_type_id);
         });
         setBusTypes(data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
 
@@ -77,7 +86,7 @@ function Info(props) {
   const options = [];
   let defaultValueLabel = null;
   if (props.categories) {
-    props.categories.map((category) => {
+    props.categories.map(category => {
       options.push({ value: category.id, label: category.name });
       if (category.id === props.product.category_id) {
         defaultValueLabel = category.name;
@@ -88,7 +97,7 @@ function Info(props) {
   const options2 = [];
   let defaultValueLabel2 = null;
   if (props.productGroup) {
-    props.productGroup.map((group) => {
+    props.productGroup.map(group => {
       options2.push({ value: group.id, label: group.name });
       if (group.id === props.product.supplierProductGroup) {
         defaultValueLabel2 = group.name;
@@ -96,28 +105,32 @@ function Info(props) {
     });
   }
 
-  const handleChange = (selectedOptions) => {
+  const handleChange = selectedOptions => {
     setCategory(selectedOptions.value);
   };
 
   // console.log("props.selected", props.selected);
   const save = () => {
-    const productname = document.getElementById("productname");
-    const productbarcode = document.getElementById("productbarcode");
-    const productsku = document.getElementById("productsku");
-    const productdescription = document.getElementById("productdescription");
-    const in_case = document.getElementById("in_case");
-    const stock = document.getElementById("stock");
-    const priority = document.getElementById("productpriority");
-    if (productname.value !== "") {
+    const productname = document.getElementById('productname');
+    const productbarcode = document.getElementById('productbarcode');
+    const productsku = document.getElementById('productsku');
+    const productdescription = document.getElementById('productdescription');
+    const in_case = document.getElementById('in_case');
+    const stock = document.getElementById('stock');
+    const priority = document.getElementById('productpriority');
+    if (productname.value !== '') {
       let incaceall = {};
       let priorityall = {};
 
-      busTypes.map((item) => {
-        incaceall[item] = Number(in_case.value.length === 0 ? 1 : in_case.value);
+      busTypes.map(item => {
+        incaceall[item] = Number(
+          in_case.value.length === 0 ? 1 : in_case.value
+        );
       });
-      busTypes.map((item) => {
-        priorityall[item] = Number(priority.value.length === 0 ? 1 : priority.value);
+      busTypes.map(item => {
+        priorityall[item] = Number(
+          priority.value.length === 0 ? 1 : priority.value
+        );
       });
       let oronnutagIDS = [];
       let ubIDS = [];
@@ -133,8 +146,8 @@ function Info(props) {
       }
       let weighted = {
         attribute_id: 96,
-        attribute_name: "Дундаж жин / кг",
-        attribte_value: parseFloat(weightProduct).toFixed(2).toString(),
+        attribute_name: 'Дундаж жин / кг',
+        attribte_value: parseFloat(weightProduct).toFixed(2).toString()
       };
 
       let rawNew = {
@@ -153,26 +166,26 @@ function Info(props) {
         noat: noat === true ? true : false,
         attribute: [props.product.supplier_id === 14005 ? weighted : {}],
         stock: Number(stock.value),
-        "locations.62f4aabe45a4e22552a3969f.in_case.channel": incaceall,
-        "locations.62f4aabe45a4e22552a3969f.priority.channel": priorityall,
-        supplierProductGroup: group,
+        'locations.62f4aabe45a4e22552a3969f.in_case.channel': incaceall,
+        'locations.62f4aabe45a4e22552a3969f.priority.channel': priorityall,
+        supplierProductGroup: group
       };
       rawNew = JSON.stringify(rawNew);
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: rawNew,
-        redirect: "follow",
+        redirect: 'follow'
       };
-      let urlNew = `https://api2.ebazaar.mn/api/product/update1`;
+      let urlNew = `${process.env.REACT_APP_API_URL2}/api/product/update1`;
       // console.log("requestOptions ------------ requestOptions", requestOptions);
 
       fetch(urlNew, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+        .then(response => response.json())
+        .then(result => {
           if (result.code === 200) {
-            alert("Бүтээгдэхүүний мэдээллийг амжилттай шинэчиллээ!");
-            console.log("UPDATED INFO", requestOptions);
+            alert('Бүтээгдэхүүний мэдээллийг амжилттай шинэчиллээ!');
+            console.log('UPDATED INFO', requestOptions);
 
             props.setProduct({
               ...props.product,
@@ -187,93 +200,102 @@ function Info(props) {
               supplierProductGroup: group,
               exclude: ubIDS,
 
-              ...(props.product.locations["62f4aabe45a4e22552a3969f"].in_case.channel = incaceall),
-              ...(props.product.locations["62f4aabe45a4e22552a3969f"].priority.channel =
-                priorityall),
+              ...(props.product.locations[
+                '62f4aabe45a4e22552a3969f'
+              ].in_case.channel = incaceall),
+              ...(props.product.locations[
+                '62f4aabe45a4e22552a3969f'
+              ].priority.channel = priorityall)
             });
             props.setInfo(false);
           }
         })
-        .catch((error) => {
-          console.log("error product update", error);
+        .catch(error => {
+          console.log('error product update', error);
         });
     } else {
-      alert("Бүтээгдэхүүний нэр оруулна уу!");
+      alert('Бүтээгдэхүүний нэр оруулна уу!');
     }
   };
 
-  let newIncase = props.product.locations["62f4aabe45a4e22552a3969f"].in_case.channel[1];
-  let priorityNew = props.product.locations["62f4aabe45a4e22552a3969f"].priority.channel[1];
+  let newIncase =
+    props.product.locations['62f4aabe45a4e22552a3969f'].in_case.channel[1];
+  let priorityNew =
+    props.product.locations['62f4aabe45a4e22552a3969f'].priority.channel[1];
 
   const deleteHandler = () => {
     var requestOptions = {
-      method: "PUT",
+      method: 'PUT',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    const url = `https://api2.ebazaar.mn/product/remove?productId=${props.product._id}`
-    console.log(url)
+    const url = `${process.env.REACT_APP_API_URL2}/product/remove?productId=${props.product._id}`;
+    console.log(url);
     fetch(url, requestOptions)
-      .then((res) => {
+      .then(res => {
         if (res.status === 200) {
-          message.success("Амжилттай устгалаа");
+          message.success('Амжилттай устгалаа');
           props.setInfo(false);
         } else {
-          message.error("Алдаа гарлаа");
+          message.error('Алдаа гарлаа');
         }
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   };
 
   const savePrice = () => {
-    const foobar = document.getElementById("productprice");
-    if (foobar.value !== "") {
+    const foobar = document.getElementById('productprice');
+    if (foobar.value !== '') {
       let inprice = {};
-      busTypes.map((item) => {
+      busTypes.map(item => {
         inprice[item] = Number(foobar.value);
       });
 
       let rawNew = {
         product_id: props.product._id,
         supplier_id: props.product.supplier_id,
-        "locations.62f4aabe45a4e22552a3969f.price.channel": inprice,
+        'locations.62f4aabe45a4e22552a3969f.price.channel': inprice
       };
       rawNew = JSON.stringify(rawNew);
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: rawNew,
-        redirect: "follow",
+        redirect: 'follow'
       };
       // console.log("requestOptions price update", requestOptions);
-      let urlNew = `https://api2.ebazaar.mn/api/product/update1`;
+      let urlNew = `${process.env.REACT_APP_API_URL2}/api/product/update1`;
       fetch(urlNew, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
+        .then(response => response.json())
+        .then(result => {
           if (result.code === 200) {
             props.setProduct({
               ...props.product,
-              ...(props.product.locations["62f4aabe45a4e22552a3969f"].price.channel = inprice),
+              ...(props.product.locations[
+                '62f4aabe45a4e22552a3969f'
+              ].price.channel = inprice)
             });
             props.setPrice(false);
-            alert("Үнэ амжилттай шинэчлэгдлээ");
+            alert('Үнэ амжилттай шинэчлэгдлээ');
           }
         })
-        .catch((error) => {
-          console.log("price update error", error);
+        .catch(error => {
+          console.log('price update error', error);
         });
     } else {
-      alert("Үнийн мэдээлэл оруулна уу");
+      alert('Үнийн мэдээлэл оруулна уу');
     }
   };
   const up = () => {
-    const id = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+    const id = (
+      Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+    ).toUpperCase();
     document
-      .getElementById("root")
+      .getElementById('root')
       .insertAdjacentHTML(
-        "beforeEnd",
+        'beforeEnd',
         '<form method="post" enctype="multipart/form‐data" id="' +
           id +
           '" name=' +
@@ -282,47 +304,51 @@ function Info(props) {
           id +
           '" multiple /></form>'
       );
-    document.getElementById("uploader" + id).click();
-    document.getElementById("uploader" + id).addEventListener("change", () => upload(id), false);
+    document.getElementById('uploader' + id).click();
+    document
+      .getElementById('uploader' + id)
+      .addEventListener('change', () => upload(id), false);
   };
-  const upload = (form) => {
-    const uploader = document.getElementById("uploader" + form);
-    var fileField = document.getElementById("uploader" + form);
+  const upload = form => {
+    const uploader = document.getElementById('uploader' + form);
+    var fileField = document.getElementById('uploader' + form);
     let formData = new FormData();
     for (let i = 0; i < uploader.files.length; i++) {
-      formData.append(i, fileField.files[i]);
+      formData.append('files', fileField.files[i]);
     }
     fetch(
-      "https://ebazaar.mn/media/ehlo.php?preset=product&ebazaar_admin_token=" +
-        localStorage.getItem("ebazaar_admin_token"),
-      { method: "post", body: formData }
+      `${process.env.REACT_APP_MEDIA_UPLOAD_URL}?preset=product&ebazaar_admin_token=` +
+        localStorage.getItem('ebazaar_admin_token'),
+      { method: 'post', body: formData }
     )
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         let temp = [];
         if (response.status === 200) {
-          response.data.map((img) => {
-            temp.push("https://ebazaar.mn/media/original/" + img.image);
+          response.data.map(img => {
+            temp.push(
+              `${process.env.REACT_APP_MEDIA_URL}/original/` + img.image
+            );
           });
         }
-        setImages((prev) => [...prev, ...temp]);
+        setImages(prev => [...prev, ...temp]);
       });
   };
   let renderHTML = images.map((i, index) => {
     return (
       <div className={cssproduct.relativeContainer} key={index}>
         <img
-          src={i.replace("original", "product")}
-          alt=""
-          style={{ height: "168px", width: "168px" }}
+          src={i.replace('original', 'product')}
+          alt=''
+          style={{ height: '168px', width: '168px' }}
           className={cssproduct.prodImage}
         />
         <img
           src={closeIcon}
-          alt=""
+          alt=''
           className={cssproduct.close}
           onClick={() => {
-            setImages((prev) => prev.filter((_, x) => x !== index));
+            setImages(prev => prev.filter((_, x) => x !== index));
           }}
         />
       </div>
@@ -330,68 +356,77 @@ function Info(props) {
   });
   const savePicture = () => {
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify({
         product_id: props.product._id,
         supplier_id: props.product.supplier_id,
-        image: images,
+        image: images
       }),
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let urlNew = `https://api2.ebazaar.mn/api/product/update1`;
+    let urlNew = `${process.env.REACT_APP_API_URL2}/api/product/update1`;
     fetch(urlNew, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
+      .then(response => response.json())
+      .then(result => {
         if (result.code === 200) {
-          alert("Амжилттай хадгаллаа!");
+          alert('Амжилттай хадгаллаа!');
           props.setProduct({
             ...props.product,
-            image: images,
+            image: images
           });
         } else {
-          alert("Алдаа гарлаа!");
+          alert('Алдаа гарлаа!');
         }
       })
-      .catch((error) => {
-        console.log("error image update", error);
+      .catch(error => {
+        console.log('error image update', error);
       });
   };
   // console.log("props.producttttttttttttttt", props);
 
   return (
-    <div id="bg">
-      <div id="foo">
-        <span className="close" onClick={() => props.setInfo(false)}>
+    <div id='bg'>
+      <div id='foo'>
+        <span className='close' onClick={() => props.setInfo(false)}>
           Close
         </span>
         <div>
           <Tabs
-            defaultActiveKey="1"
-            style={{ width: "100%", marginTop: "16px" }}
+            defaultActiveKey='1'
+            style={{ width: '100%', marginTop: '16px' }}
             items={[
               {
-                label: <div className={css.tabHeader}>Бүтээгдэхүүний мэдээлэл</div>,
-                key: "1",
+                label: (
+                  <div className={css.tabHeader}>Бүтээгдэхүүний мэдээлэл</div>
+                ),
+                key: '1',
                 children: (
                   <div>
                     <label>Нэр</label>
-                    <input type="text" id="productname" defaultValue={props.product.name} />
+                    <input
+                      type='text'
+                      id='productname'
+                      defaultValue={props.product.name}
+                    />
 
                     {/* ------------------ */}
                     <label>Ангилал</label>
                     <Select
                       options={options}
-                      id="category"
+                      id='category'
                       onChange={handleChange}
                       defaultValue={{
-                        label: defaultValueLabel === null ? "Ангилал" : defaultValueLabel,
-                        value: props.product.category_id,
+                        label:
+                          defaultValueLabel === null
+                            ? 'Ангилал'
+                            : defaultValueLabel,
+                        value: props.product.category_id
                       }}
                     />
                     {/* ------------------ */}
 
-                    <div style={{ height: "20px" }}></div>
+                    <div style={{ height: '20px' }}></div>
                     {/* {props.product.supplier_id === 13884 ? (
                        <>
                          <label>Шуурхай ангилал</label>
@@ -408,16 +443,20 @@ function Info(props) {
                        </>
                      ) : null} */}
                     {/* ------------------ */}
-                    {props.product.supplier_id === 13884 || props.product.supplier_id === 14142 ? (
+                    {props.product.supplier_id === 13884 ||
+                    props.product.supplier_id === 14142 ? (
                       <>
                         <label>Шуурхай ангилал </label>
                         <Select
                           options={options2}
-                          id="category"
-                          onChange={(e) => setGroup(e.value)}
+                          id='category'
+                          onChange={e => setGroup(e.value)}
                           defaultValue={{
-                            label: defaultValueLabel2 === null ? "Ангилал" : defaultValueLabel2,
-                            value: props.product.supplierProductGroup,
+                            label:
+                              defaultValueLabel2 === null
+                                ? 'Ангилал'
+                                : defaultValueLabel2,
+                            value: props.product.supplierProductGroup
                           }}
                         />
                       </>
@@ -425,46 +464,69 @@ function Info(props) {
 
                     {/* ------------------ */}
                     <label>Barcode</label>
-                    <input type="text" id="productbarcode" defaultValue={props.product.bar_code} />
+                    <input
+                      type='text'
+                      id='productbarcode'
+                      defaultValue={props.product.bar_code}
+                    />
                     <label>SKU</label>
-                    <input type="text" id="productsku" defaultValue={props.product.sku} />
+                    <input
+                      type='text'
+                      id='productsku'
+                      defaultValue={props.product.sku}
+                    />
                     <label>Хайрцаг/авдар дахь тоо</label>
-                    <input type="number" id="in_case" defaultValue={newIncase} />
+                    <input
+                      type='number'
+                      id='in_case'
+                      defaultValue={newIncase}
+                    />
                     <label>Агуулахын үлдэгдэл</label>
-                    <input type="number" id="stock" defaultValue={props.product.stock} />
+                    <input
+                      type='number'
+                      id='stock'
+                      defaultValue={props.product.stock}
+                    />
                     <label>Тайлбар</label>
                     <input
-                      type="text"
-                      id="productdescription"
+                      type='text'
+                      id='productdescription'
                       defaultValue={props.product.description}
                     />
                     <label>Дараалал</label>
-                    <input type="input" id="productpriority" defaultValue={priorityNew} />
+                    <input
+                      type='input'
+                      id='productpriority'
+                      defaultValue={priorityNew}
+                    />
                     <label
                       style={{
-                        display: props.product.supplier_id === 14005 ? "block" : "none",
+                        display:
+                          props.product.supplier_id === 14005 ? 'block' : 'none'
                       }}
                     >
                       Дундаж жин/кг
                     </label>
                     <input
-                      id="productpriority"
+                      id='productpriority'
                       value={weightProduct}
-                      type="number"
+                      type='number'
                       min={0}
-                      onChange={(e) => {
+                      onChange={e => {
                         setWeightProduct(e.target.value);
                       }}
                       style={{
-                        display: props.product.supplier_id === 14005 ? "block" : "none",
+                        display:
+                          props.product.supplier_id === 14005 ? 'block' : 'none'
                       }}
                     />
                     <label
                       style={{
                         display:
-                          props.product.supplier_id === 13884 || props.product.supplier_id === 14051
-                            ? "block"
-                            : "none",
+                          props.product.supplier_id === 13884 ||
+                          props.product.supplier_id === 14051
+                            ? 'block'
+                            : 'none'
                       }}
                     >
                       Улаанбаатар/Орон нутаг
@@ -472,12 +534,13 @@ function Info(props) {
                     <select
                       style={{
                         display:
-                          props.product.supplier_id === 13884 || props.product.supplier_id === 14051
-                            ? "block"
-                            : "none",
+                          props.product.supplier_id === 13884 ||
+                          props.product.supplier_id === 14051
+                            ? 'block'
+                            : 'none'
                       }}
                       value={choseddata}
-                      onChange={(e) => {
+                      onChange={e => {
                         setChoseddata(e.target.value);
                       }}
                     >
@@ -491,48 +554,48 @@ function Info(props) {
                     </select>
                     <div
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "15px",
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginBottom: '15px'
                       }}
                     >
-                      <span style={{ display: "flex" }}>
-                        <div style={{ marginRight: "40px" }}>
+                      <span style={{ display: 'flex' }}>
+                        <div style={{ marginRight: '40px' }}>
                           <label>Алкохол</label>
                           <div>
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               checked={alco}
                               onChange={() => {
                                 setAlco(!alco);
                               }}
-                              style={{ width: "20px" }}
+                              style={{ width: '20px' }}
                             />
                           </div>
                         </div>
-                        <div style={{ marginRight: "40px" }}>
+                        <div style={{ marginRight: '40px' }}>
                           <label>Pickpack</label>
                           <div>
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               checked={pp}
                               onChange={() => {
                                 setPp(!pp);
                               }}
-                              style={{ width: "20px" }}
+                              style={{ width: '20px' }}
                             />
                           </div>
                         </div>
-                        <div style={{ marginRight: "40px" }}>
+                        <div style={{ marginRight: '40px' }}>
                           <label>Хотын татвар</label>
                           <div>
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               checked={cityTax}
                               onChange={() => {
                                 setCityTax(!cityTax);
                               }}
-                              style={{ width: "20px" }}
+                              style={{ width: '20px' }}
                             />
                           </div>
                         </div>
@@ -549,16 +612,16 @@ function Info(props) {
                             />
                           </div>
                         </div> */}
-                        <div style={{ marginRight: "40px" }}>
+                        <div style={{ marginRight: '40px' }}>
                           <label>НӨАТ</label>
                           <div>
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               checked={noat}
                               onChange={() => {
                                 setNoat(!noat);
                               }}
-                              style={{ width: "20px" }}
+                              style={{ width: '20px' }}
                             />
                           </div>
                         </div>
@@ -577,68 +640,77 @@ function Info(props) {
                       </div> */}
                       </span>
                       <Popconfirm
-                        placement="left"
-                        title="Та энэ бүтээгдхүүнийг устгахдаа итгэлтэй байна уу?"
+                        placement='left'
+                        title='Та энэ бүтээгдхүүнийг устгахдаа итгэлтэй байна уу?'
                         onConfirm={() => deleteHandler()}
-                        okText="Тийм"
-                        cancelText="Үгүй"
+                        okText='Тийм'
+                        cancelText='Үгүй'
                       >
-                        <img src={deleteIcon} style={{ marginTop: "6px" }} />
+                        <img src={deleteIcon} style={{ marginTop: '6px' }} />
                       </Popconfirm>
                     </div>
                     <button onClick={() => save()}>Хадгалах</button>
                   </div>
-                ),
+                )
               },
               {
                 label: <div className={css.tabHeader}>Зураг</div>,
-                key: "2",
+                key: '2',
                 children: (
                   <div>
                     <div
                       style={{
-                        width: "100%",
-                        flexWrap: "wrap",
-                        display: "flex",
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        display: 'flex'
                       }}
                     >
                       {renderHTML}
                       <img
-                        src="https://ebazaar.mn/icon/photo-add.svg"
+                        src='https://ebazaar.mn/icon/photo-add.svg'
                         onClick={() => up()}
-                        alt=""
-                        style={{ height: "168px", width: "168px" }}
+                        alt=''
+                        style={{ height: '168px', width: '168px' }}
                       />
                     </div>
-                    <button onClick={() => savePicture()} style={{ marginTop: "50px" }}>
+                    <button
+                      onClick={() => savePicture()}
+                      style={{ marginTop: '50px' }}
+                    >
                       Хадгалах
                     </button>
                   </div>
-                ),
+                )
               },
               {
                 label: <div className={css.tabHeader}>Үнийн тохиргоо</div>,
-                key: "3",
+                key: '3',
                 children: (
                   <div>
                     <input
-                      type="number"
-                      id="productprice"
+                      type='number'
+                      id='productprice'
                       defaultValue={
-                        props.product.locations["62f4aabe45a4e22552a3969f"].price.channel[1]
+                        props.product.locations['62f4aabe45a4e22552a3969f']
+                          .price.channel[1]
                       }
                     />
-                    <button onClick={() => savePrice()} style={{ marginTop: "50px" }}>
+                    <button
+                      onClick={() => savePrice()}
+                      style={{ marginTop: '50px' }}
+                    >
                       Хадгалах
                     </button>
                   </div>
-                ),
+                )
               },
               {
                 label: <div className={css.tabHeader}>Zone</div>,
-                key: "4",
-                children: <Zones product={props.product} selected={props.selected} />,
-              },
+                key: '4',
+                children: (
+                  <Zones product={props.product} selected={props.selected} />
+                )
+              }
             ]}
           />
         </div>

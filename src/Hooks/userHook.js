@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import myHeaders from "../components/MyHeader/myHeader";
+import React, { useState, useEffect } from 'react';
+import myHeaders from '../components/MyHeader/myHeader';
 const Ctx = React.createContext();
 
-export const UserDataHook = (props) => {
-  const [userInfo, setUserInfo] = useState("");
+export const UserDataHook = props => {
+  const [userInfo, setUserInfo] = useState('');
   const [passwordChangeShow, setPasswordChangeShow] = useState(false);
   const [sitedata, setSitedata] = useState([]);
   const [linesDetails, setLinesDetails] = useState(false);
@@ -12,10 +12,13 @@ export const UserDataHook = (props) => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const data = await fetch(`https://api.ebazaar.mn/api/site_data`, {
-        method: "GET",
-        headers: myHeaders,
-      });
+      const data = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/site_data`,
+        {
+          method: 'GET',
+          headers: myHeaders
+        }
+      );
       const dataOne = await data.json();
 
       setSitedata(dataOne);
@@ -23,7 +26,7 @@ export const UserDataHook = (props) => {
     try {
       fetchdata();
     } catch (error) {
-      console.log("userHook sitedata", error);
+      console.log('userHook sitedata', error);
     }
   }, []);
 
@@ -40,7 +43,7 @@ export const UserDataHook = (props) => {
         linesDetailsData,
         setLinesDetailsData,
         categories,
-        setCategories,
+        setCategories
       }}
     >
       {props.children}

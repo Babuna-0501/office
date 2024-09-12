@@ -59,7 +59,7 @@ const Entry = (props) => {
 	return (
 		<div className={css.entry}>
 			<div className={css.entry_id} style={{width: width[0] + 'px'}}><input type="checkbox" /></div>
-			<div className={css.entry_images} style={{width: width[1] + 'px'}} onClick={() => props.setForm(data)}>{id}</div>
+			<div className={css.entry_images} style={{width: width[1] + 'px'}} onClick={() => props.setForm(data)}>{data.generateId ? data.generateId.slice(-7) : null}</div>
 			<div className={css.entry_date} style={{width: width[2] + 'px'}}>{data.createdDate}</div>
 			<div className={css.entry_userid} style={{width: width[3] + 'px'}}>{requestedBy}</div>
 			<div className={css.entry_userid} style={{width: width[4] + 'px'}}>{status}</div>

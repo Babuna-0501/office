@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
-import myHeaders from "./HeaderContent/HeaderContent";
-import PromoHook from "../Hooks/PromoHook";
-import ProductReportHook from "../Hooks/ProductsReportHook";
-const Product = (props) => {
+import React, { useEffect, useState, useContext } from 'react';
+import myHeaders from './HeaderContent/HeaderContent';
+import PromoHook from '../Hooks/PromoHook';
+import ProductReportHook from '../Hooks/ProductsReportHook';
+const Product = props => {
   const [products, setProducts] = useState([]);
   const promoctx = useContext(PromoHook);
   const ctxProduct = useContext(ProductReportHook);
@@ -10,8 +10,8 @@ const Product = (props) => {
 
   useEffect(() => {
     let arr = [];
-    ctxProduct.sitedata?.business_types.map((item) => {
-      props.data.channel_id?.map((x) => {
+    ctxProduct.sitedata?.business_types.map(item => {
+      props.data.channel_id?.map(x => {
         if (item.business_type_id === x) {
           arr.push(item);
         }
@@ -31,26 +31,26 @@ const Product = (props) => {
       // console.log("promoctx.willUpdateProd", promoctx.willUpdateProd);
 
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/products/get1?id=${ids}`,
+        `${process.env.REACT_APP_API_URL2}/api/products/get1?id=${ids}`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((res) => {
+        .then(r => r.json())
+        .then(res => {
           setProducts(res.data);
         })
-        .catch((error) => {
-          console.log("error", error.message);
+        .catch(error => {
+          console.log('error', error.message);
         });
     };
     try {
       products();
     } catch (error) {
-      console.log("error product download", error);
+      console.log('error product download', error);
     }
   }, []);
 
@@ -60,10 +60,10 @@ const Product = (props) => {
         return (
           <span
             key={index}
-            style={{ fontSize: "12px", color: "#37474F", fontWeight: "400" }}
+            style={{ fontSize: '12px', color: '#37474F', fontWeight: '400' }}
           >
             {item.name}
-            {","}
+            {','}
           </span>
         );
       })}

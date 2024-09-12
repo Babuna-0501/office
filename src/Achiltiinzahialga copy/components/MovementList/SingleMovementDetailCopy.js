@@ -1,17 +1,18 @@
-import css from "./singleMovementDetail.module.css";
-import closeIcon from "../../../assets/shipment/closeIcon.svg";
-import arrowRight from "../../../assets/shipment/arrow-right.svg";
-import { Button, Input, Modal } from "../common";
-import { useMemo, useRef, useState } from "react";
-import { useEffect } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import okIcon from "../../../assets/shipment/ok.svg";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import * as htmlToImage from "html-to-image";
-import { useCallback } from "react";
-import ErrorPopup from "../common/ErrorPopup";
+import css from './singleMovementDetail.module.css';
+import closeIcon from '../../../assets/shipment/closeIcon.svg';
+import arrowRight from '../../../assets/shipment/arrow-right.svg';
+import { Button, Input, Modal } from '../common';
+import { useMemo, useRef, useState } from 'react';
+import { useEffect } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import okIcon from '../../../assets/shipment/ok.svg';
+import LoadingSpinner from '../../../components/Spinner/Spinner';
+import * as htmlToImage from 'html-to-image';
+import { useCallback } from 'react';
+import ErrorPopup from '../common/ErrorPopup';
+import { replaceImageUrl } from '../../../utils';
 
-const SingleMovementDetail = (props) => {
+const SingleMovementDetail = props => {
   const {
     closeHandler,
     outgoingInventory,
@@ -24,7 +25,7 @@ const SingleMovementDetail = (props) => {
     receivedNumber,
     setReceivedNumber,
     difference,
-    setDifference,
+    setDifference
   } = props;
 
   const [totalPrice, setTotalPrice] = useState(0);
@@ -38,8 +39,8 @@ const SingleMovementDetail = (props) => {
   const [isMillHouse, setIsMillHouse] = useState(false);
   const [isNuudel, setIsNuudel] = useState(false);
 
-  const [date] = useState(movement.createDate.split("T")[0]);
-  const [time] = useState(movement.createDate.split("T")[1]);
+  const [date] = useState(movement.createDate.split('T')[0]);
+  const [time] = useState(movement.createDate.split('T')[1]);
 
   const [print, setPrint] = useState(false);
 
@@ -47,40 +48,44 @@ const SingleMovementDetail = (props) => {
     movement.myOrigin === 1 && movement.orders && movement.shipmentType === 1
   );
 
-  const [selectedOutInventory, setSelectedOutInventory] = useState(movement.from);
+  const [selectedOutInventory, setSelectedOutInventory] = useState(
+    movement.from
+  );
   const [selectedInInventory, setSelectedInInventory] = useState(movement.to);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showError, setShowError] = useState(false);
 
   let inProducts = [];
   const [inData, setInData] = useState([]);
 
   const requestOptions = {
-    method: "GET",
+    method: 'GET',
     headers: myHeaders,
-    redirect: "follow",
+    redirect: 'follow'
   };
   useEffect(() => {
     fetch(
-      `https://api2.ebazaar.mn/api/shipment?createDate=${movement.createDate.substring(0, 10)}&to=${
+      `${
+        process.env.REACT_API_URL2
+      }/shipment?createDate=${movement.createDate.substring(0, 10)}&to=${
         movement.from
       }&from=${movement.to}`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((response) => setInData(response.data));
-    console.log("umshlaa");
+      .then(res => res.json())
+      .then(response => setInData(response.data));
+    console.log('umshlaa');
   }, []);
 
-  inData?.map((data) => {
+  inData?.map(data => {
     if (data.status === 2) {
       inProducts.push(...data.products);
     }
   });
 
-  const tatalt = inProducts.filter((product) =>
-    movement.products.map((pro) => pro.productId === product.productId)
+  const tatalt = inProducts.filter(product =>
+    movement.products.map(pro => pro.productId === product.productId)
   );
 
   const separateProd = useMemo(() => {
@@ -88,13 +93,13 @@ const SingleMovementDetail = (props) => {
       millhouse: {
         products: [],
         total: 0,
-        title: "Милл Хаус ХХК",
+        title: 'Милл Хаус ХХК'
       },
       ng: {
         products: [],
         total: 0,
-        title: "Нүүдэл Жи ХХК",
-      },
+        title: 'Нүүдэл Жи ХХК'
+      }
     };
 
     for (const product of props.products) {
@@ -127,7 +132,8 @@ const SingleMovementDetail = (props) => {
 
     for (const product of products) {
       totalPriceCopy +=
-        product.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.[1] * product.count;
+        product.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.[1] *
+        product.count;
 
       totalCountCopy += product.count;
       categoryCountCopy++;
@@ -141,29 +147,29 @@ const SingleMovementDetail = (props) => {
   const submitHandler = async () => {
     try {
       if (submitting) return;
-      setErrorMsg("");
+      setErrorMsg('');
 
       if (isFromOrder) {
-        if (selectedOutInventory === "") {
-          setErrorMsg("Гарах агуулах сонгоогүй байна!");
+        if (selectedOutInventory === '') {
+          setErrorMsg('Гарах агуулах сонгоогүй байна!');
           setShowError(true);
           return;
         }
 
-        if (selectedInInventory === "") {
-          setErrorMsg("Авах агуулах сонгоогүй байна!");
+        if (selectedInInventory === '') {
+          setErrorMsg('Авах агуулах сонгоогүй байна!');
           setShowError(true);
           return;
         }
       } else {
         if (!outgoingInventory._id) {
-          setErrorMsg("Гарах агуулах сонгоогүй байна!");
+          setErrorMsg('Гарах агуулах сонгоогүй байна!');
           setShowError(true);
           return;
         }
 
         if (!incomingInventory._id) {
-          setErrorMsg("Авах агуулах сонгоогүй байна!");
+          setErrorMsg('Авах агуулах сонгоогүй байна!');
           setShowError(true);
           return;
         }
@@ -171,21 +177,21 @@ const SingleMovementDetail = (props) => {
 
       setSubmitting(true);
 
-      const url = `https://api2.ebazaar.mn/api/shipment?id=${movement._id}`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment?id=${movement._id}`;
       const requestOptions = {
-        method: "PUT",
+        method: 'PUT',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow',
         body: JSON.stringify({
           status: 2,
           from: isFromOrder ? selectedOutInventory : outgoingInventory._id,
           to: isFromOrder ? selectedInInventory : incomingInventory._id,
-          products: products.map((product) => ({
+          products: products.map(product => ({
             productId: product.productId,
-            count: product.count,
+            count: product.count
             // receivedNumber : receivedNumber
-          })),
-        }),
+          }))
+        })
       };
 
       const res = await fetch(url, requestOptions);
@@ -194,22 +200,24 @@ const SingleMovementDetail = (props) => {
       if (resData.code === 200) {
         setShowPopup(true);
         if (isFromOrder) {
-          setMovements((prev) =>
-            prev.map((curMovement) =>
+          setMovements(prev =>
+            prev.map(curMovement =>
               curMovement._id === movement._id
                 ? {
                     ...curMovement,
                     status: 2,
                     from: selectedOutInventory,
-                    to: selectedInInventory,
+                    to: selectedInInventory
                   }
                 : curMovement
             )
           );
         } else {
-          setMovements((prev) =>
-            prev.map((curMovement) =>
-              curMovement._id === movement._id ? { ...curMovement, status: 2 } : curMovement
+          setMovements(prev =>
+            prev.map(curMovement =>
+              curMovement._id === movement._id
+                ? { ...curMovement, status: 2 }
+                : curMovement
             )
           );
         }
@@ -218,8 +226,8 @@ const SingleMovementDetail = (props) => {
         setShowError(true);
       }
     } catch (error) {
-      console.log("error while submiting", error);
-      setErrorMsg("Алдаа гарсан тул та дахин оролдоно уу!");
+      console.log('error while submiting', error);
+      setErrorMsg('Алдаа гарсан тул та дахин оролдоно уу!');
       setShowError(true);
     } finally {
       setSubmitting(false);
@@ -232,11 +240,11 @@ const SingleMovementDetail = (props) => {
 
       setSubmitting(true);
 
-      const url = `https://api2.ebazaar.mn/api/shipment?id=${movement._id}&status=3`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment?id=${movement._id}&status=3`;
       const requestOptions = {
-        method: "PUT",
+        method: 'PUT',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -244,16 +252,18 @@ const SingleMovementDetail = (props) => {
 
       if (resData.code === 200) {
         setShowCancelPopup(true);
-        setMovements((prev) =>
-          prev.map((curMovement) =>
-            curMovement._id === movement._id ? { ...curMovement, status: 3 } : curMovement
+        setMovements(prev =>
+          prev.map(curMovement =>
+            curMovement._id === movement._id
+              ? { ...curMovement, status: 3 }
+              : curMovement
           )
         );
       } else {
         alert(resData.message);
       }
     } catch (error) {
-      console.log("error while cancelling", error);
+      console.log('error while cancelling', error);
     } finally {
       setSubmitting(false);
     }
@@ -264,31 +274,47 @@ const SingleMovementDetail = (props) => {
       <div className={css.detailsContainer}>
         <div className={css.headerWrapper}>
           <h1 className={css.title}>
-            {movement.shipmentType === 1 && "Ачилт"}
-            {movement.shipmentType === 2 && "Хөдөлгөөн"}
-            {movement.shipmentType === 3 && "Буцаалт"}
+            {movement.shipmentType === 1 && 'Ачилт'}
+            {movement.shipmentType === 2 && 'Хөдөлгөөн'}
+            {movement.shipmentType === 3 && 'Буцаалт'}
           </h1>
-          <button disabled={submitting} onClick={closeHandler} className={css.closeBtn}>
-            <img src={closeIcon} alt="Close" />
+          <button
+            disabled={submitting}
+            onClick={closeHandler}
+            className={css.closeBtn}
+          >
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
         <div className={css.infoWrapper}>
           <span className={css.shipmentDate}>
-            <span>Үүссэн огноо:</span> {date.split("-")[0]}.{date.split("-")[1]}.
-            {date.split("-")[2]}/ {time.split(":")[0]}:{time.split(":")[1]}
+            <span>Үүссэн огноо:</span> {date.split('-')[0]}.{date.split('-')[1]}
+            .{date.split('-')[2]}/ {time.split(':')[0]}:{time.split(':')[1]}
           </span>
 
-          {movement.status === 2 && <button onClick={() => setPrint(true)}>Баримт хэвлэх</button>}
+          {movement.status === 2 && (
+            <button onClick={() => setPrint(true)}>Баримт хэвлэх</button>
+          )}
         </div>
 
         {!isFromOrder && (
           <div className={css.inventoryWrapper}>
-            <Input type="text" value={outgoingInventory?.name} size="medium" disabled />
+            <Input
+              type='text'
+              value={outgoingInventory?.name}
+              size='medium'
+              disabled
+            />
             <div className={css.arrowWrapper}>
-              <img src={arrowRight} alt="Arrow Right" />
+              <img src={arrowRight} alt='Arrow Right' />
             </div>
-            <Input type="text" value={incomingInventory?.name} size="medium" disabled />
+            <Input
+              type='text'
+              value={incomingInventory?.name}
+              size='medium'
+              disabled
+            />
           </div>
         )}
 
@@ -296,32 +322,35 @@ const SingleMovementDetail = (props) => {
           <div className={css.inventoryWrapper}>
             <select
               value={selectedOutInventory}
-              onChange={(e) => setSelectedOutInventory(e.target.value)}
+              onChange={e => setSelectedOutInventory(e.target.value)}
               disabled={movement.status !== 1}
             >
-              <option value={""}>Гарах агуулах</option>
+              <option value={''}>Гарах агуулах</option>
               {allInventories
-                .filter((inven) => inven._id !== selectedInInventory)
+                .filter(inven => inven._id !== selectedInInventory)
                 .map((inventory, idx) => {
                   return (
-                    <option key={`shipment-details-out-inven-${idx}`} value={inventory._id}>
+                    <option
+                      key={`shipment-details-out-inven-${idx}`}
+                      value={inventory._id}
+                    >
                       {inventory.name}
                     </option>
                   );
                 })}
             </select>
             <div className={css.arrowWrapper}>
-              <img src={arrowRight} alt="Arrow Right" />
+              <img src={arrowRight} alt='Arrow Right' />
             </div>
             <select
               value={selectedInInventory}
-              onChange={(e) => setSelectedInInventory(e.target.value)}
+              onChange={e => setSelectedInInventory(e.target.value)}
               disabled={movement.status !== 1}
             >
-              <option value={""}>Авах агуулах</option>
+              <option value={''}>Авах агуулах</option>
               {allInventories
-                .filter((inven) => inven._id !== selectedOutInventory)
-                .map((inventory) => {
+                .filter(inven => inven._id !== selectedOutInventory)
+                .map(inventory => {
                   return (
                     <option
                       key={`shipment-details-in-inven-${inventory._id}`}
@@ -341,11 +370,16 @@ const SingleMovementDetail = (props) => {
               return (
                 <>
                   {separateProd[key].products.length > 0 ? (
-                    <div style={{ marginBottom: index === 0 ? 30 : 0 }} key={index}>
-                      <h2 className={css.productTitle}>{separateProd[key].title}</h2>
+                    <div
+                      style={{ marginBottom: index === 0 ? 30 : 0 }}
+                      key={index}
+                    >
+                      <h2 className={css.productTitle}>
+                        {separateProd[key].title}
+                      </h2>
                       {separateProd[key].products.map((key, idx) => {
                         let mustNumber2 = 0;
-                        tatalt.map((t) => {
+                        tatalt.map(t => {
                           if (t.productId === key._id) {
                             mustNumber2 = mustNumber2 + t.count;
                           }
@@ -358,11 +392,16 @@ const SingleMovementDetail = (props) => {
                           >
                             <div className={css.productCard}>
                               <div className={css.productImageWrapper}>
-                                <img src={key.image[0]} alt={key.name} />
+                                <img
+                                  src={replaceImageUrl(key.image[0])}
+                                  alt={key.name}
+                                />
                               </div>
 
                               <div>
-                                <span className={css.productName}>{key.name}</span>
+                                <span className={css.productName}>
+                                  {key.name}
+                                </span>
                                 <span className={css.productInfo}>
                                   SKU: {key.sku} / Barcode: {key.bar_code}
                                 </span>
@@ -372,28 +411,32 @@ const SingleMovementDetail = (props) => {
                                       `62f4aabe45a4e22552a3969f`
                                     ]?.price?.channel?.[1].toLocaleString()}
                                     ₮
-                                  </span>{" "}
-                                  x {key.count} ={" "}
+                                  </span>{' '}
+                                  x {key.count} ={' '}
                                   <span>
                                     {(
-                                      key.locations?.[`62f4aabe45a4e22552a3969f`]?.price
-                                        ?.channel?.[1] * key.count
+                                      key.locations?.[
+                                        `62f4aabe45a4e22552a3969f`
+                                      ]?.price?.channel?.[1] * key.count
                                     ).toLocaleString()}
                                     ₮
                                   </span>
                                 </span>
-                                {(movement.status === 1 || movement.status === 2) &&
+                                {(movement.status === 1 ||
+                                  movement.status === 2) &&
                                   movement.shipmentType === 3 && (
                                     <div
                                       style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "5px",
-                                        marginLeft: "60px",
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '5px',
+                                        marginLeft: '60px'
                                       }}
                                     >
                                       <div className={css.inputContainer}>
-                                        <span className={css.inputSpan}>Нийт ачсан</span>
+                                        <span className={css.inputSpan}>
+                                          Нийт ачсан
+                                        </span>
                                         <input
                                           className={css.quantityInput}
                                           disabled
@@ -402,7 +445,9 @@ const SingleMovementDetail = (props) => {
                                       </div>
 
                                       <div className={css.inputContainer}>
-                                        <span className={css.inputSpan}>Буцаах</span>
+                                        <span className={css.inputSpan}>
+                                          Буцаах
+                                        </span>
                                         <input
                                           className={css.quantityInput}
                                           disabled
@@ -410,11 +455,15 @@ const SingleMovementDetail = (props) => {
                                         />
                                       </div>
                                       <div className={css.inputContainer}>
-                                        <span className={css.inputSpan}>Хүлээж авсан</span>
+                                        <span className={css.inputSpan}>
+                                          Хүлээж авсан
+                                        </span>
                                         <input
                                           className={css.quantityInput}
                                           value={receivedNumber}
-                                          onChange={(e) => setReceivedNumber(e.target.value)}
+                                          onChange={e =>
+                                            setReceivedNumber(e.target.value)
+                                          }
                                         />
                                       </div>
                                     </div>
@@ -481,33 +530,49 @@ const SingleMovementDetail = (props) => {
         style={{
           height:
             (movement.myOrigin === 2 && movement.status === 1) ||
-            (movement.myOrigin === 1 && movement.shipmentType === 2 && movement.status === 1) ||
+            (movement.myOrigin === 1 &&
+              movement.shipmentType === 2 &&
+              movement.status === 1) ||
             (movement.myOrigin === 1 &&
               movement.shipmentType === 1 &&
               movement.status === 1 &&
               (!movement.tugeegchID || movement.orders))
               ? 108
-              : 40,
+              : 40
         }}
       >
         <div className={css.footerInfo}>
           <span className={css.shipmentDetail}>
-            {isFromOrder && `${movement.orders.split(",").length} захиалга /`} {categoryCount} төрөл
-            / {totalCount} бүтээгдэхүүн
+            {isFromOrder && `${movement.orders.split(',').length} захиалга /`}{' '}
+            {categoryCount} төрөл / {totalCount} бүтээгдэхүүн
           </span>
-          <span className={css.shipmentAmount}>{totalPrice.toLocaleString()}₮</span>
+          <span className={css.shipmentAmount}>
+            {totalPrice.toLocaleString()}₮
+          </span>
         </div>
         {((movement.myOrigin === 2 && movement.status === 1) ||
-          (movement.myOrigin === 1 && movement.shipmentType === 2 && movement.status === 1) ||
+          (movement.myOrigin === 1 &&
+            movement.shipmentType === 2 &&
+            movement.status === 1) ||
           (movement.myOrigin === 1 &&
             movement.shipmentType === 1 &&
             movement.status === 1 &&
             (!movement.tugeegchID || movement.orders))) && (
           <div className={css.footerBtns}>
-            <Button onClick={cancelHandler} size="large" variant="secondary" disabled={submitting}>
+            <Button
+              onClick={cancelHandler}
+              size='large'
+              variant='secondary'
+              disabled={submitting}
+            >
               Цуцлах
             </Button>
-            <Button onClick={submitHandler} size="large" variant="primary" disabled={submitting}>
+            <Button
+              onClick={submitHandler}
+              size='large'
+              variant='primary'
+              disabled={submitting}
+            >
               Баталгаажуулах
             </Button>
           </div>
@@ -518,35 +583,35 @@ const SingleMovementDetail = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Ачилтын захиалга илгээгдлээ
@@ -556,9 +621,9 @@ const SingleMovementDetail = (props) => {
                 setShowPopup(false);
                 setShowDetails(false);
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>
@@ -570,35 +635,35 @@ const SingleMovementDetail = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Ачилтын захиалга цуцлагдлаа
@@ -608,9 +673,9 @@ const SingleMovementDetail = (props) => {
                 setShowPopup(false);
                 setShowDetails(false);
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>
@@ -618,7 +683,12 @@ const SingleMovementDetail = (props) => {
         </Modal>
       )}
 
-      {showError && <ErrorPopup message={errorMsg} closeHandler={() => setShowError(false)} />}
+      {showError && (
+        <ErrorPopup
+          message={errorMsg}
+          closeHandler={() => setShowError(false)}
+        />
+      )}
 
       {print && (
         <PrintReciept
@@ -639,7 +709,7 @@ const SingleMovementDetail = (props) => {
 
 export default SingleMovementDetail;
 
-const PrintReciept = (props) => {
+const PrintReciept = props => {
   const {
     movement,
     products,
@@ -648,17 +718,17 @@ const PrintReciept = (props) => {
     setPrint,
     isFromOrder,
     isMillHouse,
-    isNuudel,
+    isNuudel
   } = props;
 
   // console.log("PRINT: ", products);
 
-  const [date] = movement.createDate.split("T");
+  const [date] = movement.createDate.split('T');
 
   const receiptRef = useRef(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [tabValue, setTabValue] = useState("");
+  const [tabValue, setTabValue] = useState('');
   const [tabProducts, setTabProducts] = useState(products);
   // const [separateVendors, setSeparateVendors] = useState(false);
 
@@ -670,23 +740,33 @@ const PrintReciept = (props) => {
     // products.include(item => item.vendor === 948)
   }, []);
 
-  const tabHandler = (value) => {
+  const tabHandler = value => {
     const separateProds = [];
     for (const product of products) {
-      if (product.vendor && product.vendor === 14033 && product.count > 0 && value === "nuudel") {
+      if (
+        product.vendor &&
+        product.vendor === 14033 &&
+        product.count > 0 &&
+        value === 'nuudel'
+      ) {
         separateProds.push();
         separateProds.push(product);
         setTabProducts(separateProds);
         // console.log("VENDOR:", product);
       }
 
-      if (product.vendor && product.vendor === 948 && product.count > 0 && value === "mill") {
+      if (
+        product.vendor &&
+        product.vendor === 948 &&
+        product.count > 0 &&
+        value === 'mill'
+      ) {
         separateProds.push(product);
         setTabProducts(separateProds);
         // console.log("VENDOR:", product);
       }
     }
-    console.log("tabProducts", tabProducts);
+    console.log('tabProducts', tabProducts);
   };
 
   const downloadHandler = useCallback(() => {
@@ -696,15 +776,15 @@ const PrintReciept = (props) => {
       .toPng(receiptRef.current, {
         cacheBust: true,
         canvasWidth: width * 3,
-        canvasHeight: height * 3,
+        canvasHeight: height * 3
       })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
+      .then(dataUrl => {
+        const link = document.createElement('a');
         link.download = `shipment-${movement._id}.png`;
         link.href = dataUrl;
         link.click();
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   }, [receiptRef, movement._id, height, width]);
 
   return (
@@ -712,22 +792,22 @@ const PrintReciept = (props) => {
       {isMillHouse && isNuudel ? (
         <div className={css.tabContainer}>
           <Button
-            variant="primary"
-            size="medium"
-            onClick={(e) => {
+            variant='primary'
+            size='medium'
+            onClick={e => {
               console.log(e.target.value);
               // setTabValue(e.target.value);
               tabHandler(e.target.value);
             }}
-            value="mill"
+            value='mill'
           >
             Милл Хаус ХХК
           </Button>
           <Button
-            variant="primary"
-            size="medium"
-            value="nuudel"
-            onClick={(e) => {
+            variant='primary'
+            size='medium'
+            value='nuudel'
+            onClick={e => {
               console.log(e.target.value);
               // setTabValue(e.target.value);
               tabHandler(e.target.value);
@@ -745,7 +825,8 @@ const PrintReciept = (props) => {
           <div className={css.shipmentDetails}>
             <span>Ачилтын дугаар: {movement.id}</span>
             <span>
-              Ачилт үүссэн огноо: {date.split("-")[0]}/{date.split("-")[1]}/{date.split("-")[2]}
+              Ачилт үүссэн огноо: {date.split('-')[0]}/{date.split('-')[1]}/
+              {date.split('-')[2]}
             </span>
           </div>
 
@@ -760,7 +841,7 @@ const PrintReciept = (props) => {
           <table className={css.productTables}>
             <thead>
               <tr>
-                <th style={{ width: "1%" }}>№</th>
+                <th style={{ width: '1%' }}>№</th>
                 <th>Бүтээгдэхүүн</th>
                 <th>SKU</th>
                 <th>Barcode</th>
@@ -786,8 +867,8 @@ const PrintReciept = (props) => {
                     <td>{product.count}</td>
                     <td>
                       {(
-                        product.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.[1] *
-                        product.count
+                        product.locations?.[`62f4aabe45a4e22552a3969f`]?.price
+                          ?.channel?.[1] * product.count
                       ).toLocaleString()}
                       ₮
                     </td>
@@ -799,18 +880,24 @@ const PrintReciept = (props) => {
 
           <div className={css.productFooterWrapper}>
             <div className={css.productsDetail}>
-              {isFromOrder && <span>Нийт захиалгын тоо: {movement.orders.split(",").length}</span>}
+              {isFromOrder && (
+                <span>
+                  Нийт захиалгын тоо: {movement.orders.split(',').length}
+                </span>
+              )}
               <span>Нийт барааны төрөл: {tabProducts.length}</span>
               <span>
-                Нийт бүтээгдэхүүн: {tabProducts.reduce((acc, prod) => acc + prod.count, 0)}ш
+                Нийт бүтээгдэхүүн:{' '}
+                {tabProducts.reduce((acc, prod) => acc + prod.count, 0)}ш
               </span>
               <div>
-                Нийт үнийн дүн:{" "}
+                Нийт үнийн дүн:{' '}
                 {tabProducts
                   .reduce(
                     (acc, prod) =>
                       acc +
-                      (prod.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.[1] ?? 0) *
+                      (prod.locations?.[`62f4aabe45a4e22552a3969f`]?.price
+                        ?.channel?.[1] ?? 0) *
                         prod.count,
                     0
                   )
@@ -821,13 +908,17 @@ const PrintReciept = (props) => {
 
             <div className={css.infoFooter}>
               <div className={css.rightSide}>
-                <span>Ачилтын нэгтгэл үүсгэсэн:&nbsp; ________________________</span>
                 <span>
-                  Ачилтын хүлээн авсан: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; ________________________
+                  Ачилтын нэгтгэл үүсгэсэн:&nbsp; ________________________
                 </span>
                 <span>
-                  Ачилтыг хянасан: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp; &nbsp;&nbsp; ________________________
+                  Ачилтын хүлээн авсан: &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                  ________________________
+                </span>
+                <span>
+                  Ачилтыг хянасан: &nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                  ________________________
                 </span>
               </div>
 
@@ -838,10 +929,14 @@ const PrintReciept = (props) => {
       </div>
 
       <div className={css.printBtn} style={{ width: width }}>
-        <Button onClick={() => setPrint(false)} variant="secondary" size="medium">
+        <Button
+          onClick={() => setPrint(false)}
+          variant='secondary'
+          size='medium'
+        >
           Болих
         </Button>
-        <Button onClick={downloadHandler} variant="primary" size="medium">
+        <Button onClick={downloadHandler} variant='primary' size='medium'>
           Татах
         </Button>
       </div>

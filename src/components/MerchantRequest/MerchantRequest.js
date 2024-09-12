@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./merchantrequest.module.css";
-import { Button } from "../common";
-import Tailan from "./Tailan";
-import Background from "../Background/Background";
-import myHeaders from "../MyHeader/myHeader";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './merchantrequest.module.css';
+import { Button } from '../common';
+import Tailan from './Tailan';
+import Background from '../Background/Background';
+import myHeaders from '../MyHeader/myHeader';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
 
 let csv = [
   [
-    "RequestID",
-    "UserID",
-    "TradeshopID",
-    "Нийлүүлэгч",
-    "isActive",
-    "CreatedDate",
-    "TradeshopName",
-    "BusinessType",
-    "Address1",
-    "Phone",
-    "RegisterNo",
-  ],
+    'RequestID',
+    'UserID',
+    'TradeshopID',
+    'Нийлүүлэгч',
+    'isActive',
+    'CreatedDate',
+    'TradeshopName',
+    'BusinessType',
+    'Address1',
+    'Phone',
+    'RegisterNo'
+  ]
 ];
-const MerchantRequest = (props) => {
+const MerchantRequest = props => {
   const [reportOk, setReportOk] = useState(false);
   const [firstOk, setFirstOk] = useState(false);
 
@@ -40,33 +40,33 @@ const MerchantRequest = (props) => {
   useEffect(() => {
     if (firstOk) {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/tradeshop/requests?page=all`,
+        `${process.env.REACT_APP_API_URL2}/api/tradeshop/requests?page=all`,
 
         requestOptions
       )
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           // console.log("res", res);
           if (res.code === 200) {
-            res.result.map((data) => {
+            res.result.map(data => {
               let suppliername = data.SupplierID;
               suppliername = props.data.suppliers.filter(
-                (item) => item.id === suppliername
+                item => item.id === suppliername
               );
               let aa;
               if (data.CreatedDate !== null) {
                 aa = data.CreatedDate.toString().substring(0, 19);
                 aa =
-                  aa.split("T")[0].toString() +
-                  " " +
-                  aa.split("T")[1].toString();
+                  aa.split('T')[0].toString() +
+                  ' ' +
+                  aa.split('T')[1].toString();
               }
-              let bustype = "Байхгүй";
+              let bustype = 'Байхгүй';
               if (data.BusinessTypeID !== null) {
                 bustype =
                   productctx?.sitedata?.business_types[`${data.BusinessTypeID}`]
@@ -79,27 +79,27 @@ const MerchantRequest = (props) => {
                 data.TradeshopID,
                 suppliername[0].name,
                 data.isActive,
-                data.CreatedDate ? aa : "",
+                data.CreatedDate ? aa : '',
                 data.TradeshopName,
                 bustype,
                 data.Address1,
                 data.Phone,
-                data.RegisterNo,
+                data.RegisterNo
               ];
               csv.push(temp);
             });
             setReportOk(true);
           }
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   }, [firstOk]);
 
   return (
     <div className={css.container}>
-      <Button variant="primary" size="medium" onClick={reportHandler}>
+      <Button variant='primary' size='medium' onClick={reportHandler}>
         Тайлан
       </Button>
 
@@ -107,7 +107,7 @@ const MerchantRequest = (props) => {
         <Background className={css.background}>
           <Tailan
             onClick={reportCloseHandler}
-            name="Харилцагчийн хүсэлтийн тайлан"
+            name='Харилцагчийн хүсэлтийн тайлан'
             data={csv}
           />
         </Background>

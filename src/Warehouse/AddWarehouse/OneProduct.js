@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
-import { styles } from "./style";
-import css from "./oneproduct.module.css";
+import React, { useState, useRef } from 'react';
+import { styles } from './style';
+import css from './oneproduct.module.css';
+import { replaceImageUrl } from '../../utils';
 
-const OneProduct = (props) => {
+const OneProduct = props => {
   const [manufacturedDate, setManufacturedDate] = useState(null);
   const [expiredDate, setExpiredDate] = useState(null);
   const [seriNumber, setSeriNumber] = useState(null);
@@ -14,23 +15,23 @@ const OneProduct = (props) => {
       <div
         style={{
           ...styles.checkboxcontainer,
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center'
         }}
         className={css.productname}
       >
         <input
-          type="checkbox"
+          type='checkbox'
           style={{
-            width: "20px",
-            height: "20px",
+            width: '20px',
+            height: '20px'
           }}
         />
         <span>{props.item._id}</span>
       </div>
       <div
         style={{
-          ...styles.supplierContainer,
+          ...styles.supplierContainer
         }}
         className={css.productname}
       >
@@ -38,7 +39,7 @@ const OneProduct = (props) => {
       </div>
       <div
         style={{
-          ...styles.supplierContainer,
+          ...styles.supplierContainer
         }}
         className={css.productname}
       >
@@ -47,24 +48,24 @@ const OneProduct = (props) => {
       <div
         className={css.imagewrapper}
         style={{
-          ...styles.supplierContainer,
+          ...styles.supplierContainer
         }}
       >
         <img
           src={
             props.item.image
-              ? props.item.image[0]
-              : "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+              ? replaceImageUrl(props.item.image[0])
+              : `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
           }
-          alt="product image"
+          alt='product image'
         />
       </div>
       <div
         style={{
           ...styles.supplierContainer,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
         className={css.productname}
       >
@@ -73,37 +74,37 @@ const OneProduct = (props) => {
 
       <div
         style={{
-          ...styles.supplierContainer,
+          ...styles.supplierContainer
         }}
         className={css.productname}
       >
         <input
-          onChange={(e) => {
+          onChange={e => {
             let aaa = props.products;
-            aaa.find((x) => x._id === props.item._id).tatahToo = e.target.value;
+            aaa.find(x => x._id === props.item._id).tatahToo = e.target.value;
             props.setProducts(aaa);
           }}
         />
       </div>
       <div
         style={{
-          ...styles.inputContainer,
+          ...styles.inputContainer
         }}
         className={css.productname}
       >
         <input
-          placeholder="Үйлдвэрлэсэн огноо"
+          placeholder='Үйлдвэрлэсэн огноо'
           style={{
-            ...styles.inputContainer,
+            ...styles.inputContainer
           }}
-          type="date"
+          type='date'
           value={manufacturedDate}
           ref={date1Ref}
-          onChange={(e) => {
+          onChange={e => {
             let aa = [...props.products];
-            aa.find((x) => x._id === props.item._id)["manifactureDate"] =
+            aa.find(x => x._id === props.item._id)['manifactureDate'] =
               date1Ref.current.value;
-            console.log("  date1Ref.current.value;", date1Ref.current.value);
+            console.log('  date1Ref.current.value;', date1Ref.current.value);
 
             props.setProducts(aa);
             setManufacturedDate(e.target.value);
@@ -112,24 +113,24 @@ const OneProduct = (props) => {
       </div>
       <div
         style={{
-          ...styles.inputContainer,
+          ...styles.inputContainer
         }}
         className={css.productname}
       >
         <input
-          placeholder="Дуусах огноо"
+          placeholder='Дуусах огноо'
           style={{
-            ...styles.inputContainer,
+            ...styles.inputContainer
           }}
-          type="date"
+          type='date'
           ref={date2Ref}
           value={expiredDate}
-          onChange={(e) => {
+          onChange={e => {
             let aa = [...props.products];
-            aa.find((x) => x._id === props.item._id)["expireDate"] =
+            aa.find(x => x._id === props.item._id)['expireDate'] =
               date2Ref.current.value;
 
-            console.log("date", e.target.value);
+            console.log('date', e.target.value);
 
             props.setProducts(aa);
             setExpiredDate(e.target.value);
@@ -138,20 +139,20 @@ const OneProduct = (props) => {
       </div>
       <div
         style={{
-          ...styles.inputContainer,
+          ...styles.inputContainer
         }}
         className={css.productname}
       >
         <input
           style={{
-            ...styles.inputContainer,
+            ...styles.inputContainer
           }}
-          placeholder="Сери дугаар"
+          placeholder='Сери дугаар'
           value={seriNumber}
           ref={seriRef}
-          onChange={(e) => {
+          onChange={e => {
             let aa = [...props.products];
-            aa.find((x) => x._id === props.item._id)["seriNumber"] = Number(
+            aa.find(x => x._id === props.item._id)['seriNumber'] = Number(
               seriRef.current.value ? seriRef.current.value : 0
             );
 

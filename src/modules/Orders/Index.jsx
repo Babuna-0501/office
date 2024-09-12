@@ -1,21 +1,27 @@
 // CSS
-import css from "./styles.module.css";
+import css from './styles.module.css';
 
 // Packages
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
 
 // Hooks
-import { HeaderContext } from "../../Hooks/HeaderHook";
+import { HeaderContext } from '../../Hooks/HeaderHook';
 
 // Components
-import { HeaderContent, OrderFooter, OrderHeader, OrderList } from "./components";
-import myHeaders from "../../components/MyHeader/myHeader";
-import { LoadingSpinner } from "../../components/common";
-import { GlobalContext } from "../../Hooks/GlobalContext";
+import {
+  HeaderContent,
+  OrderFooter,
+  OrderHeader,
+  OrderList
+} from './components';
+import myHeaders from '../../components/MyHeader/myHeader';
+import { LoadingSpinner } from '../../components/common';
+import { GlobalContext } from '../../Hooks/GlobalContext';
 
-const Orders = (props) => {
+const Orders = props => {
   const { setHeaderContent, setShowRefreshBtn } = useContext(HeaderContext);
-  const { loggedUser, locations, categories, businessTypes, globalDataReady } = useContext(GlobalContext);
+  const { loggedUser, locations, categories, businessTypes, globalDataReady } =
+    useContext(GlobalContext);
 
   const { suppliers } = props;
 
@@ -26,19 +32,19 @@ const Orders = (props) => {
   const [ordersLoading, setOrdersLoading] = useState(true);
 
   // Filter States
-  const [orderId, setOrderId] = useState("");
-  const [orderSupplier, setOrderSupplier] = useState("");
-  const [orderDate, setOrderDate] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [orderPrice, setOrderPrice] = useState("");
-  const [tradeshopName, setTradeshopName] = useState("");
-  const [tradeshopPhone, setTradeshopPhone] = useState("");
-  const [orderChannel, setOrderChannel] = useState("");
-  const [orderCity, setOrderCity] = useState("");
-  const [orderDistrict, setOrderDistrict] = useState("");
-  const [orderKhoroo, setOrderKhoroo] = useState("");
-  const [orderAddress, setOrderAddress] = useState("");
-  const [orderStatus, setOrderStatus] = useState("");
+  const [orderId, setOrderId] = useState('');
+  const [orderSupplier, setOrderSupplier] = useState('');
+  const [orderDate, setOrderDate] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [orderPrice, setOrderPrice] = useState('');
+  const [tradeshopName, setTradeshopName] = useState('');
+  const [tradeshopPhone, setTradeshopPhone] = useState('');
+  const [orderChannel, setOrderChannel] = useState('');
+  const [orderCity, setOrderCity] = useState('');
+  const [orderDistrict, setOrderDistrict] = useState('');
+  const [orderKhoroo, setOrderKhoroo] = useState('');
+  const [orderAddress, setOrderAddress] = useState('');
+  const [orderStatus, setOrderStatus] = useState('');
 
   const filterStates = {
     orderId,
@@ -64,11 +70,17 @@ const Orders = (props) => {
     orderKhoroo,
     setOrderKhoroo,
     orderAddress,
-    setOrderAddress,
+    setOrderAddress
   };
 
   useEffect(() => {
-    setHeaderContent(<HeaderContent userData={loggedUser} orderStatus={orderStatus} setOrderStatus={setOrderStatus} />);
+    setHeaderContent(
+      <HeaderContent
+        userData={loggedUser}
+        orderStatus={orderStatus}
+        setOrderStatus={setOrderStatus}
+      />
+    );
     setShowRefreshBtn(true);
 
     return () => {
@@ -137,10 +149,10 @@ const Orders = (props) => {
         params += `order_status=${orderStatus}&`;
       }
 
-      const url = `https://api2.ebazaar.mn/api/orders?${params}`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/orders?${params}`;
       const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
+        method: 'GET',
+        headers: myHeaders
       };
 
       const res = await fetch(url, requestOptions);
@@ -151,7 +163,7 @@ const Orders = (props) => {
       if (currentPage === 0) {
         setOrders(resData.data);
       } else {
-        setOrders((prev) => [...prev, ...resData.data]);
+        setOrders(prev => [...prev, ...resData.data]);
       }
     } catch (error) {
       console.log(error);
@@ -177,19 +189,48 @@ const Orders = (props) => {
     orderDistrict,
     orderKhoroo,
     orderAddress,
-    orderStatus,
+    orderStatus
   ]);
 
   useEffect(() => {
     setCurrentPage(0);
-  }, [orderId, orderSupplier, orderDate, deliveryDate, orderPrice, tradeshopName, tradeshopPhone, orderChannel, orderCity, orderDistrict, orderKhoroo, orderAddress, orderStatus]);
+  }, [
+    orderId,
+    orderSupplier,
+    orderDate,
+    deliveryDate,
+    orderPrice,
+    tradeshopName,
+    tradeshopPhone,
+    orderChannel,
+    orderCity,
+    orderDistrict,
+    orderKhoroo,
+    orderAddress,
+    orderStatus
+  ]);
 
   return (
     <div className={css.ordersContainer}>
       <div className={css.contentContainer}>
-        <OrderHeader zIndex={orders.length + 1} suppliers={suppliers} locations={locations} channels={businessTypes} filterStates={filterStates} />
+        <OrderHeader
+          zIndex={orders.length + 1}
+          suppliers={suppliers}
+          locations={locations}
+          channels={businessTypes}
+          filterStates={filterStates}
+        />
 
-        {!ordersLoading && orders.length > 0 && <OrderList orders={orders} suppliers={suppliers} locations={locations} channels={businessTypes} setCurrentPage={setCurrentPage} hasMore={hasMore} />}
+        {!ordersLoading && orders.length > 0 && (
+          <OrderList
+            orders={orders}
+            suppliers={suppliers}
+            locations={locations}
+            channels={businessTypes}
+            setCurrentPage={setCurrentPage}
+            hasMore={hasMore}
+          />
+        )}
 
         {ordersLoading && (
           <div className={css.loadingSpinner}>
@@ -198,7 +239,11 @@ const Orders = (props) => {
         )}
       </div>
 
-      <OrderFooter orders={orders} zIndex={orders.length + 1} currentPage={currentPage} />
+      <OrderFooter
+        orders={orders}
+        zIndex={orders.length + 1}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

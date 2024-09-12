@@ -1,26 +1,27 @@
-import { Button, Input, Modal } from "../common";
-import css from "./returnProduct.module.css";
-import arrowDown from "../../../assets/shipment/arrow-down-shipment.svg";
-import closeIcon from "../../../assets/shipment/closeIcon.svg";
-import filterIcon from "../../../assets/shipment/filterIcon.svg";
-import filterSubmit from "../../../assets/shipment/filterSubmit.svg";
-import arrowRight from "../../../assets/shipment/arrow-right.svg";
-import { useState, useEffect } from "react";
-import myHeaders from "../../../components/MyHeader/myHeader";
-import { Drawer } from "../common/Drawer";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import okIcon from "../../../assets/shipment/ok.svg";
-import ErrorPopup from "../common/ErrorPopup";
+import { Button, Input, Modal } from '../common';
+import css from './returnProduct.module.css';
+import arrowDown from '../../../assets/shipment/arrow-down-shipment.svg';
+import closeIcon from '../../../assets/shipment/closeIcon.svg';
+import filterIcon from '../../../assets/shipment/filterIcon.svg';
+import filterSubmit from '../../../assets/shipment/filterSubmit.svg';
+import arrowRight from '../../../assets/shipment/arrow-right.svg';
+import { useState, useEffect } from 'react';
+import myHeaders from '../../../components/MyHeader/myHeader';
+import { Drawer } from '../common/Drawer';
+import LoadingSpinner from '../../../components/Spinner/Spinner';
+import okIcon from '../../../assets/shipment/ok.svg';
+import ErrorPopup from '../common/ErrorPopup';
+import { replaceImageUrl } from '../../../utils';
 
-const ReturnProduct = (props) => {
+const ReturnProduct = props => {
   const { inventory, allInventories, setShipmentReturn, userData } = props;
 
   const [products, setProducts] = useState([]);
-  const [selectedInventory, setSelectedInventory] = useState("");
+  const [selectedInventory, setSelectedInventory] = useState('');
 
   const [showSubmit, setShowSubmit] = useState(false);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
@@ -32,13 +33,13 @@ const ReturnProduct = (props) => {
           productsIds.push(Object.keys(product)[0]);
         }
 
-        const url = `https://api2.ebazaar.mn/api/products/get1?ids=[${productsIds.join(
-          ","
-        )}]`;
+        const url = `${
+          process.env.REACT_API_URL2
+        }/products/get1?ids=[${productsIds.join(',')}]`;
         const requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
         const res = await fetch(url, requestOptions);
@@ -48,17 +49,17 @@ const ReturnProduct = (props) => {
 
         for (const product of inventory.products) {
           const curProduct = resData.data.find(
-            (prod) => Number(Object.keys(product)[0]) === prod._id
+            prod => Number(Object.keys(product)[0]) === prod._id
           );
           if (curProduct) {
             productsCopy.push({
               ...curProduct,
-              myStock: product[Object.keys(product)[0]],
+              myStock: product[Object.keys(product)[0]]
             });
           }
         }
 
-        setProducts(productsCopy.filter((prod) => prod.myStock > 0));
+        setProducts(productsCopy.filter(prod => prod.myStock > 0));
       } catch (error) {
         console.log(error);
       }
@@ -68,10 +69,10 @@ const ReturnProduct = (props) => {
   }, [inventory]);
 
   const submitHandler = () => {
-    setErrorMsg("");
+    setErrorMsg('');
 
-    if (selectedInventory === "") {
-      setErrorMsg("Агуулхаа сонгоно уу!");
+    if (selectedInventory === '') {
+      setErrorMsg('Агуулхаа сонгоно уу!');
       setShowError(true);
       return;
     }
@@ -87,25 +88,24 @@ const ReturnProduct = (props) => {
             onClick={() => setShipmentReturn(false)}
             className={css.closeBtn}
           >
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
         <div className={css.inventoryWrapper}>
-          <Input type="text" value={inventory?.name} size="medium" disabled />
+          <Input type='text' value={inventory?.name} size='medium' disabled />
           <div className={css.arrowWrapper}>
-            <img src={arrowRight} alt="Arrow Right" />
+            <img src={arrowRight} alt='Arrow Right' />
           </div>
           <Input
-            type="text"
+            type='text'
             value={
-              selectedInventory === ""
-                ? ""
-                : allInventories.find(
-                    (inven) => inven._id === selectedInventory
-                  ).name ?? ""
+              selectedInventory === ''
+                ? ''
+                : allInventories.find(inven => inven._id === selectedInventory)
+                    .name ?? ''
             }
-            size="medium"
+            size='medium'
             disabled
           />
         </div>
@@ -114,13 +114,13 @@ const ReturnProduct = (props) => {
           <div className={css.inventoryFilter}>
             <select
               value={selectedInventory}
-              onChange={(e) => setSelectedInventory(e.target.value)}
+              onChange={e => setSelectedInventory(e.target.value)}
               style={{ backgroundImage: `url(${arrowDown})` }}
             >
-              <option value={""}>Агуулах сонгох</option>
+              <option value={''}>Агуулах сонгох</option>
               {allInventories
-                .filter((inven) => inven._id !== inventory._id)
-                .map((inventory) => {
+                .filter(inven => inven._id !== inventory._id)
+                .map(inventory => {
                   return (
                     <option
                       key={`inventory-return-inv-${inventory._id}`}
@@ -134,22 +134,22 @@ const ReturnProduct = (props) => {
           </div>
 
           <div className={css.categoryFilter}>
-            <input type="text" />
-            <img src={filterIcon} alt="Filter" />
+            <input type='text' />
+            <img src={filterIcon} alt='Filter' />
           </div>
 
           <div className={css.brandFilter}>
-            <input type="text" />
-            <img src={filterIcon} alt="Filter" />
+            <input type='text' />
+            <img src={filterIcon} alt='Filter' />
           </div>
 
           <button className={css.filterBtn}>
-            <img src={filterSubmit} alt="Submit Filter" />
+            <img src={filterSubmit} alt='Submit Filter' />
           </button>
         </div>
 
         <div className={css.productsWrapper}>
-          {products.map((product) => {
+          {products.map(product => {
             return (
               <SingleItem
                 key={`inventory-return-single-product-${product.product_id}`}
@@ -164,8 +164,8 @@ const ReturnProduct = (props) => {
         <div className={css.footerBtns}>
           <Button
             onClick={submitHandler}
-            size="large"
-            variant="primary"
+            size='large'
+            variant='primary'
             width={250}
           >
             Үргэлжлүүлэх
@@ -174,17 +174,17 @@ const ReturnProduct = (props) => {
       </div>
 
       {showSubmit && (
-        <Drawer backdrop="transparent">
+        <Drawer backdrop='transparent'>
           <SubmitReturn
             {...{
               setShowSubmit,
               selectedInventory: allInventories.find(
-                (inven) => inven._id === selectedInventory
+                inven => inven._id === selectedInventory
               ),
               inventory,
               products,
               setShipmentReturn,
-              userData,
+              userData
             }}
           />
         </Drawer>
@@ -202,18 +202,18 @@ const ReturnProduct = (props) => {
 
 export default ReturnProduct;
 
-const SingleItem = (props) => {
+const SingleItem = props => {
   const { product } = props;
   const [count, setCount] = useState(product.myStock);
 
   const price =
-    product.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.["1"] ?? 0;
+    product.locations?.[`62f4aabe45a4e22552a3969f`]?.price?.channel?.['1'] ?? 0;
 
   return (
     <div key={`product-card`} className={css.productCardContainer}>
       <div className={css.productCard}>
         <div className={css.productImageWrapper}>
-          <img src={product.image[0]} alt={product.name} />
+          <img src={replaceImageUrl(product.image[0])} alt={product.name} />
         </div>
 
         <div className={css.productDetailsWrapper}>
@@ -231,9 +231,9 @@ const SingleItem = (props) => {
           <div className={css.productCountBtns}>
             <label>Үлдэгдэл: </label>
             <input
-              type="number"
+              type='number'
               value={count}
-              onChange={(e) => setCount(Number(e.target.value))}
+              onChange={e => setCount(Number(e.target.value))}
               disabled
             />
           </div>
@@ -243,14 +243,14 @@ const SingleItem = (props) => {
   );
 };
 
-const SubmitReturn = (props) => {
+const SubmitReturn = props => {
   const {
     setShowSubmit,
     selectedInventory,
     inventory,
     products,
     setShipmentReturn,
-    userData,
+    userData
   } = props;
 
   const [submitting, setSubmitting] = useState(false);
@@ -270,7 +270,7 @@ const SubmitReturn = (props) => {
   );
   const [categoyIdCount] = useState(products.length);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showError, setShowError] = useState(false);
 
   const submitHandler = async () => {
@@ -279,24 +279,24 @@ const SubmitReturn = (props) => {
 
       setSubmitting(true);
 
-      setErrorMsg("");
+      setErrorMsg('');
 
-      const url = `https://api2.ebazaar.mn/api/shipment`;
+      const url = `${process.env.REACT_APP_API_URL2}/api/shipment`;
       const body = JSON.stringify({
-        supplierId: Number(userData.company_id.replaceAll("|", "")),
+        supplierId: Number(userData.company_id.replaceAll('|', '')),
         from: inventory._id,
         to: selectedInventory._id,
         status: 1,
-        products: products.map((prod) => ({
+        products: products.map(prod => ({
           productId: prod._id,
-          count: prod.myStock,
-        })),
+          count: prod.myStock
+        }))
       });
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         body,
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const res = await fetch(url, requestOptions);
@@ -308,7 +308,7 @@ const SubmitReturn = (props) => {
         throw Error();
       }
     } catch (error) {
-      setErrorMsg("Ачилтын захиалга үүсгэхэд алдаа гарлаа!");
+      setErrorMsg('Ачилтын захиалга үүсгэхэд алдаа гарлаа!');
       setShowError(true);
       console.log(error);
     } finally {
@@ -322,19 +322,19 @@ const SubmitReturn = (props) => {
         <div className={css.headerWrapper}>
           <h1 className={css.title}>Ачилтын захиалга илгээх</h1>
           <button onClick={() => setShowSubmit(false)} className={css.closeBtn}>
-            <img src={closeIcon} alt="Close" />
+            <img src={closeIcon} alt='Close' />
           </button>
         </div>
 
         <div className={css.inventoryWrapper}>
-          <Input type="text" value={inventory?.name} size="medium" disabled />
+          <Input type='text' value={inventory?.name} size='medium' disabled />
           <div className={css.arrowWrapper}>
-            <img src={arrowRight} alt="Arrow Right" />
+            <img src={arrowRight} alt='Arrow Right' />
           </div>
           <Input
-            type="text"
+            type='text'
             value={selectedInventory?.name}
-            size="medium"
+            size='medium'
             disabled
           />
         </div>
@@ -350,19 +350,19 @@ const SubmitReturn = (props) => {
                 <div
                   key={`inventory-return-shipment-product-detail-${prod.product_id}`}
                   style={{
-                    padding: "10px 16px",
-                    boxShadow: "0px 0.800000011920929px 0px 0px #0000001A",
+                    padding: '10px 16px',
+                    boxShadow: '0px 0.800000011920929px 0px 0px #0000001A'
                   }}
                 >
                   <div
-                    style={{ display: "flex", alignItems: "center", gap: 16 }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 16 }}
                   >
                     <span
                       style={{
                         flex: 1,
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
+                        lineHeight: '15px'
                       }}
                     >
                       {prod.name}
@@ -370,10 +370,10 @@ const SubmitReturn = (props) => {
 
                     <span
                       style={{
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
-                        textAlign: "center",
+                        lineHeight: '15px',
+                        textAlign: 'center'
                       }}
                     >
                       {prod.myStock.toLocaleString()}ш
@@ -381,9 +381,9 @@ const SubmitReturn = (props) => {
 
                     <span
                       style={{
-                        color: "#1A1A1A",
+                        color: '#1A1A1A',
                         fontSize: 12,
-                        lineHeight: "15px",
+                        lineHeight: '15px'
                       }}
                     >
                       {singleTotalPrice.toLocaleString()}₮
@@ -394,29 +394,29 @@ const SubmitReturn = (props) => {
             })}
             <div
               style={{
-                padding: "10px 16px",
+                padding: '10px 16px'
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span
                   style={{
                     flex: 1,
-                    color: "#1A1A1A",
+                    color: '#1A1A1A',
                     fontSize: 15,
-                    lineHeight: "18px",
-                    fontWeight: 600,
+                    lineHeight: '18px',
+                    fontWeight: 600
                   }}
                 >
-                  {categoyIdCount.toLocaleString()} төрөл /{" "}
+                  {categoyIdCount.toLocaleString()} төрөл /{' '}
                   {totalCount.toLocaleString()} бүтээгдэхүүн
                 </span>
 
                 <span
                   style={{
-                    color: "#1A1A1A",
+                    color: '#1A1A1A',
                     fontSize: 15,
-                    lineHeight: "18px",
-                    fontWeight: 600,
+                    lineHeight: '18px',
+                    fontWeight: 600
                   }}
                 >
                   {totalPrice.toLocaleString()}₮
@@ -437,10 +437,10 @@ const SubmitReturn = (props) => {
         <div className={css.footerInfo}>
           <span
             style={{
-              color: "#1A1A1A",
+              color: '#1A1A1A',
               fontSize: 18,
-              lineHeight: "22px",
-              fontWeight: 400,
+              lineHeight: '22px',
+              fontWeight: 400
             }}
           >
             Нийт үнийн дүн:
@@ -452,8 +452,8 @@ const SubmitReturn = (props) => {
         <div className={css.footerBtns}>
           <Button
             onClick={() => setShowSubmit(false)}
-            size="large"
-            variant="secondary"
+            size='large'
+            variant='secondary'
             width={250}
             disabled={submitting}
           >
@@ -461,8 +461,8 @@ const SubmitReturn = (props) => {
           </Button>
           <Button
             onClick={submitHandler}
-            size="large"
-            variant="primary"
+            size='large'
+            variant='primary'
             width={250}
             disabled={submitting}
           >
@@ -475,35 +475,35 @@ const SubmitReturn = (props) => {
         <Modal width={300} height={300}>
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              padding: "39px 26px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '100%',
+              padding: '39px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <div style={{ width: 78, height: 78, marginBottom: 12 }}>
               <img
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  aspectRatio: "1/1",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  aspectRatio: '1/1'
                 }}
                 src={okIcon}
-                alt="Ok"
+                alt='Ok'
               />
             </div>
             <span
               style={{
-                color: "#1A1A1A",
+                color: '#1A1A1A',
                 fontSize: 22,
-                lineHeight: "26px",
+                lineHeight: '26px',
                 fontWeight: 700,
                 marginBottom: 30,
-                textAlign: "center",
+                textAlign: 'center'
               }}
             >
               Ачилтын захиалга илгээгдлээ
@@ -514,9 +514,9 @@ const SubmitReturn = (props) => {
                 setShowSubmit(false);
                 setShipmentReturn(false);
               }}
-              size="medium"
-              variant="primary"
-              width="100%"
+              size='medium'
+              variant='primary'
+              width='100%'
             >
               OK
             </Button>

@@ -1,9 +1,20 @@
-import css from "./brandTargetEdit.module.css";
+import css from './brandTargetEdit.module.css';
 
-import { CloseDark, TugrugGray, TugrugGreen, TargetWhite } from "../../../../../assets/icons";
-import { Button, Checkbox, Input, SuccessPopup } from "../../../../../components/common";
-import { useState, useEffect } from "react";
-import ErrorPopup from "../../../../../components/common/ErrorPopup";
+import {
+  CloseDark,
+  TugrugGray,
+  TugrugGreen,
+  TargetWhite
+} from '../../../../../assets/icons';
+import {
+  Button,
+  Checkbox,
+  Input,
+  SuccessPopup
+} from '../../../../../components/common';
+import { useState, useEffect } from 'react';
+import ErrorPopup from '../../../../../components/common/ErrorPopup';
+import { replaceImageUrl } from '../../../../../utils';
 
 export const BrandTargetEdit = ({
   closeHandler,
@@ -11,34 +22,33 @@ export const BrandTargetEdit = ({
   brandTarget,
   loggedUser,
   setTarget,
-  setBrandTargetExist,
+  setBrandTargetExist
 }) => {
   const [brands, setBrands] = useState(
     initBrands
       .filter(
-        (brand) =>
-          brand.SupplierID === loggedUser.company_id.replaceAll("|", "")
+        brand => brand.SupplierID === loggedUser.company_id.replaceAll('|', '')
       )
-      .map((brand) => {
+      .map(brand => {
         const curTarget = brandTarget.find(
-          (curBrand) => curBrand._id === brand.BrandID
+          curBrand => curBrand._id === brand.BrandID
         );
         if (curTarget) return { ...brand, target: { ...curTarget.target } };
         return brand;
       })
       .sort((a, b) =>
-        a.hasOwnProperty("target") ? -1 : b.hasOwnProperty("target") ? 1 : 0
+        a.hasOwnProperty('target') ? -1 : b.hasOwnProperty('target') ? 1 : 0
       )
   );
   const [selectedBrands, setSelectedBrands] = useState(
-    brands.filter((brand) => brand.target)
+    brands.filter(brand => brand.target)
   );
 
-  const [brandName, setBrandName] = useState("");
+  const [brandName, setBrandName] = useState('');
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showErrorMsg, setShowErroMsg] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   useEffect(() => {
@@ -51,22 +61,21 @@ export const BrandTargetEdit = ({
   useEffect(() => {
     let brandsCopy = initBrands
       .filter(
-        (brand) =>
-          brand.SupplierID === loggedUser.company_id.replaceAll("|", "")
+        brand => brand.SupplierID === loggedUser.company_id.replaceAll('|', '')
       )
-      .map((brand) => {
+      .map(brand => {
         const curTarget = brandTarget.find(
-          (curBrand) => curBrand._id === brand.BrandID
+          curBrand => curBrand._id === brand.BrandID
         );
         if (curTarget) return { ...brand, target: { ...curTarget.target } };
         return brand;
       })
       .sort((a, b) =>
-        a.hasOwnProperty("target") ? -1 : b.hasOwnProperty("target") ? 1 : 0
+        a.hasOwnProperty('target') ? -1 : b.hasOwnProperty('target') ? 1 : 0
       );
 
     if (brandName) {
-      brandsCopy = brandsCopy.filter((brand) =>
+      brandsCopy = brandsCopy.filter(brand =>
         brand.BrandName.toLowerCase().includes(brandName.toLowerCase())
       );
     }
@@ -77,26 +86,26 @@ export const BrandTargetEdit = ({
   const saveHandler = () => {
     try {
       if (
-        selectedBrands.filter((brand) => brand.target).length !==
+        selectedBrands.filter(brand => brand.target).length !==
           selectedBrands.length &&
         selectedBrands.length !== brands.length
       )
-        throw new Error("Сонгосон брэндэд төлөвлөгөө оруулна уу!");
+        throw new Error('Сонгосон брэндэд төлөвлөгөө оруулна уу!');
 
-      setTarget((prev) => ({
+      setTarget(prev => ({
         ...prev,
         brands:
           selectedBrands.length === 0
             ? []
             : [
-                ...prev.brands.map((curTarget) => {
+                ...prev.brands.map(curTarget => {
                   if (
                     selectedBrands
-                      .map((curBrand) => curBrand.BrandID)
+                      .map(curBrand => curBrand.BrandID)
                       .includes(curTarget._id)
                   ) {
                     const current = selectedBrands.find(
-                      (brand) => brand.BrandID === curTarget._id
+                      brand => brand.BrandID === curTarget._id
                     );
 
                     return { ...curTarget, target: { ...current.target } };
@@ -105,24 +114,24 @@ export const BrandTargetEdit = ({
                 }),
                 ...selectedBrands
                   .filter(
-                    (brand) =>
+                    brand =>
                       !prev.brands
-                        .map((target) => target._id)
+                        .map(target => target._id)
                         .includes(brand.BrandID)
                   )
-                  .map((brand) => ({
+                  .map(brand => ({
                     _id: brand.BrandID,
                     target: { ...brand.target },
                     succeeded: { amount: 0, quantity: 0 },
-                    waiting: { amount: 0, quantity: 0 },
-                  })),
-              ],
+                    waiting: { amount: 0, quantity: 0 }
+                  }))
+              ]
       }));
 
-      setSuccessMsg("Брэнд төлөвлөгөө амжилттай шинэчлгэдлээ.");
+      setSuccessMsg('Брэнд төлөвлөгөө амжилттай шинэчлгэдлээ.');
       setShowSuccessMsg(true);
     } catch (error) {
-      setErrorMsg(error.message ?? "Алдаа гарлаа. Та дахин оролдоно уу!");
+      setErrorMsg(error.message ?? 'Алдаа гарлаа. Та дахин оролдоно уу!');
       setShowErroMsg(true);
     }
   };
@@ -133,7 +142,7 @@ export const BrandTargetEdit = ({
         <div className={css.header}>
           <h1 className={css.title}>Брэнд төлөвлөгөө</h1>
 
-          <button type="button" onClick={closeHandler} className={css.closeBtn}>
+          <button type='button' onClick={closeHandler} className={css.closeBtn}>
             <CloseDark />
           </button>
         </div>
@@ -147,31 +156,31 @@ export const BrandTargetEdit = ({
               className={css.headerItem}
               style={{
                 width: 34,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center'
               }}
             >
               <Checkbox
                 checked={
                   selectedBrands
-                    .map((brand) => brand.BrandID)
+                    .map(brand => brand.BrandID)
                     .sort()
-                    .join(",") ===
+                    .join(',') ===
                   brands
-                    .map((brand) => brand.BrandID)
+                    .map(brand => brand.BrandID)
                     .sort()
-                    .join(",")
+                    .join(',')
                 }
                 onChange={() => {
                   if (
                     selectedBrands
-                      .map((brand) => brand.BrandID)
+                      .map(brand => brand.BrandID)
                       .sort()
-                      .join(",") ===
+                      .join(',') ===
                     brands
-                      .map((brand) => brand.BrandID)
+                      .map(brand => brand.BrandID)
                       .sort()
-                      .join(",")
+                      .join(',')
                   ) {
                     setSelectedBrands([]);
                   } else {
@@ -189,9 +198,9 @@ export const BrandTargetEdit = ({
               <span className={css.headerText}>Брэнд</span>
               <Input
                 value={brandName}
-                onChange={(e) => setBrandName(e.target.value)}
-                size="small"
-                placeholder="Хайх"
+                onChange={e => setBrandName(e.target.value)}
+                size='small'
+                placeholder='Хайх'
               />
             </div>
 
@@ -229,10 +238,10 @@ export const BrandTargetEdit = ({
         </div>
 
         <div className={css.footer}>
-          <Button onClick={closeHandler} variant="secondary" size="medium">
+          <Button onClick={closeHandler} variant='secondary' size='medium'>
             Цуцлах
           </Button>
-          <Button onClick={saveHandler} size="medium" width={116}>
+          <Button onClick={saveHandler} size='medium' width={116}>
             Хадгалах
           </Button>
         </div>
@@ -243,7 +252,7 @@ export const BrandTargetEdit = ({
         message={errorMsg}
         closeHandler={() => {
           setShowErroMsg(false);
-          setErrorMsg("");
+          setErrorMsg('');
         }}
       />
 
@@ -252,7 +261,7 @@ export const BrandTargetEdit = ({
         message={successMsg}
         closeHandler={() => {
           setShowSuccessMsg(false);
-          setSuccessMsg("");
+          setSuccessMsg('');
           if (selectedBrands.length === 0) setBrandTargetExist(false);
           closeHandler();
         }}
@@ -263,14 +272,14 @@ export const BrandTargetEdit = ({
 
 const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
   const checked = selectedBrands
-    .map((curBrand) => curBrand.BrandID)
+    .map(curBrand => curBrand.BrandID)
     .includes(brand.BrandID);
 
   const [amount, setAmount] = useState(
-    brand.target && brand.target.amount ? brand.target.amount : ""
+    brand.target && brand.target.amount ? brand.target.amount : ''
   );
   const [quantity, setQuantity] = useState(
-    brand.target && brand.target.quantity ? brand.target.quantity : ""
+    brand.target && brand.target.quantity ? brand.target.quantity : ''
   );
 
   useEffect(() => {
@@ -280,23 +289,23 @@ const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
     }
 
     if (!checked) {
-      setAmount("");
-      setQuantity("");
+      setAmount('');
+      setQuantity('');
     }
   }, [brand, checked]);
 
-  const amountChangeHandler = (value) => {
+  const amountChangeHandler = value => {
     if (value) {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) =>
+      setSelectedBrands(prev =>
+        prev.map(curBrand =>
           curBrand.BrandID === brand.BrandID
             ? { ...curBrand, target: { amount: Number(value), quantity: null } }
             : curBrand
         )
       );
     } else {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) => {
+      setSelectedBrands(prev =>
+        prev.map(curBrand => {
           if (curBrand.BrandID === brand.BrandID) {
             delete curBrand.target;
             return curBrand;
@@ -307,18 +316,18 @@ const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
     }
   };
 
-  const quantityChangeHandler = (value) => {
+  const quantityChangeHandler = value => {
     if (value) {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) =>
+      setSelectedBrands(prev =>
+        prev.map(curBrand =>
           curBrand.BrandID === brand.BrandID
             ? { ...curBrand, target: { amount: null, quantity: Number(value) } }
             : curBrand
         )
       );
     } else {
-      setSelectedBrands((prev) =>
-        prev.map((curBrand) => {
+      setSelectedBrands(prev =>
+        prev.map(curBrand => {
           if (curBrand.BrandID === brand.BrandID) {
             delete curBrand.target;
             return curBrand;
@@ -336,19 +345,19 @@ const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
     >
       <div
         className={css.contentItem}
-        style={{ width: 34, justifyContent: "center" }}
+        style={{ width: 34, justifyContent: 'center' }}
       >
         <Checkbox
           checked={checked}
           onChange={() => {
             if (checked) {
-              setSelectedBrands((prev) =>
-                prev.filter((curBrand) => curBrand.BrandID !== brand.BrandID)
+              setSelectedBrands(prev =>
+                prev.filter(curBrand => curBrand.BrandID !== brand.BrandID)
               );
-              setAmount("");
-              setQuantity("");
+              setAmount('');
+              setQuantity('');
             } else {
-              setSelectedBrands((prev) => [...prev, brand]);
+              setSelectedBrands(prev => [...prev, brand]);
             }
           }}
         />
@@ -356,7 +365,7 @@ const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
 
       <div className={css.contentItem} style={{ width: 55 }}>
         <div className={css.brandLogo}>
-          <img src={brand.Image} alt={brand.BrandName} />
+          <img src={replaceImageUrl(brand.Image)} alt={brand.BrandName} />
         </div>
       </div>
 
@@ -366,17 +375,17 @@ const SingleTarget = ({ brand, zIndex, selectedBrands, setSelectedBrands }) => {
 
       <div className={css.contentItem} style={{ width: 120 }}>
         <Input
-          type="number"
+          type='number'
           value={amount}
           disabled={quantity || !checked}
-          onChange={(e) => {
+          onChange={e => {
             setAmount(e.target.value);
             amountChangeHandler(e.target.value);
           }}
-          size="small"
-          placeholder="0"
+          size='small'
+          placeholder='0'
           icon={amount ? <TugrugGreen /> : <TugrugGray />}
-          iconposition="right"
+          iconposition='right'
         />
       </div>
 

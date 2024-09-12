@@ -1,28 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./updatediscount.module.css";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './updatediscount.module.css';
 // import Select from "react-select";
-import EllipseGrayIcon from "../assets/Component 92.svg";
-import { Select } from "antd";
-import OkIcon from "../assets/OK.svg";
-import ArrawRightGray from "../assets/Arrow - Right.svg";
-import PromoHook from "../Hooks/PromoHook";
-import settingData from "./settingData.json";
-import discount from "./discount.json";
-import SmallTable from "./SmallTable";
-import BackOfficeHook from "../Hooks/BackOfficeHook";
-import Productctx from "../Hooks/ProductsReportHook";
-import myHeaders from "../components/MyHeader/myHeader";
-import ZonesSidebar from "./ZonesModal/ZonesSidebar";
-import SupplierUpdate from "./Suppliers/SupplierUpdate";
+import EllipseGrayIcon from '../assets/Component 92.svg';
+import { Select } from 'antd';
+import OkIcon from '../assets/OK.svg';
+import ArrawRightGray from '../assets/Arrow - Right.svg';
+import PromoHook from '../Hooks/PromoHook';
+import settingData from './settingData.json';
+import discount from './discount.json';
+import SmallTable from './SmallTable';
+import BackOfficeHook from '../Hooks/BackOfficeHook';
+import Productctx from '../Hooks/ProductsReportHook';
+import myHeaders from '../components/MyHeader/myHeader';
+import ZonesSidebar from './ZonesModal/ZonesSidebar';
+import SupplierUpdate from './Suppliers/SupplierUpdate';
 
-const UpdateDiscount = (props) => {
+const UpdateDiscount = props => {
   const promoctx = useContext(PromoHook);
   const backofficectx = useContext(BackOfficeHook);
   const sitedatactx = useContext(Productctx);
   const [channel, setChannel] = useState([]);
   const [defaultSupplier, setDefaultSupplier] = useState(null);
 
-  const [zoneMapIDS, setZoneMapIDS] = useState(["62f4aabe45a4e22552a3969f"]);
+  const [zoneMapIDS, setZoneMapIDS] = useState(['62f4aabe45a4e22552a3969f']);
   const [zoneTransdata, setZoneTransdata] = useState([]);
   const [optionsDefault, setOptionsDefault] = useState([]);
 
@@ -31,7 +31,7 @@ const UpdateDiscount = (props) => {
   const options = [];
   let defaultName;
   if (backofficectx.suppliers) {
-    backofficectx.suppliers.map((supplier) => {
+    backofficectx.suppliers.map(supplier => {
       options.push({ value: supplier.id, label: supplier.english_name });
       if (supplier.id === promoctx.willUpdateProd.supplierID) {
         defaultName = supplier.english_name;
@@ -39,32 +39,32 @@ const UpdateDiscount = (props) => {
     });
   }
 
-  const chosedChannelHandler = (value) => {
+  const chosedChannelHandler = value => {
     // console.log("selected channel option", selectedOptions);
     let aa = promoctx.willUpdateProd;
 
-    aa["channel_id"] = value;
+    aa['channel_id'] = value;
     promoctx.setWillUpdateProd(aa);
   };
-  let content = discount.filter((item) => {
+  let content = discount.filter(item => {
     if (item.id === promoctx.willUpdateProd?.discount_data?.discounttype) {
       return item;
     }
   });
   useEffect(() => {
     const fetchdata = () => {
-      let url = `https://api.ebazaar.mn/api/site_data`;
+      let url = `${process.env.REACT_APP_API_URL}/api/site_data`;
       fetch(url, {
-        method: "GET",
-        myHeaders: myHeaders,
+        method: 'GET',
+        myHeaders: myHeaders
       })
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           let aa = [];
-          response.business_types.map((item) => {
+          response.business_types.map(item => {
             aa.push({
               value: item.business_type_id,
-              label: item.business_type_name,
+              label: item.business_type_name
             });
           });
 
@@ -80,11 +80,11 @@ const UpdateDiscount = (props) => {
 
   useEffect(() => {
     if (promoctx.willUpdateProd.supplierID) {
-      backofficectx.suppliers.filter((supplier) => {
+      backofficectx.suppliers.filter(supplier => {
         if (supplier.id === promoctx.willUpdateProd.supplierID) {
           setDefaultSupplier({
             value: supplier.id,
-            label: supplier.english_name,
+            label: supplier.english_name
           });
         }
       });
@@ -95,7 +95,7 @@ const UpdateDiscount = (props) => {
         // console.log("item", item);
         dataaa.push({
           dete: [item],
-          package_id: item.package_id,
+          package_id: item.package_id
         });
       });
       // console.log("dataaa", dataaa);
@@ -104,20 +104,23 @@ const UpdateDiscount = (props) => {
 
     if (promoctx.willUpdateProd) {
       let info = [];
-      promoctx.willUpdateProd.locations.map((it) => {
+      promoctx.willUpdateProd.locations.map(it => {
         var requestOptions = {
-          method: "GET",
+          method: 'GET',
           headers: myHeaders,
-          redirect: "follow",
+          redirect: 'follow'
         };
 
-        fetch(`https://api2.ebazaar.mn/api/zones?id=${it}`, requestOptions)
-          .then((r) => r.json())
-          .then((res) => {
+        fetch(
+          `${process.env.REACT_APP_API_URL2}/api/zones?id=${it}`,
+          requestOptions
+        )
+          .then(r => r.json())
+          .then(res => {
             info.push(...res.data);
           })
-          .catch((error) => {
-            console.log("error", error.message);
+          .catch(error => {
+            console.log('error', error.message);
           });
       });
       setZoneTransdata(info);
@@ -126,12 +129,12 @@ const UpdateDiscount = (props) => {
   useEffect(() => {
     if (
       promoctx.willUpdateProd.discount_data.discounttype === 1 &&
-      promoctx.willUpdateProd.discount_data.type === "percent"
+      promoctx.willUpdateProd.discount_data.type === 'percent'
     ) {
       promoctx.setSettingIndex(0);
     } else if (
       promoctx.willUpdateProd.discount_data.discounttype === 1 &&
-      promoctx.willUpdateProd.discount_data.type === "amount"
+      promoctx.willUpdateProd.discount_data.type === 'amount'
     ) {
       promoctx.setSettingIndex(1);
     } else if (
@@ -152,8 +155,8 @@ const UpdateDiscount = (props) => {
 
   useEffect(() => {
     let channelData = [];
-    sitedatactx?.sitedata?.business_types?.map((item) => {
-      promoctx?.willUpdateProd?.channel_id?.map((x) => {
+    sitedatactx?.sitedata?.business_types?.map(item => {
+      promoctx?.willUpdateProd?.channel_id?.map(x => {
         // console.log("x", x);
         if (x === item.business_type_id) {
           channelData.push(item);
@@ -178,34 +181,34 @@ const UpdateDiscount = (props) => {
 
     const products = () => {
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       fetch(
-        `https://api2.ebazaar.mn/api/products/get1?ids=[${ids}]`,
+        `${process.env.REACT_APP_API_URL2}/api/products/get1?ids=[${ids}]`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((res) => {
+        .then(r => r.json())
+        .then(res => {
           // console.log("promo update", res.data);
           promoctx?.setProducts(res.data);
         })
-        .catch((error) => {
-          console.log("error", error.message);
+        .catch(error => {
+          console.log('error', error.message);
         });
     };
     try {
       products();
     } catch (error) {
-      console.log("error product download", error);
+      console.log('error product download', error);
     }
   }, [promoctx.updateDisProd]);
 
   const deleteGiftHandler = (item, index) => {
     const newList = promoctx.willUpdateProd.conditions.filter(
-      (t) => t.product_id !== item.product_id
+      t => t.product_id !== item.product_id
     );
     promoctx.willUpdateProd.conditions = [...newList];
   };
@@ -224,26 +227,26 @@ const UpdateDiscount = (props) => {
 
   let DiscountTypeValue;
   if (
-    promoctx.willUpdateProd.discount_data.type === "amount" &&
+    promoctx.willUpdateProd.discount_data.type === 'amount' &&
     promoctx.willUpdateProd.discount_data.discounttype === 1
   ) {
     DiscountTypeValue = (
       <div className={css.inputContainerTwo}>
         <input
           className={css.inputTwo}
-          style={{ border: "none", padding: "11px 16px" }}
+          style={{ border: 'none', padding: '11px 16px' }}
           value={promoctx.willUpdateProd.discount_data.value}
-          onChange={(e) =>
+          onChange={e =>
             promoctx.setWillUpdateProd({
               ...promoctx.willUpdateProd,
               discount_data: {
                 ...promoctx.willUpdateProd.discount_data,
-                value: e.target.value,
-              },
+                value: e.target.value
+              }
             })
           }
-          type="text"
-          placeholder="Урамшууллын утга"
+          type='text'
+          placeholder='Урамшууллын утга'
         />
       </div>
     );
@@ -289,7 +292,7 @@ const UpdateDiscount = (props) => {
         >
           <img
             src={index === promoctx.settingIndex ? OkIcon : EllipseGrayIcon}
-            style={{ width: "16px", height: "100%", marginRight: "8px" }}
+            style={{ width: '16px', height: '100%', marginRight: '8px' }}
           />
           <div className={css.choseContent}>
             <h3>{item.name}</h3>
@@ -340,41 +343,41 @@ const UpdateDiscount = (props) => {
             <div className={css.titleContainer}>
               <div className={css.titlewrapper}>
                 <input
-                  placeholder="Гарчиг3"
+                  placeholder='Гарчиг3'
                   value={promoctx?.willUpdateProd?.discount_data?.title}
-                  onChange={(e) =>
+                  onChange={e =>
                     promoctx?.setWillUpdateProd({
                       ...promoctx?.willUpdateProd,
                       discount_data: {
                         ...promoctx?.willUpdateProd.discount_data,
-                        title: e.target.value,
-                      },
+                        title: e.target.value
+                      }
                     })
                   }
                   className={css.titleConInput}
                   style={{
-                    height: "52px",
-                    padding: "16px 20px",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    color: "#37474F",
+                    height: '52px',
+                    padding: '16px 20px',
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    color: '#37474F'
                   }}
                 />
               </div>
               <div className={css.selectContainer}>
                 <div className={css.chosedContainer}>
-                  <img src={OkIcon} />{" "}
+                  <img src={OkIcon} />{' '}
                   <span>
-                    {content[0]?.name ? content[0]?.name : "Нийлүүлэгч"}
+                    {content[0]?.name ? content[0]?.name : 'Нийлүүлэгч'}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{ width: "840px" }}>
-            <div style={{ width: "100%" }}>
+          <div style={{ width: '840px' }}>
+            <div style={{ width: '100%' }}>
               <SupplierUpdate
-                title="Нийлүүлэгч"
+                title='Нийлүүлэгч'
                 supID={promoctx?.willUpdateProd?.supplierID}
               />
             </div>
@@ -406,10 +409,10 @@ const UpdateDiscount = (props) => {
               <div className={css.settingsWrapper}>
                 <div
                   style={{
-                    display: "flex",
-                    width: "410px",
-                    justifyContent: "space-between",
-                    marginBottom: "16px",
+                    display: 'flex',
+                    width: '410px',
+                    justifyContent: 'space-between',
+                    marginBottom: '16px'
                   }}
                 >
                   {discountContet}
@@ -417,19 +420,19 @@ const UpdateDiscount = (props) => {
                 <div className={css.discountContainer}>
                   {promoctx.settingIndex === 0 && (
                     <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      placeholder="Хямдралын утга"
+                      type='number'
+                      min='0'
+                      max='100'
+                      placeholder='Хямдралын утга'
                       className={css.discountInput}
                       value={promoctx.willUpdateProd.discount_data.value}
-                      onChange={(e) =>
+                      onChange={e =>
                         promoctx.setWillUpdateProd({
                           ...promoctx.willUpdateProd,
                           discount_data: {
                             ...promoctx.willUpdateProd.discount_data,
-                            value: e.target.value,
-                          },
+                            value: e.target.value
+                          }
                         })
                       }
                     />
@@ -438,38 +441,38 @@ const UpdateDiscount = (props) => {
                     <div className={css.settingOneContainer}>
                       <div className={css.settingOneWrapper}>
                         <input
-                          type="number"
-                          min="0"
-                          placeholder="Үнийн дүн"
+                          type='number'
+                          min='0'
+                          placeholder='Үнийн дүн'
                           value={
                             promoctx.willUpdateProd.discount_data
                               .threshold_amount
                           }
-                          onChange={(e) =>
+                          onChange={e =>
                             promoctx.setWillUpdateProd({
                               ...promoctx.willUpdateProd,
                               discount_data: {
                                 ...promoctx.willUpdateProd.discount_data,
-                                threshold_amount: e.target.value,
-                              },
+                                threshold_amount: e.target.value
+                              }
                             })
                           }
                         />
                       </div>
                       <div className={css.settingOneWrapper}>
                         <input
-                          type="number"
-                          min="0"
-                          max="100"
-                          placeholder="Хямдралын утга"
+                          type='number'
+                          min='0'
+                          max='100'
+                          placeholder='Хямдралын утга'
                           value={promoctx.willUpdateProd.discount_data.value}
-                          onChange={(e) =>
+                          onChange={e =>
                             promoctx.setWillUpdateProd({
                               ...promoctx.willUpdateProd,
                               discount_data: {
                                 ...promoctx.willUpdateProd.discount_data,
-                                value: e.target.value,
-                              },
+                                value: e.target.value
+                              }
                             })
                           }
                         />
@@ -481,24 +484,24 @@ const UpdateDiscount = (props) => {
                       <div className={css.inputContainerTwob}>
                         <input
                           className={css.inputTwob}
-                          style={{ border: "none", padding: "11px 16px" }}
+                          style={{ border: 'none', padding: '11px 16px' }}
                           value={promoctx.thresholdQty}
-                          onChange={(e) =>
+                          onChange={e =>
                             promoctx.setThresholdQty(e.target.value)
                           }
-                          type="text"
-                          placeholder="Урамшууллын утга"
+                          type='text'
+                          placeholder='Урамшууллын утга'
                           // onChange={e => setPriceAndQuantity(e.target.value)}
                         />
                       </div>
                       <div className={css.inputContainerTwob}>
                         <input
                           className={css.inputTwob}
-                          style={{ border: "none", padding: "11px 16px" }}
+                          style={{ border: 'none', padding: '11px 16px' }}
                           value={promoctx.giftQty}
-                          onChange={(e) => promoctx.setQiftQty(e.target.value)}
-                          type="text"
-                          placeholder="Бэлгийн утга"
+                          onChange={e => promoctx.setQiftQty(e.target.value)}
+                          type='text'
+                          placeholder='Бэлгийн утга'
                         />
                       </div>
                     </div>
@@ -508,24 +511,24 @@ const UpdateDiscount = (props) => {
                       <div className={css.inputContainerTwob}>
                         <input
                           className={css.inputTwob}
-                          style={{ border: "none", padding: "11px 16px" }}
+                          style={{ border: 'none', padding: '11px 16px' }}
                           value={promoctx.thresholdQty}
-                          onChange={(e) =>
+                          onChange={e =>
                             promoctx.setThresholdQty(e.target.value)
                           }
-                          type="text"
-                          placeholder="Урамшууллын утга"
+                          type='text'
+                          placeholder='Урамшууллын утга'
                           // onChange={e => setPriceAndQuantity(e.target.value)}
                         />
                       </div>
                       <div className={css.inputContainerTwob}>
                         <input
                           className={css.inputTwob}
-                          style={{ border: "none", padding: "11px 16px" }}
+                          style={{ border: 'none', padding: '11px 16px' }}
                           value={promoctx.giftQty}
-                          onChange={(e) => promoctx.setQiftQty(e.target.value)}
-                          type="text"
-                          placeholder="Бэлгийн утга"
+                          onChange={e => promoctx.setQiftQty(e.target.value)}
+                          type='text'
+                          placeholder='Бэлгийн утга'
                         />
                       </div>
                     </div>
@@ -535,34 +538,34 @@ const UpdateDiscount = (props) => {
             </div>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "410px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '410px'
                 }}
               >
                 <div className={css.settingDateContainer}>
                   <input
-                    type="date"
+                    type='date'
                     style={{
-                      width: "100%",
-                      height: "24px",
-                      border: "none",
-                      outline: "none",
+                      width: '100%',
+                      height: '24px',
+                      border: 'none',
+                      outline: 'none'
                     }}
                     value={promoctx.willUpdateProd.start_date}
-                    placeholder="Эхлэх өдөр"
-                    onChange={(e) =>
+                    placeholder='Эхлэх өдөр'
+                    onChange={e =>
                       promoctx.setWillUpdateProd({
                         ...promoctx.willUpdateProd,
-                        start_date: e.target.value,
+                        start_date: e.target.value
                       })
                     }
                   />
@@ -570,22 +573,22 @@ const UpdateDiscount = (props) => {
                 <div>
                   <img src={ArrawRightGray} className={css.image} />
                 </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div className={css.settingDateContainer}>
                     <input
-                      type="date"
+                      type='date'
                       style={{
-                        width: "100%",
-                        height: "24px",
-                        border: "none",
-                        outline: "none",
+                        width: '100%',
+                        height: '24px',
+                        border: 'none',
+                        outline: 'none'
                       }}
                       value={promoctx.willUpdateProd.end_date}
-                      placeholder="Дуусах өдөр"
-                      onChange={(e) =>
+                      placeholder='Дуусах өдөр'
+                      onChange={e =>
                         promoctx.setWillUpdateProd({
                           ...promoctx.willUpdateProd,
-                          end_date: e.target.value,
+                          end_date: e.target.value
                         })
                       }
                     />
@@ -598,19 +601,19 @@ const UpdateDiscount = (props) => {
                 {promoctx.willUpdateProd.discount_data.discounttype === 1 && (
                   <div className={css.commentContainer}>
                     <input
-                      placeholder="Тайлбар"
+                      placeholder='Тайлбар'
                       value={
                         promoctx.willUpdateProd?.discount_data?.description
                           ? promoctx.willUpdateProd?.discount_data?.description
-                          : "Тайлбар байхгүй."
+                          : 'Тайлбар байхгүй.'
                       }
-                      onChange={(e) =>
+                      onChange={e =>
                         promoctx.setWillUpdateProd({
                           ...promoctx.willUpdateProd,
                           discount_data: {
                             ...promoctx.willUpdateProd.discount_data,
-                            description: e.target.value,
-                          },
+                            description: e.target.value
+                          }
                         })
                       }
                     />
@@ -619,19 +622,19 @@ const UpdateDiscount = (props) => {
                 {promoctx.willUpdateProd.discount_data.discounttype === 3 && (
                   <div className={css.commentContainer}>
                     <input
-                      placeholder="Тайлбар"
+                      placeholder='Тайлбар'
                       value={
                         promoctx.willUpdateProd?.discount_data?.description
                           ? promoctx.willUpdateProd?.discount_data?.description
-                          : "Тайлбар байхгүй."
+                          : 'Тайлбар байхгүй.'
                       }
-                      onChange={(e) =>
+                      onChange={e =>
                         promoctx.setWillUpdateProd({
                           ...promoctx.willUpdateProd,
                           discount_data: {
                             ...promoctx.willUpdateProd.discount_data,
-                            description: e.target.value,
-                          },
+                            description: e.target.value
+                          }
                         })
                       }
                     />
@@ -646,11 +649,11 @@ const UpdateDiscount = (props) => {
           />
           <div
             style={{
-              width: "840px",
-              background: "#FFFFFF",
-              paddingLeft: "10px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
+              width: '840px',
+              background: '#FFFFFF',
+              paddingLeft: '10px',
+              paddingTop: '10px',
+              paddingBottom: '10px'
             }}
           >
             {/* <div
@@ -661,13 +664,13 @@ const UpdateDiscount = (props) => {
               <img src={PlusIcon} />
             </div> */}
           </div>
-          {promoctx.willUpdateProd.discount_data.type === "gifts" && (
+          {promoctx.willUpdateProd.discount_data.type === 'gifts' && (
             <div className={css.discountHeader}>
               <h3>Хямдралын бүтээгдэхүүн нөхцөл</h3>
             </div>
           )}
 
-          {promoctx.willUpdateProd.discount_data.type === "gifts" && (
+          {promoctx.willUpdateProd.discount_data.type === 'gifts' && (
             <div className={css.giftContainer}>
               <div className={css.giftwrapper}>
                 {promoctx.willUpdateProd.conditions?.map((item, index) => {
@@ -739,12 +742,12 @@ const UpdateDiscount = (props) => {
               </div>
             </div> */}
             <Select
-              mode="multiple"
+              mode='multiple'
               allowClear
               style={{
-                width: "100%",
+                width: '100%'
               }}
-              placeholder="Please select"
+              placeholder='Please select'
               defaultValue={promoctx.willUpdateProd.channel_id}
               onChange={chosedChannelHandler}
               options={optionsDefault}
@@ -759,25 +762,25 @@ const UpdateDiscount = (props) => {
                 {
                   <span
                     style={{
-                      fontSize: "16px",
+                      fontSize: '16px',
                       fontWeight: 400,
-                      color: "#37474F",
+                      color: '#37474F'
                     }}
                   >
                     {zoneTransdata?.map((it, index) => {
                       let name = it.name;
-                      name = name.replace("ZONE_MGL", "Бүх бүсчлэл");
-                      name = name.replace("ZONE_UB", "Улаанбаатар");
+                      name = name.replace('ZONE_MGL', 'Бүх бүсчлэл');
+                      name = name.replace('ZONE_UB', 'Улаанбаатар');
                       return (
                         <span
                           key={index}
                           style={{
-                            fontSize: "16px",
+                            fontSize: '16px',
                             fontWeight: 400,
-                            color: "#37474F",
+                            color: '#37474F'
                           }}
                         >
-                          {name},{" "}
+                          {name},{' '}
                         </span>
                       );
                     })}

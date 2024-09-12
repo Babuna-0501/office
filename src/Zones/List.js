@@ -1,61 +1,61 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Button, message } from "antd";
-import css from "./list.module.css";
-import settingIcon from "../assets/Setting.svg";
-import deleteIcon from "../assets/delete_red_small.svg";
-import YearHour from "./components/YearHour";
-import { Popconfirm, Switch } from "antd";
-import myHeaders from "../components/MyHeader/myHeader";
-import { styles } from "./style";
-import AppHook from "../Hooks/AppHook";
-const text = "Та устгахдаа итгэлтэй байна уу?";
+import React, { useEffect, useState, useContext } from 'react';
+import { Button, message } from 'antd';
+import css from './list.module.css';
+import settingIcon from '../assets/Setting.svg';
+import deleteIcon from '../assets/delete_red_small.svg';
+import YearHour from './components/YearHour';
+import { Popconfirm, Switch } from 'antd';
+import myHeaders from '../components/MyHeader/myHeader';
+import { styles } from './style';
+import AppHook from '../Hooks/AppHook';
+const text = 'Та устгахдаа итгэлтэй байна уу?';
 
-const dateFunction = (a) => {
+const dateFunction = a => {
   let year;
   let hour;
   ////   2022-11-15T02:17:20.712Z zadalj baigaa data
   if (a === null) {
     return {
-      year: "0000:00:00",
-      hour: "00:00",
+      year: '0000:00:00',
+      hour: '00:00'
     };
   } else if (a === undefined) {
     return {
-      year: "0000:00:00",
-      hour: "00:00",
+      year: '0000:00:00',
+      hour: '00:00'
     };
-  } else if (a.includes(",")) {
-    year = a.split(",")[0];
+  } else if (a.includes(',')) {
+    year = a.split(',')[0];
     year = new Date(year);
     // console.log("year", year);
     year = `${year.getFullYear()}-${year.getMonth() + 1}-${year.getDate()}`;
-    hour = a.split(",")[1];
-    let p = hour.split(":")[0].trim(" ");
+    hour = a.split(',')[1];
+    let p = hour.split(':')[0].trim(' ');
     if (p < 10) {
-      hour = `0${p}:${hour.split(":")[1]}`;
+      hour = `0${p}:${hour.split(':')[1]}`;
     }
     hour = hour.slice(0, 6);
     return {
       year: year,
-      hour: hour,
+      hour: hour
     };
   } else if (a) {
-    year = a.split("T")[0];
-    let b = a.split("T")[1];
+    year = a.split('T')[0];
+    let b = a.split('T')[1];
     hour = b.toLocaleString().slice(0, 5);
     return {
       year: year,
-      hour: hour,
+      hour: hour
     };
   } else {
     return {
-      year: "0000:00:00",
-      hour: "00:00",
+      year: '0000:00:00',
+      hour: '00:00'
     };
   }
 };
 
-const List = (props) => {
+const List = props => {
   // console.log("props zones list", props);
 
   const updateHandler = (id, index) => {
@@ -65,7 +65,7 @@ const List = (props) => {
   };
 
   //   console.log("Data", data);
-  const showHandler = (item) => {
+  const showHandler = item => {
     const {
       _id,
       name,
@@ -74,7 +74,7 @@ const List = (props) => {
       supplier,
       isActive,
       createdDate,
-      updateDate,
+      updateDate
     } = item;
     let aa;
     if (isActive === 1) {
@@ -86,64 +86,64 @@ const List = (props) => {
     var raw = JSON.stringify({
       id: _id,
       update: {
-        isActive: Number(aa),
-      },
+        isActive: Number(aa)
+      }
     });
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log("reqeustOptions", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/zones/update`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("isactive zone ", res);
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones/update`, requestOptions)
+      .then(r => r.json())
+      .then(res => {
+        console.log('isactive zone ', res);
         if (res.code === 200) {
           let oldData = props.allData;
 
-          let newDatas = oldData.filter((x) => x._id === item._id);
+          let newDatas = oldData.filter(x => x._id === item._id);
           newDatas[0].isActive = Number(aa);
-          console.log("newdatas", newDatas);
-          console.log("old data", oldData);
+          console.log('newdatas', newDatas);
+          console.log('old data', oldData);
 
           props.hi([...oldData, ...newDatas]);
         }
       })
-      .catch((error) => {
-        console.log("error zones delete", error);
+      .catch(error => {
+        console.log('error zones delete', error);
       });
   };
 
-  const confirm = (data) => {
+  const confirm = data => {
     // console.log("checked", data);
     var raw = JSON.stringify({
       supplierId: data.supplier,
-      zoneId: data._id,
+      zoneId: data._id
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow'
     };
     // console.log("reqeustOptions", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/zones/delete`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones/delete`, requestOptions)
+      .then(r => r.json())
+      .then(res => {
         if (res.code === 200) {
-          console.log("zone delete res", res);
+          console.log('zone delete res', res);
           let oldData = props.allData;
-          console.log("olddata+++", oldData);
-          let newDatas = oldData.filter((x) => x._id !== data._id);
+          console.log('olddata+++', oldData);
+          let newDatas = oldData.filter(x => x._id !== data._id);
           props.hi([...newDatas]);
-          alert("Амжилттай устгалаа.");
+          alert('Амжилттай устгалаа.');
         }
       })
-      .catch((error) => {
-        console.log("error zones delete", error);
+      .catch(error => {
+        console.log('error zones delete', error);
       });
   };
 
@@ -151,9 +151,9 @@ const List = (props) => {
     <div className={css.container}>
       <div className={css.inputContainer} style={styles.checkboxcontainer}>
         <input
-          type="checkbox"
+          type='checkbox'
           // id={requests.id}
-        />{" "}
+        />{' '}
       </div>
       <div
         style={styles.zonenamecontainer}
@@ -161,10 +161,10 @@ const List = (props) => {
       >
         <span
           style={{
-            fontSize: "12px",
-            fontWeight: "400",
-            color: "#37474F",
-            marginLeft: "10px",
+            fontSize: '12px',
+            fontWeight: '400',
+            color: '#37474F',
+            marginLeft: '10px'
           }}
         >
           {props.data.name}
@@ -173,10 +173,10 @@ const List = (props) => {
       <div style={styles.suppliercontainer}>
         <span
           style={{
-            fontSize: "12px",
-            fontWeight: "400",
-            color: "#37474F",
-            marginLeft: "10px",
+            fontSize: '12px',
+            fontWeight: '400',
+            color: '#37474F',
+            marginLeft: '10px'
           }}
         >
           {/* {eee} */}
@@ -185,9 +185,9 @@ const List = (props) => {
       <div
         style={{
           ...styles.showcontainer,
-          cursor: "pointer",
-          display: "flex",
-          justifyContent: "center",
+          cursor: 'pointer',
+          display: 'flex',
+          justifyContent: 'center'
           // background: "green",
         }}
       >
@@ -197,18 +197,18 @@ const List = (props) => {
         >
           {Number(props.data.isActive) === 0 ? (
             <img
-              src="https://admin.ebazaar.mn/media/off.svg"
-              alt="zurag"
+              src='/media/off.svg'
+              alt='zurag'
               style={{
-                width: "100%",
+                width: '100%'
               }}
             />
           ) : (
             <img
-              src="https://admin.ebazaar.mn/media/on.svg"
-              alt="zurag"
+              src='/media/on.svg'
+              alt='zurag'
               style={{
-                width: "100%",
+                width: '100%'
               }}
             />
           )}
@@ -217,15 +217,15 @@ const List = (props) => {
       <div
         style={{
           ...styles.erembecontainer,
-          display: "flex",
-          justifyContent: "center",
+          display: 'flex',
+          justifyContent: 'center'
         }}
       >
         <span
           style={{
-            fontSize: "12px",
-            fontWeight: "400",
-            color: "#37474F",
+            fontSize: '12px',
+            fontWeight: '400',
+            color: '#37474F'
           }}
         >
           {props.data.priority}
@@ -235,7 +235,7 @@ const List = (props) => {
         style={{
           ...styles.createddatacontainer,
           // display: "flex",
-          marginLeft: "10px",
+          marginLeft: '10px'
           // flexDirection: "column",
           // alignItems: "center",
         }}
@@ -254,9 +254,9 @@ const List = (props) => {
       <div style={{ ...styles.registercontainer }}>
         <span
           style={{
-            fontSize: "12px",
-            fontWeight: "400",
-            color: "#37474F",
+            fontSize: '12px',
+            fontWeight: '400',
+            color: '#37474F'
           }}
         >
           {props.data.createdBy}
@@ -268,16 +268,16 @@ const List = (props) => {
             src={settingIcon}
             onClick={() => updateHandler(props.data._id)}
           />
-          {props.data._id === "62f4aabe45a4e22552a3969f" ||
-          props.data._id === "62f4ae9545a4e22552a396a0" ? (
+          {props.data._id === '62f4aabe45a4e22552a3969f' ||
+          props.data._id === '62f4ae9545a4e22552a396a0' ? (
             <div></div>
           ) : (
             <Popconfirm
-              placement="right"
+              placement='right'
               title={text}
               onConfirm={() => confirm(props.data)}
-              okText="Тийм"
-              cancelText="Үгүй"
+              okText='Тийм'
+              cancelText='Үгүй'
             >
               <img
                 src={deleteIcon}

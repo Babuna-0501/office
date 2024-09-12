@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./zoneschose.module.css";
-import Background from "../../Order/Othercomponents/Background";
-import Button from "../components/Button";
-import LendHook from "../../Hooks/LendHook";
-import Headers from "../Headers/Headers";
-import CheckedIcon from "../../assets/Tick Square on 2.svg";
-import CheckIcon from "../../assets/check box.svg";
-import myHeaders from "../../components/MyHeader/myHeader";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './zoneschose.module.css';
+import Background from '../../Order/Othercomponents/Background';
+import Button from '../components/Button';
+import LendHook from '../../Hooks/LendHook';
+import Headers from '../Headers/Headers';
+import CheckedIcon from '../../assets/Tick Square on 2.svg';
+import CheckIcon from '../../assets/check box.svg';
+import myHeaders from '../../components/MyHeader/myHeader';
 
 const ZonesChose = () => {
   const [chechedFalse, setCheckedFalse] = useState([]);
@@ -19,27 +19,27 @@ const ZonesChose = () => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api2.ebazaar.mn/api/zones`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
+    fetch(`${process.env.REACT_APP_API_URL2}/api/zones`, requestOptions)
+      .then(r => r.json())
+      .then(res => {
         // console.log(res.data);
         let dd = [];
-        res.data.map((item) => {
+        res.data.map(item => {
           dd.push(false);
         });
         setDataAll(res.data);
         setCheckedFalse(dd);
       })
-      .catch((error) => {
-        console.log("zone error", error);
+      .catch(error => {
+        console.log('zone error', error);
       });
   }, []);
 
-  const checkedhandler = (position) => {
+  const checkedhandler = position => {
     // console.log("position", position);
     const updatedCheckedState = chechedFalse.map((item, index) =>
       index === position ? !item : item
@@ -54,13 +54,13 @@ const ZonesChose = () => {
         dataFilter.push(dataAll[index]);
       }
     });
-    console.log("last data dataFilter", dataFilter);
+    console.log('last data dataFilter', dataFilter);
     lendctx.setFilteredZones(dataFilter);
     lendctx.setSpecilZones(false);
   };
   const clearHandler = () => {
     let data = [];
-    chechedFalse.map((item) => {
+    chechedFalse.map(item => {
       if (item) {
         item = false;
         data.push(item);
@@ -74,29 +74,29 @@ const ZonesChose = () => {
     <Background>
       <div className={css.wrapper}>
         <div className={css.headerwrapper}>
-          <Headers title="Бүсчлэл сонгох" onClick={cancelHandler} />
+          <Headers title='Бүсчлэл сонгох' onClick={cancelHandler} />
           <div className={css.bodyWrapper}>
             {dataAll.map((item, index) => {
               return (
                 <div
                   key={index}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    position: "relative",
-                    width: "100%",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    borderBottom: "1px solid #CFD8DC",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    position: 'relative',
+                    width: '100%',
+                    paddingTop: '10px',
+                    paddingBottom: '10px',
+                    borderBottom: '1px solid #CFD8DC',
                     background:
-                      chechedFalse[index] === true ? "#FBFBFC" : "#fff",
+                      chechedFalse[index] === true ? '#FBFBFC' : '#fff'
                   }}
                 >
-                  {" "}
+                  {' '}
                   <span>{item.name}</span>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     checked={chechedFalse[index]}
                     onChange={() => checkedhandler(index)}
                   />

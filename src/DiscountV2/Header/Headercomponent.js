@@ -13,7 +13,7 @@ const Headercomponent = (props) => {
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <h3>Урамшуулал, хямдралын төрөл</h3>
+        <h3>Урамшуулал, хямдралын төрөлd</h3>
       </div>
       <div className={css.titleContainer}>
         <div className={css.titlewrapper}>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import css from "./suppliers.module.css";
-import myHeaders from "../MyHeader/myHeader";
+import React, { useEffect, useState } from 'react';
+import css from './suppliers.module.css';
+import myHeaders from '../MyHeader/myHeader';
 
-const Suppliers = (props) => {
+const Suppliers = props => {
   const [searchValue, setSearchValue] = useState(null);
   const [data, setData] = useState([]);
   const [searchModal, setSearchModal] = useState(false);
@@ -16,21 +16,21 @@ const Suppliers = (props) => {
       setSearchModal(true);
 
       var requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
       fetch(
-        `https://api2.ebazaar.mn/api/backoffice/suppliers?name=${searchValue}`,
+        `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?name=${searchValue}`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((response) => {
+        .then(r => r.json())
+        .then(response => {
           // console.log("arig supplier", response.data);
           setData(response.data);
         })
-        .catch((error) => {
-          console.log("error", error);
+        .catch(error => {
+          console.log('error', error);
         });
     }
   };
@@ -38,7 +38,7 @@ const Suppliers = (props) => {
     getSuppliers();
   }, [searchValue]);
 
-  const chooseHandler = (item) => {
+  const chooseHandler = item => {
     setSupplierName(item.name);
     props.setSuppValue(item.id);
     setSearchModal(false);
@@ -51,36 +51,36 @@ const Suppliers = (props) => {
     setSupplierName(null);
   };
   return (
-		<div className={css.container}>
-			<label style={{ marginTop: supplierName ? "10px" : "0px" }}>
-				Нийлүүлэгч
-			</label>
-			{supplierName && (
-				<p className={css.supName} onClick={modalHandler}>
-					{supplierName}
-				</p>
-			)}
-			{supplierName === null ? (
-				<input
-					value={searchValue}
-					onChange={e => setSearchValue(e.target.value)}
-					// onClick={toggleHandler}
-				/>
-			) : null}
+    <div className={css.container}>
+      <label style={{ marginTop: supplierName ? '10px' : '0px' }}>
+        Нийлүүлэгч
+      </label>
+      {supplierName && (
+        <p className={css.supName} onClick={modalHandler}>
+          {supplierName}
+        </p>
+      )}
+      {supplierName === null ? (
+        <input
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          // onClick={toggleHandler}
+        />
+      ) : null}
 
-			{searchModal && searchValue?.length > 0 && (
-				<div className={css.wrapper}>
-					{data?.map((item, index) => {
-						return (
-							<p onClick={() => chooseHandler(item)} key={index}>
-								{item.name}
-							</p>
-						);
-					})}
-				</div>
-			)}
-		</div>
-	);
+      {searchModal && searchValue?.length > 0 && (
+        <div className={css.wrapper}>
+          {data?.map((item, index) => {
+            return (
+              <p onClick={() => chooseHandler(item)} key={index}>
+                {item.name}
+              </p>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Suppliers;

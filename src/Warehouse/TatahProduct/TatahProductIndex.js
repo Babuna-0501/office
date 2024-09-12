@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import css from "./tatahproduct.module.css";
-import xicon from "../../assets/close.svg";
-import myHeaders from "../../components/MyHeader/myHeader";
-import AppHook from "../../Hooks/AppHook";
+import React, { useEffect, useState, useContext } from 'react';
+import css from './tatahproduct.module.css';
+import xicon from '../../assets/close.svg';
+import myHeaders from '../../components/MyHeader/myHeader';
+import AppHook from '../../Hooks/AppHook';
 
-const TatahProductIndex = (props) => {
+const TatahProductIndex = props => {
   const [onebaraaState, setOnebaraaState] = useState([]);
   const [onebaraaStock, setOnebaraaStock] = useState(null);
   const [baraa, setBaraa] = useState(null);
@@ -17,19 +17,19 @@ const TatahProductIndex = (props) => {
   }, [props]);
   const tataltHandler = () => {
     if (baraa === null) {
-      alert("Та татан авах тоогоо оруулна уу");
+      alert('Та татан авах тоогоо оруулна уу');
       return;
     }
     if (baraa > onebaraaState.stock) {
-      alert("Та үндсэн агуулахын үлдэгдэл хүрэлцэхгүй байна.");
+      alert('Та үндсэн агуулахын үлдэгдэл хүрэлцэхгүй байна.');
       return;
     }
     let aa = props.productStock;
-    let leftStock = aa[`${onebaraaState._id}`].stock["0"];
+    let leftStock = aa[`${onebaraaState._id}`].stock['0'];
     // console.log("leftstock", leftStock["0"]);
     let tatoal = leftStock + Number(baraa);
-    aa[`${onebaraaState._id}`].stock["0"] = leftStock + Number(baraa);
-    console.log("aa", aa);
+    aa[`${onebaraaState._id}`].stock['0'] = leftStock + Number(baraa);
+    console.log('aa', aa);
     let productnumberHI = onebaraaState._id;
     let aabb = {};
     aabb[`${productnumberHI}`] = Number(baraa);
@@ -37,28 +37,31 @@ const TatahProductIndex = (props) => {
     // console.log("appctx", appctx.selectedWareHouse);
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
       body: JSON.stringify({
         to: appctx.selectedWareHouse._id,
-        note: notes ? notes : "Татан авалт",
+        note: notes ? notes : 'Татан авалт',
         date: new Date(),
-        products: aabb,
-      }),
+        products: aabb
+      })
     };
-    console.log("requestOptions", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/warehouse/transfer`, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+    console.log('requestOptions', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/warehouse/transfer`,
+      requestOptions
+    )
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
         if (res.code === 200) {
           let updatestock = props.productStock;
-          updatestock[`${onebaraaState._id}`].stock["0"] =
+          updatestock[`${onebaraaState._id}`].stock['0'] =
             leftStock + Number(baraa);
 
           let newProducts = [...props.products];
-          newProducts.find((item) => item._id === onebaraaState._id).sku =
+          newProducts.find(item => item._id === onebaraaState._id).sku =
             Number(baraa);
 
           props.setProductStock(updatestock);
@@ -67,30 +70,30 @@ const TatahProductIndex = (props) => {
 
           let product_line = [];
 
-          Object.entries(aa.products).forEach((entry) => {
+          Object.entries(aa.products).forEach(entry => {
             const [key, value] = entry;
 
             product_line.push({
               product_id: Number(key),
-              quantity: Number(value),
+              quantity: Number(value)
             });
           });
           let rawdata = {
             document_id: Math.floor(Math.random() * 10000),
             warehouse: aa.to,
-            product_line: product_line,
+            product_line: product_line
           };
-          fetch(`https://api2.ebazaar.mn/api/inventory/insert/new`, {
-            method: "POST",
+          fetch(`${process.env.REACT_APP_API_URL2}/api/inventory/insert/new`, {
+            method: 'POST',
             headers: myHeaders,
-            redirect: "follow",
-            body: JSON.stringify(rawdata),
+            redirect: 'follow',
+            body: JSON.stringify(rawdata)
           })
-            .then((res) => {
-              console.log("orlogiin tuuh ruu nemlee", res);
+            .then(res => {
+              console.log('orlogiin tuuh ruu nemlee', res);
             })
-            .catch((error) => {
-              console.log("orlogiin tuuh aldaa garlaa");
+            .catch(error => {
+              console.log('orlogiin tuuh aldaa garlaa');
             });
 
           props.setProductStock(aa);
@@ -100,8 +103,8 @@ const TatahProductIndex = (props) => {
           props.setTatahProduct(false);
         }
       })
-      .catch((error) => {
-        console.log("warehouse transfer error", error);
+      .catch(error => {
+        console.log('warehouse transfer error', error);
       });
   };
 
@@ -113,7 +116,7 @@ const TatahProductIndex = (props) => {
         <div className={css.imagecontainer}>
           <img
             src={xicon}
-            alt="close icon "
+            alt='close icon '
             onClick={() => {
               props.setTatahProduct(false);
               props.setOnebaraastock(null);
@@ -131,18 +134,18 @@ const TatahProductIndex = (props) => {
           <div className={css.subwrapper}>
             <span className={css.bold}>Барааны sku : </span>
             <span className={css.two}>
-              {` ${onebaraaState ? onebaraaState.sku : null}`}{" "}
+              {` ${onebaraaState ? onebaraaState.sku : null}`}{' '}
             </span>
           </div>
           <div className={css.subwrapper}>
             <span className={css.bold}>Барааны barcode : </span>
             <span className={css.two}>
-              {` ${onebaraaState ? onebaraaState.bar_code : null}`}{" "}
+              {` ${onebaraaState ? onebaraaState.bar_code : null}`}{' '}
             </span>
           </div>
           <div className={css.subwrapper}>
             <span className={css.bold}>
-              Барааны үндсэн агуулахын үлдэгдэл :{" "}
+              Барааны үндсэн агуулахын үлдэгдэл :{' '}
             </span>
             <span className={css.two}>{` ${
               onebaraaState.stock ? onebaraaState.stock.toLocaleString() : null
@@ -170,23 +173,23 @@ const TatahProductIndex = (props) => {
             <span className={css.bold}>Бараа татан авах тоо : {` `}</span>
             <input
               value={baraa}
-              type="number"
+              type='number'
               className={css.subinput}
-              onChange={(e) => setBaraa(e.target.value)}
+              onChange={e => setBaraa(e.target.value)}
             />
           </div>
           <div
             className={css.subwrapper}
             style={{
-              marginTop: "16px",
+              marginTop: '16px'
             }}
           >
             <span className={css.bold}>Татан авалтын тэмдэглэл : {` `}</span>
             <input
               value={notes}
-              type="text"
+              type='text'
               className={css.subinput}
-              onChange={(e) => setNotes(e.target.value)}
+              onChange={e => setNotes(e.target.value)}
             />
           </div>
           <div className={css.btncontainer}>

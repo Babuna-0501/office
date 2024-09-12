@@ -1,0 +1,3819 @@
+{
+    "Khoroo": [
+        {
+            "location_id": 12,
+            "parent_id": 11,
+            "location_name": "(Цэцэрлэг)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 13,
+            "parent_id": 11,
+            "location_name": "Батцэнгэл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 14,
+            "parent_id": 11,
+            "location_name": "Булган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 15,
+            "parent_id": 11,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 16,
+            "parent_id": 11,
+            "location_name": "Ихтамир",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 17,
+            "parent_id": 11,
+            "location_name": "Өгийнуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 18,
+            "parent_id": 11,
+            "location_name": "Өлзийт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 19,
+            "parent_id": 11,
+            "location_name": "Өндөр-Улаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 20,
+            "parent_id": 11,
+            "location_name": "Тариат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 21,
+            "parent_id": 11,
+            "location_name": "Төвшрүүлэх",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 22,
+            "parent_id": 11,
+            "location_name": "Хайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 23,
+            "parent_id": 11,
+            "location_name": "Хангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 24,
+            "parent_id": 11,
+            "location_name": "Хашаат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 25,
+            "parent_id": 11,
+            "location_name": "Хотонт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 26,
+            "parent_id": 11,
+            "location_name": "Цахир",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 27,
+            "parent_id": 11,
+            "location_name": "Цэнхэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 28,
+            "parent_id": 11,
+            "location_name": "Цэцэрлэг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 29,
+            "parent_id": 11,
+            "location_name": "Чулуут",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 30,
+            "parent_id": 11,
+            "location_name": "Эрдэнэбулган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 31,
+            "parent_id": 11,
+            "location_name": "Эрдэнэмандал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 33,
+            "parent_id": 32,
+            "location_name": "(Өлгий)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 34,
+            "parent_id": 32,
+            "location_name": "Алтай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 35,
+            "parent_id": 32,
+            "location_name": "Алтанцөгц",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 36,
+            "parent_id": 32,
+            "location_name": "Баяннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 37,
+            "parent_id": 32,
+            "location_name": "Бугат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 38,
+            "parent_id": 32,
+            "location_name": "Булган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 39,
+            "parent_id": 32,
+            "location_name": "Буянт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 40,
+            "parent_id": 32,
+            "location_name": "Дэлүүн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 41,
+            "parent_id": 32,
+            "location_name": "Ногооннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 42,
+            "parent_id": 32,
+            "location_name": "Сагсай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 43,
+            "parent_id": 32,
+            "location_name": "Толбо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 44,
+            "parent_id": 32,
+            "location_name": "Улаанхус",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 45,
+            "parent_id": 32,
+            "location_name": "Цагааннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 46,
+            "parent_id": 32,
+            "location_name": "Цэнгэл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 48,
+            "parent_id": 47,
+            "location_name": "(Баянхонгор)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 49,
+            "parent_id": 47,
+            "location_name": "Баацагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 50,
+            "parent_id": 47,
+            "location_name": "Баянбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 51,
+            "parent_id": 47,
+            "location_name": "Баянговь",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 52,
+            "parent_id": 47,
+            "location_name": "Баянлиг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 53,
+            "parent_id": 47,
+            "location_name": "Баян-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 54,
+            "parent_id": 47,
+            "location_name": "Баян-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 55,
+            "parent_id": 47,
+            "location_name": "Баянхонгор",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 56,
+            "parent_id": 47,
+            "location_name": "Баянцагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 57,
+            "parent_id": 47,
+            "location_name": "Богд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 58,
+            "parent_id": 47,
+            "location_name": "Бөмбөгөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 59,
+            "parent_id": 47,
+            "location_name": "Бууцагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 60,
+            "parent_id": 47,
+            "location_name": "Галуут",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 61,
+            "parent_id": 47,
+            "location_name": "Гурванбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 62,
+            "parent_id": 47,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 63,
+            "parent_id": 47,
+            "location_name": "Жинст",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 64,
+            "parent_id": 47,
+            "location_name": "Заг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 65,
+            "parent_id": 47,
+            "location_name": "Өлзийт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 66,
+            "parent_id": 47,
+            "location_name": "Хүрээмарал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 67,
+            "parent_id": 47,
+            "location_name": "Шинэжинст",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 68,
+            "parent_id": 47,
+            "location_name": "Эрдэнэцогт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 70,
+            "parent_id": 69,
+            "location_name": "(Булган)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 71,
+            "parent_id": 69,
+            "location_name": "Баян-Агт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 72,
+            "parent_id": 69,
+            "location_name": "Баяннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 73,
+            "parent_id": 69,
+            "location_name": "Бугат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 74,
+            "parent_id": 69,
+            "location_name": "Бүрэгхангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 75,
+            "parent_id": 69,
+            "location_name": "Гурванбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 76,
+            "parent_id": 69,
+            "location_name": "Дашинчилэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 77,
+            "parent_id": 69,
+            "location_name": "Могод",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 78,
+            "parent_id": 69,
+            "location_name": "Орхон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 79,
+            "parent_id": 69,
+            "location_name": "Рашаант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 80,
+            "parent_id": 69,
+            "location_name": "Сайхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 81,
+            "parent_id": 69,
+            "location_name": "Сэлэнгэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 82,
+            "parent_id": 69,
+            "location_name": "Тэшиг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 83,
+            "parent_id": 69,
+            "location_name": "Хангал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 84,
+            "parent_id": 69,
+            "location_name": "Хишиг-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 85,
+            "parent_id": 69,
+            "location_name": "Хутаг-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 86,
+            "parent_id": 0,
+            "location_name": "Говь-Алтай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 87,
+            "parent_id": 86,
+            "location_name": "(Алтай)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 88,
+            "parent_id": 86,
+            "location_name": "Алтай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 89,
+            "parent_id": 86,
+            "location_name": "Баян-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 90,
+            "parent_id": 86,
+            "location_name": "Бигэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 91,
+            "parent_id": 86,
+            "location_name": "Бугат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 92,
+            "parent_id": 86,
+            "location_name": "Дарви",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 93,
+            "parent_id": 86,
+            "location_name": "Дэлгэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 94,
+            "parent_id": 86,
+            "location_name": "Жаргалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 95,
+            "parent_id": 86,
+            "location_name": "Есөнбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 96,
+            "parent_id": 86,
+            "location_name": "Тайшир",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 97,
+            "parent_id": 86,
+            "location_name": "Тонхил",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 98,
+            "parent_id": 86,
+            "location_name": "Төгрөг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 99,
+            "parent_id": 86,
+            "location_name": "Халиун",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 100,
+            "parent_id": 86,
+            "location_name": "Хөхморьт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 101,
+            "parent_id": 86,
+            "location_name": "Цогт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 102,
+            "parent_id": 86,
+            "location_name": "Цээл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 103,
+            "parent_id": 86,
+            "location_name": "Чандмань",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 104,
+            "parent_id": 86,
+            "location_name": "Шарга",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 105,
+            "parent_id": 86,
+            "location_name": "Эрдэнэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 107,
+            "parent_id": 106,
+            "location_name": "(Чойр)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 108,
+            "parent_id": 106,
+            "location_name": "Сүмбэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 109,
+            "parent_id": 106,
+            "location_name": "Баянтал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 110,
+            "parent_id": 106,
+            "location_name": "Шивээговь",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 112,
+            "parent_id": 111,
+            "location_name": "(Дархан)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 113,
+            "parent_id": 111,
+            "location_name": "Дархан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 114,
+            "parent_id": 111,
+            "location_name": "Орхон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 115,
+            "parent_id": 111,
+            "location_name": "Хонгор",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 116,
+            "parent_id": 111,
+            "location_name": "Шарын гол",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 118,
+            "parent_id": 117,
+            "location_name": "(Сайншанд)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 119,
+            "parent_id": 117,
+            "location_name": "Айраг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 120,
+            "parent_id": 117,
+            "location_name": "Алтанширээ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 121,
+            "parent_id": 117,
+            "location_name": "Даланжаргалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 122,
+            "parent_id": 117,
+            "location_name": "Дэлгэрэх",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 123,
+            "parent_id": 117,
+            "location_name": "Замын-Үүд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 124,
+            "parent_id": 117,
+            "location_name": "Иххэт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 125,
+            "parent_id": 117,
+            "location_name": "Мандах",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 126,
+            "parent_id": 117,
+            "location_name": "Өргөн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 127,
+            "parent_id": 117,
+            "location_name": "Сайхандулаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 128,
+            "parent_id": 117,
+            "location_name": "Улаанбадрах",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 129,
+            "parent_id": 117,
+            "location_name": "Хатанбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 130,
+            "parent_id": 117,
+            "location_name": "Хөвсгөл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 131,
+            "parent_id": 117,
+            "location_name": "Эрдэнэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 133,
+            "parent_id": 132,
+            "location_name": "(Чойбалсан)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 134,
+            "parent_id": 132,
+            "location_name": "Баяндун",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 135,
+            "parent_id": 132,
+            "location_name": "Баянтүмэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 136,
+            "parent_id": 132,
+            "location_name": "Баян-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 137,
+            "parent_id": 132,
+            "location_name": "Булган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 138,
+            "parent_id": 132,
+            "location_name": "Гурванзагал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 139,
+            "parent_id": 132,
+            "location_name": "Дашбалбар",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 140,
+            "parent_id": 132,
+            "location_name": "Матад",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 141,
+            "parent_id": 132,
+            "location_name": "Сэргэлэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 142,
+            "parent_id": 132,
+            "location_name": "Халхгол",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 143,
+            "parent_id": 132,
+            "location_name": "Хөлөнбуйр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 144,
+            "parent_id": 132,
+            "location_name": "Хэрлэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 145,
+            "parent_id": 132,
+            "location_name": "Цагаан-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 146,
+            "parent_id": 132,
+            "location_name": "Чойбалсан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 147,
+            "parent_id": 132,
+            "location_name": "Чулуунхороот",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 149,
+            "parent_id": 148,
+            "location_name": "(Мандалговь)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 150,
+            "parent_id": 148,
+            "location_name": "Адаацаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 151,
+            "parent_id": 148,
+            "location_name": "Баянжаргалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 152,
+            "parent_id": 148,
+            "location_name": "Говь-Угтаал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 153,
+            "parent_id": 148,
+            "location_name": "Гурвансайхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 154,
+            "parent_id": 148,
+            "location_name": "Дэлгэрхангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 155,
+            "parent_id": 148,
+            "location_name": "Дэлгэрцогт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 156,
+            "parent_id": 148,
+            "location_name": "Дэрэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 157,
+            "parent_id": 148,
+            "location_name": "Луус",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 158,
+            "parent_id": 148,
+            "location_name": "Өлзийт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 159,
+            "parent_id": 148,
+            "location_name": "Өндөршил",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 160,
+            "parent_id": 148,
+            "location_name": "Сайнцагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 161,
+            "parent_id": 148,
+            "location_name": "Сайхан-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 162,
+            "parent_id": 148,
+            "location_name": "Хулд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 163,
+            "parent_id": 148,
+            "location_name": "Цагаандэлгэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 164,
+            "parent_id": 148,
+            "location_name": "Эрдэнэдалай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 166,
+            "parent_id": 165,
+            "location_name": "(Улиастай)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 167,
+            "parent_id": 165,
+            "location_name": "Алдархаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 168,
+            "parent_id": 165,
+            "location_name": "Асгат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 169,
+            "parent_id": 165,
+            "location_name": "Баянтэс",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 170,
+            "parent_id": 165,
+            "location_name": "Баянхайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 171,
+            "parent_id": 165,
+            "location_name": "Дөрвөлжин",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 172,
+            "parent_id": 165,
+            "location_name": "Завханмандал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 173,
+            "parent_id": 165,
+            "location_name": "Идэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 174,
+            "parent_id": 165,
+            "location_name": "Их-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 175,
+            "parent_id": 165,
+            "location_name": "Нөмрөг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 176,
+            "parent_id": 165,
+            "location_name": "Отгон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 177,
+            "parent_id": 165,
+            "location_name": "Сантмаргаз",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 178,
+            "parent_id": 165,
+            "location_name": "Сонгино",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 179,
+            "parent_id": 165,
+            "location_name": "Тосонцэнгэл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 180,
+            "parent_id": 165,
+            "location_name": "Түдэвтэй",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 181,
+            "parent_id": 165,
+            "location_name": "Тэлмэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 182,
+            "parent_id": 165,
+            "location_name": "Тэс",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 183,
+            "parent_id": 165,
+            "location_name": "Ургамал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 184,
+            "parent_id": 165,
+            "location_name": "Цагаанхайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 185,
+            "parent_id": 165,
+            "location_name": "Цагаанчулуут",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 186,
+            "parent_id": 165,
+            "location_name": "Цэцэн-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 187,
+            "parent_id": 165,
+            "location_name": "Шилүүстэй",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 188,
+            "parent_id": 165,
+            "location_name": "Эрдэнэхайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 189,
+            "parent_id": 165,
+            "location_name": "Яруу",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 191,
+            "parent_id": 190,
+            "location_name": "(Эрдэнэт)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 192,
+            "parent_id": 190,
+            "location_name": "Баян-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 193,
+            "parent_id": 190,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 195,
+            "parent_id": 194,
+            "location_name": "(Арвайхээр)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 196,
+            "parent_id": 194,
+            "location_name": "Баруунбаян-Улаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 197,
+            "parent_id": 194,
+            "location_name": "Бат-Өлзий",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 198,
+            "parent_id": 194,
+            "location_name": "Баянгол",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 199,
+            "parent_id": 194,
+            "location_name": "Баян-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 200,
+            "parent_id": 194,
+            "location_name": "Богд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 201,
+            "parent_id": 194,
+            "location_name": "Бүрд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 202,
+            "parent_id": 194,
+            "location_name": "Гучин-Ус",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 203,
+            "parent_id": 194,
+            "location_name": "Есөнзүйл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 204,
+            "parent_id": 194,
+            "location_name": "Зүүнбаян-Улаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 205,
+            "parent_id": 194,
+            "location_name": "Нарийнтээл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 206,
+            "parent_id": 194,
+            "location_name": "Өлзийт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 207,
+            "parent_id": 194,
+            "location_name": "Сант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 208,
+            "parent_id": 194,
+            "location_name": "Тарагт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 209,
+            "parent_id": 194,
+            "location_name": "Төгрөг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 210,
+            "parent_id": 194,
+            "location_name": "Уянга",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 211,
+            "parent_id": 194,
+            "location_name": "Хайрхандулаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 212,
+            "parent_id": 194,
+            "location_name": "Хархорин",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 213,
+            "parent_id": 194,
+            "location_name": "Хужирт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 215,
+            "parent_id": 214,
+            "location_name": "(Даланзадгад)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 216,
+            "parent_id": 214,
+            "location_name": "Баяндалай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 217,
+            "parent_id": 214,
+            "location_name": "Баян-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 218,
+            "parent_id": 214,
+            "location_name": "Булган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 219,
+            "parent_id": 214,
+            "location_name": "Гурвантэс",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 220,
+            "parent_id": 214,
+            "location_name": "Мандал-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 221,
+            "parent_id": 214,
+            "location_name": "Манлай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 222,
+            "parent_id": 214,
+            "location_name": "Ноён",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 223,
+            "parent_id": 214,
+            "location_name": "Номгон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 224,
+            "parent_id": 214,
+            "location_name": "Сэврэй",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 225,
+            "parent_id": 214,
+            "location_name": "Ханбогд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 226,
+            "parent_id": 214,
+            "location_name": "Ханхонгор",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 227,
+            "parent_id": 214,
+            "location_name": "Хүрмэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 228,
+            "parent_id": 214,
+            "location_name": "Цогт-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 229,
+            "parent_id": 214,
+            "location_name": "Цогтцэций",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 231,
+            "parent_id": 230,
+            "location_name": "(Баруун-Урт)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 232,
+            "parent_id": 230,
+            "location_name": "Асгат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 233,
+            "parent_id": 230,
+            "location_name": "Баяндэлгэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 234,
+            "parent_id": 230,
+            "location_name": "Дарьганга",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 235,
+            "parent_id": 230,
+            "location_name": "Мөнххаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 236,
+            "parent_id": 230,
+            "location_name": "Наран",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 237,
+            "parent_id": 230,
+            "location_name": "Онгон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 238,
+            "parent_id": 230,
+            "location_name": "Сүхбаатар",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 239,
+            "parent_id": 230,
+            "location_name": "Түвшинширээ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 240,
+            "parent_id": 230,
+            "location_name": "Түмэнцогт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 241,
+            "parent_id": 230,
+            "location_name": "Уулбаян",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 242,
+            "parent_id": 230,
+            "location_name": "Халзан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 243,
+            "parent_id": 230,
+            "location_name": "Эрдэнэцагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 245,
+            "parent_id": 244,
+            "location_name": "(Сүхбаатар)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 246,
+            "parent_id": 244,
+            "location_name": "Алтанбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 247,
+            "parent_id": 244,
+            "location_name": "Баруунбүрэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 248,
+            "parent_id": 244,
+            "location_name": "Баянгол",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 249,
+            "parent_id": 244,
+            "location_name": "Ерөө",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 250,
+            "parent_id": 244,
+            "location_name": "Жавхлант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 251,
+            "parent_id": 244,
+            "location_name": "Зүүнбүрэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 252,
+            "parent_id": 244,
+            "location_name": "Мандал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 253,
+            "parent_id": 244,
+            "location_name": "Орхон",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 254,
+            "parent_id": 244,
+            "location_name": "Орхонтуул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 255,
+            "parent_id": 244,
+            "location_name": "Сайхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 256,
+            "parent_id": 244,
+            "location_name": "Сант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 257,
+            "parent_id": 244,
+            "location_name": "Түшиг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 258,
+            "parent_id": 244,
+            "location_name": "Хушаат",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 259,
+            "parent_id": 244,
+            "location_name": "Хүдэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 260,
+            "parent_id": 244,
+            "location_name": "Цагааннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 261,
+            "parent_id": 244,
+            "location_name": "Шаамар",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 263,
+            "parent_id": 262,
+            "location_name": "(Зуунмод)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 264,
+            "parent_id": 262,
+            "location_name": "Алтанбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 265,
+            "parent_id": 262,
+            "location_name": "Аргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 266,
+            "parent_id": 262,
+            "location_name": "Архуст",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 267,
+            "parent_id": 262,
+            "location_name": "Батсүмбэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 268,
+            "parent_id": 262,
+            "location_name": "Баян",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 269,
+            "parent_id": 262,
+            "location_name": "Баяндэлгэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 270,
+            "parent_id": 262,
+            "location_name": "Баянжаргалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 271,
+            "parent_id": 262,
+            "location_name": "Баян-Өнжүүл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 272,
+            "parent_id": 262,
+            "location_name": "Баянхангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 273,
+            "parent_id": 262,
+            "location_name": "Баянцагаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 274,
+            "parent_id": 262,
+            "location_name": "Баянцогт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 275,
+            "parent_id": 262,
+            "location_name": "Баянчандмань",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 276,
+            "parent_id": 262,
+            "location_name": "Борнуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 277,
+            "parent_id": 262,
+            "location_name": "Бүрэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 278,
+            "parent_id": 262,
+            "location_name": "Дэлгэрхаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 279,
+            "parent_id": 262,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 280,
+            "parent_id": 262,
+            "location_name": "Заамар",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 281,
+            "parent_id": 262,
+            "location_name": "Лүн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 282,
+            "parent_id": 262,
+            "location_name": "Мөнгөнморьт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 283,
+            "parent_id": 262,
+            "location_name": "Өндөрширээт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 284,
+            "parent_id": 262,
+            "location_name": "Сүмбэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 285,
+            "parent_id": 262,
+            "location_name": "Сэргэлэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 286,
+            "parent_id": 262,
+            "location_name": "Угтаалцайдам",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 287,
+            "parent_id": 262,
+            "location_name": "Цээл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 288,
+            "parent_id": 262,
+            "location_name": "Эрдэнэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 289,
+            "parent_id": 262,
+            "location_name": "Эрдэнэсант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 291,
+            "parent_id": 290,
+            "location_name": "(Улаангом)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 292,
+            "parent_id": 290,
+            "location_name": "Баруунтуруун",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 293,
+            "parent_id": 290,
+            "location_name": "Бөхмөрөн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 294,
+            "parent_id": 290,
+            "location_name": "Давст",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 295,
+            "parent_id": 290,
+            "location_name": "Завхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 296,
+            "parent_id": 290,
+            "location_name": "Зүүнговь",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 297,
+            "parent_id": 290,
+            "location_name": "Зүүнхангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 298,
+            "parent_id": 290,
+            "location_name": "Малчин",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 299,
+            "parent_id": 290,
+            "location_name": "Наранбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 300,
+            "parent_id": 290,
+            "location_name": "Өлгий",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 301,
+            "parent_id": 290,
+            "location_name": "Өмнөговь",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 302,
+            "parent_id": 290,
+            "location_name": "Өндөрхангай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 303,
+            "parent_id": 290,
+            "location_name": "Сагил",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 304,
+            "parent_id": 290,
+            "location_name": "Тариалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 305,
+            "parent_id": 290,
+            "location_name": "Түргэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 306,
+            "parent_id": 290,
+            "location_name": "Тэс",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 307,
+            "parent_id": 290,
+            "location_name": "Ховд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 308,
+            "parent_id": 290,
+            "location_name": "Хяргас",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 309,
+            "parent_id": 290,
+            "location_name": "Цагаанхайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 311,
+            "parent_id": 310,
+            "location_name": "(Ховд)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 312,
+            "parent_id": 310,
+            "location_name": "Алтай",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 313,
+            "parent_id": 310,
+            "location_name": "Булган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 314,
+            "parent_id": 310,
+            "location_name": "Буянт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 315,
+            "parent_id": 310,
+            "location_name": "Дарви",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 316,
+            "parent_id": 310,
+            "location_name": "Дөргөн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 317,
+            "parent_id": 310,
+            "location_name": "Дуут",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 318,
+            "parent_id": 310,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 319,
+            "parent_id": 310,
+            "location_name": "Зэрэг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 320,
+            "parent_id": 310,
+            "location_name": "Манхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 321,
+            "parent_id": 310,
+            "location_name": "Мөнххайрхан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 322,
+            "parent_id": 310,
+            "location_name": "Мөст",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 323,
+            "parent_id": 310,
+            "location_name": "Мянгад",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 324,
+            "parent_id": 310,
+            "location_name": "Үенч",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 325,
+            "parent_id": 310,
+            "location_name": "Ховд",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 326,
+            "parent_id": 310,
+            "location_name": "Цэцэг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 327,
+            "parent_id": 310,
+            "location_name": "Чандмань",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 328,
+            "parent_id": 310,
+            "location_name": "Эрдэнэбүрэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 330,
+            "parent_id": 329,
+            "location_name": "(Мөрөн)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 331,
+            "parent_id": 329,
+            "location_name": "Алаг-Эрдэнэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 332,
+            "parent_id": 329,
+            "location_name": "Арбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 333,
+            "parent_id": 329,
+            "location_name": "Баянзүрх",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 334,
+            "parent_id": 329,
+            "location_name": "Бүрэнтогтох",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 335,
+            "parent_id": 329,
+            "location_name": "Галт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 336,
+            "parent_id": 329,
+            "location_name": "Жаргалант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 337,
+            "parent_id": 329,
+            "location_name": "Их-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 338,
+            "parent_id": 329,
+            "location_name": "Мөрөн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 339,
+            "parent_id": 329,
+            "location_name": "Рашаант",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 340,
+            "parent_id": 329,
+            "location_name": "Рэнчинлхүмбэ",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 341,
+            "parent_id": 329,
+            "location_name": "Тариалан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 342,
+            "parent_id": 329,
+            "location_name": "Тосонцэнгэл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 343,
+            "parent_id": 329,
+            "location_name": "Төмөрбулаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 344,
+            "parent_id": 329,
+            "location_name": "Түнэл",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 345,
+            "parent_id": 329,
+            "location_name": "Улаан-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 346,
+            "parent_id": 329,
+            "location_name": "Ханх",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 347,
+            "parent_id": 329,
+            "location_name": "Хатгал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 348,
+            "parent_id": 329,
+            "location_name": "Цагааннуур",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 349,
+            "parent_id": 329,
+            "location_name": "Цагаан-Уул",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 350,
+            "parent_id": 329,
+            "location_name": "Цагаан-Үүр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 351,
+            "parent_id": 329,
+            "location_name": "Цэцэрлэг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 352,
+            "parent_id": 329,
+            "location_name": "Чандмань-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 353,
+            "parent_id": 329,
+            "location_name": "Шинэ-Идэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 354,
+            "parent_id": 329,
+            "location_name": "Эрдэнэбулган",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 356,
+            "parent_id": 355,
+            "location_name": "(Чингис)",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 357,
+            "parent_id": 355,
+            "location_name": "Батноров",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 358,
+            "parent_id": 355,
+            "location_name": "Батширээт",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 359,
+            "parent_id": 355,
+            "location_name": "Баян-Адарга",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 360,
+            "parent_id": 355,
+            "location_name": "Баянмөнх",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 361,
+            "parent_id": 355,
+            "location_name": "Баян-Овоо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 362,
+            "parent_id": 355,
+            "location_name": "Баянхутаг",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 363,
+            "parent_id": 355,
+            "location_name": "Биндэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 364,
+            "parent_id": 355,
+            "location_name": "Бор-Өндөр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 365,
+            "parent_id": 355,
+            "location_name": "Галшар",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 366,
+            "parent_id": 355,
+            "location_name": "Дадал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 367,
+            "parent_id": 355,
+            "location_name": "Дархан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 368,
+            "parent_id": 355,
+            "location_name": "Дэлгэрхаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 369,
+            "parent_id": 355,
+            "location_name": "Жаргалтхаан",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 370,
+            "parent_id": 355,
+            "location_name": "Мөрөн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 371,
+            "parent_id": 355,
+            "location_name": "Норовлин",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 372,
+            "parent_id": 355,
+            "location_name": "Өмнөдэлгэр",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 373,
+            "parent_id": 355,
+            "location_name": "Хэрлэн",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 374,
+            "parent_id": 355,
+            "location_name": "Цэнхэрмандал",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 375,
+            "parent_id": 2,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 376,
+            "parent_id": 2,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 377,
+            "parent_id": 2,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 378,
+            "parent_id": 2,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 379,
+            "parent_id": 2,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 380,
+            "parent_id": 3,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 381,
+            "parent_id": 3,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 382,
+            "parent_id": 3,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 383,
+            "parent_id": 3,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 384,
+            "parent_id": 3,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 385,
+            "parent_id": 3,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 386,
+            "parent_id": 3,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 387,
+            "parent_id": 3,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 388,
+            "parent_id": 4,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 389,
+            "parent_id": 4,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 390,
+            "parent_id": 4,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 391,
+            "parent_id": 4,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 392,
+            "parent_id": 4,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 393,
+            "parent_id": 4,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 394,
+            "parent_id": 4,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 395,
+            "parent_id": 4,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 396,
+            "parent_id": 4,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 397,
+            "parent_id": 4,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 398,
+            "parent_id": 4,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 399,
+            "parent_id": 4,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 400,
+            "parent_id": 4,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 401,
+            "parent_id": 4,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 402,
+            "parent_id": 4,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 403,
+            "parent_id": 4,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 404,
+            "parent_id": 4,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 405,
+            "parent_id": 4,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 406,
+            "parent_id": 4,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 407,
+            "parent_id": 4,
+            "location_name": "20-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 408,
+            "parent_id": 4,
+            "location_name": "21-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 409,
+            "parent_id": 4,
+            "location_name": "22-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 410,
+            "parent_id": 4,
+            "location_name": "23-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 411,
+            "parent_id": 4,
+            "location_name": "24-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 412,
+            "parent_id": 4,
+            "location_name": "25-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 413,
+            "parent_id": 5,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 414,
+            "parent_id": 5,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 415,
+            "parent_id": 5,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 416,
+            "parent_id": 5,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 417,
+            "parent_id": 5,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 418,
+            "parent_id": 5,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 419,
+            "parent_id": 5,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 420,
+            "parent_id": 5,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 421,
+            "parent_id": 5,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 422,
+            "parent_id": 5,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 423,
+            "parent_id": 5,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 424,
+            "parent_id": 5,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 425,
+            "parent_id": 5,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 426,
+            "parent_id": 5,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 427,
+            "parent_id": 5,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 428,
+            "parent_id": 5,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 429,
+            "parent_id": 5,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 430,
+            "parent_id": 5,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 431,
+            "parent_id": 5,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 432,
+            "parent_id": 5,
+            "location_name": "20-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 433,
+            "parent_id": 5,
+            "location_name": "21-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 434,
+            "parent_id": 5,
+            "location_name": "22-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 435,
+            "parent_id": 5,
+            "location_name": "23-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 436,
+            "parent_id": 5,
+            "location_name": "24-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 437,
+            "parent_id": 5,
+            "location_name": "25-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 438,
+            "parent_id": 5,
+            "location_name": "26-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 439,
+            "parent_id": 5,
+            "location_name": "27-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 440,
+            "parent_id": 5,
+            "location_name": "28-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 441,
+            "parent_id": 6,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 442,
+            "parent_id": 6,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 443,
+            "parent_id": 6,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 444,
+            "parent_id": 6,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 445,
+            "parent_id": 6,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 446,
+            "parent_id": 6,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 447,
+            "parent_id": 6,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 448,
+            "parent_id": 6,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 449,
+            "parent_id": 7,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 450,
+            "parent_id": 7,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 451,
+            "parent_id": 7,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 452,
+            "parent_id": 7,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 453,
+            "parent_id": 7,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 454,
+            "parent_id": 7,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 455,
+            "parent_id": 7,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 456,
+            "parent_id": 7,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 457,
+            "parent_id": 7,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 458,
+            "parent_id": 7,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 459,
+            "parent_id": 7,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 460,
+            "parent_id": 7,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 461,
+            "parent_id": 7,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 462,
+            "parent_id": 7,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 463,
+            "parent_id": 7,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 464,
+            "parent_id": 7,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 465,
+            "parent_id": 7,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 466,
+            "parent_id": 7,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 467,
+            "parent_id": 7,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 468,
+            "parent_id": 7,
+            "location_name": "20-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 469,
+            "parent_id": 7,
+            "location_name": "21-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 470,
+            "parent_id": 7,
+            "location_name": "22-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 471,
+            "parent_id": 7,
+            "location_name": "23-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 472,
+            "parent_id": 7,
+            "location_name": "24-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 473,
+            "parent_id": 7,
+            "location_name": "25-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 474,
+            "parent_id": 7,
+            "location_name": "26-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 475,
+            "parent_id": 7,
+            "location_name": "27-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 476,
+            "parent_id": 7,
+            "location_name": "28-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 477,
+            "parent_id": 7,
+            "location_name": "29-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 478,
+            "parent_id": 7,
+            "location_name": "30-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 479,
+            "parent_id": 7,
+            "location_name": "31-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 480,
+            "parent_id": 7,
+            "location_name": "32-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 481,
+            "parent_id": 7,
+            "location_name": "33-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 482,
+            "parent_id": 7,
+            "location_name": "34-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 483,
+            "parent_id": 7,
+            "location_name": "35-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 484,
+            "parent_id": 7,
+            "location_name": "36-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 485,
+            "parent_id": 7,
+            "location_name": "37-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 486,
+            "parent_id": 7,
+            "location_name": "38-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 487,
+            "parent_id": 7,
+            "location_name": "39-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 488,
+            "parent_id": 7,
+            "location_name": "40-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 489,
+            "parent_id": 7,
+            "location_name": "41-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 490,
+            "parent_id": 7,
+            "location_name": "42-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 491,
+            "parent_id": 7,
+            "location_name": "43-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 492,
+            "parent_id": 8,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 493,
+            "parent_id": 8,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 494,
+            "parent_id": 8,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 495,
+            "parent_id": 8,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 496,
+            "parent_id": 8,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 497,
+            "parent_id": 8,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 498,
+            "parent_id": 8,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 499,
+            "parent_id": 8,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 500,
+            "parent_id": 8,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 501,
+            "parent_id": 8,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 502,
+            "parent_id": 8,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 503,
+            "parent_id": 8,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 504,
+            "parent_id": 8,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 505,
+            "parent_id": 8,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 506,
+            "parent_id": 8,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 507,
+            "parent_id": 8,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 508,
+            "parent_id": 8,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 509,
+            "parent_id": 8,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 510,
+            "parent_id": 8,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 511,
+            "parent_id": 8,
+            "location_name": "20-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 512,
+            "parent_id": 9,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 513,
+            "parent_id": 9,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 514,
+            "parent_id": 9,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 515,
+            "parent_id": 9,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 516,
+            "parent_id": 9,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 517,
+            "parent_id": 9,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 518,
+            "parent_id": 9,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 519,
+            "parent_id": 9,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 520,
+            "parent_id": 9,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 521,
+            "parent_id": 9,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 522,
+            "parent_id": 9,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 523,
+            "parent_id": 9,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 524,
+            "parent_id": 9,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 525,
+            "parent_id": 9,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 526,
+            "parent_id": 9,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 527,
+            "parent_id": 9,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 528,
+            "parent_id": 9,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 529,
+            "parent_id": 9,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 530,
+            "parent_id": 9,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 531,
+            "parent_id": 9,
+            "location_name": "20-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 532,
+            "parent_id": 9,
+            "location_name": "21-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 533,
+            "parent_id": 10,
+            "location_name": "1-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 534,
+            "parent_id": 10,
+            "location_name": "2-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 535,
+            "parent_id": 10,
+            "location_name": "3-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 536,
+            "parent_id": 10,
+            "location_name": "4-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 537,
+            "parent_id": 10,
+            "location_name": "5-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 538,
+            "parent_id": 10,
+            "location_name": "6-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 539,
+            "parent_id": 10,
+            "location_name": "7-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 540,
+            "parent_id": 10,
+            "location_name": "8-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 541,
+            "parent_id": 10,
+            "location_name": "9-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 542,
+            "parent_id": 10,
+            "location_name": "10-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 543,
+            "parent_id": 10,
+            "location_name": "11-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 544,
+            "parent_id": 10,
+            "location_name": "12-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 545,
+            "parent_id": 10,
+            "location_name": "13-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 546,
+            "parent_id": 10,
+            "location_name": "14-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 547,
+            "parent_id": 10,
+            "location_name": "15-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 548,
+            "parent_id": 10,
+            "location_name": "16-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 549,
+            "parent_id": 10,
+            "location_name": "17-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 550,
+            "parent_id": 10,
+            "location_name": "18-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 551,
+            "parent_id": 10,
+            "location_name": "19-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 552,
+            "parent_id": 4,
+            "location_name": "26-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 553,
+            "parent_id": 4,
+            "location_name": "27-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 554,
+            "parent_id": 4,
+            "location_name": "28-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 555,
+            "parent_id": 4,
+            "location_name": "29-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 556,
+            "parent_id": 4,
+            "location_name": "30-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 557,
+            "parent_id": 4,
+            "location_name": "31-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 558,
+            "parent_id": 4,
+            "location_name": "32-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 559,
+            "parent_id": 4,
+            "location_name": "33-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 560,
+            "parent_id": 5,
+            "location_name": "29-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 561,
+            "parent_id": 5,
+            "location_name": "30-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 562,
+            "parent_id": 5,
+            "location_name": "31-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 563,
+            "parent_id": 5,
+            "location_name": "32-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 564,
+            "parent_id": 5,
+            "location_name": "33-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 565,
+            "parent_id": 5,
+            "location_name": "34-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 566,
+            "parent_id": 5,
+            "location_name": "35-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 567,
+            "parent_id": 5,
+            "location_name": "36-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 568,
+            "parent_id": 5,
+            "location_name": "37-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 569,
+            "parent_id": 5,
+            "location_name": "38-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 570,
+            "parent_id": 5,
+            "location_name": "39-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 571,
+            "parent_id": 5,
+            "location_name": "40-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 572,
+            "parent_id": 5,
+            "location_name": "41-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 573,
+            "parent_id": 5,
+            "location_name": "42-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 574,
+            "parent_id": 5,
+            "location_name": "43-р хороо",
+            "latitude": null,
+            "longitude": null
+        },
+        {
+            "location_id": 575,
+            "parent_id": 4,
+            "location_name": "34-р хороо",
+            "latitude": null,
+            "longitude": null
+        }
+    ]
+}

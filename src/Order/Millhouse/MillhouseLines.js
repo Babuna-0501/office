@@ -1,20 +1,21 @@
-import { useMemo } from "react";
-import css from "./millhouseLines.module.css";
+import { useMemo } from 'react';
+import css from './millhouseLines.module.css';
+import { replaceImageUrl } from '../../utils';
 
 export const MillhouseLines = ({ order }) => {
-  console.log("ORDER: ", order);
+  console.log('ORDER: ', order);
   const products = useMemo(() => {
     const result = {
       millhouse: {
         products: [],
         total: 0,
-        title: "Милл Хаус ХХК",
+        title: 'Милл Хаус ХХК'
       },
       ng: {
         products: [],
         total: 0,
-        title: "Нүүдэл Жи ХХК",
-      },
+        title: 'Нүүдэл Жи ХХК'
+      }
     };
 
     for (const product of order.line) {
@@ -44,9 +45,9 @@ export const MillhouseLines = ({ order }) => {
                   const totalAmount = product.price * product.quantity;
                   const imageUrl = product.product_image
                     ? product.product_image
-                        .split(",")[0]
-                        .replace("original", "small")
-                    : "";
+                        .split(',')[0]
+                        .replace('original', 'small')
+                    : '';
 
                   return (
                     <div
@@ -55,48 +56,51 @@ export const MillhouseLines = ({ order }) => {
                     >
                       <div className={css.firstWrapper}>
                         <div className={css.imageContainer}>
-                          <img src={imageUrl} alt={product.product_name} />
+                          <img
+                            src={replaceImageUrl(imageUrl)}
+                            alt={product.product_name}
+                          />
                         </div>
 
                         <div className={css.detailWrapper}>
                           <h3
                             className={css.hd3}
-                            style={{ fontWeight: 300, margin: "0" }}
+                            style={{ fontWeight: 300, margin: '0' }}
                           >
                             {product.product_name}
                           </h3>
                           <div
-                            style={{ display: "flex", alignItems: "center" }}
+                            style={{ display: 'flex', alignItems: 'center' }}
                           >
                             <span
                               style={{
-                                color: "#90A4AE",
-                                fontSize: "14px",
-                                fontWeight: 700,
+                                color: '#90A4AE',
+                                fontSize: '14px',
+                                fontWeight: 700
                               }}
                             >
                               {product.price.toLocaleString()}₮
                             </span>
                             <span
                               style={{
-                                color: "#FFA400",
-                                fontSize: "12px",
+                                color: '#FFA400',
+                                fontSize: '12px',
                                 fontWeight: 700,
-                                marginLeft: "5px",
+                                marginLeft: '5px'
                               }}
                             >
-                              {" "}
+                              {' '}
                               x {product.quantity}
                             </span>
                             <span
                               style={{
-                                color: "#263238",
-                                fontSize: "14px",
+                                color: '#263238',
+                                fontSize: '14px',
                                 fontWeight: 700,
-                                marginLeft: "5px",
+                                marginLeft: '5px'
                               }}
                             >
-                              {" "}
+                              {' '}
                               {totalAmount.toLocaleString()}₮
                             </span>
                           </div>
@@ -105,8 +109,8 @@ export const MillhouseLines = ({ order }) => {
                               <span
                                 style={{
                                   fontWeight: 300,
-                                  fontSize: "14px",
-                                  color: "#37474f",
+                                  fontSize: '14px',
+                                  color: '#37474f'
                                 }}
                               >
                                 Бүтээгдэхүүн sku : {product.product_sku}
@@ -117,11 +121,11 @@ export const MillhouseLines = ({ order }) => {
                               <span
                                 style={{
                                   fontWeight: 300,
-                                  fontSize: "14px",
-                                  color: "#37474f",
+                                  fontSize: '14px',
+                                  color: '#37474f'
                                 }}
                               >
-                                {" "}
+                                {' '}
                                 Barcode : {product.product_bar_code}
                               </span>
                             ) : null}

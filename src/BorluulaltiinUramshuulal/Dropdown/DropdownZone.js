@@ -1,58 +1,58 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 
-import css from "./dropdownzone.module.css";
-import plusicon from "../../assets/plus icon.svg";
-import checkboxicon from "../../assets/check box.svg";
-import chechboxchecked from "../../assets/Tick Square_green.svg";
-import searchIcon from "../../assets/Search.svg";
-import myHeaders from "../../components/MyHeader/myHeader";
-import SMSHook from "../../Hooks/SMSHook";
+import css from './dropdownzone.module.css';
+import plusicon from '../../assets/plus icon.svg';
+import checkboxicon from '../../assets/check box.svg';
+import chechboxchecked from '../../assets/Tick Square_green.svg';
+import searchIcon from '../../assets/Search.svg';
+import myHeaders from '../../components/MyHeader/myHeader';
+import SMSHook from '../../Hooks/SMSHook';
 
-const DropdownZone = (props) => {
+const DropdownZone = props => {
   const [zonedata, setZonedata] = useState([]);
   const [searchvalue, setSearchvalue] = useState(null);
 
   const smsctx = useContext(SMSHook);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
 
-    let params = "";
-    let url = `https://api2.ebazaar.mn/api/zones`;
+    let params = '';
+    let url = `${process.env.REACT_APP_API_URL2}/api/zones`;
 
     if (searchvalue !== null && searchvalue.toString().length > 2) {
       params += `?name=${searchvalue}`;
-      url = `https://api2.ebazaar.mn/api/zones${params}`;
+      url = `${process.env.REACT_APP_API_URL2}/api/zones${params}`;
     }
 
     fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
-        let update = res.data.map((item) => {
+        let update = res.data.map(item => {
           return {
             ...item,
-            chosed: false,
+            chosed: false
           };
         });
         setZonedata(update);
         props.setZonedata(update);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [searchvalue]);
 
   const ChosedHandler = (item, index) => {
     // console.log("item clicked", item);
     if (smsctx.zoneids.includes(item._id)) {
-      let update = smsctx.zoneids.filter((x) => x !== item._id);
+      let update = smsctx.zoneids.filter(x => x !== item._id);
       smsctx.setZoneids(update);
     } else {
-      smsctx.setZoneids((prev) => [...prev, item._id]);
+      smsctx.setZoneids(prev => [...prev, item._id]);
     }
 
     let update = zonedata.map((x, i) => {
@@ -60,7 +60,7 @@ const DropdownZone = (props) => {
       if (x._id === item._id) {
         return {
           ...dataone,
-          chosed: x.chosed === true ? false : true,
+          chosed: x.chosed === true ? false : true
         };
       }
       return dataone;
@@ -74,17 +74,17 @@ const DropdownZone = (props) => {
       <div className={css.wrapper}>
         <div className={css.bodywrapper}>
           <div className={css.inputwrapper}>
-            {" "}
+            {' '}
             <input
-              placeholder="Хайх"
+              placeholder='Хайх'
               value={searchvalue}
-              onChange={(e) => {
+              onChange={e => {
                 setSearchvalue(e.target.value);
               }}
-            />{" "}
+            />{' '}
             {searchvalue !== null &&
             searchvalue.toString().length !== 0 ? null : (
-              <img src={searchIcon} alt="search icon" />
+              <img src={searchIcon} alt='search icon' />
             )}
           </div>
           {zonedata &&
@@ -95,7 +95,7 @@ const DropdownZone = (props) => {
                   key={index}
                   onClick={() => ChosedHandler(item, index)}
                   style={{
-                    background: item.chosed ? "#F4FAED" : "#fff",
+                    background: item.chosed ? '#F4FAED' : '#fff'
                   }}
                 >
                   <img
@@ -104,7 +104,7 @@ const DropdownZone = (props) => {
                         ? chechboxchecked
                         : checkboxicon
                     }
-                    alt="check box icon"
+                    alt='check box icon'
                   />
                   <span>{item.name}</span>
                 </div>

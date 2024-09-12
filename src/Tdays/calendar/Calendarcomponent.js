@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import css from "./calendarcomponent.module.css";
+import React, { useContext, useState, useEffect } from 'react';
+import css from './calendarcomponent.module.css';
 
-import TdaysHook from "../../Hooks/TdaysHook";
-import Calendar from "./CalendarMonth/NewCalendar";
-import AppHook from "../../Hooks/AppHook";
-import NewSupplier from "./SelectSupplier/NewSupplier";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import myHeaders from "../../components/MyHeader/myHeader";
+import TdaysHook from '../../Hooks/TdaysHook';
+import Calendar from './CalendarMonth/NewCalendar';
+import AppHook from '../../Hooks/AppHook';
+import NewSupplier from './SelectSupplier/NewSupplier';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import myHeaders from '../../components/MyHeader/myHeader';
 
-const Calendarcomponent = (props) => {
+const Calendarcomponent = props => {
   const tdaysctx = useContext(TdaysHook);
   const appctx = useContext(AppHook);
 
@@ -21,7 +21,7 @@ const Calendarcomponent = (props) => {
   useEffect(() => {
     let arr = [];
 
-    ctxProduct.sitedata?.business_types.map((it) => {
+    ctxProduct.sitedata?.business_types.map(it => {
       arr.push(it);
     });
     tdaysctx.setChannel(arr);
@@ -42,7 +42,7 @@ const Calendarcomponent = (props) => {
   const submitHandler = () => {
     // console.log("tdaysctx?.supplierID", tdaysctx?.supplierID);
     if (title === null) {
-      alert("Та түгээлтийн өдрийн нэрээ оруулна уу");
+      alert('Та түгээлтийн өдрийн нэрээ оруулна уу');
       return;
     }
     // if (tdaysctx?.supplierID === undefined || tdaysctx?.supplierID === null) {
@@ -53,19 +53,19 @@ const Calendarcomponent = (props) => {
     // console.log("tdaysctx.list", tdaysctx.list);
 
     if (supId === null) {
-      alert("Та нийлүүлэгчээ сонгоно уу");
+      alert('Та нийлүүлэгчээ сонгоно уу');
       return;
     }
     if (tdaysctx.channelID === undefined || tdaysctx.channelID === null) {
-      alert("Та сувагаа сонгоно уу");
+      alert('Та сувагаа сонгоно уу');
       return;
     }
     if (tdaysctx.zoneID === undefined || tdaysctx.zoneID === null) {
-      alert("Та бүсчлэлээ сонгоно уу");
+      alert('Та бүсчлэлээ сонгоно уу');
       return;
     }
     if (tdaysctx.days === undefined || tdaysctx.days === null) {
-      alert("Та түгээлтийн өдрүүдээ сонгоно уу");
+      alert('Та түгээлтийн өдрүүдээ сонгоно уу');
       return;
     }
     //// Өдрийг бичихийн өмнө 0 нэмнэ
@@ -82,36 +82,39 @@ const Calendarcomponent = (props) => {
       zone: tdaysctx.zoneID,
       // zone: ["62f4aabe45a4e22552a3969f"], //// Монгол
       channel: tdaysctx.channelID,
-      isActive: "1",
-      delivery_time: tdaysctx.deliveryTime,
+      isActive: '1',
+      delivery_time: tdaysctx.deliveryTime
     };
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
-      redirect: "follow",
-      body: JSON.stringify(raw),
+      redirect: 'follow',
+      body: JSON.stringify(raw)
     };
-    console.log("calendar shineer uusgeh", requestOptions);
-    fetch(`https://api2.ebazaar.mn/api/calendar/create`, requestOptions)
-      .then((r) => r.json())
-      .then((res) => {
-        console.log("res", res);
-        if (res.result === "success") {
-          alert("Та амжилттай үүсгэлээ.");
-          setTitle("");
+    console.log('calendar shineer uusgeh', requestOptions);
+    fetch(
+      `${process.env.REACT_APP_API_URL2}/api/calendar/create`,
+      requestOptions
+    )
+      .then(r => r.json())
+      .then(res => {
+        console.log('res', res);
+        if (res.result === 'success') {
+          alert('Та амжилттай үүсгэлээ.');
+          setTitle('');
           setSupId(null);
           tdaysctx.setSupplierID(null);
           tdaysctx.setDays(null);
           tdaysctx.setZoneID(null);
           tdaysctx.setChannelID([
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22,
+            20, 21, 22
           ]);
           tdaysctx.setNewDays(false);
         }
       })
-      .catch((error) => {
-        console.log("Calendar does not create ", error);
+      .catch(error => {
+        console.log('Calendar does not create ', error);
       });
   };
 
@@ -121,14 +124,14 @@ const Calendarcomponent = (props) => {
         <div className={css.calendarContainer}>
           <div className={css.headercontainer}>
             <input
-              placeholder="Нэр оруулах"
+              placeholder='Нэр оруулах'
               className={css.input}
               value={title}
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
+              type='text'
+              onChange={e => setTitle(e.target.value)}
             />
 
-            <div style={{ width: "250px" }}>
+            <div style={{ width: '250px' }}>
               <NewSupplier setSupId={setSupId} />
             </div>
           </div>

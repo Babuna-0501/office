@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import css from "./update.module.css";
-import CollectionHook from "../../Hooks/CollectionHook";
-import { Table } from "antd";
+import React, { useContext, useEffect, useState } from 'react';
+import css from './update.module.css';
+import CollectionHook from '../../Hooks/CollectionHook';
+import { Table } from 'antd';
+import { replaceImageUrl } from '../../utils';
 
 const Update = () => {
   const [product, setProduct] = useState([]);
@@ -12,48 +13,48 @@ const Update = () => {
 
   const defaultColumns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      width: "30%",
-      editable: true,
+      title: 'Name',
+      dataIndex: 'name',
+      width: '30%',
+      editable: true
     },
     {
-      title: "Image",
-      dataIndex: "image",
-      width: "10%",
+      title: 'Image',
+      dataIndex: 'image',
+      width: '10%',
       render: (text, record) => {
         // console.log("record++++", record);
         return (
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
+              display: 'flex',
+              justifyContent: 'center'
             }}
           >
             <img
               src={
                 record.image
-                  ? record.image
-                  : "https://ebazaar.mn/media/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg"
+                  ? replaceImageUrl(record.image)
+                  : `${process.env.REACT_APP_MEDIA_URL}/product/27d2e8954f9d8cbf9d23f500ae466f1e24e823c7171f95a87da2f28ffd0e.jpg`
               }
               style={{
-                width: "100px",
-                height: "100px",
-                objectFit: "contain",
+                width: '100px',
+                height: '100px',
+                objectFit: 'contain'
               }}
             />
           </div>
         );
-      },
+      }
     },
     {
-      title: "Sku",
-      dataIndex: "skus",
+      title: 'Sku',
+      dataIndex: 'skus'
     },
     {
-      title: "Barcode",
-      dataIndex: "bar_code",
-    },
+      title: 'Barcode',
+      dataIndex: 'bar_code'
+    }
     // {
     //   title: "Status",
     //   dataIndex: "operation",
@@ -72,10 +73,10 @@ const Update = () => {
   ];
   var myHeaders = new Headers();
   myHeaders.append(
-    "ebazaar_token",
-    localStorage.getItem("ebazaar_admin_token")
+    'ebazaar_token',
+    localStorage.getItem('ebazaar_admin_token')
   );
-  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append('Content-Type', 'application/json');
 
   const cancelHandler = () => {
     collctx.setUpdate(false);
@@ -89,16 +90,16 @@ const Update = () => {
   useEffect(() => {
     // console.log("productids", productIDS);
     var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
+      method: 'GET',
+      headers: myHeaders
     };
     if (productIDS) {
       fetch(
-        `https://api2.ebazaar.mn/api/products/get1?id=[${productIDS}]`,
+        `${process.env.REACT_APP_API_URL2}/api/products/get1?id=[${productIDS}]`,
         requestOptions
       )
-        .then((r) => r.json())
-        .then((res) => {
+        .then(r => r.json())
+        .then(res => {
           // console.log("product++++", res.data);
           setProd(res.data);
         });
@@ -112,10 +113,7 @@ const Update = () => {
       <div className={css.wrapper}>
         <div>
           <div className={css.inputcontainer}>
-            <input
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-            />{" "}
+            <input value={product} onChange={e => setProduct(e.target.value)} />{' '}
             <button>Бараа сонгох</button>
           </div>
           <div className={css.tablecontainer}>
@@ -125,8 +123,8 @@ const Update = () => {
               bordered
               dataSource={prod}
               columns={defaultColumns}
-              scroll={{ y: "100%" }}
-              style={{ width: "100%", height: "100%" }}
+              scroll={{ y: '100%' }}
+              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </div>

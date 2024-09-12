@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-import myHeaders from "../../components/MyHeader/myHeader";
-import css from "./product.module.css";
-import closeicon from "../../assets/close.svg";
-import checkbox from "../../assets/check box.svg";
-import checked from "../../assets/Tick Square_green.svg";
-import { styles } from "./style";
-import SMSHook from "../../Hooks/SMSHook";
+import React, { useEffect, useState, useContext } from 'react';
+import myHeaders from '../../components/MyHeader/myHeader';
+import css from './product.module.css';
+import closeicon from '../../assets/close.svg';
+import checkbox from '../../assets/check box.svg';
+import checked from '../../assets/Tick Square_green.svg';
+import { styles } from './style';
+import SMSHook from '../../Hooks/SMSHook';
+import { replaceImageUrl } from '../../utils';
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -25,11 +26,11 @@ const Product = () => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
     if (supplier !== null) {
       params += `supplier=${supplier}&`;
     }
@@ -49,55 +50,55 @@ const Product = () => {
       params += `category=${category}&`;
     }
     fetch(
-      `https://api2.ebazaar.mn/api/products/get1?${params}page=${page}&limit=50`,
+      `${process.env.REACT_APP_API_URL2}/api/products/get1?${params}page=${page}&limit=50`,
       requestOptions
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         // console.log("res", res);
-        let update = res.data.map((item) => {
+        let update = res.data.map(item => {
           if (smsctx.prodIDS.includes(item._id)) {
             return {
               ...item,
-              chosed: true,
+              chosed: true
             };
           } else {
             return {
               ...item,
-              chosed: false,
+              chosed: false
             };
           }
         });
         setData(update);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [page, productid, barcode, sku, search, supplier]);
-  const ChosedHandler = (item) => {
+  const ChosedHandler = item => {
     // console.log("item", item);
     if (smsctx.prodIDS.includes(item._id)) {
-      let update = smsctx.prodIDS.filter((x) => x !== item._id);
+      let update = smsctx.prodIDS.filter(x => x !== item._id);
       smsctx.setProdIDS(update);
     } else {
-      smsctx.setProdIDS((prev) => [...prev, item._id]);
+      smsctx.setProdIDS(prev => [...prev, item._id]);
     }
 
     // let update = item;
     // update.chosed = update.chosed === false ? true : false;
 
     let update = [...data];
-    update = update.map((x) => {
+    update = update.map(x => {
       if (x._id === item._id) {
         return {
           ...x,
-          chosed: x.chosed === true ? false : true,
+          chosed: x.chosed === true ? false : true
         };
       }
       return x;
     });
 
-    setData((prev) => [...update]);
+    setData(prev => [...update]);
   };
   //   console.log(proIDS);
   return (
@@ -112,7 +113,7 @@ const Product = () => {
               <div
                 className={css.checkedcontainer}
                 style={{
-                  ...styles.checkboxcontainer,
+                  ...styles.checkboxcontainer
                 }}
               >
                 <img src={checkbox} />
@@ -120,13 +121,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.idcontainer,
+                  ...styles.idcontainer
                 }}
               >
                 <span>ID</span>
                 <input
                   value={productid}
-                  onChange={(e) => {
+                  onChange={e => {
                     setProductid(e.target.value);
                   }}
                 />
@@ -134,13 +135,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.supplierContainer,
+                  ...styles.supplierContainer
                 }}
               >
                 <span>Нийлүүлэгч </span>
                 <input
                   value={supplier}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSupplier(e.target.value);
                   }}
                 />
@@ -148,7 +149,7 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.imageContainer,
+                  ...styles.imageContainer
                 }}
               >
                 <span>IMG </span>
@@ -157,13 +158,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.productContainer,
+                  ...styles.productContainer
                 }}
               >
                 <span>Бүтээгдэхүүн нэр </span>
                 <input
                   value={search}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSearch(e.target.value);
                   }}
                 />
@@ -171,13 +172,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.angilalContainer,
+                  ...styles.angilalContainer
                 }}
               >
                 <span>Ангилал</span>
                 <input
                   value={category}
-                  onChange={(e) => {
+                  onChange={e => {
                     setCategory(e.target.value);
                   }}
                 />
@@ -185,13 +186,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.brandContainer,
+                  ...styles.brandContainer
                 }}
               >
                 <span>Брэнд</span>
                 <input
                   value={brand}
-                  onChange={(e) => {
+                  onChange={e => {
                     setBrand(e.target.value);
                   }}
                 />
@@ -199,13 +200,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.priceContainer,
+                  ...styles.priceContainer
                 }}
               >
                 <span>Үнэ</span>
                 <input
                   value={price}
-                  onChange={(e) => {
+                  onChange={e => {
                     setPrice(e.target.value);
                   }}
                 />
@@ -213,14 +214,14 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.dateContainer,
+                  ...styles.dateContainer
                 }}
               >
                 <span>Үүссэн огноо</span>
                 <input
-                  type="date"
+                  type='date'
                   value={createdate}
-                  onChange={(e) => {
+                  onChange={e => {
                     setCreatedate(e.target.value);
                   }}
                 />
@@ -228,13 +229,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.skuContainer,
+                  ...styles.skuContainer
                 }}
               >
                 <span>SKU</span>
                 <input
                   value={sku}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSku(e.target.value);
                   }}
                 />
@@ -242,13 +243,13 @@ const Product = () => {
               <div
                 className={css.idcontainer}
                 style={{
-                  ...styles.barcodeContainer,
+                  ...styles.barcodeContainer
                 }}
               >
                 <span>Баркод</span>
                 <input
                   value={barcode}
-                  onChange={(e) => {
+                  onChange={e => {
                     setBarcode(e.target.value);
                   }}
                 />
@@ -262,7 +263,7 @@ const Product = () => {
                       <div
                         className={css.onechecked}
                         style={{
-                          ...styles.checkboxcontainer,
+                          ...styles.checkboxcontainer
                         }}
                       >
                         <img
@@ -273,14 +274,14 @@ const Product = () => {
                               ? checked
                               : checkbox
                           }
-                          alt="check box"
+                          alt='check box'
                           onClick={() => ChosedHandler(item)}
                         />
                       </div>
                       <div
                         className={css.oneid}
                         style={{
-                          ...styles.idcontainer,
+                          ...styles.idcontainer
                         }}
                       >
                         <span>{item && item._id}</span>
@@ -288,7 +289,7 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.supplierContainer,
+                          ...styles.supplierContainer
                         }}
                       >
                         <span>
@@ -298,21 +299,21 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.imageContainer,
+                          ...styles.imageContainer
                         }}
                       >
                         <img
                           src={
                             item && item.image
-                              ? item.image[0]
-                              : "https://ebazaar.mn/media/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg"
+                              ? replaceImageUrl(item.image[0])
+                              : `${process.env.REACT_APP_MEDIA_URL}/product/69883d9becbcf663f7f3da1b874eab762cf6581c3ee1d3e81098e6f14aae.jpg`
                           }
                         />
                       </div>
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.productContainer,
+                          ...styles.productContainer
                         }}
                       >
                         <span>{item && item.name && item.name}</span>
@@ -320,7 +321,7 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.angilalContainer,
+                          ...styles.angilalContainer
                         }}
                       >
                         <span>
@@ -330,7 +331,7 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.brandContainer,
+                          ...styles.brandContainer
                         }}
                       >
                         <span>
@@ -340,7 +341,7 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.priceContainer,
+                          ...styles.priceContainer
                         }}
                       >
                         <span></span>
@@ -348,19 +349,19 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.dateContainer,
+                          ...styles.dateContainer
                         }}
                       >
                         <span>
                           {item &&
                             item.created_date &&
-                            item.created_date.split("T")[0]}
+                            item.created_date.split('T')[0]}
                         </span>
                       </div>
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.skuContainer,
+                          ...styles.skuContainer
                         }}
                       >
                         <span>{item && item.sku && item.sku}</span>
@@ -368,7 +369,7 @@ const Product = () => {
                       <div
                         className={css.onesup}
                         style={{
-                          ...styles.barcodeContainer,
+                          ...styles.barcodeContainer
                         }}
                       >
                         <span>{item && item.barcode && item.bar_code}</span>

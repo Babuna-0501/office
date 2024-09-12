@@ -1,43 +1,42 @@
-import css from "./yunaReport.module.css";
-import { useContext, useState } from "react";
-import OrderReportHook from "../Hooks/OrderReportHook";
-import myHeaders from "../components/MyHeader/myHeader";
-import LoadingSpinner from "../components/Spinner/Spinner";
-import writeXlsxFile from "write-excel-file";
-import { useEffect } from "react";
-import supplierNameData from "./arigJSONData/supplierNameData.json";
-import smartIdSku from "./arigJSONData/smartIdSku.json";
+import css from './yunaReport.module.css';
+import { useContext, useState } from 'react';
+import OrderReportHook from '../Hooks/OrderReportHook';
+import myHeaders from '../components/MyHeader/myHeader';
+import LoadingSpinner from '../components/Spinner/Spinner';
+import writeXlsxFile from 'write-excel-file';
+import { useEffect } from 'react';
+import supplierNameData from './arigJSONData/supplierNameData.json';
+import smartIdSku from './arigJSONData/smartIdSku.json';
 
 export const ReportArig = props => {
+  const getSupplierRegister = async ({ supplier_id }) => {
+    try {
+      const url = `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?id=${supplier_id}`;
+      const requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
 
-	// const getSupplierRegister = async ({ supplier_id }) => {
-  //   try {
-  //     const url = `https://api2.ebazaar.mn/api/backoffice/suppliers?id=${supplier_id}`;
-  //     const requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
+      const res = await fetch(url, requestOptions);
+      const resData = await res.json();
 
-  //     const res = await fetch(url, requestOptions);
-  //     const resData = await res.json();
+      return resData.data[0].register || '';
+    } catch (error) {
+      console.log('Алдаа гарлаа', error);
+      throw error; // Rethrow the error to handle it in the calling function.
+    }
+  };
 
-  //     return resData.data[0].register || "";
-  //   } catch (error) {
-  //     console.log("Алдаа гарлаа", error);
-  //     throw error; // Rethrow the error to handle it in the calling function.
-  //   }
-  // };
-
-	const checkSupplierName = (el) => {
+  const checkSupplierName = el => {
     let response = el;
-    if (props.userData.company_id === "|13954|") {
-      supplierNameData.map((e) => {
+    if (props.userData.company_id === '|13954|') {
+      supplierNameData.map(e => {
         if (
           el
             ?.toLowerCase()
-            .replace(/\s/g, "")
-            .includes(e.supplierName?.toLowerCase().replace(/\s/g, ""))
+            .replace(/\s/g, '')
+            .includes(e.supplierName?.toLowerCase().replace(/\s/g, ''))
         ) {
           response = e.supplierCode;
         }
@@ -48,7 +47,7 @@ export const ReportArig = props => {
 
   const checkSupplierNoat = ({ name, noat }) => {
     let isNoat = false;
-    if (props.userData.company_id === "|14045|") {
+    if (props.userData.company_id === '|14045|') {
       isNoat = true;
     } else {
       for (let i = 0; i <= supplierNameData.length; i++) {
@@ -62,7 +61,7 @@ export const ReportArig = props => {
       }
     }
 
-    return isNoat || noat === "НӨАТ-ын дүн" ? noat : "";
+    return isNoat || noat === 'НӨАТ-ын дүн' ? noat : '';
   };
 
   const checkSmartId = ({ sku }) => {
@@ -80,176 +79,176 @@ export const ReportArig = props => {
   };
   const [schema, setSchema] = useState([
     {
-      column: "DocumentId",
+      column: 'DocumentId',
       type: String,
-      value: (order) => order.id,
+      value: order => order.id,
       width: 10,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentNumber",
+      column: 'DocumentNumber',
       type: String,
-      value: (order) => order.orderId,
+      value: order => order.orderId,
       width: 12,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentDate",
+      column: 'DocumentDate',
       // type: String,
-      value: (order) => order.date,
+      value: order => order.date,
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentDesc",
+      column: 'DocumentDesc',
       type: String,
-      value: (order) => order.category,
+      value: order => order.category,
       width: 15,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "CustomerId",
+      column: 'CustomerId',
       // type: String,
-      value: (order) => order.supplier_register, 
+      value: order => checkSupplierName(order.supplier),
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "WarehouseId",
+      column: 'WarehouseId',
       type: String,
-      value: (order) => order.address,
+      value: order => order.address,
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "ToWarehouseId",
+      column: 'ToWarehouseId',
       type: String,
-      value: (order) => order.toWarehouseId,
+      value: order => order.toWarehouseId,
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "AccountId",
+      column: 'AccountId',
       type: String,
-      value: (order) => order.bankAccount,
+      value: order => order.bankAccount,
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "ItemId",
+      column: 'ItemId',
       type: String,
-      value: (order) => checkSmartId({ sku: order.product_sku }),
+      value: order => checkSmartId({ sku: order.product_sku }),
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "ItemName",
+      column: 'ItemName',
       // type: String,
-      value: (order) => order.productNames,
+      value: order => order.productNames,
       width: 20,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "Qty",
+      column: 'Qty',
       // type: String,
-      value: (order) => order.productQuantity,
+      value: order => order.productQuantity,
       width: 15,
-      align: "right",
-      alignVertical: "center",
+      align: 'right',
+      alignVertical: 'center'
       // format: "#,##0.00",
     },
     {
-      column: "UnitPrice",
+      column: 'UnitPrice',
       // type: String,
-      value: (order) => order.productPrice,
+      value: order => order.productPrice,
       width: 15,
-      align: "right",
-      alignVertical: "center",
+      align: 'right',
+      alignVertical: 'center'
       // format: "#,##0.00",
     },
     {
-      column: "VatAmount",
+      column: 'VatAmount',
       // type: String,
-      value: (order) =>
+      value: order =>
         checkSupplierNoat({ noat: order.noat, name: order.supplier }),
       width: 15,
-      align: "right",
-      alignVertical: "center",
+      align: 'right',
+      alignVertical: 'center'
       // format: "#,##0.00",
     },
     {
-      column: "Amount",
+      column: 'Amount',
       // type: String,
-      value: (order) => order.totalAmount,
+      value: order => order.totalAmount,
       width: 15,
-      align: "right",
-      alignVertical: "center",
+      align: 'right',
+      alignVertical: 'center'
       // format: "#,##0.00",
     },
     {
-      column: "DocumentS1",
+      column: 'DocumentS1',
       type: String,
-      value: (order) => order.segmentOne,
+      value: order => order.segmentOne,
       width: 30,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentS2",
+      column: 'DocumentS2',
       type: String,
-      value: (order) => order.segmentTwo,
+      value: order => order.segmentTwo,
       width: 30,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentS3",
+      column: 'DocumentS3',
       type: String,
-      value: (order) => order.segmentThree,
+      value: order => order.segmentThree,
       width: 30,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentS4",
+      column: 'DocumentS4',
       type: String,
-      value: (order) => order.segmentFour,
+      value: order => order.segmentFour,
       width: 30,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "DocumentS5",
+      column: 'DocumentS5',
       type: String,
-      value: (order) => order.segmentFive,
+      value: order => order.segmentFive,
       width: 30,
-      align: "left",
-      alignVertical: "center",
+      align: 'left',
+      alignVertical: 'center'
     },
     {
-      column: "IsConvert",
+      column: 'IsConvert',
       type: String,
-      value: (order) => "Үгүй",
+      value: order => 'Үгүй',
       width: 15,
-      align: "left",
-      alignVertical: "center",
-    },
+      align: 'left',
+      alignVertical: 'center'
+    }
   ]);
 
   const { setShowArigReport, yunaTailanType } = useContext(OrderReportHook);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const [reportData, setReportData] = useState([]);
 
@@ -259,7 +258,7 @@ export const ReportArig = props => {
   useEffect(() => {
     ////|| Number(props.userData.company_id !== 907)
     if (!props.permissionData.order.report) {
-      alert("Танд тайлангийн эрх байхгүй байна.");
+      alert('Танд тайлангийн эрх байхгүй байна.');
       setShowArigReport(false);
     }
   }, [props, setShowArigReport]);
@@ -268,33 +267,38 @@ export const ReportArig = props => {
     try {
       setReportLoading(true);
 
-      if (startDate === "" || endDate === "") {
-        alert("Эхлэх болон Дуусах өдрүүдээ оруулна уу");
+      if (startDate === '' || endDate === '') {
+        alert('Эхлэх болон Дуусах өдрүүдээ оруулна уу');
         return;
       }
 
       if (endDate < startDate) {
-        alert("Эхлэх болон Дуусах өдрийг буруу сонгосон байна");
-        setStartDate("");
-        setEndDate("");
+        alert('Эхлэх болон Дуусах өдрийг буруу сонгосон байна');
+        setStartDate('');
+        setEndDate('');
         return;
       }
 
-      let orderUrl = `https://api2.ebazaar.mn/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
-      if (props.userData.company_id === "|14045|") {
-        orderUrl = `https://api2.ebazaar.mn/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
+      // let orderUrl = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
+      // if (props.userData.company_id === '|14045|') {
+      //   orderUrl = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
+      // }
+
+      let orderUrl = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
+      if (props.userData.company_id === '|14045|') {
+        orderUrl = `${process.env.REACT_APP_API_URL2}/api/orders?order_type=1&order_status=3&order_start=${startDate}&order_end=${endDate}&page=all`;
       }
 
-      const categoriesUrl = `https://api.ebazaar.mn/api/site_data`;
+      const categoriesUrl = `${process.env.REACT_APP_API_URL}/api/site_data`;
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow'
       };
 
       const [orderRes, categoriesRes] = await Promise.all([
         fetch(orderUrl, requestOptions),
-        fetch(categoriesUrl, requestOptions),
+        fetch(categoriesUrl, requestOptions)
       ]);
       const orderResData = await orderRes.json();
       const categoriesResData = await categoriesRes.json();
@@ -302,29 +306,29 @@ export const ReportArig = props => {
       // subHeader maygaar ashiglaj bn
       const reportDataCopy = [
         {
-          id: "Гүйлгээ",
-          orderId: "Баримтын №",
-          date: "Огноо",
-          supplier_register: "Бэлтгэн нийлүүлэгч",
-          address: yunaTailanType === 2 ? "Зарлагын байршил" : "Байршил",
-          toWarehouseId: "Орлогын байршил",
-          productNames: "Барааны нэр",
-          productPrice: "Нэгж үнэ",
-          noat: "НӨАТ-ын дүн",
-          product_sku: "Барааны код",
-          productQuantity: "Тоо хэмжээ",
-          totalAmount: "Дүн",
-          bankAccount: "Харьцсан данс",
-          category: "Гүйлгээний утга",
-          segmentOne: "Баримтын сегмент 1",
-          segmentTwo: "Баримтын сегмент 2",
-          segmentThree: "Баримтын сегмент 3",
-          segmentFour: "Баримтын сегмент 4",
-          segmentFive: "Баримтын сегмент 5",
-          IsConvert: "хөрвүүлэлт",
-        },
+          id: 'Гүйлгээ',
+          orderId: 'Баримтын №',
+          date: 'Огноо',
+          supplier: 'Бэлтгэн нийлүүлэгч',
+          address: yunaTailanType === 2 ? 'Зарлагын байршил' : 'Байршил',
+          toWarehouseId: 'Орлогын байршил',
+          productNames: 'Барааны нэр',
+          productPrice: 'Нэгж үнэ',
+          noat: 'НӨАТ-ын дүн',
+          product_sku: 'Барааны код',
+          productQuantity: 'Тоо хэмжээ',
+          totalAmount: 'Дүн',
+          bankAccount: 'Харьцсан данс',
+          category: 'Гүйлгээний утга',
+          segmentOne: 'Баримтын сегмент 1',
+          segmentTwo: 'Баримтын сегмент 2',
+          segmentThree: 'Баримтын сегмент 3',
+          segmentFour: 'Баримтын сегмент 4',
+          segmentFive: 'Баримтын сегмент 5',
+          IsConvert: 'хөрвүүлэлт'
+        }
       ];
-      const schemaCopy = schema.map((obj) => ({ ...obj }));
+      const schemaCopy = schema.map(obj => ({ ...obj }));
 
       let id = 1;
       for (const order of orderResData.data) {
@@ -339,8 +343,8 @@ export const ReportArig = props => {
         for (const product of order.line) {
           const reportOrder = {};
 
-          reportOrder.id = id + "";
-          reportOrder.orderId = order.order_id + "";
+          reportOrder.id = id + '';
+          reportOrder.orderId = order.order_id + '';
 
           // date start
           const inputDate = new Date(order.order_date);
@@ -349,19 +353,19 @@ export const ReportArig = props => {
           const year = inputDate.getFullYear();
           reportOrder.date = `${month}/${day}/${year}`;
           // date end
-          reportOrder.supplier_register = order.supplier_register;
-          // 14045 for yuna
-          // props.userData.company_id === "|14045|"
-          //   ? (reportOrder.supplier = reportOrder.supplier =
-          //       await getSupplierRegister({
-          //         supplier_id: order.supplier_id,
-          //       }))
-          //   : (reportOrder.supplier = order.supplier_name);
 
-          props.userData.company_id === "|14045|"
+          // 14045 for yuna
+          props.userData.company_id === '|14045|'
+            ? (reportOrder.supplier = reportOrder.supplier =
+                await getSupplierRegister({
+                  supplier_id: order.supplier_id
+                }))
+            : (reportOrder.supplier = order.supplier_name);
+
+          props.userData.company_id === '|14045|'
             ? (reportOrder.address =
                 yunaTailanType === 2
-                  ? "006"
+                  ? '006'
                   : order.tradeshop_name?.slice(0, 3))
             : (reportOrder.address = order.tradeshop_name?.slice(0, 4));
 
@@ -370,7 +374,7 @@ export const ReportArig = props => {
           reportOrder.productPrice = product.price;
           // 14045 for yuna
           reportOrder.bankAccount =
-            props.userData.company_id === "|14045|" ? "310101" : "31010001";
+            props.userData.company_id === '|14045|' ? '310101' : '31010001';
           reportOrder.noat = (
             ((product.price * product.quantity) / 1.1) *
             0.1
@@ -383,7 +387,7 @@ export const ReportArig = props => {
             schemaCopy[8].width = product.product_name.length + 5;
           }
 
-          if (props.userData.company_id === "|14045|") {
+          if (props.userData.company_id === '|14045|') {
             reportOrder.category = `Худалдан авалт /Нэх/ - ${order.tradeshop_name?.slice(
               0,
               3
@@ -408,25 +412,25 @@ export const ReportArig = props => {
 
       if (yunaTailanType === 2) {
         const yunaType2Fields = [
-          "DocumentId",
-          "DocumentNumber",
-          "DocumentDate",
-          "DocumentDesc",
-          "WarehouseId",
-          "ToWarehouseId",
-          "ItemId",
-          "ItemName",
-          "Qty",
-          "IsConvert",
+          'DocumentId',
+          'DocumentNumber',
+          'DocumentDate',
+          'DocumentDesc',
+          'WarehouseId',
+          'ToWarehouseId',
+          'ItemId',
+          'ItemName',
+          'Qty',
+          'IsConvert'
         ];
 
-        const filteredSchema = schemaCopy.filter((schema) =>
+        const filteredSchema = schemaCopy.filter(schema =>
           yunaType2Fields.includes(schema.column)
         );
         setSchema(filteredSchema);
       } else {
         const filteredSchema = schemaCopy.filter(
-          (schema) => !["ToWarehouseId", "IsConvert"].includes(schema.column)
+          schema => !['ToWarehouseId', 'IsConvert'].includes(schema.column)
         );
         setSchema(filteredSchema);
       }
@@ -434,8 +438,8 @@ export const ReportArig = props => {
       setReportData(reportDataCopy);
       setReportReady(true);
     } catch (error) {
-      console.log("error while generating report: ", error);
-      alert("Тайлан бэлтгэхэд алдаа гарлаа.");
+      console.log('error while generating report: ', error);
+      alert('Тайлан бэлтгэхэд алдаа гарлаа.');
     } finally {
       setReportLoading(false);
     }
@@ -444,29 +448,29 @@ export const ReportArig = props => {
     writeXlsxFile(reportData, {
       schema,
       fileName:
-        props.userData.company_id === "|14045|"
+        props.userData.company_id === '|14045|'
           ? `yuna-report-/${startDate}/-/${endDate}/.xlsx`
           : `arig-report-/${startDate}/-/${endDate}/.xlsx`,
       headerStyle: {
-        backgroundColor: "#ffc000",
-        align: "center",
-        alignVertical: "center",
-        borderColor: "#000000",
+        backgroundColor: '#ffc000',
+        align: 'center',
+        alignVertical: 'center',
+        borderColor: '#000000'
       },
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 11,
-      alignVertical: "center",
-      align: "center",
-      dateFormat: "mm/dd/yyyy",
+      alignVertical: 'center',
+      align: 'center',
+      dateFormat: 'mm/dd/yyyy',
       stickyRowsCount: 2,
-      sheet: "PurchaseMany",
+      sheet: 'PurchaseMany'
     });
   };
 
   const refresh = () => {
     setReportReady(false);
-    setStartDate("");
-    setEndDate("");
+    setStartDate('');
+    setEndDate('');
     setReportData([]);
     setReportLoading(false);
   };
@@ -474,18 +478,18 @@ export const ReportArig = props => {
   const closeHandler = () => setShowArigReport(false);
 
   return (
-    <div id="formwithtransparentbackground">
-      <div id="form" style={{ height: 240, width: 400 }}>
+    <div id='formwithtransparentbackground'>
+      <div id='form' style={{ height: 240, width: 400 }}>
         <div className={css.wrapper}>
           <div className={css.headerWrapper}>
             <h1 className={css.title}>
-              {props.userData.company_id === "|14045|"
-                ? "Юна тайлан"
-                : "Ариг тайлан"}
+              {props.userData.company_id === '|14045|'
+                ? 'Юна тайлан'
+                : 'Ариг тайлан'}
             </h1>
             <button
               onClick={closeHandler}
-              type="button"
+              type='button'
               className={css.closeBtn}
             >
               Хаах
@@ -496,26 +500,26 @@ export const ReportArig = props => {
             {!reportLoading && !reportReady && (
               <>
                 <div className={css.datePickerContainer}>
-                  <label htmlFor="startDate">Эхлэх огноо</label>
+                  <label htmlFor='startDate'>Эхлэх огноо</label>
                   <input
-                    id="startDate"
-                    type="date"
-                    className="dateselect"
-                    style={{ width: "100%" }}
+                    id='startDate'
+                    type='date'
+                    className='dateselect'
+                    style={{ width: '100%' }}
                     value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={e => setStartDate(e.target.value)}
                   />
                 </div>
 
                 <div className={css.datePickerContainer}>
-                  <label htmlFor="endDate">Дуусах огноо</label>
+                  <label htmlFor='endDate'>Дуусах огноо</label>
                   <input
-                    id="endDate"
-                    type="date"
-                    className="dateselect"
-                    style={{ width: "100%" }}
+                    id='endDate'
+                    type='date'
+                    className='dateselect'
+                    style={{ width: '100%' }}
                     value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
+                    onChange={e => setEndDate(e.target.value)}
                   />
                 </div>
               </>
@@ -538,7 +542,7 @@ export const ReportArig = props => {
                 disabled={reportLoading}
                 onClick={generateReport}
                 className={css.submitBtn}
-                type="button"
+                type='button'
               >
                 Тайлан бэлтгэх
               </button>
@@ -548,14 +552,14 @@ export const ReportArig = props => {
                 <button
                   onClick={refresh}
                   className={css.refreshBtn}
-                  type="button"
+                  type='button'
                 >
                   Дахин тайлан бэлтгэх
                 </button>
                 <button
                   onClick={downloadReport}
                   className={css.submitBtn}
-                  type="button"
+                  type='button'
                 >
                   Тайлан татах
                 </button>
@@ -565,7 +569,7 @@ export const ReportArig = props => {
         </div>
       </div>
 
-      <div onClick={closeHandler} id="transparentbackground"></div>
+      <div onClick={closeHandler} id='transparentbackground'></div>
     </div>
   );
 };

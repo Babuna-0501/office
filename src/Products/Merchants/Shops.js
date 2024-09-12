@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import css from "./shops.module.css";
-import myHeaders from "../../components/MyHeader/myHeader";
-import checkbox from "../../assets/check box.svg";
-import checked from "../../assets/Tick Square_green.svg";
-import ProductReportHook from "../../Hooks/ProductsReportHook";
-import checkboxred from "../../assets/checkbox_red.svg";
-import checkboxred_checked from "../../assets/checkbox_red_checked.svg";
+import React, { useState, useEffect, useContext } from 'react';
+import css from './shops.module.css';
+import myHeaders from '../../components/MyHeader/myHeader';
+import checkbox from '../../assets/check box.svg';
+import checked from '../../assets/Tick Square_green.svg';
+import ProductReportHook from '../../Hooks/ProductsReportHook';
+import checkboxred from '../../assets/checkbox_red.svg';
+import checkboxred_checked from '../../assets/checkbox_red_checked.svg';
 
 const SitedataHandler = () => {};
 
-const Shops = (props) => {
+const Shops = props => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState(null);
   const [searchID, setSearchID] = useState(null);
@@ -30,39 +30,42 @@ const Shops = (props) => {
 
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    fetch(`https://api.ebazaar.mn/api/site_data`, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/site_data`, requestOptions)
+      .then(r => r.json())
+      .then(response => {
         setSitedata(response);
-        fetch(`https://api2.ebazaar.mn/api/merchants?page=0`, requestOptions)
-          .then((r) => r.json())
-          .then((res) => {
+        fetch(
+          `${process.env.REACT_APP_API_URL2}/api/merchants?page=0`,
+          requestOptions
+        )
+          .then(r => r.json())
+          .then(res => {
             setData(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, []);
   useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: 'GET',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow'
     };
-    let params = "";
+    let params = '';
 
     if (searchID?.length > 3) {
       params += `id=${Number(searchID)}&`;
     }
-    if (channelid !== null && channelid !== "-Суваг-") {
+    if (channelid !== null && channelid !== '-Суваг-') {
       params += `business_type_id=${Number(channelid)}&`;
     }
     if (name !== null) {
@@ -71,30 +74,30 @@ const Shops = (props) => {
     if (phone !== null && phone.length > 7) {
       params += `phone=${phone}&`;
     }
-    if (city !== null && city !== "-Хот-") {
+    if (city !== null && city !== '-Хот-') {
       params += `city=${city}&`;
     }
-    if (district !== null && district !== "-Дүүрэг-") {
+    if (district !== null && district !== '-Дүүрэг-') {
       params += `district=${district}&`;
     }
-    if (khoroo !== null && khoroo !== "-Хороо-") {
+    if (khoroo !== null && khoroo !== '-Хороо-') {
       params += `khoroo=${khoroo}&`;
     }
 
-    let url = `https://api2.ebazaar.mn/api/merchants?${params}page=${page}`;
+    let url = `${process.env.REACT_APP_API_URL2}/api/merchants?${params}page=${page}`;
 
     if (checkedvalue) {
-      url = `https://api2.ebazaar.mn/api/merchants?${params}page=all`;
+      url = `${process.env.REACT_APP_API_URL2}/api/merchants?${params}page=all`;
     }
-    console.log("merchant url", url);
+    console.log('merchant url', url);
     fetch(url, requestOptions)
-      .then((r) => r.json())
-      .then((response) => {
+      .then(r => r.json())
+      .then(response => {
         // console.log("res", response);
 
         if (checkedvalue) {
           let tradeshops = [];
-          response.data.map((item) => {
+          response.data.map(item => {
             tradeshops.push(item.tradeshop_id);
           });
           setIds(tradeshops);
@@ -102,8 +105,8 @@ const Shops = (props) => {
 
         setData(response.data);
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(error => {
+        console.log('error', error);
       });
   }, [
     searchID,
@@ -114,18 +117,18 @@ const Shops = (props) => {
     checkedvalue,
     city,
     district,
-    khoroo,
+    khoroo
   ]);
   useEffect(() => {
     let bustype = {};
-    props.data1.map((item) => {
+    props.data1.map(item => {
       bustype[item.business_type_id] = item.business_type_name;
     });
     console.log(bustype);
     setChanneltype(bustype);
   }, [props]);
 
-  console.log("props", props);
+  console.log('props', props);
 
   const CancelHandler = () => {};
   const SubmitHandler = () => {};
@@ -136,9 +139,9 @@ const Shops = (props) => {
           <div className={css.wrapper}>
             <input
               className={css.checkbox}
-              type="checkbox"
+              type='checkbox'
               value={checkedvalue}
-              onChange={(e) => {
+              onChange={e => {
                 setCheckedvalue(!checkedvalue);
                 if (!checkedvalue) {
                   setIds([]);
@@ -148,17 +151,17 @@ const Shops = (props) => {
           </div>
           <div className={css.wrapper}>
             <span>Name</span>
-            <input value={name} onChange={(e) => setName(e.target.value)} />
+            <input value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div className={css.wrapper}>
             <span>Утасны дугаар</span>
-            <input name={phone} onChange={(e) => setPhone(e.target.value)} />
+            <input name={phone} onChange={e => setPhone(e.target.value)} />
           </div>
           <div className={css.wrapper}>
             <span>TradeID</span>
             <input
               value={searchID}
-              onChange={(e) => {
+              onChange={e => {
                 setSearchID(e.target.value);
               }}
             />
@@ -167,13 +170,13 @@ const Shops = (props) => {
             <span>Суваг</span>
             <select
               value={channelid}
-              onChange={(e) => {
+              onChange={e => {
                 setChannelid(e.target.value);
               }}
             >
               <option>-Суваг-</option>
               {sitedata &&
-                sitedata.business_types.map((item) => {
+                sitedata.business_types.map(item => {
                   return (
                     <option
                       key={item.business_type_id}
@@ -190,15 +193,15 @@ const Shops = (props) => {
             <select
               value={city}
               defaultValue={1}
-              onChange={(e) => {
+              onChange={e => {
                 setCity(e.target.value);
               }}
             >
               <option>-Хот-</option>
               {sitedata &&
                 sitedata.location
-                  .filter((x) => x.parent_id === 0)
-                  .map((item) => {
+                  .filter(x => x.parent_id === 0)
+                  .map(item => {
                     return (
                       <option key={item.location_id} value={item.location_id}>
                         {item.location_name}
@@ -211,15 +214,15 @@ const Shops = (props) => {
             <span>Дүүрэг</span>
             <select
               value={district}
-              onChange={(e) => {
+              onChange={e => {
                 setDistrict(e.target.value);
               }}
             >
               <option>-Дүүрэг-</option>
               {sitedata &&
                 sitedata.location
-                  .filter((x) => x.parent_id == city)
-                  .map((item) => {
+                  .filter(x => x.parent_id == city)
+                  .map(item => {
                     return (
                       <option key={item.location_id} value={item.location_id}>
                         {item.location_name}
@@ -232,15 +235,15 @@ const Shops = (props) => {
             <span>Хороо</span>
             <select
               value={khoroo}
-              onChange={(e) => {
+              onChange={e => {
                 setKhoroo(e.target.value);
               }}
             >
               <option>-Хороо-</option>
               {sitedata &&
                 sitedata.location
-                  .filter((x) => x.parent_id == district)
-                  .map((item) => {
+                  .filter(x => x.parent_id == district)
+                  .map(item => {
                     return (
                       <option key={item.location_id} value={item.location_id}>
                         {item.location_name}
@@ -260,20 +263,20 @@ const Shops = (props) => {
               let city =
                 sitedata &&
                 sitedata.location &&
-                sitedata.location.find((x) => x.location_id == item.city)
+                sitedata.location.find(x => x.location_id == item.city)
                   ?.location_name;
 
               let disctictname =
                 sitedata &&
                 sitedata.location &&
-                sitedata.location.find((x) => x.location_id == item.district)
+                sitedata.location.find(x => x.location_id == item.district)
                   ?.location_name;
 
               let khorooname =
                 sitedata &&
                 item.horoo &&
                 sitedata.location &&
-                sitedata.location.find((x) => x.location_id == item.horoo)
+                sitedata.location.find(x => x.location_id == item.horoo)
                   ?.location_name;
 
               return (
@@ -284,14 +287,14 @@ const Shops = (props) => {
                       onClick={() => {
                         let aa = [...ids];
                         if (aa.includes(item.tradeshop_id)) {
-                          aa = aa.filter((x) => x !== item.tradeshop_id);
+                          aa = aa.filter(x => x !== item.tradeshop_id);
                           setIds(aa);
                           props.setTradeIDS([...aa]);
                         } else {
                           setIds([...aa, item.tradeshop_id]);
                           props.setTradeIDS([
                             ...props.tradeIDS,
-                            item.tradeshop_id,
+                            item.tradeshop_id
                           ]);
                         }
                       }}
@@ -306,14 +309,14 @@ const Shops = (props) => {
                       onClick={() => {
                         let aa = [...newids];
                         if (aa.includes(item.tradeshop_id)) {
-                          aa = aa.filter((x) => x !== item.tradeshop_id);
+                          aa = aa.filter(x => x !== item.tradeshop_id);
                           setNewids([...aa]);
                           props.setExcludes(aa);
                         } else {
-                          setNewids((prev) => [...prev, item.tradeshop_id]);
+                          setNewids(prev => [...prev, item.tradeshop_id]);
                           props.setExcludes([
                             ...props.excludes,
-                            item.tradeshop_id,
+                            item.tradeshop_id
                           ]);
                         }
                       }}
