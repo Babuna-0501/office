@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import myHeaders from '../../../components/MyHeader/myHeader';
-import checkboxblack from '../../../assets/check box.svg';
-import checkbox from '../../../assets/check box_black.svg';
-import close from '../../../assets/close.svg';
-import css from './suppconfig.module.css';
+import React, { useState, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import myHeaders from "../../../components/MyHeader/myHeader";
+import checkboxblack from "../../../assets/check box.svg";
+import checkbox from "../../../assets/check box_black.svg";
+import close from "../../../assets/close.svg";
+import css from "./suppconfig.module.css";
 
-const SupplierConfig = props => {
+const SupplierConfig = (props) => {
   const { supplierIds, setSupplierIds } = props;
   const [supps, setSupps] = useState([]);
-  const [suppName, setSuppName] = useState('');
+  const [suppName, setSuppName] = useState("");
 
   const includedConfigID = props.includedConfig;
   const excludedConfigID = props.excludedConfig;
 
   useEffect(() => {
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     fetch(
       `${process.env.REACT_APP_API_URL2}/api/backoffice/suppliers?name=${suppName}`,
       requestOptions
     )
-      .then(r => r.json())
-      .then(res => {
+      .then((r) => r.json())
+      .then((res) => {
         // console.log("FETCH ALL: ", res.data);
         setSupps(res.data);
       });
@@ -41,20 +41,20 @@ const SupplierConfig = props => {
             props.setModal(false);
           }}
         >
-          <img src={close} alt='close' />
+          <img src={close} alt="close" />
         </div>
       </div>
       <div className={css.inputField}>
         <input
-          type='search'
-          placeholder='Хайх'
-          onChange={e => {
-            if (e.target.value === '') {
-              setSuppName('');
+          type="search"
+          placeholder="Хайх"
+          onChange={(e) => {
+            if (e.target.value === "") {
+              setSuppName("");
             }
           }}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
               setSuppName(e.target.value);
             }
           }}
@@ -65,7 +65,7 @@ const SupplierConfig = props => {
           dataLength={supps.length}
           hasMore={true}
           loader={
-            <p style={{ textAlign: 'center' }}>
+            <p style={{ textAlign: "center" }}>
               <b>Уншиж байна...</b>
             </p>
           }
@@ -76,10 +76,10 @@ const SupplierConfig = props => {
               className={css.listContainer}
               style={
                 (includedConfigID.includes(`${e.id}`) &&
-                  props.optionValue === 'included') ||
+                  props.optionValue === "included") ||
                 (excludedConfigID.includes(`${e.id}`) &&
-                  props.optionValue === 'excluded')
-                  ? { backgroundColor: '#88ff006d' }
+                  props.optionValue === "excluded")
+                  ? { backgroundColor: "#88ff006d" }
                   : {}
               }
             >
@@ -87,48 +87,48 @@ const SupplierConfig = props => {
                 <div className={css.listSingle}>
                   <div
                     onClick={() => {
-                      if (props.optionValue === 'included') {
+                      if (props.optionValue === "included") {
                         props.setIncludedConfig([
                           ...includedConfigID,
-                          `${e.id}`
+                          `${e.id}`,
                         ]);
                         props.setExcludedConfig([]);
-                        props.setExcludedSuppId('');
+                        props.setExcludedSuppId("");
                         setSupplierIds([...supplierIds, e.id]);
-                        console.log('IN');
-                      } else if (props.optionValue === 'excluded') {
+                        console.log("IN");
+                      } else if (props.optionValue === "excluded") {
                         props.setExcludedConfig([
                           ...excludedConfigID,
-                          `${e.id}`
+                          `${e.id}`,
                         ]);
                         props.setIncludedConfig([]);
-                        props.setIncludedSuppId('');
-                        console.log('EX');
+                        props.setIncludedSuppId("");
+                        console.log("EX");
                       }
                     }}
                   >
                     {/* || excludedConfigID.includes(${e.id}) */}
                     {(includedConfigID.includes(`${e.id}`) &&
-                      props.optionValue === 'included') ||
+                      props.optionValue === "included") ||
                     (excludedConfigID.includes(`${e.id}`) &&
-                      props.optionValue === 'excluded') ? (
+                      props.optionValue === "excluded") ? (
                       <img
                         src={checkbox}
-                        alt=''
+                        alt=""
                         className={css.addIcon}
-                        onClick={() => console.log('ADD', e.name)}
+                        onClick={() => console.log("ADD", e.name)}
                       />
                     ) : (
                       <img
                         src={checkboxblack}
-                        alt=''
+                        alt=""
                         className={css.addIcon}
-                        onClick={() => console.log('ADD', e.name)}
+                        onClick={() => console.log("ADD", e.name)}
                       />
                     )}
                   </div>
 
-                  <img src={e.media} alt='logo' />
+                  <img src={e.media} alt="logo" />
                   <div className={css.listText}>{e.name}</div>
                 </div>
               </div>
