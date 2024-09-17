@@ -35,7 +35,13 @@ const Supplier = (props) => {
   }, [supplierIds]);
 
   const handleSave = () => {
-    let accepted = acceptedSuppliers.map((s) => s.id).join(",");
+    const acceptedSuppliers = (props.includeSupplierList || "")
+      .split(",")
+      .map((config) => suppliers.find((supp) => supp.id.toString() === config))
+      .filter(Boolean); 
+
+  let accepted = acceptedSuppliers.map((s) => s.id).join(",");
+
     let included =
       acceptedSuppliers.length > 0
         ? `${accepted},${props.includedConfig}`
@@ -203,9 +209,10 @@ const Supplier = (props) => {
     props.excludedConfig,
   ]);
 
-  const acceptedSuppliers = props.includeSupplierList
-    .split(",")
-    .map((config) => suppliers.find((supp) => supp.id.toString() === config));
+  const acceptedSuppliers = (props.includeSupplierList || "")
+  .split(",")
+  .map((config) => suppliers.find((supp) => supp.id.toString() === config));
+
 
   return (
     <div className={css.container}>
