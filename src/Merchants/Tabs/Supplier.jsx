@@ -34,13 +34,14 @@ const Supplier = (props) => {
     setNewRaw(newRaw);
   }, [supplierIds]);
 
-  const handleSave = () => {
+  const handleSave = (id = "") => {
     const acceptedSuppliers = (props.includeSupplierList || "")
       .split(",")
+      .filter((f) => f != id)
       .map((config) => suppliers.find((supp) => supp.id.toString() === config))
-      .filter(Boolean); 
+      .filter(Boolean);
 
-  let accepted = acceptedSuppliers.map((s) => s.id).join(",");
+    let accepted = acceptedSuppliers.map((s) => s.id).join(",");
 
     let included =
       acceptedSuppliers.length > 0
@@ -62,7 +63,6 @@ const Supplier = (props) => {
       }),
       redirect: "follow",
     };
-    console.log(included);
 
     fetch(
       `${process.env.REACT_APP_API_URL2}/api/merchant/update`,
@@ -114,7 +114,6 @@ const Supplier = (props) => {
     let deleteExcluded = props.excludedConfig.filter(
       (item) => item !== String(id)
     );
-
     if (props.optionValue === "included") {
       props.setIncludedConfig(deleteIncluded);
       setIsDelete(!isDelete);
@@ -122,11 +121,11 @@ const Supplier = (props) => {
       props.setExcludedConfig(deleteExcluded);
       setIsDelete(!isDelete);
     }
-
     if (isDelete) {
       if (props.optionValue === "included") {
         if (window.confirm("Устгахдаа итгэлтэй байна уу?")) {
-          handleSave();
+          // setSupplierIds();
+          handleSave(id);
           props.setIncludedSuppId(deleteIncluded.toString());
         }
       } else if (props.optionValue === "excluded") {
@@ -210,9 +209,8 @@ const Supplier = (props) => {
   ]);
 
   const acceptedSuppliers = (props.includeSupplierList || "")
-  .split(",")
-  .map((config) => suppliers.find((supp) => supp.id.toString() === config));
-
+    .split(",")
+    .map((config) => suppliers.find((supp) => supp.id.toString() === config));
 
   return (
     <div className={css.container}>
