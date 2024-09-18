@@ -35,18 +35,18 @@ const Supplier = (props) => {
   }, [supplierIds]);
 
   const handleSave = (id = "") => {
-    const acceptedSuppliers = (props.includeSupplierList || "")
+    let acceptedSuppliers = (props.includeSupplierList || "")
       .split(",")
       .filter((f) => f != id)
       .map((config) => suppliers.find((supp) => supp.id.toString() === config))
       .filter(Boolean);
-
     let accepted = acceptedSuppliers.map((s) => s.id).join(",");
-
     let included =
       acceptedSuppliers.length > 0
         ? `${accepted},${props.includedConfig}`
         : `${props.includedConfig}`;
+    included = Array.from(new Set(included.split(","))).join(",");
+
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
