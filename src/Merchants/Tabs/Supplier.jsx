@@ -130,7 +130,7 @@ const Supplier = (props) => {
         }
       } else if (props.optionValue === "excluded") {
         if (window.confirm("Устгахдаа итгэлтэй байна уу?")) {
-          handleSave();
+          handleSave(id);
           props.setExcludedSuppId(deleteExcluded.toString());
         }
       }
