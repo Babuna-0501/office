@@ -1,72 +1,81 @@
-import css from '../../style.module.css'
-import { ModuleContext } from '../../index'
-import { useContext, useState } from 'react'
+import css from "../../style.module.css";
+import { ModuleContext } from "../../index";
+import { useContext, useState } from "react";
 
 const Entry = (props) => {
-	const context = useContext(ModuleContext)
-	//console.log(props.data.from)
-	const data = props.data
-	let requestedBy = ''
-	let requestingWarehouse = null
-	let confirmedBy = ''
-	context.warehouseList.map(warehouse => {
-		if (warehouse._id === data.from) {
-			requestingWarehouse = warehouse.name
-		}
-	})
-	if (props.supplierUsers) {
-		props.supplierUsers.map(user => {
-			if (user.user_id === data.requestedBy) {
-				requestedBy = user.first_name + ' ' + user.last_name
-			}
-		})
-	}
-	let status = null
-	let total = 0
-	const [printReceipt, setPrintReceipt] = useState(false)
-	data.products.map(product => {
-		if (product.sellPrice && (product.sellPrice.retail || product.sellPrice.wholesale)) {
-			total += product.quantity * (product.sellPrice.retail ? product.sellPrice.retail : product.sellPrice.wholesale)
-		}
-	})
-	switch (data.status) {
-		case 1:
-			status = <span className="statusn pending">Хүлээгдэж буй</span>
-			break
-		case 2:
-			status = <span className="statusn confirmed">Баталсан</span>
-			break
-		case 3:
-			status = <span className="statusn cancelled">Цуцалсан</span>
-			break
-	}
-	let requestedTo = requestingWarehouse
-	//if(data.thirdParty === true) {
-	context.customers.map(customer => {
-		if (parseInt(customer.tradeshop_id) === parseInt(data.from)) {
-			requestedTo = customer.customer_name
-		}
-		return
-	})
-	//}
-	if (data.confirmedBy) {
-		context.supplierUsers.map(user => {
-			if (user.user_id === data.requestedBy) {
-				confirmedBy = user.first_name + ' ' + user.last_name
-			}
-		})
-	}
-	const widths = props.widths
-	let distribution = <button className="blahblahtext">Түгээлт тохируулах</button>
-	if (data.externalData && data.externalData.distributionSettings) {
-		let courierName = ''
-		props.supplierUsers.map(user => {
-			if (user.user_id === data.externalData.distributionSettings.courier) {
-				courierName = user.first_name + ' ' + user.last_name
-			}
-		})
-		distribution = <span className="blahblahtext">{courierName}</span>
-	}
+  const context = useContext(ModuleContext);
+  //console.log(props.data.from)
+  const data = props.data;
+  let requestedBy = "";
+  let requestingWarehouse = null;
+  let confirmedBy = "";
+  context.warehouseList.map((warehouse) => {
+    if (warehouse._id === data.from) {
+      requestingWarehouse = warehouse.name;
+    }
+  });
+  if (props.supplierUsers) {
+    props.supplierUsers.map((user) => {
+      if (user.user_id === data.requestedBy) {
+        requestedBy = user.first_name + " " + user.last_name;
+      }
+    });
+  }
+  let status = null;
+  let total = 0;
+  const [printReceipt, setPrintReceipt] = useState(false);
+  data.products.map((product) => {
+    if (
+      product.sellPrice &&
+      (product.sellPrice.retail || product.sellPrice.wholesale)
+    ) {
+      total +=
+        product.quantity *
+        (product.sellPrice.retail
+          ? product.sellPrice.retail
+          : product.sellPrice.wholesale);
+    }
+  });
+  switch (data.status) {
+    case 1:
+      status = <span className="statusn pending">Хүлээгдэж буй</span>;
+      break;
+    case 2:
+      status = <span className="statusn confirmed">Баталсан</span>;
+      break;
+    case 3:
+      status = <span className="statusn cancelled">Цуцалсан</span>;
+      break;
+  }
+  let requestedTo = requestingWarehouse;
+  //if(data.thirdParty === true) {
+  context.customers.map((customer) => {
+    if (parseInt(customer.tradeshop_id) === parseInt(data.from)) {
+      requestedTo = customer.customer_name;
+    }
+    return;
+  });
+  //}
+  if (data.confirmedBy) {
+    context.supplierUsers.map((user) => {
+      if (user.user_id === data.requestedBy) {
+        confirmedBy = user.first_name + " " + user.last_name;
+      }
+    });
+  }
+  const widths = props.widths;
+  let distribution = (
+    <button className="blahblahtext">Түгээлт тохируулах</button>
+  );
+  if (data.externalData && data.externalData.distributionSettings) {
+    let courierName = "";
+    props.supplierUsers.map((user) => {
+      if (user.user_id === data.externalData.distributionSettings.courier) {
+        courierName = user.first_name + " " + user.last_name;
+      }
+    });
+    distribution = <span className="blahblahtext">{courierName}</span>;
+  }
   const renderHTMLInboundTypes = [];
   const inboundTypes = context.systemData.shipment.variety.inbound;
   for (const inboundType in inboundTypes) {
@@ -76,15 +85,19 @@ const Entry = (props) => {
       </option>
     );
   }
-	return (
+  return (
     <div
       className="blah"
       // style={{ background: data.type === 1 ? "rgb(1 255 32 / 14%)" : "white" }}
-      style={{background:"white", paddingTop:"10px", border:"1px solid #eee"}}
+      style={{
+        background: "white",
+        paddingTop: "10px",
+        border: "1px solid #eee",
+      }}
     >
       <div className="blahblah">
         <div className="width40px">
-		<input
+          <input
             type="checkbox"
             checked={
               props.ids?.filter((id) => id.id == data._id)?.[0] !== undefined
@@ -93,13 +106,22 @@ const Entry = (props) => {
           />
         </div>
       </div>
-      <div className="blahblah" onClick={() => data.type === 1 ? props.setForm(data) : props.setFormZarlaga(data)}>
-				<div className="width100px">
-					<p className="blahblahtext fontweightbold">{data.generateId ? data.generateId.slice(-7) : null}</p>
-				</div>
-			</div>
+      <div
+        className="blahblah"
+        onClick={() =>
+          data.type === 1 ? props.setForm(data) : props.setFormZarlaga(data)
+        }
+      >
+        <div className="width100px">
+          <p className="blahblahtext fontweightbold">
+            {data.generateId ? data.generateId.slice(-7) : null}
+          </p>
+        </div>
+      </div>
       <div className="blahblah">
-        <div className="width100px" style={{marginTop:"-5px"}}>{status}</div>
+        <div className="width100px" style={{ marginTop: "-5px" }}>
+          {status}
+        </div>
       </div>
       <div className="blahblah">
         <div className="width100px">
@@ -120,15 +142,12 @@ const Entry = (props) => {
       </div>
       <div className="blahblah">
         <div className="width200px">
-          <p className="blahblahtext">
-          </p>
+          <p className="blahblahtext"></p>
         </div>
       </div>
       <div className="blahblah">
         <div className="width100px">
-          <p className="blahblahtext">
-            {data.products.length} бүтээгдэхүүн
-          </p>
+          <p className="blahblahtext">{data.products.length} бүтээгдэхүүн</p>
         </div>
       </div>
       <div className="blahblah">
@@ -169,6 +188,6 @@ const Entry = (props) => {
       </div>
     </div>
   );
-}
+};
 
-export default Entry
+export default Entry;

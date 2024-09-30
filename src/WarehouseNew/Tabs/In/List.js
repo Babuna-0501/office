@@ -15,7 +15,7 @@ const List = (props) => {
   // const [isDisabled, setIsDisabled] = useState(false);
   const [ids, setIds] = useState([]);
   const [params, setParams] = useState([]);
-  const [selectedWarehouse, setSelectedWarehouse] = useState('all');
+  const [selectedWarehouse, setSelectedWarehouse] = useState("all");
 
   const onRowSelect = (id, requestedBy) => {
     if (ids.filter((i) => i.id == id)?.[0] == undefined) {
@@ -278,20 +278,19 @@ const List = (props) => {
           </div>
           <div className="blahblah">
             <div className="width200px">
-              <p className="blahblahheader">
-                Харилцах агуулах
-              </p>
+              <p className="blahblahheader">Харилцах агуулах</p>
               <select
                 className="headerInputs"
                 value={selectedWarehouse}
                 onChange={handleSelectChange}
               >
                 <option value="all">All Warehouses</option>
-                {Array.isArray(warehouseList) && warehouseList.map((warehouse) => (
-                  <option key={warehouse.id} value={warehouse.id}>
-                    {warehouse.name}
-                  </option>
-                ))}
+                {Array.isArray(warehouseList) &&
+                  warehouseList.map((warehouse) => (
+                    <option key={warehouse.id} value={warehouse.id}>
+                      {warehouse.name}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
@@ -311,7 +310,7 @@ const List = (props) => {
           <div className="blahblah">
             <div className="width100px">
               <p className="blahblahheader">Бараа</p>
-              <input type="text" className="headerInputs" disabled/>
+              <input type="text" className="headerInputs" disabled />
             </div>
           </div>
           <div className="blahblah">
@@ -402,7 +401,18 @@ const List = (props) => {
           right: "0px",
           left: "72px",
           overflow: "auto",
-          overflowX:"hidden"
+          overflowX: "hidden",
+        }}
+        onScroll={(e) => {
+          e.preventDefault();
+          const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
+
+          const tolerance = 5;
+          const bottom = scrollHeight - clientHeight - scrollTop <= tolerance;
+
+          if (bottom && props.data.length > 0 && scrollTop > 0) {
+            props.setPage((prev) => prev + 1);
+          }
         }}
       >
         {renderHTML}
